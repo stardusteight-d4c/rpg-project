@@ -57,7 +57,7 @@ export const Map: React.FC = () => {
 
   return (
     <div
-      className="w-[50vw] h-[100vh] grid relative"
+      className="w-[50vw] border-x border-border h-[100vh] grid relative"
       style={{
         gridTemplateColumns: `repeat(${gridSize}, 1fr)`,
         gridTemplateRows: `repeat(${gridSize}, 1fr)`,
@@ -123,7 +123,7 @@ export const DraggableItem: React.FC<DraggableItemProps> = ({
       onDragStart={handleDragStart}
       className="w-full h-full cursor-grab m-auto flex items-center justify-center"
     >
-      <img src={imgUrl} alt={type} className="w-full h-full select-none object-contain" />
+      <img src={imgUrl} alt={type} className="w-full rounded h-full select-none object-fill" />
     </div>
   );
 };

@@ -32,7 +32,7 @@ export const Roll = ({ action, values, result }: RollProps) => {
   const { label, bgClass } = getResultMeta()
 
   return (
-    <div className="w-full glassmorphism !shadow-none rounded-2xl overflow-hidden border border-border bg-border ">
+    <div className="w-full glassmorphism !shadow-none rounded overflow-hidden border border-border bg-border ">
       <span className="block bg-[#27272a]/50 px-4 py-2 font-bold text-base">
         {action} Roll
       </span>
