@@ -69,7 +69,7 @@ export function BoardModule() {
           <Board.Cam />
           <div>
             <span className="block text-xl p-2">Characters</span>
-            <div className="flex items-center gap-x-2 flex-wrap px-2 pb-4 border-b border-border">
+            <div className="flex items-center gap-x-2 flex-wrap px-2">
               <div className="w-[48px] h-[48px] rounded overflow-hidden">
                 <DraggableItem
                   id="1"

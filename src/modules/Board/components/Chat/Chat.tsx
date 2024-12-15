@@ -42,7 +42,7 @@ export const Chat = () => {
       ref={chatRef}
       className="max-w-[20vw] w-full !relative  h-screen overflow-y-scroll no-scrollbar"
     >
-      <div className="flex flex-col gap-y-2">
+      <div className="flex flex-col">
         <Sender />
         <div className="space-y-4 p-2">
           <Roll action="Stealth" values={[25, 12, 5]} result={50} />
