@@ -38,19 +38,19 @@ body {
 }
 
 .glassmorphism {
-  background: #11111126;
+  background: #1a1b2526;
   box-shadow: 0 8px 32px 0 rgba(31, 31, 31, 0.37);
   backdrop-filter: blur(15px);
   -webkit-backdrop-filter: blur(15px);
 }
 .glassmorphism-2 {
-  background: #ffffff07;
-  backdrop-filter: blur(15px);
-  -webkit-backdrop-filter: blur(15px);
+  background: #1a1b2590;
+  backdrop-filter: blur(80px);
+  -webkit-backdrop-filter: blur(80px);
 }
 
 .shadow-p {
-  box-shadow: 2px 4px 14px 2px #00000050;
+  box-shadow: 2px 4px 14px 2px #00000060;
 }
 .shadow-p-2 {
   box-shadow: 0 8px 24px 0 #fff;

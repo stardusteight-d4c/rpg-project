@@ -40,11 +40,11 @@ export const Chat = () => {
   return (
     <section
       ref={chatRef}
-      className="max-w-[25vw] w-full !relative  h-screen overflow-y-scroll no-scrollbar"
+      className="max-w-[20vw] w-full !relative  h-screen overflow-y-scroll no-scrollbar"
     >
       <div className="flex flex-col gap-y-2">
         <Sender />
-        <div className="space-y-2 p-2">
+        <div className="space-y-4 p-2">
           <Roll action="Stealth" values={[25, 12, 5]} result={50} />
           <Roll action="Stealth" values={[30, 15, 6]} result={2} />
           <Roll action="Stealth" values={[50, 25, 10]} result={45} />
