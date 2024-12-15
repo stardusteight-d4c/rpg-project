@@ -1,39 +1,67 @@
+"use client"
+
+import { useEffect, useRef, useState } from "react"
+import { Roll, Sender } from "./components"
+
 export const Chat = () => {
+  const chatRef = useRef<HTMLDivElement>(null)
+  const [showButton, setShowButton] = useState(false)
+
+  const scrollToBottom = () => {
+    if (chatRef.current) {
+      chatRef.current.scrollTo({
+        top: chatRef.current.scrollHeight,
+        behavior: "smooth",
+      })
+    }
+  }
+
+  useEffect(() => {
+    scrollToBottom()
+  }, [])
+
+  const handleScroll = () => {
+    if (chatRef.current) {
+      const isAtBottom =
+        chatRef.current.scrollTop + chatRef.current.clientHeight >=
+        chatRef.current.scrollHeight
+      setShowButton(!isAtBottom)
+    }
+  }
+
+  useEffect(() => {
+    const chat = chatRef.current
+    if (chat) chat.addEventListener("scroll", handleScroll)
+    return () => {
+      if (chat) chat.removeEventListener("scroll", handleScroll)
+    }
+  }, [])
+
   return (
-    <section className="w-[25vw]  p-4  h-screen">
+    <section
+      ref={chatRef}
+      className="max-w-[25vw] w-full !relative  h-screen overflow-y-scroll no-scrollbar"
+    >
       <div className="flex flex-col gap-y-2">
-        <div className="flex items-center gap-x-2">
-          <img
-            src="https://avatars.githubusercontent.com/u/87643260?v=4"
-            alt=""
-            className="w-[48px] h-[48px] rounded-md"
-          />
-          <span className="block text-xl font-bold">Erwin Farwell</span>
-        </div>
-        <div>
-          <div className="w-full overflow-hidden bg-border rounded-md">
-            <span className="block bg-[#27272a] px-4 py-2 font-bold text-xl">
-              Stealth Roll
-            </span>
-            <div className="w-full h-[0px] border-t border-t-border" />
-            <div className="grid grid-cols-3 items-center justify-center w-full">
-              <span className="col-span-1 block p-2 text-center font-bold text-lg text-red-500">
-                {`>`}25
-              </span>
-              <span className="col-span-1 block p-2 border-x border-border text-center font-bold text-lg text-green-500">
-                {`>`}12{`>`}
-              </span>
-              <span className="col-span-1 block p-2 text-center font-bold text-lg bg-clip-text text-transparent bg-gradient-to-tr from-violet-500 to-pink-500 ">
-                5{`>`}
-              </span>
-            </div>
-            <div className="w-full h-[0px] border-t border-t-border" />
-            <span className="block bg-red-500 px-4 py-2 font-bold text-2xl text-center">
-              50
-            </span>
-          </div>
+        <Sender />
+        <div className="space-y-2 p-2">
+          <Roll action="Stealth" values={[25, 12, 5]} result={50} />
+          <Roll action="Stealth" values={[30, 15, 6]} result={2} />
+          <Roll action="Stealth" values={[50, 25, 10]} result={45} />
+          <Roll action="Spot Hidden" values={[42, 16, 6]} result={45} />
+          <Roll action="Spot Hidden" values={[42, 16, 6]} result={45} />
+          <Roll action="Spot Hidden" values={[42, 16, 6]} result={45} />
+          <Roll action="Spot Hidden" values={[42, 16, 6]} result={45} />
         </div>
       </div>
+      {/* {showButton && (
+        <button
+          onClick={scrollToBottom}
+          className="fixed bottom-5 left-2 bg-blue-500 text-white px-4 py-2 rounded shadow-lg"
+        >
+          Scroll to Bottom
+        </button>
+      )} */}
     </section>
   )
 }
