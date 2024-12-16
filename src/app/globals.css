@@ -79,7 +79,6 @@ body {
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  background: rgba(34, 50, 84, 0.03);
   opacity: 0;
   transition: opacity 0.2s ease;
 }
@@ -111,19 +110,19 @@ body {
 }
 
 .check:hover svg {
-  stroke: var(--accent-color, #a3e583);
+  stroke: var(--accent-color, #22c55e);
 }
 
-#cbx2:checked + .check svg {
-  stroke: var(--accent-color, #a3e583);
+.cbx2:checked + .check svg {
+  stroke: var(--accent-color, #22c55e);
 }
 
-#cbx2:checked + .check svg path {
+.cbx2:checked + .check svg path {
   stroke-dashoffset: 60;
   transition: all 0.3s linear;
 }
 
-#cbx2:checked + .check svg polyline {
+.cbx2:checked + .check svg polyline {
   stroke-dashoffset: 42;
   transition: all 0.2s linear;
   transition-delay: 0.15s;
