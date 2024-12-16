@@ -3,7 +3,7 @@ import Image from "next/image"
 export const Cam = () => {
   return (
     <div className="flex flex-col max-h-screen overflow-y-scroll no-scrollbar p-2 items-center gap-2">
-      <div className="w-full">
+      <div className="w-full relative">
         <Image
           src="/01.png"
           width={500}

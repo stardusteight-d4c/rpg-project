@@ -8,11 +8,11 @@ import { DraggableItem } from "./components/Map/Map"
 
 export function BoardModule() {
   const [active, setActive] = useState<
-    "map" | "roll" | "character_sheet" | "characters"
+    "map" | "roll" | "character_sheet" | "characters" | "diary"
   >("map")
 
   return (
-    <main className="max-h-screen overflow-hidden">
+    <main className="max-h-screen relative overflow-hidden">
       <div className="w-full flex">
         <Board.Chat />
         <div className="w-fit p-2 border-x border-border">
@@ -87,6 +87,22 @@ export function BoardModule() {
                 <path d="M117.25,157.92a60,60,0,1,0-66.5,0A95.83,95.83,0,0,0,3.53,195.63a8,8,0,1,0,13.4,8.74,80,80,0,0,1,134.14,0,8,8,0,0,0,13.4-8.74A95.83,95.83,0,0,0,117.25,157.92ZM40,108a44,44,0,1,1,44,44A44.05,44.05,0,0,1,40,108Zm210.14,98.7a8,8,0,0,1-11.07-2.33A79.83,79.83,0,0,0,172,168a8,8,0,0,1,0-16,44,44,0,1,0-16.34-84.87,8,8,0,1,1-5.94-14.85,60,60,0,0,1,55.53,105.64,95.83,95.83,0,0,1,47.22,37.71A8,8,0,0,1,250.14,206.7Z"></path>
               </svg>
             </span>
+            <span onClick={() => setActive("diary")} className="cursor-pointer">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="40"
+                height="40"
+                fill="#000000"
+                viewBox="0 0 256 256"
+                className={`${
+                  active === "diary"
+                    ? " background-gradient fill-background "
+                    : " fill-white "
+                } rounded p-1`}
+              >
+                <path d="M208,24H72A32,32,0,0,0,40,56V224a8,8,0,0,0,8,8H192a8,8,0,0,0,0-16H56a16,16,0,0,1,16-16H208a8,8,0,0,0,8-8V32A8,8,0,0,0,208,24ZM120,40h48v72L148.79,97.6a8,8,0,0,0-9.6,0L120,112Zm80,144H72a31.82,31.82,0,0,0-16,4.29V56A16,16,0,0,1,72,40h32v88a8,8,0,0,0,12.8,6.4L144,114l27.21,20.4A8,8,0,0,0,176,136a8,8,0,0,0,8-8V40h16Z"></path>
+              </svg>
+            </span>
           </div>
         </div>
         <div className="max-w-[50vw] w-full relative h-screen">
@@ -109,7 +125,7 @@ export function BoardModule() {
               <div className="w-[48px] h-[48px] rounded overflow-hidden">
                 <DraggableItem
                   id="2"
-                  imgUrl="https://64.media.tumblr.com/df0ecf3bbaa492ab7aeea44d999d5ff4/421c9b12ba7d144e-09/s1280x1920/5fa6f0032208a9b302ccccccf581d80f3141770c.jpg"
+                  imgUrl="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/f2664fbe-b0bd-454c-bfe6-6e930a07fc49/dh1yf6m-9a50d508-4a14-4f63-9a0b-b4339f5d284a.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcL2YyNjY0ZmJlLWIwYmQtNDU0Yy1iZmU2LTZlOTMwYTA3ZmM0OVwvZGgxeWY2bS05YTUwZDUwOC00YTE0LTRmNjMtOWEwYi1iNDMzOWY1ZDI4NGEuanBnIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.VNORNfSflxfLfH0SH-r1mLEM8eyB8LsRfinCHZuP5Jc"
                   type="box"
                 />
               </div>
