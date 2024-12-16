@@ -3,17 +3,22 @@
 import { useState } from "react"
 
 export const Dice: React.FC = () => {
-  const [mode, setMode] = useState<"character" | "system" | null>(null);
-  const [selectedType, setSelectedType] = useState<"attributes" | "status" | "skills" | "combat" | null>(null);
-  const [diceType, setDiceType] = useState<number>(6);
-  const [numDice, setNumDice] = useState<number>(1);
-  const [results, setResults] = useState<number[]>([]);
+  const [mode, setMode] = useState<"character" | "system" | null>(null)
+  const [selectedType, setSelectedType] = useState<
+    "attributes" | "status" | "skills" | "combat" | null
+  >(null)
+  const [diceType, setDiceType] = useState<number>(6)
+  const [numDice, setNumDice] = useState<number>(1)
+  const [results, setResults] = useState<number[]>([])
 
   // Função para rolar os dados
   const rollDice = (sides: number, quantity: number) => {
-    const rolls = Array.from({ length: quantity }, () => Math.floor(Math.random() * sides) + 1);
-    setResults(rolls);
-  };
+    const rolls = Array.from(
+      { length: quantity },
+      () => Math.floor(Math.random() * sides) + 1
+    )
+    setResults(rolls)
+  }
 
   const attributes = {
     strength: 50,
@@ -32,70 +37,69 @@ export const Dice: React.FC = () => {
     sanity: 22,
   }
 
-
   // Habilidades comuns
   const skills = [
-    { name: "Accounting", baseValue: 5, currentValue: 50},
-    { name: "Anthropology", baseValue: 1, currentValue: 50},
-    { name: "Appraise", baseValue: 5, currentValue: 50},
-    { name: "Archaeology", baseValue: 1, currentValue: 50},
-    { name: "Charm", baseValue: 15, currentValue: 50},
-    { name: "Climb", baseValue: 20, currentValue: 50},
-    { name: "Credit Rating", baseValue: 0, currentValue: 50},
-    { name: "Cthulhu Mythos", baseValue: 0, currentValue: 50},
-    { name: "Disguise", baseValue: 5, currentValue: 50},
-    { name: "Dodge", baseValue: "half DEX",  currentValue: 50},
-    { name: "Drive Auto", baseValue: 20, currentValue: 50},
-    { name: "Elec Repair", baseValue: 10, currentValue: 50},
-    { name: "Fast Talk", baseValue: 5, currentValue: 50},
-    { name: "Fighting(Brawl)", baseValue: 25, currentValue: 50},
-    { name: "Firearms(HG)", baseValue: 20, currentValue: 50},
-    { name: "Firearms(R/S)", baseValue: 25, currentValue: 50},
-    { name: "First Aid", baseValue: 30, currentValue: 50},
-    { name: "History", baseValue: 5, currentValue: 50},
-    { name: "Intimidate", baseValue: 15, currentValue: 50},
-    { name: "Jump", baseValue: 20, currentValue: 50},
-    { name: "Language(Own)", baseValue: "EDU", currentValue: 50},
-    { name: "Law", baseValue: 5, currentValue: 50},
-    { name: "Library Use", baseValue: 20, currentValue: 50},
-    { name: "Listen", baseValue: 20, currentValue: 50},
-    { name: "Locksmith", baseValue: 1, currentValue: 50},
-    { name: "Luck", baseValue: 65, currentValue: 50},
-    { name: "Mech Repair", baseValue: 10, currentValue: 50},
-    { name: "Medicine", baseValue: 1, currentValue: 50},
-    { name: "Natural World", baseValue: 10, currentValue: 50},
-    { name: "Navigate", baseValue: 10, currentValue: 50},
-    { name: "Occult", baseValue: 5, currentValue: 50},
-    { name: "Op Hv Machine", baseValue: 1, currentValue: 50},
-    { name: "Persuade", baseValue: 10, currentValue: 50},
-    { name: "Psychoanalysis", baseValue: 1, currentValue: 50},
-    { name: "Psychology", baseValue: 10, currentValue: 50},
-    { name: "Ride", baseValue: 5, currentValue: 50},
-    { name: "Sleight of Hand", baseValue: 10, currentValue: 50},
-    { name: "Spot Hidden", baseValue: 25, currentValue: 50},
-    { name: "Stealth", baseValue: 20, currentValue: 50},
-    { name: "Swim", baseValue: 20, currentValue: 50},
-    { name: "Throw", baseValue: 20, currentValue: 50},
-    { name: "Track", baseValue: 10, currentValue: 50},
+    { name: "Accounting", baseValue: 5, currentValue: 50 },
+    { name: "Anthropology", baseValue: 1, currentValue: 50 },
+    { name: "Appraise", baseValue: 5, currentValue: 50 },
+    { name: "Archaeology", baseValue: 1, currentValue: 50 },
+    { name: "Charm", baseValue: 15, currentValue: 50 },
+    { name: "Climb", baseValue: 20, currentValue: 50 },
+    { name: "Credit Rating", baseValue: 0, currentValue: 50 },
+    { name: "Cthulhu Mythos", baseValue: 0, currentValue: 50 },
+    { name: "Disguise", baseValue: 5, currentValue: 50 },
+    { name: "Dodge", baseValue: "half DEX", currentValue: 50 },
+    { name: "Drive Auto", baseValue: 20, currentValue: 50 },
+    { name: "Elec Repair", baseValue: 10, currentValue: 50 },
+    { name: "Fast Talk", baseValue: 5, currentValue: 50 },
+    { name: "Fighting(Brawl)", baseValue: 25, currentValue: 50 },
+    { name: "Firearms(HG)", baseValue: 20, currentValue: 50 },
+    { name: "Firearms(R/S)", baseValue: 25, currentValue: 50 },
+    { name: "First Aid", baseValue: 30, currentValue: 50 },
+    { name: "History", baseValue: 5, currentValue: 50 },
+    { name: "Intimidate", baseValue: 15, currentValue: 50 },
+    { name: "Jump", baseValue: 20, currentValue: 50 },
+    { name: "Language(Own)", baseValue: "EDU", currentValue: 50 },
+    { name: "Law", baseValue: 5, currentValue: 50 },
+    { name: "Library Use", baseValue: 20, currentValue: 50 },
+    { name: "Listen", baseValue: 20, currentValue: 50 },
+    { name: "Locksmith", baseValue: 1, currentValue: 50 },
+    { name: "Luck", baseValue: 65, currentValue: 50 },
+    { name: "Mech Repair", baseValue: 10, currentValue: 50 },
+    { name: "Medicine", baseValue: 1, currentValue: 50 },
+    { name: "Natural World", baseValue: 10, currentValue: 50 },
+    { name: "Navigate", baseValue: 10, currentValue: 50 },
+    { name: "Occult", baseValue: 5, currentValue: 50 },
+    { name: "Op Hv Machine", baseValue: 1, currentValue: 50 },
+    { name: "Persuade", baseValue: 10, currentValue: 50 },
+    { name: "Psychoanalysis", baseValue: 1, currentValue: 50 },
+    { name: "Psychology", baseValue: 10, currentValue: 50 },
+    { name: "Ride", baseValue: 5, currentValue: 50 },
+    { name: "Sleight of Hand", baseValue: 10, currentValue: 50 },
+    { name: "Spot Hidden", baseValue: 25, currentValue: 50 },
+    { name: "Stealth", baseValue: 20, currentValue: 50 },
+    { name: "Swim", baseValue: 20, currentValue: 50 },
+    { name: "Throw", baseValue: 20, currentValue: 50 },
+    { name: "Track", baseValue: 10, currentValue: 50 },
   ]
 
   return (
-    <section className="p-4 flex flex-col gap-4">
-      <h3 className="text-3xl font-bold bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">
+    <section className="p-2 z-[999] flex max-h-[500px] w-[500px] overflow-y-scroll no-scrollbar flex-col gap-4">
+      <h3 className="block text-3xl font-bold background-gradient bg-clip-text text-transparent tracking-wider">
         Rolling
       </h3>
 
       {/* Escolha entre Character Rolling e System Rolling */}
       {mode === null && (
-        <div className="flex flex-col gap-4">
+        <div className="flex gap-x-2">
           <button
-            className="py-1 px-4 w-fit bg-border text-white rounded border-border border"
+            className="p-2 w-full text-center text-lg bg-border text-white rounded border-border border"
             onClick={() => setMode("character")}
           >
-             Rolling
+            Character Rolling
           </button>
           <button
-            className="py-2 px-4 bg-purple-500 text-white rounded-md"
+            className="p-2 w-full text-center text-lg bg-border text-white rounded border-border border"
             onClick={() => setMode("system")}
           >
             System Rolling
@@ -107,31 +111,129 @@ export const Dice: React.FC = () => {
       {mode === "character" && (
         <div className="flex flex-col gap-4">
           <h4 className="text-xl font-semibold">Choose a Type:</h4>
-          <div className="flex gap-2">
-            <button
-              className="py-2 px-4 bg-blue-500 text-white rounded-md"
+
+          <div className="flex items-center gap-2">
+            <span
               onClick={() => setSelectedType("attributes")}
+              className="bg-border p-2 rounded"
             >
-              Attributes
-            </button>
-            <button
-              className="py-2 px-4 bg-green-500 text-white rounded-md"
-              onClick={() => setSelectedType("status")}
-            >
-              Status
-            </button>
-            <button
-              className="py-2 px-4 bg-purple-500 text-white rounded-md"
+              <svg
+                width="32"
+                height="32"
+                viewBox="0 0 32 32"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M29 26C29 26.2652 28.8946 26.5196 28.7071 26.7071C28.5196 26.8946 28.2652 27 28 27H4C3.73478 27 3.48043 26.8946 3.29289 26.7071C3.10536 26.5196 3 26.2652 3 26V6C3 5.73478 3.10536 5.48043 3.29289 5.29289C3.48043 5.10536 3.73478 5 4 5C4.26522 5 4.51957 5.10536 4.70711 5.29289C4.89464 5.48043 5 5.73478 5 6V17.7962L11.3413 12.25C11.5138 12.0989 11.733 12.0118 11.9622 12.0031C12.1914 11.9945 12.4166 12.0649 12.6 12.2025L19.9513 17.7162L27.3412 11.25C27.4381 11.1541 27.5536 11.079 27.6806 11.0293C27.8076 10.9797 27.9434 10.9565 28.0796 10.9613C28.2159 10.9661 28.3497 10.9986 28.4729 11.057C28.5961 11.1154 28.7061 11.1983 28.7961 11.3008C28.8861 11.4032 28.9541 11.523 28.9961 11.6527C29.0381 11.7824 29.0532 11.9193 29.0403 12.055C29.0274 12.1908 28.987 12.3224 28.9213 12.4419C28.8557 12.5615 28.7664 12.6663 28.6588 12.75L20.6588 19.75C20.4862 19.9011 20.267 19.9882 20.0378 19.9969C19.8086 20.0055 19.5834 19.9351 19.4 19.7975L12.0487 14.2863L5 20.4538V25H28C28.2652 25 28.5196 25.1054 28.7071 25.2929C28.8946 25.4804 29 25.7348 29 26Z"
+                  fill="url(#paint0_linear_43_2)"
+                />
+                <defs>
+                  <linearGradient
+                    id="paint0_linear_43_2"
+                    x1="16.0224"
+                    y1="5"
+                    x2="16.0224"
+                    y2="27"
+                    gradientUnits="userSpaceOnUse"
+                  >
+                    <stop stopColor="#42D392" />
+                    <stop offset="1" stopColor="#8B5CF6" />
+                  </linearGradient>
+                </defs>
+              </svg>{" "}
+            </span>
+            <span
               onClick={() => setSelectedType("skills")}
+              className="bg-border p-2 rounded"
             >
-              Skills
-            </button>
-            <button
-              className="py-2 px-4 bg-red-500 text-white rounded-md"
+              <svg
+                width="32"
+                height="32"
+                viewBox="0 0 32 32"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M24.6977 16.1325L18.2502 13.75L15.8752 7.2975C15.7346 6.91541 15.4801 6.58566 15.1461 6.35273C14.8122 6.11981 14.4149 5.99492 14.0077 5.99492C13.6005 5.99492 13.2032 6.11981 12.8692 6.35273C12.5353 6.58566 12.2808 6.91541 12.1402 7.2975L9.7502 13.75L3.2977 16.125C2.91561 16.2656 2.58586 16.5201 2.35293 16.854C2.12001 17.188 1.99512 17.5853 1.99512 17.9925C1.99512 18.3997 2.12001 18.797 2.35293 19.131C2.58586 19.4649 2.91561 19.7194 3.2977 19.86L9.7502 22.25L12.1252 28.7025C12.2658 29.0846 12.5203 29.4143 12.8542 29.6473C13.1882 29.8802 13.5855 30.0051 13.9927 30.0051C14.3999 30.0051 14.7972 29.8802 15.1311 29.6473C15.4651 29.4143 15.7196 29.0846 15.8602 28.7025L18.2502 22.25L24.7027 19.875C25.0848 19.7344 25.4145 19.4799 25.6475 19.146C25.8804 18.812 26.0053 18.4147 26.0053 18.0075C26.0053 17.6003 25.8804 17.203 25.6475 16.869C25.4145 16.5351 25.0848 16.2806 24.7027 16.14L24.6977 16.1325ZM17.1252 20.5275C16.9895 20.5775 16.8662 20.6564 16.7639 20.7587C16.6616 20.861 16.5827 20.9843 16.5327 21.12L14.0002 27.9813L11.4727 21.125C11.4228 20.9878 11.3434 20.8633 11.2402 20.76C11.1369 20.6568 11.0124 20.5774 10.8752 20.5275L4.01895 18L10.8752 15.4725C11.0124 15.4226 11.1369 15.3432 11.2402 15.24C11.3434 15.1367 11.4228 15.0122 11.4727 14.875L14.0002 8.01875L16.5277 14.875C16.5777 15.0107 16.6566 15.134 16.7589 15.2363C16.8612 15.3386 16.9845 15.4175 17.1202 15.4675L23.9814 18L17.1252 20.5275ZM18.0002 5C18.0002 4.73478 18.1056 4.48043 18.2931 4.29289C18.4806 4.10536 18.735 4 19.0002 4H21.0002V2C21.0002 1.73478 21.1056 1.48043 21.2931 1.29289C21.4806 1.10536 21.735 1 22.0002 1C22.2654 1 22.5198 1.10536 22.7073 1.29289C22.8948 1.48043 23.0002 1.73478 23.0002 2V4H25.0002C25.2654 4 25.5198 4.10536 25.7073 4.29289C25.8948 4.48043 26.0002 4.73478 26.0002 5C26.0002 5.26522 25.8948 5.51957 25.7073 5.70711C25.5198 5.89464 25.2654 6 25.0002 6H23.0002V8C23.0002 8.26522 22.8948 8.51957 22.7073 8.70711C22.5198 8.89464 22.2654 9 22.0002 9C21.735 9 21.4806 8.89464 21.2931 8.70711C21.1056 8.51957 21.0002 8.26522 21.0002 8V6H19.0002C18.735 6 18.4806 5.89464 18.2931 5.70711C18.1056 5.51957 18.0002 5.26522 18.0002 5ZM31.0002 11C31.0002 11.2652 30.8948 11.5196 30.7073 11.7071C30.5198 11.8946 30.2654 12 30.0002 12H29.0002V13C29.0002 13.2652 28.8948 13.5196 28.7073 13.7071C28.5198 13.8946 28.2654 14 28.0002 14C27.735 14 27.4806 13.8946 27.2931 13.7071C27.1056 13.5196 27.0002 13.2652 27.0002 13V12H26.0002C25.735 12 25.4806 11.8946 25.2931 11.7071C25.1056 11.5196 25.0002 11.2652 25.0002 11C25.0002 10.7348 25.1056 10.4804 25.2931 10.2929C25.4806 10.1054 25.735 10 26.0002 10H27.0002V9C27.0002 8.73478 27.1056 8.48043 27.2931 8.29289C27.4806 8.10536 27.735 8 28.0002 8C28.2654 8 28.5198 8.10536 28.7073 8.29289C28.8948 8.48043 29.0002 8.73478 29.0002 9V10H30.0002C30.2654 10 30.5198 10.1054 30.7073 10.2929C30.8948 10.4804 31.0002 10.7348 31.0002 11Z"
+                  fill="url(#paint0_linear_58_8)"
+                />
+                <defs>
+                  <linearGradient
+                    id="paint0_linear_58_8"
+                    x1="16.4977"
+                    y1="1"
+                    x2="16.4977"
+                    y2="30.0051"
+                    gradientUnits="userSpaceOnUse"
+                  >
+                    <stop stopColor="#42D392" />
+                    <stop offset="1" stopColor="#8B5CF6" />
+                  </linearGradient>
+                </defs>
+              </svg>
+            </span>
+            <span
               onClick={() => setSelectedType("combat")}
+              className="bg-border p-2 rounded"
             >
-              Combat
-            </button>
+              <svg
+                width="32"
+                height="32"
+                viewBox="0 0 32 32"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M21 2H15C13.1441 2.00199 11.3648 2.74012 10.0524 4.05245C8.74012 5.36477 8.00199 7.14409 8 9H7C5.93913 9 4.92172 9.42143 4.17157 10.1716C3.42143 10.9217 3 11.9391 3 13V16.6488C3.00089 17.103 3.15553 17.5436 3.43875 17.8988C3.46289 17.929 3.48877 17.9578 3.51625 17.985L8 22.4175V27C8 27.5304 8.21071 28.0391 8.58579 28.4142C8.96086 28.7893 9.46957 29 10 29H24C24.5304 29 25.0391 28.7893 25.4142 28.4142C25.7893 28.0391 26 27.5304 26 27V22.14L27.9225 15.4087C27.9739 15.2304 27.9999 15.0456 28 14.86V9C27.998 7.14409 27.2599 5.36477 25.9476 4.05245C24.6352 2.74012 22.8559 2.00199 21 2ZM26 14.86L24.0387 21.725C24.0129 21.8144 23.9998 21.907 24 22V27H10V22C9.99994 21.8677 9.97362 21.7366 9.92255 21.6146C9.87148 21.4925 9.79669 21.3817 9.7025 21.2887L5 16.64V13C5 12.4696 5.21071 11.9609 5.58579 11.5858C5.96086 11.2107 6.46957 11 7 11H8V13C8 13.2652 8.10536 13.5196 8.29289 13.7071C8.48043 13.8946 8.73478 14 9 14C9.26522 14 9.51957 13.8946 9.70711 13.7071C9.89464 13.5196 10 13.2652 10 13V9C10 7.67392 10.5268 6.40215 11.4645 5.46447C12.4021 4.52678 13.6739 4 15 4H21C22.3261 4 23.5979 4.52678 24.5355 5.46447C25.4732 6.40215 26 7.67392 26 9V14.86ZM21.4475 20.895L19.2362 22L21.4475 23.105C21.6849 23.2237 21.8654 23.4318 21.9493 23.6836C22.0332 23.9353 22.0137 24.2101 21.895 24.4475C21.7763 24.6849 21.5682 24.8654 21.3164 24.9493C21.0647 25.0332 20.7899 25.0137 20.5525 24.895L17 23.1175L13.4475 24.895C13.33 24.9538 13.202 24.9888 13.0709 24.9981C12.9399 25.0074 12.8082 24.9908 12.6836 24.9493C12.5589 24.9077 12.4436 24.842 12.3444 24.7559C12.2451 24.6698 12.1638 24.565 12.105 24.4475C12.0462 24.33 12.0112 24.202 12.0019 24.0709C11.9926 23.9399 12.0092 23.8082 12.0507 23.6836C12.0923 23.5589 12.158 23.4437 12.2441 23.3444C12.3302 23.2451 12.435 23.1638 12.5525 23.105L14.7638 22L12.5525 20.895C12.435 20.8362 12.3302 20.7549 12.2441 20.6556C12.158 20.5563 12.0923 20.4411 12.0507 20.3164C12.0092 20.1918 11.9926 20.0601 12.0019 19.9291C12.0112 19.798 12.0462 19.67 12.105 19.5525C12.1638 19.435 12.2451 19.3302 12.3444 19.2441C12.4436 19.158 12.5589 19.0923 12.6836 19.0507C12.9353 18.9668 13.2101 18.9863 13.4475 19.105L17 20.8825L20.5525 19.105C20.67 19.0462 20.798 19.0112 20.9291 19.0019C21.0601 18.9926 21.1918 19.0092 21.3164 19.0507C21.4411 19.0923 21.5563 19.158 21.6556 19.2441C21.7549 19.3302 21.8362 19.435 21.895 19.5525C21.9538 19.67 21.9888 19.798 21.9981 19.9291C22.0074 20.0601 21.9908 20.1918 21.9493 20.3164C21.9077 20.4411 21.842 20.5563 21.7559 20.6556C21.6698 20.7549 21.565 20.8362 21.4475 20.895Z"
+                  fill="url(#paint0_linear_44_5)"
+                />
+                <defs>
+                  <linearGradient
+                    id="paint0_linear_44_5"
+                    x1="15.5"
+                    y1="2"
+                    x2="15.5"
+                    y2="29"
+                    gradientUnits="userSpaceOnUse"
+                  >
+                    <stop stopColor="#42D392" />
+                    <stop offset="1" stopColor="#8B5CF6" />
+                  </linearGradient>
+                </defs>
+              </svg>
+            </span>
+
+            <span
+              onClick={() => setSelectedType("status")}
+              className="bg-border p-2 rounded"
+            >
+              <svg
+                width="32"
+                height="32"
+                viewBox="0 0 32 32"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M16 3C13.4288 3 10.9154 3.76244 8.77759 5.1909C6.63975 6.61935 4.97351 8.64968 3.98957 11.0251C3.00563 13.4006 2.74819 16.0144 3.2498 18.5362C3.75141 21.0579 4.98953 23.3743 6.80762 25.1924C8.6257 27.0105 10.9421 28.2486 13.4638 28.7502C15.9856 29.2518 18.5995 28.9944 20.9749 28.0104C23.3503 27.0265 25.3807 25.3603 26.8091 23.2224C28.2376 21.0846 29 18.5712 29 16C28.9964 12.5533 27.6256 9.24882 25.1884 6.81163C22.7512 4.37445 19.4467 3.00364 16 3ZM9.26001 24.6875C9.98342 23.5561 10.98 22.625 12.1579 21.9801C13.3358 21.3351 14.6571 20.9971 16 20.9971C17.3429 20.9971 18.6642 21.3351 19.8421 21.9801C21.02 22.625 22.0166 23.5561 22.74 24.6875C20.8129 26.1862 18.4413 26.9999 16 26.9999C13.5587 26.9999 11.1871 26.1862 9.26001 24.6875ZM12 15C12 14.2089 12.2346 13.4355 12.6741 12.7777C13.1137 12.1199 13.7384 11.6072 14.4693 11.3045C15.2002 11.0017 16.0044 10.9225 16.7804 11.0769C17.5563 11.2312 18.269 11.6122 18.8284 12.1716C19.3878 12.731 19.7688 13.4437 19.9231 14.2196C20.0775 14.9956 19.9983 15.7998 19.6955 16.5307C19.3928 17.2616 18.8801 17.8864 18.2223 18.3259C17.5645 18.7654 16.7911 19 16 19C14.9391 19 13.9217 18.5786 13.1716 17.8284C12.4214 17.0783 12 16.0609 12 15ZM24.22 23.3013C23.1047 21.6851 21.5365 20.4348 19.7125 19.7075C20.6923 18.9358 21.4072 17.878 21.7579 16.6811C22.1086 15.4843 22.0776 14.2079 21.6693 13.0294C21.2609 11.851 20.4955 10.8291 19.4794 10.1059C18.4634 9.38262 17.2472 8.99397 16 8.99397C14.7528 8.99397 13.5366 9.38262 12.5206 10.1059C11.5045 10.8291 10.7391 11.851 10.3307 13.0294C9.92238 14.2079 9.8914 15.4843 10.2421 16.6811C10.5928 17.878 11.3077 18.9358 12.2875 19.7075C10.4635 20.4348 8.89529 21.6851 7.78001 23.3013C6.37072 21.7165 5.4496 19.7581 5.12756 17.6619C4.80553 15.5657 5.09631 13.4211 5.9649 11.4864C6.83349 9.55163 8.24285 7.90922 10.0233 6.75692C11.8037 5.60462 13.8792 4.99156 16 4.99156C18.1208 4.99156 20.1963 5.60462 21.9768 6.75692C23.7572 7.90922 25.1665 9.55163 26.0351 11.4864C26.9037 13.4211 27.1945 15.5657 26.8724 17.6619C26.5504 19.7581 25.6293 21.7165 24.22 23.3013Z"
+                  fill="url(#paint0_linear_69_2)"
+                />
+                <defs>
+                  <linearGradient
+                    id="paint0_linear_69_2"
+                    x1="16"
+                    y1="3"
+                    x2="16"
+                    y2="29"
+                    gradientUnits="userSpaceOnUse"
+                  >
+                    <stop stop-color="#42D392" />
+                    <stop offset="1" stop-color="#8B5CF6" />
+                  </linearGradient>
+                </defs>
+              </svg>
+            </span>
           </div>
 
           {selectedType === "attributes" && (
@@ -201,13 +303,15 @@ export const Dice: React.FC = () => {
                 type="number"
                 className="mt-1 p-2 border rounded-md"
                 value={numDice}
-                onChange={(e) => setNumDice(Math.max(1, Math.min(10, Number(e.target.value))))}
+                onChange={(e) =>
+                  setNumDice(Math.max(1, Math.min(10, Number(e.target.value))))
+                }
               />
             </label>
           </div>
 
           <button
-            className="py-2 px-4 bg-blue-500 text-white rounded-md"
+           className="p-2 w-full text-center text-lg background-gradient text-white rounded border-border border"
             onClick={() => rollDice(diceType, numDice)}
           >
             Roll Dice
@@ -225,17 +329,16 @@ export const Dice: React.FC = () => {
       {/* Reset Button */}
       {mode !== null && (
         <button
-          className="py-2 px-4 bg-gray-500 text-white rounded-md"
+          className="p-2 w-full text-center text-lg bg-border text-white rounded border-border border"
           onClick={() => {
-            setMode(null);
-            setSelectedType(null);
-            setResults([]);
+            setMode(null)
+            setSelectedType(null)
+            setResults([])
           }}
         >
-          Reset
+          Back
         </button>
       )}
     </section>
   )
 }
-
