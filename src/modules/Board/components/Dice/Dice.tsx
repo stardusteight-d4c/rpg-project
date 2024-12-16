@@ -102,7 +102,7 @@ export const Dice: React.FC = () => {
   }
 
   return (
-    <section className="p-2 z-[999] flex max-h-[500px] w-[500px] overflow-y-scroll no-scrollbar flex-col gap-4">
+    <section className="p-4 z-[999] flex flex-col gap-4">
       <h3 className="block text-3xl font-bold background-gradient bg-clip-text text-transparent tracking-wider">
         Roll
       </h3>
