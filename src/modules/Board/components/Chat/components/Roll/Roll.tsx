@@ -33,7 +33,7 @@ export const Roll = ({ action, values, result }: RollProps) => {
 
   return (
     <div className="w-full rounded overflow-hidden border border-border">
-      <span className="block bg-[#27272a]/50 px-4 py-2 font-bold text-base">
+      <span className="block bg-border px-4 py-2 font-bold text-base">
         {action} Roll
       </span>
       <div className="w-full h-[0px] border-t border-t-border" />

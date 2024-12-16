@@ -20,7 +20,7 @@ export default {
       colors: {
         background: "#121212",
         button: "#393939",
-        border: "#27272a90",
+        border: "#27272a80",
         tag: "#1B1C1C",
         white: '#fafafa',
         title: "#E8E8E8",

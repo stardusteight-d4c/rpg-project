@@ -1,9 +1,9 @@
 export const Notes = () => {
   return (
     <div className="mb-4 rounded border border-border">
-      <div className="flex p-2 items-center justify-between bg-[#27272a]/20">
+      <div className="flex p-2 items-center justify-between bg-border">
         <h3 className="text-2xl flex items-center gap-x-2 font-semibold">
-          <span className="bg-border p-2 rounded">
+          <span className="bg-border border border-border shadow-p p-2 rounded">
             <svg
               width="32"
               height="32"
