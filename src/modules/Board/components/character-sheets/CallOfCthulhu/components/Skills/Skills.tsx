@@ -10,16 +10,11 @@ interface SkillsProps {
   toggleItem: (
     item: "attributes" | "skills" | "inventory" | "combat" | "backstory"
   ) => void
-  skills: (
-    | {
-        name: string
-        value: number
-      }
-    | {
-        name: string
-        value: string
-      }
-  )[]
+  skills: {
+    name: string
+    baseValue: number | string
+    currentValue: number
+  }[]
 }
 
 export const Skills = ({ activeItems, toggleItem, skills }: SkillsProps) => {
@@ -95,19 +90,24 @@ export const Skills = ({ activeItems, toggleItem, skills }: SkillsProps) => {
                       </svg>
                     </label>
                   </div>
-                  {skill.name}
+                  <div className="flex items-center gap-x-1">
+                    {skill.name}
+                    <span className="block text-sm font-normal text-gray-400">
+                      {typeof skill.baseValue === "string"
+                        ? skill.baseValue
+                        : `(${skill.baseValue}%)`}
+                    </span>
+                  </div>
                 </span>
                 <span className="bg-gradient-to-tr from-border to-transparent rounded-full  block px-2">
-                  {typeof skill.value === "string"
-                    ? skill.value
-                    : `${skill.value}%`}
+                  {`${skill.currentValue}%`}
                 </span>
               </div>
-              {typeof skill.value === "number" && (
+              {typeof skill.currentValue === "number" && (
                 <div className="w-full bg-border overflow-hidden h-3 rounded-full">
                   <div
                     className="h-full background-gradient"
-                    style={{ width: `${skill.value}%` }}
+                    style={{ width: `${skill.currentValue}%` }}
                   ></div>
                 </div>
               )}

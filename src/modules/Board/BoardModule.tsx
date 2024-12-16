@@ -8,7 +8,12 @@ import { DraggableItem } from "./components/Map/Map"
 
 export function BoardModule() {
   const [active, setActive] = useState<
-    "map" | "roll" | "character_sheet" | "characters" | "diary"
+    | "map"
+    | "dice"
+    | "character_sheet"
+    | "characters"
+    | "diary"
+    | "notifications"
   >("map")
 
   return (
@@ -33,7 +38,7 @@ export function BoardModule() {
                 <path d="M249.94,120.24l-27.05-6.76a95.86,95.86,0,0,0-80.37-80.37l-6.76-27a8,8,0,0,0-15.52,0l-6.76,27.05a95.86,95.86,0,0,0-80.37,80.37l-27,6.76a8,8,0,0,0,0,15.52l27.05,6.76a95.86,95.86,0,0,0,80.37,80.37l6.76,27.05a8,8,0,0,0,15.52,0l6.76-27.05a95.86,95.86,0,0,0,80.37-80.37l27.05-6.76a8,8,0,0,0,0-15.52Zm-95.49,22.9L139.31,128l15.14-15.14L215,128Zm-52.9,0L41,128l60.57-15.14L116.69,128ZM205.77,109.2,158.6,97.4,146.8,50.23A79.88,79.88,0,0,1,205.77,109.2Zm-62.63-7.65L128,116.69l-15.14-15.14L128,41ZM109.2,50.23,97.4,97.4,50.23,109.2A79.88,79.88,0,0,1,109.2,50.23Zm-59,96.57L97.4,158.6l11.8,47.17A79.88,79.88,0,0,1,50.23,146.8Zm62.63,7.65L128,139.31l15.14,15.14L128,215Zm33.94,51.32,11.8-47.17,47.17-11.8A79.88,79.88,0,0,1,146.8,205.77Z"></path>
               </svg>
             </span>
-            <span onClick={() => setActive("roll")} className="cursor-pointer">
+            <span onClick={() => setActive("dice")} className="cursor-pointer">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="40"
@@ -41,7 +46,7 @@ export function BoardModule() {
                 fill="#fafafa"
                 viewBox="0 0 256 256"
                 className={`${
-                  active === "roll"
+                  active === "dice"
                     ? " background-gradient fill-background "
                     : " fill-white "
                 } rounded p-1`}
@@ -103,12 +108,34 @@ export function BoardModule() {
                 <path d="M208,24H72A32,32,0,0,0,40,56V224a8,8,0,0,0,8,8H192a8,8,0,0,0,0-16H56a16,16,0,0,1,16-16H208a8,8,0,0,0,8-8V32A8,8,0,0,0,208,24ZM120,40h48v72L148.79,97.6a8,8,0,0,0-9.6,0L120,112Zm80,144H72a31.82,31.82,0,0,0-16,4.29V56A16,16,0,0,1,72,40h32v88a8,8,0,0,0,12.8,6.4L144,114l27.21,20.4A8,8,0,0,0,176,136a8,8,0,0,0,8-8V40h16Z"></path>
               </svg>
             </span>
+            <span
+              onClick={() => setActive("notifications")}
+              className="cursor-pointer"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="40"
+                height="40"
+                fill="#000000"
+                viewBox="0 0 256 256"
+                className={`${
+                  active === "notifications"
+                    ? " background-gradient fill-background "
+                    : " fill-white "
+                } rounded p-1`}
+              >
+                <path d="M221.8,175.94C216.25,166.38,208,139.33,208,104a80,80,0,1,0-160,0c0,35.34-8.26,62.38-13.81,71.94A16,16,0,0,0,48,200H88.81a40,40,0,0,0,78.38,0H208a16,16,0,0,0,13.8-24.06ZM128,216a24,24,0,0,1-22.62-16h45.24A24,24,0,0,1,128,216ZM48,184c7.7-13.24,16-43.92,16-80a64,64,0,1,1,128,0c0,36.05,8.28,66.73,16,80Z"></path>
+              </svg>
+            </span>
           </div>
         </div>
         <div className="max-w-[50vw] w-full relative h-screen">
           {active === "map" && <Board.Map />}
-          {active === "roll" && <Board.Roll />}
-          {active === "character_sheet" && <Board.CallOfCthulhu />}
+          {active === "dice" && <Board.Dice />}
+          {active === "character_sheet" && (
+            <Board.CharactersSheets.CallOfCthulhu />
+          )}
+          {active === "characters" && <Board.Characters />}
         </div>
         <div className="w-[26vw] h-screen border-l border-border">
           <Board.Cam />
