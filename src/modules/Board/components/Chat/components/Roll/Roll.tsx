@@ -39,17 +39,17 @@ export const Roll = ({ action, values, result }: RollProps) => {
       <div className="w-full h-[0px] border-t border-t-border" />
       <div className="grid grid-cols-3 items-center justify-center w-full">
         <span className="col-span-1 block p-2 text-center font-bold text-lg text-red-500">
-          {`>`}
+          {`x>`}
           {values[0]}
         </span>
         <span className="col-span-1 block p-2 border-x border-border text-center font-bold text-lg text-green-500">
-          {`>`}
+          {`x>`}
           {values[1]}
-          {`>`}
+          {`>x`}
         </span>
         <span className="col-span-1 block p-2 text-center font-bold text-lg bg-clip-text text-transparent bg-gradient-to-tr from-violet-500 to-pink-500">
           {values[2]}
-          {`>`}
+          {`>x`}
         </span>
       </div>
       <div className="w-full h-[0px] border-t border-t-border" />

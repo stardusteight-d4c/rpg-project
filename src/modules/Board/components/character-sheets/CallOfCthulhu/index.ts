@@ -1,0 +1,1 @@
+export {CallOfCthulhu} from './CallOfCthulhu'

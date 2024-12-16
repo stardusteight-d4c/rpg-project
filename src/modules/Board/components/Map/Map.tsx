@@ -57,7 +57,7 @@ export const Map: React.FC = () => {
 
   return (
     <div
-      className="w-[50vw] border-x border-border h-[100vh] grid relative"
+      className="w-[50vw] h-[100vh] grid relative"
       style={{
         gridTemplateColumns: `repeat(${gridSize}, 1fr)`,
         gridTemplateRows: `repeat(${gridSize}, 1fr)`,
