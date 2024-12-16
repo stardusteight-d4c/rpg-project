@@ -37,7 +37,7 @@ export const ModalWrapper = ({
           <div className="w-screen h-screen relative z-[950]">
             <div
               ref={modalContentRef} // Referência ao conteúdo do modal
-              className="w-fit z-[900] md:bg-background shadow-p md:p-2 md:border md:border-border rounded absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2"
+              className="w-fit z-[900] md:bg-background shadow-p md:border md:border-border rounded absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"

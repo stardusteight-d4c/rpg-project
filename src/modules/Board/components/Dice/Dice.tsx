@@ -11,15 +11,6 @@ export const Dice: React.FC = () => {
   const [numDice, setNumDice] = useState<number>(1)
   const [results, setResults] = useState<number[]>([])
 
-  // Função para rolar os dados
-  const rollDice = (sides: number, quantity: number) => {
-    const rolls = Array.from(
-      { length: quantity },
-      () => Math.floor(Math.random() * sides) + 1
-    )
-    setResults(rolls)
-  }
-
   const attributes = {
     strength: 50,
     dexterity: 60,
@@ -82,6 +73,29 @@ export const Dice: React.FC = () => {
     { name: "Throw", baseValue: 20, currentValue: 50 },
     { name: "Track", baseValue: 10, currentValue: 50 },
   ]
+
+  function handleDiceType() {
+    // Definindo a sequência dos tipos de dados
+    const diceTypes = [4, 6, 8, 10, 12, 20, 100]
+
+    // Encontrando o índice atual do dado
+    const currentIndex = diceTypes.findIndex((dice) => dice === diceType)
+
+    // Calculando o próximo índice. Se for o último (100), vai para o índice 0.
+    const nextIndex = (currentIndex + 1) % diceTypes.length
+
+    // Atualizando o diceType para o próximo
+    setDiceType(diceTypes[nextIndex])
+  }
+
+  // Função para rolar os dados
+  const rollDice = (sides: number, quantity: number) => {
+    const rolls = Array.from(
+      { length: quantity },
+      () => Math.floor(Math.random() * sides) + 1
+    )
+    setResults(rolls)
+  }
 
   return (
     <section className="p-2 z-[999] flex max-h-[500px] w-[500px] overflow-y-scroll no-scrollbar flex-col gap-4">
@@ -281,48 +295,47 @@ export const Dice: React.FC = () => {
       {mode === "system" && (
         <div className="flex flex-col gap-4">
           <h4 className="text-xl font-semibold">System Rolling</h4>
-          <div className="flex items-center gap-4">
-            <label className="flex flex-col">
-              Dice Type:
-              <select
-                className="mt-1 p-2 border rounded-md"
-                value={diceType}
-                onChange={(e) => setDiceType(Number(e.target.value))}
-              >
-                {[4, 6, 8, 10, 12, 20, 100].map((type) => (
-                  <option key={type} value={type}>
-                    D{type}
-                  </option>
+          <div className="flex items-start gap-4">
+            <div className="flex flex-col gap-y-1">
+              <span className="text-sm text-gray-400 block">
+                Number of Dices
+              </span>
+              <div className="grid-cols-5 grid gap-2">
+                {Array.from({ length: 10 }).map((_, index) => (
+                  <div
+                    onClick={() => setNumDice(index + 1)}
+                    key={index}
+                    className={`${
+                      numDice === index + 1 && "background-gradient"
+                    } col-span-1 cursor-pointer w-[48px] h-[48px] bg-border rounded flex items-center justify-center text-center`}
+                  >
+                    {index + 1}
+                  </div>
                 ))}
-              </select>
-            </label>
-
-            <label className="flex flex-col">
-              Number of Dice:
-              <input
-                type="number"
-                className="mt-1 p-2 border rounded-md"
-                value={numDice}
-                onChange={(e) =>
-                  setNumDice(Math.max(1, Math.min(10, Number(e.target.value))))
-                }
-              />
-            </label>
+              </div>
+            </div>
+            <div className="flex flex-col gap-y-1">
+              <span className="text-sm text-gray-400 block">Dice Type</span>
+              <div
+                onClick={() => handleDiceType()}
+                className="w-[48px] h-[48px] cursor-pointer background-gradient rounded flex items-center justify-center text-center"
+              >
+                d{diceType}
+              </div>
+            </div>
           </div>
-
-          <button
-           className="p-2 w-full text-center text-lg background-gradient text-white rounded border-border border"
-            onClick={() => rollDice(diceType, numDice)}
-          >
-            Roll Dice
-          </button>
-
           {results.length > 0 && (
             <div>
               <h4 className="text-lg font-semibold">Results:</h4>
               <p>{results.join(", ")}</p>
             </div>
           )}
+          <button
+            className="p-2 w-full text-center text-lg background-gradient text-white rounded border-border border"
+            onClick={() => rollDice(diceType, numDice)}
+          >
+            Roll Dice
+          </button>
         </div>
       )}
 
