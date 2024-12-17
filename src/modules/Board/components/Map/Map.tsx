@@ -70,16 +70,32 @@ export const Map: React.FC = () => {
 
   // Manipula o scroll para ajustar o zoom
   const handleWheel = (e: React.WheelEvent<HTMLDivElement>) => {
-    e.preventDefault()
-
+    e.preventDefault();
+  
+    // Calculando a posição relativa do mouse no mapa
+    const mouseX = e.clientX - e.currentTarget.getBoundingClientRect().left;
+    const mouseY = e.clientY - e.currentTarget.getBoundingClientRect().top;
+  
     // Zoom para dentro ou fora
     const newZoom =
       e.deltaY < 0
         ? Math.min(zoom + 0.1, 3) // Scroll para cima (zoom in)
-        : Math.max(zoom - 0.1, 0.5) // Scroll para baixo (zoom out)
-
-    setZoom(newZoom)
-  }
+        : Math.max(zoom - 0.1, 0.5); // Scroll para baixo (zoom out)
+  
+    // Calcular a diferença de zoom
+    const scaleDifference = newZoom / zoom;
+  
+    // Ajusta a posição do mapa para que o ponto do cursor permaneça fixo
+    setPosition((prevPosition) => {
+      const newPosX = prevPosition.x - (mouseX * (scaleDifference - 1));
+      const newPosY = prevPosition.y - (mouseY * (scaleDifference - 1));
+      setZoom(newZoom); // Atualiza o zoom
+      return {
+        x: newPosX,
+        y: newPosY,
+      };
+    });
+  };
 
   // Manipuladores de Movimento
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -144,6 +160,7 @@ export const Map: React.FC = () => {
           alt="Mapa"
           width={1000}
           height={1000}
+          quality={100}
           className="absolute z-0 w-full h-full object-fill select-none pointer-events-none"
         />
 
