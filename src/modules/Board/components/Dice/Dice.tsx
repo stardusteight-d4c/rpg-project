@@ -102,7 +102,7 @@ export const Dice: React.FC = () => {
   }
 
   return (
-    <section className="p-4 z-[999] flex flex-col gap-4">
+    <section className="p-4 select-none z-[999] flex flex-col gap-4">
       <h3 className="block text-3xl font-bold background-gradient bg-clip-text text-transparent">
         Roll
       </h3>
@@ -335,7 +335,7 @@ export const Dice: React.FC = () => {
 
       {/* System Rolling */}
       {mode === "system" && (
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 select-none">
           <h4 className="text-xl font-semibold">System Rolling</h4>
           <div className="flex items-start gap-4">
             <div className="flex flex-col gap-y-1">
@@ -349,7 +349,7 @@ export const Dice: React.FC = () => {
                     key={index}
                     className={`${
                       numDice === index + 1 && "background-gradient"
-                    } col-span-1 cursor-pointer w-[48px] h-[48px] bg-border rounded flex items-center justify-center text-center`}
+                    } col-span-1 text-lg cursor-pointer select-none w-[48px] h-[48px] bg-border rounded flex items-center justify-center text-center`}
                   >
                     {index + 1}
                   </div>
@@ -360,7 +360,7 @@ export const Dice: React.FC = () => {
               <span className="text-sm text-gray-400 block">Dice Type</span>
               <div
                 onClick={() => handleDiceType()}
-                className="w-[48px] h-[48px] cursor-pointer background-gradient rounded flex items-center justify-center text-center"
+                className="w-[48px] h-[48px] text-lg select-none active:scale-90 transition-all duration-500 ease-in-out cursor-pointer background-gradient rounded flex items-center justify-center text-center"
               >
                 d{diceType}
               </div>

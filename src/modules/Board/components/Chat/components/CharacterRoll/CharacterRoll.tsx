@@ -1,10 +1,14 @@
-interface RollProps {
+interface CharacterRollProps {
   action: string
   values: Array<number>
   result: number
 }
 
-export const Roll = ({ action, values, result }: RollProps) => {
+export const CharacterRoll = ({
+  action,
+  values,
+  result,
+}: CharacterRollProps) => {
   function getResultMeta() {
     if (result >= values[0] * 2) {
       return {

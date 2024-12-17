@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
-import { Roll, Sender } from "./components"
+import { CharacterRoll, Sender, SystemRoll } from "./components"
 import { ModalWrapper } from "@/shared/components/ModalWrapper/ModalWrapper"
 import { Dice } from "../Dice"
 
@@ -52,22 +52,114 @@ export const Chat = () => {
           </div>
         </ModalWrapper>
       )}
-      <div className="flex flex-col">
-        <Sender />
-        <div className="space-y-4 p-2">
-          <Roll action="Stealth" values={[25, 12, 5]} result={50} />
-          <Roll action="Stealth" values={[30, 15, 6]} result={2} />
-          <Roll action="Stealth" values={[50, 25, 10]} result={45} />
-          <Roll action="Spot Hidden" values={[42, 16, 6]} result={45} />
-          <Roll action="Spot Hidden" values={[42, 16, 6]} result={45} />
-          <Roll action="Spot Hidden" values={[42, 16, 6]} result={45} />
-          <Roll action="Spot Hidden" values={[42, 16, 6]} result={45} />
+
+      <div className="space-y-2">
+        {/*  */}
+        <div className="flex flex-col p-2">
+          <Sender
+            name="Erwin Farwell"
+            characterUrl="https://imgcdn.stablediffusionweb.com/2024/10/24/23cb7d83-7cac-43f6-8ac8-84c9cd8475a6.jpg"
+          />
+          <div className="space-y-4">
+            <CharacterRoll action="Stealth" values={[25, 12, 5]} result={50} />
+            <CharacterRoll action="Stealth" values={[30, 15, 6]} result={2} />
+            <CharacterRoll action="Stealth" values={[50, 25, 10]} result={45} />
+            <CharacterRoll
+              action="Spot Hidden"
+              values={[42, 16, 6]}
+              result={45}
+            />
+          </div>
+          <div className="text-gray-500/80 select-none flex items-center gap-x-[2px] mt-1 w-full justify-end pb-1 border-b border-border">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="#6b7280"
+              viewBox="0 0 256 256"
+            >
+              <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm64-88a8,8,0,0,1-8,8H128a8,8,0,0,1-8-8V72a8,8,0,0,1,16,0v48h48A8,8,0,0,1,192,128Z"></path>
+            </svg>
+            <span className="text-xs block max-h-[16px]">2024-12-17 10:55</span>
+          </div>
+        </div>
+        {/*  */}
+        <div className="flex flex-col p-2">
+          <Sender
+            name="Lizabeth White"
+            characterUrl="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/f2664fbe-b0bd-454c-bfe6-6e930a07fc49/dh1yf6m-9a50d508-4a14-4f63-9a0b-b4339f5d284a.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcL2YyNjY0ZmJlLWIwYmQtNDU0Yy1iZmU2LTZlOTMwYTA3ZmM0OVwvZGgxeWY2bS05YTUwZDUwOC00YTE0LTRmNjMtOWEwYi1iNDMzOWY1ZDI4NGEuanBnIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.VNORNfSflxfLfH0SH-r1mLEM8eyB8LsRfinCHZuP5Jc"
+          />
+          <div className="space-y-4">
+            <SystemRoll results={[4, 2]} diceType={10} />
+            <SystemRoll
+              results={[9, 7, 5, 6, 6, 5, 8, 8, 9, 10]}
+              diceType={10}
+            />
+            <SystemRoll results={[5]} diceType={10} />
+          </div>
+          <div className="text-gray-500/80 select-none flex items-center gap-x-[2px] mt-1 w-full justify-end pb-1 border-b border-border">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="#6b7280"
+              viewBox="0 0 256 256"
+            >
+              <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm64-88a8,8,0,0,1-8,8H128a8,8,0,0,1-8-8V72a8,8,0,0,1,16,0v48h48A8,8,0,0,1,192,128Z"></path>
+            </svg>
+            <span className="text-xs block max-h-[16px]">2024-12-17 11:05</span>
+          </div>
+        </div>
+        {/*  */}
+        <div className="flex flex-col p-2">
+          <Sender
+            name="Erwin Farwell"
+            characterUrl="https://imgcdn.stablediffusionweb.com/2024/10/24/23cb7d83-7cac-43f6-8ac8-84c9cd8475a6.jpg"
+          />
+          <div className="space-y-4">
+            <SystemRoll results={[8, 5, 6, 3]} diceType={10} />
+          </div>
+          <div className="text-gray-500/80 select-none flex items-center gap-x-[2px] mt-1 w-full justify-end pb-1 border-b border-border">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="#6b7280"
+              viewBox="0 0 256 256"
+            >
+              <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm64-88a8,8,0,0,1-8,8H128a8,8,0,0,1-8-8V72a8,8,0,0,1,16,0v48h48A8,8,0,0,1,192,128Z"></path>
+            </svg>
+            <span className="text-xs block max-h-[16px]">2024-12-17 11:11</span>
+          </div>
+        </div>
+        {/*  */}
+        <div className="flex flex-col p-2">
+          <Sender
+            name="Lizabeth White"
+            characterUrl="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/f2664fbe-b0bd-454c-bfe6-6e930a07fc49/dh1yf6m-9a50d508-4a14-4f63-9a0b-b4339f5d284a.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcL2YyNjY0ZmJlLWIwYmQtNDU0Yy1iZmU2LTZlOTMwYTA3ZmM0OVwvZGgxeWY2bS05YTUwZDUwOC00YTE0LTRmNjMtOWEwYi1iNDMzOWY1ZDI4NGEuanBnIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.VNORNfSflxfLfH0SH-r1mLEM8eyB8LsRfinCHZuP5Jc"
+          />
+          <div className="space-y-4">
+            <CharacterRoll action="Stealth" values={[25, 15, 6]} result={10} />
+          </div>
+          <div className="text-gray-500/80 select-none flex items-center gap-x-[2px] mt-1 w-full justify-end pb-1 border-b border-border">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="#6b7280"
+              viewBox="0 0 256 256"
+            >
+              <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm64-88a8,8,0,0,1-8,8H128a8,8,0,0,1-8-8V72a8,8,0,0,1,16,0v48h48A8,8,0,0,1,192,128Z"></path>
+            </svg>
+            <span className="text-xs block max-h-[16px]">2024-12-17 11:12</span>
+          </div>
         </div>
       </div>
+      {/*  */}
       {showButton && (
         <button
           onClick={scrollToBottom}
-          className="sticky z-40 bottom-4 left-1/2 -translate-x-1/2 bg-background border border-border text-white p-1 rounded-full shadow-p"
+          className="sticky z-40 bottom-4 left-1/2 -translate-x-1/2 bg-border border border-border text-white p-1 rounded-full shadow-p"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

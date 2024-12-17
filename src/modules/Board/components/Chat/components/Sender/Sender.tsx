@@ -1,12 +1,17 @@
-export const Sender = () => {
+interface SenderProps {
+  name: string
+  characterUrl: string
+}
+
+export const Sender = ({ name, characterUrl }: SenderProps) => {
   return (
-    <div className="flex px-2 pt-2 bg-background z-20 items-center gap-x-2">
+    <div className="flex pb-2 bg-background z-20 items-center gap-x-2">
       <img
-        src="https://imgcdn.stablediffusionweb.com/2024/10/24/23cb7d83-7cac-43f6-8ac8-84c9cd8475a6.jpg"
+        src={characterUrl}
         alt=""
         className="w-[48px] h-[48px] border border-border rounded"
       />
-      <span className="block text-base font-bold">Erwin Farwell</span>
+      <span className="block text-base font-bold">{name}</span>
     </div>
   )
 }
