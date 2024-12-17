@@ -70,7 +70,7 @@ export const Chat = () => {
               result={45}
             />
           </div>
-          <div className="text-gray-500/80 select-none flex items-center gap-x-[2px] mt-1 w-full justify-end pb-1 border-b border-border">
+          <div className="text-gray-500/80 select-none flex items-center gap-x-[2px] mt-1 w-full justify-end">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
@@ -97,7 +97,7 @@ export const Chat = () => {
             />
             <SystemRoll results={[5]} diceType={10} />
           </div>
-          <div className="text-gray-500/80 select-none flex items-center gap-x-[2px] mt-1 w-full justify-end pb-1 border-b border-border">
+          <div className="text-gray-500/80 select-none flex items-center gap-x-[2px] mt-1 w-full justify-end">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
@@ -119,7 +119,7 @@ export const Chat = () => {
           <div className="space-y-4">
             <SystemRoll results={[8, 5, 6, 3]} diceType={10} />
           </div>
-          <div className="text-gray-500/80 select-none flex items-center gap-x-[2px] mt-1 w-full justify-end pb-1 border-b border-border">
+          <div className="text-gray-500/80 select-none flex items-center gap-x-[2px] mt-1 w-full justify-end">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
@@ -141,7 +141,7 @@ export const Chat = () => {
           <div className="space-y-4">
             <CharacterRoll action="Stealth" values={[25, 15, 6]} result={10} />
           </div>
-          <div className="text-gray-500/80 select-none flex items-center gap-x-[2px] mt-1 w-full justify-end pb-1 border-b border-border">
+          <div className="text-gray-500/80 select-none flex items-center gap-x-[2px] mt-1 w-full justify-end">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
@@ -163,8 +163,8 @@ export const Chat = () => {
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="22"
-            height="22"
+            width="24"
+            height="24"
             fill="#FAFAFA"
             viewBox="0 0 256 256"
           >
@@ -176,7 +176,7 @@ export const Chat = () => {
         <span
           className={`${
             openDiceModal === "open" ? " rotate-90 " : " hover:rotate-90 "
-          } cursor-pointer group  transition-all transform duration-500 ease-in-out`}
+          } cursor-pointer group bg-border p-2 rounded-full shadow-p transition-all transform duration-500 ease-in-out`}
           onClick={() => setOpenDiceModal("open")}
         >
           <svg

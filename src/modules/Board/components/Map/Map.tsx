@@ -70,32 +70,32 @@ export const Map: React.FC = () => {
 
   // Manipula o scroll para ajustar o zoom
   const handleWheel = (e: React.WheelEvent<HTMLDivElement>) => {
-    e.preventDefault();
-  
+    e.preventDefault()
+
     // Calculando a posição relativa do mouse no mapa
-    const mouseX = e.clientX - e.currentTarget.getBoundingClientRect().left;
-    const mouseY = e.clientY - e.currentTarget.getBoundingClientRect().top;
-  
+    const mouseX = e.clientX - e.currentTarget.getBoundingClientRect().left
+    const mouseY = e.clientY - e.currentTarget.getBoundingClientRect().top
+
     // Zoom para dentro ou fora
     const newZoom =
       e.deltaY < 0
         ? Math.min(zoom + 0.1, 3) // Scroll para cima (zoom in)
-        : Math.max(zoom - 0.1, 0.5); // Scroll para baixo (zoom out)
-  
+        : Math.max(zoom - 0.1, 0.5) // Scroll para baixo (zoom out)
+
     // Calcular a diferença de zoom
-    const scaleDifference = newZoom / zoom;
-  
+    const scaleDifference = newZoom / zoom
+
     // Ajusta a posição do mapa para que o ponto do cursor permaneça fixo
     setPosition((prevPosition) => {
-      const newPosX = prevPosition.x - (mouseX * (scaleDifference - 1));
-      const newPosY = prevPosition.y - (mouseY * (scaleDifference - 1));
-      setZoom(newZoom); // Atualiza o zoom
+      const newPosX = prevPosition.x - mouseX * (scaleDifference - 1)
+      const newPosY = prevPosition.y - mouseY * (scaleDifference - 1)
+      setZoom(newZoom) // Atualiza o zoom
       return {
         x: newPosX,
         y: newPosY,
-      };
-    });
-  };
+      }
+    })
+  }
 
   // Manipuladores de Movimento
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -122,21 +122,24 @@ export const Map: React.FC = () => {
   return (
     <div className="relative w-[50vw] h-[100vh] overflow-hidden">
       {showResetMap && (
-        <div className="absolute top-4 left-4 z-50 flex gap-2">
-          <button
-            onClick={resetConfig}
-            className="bg-border border border-border text-white p-1 rounded-full shadow-p"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="22"
-              height="22"
-              fill="#FAFAFA"
-              viewBox="0 0 256 256"
-            >
-              <path d="M224,128a96,96,0,0,1-94.71,96H128A95.38,95.38,0,0,1,62.1,197.8a8,8,0,0,1,11-11.63A80,80,0,1,0,71.43,71.39a3.07,3.07,0,0,1-.26.25L44.59,96H72a8,8,0,0,1,0,16H24a8,8,0,0,1-8-8V56a8,8,0,0,1,16,0V85.8L60.25,60A96,96,0,0,1,224,128Z"></path>
-            </svg>
-          </button>
+        <div
+          onClick={resetConfig}
+          className="absolute top-2 left-2 z-50 flex gap-2"
+        >
+          <div className="flex cursor-pointer items-center group w-fit gap-x-2">
+            <button className="bg-border flex items-center justify-center text-white p-1 rounded-full shadow-p group-hover:bg-gradient-to-tr group-hover:from-[#42d392] group-hover:to-[#8B5CF6] duration-300 ease-in-out transition-all">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                fill="#FAFAFA"
+                viewBox="0 0 256 256"
+              >
+                <path d="M224,128a96,96,0,0,1-94.71,96H128A95.38,95.38,0,0,1,62.1,197.8a8,8,0,0,1,11-11.63A80,80,0,1,0,71.43,71.39a3.07,3.07,0,0,1-.26.25L44.59,96H72a8,8,0,0,1,0,16H24a8,8,0,0,1-8-8V56a8,8,0,0,1,16,0V85.8L60.25,60A96,96,0,0,1,224,128Z"></path>
+              </svg>
+            </button>
+            <span>Default View</span>
+          </div>
         </div>
       )}
       <div
