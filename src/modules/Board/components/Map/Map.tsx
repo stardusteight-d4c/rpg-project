@@ -20,6 +20,7 @@ export const Map: React.FC = () => {
   const [position, setPosition] = useState({ x: 0, y: 0 }) // Estado para posição do mapa
   const [isDragging, setIsDragging] = useState(false) // Estado para arrasto
   const [startDragPos, setStartDragPos] = useState({ x: 0, y: 0 }) // Posição inicial ao arrastar
+  const [isItemDragging, setIsItemDragging] = useState(false) // Novo estado para arrasto de itens
 
   // Manipula o drop dos itens no grid
   const handleDrop = (e: DragEvent<HTMLDivElement>, x: number, y: number) => {
@@ -61,39 +62,48 @@ export const Map: React.FC = () => {
 
   const increaseZoom = () => setZoom((prev) => Math.min(prev + 0.1, 3)) // Máximo 3x
   const decreaseZoom = () => setZoom((prev) => Math.max(prev - 0.1, 0.5)) // Mínimo 0.5x
-  const resetZoom = () => setZoom(1) // Resetar para 1x
+  const resetConfig = () => (
+    setZoom(1),
+    setPosition({
+      x: Math.min(Math.max(0)),
+      y: Math.min(Math.max(0)),
+    })
+  )
+
+  // Manipula o scroll para ajustar o zoom
+  const handleWheel = (e: React.WheelEvent<HTMLDivElement>) => {
+    e.preventDefault()
+
+    // Zoom para dentro ou fora
+    const newZoom =
+      e.deltaY < 0
+        ? Math.min(zoom + 0.1, 3) // Scroll para cima (zoom in)
+        : Math.max(zoom - 0.1, 0.5) // Scroll para baixo (zoom out)
+
+    setZoom(newZoom)
+  }
 
   // Manipuladores de Movimento
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
-    setIsDragging(true);
-    setStartDragPos({ x: e.clientX - position.x, y: e.clientY - position.y });
-  };
+    if (isItemDragging) return
+    setIsDragging(true)
+    setStartDragPos({ x: e.clientX - position.x, y: e.clientY - position.y })
+  }
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!isDragging) return;
+    if (!isDragging) return
 
     // Nova posição baseada no movimento do mouse
-    const newPosX = e.clientX - startDragPos.x;
-    const newPosY = e.clientY - startDragPos.y;
-
-    // Limites do mapa
-    const mapWidth = zoom; // Largura da imagem com zoom
-    const mapHeight = zoom; // Altura da imagem com zoom
-    const containerWidth = window.innerWidth;
-    const containerHeight = window.innerHeight;
-
-    const maxX = Math.max(0, (containerWidth - mapWidth) / 2);
-    const minX = Math.min(0, (mapWidth - containerWidth) / 2);
-    const maxY = Math.max(0, (containerHeight - mapHeight) / 2);
-    const minY = Math.min(0, (mapHeight - containerHeight) / 2);
+    const newPosX = e.clientX - startDragPos.x
+    const newPosY = e.clientY - startDragPos.y
 
     setPosition({
-      x: Math.min(maxX, Math.max(minX, newPosX)),
-      y: Math.min(maxY, Math.max(minY, newPosY)),
-    });
-  };
+      x: Math.min(Math.max(newPosX)),
+      y: Math.min(Math.max(newPosY)),
+    })
+  }
 
-  const handleMouseUp = () => setIsDragging(false);
+  const handleMouseUp = () => setIsDragging(false)
 
   return (
     <div className="relative w-[50vw] h-[100vh] overflow-hidden">
@@ -111,7 +121,7 @@ export const Map: React.FC = () => {
           -
         </button>
         <button
-          onClick={resetZoom}
+          onClick={resetConfig}
           className="px-4 py-2 bg-gray-500 text-white rounded"
         >
           Reset
@@ -123,6 +133,7 @@ export const Map: React.FC = () => {
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
         onMouseLeave={handleMouseUp}
+        onWheel={handleWheel}
         style={{
           gridTemplateColumns: `repeat(${gridSize}, 1fr)`,
           gridTemplateRows: `repeat(${gridSize}, 1fr)`,
@@ -157,6 +168,7 @@ export const Map: React.FC = () => {
                     id={item.id}
                     imgUrl={item.imgUrl}
                     type={item.type}
+                    setIsItemDragging={setIsItemDragging}
                   />
                 ))}
             </div>
@@ -172,24 +184,32 @@ interface DraggableItemProps {
   id: string // Identificador único do item
   imgUrl: string // URL da imagem
   type: string // Tipo do item (usado para lógica ou estilização)
+  setIsItemDragging?: (isDragging: boolean) => void
 }
 
 export const DraggableItem: React.FC<DraggableItemProps> = ({
   id,
   imgUrl,
   type,
+  setIsItemDragging,
 }) => {
   // Manipula o início do arrasto
   const handleDragStart = (e: DragEvent<HTMLDivElement>) => {
     e.dataTransfer.setData("id", id) // Armazena o ID do item no evento
     e.dataTransfer.setData("imgUrl", imgUrl) // Armazena a URL da imagem
     e.dataTransfer.setData("type", type) // Armazena o tipo do item
+    setIsItemDragging && setIsItemDragging(true) // Ativa estado de arrasto de item
   }
+
+  const handleDragEnd = () => setIsItemDragging && setIsItemDragging(false) // Finaliza o arrasto de item
 
   return (
     <div
       draggable
+      onMouseEnter={() => setIsItemDragging && setIsItemDragging(true)}
+      onMouseLeave={() => setIsItemDragging && setIsItemDragging(false)}
       onDragStart={handleDragStart}
+      onDragEnd={handleDragEnd}
       className="w-full h-full cursor-grab m-auto flex items-center justify-center"
     >
       <img
