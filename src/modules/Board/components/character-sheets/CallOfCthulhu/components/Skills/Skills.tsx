@@ -108,7 +108,7 @@ export const Skills = ({ activeItems, toggleItem, skills }: SkillsProps) => {
               {typeof skill.currentValue === "number" && (
                 <div className="w-full bg-border overflow-hidden h-3 rounded-full">
                   <div
-                    className="h-full background-gradient"
+                    className="h-full background-gradient rounded-full"
                     style={{ width: `${skill.currentValue}%` }}
                   ></div>
                 </div>

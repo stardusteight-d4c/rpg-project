@@ -28,7 +28,7 @@ export const ProfileInfo = ({
       />
       <div className="w-full px-4">
         <div className="flex items-center gap-x-2">
-          <span className="block text-3xl font-bold background-gradient bg-clip-text text-transparent tracking-wider">
+          <span className="block text-3xl font-bold background-gradient bg-clip-text text-transparent">
             {name}{" "}
           </span>
           {sex === "male" && (
@@ -68,7 +68,7 @@ export const ProfileInfo = ({
               </div>
               <div className="w-full bg-border overflow-hidden h-3 rounded-full">
                 <div
-                  className="h-full bg-gradient-to-tr from-red-500 to-red-400"
+                  className="h-full rounded-full bg-gradient-to-tr from-red-500 to-red-400"
                   style={{ width: `${hitPoints}%` }}
                 ></div>
               </div>
@@ -80,18 +80,18 @@ export const ProfileInfo = ({
               </div>
               <div className="w-full bg-border overflow-hidden h-3 rounded-full">
                 <div
-                  className="h-full bg-gradient-to-tr from-blue-500 to-blue-400"
+                  className="h-full rounded-full bg-gradient-to-tr from-blue-500 to-blue-400"
                   style={{ width: `${magicPoints}%` }}
                 ></div>
               </div>
             </div>
           </div>
-          <div className="w-fit text-lg flex items-center gap-x-4 mt-4 mx-auto">
-            <span className="font-medium">Sanity</span>
+          <div className="w-fit relative text-lg mt-4 mx-auto">
+            <span className="font-medium absolute top-1/2 -translate-y-1/2 -left-[75px]">Sanity</span>
             <div className="relative">
               <svg
-                width="42"
-                height="42"
+                width="38"
+                height="38"
                 viewBox="0 0 32 32"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
@@ -117,7 +117,7 @@ export const ProfileInfo = ({
               </svg>
               <DonutChart percentage={sanity} size={80} strokeWidth={10} />
             </div>
-            <span>{sanity}%</span>{" "}
+            <span className="font-medium absolute top-1/2 -translate-y-1/2 -right-[60px]">{sanity}%</span>{" "}
           </div>
         </div>
       </div>

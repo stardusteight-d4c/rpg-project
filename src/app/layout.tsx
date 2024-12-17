@@ -1,8 +1,8 @@
 import type { Metadata } from "next"
-import { Poppins } from "next/font/google"
+import { Roboto_Condensed } from "next/font/google"
 import "./globals.css"
 
-const poppins = Poppins({
+const poppins = Roboto_Condensed({
   subsets: ["latin"],
   weight: ["100", "300", "400", "500", "700", "900"],
 })

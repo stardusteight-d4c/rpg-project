@@ -18,9 +18,9 @@ export default {
     },
     extend: {
       colors: {
-        background: "#121212",
+        background: "#0c0c0c",
         button: "#393939",
-        border: "#27272a80",
+        border: "#101010",
         tag: "#1B1C1C",
         white: '#fafafa',
         title: "#E8E8E8",

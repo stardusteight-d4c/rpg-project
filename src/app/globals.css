@@ -17,9 +17,9 @@ body {
 }
 
 .background-gradient {
-  background-image: -moz-linear-gradient(to bottom, #42d392 0%, #8B5CF6 100%);
-  background-image: -webkit-linear-gradient(to bottom, #42d392 0%, #8B5CF6 100%);
-  background-image: linear-gradient(to bottom, #42d392 0%, #8B5CF6 100%);
+  background-image: -moz-linear-gradient(to top right, #42d392 0%, #8B5CF6 100%);
+  background-image: -webkit-linear-gradient(to top right, #42d392 0%, #8B5CF6 100%);
+  background-image: linear-gradient(to top right, #42d392 0%, #8B5CF6 100%);
 }
 
 /* Scrollbar */

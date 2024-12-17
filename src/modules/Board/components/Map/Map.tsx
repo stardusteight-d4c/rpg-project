@@ -123,7 +123,7 @@ export const DraggableItem: React.FC<DraggableItemProps> = ({
       onDragStart={handleDragStart}
       className="w-full h-full cursor-grab m-auto flex items-center justify-center"
     >
-      <img src={imgUrl} alt={type} className="w-full rounded h-full select-none object-fill" />
+      <img src={imgUrl} alt={type} className="w-full border border-border rounded h-full select-none object-fill" />
     </div>
   );
 };
