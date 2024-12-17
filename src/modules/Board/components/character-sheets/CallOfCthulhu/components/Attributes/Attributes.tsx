@@ -28,7 +28,7 @@ export const Attributes = ({
   attributes,
 }: AttributesProps) => {
   return (
-    <div className="mb-4 rounded border border-border">
+    <div className="my-4 rounded border border-border">
       <div
         onClick={() => toggleItem("attributes")}
         className="flex p-2 cursor-pointer items-center justify-between bg-border"

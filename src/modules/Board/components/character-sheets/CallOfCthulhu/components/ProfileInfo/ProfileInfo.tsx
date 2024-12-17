@@ -20,11 +20,11 @@ export const ProfileInfo = ({
   sanity,
 }: ProfileInfoProps) => {
   return (
-    <div className="flex mb-4">
+    <div className="flex">
       <img
         src={characterUrl}
         alt="Imagem do Personagem"
-        className="w-[210px] border border-border h-[210px] object-cover rounded"
+        className="min-w-[210px] max-w-[210px] min-h-[210px] max-h-[210px] border border-border object-cover rounded"
       />
       <div className="w-full px-4">
         <div className="flex items-center gap-x-2">

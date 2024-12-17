@@ -360,7 +360,7 @@ export const Dice: React.FC = () => {
               <span className="text-sm text-gray-400 block">Dice Type</span>
               <div
                 onClick={() => handleDiceType()}
-                className="w-[48px] h-[48px] text-lg select-none active:scale-90 transition-all duration-500 ease-in-out cursor-pointer background-gradient rounded flex items-center justify-center text-center"
+                className="w-[48px] h-[48px] text-lg select-none active:scale-90 transition-all duration-200 ease-in-out cursor-pointer background-gradient rounded flex items-center justify-center text-center"
               >
                 d{diceType}
               </div>
