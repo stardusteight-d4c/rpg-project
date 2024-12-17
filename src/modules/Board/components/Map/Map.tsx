@@ -21,7 +21,7 @@ export const Map: React.FC = () => {
   const [isDragging, setIsDragging] = useState(false) // Estado para arrasto
   const [startDragPos, setStartDragPos] = useState({ x: 0, y: 0 }) // Posição inicial ao arrastar
   const [isItemDragging, setIsItemDragging] = useState(false) // Novo estado para arrasto de itens
-
+  const showResetMap = zoom !== 1 || position.x !== 0 || position.y !== 0
   // Manipula o drop dos itens no grid
   const handleDrop = (e: DragEvent<HTMLDivElement>, x: number, y: number) => {
     e.preventDefault()
@@ -60,8 +60,6 @@ export const Map: React.FC = () => {
     e.preventDefault()
   }
 
-  const increaseZoom = () => setZoom((prev) => Math.min(prev + 0.1, 3)) // Máximo 3x
-  const decreaseZoom = () => setZoom((prev) => Math.max(prev - 0.1, 0.5)) // Mínimo 0.5x
   const resetConfig = () => (
     setZoom(1),
     setPosition({
@@ -107,26 +105,24 @@ export const Map: React.FC = () => {
 
   return (
     <div className="relative w-[50vw] h-[100vh] overflow-hidden">
-      <div className="absolute top-4 left-4 z-50 flex gap-2">
-        <button
-          onClick={increaseZoom}
-          className="px-4 py-2 bg-blue-500 text-white rounded"
-        >
-          +
-        </button>
-        <button
-          onClick={decreaseZoom}
-          className="px-4 py-2 bg-blue-500 text-white rounded"
-        >
-          -
-        </button>
-        <button
-          onClick={resetConfig}
-          className="px-4 py-2 bg-gray-500 text-white rounded"
-        >
-          Reset
-        </button>
-      </div>
+      {showResetMap && (
+        <div className="absolute top-4 left-4 z-50 flex gap-2">
+          <button
+            onClick={resetConfig}
+            className="bg-border border border-border text-white p-1 rounded-full shadow-p"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="22"
+              height="22"
+              fill="#FAFAFA"
+              viewBox="0 0 256 256"
+            >
+              <path d="M224,128a96,96,0,0,1-94.71,96H128A95.38,95.38,0,0,1,62.1,197.8a8,8,0,0,1,11-11.63A80,80,0,1,0,71.43,71.39a3.07,3.07,0,0,1-.26.25L44.59,96H72a8,8,0,0,1,0,16H24a8,8,0,0,1-8-8V56a8,8,0,0,1,16,0V85.8L60.25,60A96,96,0,0,1,224,128Z"></path>
+            </svg>
+          </button>
+        </div>
+      )}
       <div
         className="w-[50vw] h-[100vh] grid absolute"
         onMouseDown={handleMouseDown}

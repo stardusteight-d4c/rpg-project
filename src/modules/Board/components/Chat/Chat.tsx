@@ -163,8 +163,8 @@ export const Chat = () => {
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="32"
-            height="32"
+            width="22"
+            height="22"
             fill="#FAFAFA"
             viewBox="0 0 256 256"
           >
