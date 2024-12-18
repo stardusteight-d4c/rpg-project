@@ -138,7 +138,7 @@ export const ProfileInfoDisplay = ({
               xmlns="http://www.w3.org/2000/svg"
               width="22"
               height="22"
-              fill="#9ca3af"
+              fill="#ccc"
               viewBox="0 0 256 256"
               className="ml-auto cursor-pointer"
             >
