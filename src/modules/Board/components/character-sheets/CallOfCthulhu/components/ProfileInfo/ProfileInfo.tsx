@@ -11,6 +11,7 @@ interface ProfileInfoProps {
     hitPoints: number
     magicPoints: number
     sanity: number
+    inspiration: boolean
   }
   player: {
     id: string

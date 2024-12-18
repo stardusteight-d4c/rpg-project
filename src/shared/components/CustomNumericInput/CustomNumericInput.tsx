@@ -60,9 +60,9 @@ export const CustomNumericInput: React.FC<CustomNumericInputProps> = ({
         type="text"
         value={value}
         onChange={handleInputChange}
-        className="w-[30px] font-medium pl-1 h-[30px] rounded-l bg-ashes outline-none caret-white"
+        className="w-[28px] font-medium z-10 relative pl-1 h-[30px] rounded-l bg-border outline-none caret-white"
       />
-      <div className="w-[30px] h-[30px] bg-ashes rounded-r">
+      <div className="w-[30px] h-[30px] bg-border rounded-r">
         <svg
           onClick={() => onChange(Math.min(100, value + 1))}
           onMouseDown={() => setClickType("up")}

@@ -22,6 +22,7 @@ export const playerCharacter = {
     hitPoints: 75,
     magicPoints: 42,
     sanity: 22,
+    inspiration: true,
   },
   attributes: {
     strength: 50,
@@ -107,6 +108,7 @@ export const characters = [
       hitPoints: 75,
       magicPoints: 42,
       sanity: 22,
+      inspiration: true,
     },
     attributes: {
       strength: 50,
@@ -220,6 +222,7 @@ export const characters = [
       hitPoints: 150,
       magicPoints: 0,
       sanity: 100,
+      inspiration: false,
     },
     attributes: {
       strength: 50,
@@ -321,7 +324,6 @@ export const characters = [
     infos: {
       id: "aksalskals",
       name: "Lizabeth White",
-      player: "Gabriel Sena",
       sex: "female" as "female",
       characterUrl:
         "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/f2664fbe-b0bd-454c-bfe6-6e930a07fc49/dh1yf6m-9a50d508-4a14-4f63-9a0b-b4339f5d284a.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcL2YyNjY0ZmJlLWIwYmQtNDU0Yy1iZmU2LTZlOTMwYTA3ZmM0OVwvZGgxeWY2bS05YTUwZDUwOC00YTE0LTRmNjMtOWEwYi1iNDMzOWY1ZDI4NGEuanBnIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.VNORNfSflxfLfH0SH-r1mLEM8eyB8LsRfinCHZuP5Jc",
@@ -329,6 +331,7 @@ export const characters = [
       hitPoints: 100,
       magicPoints: 12,
       sanity: 84,
+      inspiration: true,
     },
     attributes: {
       strength: 50,
