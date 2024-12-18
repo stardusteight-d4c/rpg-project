@@ -28,6 +28,7 @@ export const ProfileInfoEdit = ({ infos, player }: ProfileInfoProps) => {
     sex: infos.sex,
     occupation: infos.occupation,
     characterUrl: infos.characterUrl,
+    characterFile: null,
     hitPoints: infos.hitPoints,
     magicPoints: infos.magicPoints,
     sanity: infos.sanity,
@@ -37,13 +38,55 @@ export const ProfileInfoEdit = ({ infos, player }: ProfileInfoProps) => {
     setEditableData((prev) => ({ ...prev, [field]: value }))
   }
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (file) {
+      const tempUrl = URL.createObjectURL(file)
+
+      handleEdit("characterUrl", tempUrl)
+      handleEdit("characterFile", file)
+
+      // URL.revokeObjectURL(tempUrl)
+    }
+  }
+
+  const handleClick = () => {
+    const fileInput = document.getElementById("file-input") as HTMLInputElement
+    if (fileInput) {
+      fileInput.click()
+    }
+  }
+
   return (
     <div className="flex">
-      <img
-        src={infos.characterUrl}
-        alt="Imagem do Personagem"
-        className="min-w-[210px] max-w-[210px] min-h-[210px] max-h-[210px] border border-border object-cover rounded"
-      />
+      <div className="relative bg-ashes rounded w-fit">
+        <button
+          onClick={() => handleClick()}
+          className="bg-ashes cursor-pointer absolute z-10 top-2 right-2 flex items-center justify-center text-white p-1 rounded-full shadow-p group-hover:bg-gradient-to-tr group-hover:from-[#42d392] group-hover:to-[#8B5CF6] duration-300 ease-in-out transition-all"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            fill="#CCC"
+            viewBox="0 0 256 256"
+          >
+            <path d="M216,40H40A16,16,0,0,0,24,56V200a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A16,16,0,0,0,216,40Zm0,16V158.75l-26.07-26.06a16,16,0,0,0-22.63,0l-20,20-44-44a16,16,0,0,0-22.62,0L40,149.37V56ZM40,172l52-52,80,80H40Zm176,28H194.63l-36-36,20-20L216,181.38V200ZM144,100a12,12,0,1,1,12,12A12,12,0,0,1,144,100Z"></path>
+          </svg>
+        </button>
+        <img
+          src={editableData.characterUrl}
+          alt="Imagem do Personagem"
+          className="min-w-[210px] max-w-[210px] min-h-[210px] max-h-[210px] border border-border object-cover rounded"
+        />
+        <input
+          id="file-input"
+          type="file"
+          accept="image/*"
+          className="hidden"
+          onChange={handleFileChange}
+        />
+      </div>
       <div className="w-full px-4">
         <div className="flex items-center gap-x-2">
           <input
@@ -53,26 +96,28 @@ export const ProfileInfoEdit = ({ infos, player }: ProfileInfoProps) => {
             onChange={(e) => handleEdit("name", e.target.value)}
           />
 
-          {infos.sex === "male" && (
+          {editableData.sex === "male" && (
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="32"
               height="32"
               fill="#3b82f6"
               viewBox="0 0 256 256"
-              className="bg-border p-1 rounded-full"
+              className="bg-border p-1 rounded-full cursor-pointer active:scale-95 duration-300 ease-in-out transition-all"
+              onClick={() => handleEdit("sex", "female")}
             >
               <path d="M216,32H168a8,8,0,0,0,0,16h28.69L154.62,90.07a80,80,0,1,0,11.31,11.31L208,59.32V88a8,8,0,0,0,16,0V40A8,8,0,0,0,216,32ZM149.24,197.29a64,64,0,1,1,0-90.53A64.1,64.1,0,0,1,149.24,197.29Z"></path>
             </svg>
           )}
-          {infos.sex === "female" && (
+          {editableData.sex === "female" && (
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="32"
               height="32"
               fill="#ec4899"
               viewBox="0 0 256 256"
-              className="bg-border p-1 rounded-full"
+              className="bg-border p-1 rounded-full cursor-pointer active:scale-95 duration-300 ease-in-out transition-all"
+              onClick={() => handleEdit("sex", "male")}
             >
               <path d="M208,96a80,80,0,1,0-88,79.6V200H88a8,8,0,0,0,0,16h32v24a8,8,0,0,0,16,0V216h32a8,8,0,0,0,0-16H136V175.6A80.11,80.11,0,0,0,208,96ZM64,96a64,64,0,1,1,64,64A64.07,64.07,0,0,1,64,96Z"></path>
             </svg>
@@ -153,7 +198,7 @@ export const ProfileInfoEdit = ({ infos, player }: ProfileInfoProps) => {
                 </defs>
               </svg>
               <DonutChart
-                percentage={infos.sanity}
+                percentage={editableData.sanity}
                 size={80}
                 strokeWidth={10}
               />
