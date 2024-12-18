@@ -4,6 +4,7 @@ import { useState } from "react"
 import {
   Attributes,
   ProfileInfo,
+  Skills,
 } from "../../../character-sheets/CallOfCthulhu/components"
 
 interface CharactersEditProps {
@@ -69,6 +70,7 @@ export const CharactersEdit = ({
         isEditMode={true}
         {...actions}
       />
+      <Skills skills={playerCharacter.skills} isEditMode={true} {...actions} />
     </section>
   )
 }

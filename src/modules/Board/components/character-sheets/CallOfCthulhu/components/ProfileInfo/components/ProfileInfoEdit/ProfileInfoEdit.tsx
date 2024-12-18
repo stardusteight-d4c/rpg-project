@@ -24,14 +24,8 @@ interface ProfileInfoProps {
 
 export const ProfileInfoEdit = ({ infos, player }: ProfileInfoProps) => {
   const [editableData, setEditableData] = useState({
-    name: infos.name,
-    sex: infos.sex,
-    occupation: infos.occupation,
-    characterUrl: infos.characterUrl,
+    ...infos,
     characterFile: null,
-    hitPoints: infos.hitPoints,
-    magicPoints: infos.magicPoints,
-    sanity: infos.sanity,
   })
 
   const handleEdit = (field: string, value: any) => {
@@ -133,8 +127,8 @@ export const ProfileInfoEdit = ({ infos, player }: ProfileInfoProps) => {
         </span>
         <div className="mt-2">
           <div className="mt-2 flex w-full items-center gap-4">
-            <div className="w-full">
-              <div className="flex  justify-between">
+            <div className="w-full space-y-1">
+              <div className="flex items-end justify-between">
                 <span className="font-medium whitespace-nowrap">
                   Hit Points
                 </span>
@@ -150,8 +144,8 @@ export const ProfileInfoEdit = ({ infos, player }: ProfileInfoProps) => {
                 ></div>
               </div>
             </div>
-            <div className="w-full">
-              <div className="flex justify-between">
+            <div className="w-full space-y-1">
+              <div className="flex items-end justify-between">
                 <span className="font-medium">Magic Points</span>
                 <CustomNumericInput
                   value={editableData.magicPoints}

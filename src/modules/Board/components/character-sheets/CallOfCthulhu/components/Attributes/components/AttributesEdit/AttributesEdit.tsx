@@ -31,14 +31,7 @@ export const AttributesEdit = ({
   toggleItem,
 }: AttributesEditProps) => {
   const [editableData, setEditableData] = useState({
-    strength: attributes.strength,
-    dexterity: attributes.dexterity,
-    intelligence: attributes.intelligence,
-    power: attributes.power,
-    constitution: attributes.constitution,
-    appearance: attributes.appearance,
-    size: attributes.size,
-    education: attributes.education,
+   ...attributes
   })
 
   const handleEdit = (field: string, value: any) => {
