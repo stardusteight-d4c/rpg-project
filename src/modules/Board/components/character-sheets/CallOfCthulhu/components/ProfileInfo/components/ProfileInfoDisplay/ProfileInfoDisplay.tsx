@@ -35,7 +35,7 @@ export const ProfileInfoDisplay = ({
 
   if (!isEditMode) {
     return (
-      <div className="flex">
+      <div className="flex w-full">
         <img
           src={infos.characterUrl}
           alt="Imagem do Personagem"

@@ -14,7 +14,7 @@ export const SystemRoll = ({ results, diceType }: SystemRollProps) => {
         Rolling {results.length}d{diceType}
       </span>
       {results.length > 1 && (
-        <div className="grid mb-2 grid-cols-5 gap-2">
+        <div className="grid w-fit mb-2 grid-cols-5 gap-2">
           {results.map((result, index) => (
             <div
               key={index}

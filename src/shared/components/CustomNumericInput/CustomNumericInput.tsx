@@ -75,7 +75,7 @@ export const CustomNumericInput: React.FC<CustomNumericInputProps> = ({
           stroke-width="2"
           stroke-linecap="round"
           stroke-linejoin="round"
-          className="w-full h-[50%] border-b border-border"
+          className="w-full h-[50%] cursor-pointer border-b border-border"
         >
           <path d="m18 15-6-6-6 6" />
         </svg>
@@ -91,7 +91,7 @@ export const CustomNumericInput: React.FC<CustomNumericInputProps> = ({
           stroke-width="2"
           stroke-linecap="round"
           stroke-linejoin="round"
-          className="w-full h-[50%] rotate-180"
+          className="w-full h-[50%] cursor-pointer rotate-180"
         >
           <path d="m18 15-6-6-6 6" />
         </svg>

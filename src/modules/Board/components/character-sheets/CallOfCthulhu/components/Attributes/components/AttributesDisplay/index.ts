@@ -1,0 +1,1 @@
+export { AttributesDisplay } from "./AttributesDisplay"
