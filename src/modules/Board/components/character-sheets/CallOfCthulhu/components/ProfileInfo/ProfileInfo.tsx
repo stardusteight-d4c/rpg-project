@@ -1,7 +1,7 @@
 "use client"
 
 import { DonutChart } from "@/shared/components"
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
 
 interface ProfileInfoProps {
   infos: {
@@ -71,6 +71,17 @@ export const ProfileInfo = ({
                 <path d="M208,96a80,80,0,1,0-88,79.6V200H88a8,8,0,0,0,0,16h32v24a8,8,0,0,0,16,0V216h32a8,8,0,0,0,0-16H136V175.6A80.11,80.11,0,0,0,208,96ZM64,96a64,64,0,1,1,64,64A64.07,64.07,0,0,1,64,96Z"></path>
               </svg>
             )}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="22"
+              height="22"
+              fill="#9ca3af"
+              viewBox="0 0 256 256"
+              className="ml-auto cursor-pointer"
+            >
+              {/* PLAYER INFO */}
+              <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm16-40a8,8,0,0,1-8,8,16,16,0,0,1-16-16V128a8,8,0,0,1,0-16,16,16,0,0,1,16,16v40A8,8,0,0,1,144,176ZM112,84a12,12,0,1,1,12,12A12,12,0,0,1,112,84Z"></path>
+            </svg>
           </div>
           <span className="text-sm text-gray-400 block">
             {infos.occupation} in Call of Cthulhu
@@ -311,26 +322,97 @@ interface CustomSliderProps {
 }
 
 const CustomSlider: React.FC<CustomSliderProps> = ({ value, onChange }) => {
-  const handleSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = Math.max(0, Math.min(100, parseInt(e.target.value, 10)))
-    onChange(isNaN(newValue) ? 0 : newValue)
-  }
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const [clickType, setClickType] = useState<"up" | "down" | null>(null);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = parseInt(e.target.value, 10)
-    if (!isNaN(newValue)) {
-      onChange(Math.max(0, Math.min(100, newValue)))
+    const inputValue = e.target.value;
+
+    // Permitir o campo vazio
+    if (inputValue === "") {
+      onChange(0); // Ou outro valor padrão, se necessário
+      return;
     }
-  }
+
+    // Validar e restringir entre 0 e 100
+    const newValue = parseInt(inputValue, 10);
+    if (!isNaN(newValue)) {
+      onChange(Math.max(0, Math.min(100, newValue)));
+    }
+  };
+
+  // Atualizar o valor continuamente enquanto o mouse está pressionado
+  useEffect(() => {
+    if (clickType) {
+      intervalRef.current = setInterval(() => {
+        const newValue =
+          clickType === "up"
+            ? Math.min(100, value + 1)
+            : Math.max(0, value - 1)
+        onChange(newValue)
+      }, 100)
+    } else if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+    }
+
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+    };
+  }, [clickType, onChange]);
+
+  useEffect(() => {
+    const handleMouseUp = () => setClickType(null);
+
+    window.addEventListener("mouseup", handleMouseUp);
+    return () => window.removeEventListener("mouseup", handleMouseUp);
+  }, []);
 
   return (
-    <div className="flex items-center gap-x-2">
+    <div className="flex items-center">
       <input
-        type="number"
+        type="text"
         value={value}
         onChange={handleInputChange}
-        className="w-[50px] text-center border-none bg-border outline-none rounded overflow-hidden"
+        className="w-[30px] pl-1 h-[30px] rounded-l bg-ashes outline-none caret-white"
       />
+      <div className="w-[30px] h-[30px] bg-ashes rounded-r">
+        <svg
+          onClick={() => onChange(Math.min(100, value + 1))}
+          
+          onMouseDown={() => setClickType("up")}
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="#FAFAFA"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          className="w-full h-[50%] border-b border-border"
+        >
+          <path d="m18 15-6-6-6 6" />
+        </svg>
+        <svg
+          onClick={() => onChange(Math.max(0, value - 1))}
+          onMouseDown={() => setClickType("down")}
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="#FAFAFA"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          className="w-full h-[50%] rotate-180"
+        >
+          <path d="m18 15-6-6-6 6" />
+        </svg>
+      </div>
     </div>
   )
 }

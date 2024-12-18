@@ -159,7 +159,7 @@ export const Chat = () => {
       {showButton && (
         <button
           onClick={scrollToBottom}
-          className="sticky z-40 bottom-4 left-1/2 -translate-x-1/2 bg-border border border-border text-white p-1 rounded-full shadow-p"
+          className="sticky z-40 bottom-4 left-1/2 -translate-x-1/2 bg-ashes text-white p-1 rounded-full shadow-p"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

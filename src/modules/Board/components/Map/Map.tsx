@@ -127,7 +127,7 @@ export const Map: React.FC = () => {
           className="absolute top-2 left-2 z-50 flex gap-2"
         >
           <div className="flex cursor-pointer items-center group w-fit gap-x-2">
-            <button className="bg-border flex items-center justify-center text-white p-1 rounded-full shadow-p group-hover:bg-gradient-to-tr group-hover:from-[#42d392] group-hover:to-[#8B5CF6] duration-300 ease-in-out transition-all">
+            <button className="bg-ashes flex items-center justify-center text-white p-1 rounded-full shadow-p group-hover:bg-gradient-to-tr group-hover:from-[#42d392] group-hover:to-[#8B5CF6] duration-300 ease-in-out transition-all">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -174,7 +174,7 @@ export const Map: React.FC = () => {
               key={`${rowIndex}-${colIndex}`}
               onDrop={(e) => handleDrop(e, colIndex, rowIndex)}
               onDragOver={handleDragOver}
-              className="relative overflow-hidden"
+              className="relative w-[30px] h-[30px] rounded mx-auto overflow-hidden"
             >
               {items
                 .filter((item) => item.x === colIndex && item.y === rowIndex)
@@ -226,12 +226,12 @@ export const DraggableItem: React.FC<DraggableItemProps> = ({
       onMouseLeave={() => setIsItemDragging && setIsItemDragging(false)}
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
-      className="w-full h-full cursor-grab m-auto flex items-center justify-center"
+      className="w-full relative h-full cursor-grab m-auto flex items-center justify-center"
     >
       <img
         src={imgUrl}
         alt={type}
-        className="w-full border border-border rounded h-full select-none object-cover"
+        className="w-full rounded h-full select-none object-cover"
       />
     </div>
   )

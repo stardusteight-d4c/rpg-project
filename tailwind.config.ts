@@ -19,12 +19,10 @@ export default {
     extend: {
       colors: {
         background: "#0c0c0c",
-        button: "#393939",
+        ashes: "#18181b",
         border: "#101010",
         tag: "#1B1C1C",
-        white: '#fafafa',
-        title: "#E8E8E8",
-        ashes: "#0a0a0a",
+        white: "#fafafa",
       },
     },
   },
