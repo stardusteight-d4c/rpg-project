@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { weapons } from "./data"
+import { guns, weapons } from "./data"
 import { ModalWrapper } from "@/shared/components"
 
 interface CombatProps {
@@ -19,7 +19,9 @@ interface CombatProps {
 }
 
 export const Combat = ({ activeItems, toggleItem }: CombatProps) => {
-  const [selectedWeapon, setSelectedWeapon] = useState<IWeapons | null>(null)
+  const [selectedWeapon, setSelectedWeapon] = useState<IWeapon | IGun | null>(
+    null
+  )
 
   function handleOnStatusChange(status: "open" | "close") {
     if (status === "open") return
@@ -36,10 +38,24 @@ export const Combat = ({ activeItems, toggleItem }: CombatProps) => {
         >
           <div className="p-4 w-[681px]">
             <div className="flex items-center gap-x-2">
-              <div className="w-[80px] h-[80px] cursor-pointer hover:bg-ashes flex items-center justify-center bg-border rounded aspect-square">
-                <img src={selectedWeapon.iconUrl} className="w-full" />
+              <div className="w-[80px] h-[80px] bg-border flex items-center justify-center rounded aspect-square">
+                <div
+                  style={{
+                    background:
+                      "linear-gradient(to right, #42d392, #8B5CF6)",
+                    WebkitMaskImage: `url(${selectedWeapon.iconUrl})`,
+                    WebkitMaskSize: "contain",
+                    WebkitMaskRepeat: "no-repeat",
+                    WebkitMaskPosition: "center",
+                    maskImage: `url(${selectedWeapon.iconUrl})`,
+                    maskSize: "contain",
+                    maskRepeat: "no-repeat",
+                    maskPosition: "center",
+                  }}
+                  className="relative z-20 w-[80px] h-[80px]"
+                ></div>
               </div>
-              <span className="text-2xl font-medium">
+              <span className="text-2xl background-gradient text-transparent bg-clip-text font-medium">
                 {selectedWeapon.name}
               </span>
             </div>
@@ -48,7 +64,7 @@ export const Combat = ({ activeItems, toggleItem }: CombatProps) => {
                 {selectedWeapon.description}
               </span>
             </div>
-            <table className="w-fit table-auto ">
+            <table className="w-full table-auto ">
               <thead>
                 <tr className="grid grid-cols-6 justify-between overflow-hidden rounded-t-md w-full border border-border">
                   <th className="col-span-1 border-r border-border p-2 text-xl">
@@ -111,7 +127,9 @@ export const Combat = ({ activeItems, toggleItem }: CombatProps) => {
                       "col-span-1 border-border p-2 flex items-center justify-center w-full"
                     }
                   >
-                    {selectedWeapon.malfunction} 80
+                    {selectedWeapon.malfunction
+                      ? selectedWeapon.malfunction
+                      : "-"}
                   </td>
                 </tr>
               </tbody>
@@ -184,6 +202,15 @@ export const Combat = ({ activeItems, toggleItem }: CombatProps) => {
               className="col-span-1 cursor-pointer p-1 hover:bg-ashes flex items-center justify-center bg-border rounded w-full h-full aspect-square"
             >
               <img src={weapon.iconUrl} className="w-full" />
+            </div>
+          ))}
+          {guns.map((gun, index) => (
+            <div
+              key={index}
+              onClick={() => setSelectedWeapon(gun)}
+              className="col-span-1 cursor-pointer hover:bg-ashes flex items-center justify-center bg-border rounded w-full h-full aspect-square"
+            >
+              <img src={gun.iconUrl} className="w-full h-full" />
             </div>
           ))}
         </div>

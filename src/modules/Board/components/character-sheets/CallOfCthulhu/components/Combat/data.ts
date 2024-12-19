@@ -1,4 +1,4 @@
-export const weapons: Array<IWeapons> = [
+export const weapons: Array<IWeapon> = [
   {
     name: "Morgenstern",
     iconUrl: "/weapons/morgenstern.svg",
@@ -878,31 +878,599 @@ export const weapons: Array<IWeapons> = [
       "Slower to swing but highly effective in close combat.",
     ],
   },
+  {
+    name: "Knife",
+    iconUrl: "/guns/knife.svg",
+    skill: "Fighting(Brawl)",
+    damage: "1d4 + STR",
+    attacks: "1",
+    ammo: 0,
+    range: "Melee",
+    malfunction: 0,
+    description:
+      "A simple, reliable knife, used primarily for close combat or utility purposes. It is easy to carry and can be wielded quickly.",
+    properties: [
+      "Melee weapon with quick attack speed.",
+      "Can be used for both combat and survival tasks.",
+      "Ideal for close-range combat.",
+      "Does not require ammunition or reloading.",
+    ],
+  },
+]
+
+export const guns: Array<IGun> = [
+  {
+    name: "Assault Rifle 01",
+    iconUrl: "/guns/assault-rifle-01.svg",
+    skill: "Firearms(R/S)",
+    damage: "2d8 + 2",
+    attacks: "1",
+    ammo: 30,
+    range: "500m",
+    malfunction: 85,
+    description:
+      "The Assault Rifle 01 is a versatile, fully automatic weapon designed for medium to long-range combat. It is ideal for infantry units due to its reliability and firepower.",
+    properties: [
+      "Fires in both semi-automatic and fully automatic modes.",
+      "Commonly uses 5.56x45mm NATO ammunition.",
+      "Lightweight and durable, designed for easy handling in various conditions.",
+      "Effective in both urban and open combat scenarios.",
+    ],
+  },
+  {
+    name: "Assault Rifle 02",
+    iconUrl: "/guns/assault-rifle-02.svg",
+    skill: "Firearms(R/S)",
+    damage: "2d8 + 3",
+    attacks: "1",
+    ammo: 30,
+    range: "600m",
+    malfunction: 85,
+    description:
+      "The Assault Rifle 02 builds on the previous version with enhanced accuracy and a higher rate of fire. It is optimized for both close-quarter battle and longer-range engagements.",
+    properties: [
+      "Improved accuracy and recoil management compared to previous models.",
+      "Uses 5.56x45mm NATO ammunition.",
+      "Can be customized with different sights and attachments.",
+      "Durable under harsh conditions, maintaining performance in extreme temperatures.",
+    ],
+  },
+  {
+    name: "Assault Rifle 03",
+    iconUrl: "/guns/assault-rifle-03.svg",
+    skill: "Firearms(R/S)",
+    damage: "2d10 + 2",
+    attacks: "1",
+    ammo: 30,
+    range: "700m",
+    malfunction: 90,
+    description:
+      "The Assault Rifle 03 is a high-performance weapon with advanced features for precision and fire rate. It is widely used by special forces and military units for its flexibility.",
+    properties: [
+      "Can switch between semi-automatic, burst, and fully automatic firing modes.",
+      "Uses 7.62x39mm ammunition for higher stopping power.",
+      "Ideal for both assault and sniper support roles with proper attachments.",
+      "Higher malfunction rate due to increased complexity.",
+    ],
+  },
+  {
+    name: "Assault Rifle 04",
+    iconUrl: "/guns/assault-rifle-04.svg",
+    skill: "Firearms(R/S)",
+    damage: "2d8 + 4",
+    attacks: "1",
+    ammo: 30,
+    range: "600m",
+    malfunction: 85,
+    description:
+      "The Assault Rifle 04 is an advanced tactical weapon with increased magazine capacity and better ergonomics, suitable for extended combat operations.",
+    properties: [
+      "Equipped with a high-capacity 40-round magazine for extended fire.",
+      "Compatible with advanced scopes and suppressors.",
+      "Built for durability and precision under field conditions.",
+      "Uses 5.56x45mm NATO ammunition.",
+    ],
+  },
+  {
+    name: "Assault Rifle 05",
+    iconUrl: "/guns/assault-rifle-05.svg",
+    skill: "Firearms(R/S)",
+    damage: "2d6 + 4",
+    attacks: "1",
+    ammo: 30,
+    range: "700m",
+    malfunction: 85,
+    description:
+      "The Assault Rifle 05 is a next-generation weapon system designed for high accuracy and increased power. Its lightweight construction and modular design make it a top choice for elite units.",
+    properties: [
+      "Uses a hybrid of 5.56x45mm NATO and 6.8mm rounds, depending on mission needs.",
+      "Modular design allows for rapid customization and upgradeability.",
+      "Superior ergonomics for extended use in field combat.",
+      "Integrates seamlessly with modern tech like drone targeting systems and advanced optics.",
+    ],
+  },
+  {
+    name: "AK-47 Type 01",
+    iconUrl: "/guns/ak47-type-01.svg",
+    skill: "Firearms(R/S)",
+    damage: "2d6",
+    attacks: "1",
+    ammo: 30,
+    range: "300m",
+    malfunction: 5,
+    description:
+      "The AK-47 Type 01 is a reliable and versatile assault rifle with semi-automatic and automatic firing capabilities. It is known for its durability and high rate of fire, making it effective in a variety of combat scenarios. Equipped with modernized sights, this weapon is effective at both long and short ranges.",
+    properties: [
+      "",
+      "High rate of fire and effective at mid-to-long range.",
+      "Rugged and durable design.",
+      "5% malfunction rate under heavy use.",
+    ],
+  },
+  {
+    name: "AK-47 Type 02",
+    iconUrl: "/guns/ak47-type-02.svg",
+    skill: "Firearms(R/S)",
+    damage: "2d6 + 2",
+    attacks: "1",
+    ammo: 30,
+    range: "300m",
+    malfunction: 85,
+    description:
+      "The AK-47 Type 02 is a modernized version of the iconic assault rifle, offering improved accuracy and durability while retaining the power and reliability of its predecessor. It is designed for sustained fire in both close and medium-range combat.",
+    properties: [
+      "Semi-automatic and fully automatic fire modes.",
+      "Fires 7.62x39mm rounds, known for their power and range.",
+      "Reliable in harsh environments, with a high tolerance for dirt and neglect.",
+      "Commonly used by military forces and insurgents worldwide.",
+    ],
+  },
+  {
+    name: "AK-47 Type 03",
+    iconUrl: "/guns/ak47-type-03.svg",
+    skill: "Firearms(R/S)",
+    damage: "2d6 + 3",
+    attacks: "1",
+    ammo: 30,
+    range: "400m",
+    malfunction: 85,
+    description:
+      "The AK-47 Type 03 is a further enhanced version of the AK-47 assault rifle, featuring improved accuracy, recoil control, and a more durable design. It remains one of the most reliable weapons in combat, widely used by military units across the globe.",
+    properties: [
+      "Improved accuracy over previous versions.",
+      "Uses 7.62x39mm ammunition, known for its stopping power.",
+      "Can be used in both semi-automatic and fully automatic firing modes.",
+      "Highly resilient in extreme conditions, including mud, dust, and wet environments.",
+      "Common in both military and insurgent hands worldwide.",
+    ],
+  },
+
+  {
+    name: "Dragunov",
+    iconUrl: "/guns/dragunov.svg",
+    skill: "Firearms(R/S)",
+    damage: "2d10 + 4",
+    attacks: "1",
+    ammo: 10,
+    range: "1300m",
+    malfunction: 1,
+    description:
+      "The Dragunov is a semi-automatic sniper rifle designed for long-range precision. It is commonly used for anti-personnel and anti-material engagements.",
+    properties: [
+      "Semi-automatic sniper rifle with high accuracy at long ranges.",
+      "Uses 7.62x54mmR ammunition for superior stopping power.",
+      "Ideal for military and specialized sniping operations.",
+      "Effective range up to 1300 meters with proper optics.",
+    ],
+  },
+  {
+    name: "M4-22",
+    iconUrl: "/guns/m4-22.svg",
+    skill: "Firearms(R/S)",
+    damage: "2d6 + 2",
+    attacks: "1",
+    ammo: 25,
+    range: "500m",
+    malfunction: 1,
+    description:
+      "The M4-22 is a compact, lightweight, and versatile rifle chambered in .22 LR. It's primarily used for training, plinking, and small-game hunting.",
+    properties: [
+      "Compact and lightweight, ideal for training purposes.",
+      "Chambered in .22 LR, low recoil and high accuracy.",
+      "Suitable for training with similar handling to military M4 rifles.",
+      "Effective range up to 500 meters, but optimal for close to medium-range engagements.",
+    ],
+  },
+  {
+    name: "PP71",
+    iconUrl: "/guns/pp71.svg",
+    skill: "Firearms(R/S)",
+    damage: "2d6 + 1",
+    attacks: "1",
+    ammo: 20,
+    range: "100m",
+    malfunction: 1,
+    description:
+      "The PP71 is a submachine gun with a fast rate of fire, commonly used in close quarters combat. It is highly effective for urban environments or as a personal defense weapon.",
+    properties: [
+      "High rate of fire for close combat situations.",
+      "Uses 9mm ammunition, with manageable recoil for rapid follow-up shots.",
+      "Compact and lightweight, easy to conceal and maneuver.",
+      "Effective range up to 100 meters, best suited for CQB (close-quarters battle).",
+    ],
+  },
+  {
+    name: "M110 SASS",
+    iconUrl: "/guns/m110-sass.svg",
+    skill: "Firearms(R/S)",
+    damage: "2d12 + 5",
+    attacks: "1",
+    ammo: 20,
+    range: "800m",
+    malfunction: 1,
+    description:
+      "The M110 SASS (Semi-Automatic Sniper System) is designed for precision shooting at extended ranges. It is highly favored for both military and law enforcement sniper operations.",
+    properties: [
+      "Semi-automatic sniper rifle with high precision and rate of fire.",
+      "Uses 7.62x51mm NATO ammunition for long-range engagements.",
+      "Can be fitted with various optics and suppressors.",
+      "Effective range up to 800 meters, ideal for tactical sniping.",
+    ],
+  },
+
+  {
+    name: "Pistol 01",
+    iconUrl: "/guns/pistol-01.svg",
+    skill: "Firearms(HG)",
+    damage: "1d6 + 1",
+    attacks: "1",
+    ammo: 15,
+    range: "50m",
+    malfunction: 2,
+    description:
+      "Pistol 01 is a reliable sidearm designed for close-range engagements. It's lightweight and compact, ideal for personal defense.",
+    properties: [
+      "Semi-automatic pistol with moderate recoil.",
+      "Uses 9mm ammunition for decent stopping power.",
+      "Lightweight and easy to carry for personal defense.",
+      "Effective range up to 50 meters.",
+    ],
+  },
+  {
+    name: "Pistol 02",
+    iconUrl: "/guns/pistol-02.svg",
+    skill: "Firearms(HG)",
+    damage: "1d6 + 2",
+    attacks: "1",
+    ammo: 12,
+    range: "50m",
+    malfunction: 1,
+    description:
+      "Pistol 02 is a more powerful sidearm with enhanced accuracy and recoil management. It’s suited for law enforcement and military operations.",
+    properties: [
+      "Semi-automatic pistol with reduced recoil.",
+      "Uses .40 S&W ammunition, providing better stopping power than 9mm.",
+      "Enhanced grip and sights for accuracy.",
+      "Effective range up to 50 meters, optimized for quick target acquisition.",
+    ],
+  },
+  {
+    name: "Pistol 03",
+    iconUrl: "/guns/pistol-03.svg",
+    skill: "Firearms(HG)",
+    damage: "1d8 + 2",
+    attacks: "1",
+    ammo: 10,
+    range: "40m",
+    malfunction: 1,
+    description:
+      "Pistol 03 is a compact, high-caliber sidearm designed for concealment. It offers a great balance between power and portability.",
+    properties: [
+      "Compact pistol with high stopping power.",
+      "Uses .45 ACP ammunition for significant damage.",
+      "Easy to conceal, ideal for concealed carry.",
+      "Effective range up to 40 meters.",
+    ],
+  },
+  {
+    name: "Pistol 04",
+    iconUrl: "/guns/pistol-04.svg",
+    skill: "Firearms(HG)",
+    damage: "1d6 + 3",
+    attacks: "1",
+    ammo: 17,
+    range: "60m",
+    malfunction: 1,
+    description:
+      "Pistol 04 offers a higher magazine capacity and longer range, making it a versatile choice for both self-defense and tactical scenarios.",
+    properties: [
+      "Semi-automatic pistol with a larger magazine.",
+      "Uses 9mm ammunition, offering a good balance between recoil and firepower.",
+      "Effective range up to 60 meters, suitable for medium-range engagements.",
+      "Reliable and durable for prolonged use.",
+    ],
+  },
+  {
+    name: "Pistol 05",
+    iconUrl: "/guns/pistol-05.svg",
+    skill: "Firearms(HG)",
+    damage: "1d8 + 1",
+    attacks: "1",
+    ammo: 10,
+    range: "40m",
+    malfunction: 1,
+    description:
+      "Pistol 05 is a high-powered pistol designed for more tactical use, with superior damage output for a variety of situations.",
+    properties: [
+      "High-powered semi-automatic pistol.",
+      "Uses .44 Magnum ammunition for superior stopping power.",
+      "Fitted with tactical sights for improved aim.",
+      "Effective range up to 40 meters.",
+    ],
+  },
+  {
+    name: "Pistol 06",
+    iconUrl: "/guns/pistol-06.svg",
+    skill: "Firearms(HG)",
+    damage: "1d6 + 1",
+    attacks: "1",
+    ammo: 8,
+    range: "30m",
+    malfunction: 2,
+    description:
+      "Pistol 06 is a compact revolver, excellent for personal defense and close-range combat. Its reliability is its greatest strength.",
+    properties: [
+      "Compact and reliable revolver.",
+      "Uses .38 Special ammunition, ideal for close-range self-defense.",
+      "Simple design, easy to maintain.",
+      "Effective range up to 30 meters, with high reliability.",
+    ],
+  },
+  {
+    name: "Pistol 07",
+    iconUrl: "/guns/pistol-07.svg",
+    skill: "Firearms(HG)",
+    damage: "1d6 + 2",
+    attacks: "1",
+    ammo: 10,
+    range: "50m",
+    malfunction: 2,
+    description:
+      "Pistol 07 is a full-size handgun designed for tactical operations. It combines a high rate of fire with precision.",
+    properties: [
+      "Full-size semi-automatic handgun.",
+      "Uses 9mm ammunition for a balance of power and recoil control.",
+      "Equipped with tactical sights and suppressor compatibility.",
+      "Effective range up to 50 meters.",
+    ],
+  },
+  {
+    name: "Pistol 08",
+    iconUrl: "/guns/pistol-08.svg",
+    skill: "Firearms(HG)",
+    damage: "1d6 + 1",
+    attacks: "1",
+    ammo: 12,
+    range: "45m",
+    malfunction: 1,
+    description:
+      "Pistol 08 is a mid-range handgun with a good magazine size, designed for use in both tactical and civilian environments.",
+    properties: [
+      "Semi-automatic handgun with a solid magazine capacity.",
+      "Uses 9mm ammunition, providing a good combination of recoil control and damage.",
+      "Versatile for both tactical and personal defense use.",
+      "Effective range up to 45 meters.",
+    ],
+  },
+  {
+    name: "Colt Revolver",
+    iconUrl: "/guns/colt-revolver.svg",
+    skill: "Firearms(HG)",
+    damage: "1d8",
+    attacks: "1",
+    ammo: 6,
+    range: "20m",
+    malfunction: 1,
+    description:
+      "The Colt Revolver is a classic firearm, known for its reliability and power. It’s a revolver with a strong kick, ideal for close-range defense.",
+    properties: [
+      "Revolver design with six-round capacity.",
+      "Uses .45 Colt ammunition, offering significant damage at short range.",
+      "Effective range up to 20 meters.",
+      "Recoil can be challenging for beginners.",
+    ],
+  },
+  {
+    name: "Revolver",
+    iconUrl: "/guns/revolver.svg",
+    skill: "Firearms(HG)",
+    damage: "1d6 + 1",
+    attacks: "1",
+    ammo: 6,
+    range: "25m",
+    malfunction: 2,
+    description:
+      "A reliable revolver used for close-quarters combat. It is simple and effective, though slower to reload.",
+    properties: [
+      "Standard six-round revolver.",
+      "Uses .38 Special ammunition for moderate damage.",
+      "Effective range up to 25 meters.",
+      "Can be easily concealed for personal defense.",
+    ],
+  },
+  {
+    name: "M4-22 Pistol",
+    iconUrl: "/guns/m4-22-pistol.svg",
+    skill: "Firearms(HG)",
+    damage: "1d6",
+    attacks: "1",
+    ammo: 10,
+    range: "50m",
+    malfunction: 1,
+    description:
+      "The M4-22 Pistol is a compact, high-velocity weapon used in both military and civilian applications. It is effective for medium-range defense.",
+    properties: [
+      "Semi-automatic pistol with a large magazine capacity.",
+      "Uses .22 LR ammunition, making it suitable for training and light defense.",
+      "Effective range up to 50 meters.",
+      "Lightweight and easy to handle, even for inexperienced shooters.",
+    ],
+  },
+
+  {
+    name: "Machin Gun",
+    iconUrl: "/guns/machin-gun.svg",
+    skill: "Firearms(HW)",
+    damage: "2d10",
+    attacks: "3",
+    ammo: 100,
+    range: "200m",
+    malfunction: 95,
+    description:
+      "The Machine Gun is a high-caliber, fully automatic weapon designed for sustained fire. It is ideal for suppressive fire and engaging multiple targets at medium to long range.",
+    properties: [
+      "Fully automatic fire for high damage output.",
+      "Capable of suppressing enemies effectively.",
+      "Large ammo capacity but requires frequent reloads.",
+      "Heavy weapon, reducing mobility when carried.",
+      "High recoil, requiring skill to control in continuous fire.",
+    ],
+  },
+
+  {
+    name: "Shotgun 01",
+    iconUrl: "/guns/shotgun-01.svg",
+    skill: "Firearms(R/S)",
+    damage: "2d8",
+    attacks: "1",
+    ammo: 6,
+    range: "30m(10m)",
+    malfunction: 95,
+    description:
+      "Shotgun 01 is a standard pump-action shotgun, effective at close range. It delivers powerful, wide-spread damage, ideal for crowd control or single-target engagements.",
+    properties: [
+      "High damage at close range.",
+      "Spread reduces effectiveness at longer distances.",
+      "Pump-action requires reloading after each shot.",
+      "Versatile for both hunting and combat.",
+    ],
+  },
+  {
+    name: "Shotgun 02",
+    iconUrl: "/guns/shotgun-02.svg",
+    skill: "Firearms(R/S)",
+    damage: "2d10",
+    attacks: "1",
+    ammo: 8,
+    range: "40m(15m)",
+    malfunction: 96,
+    description:
+      "Shotgun 02 is a semi-automatic shotgun, offering faster follow-up shots and increased ammo capacity. It excels in close-quarters combat.",
+    properties: [
+      "Semi-automatic fire for rapid shots.",
+      "Spread pattern covers a wide area, ideal for groups.",
+      "Slightly heavier than standard shotguns.",
+      "Increased magazine size for sustained fire.",
+    ],
+  },
+  {
+    name: "Shotgun 03",
+    iconUrl: "/guns/shotgun-03.svg",
+    skill: "Firearms(R/S)",
+    damage: "3d6",
+    attacks: "1",
+    ammo: 5,
+    range: "50m(20m)",
+    malfunction: 94,
+    description:
+      "Shotgun 03 is a high-powered, double-barreled shotgun. Its devastating power is balanced by limited ammo and a slower reload speed.",
+    properties: [
+      "Double-barreled design allows for two rapid shots.",
+      "Incredible stopping power in close engagements.",
+      "Low ammo capacity and slower reload speed.",
+      "Perfect for delivering critical damage in a pinch.",
+    ],
+  },
+  {
+    name: "Benelli M4",
+    iconUrl: "/guns/benelli-m4.svg",
+    skill: "Firearms(R/S)",
+    damage: "4d6",
+    attacks: "1",
+    ammo: 7,
+    range: "50m",
+    malfunction: 96,
+    description:
+      "The Benelli M4 is a semi-automatic shotgun designed for versatility and reliability in close-quarters combat. Its gas-operated system ensures rapid cycling and reduced recoil.",
+    properties: [
+      "Semi-automatic shotgun ideal for close-quarters engagements.",
+      "High stopping power with limited effective range.",
+      "Gas-operated system for reduced recoil and quick follow-up shots.",
+      "Durable and reliable in various combat scenarios.",
+      "Limited ammunition capacity compared to other firearms.",
+    ],
+  },
+
+  {
+    name: "RPG",
+    iconUrl: "/guns/rpg.svg",
+    skill: "Firearms(HW)",
+    damage: "8d10 (blast radius 5m)",
+    attacks: "1",
+    ammo: 1,
+    range: "300m",
+    malfunction: 94,
+    description:
+      "The RPG (Rocket-Propelled Grenade) is a shoulder-fired, anti-tank weapon designed to deliver explosive projectiles with significant destructive power. Effective against vehicles, structures, and clustered enemies.",
+    properties: [
+      "Single-use explosive projectile with a high blast radius.",
+      "Effective against armored targets and fortifications.",
+      "Requires precision aiming due to limited ammunition.",
+      "Blast damage affects all entities within a 5-meter radius.",
+      "Prone to malfunctions if mishandled or damaged.",
+    ],
+  },
+
+  {
+    name: "M240",
+    iconUrl: "/guns/m240.svg",
+    skill: "Firearms(HW)",
+    damage: "2d6+4",
+    attacks: "3",
+    ammo: 100,
+    range: "1,100m",
+    malfunction: 96,
+    description:
+      "The M240 is a belt-fed, gas-operated machine gun known for its reliability and high rate of fire. It is widely used for suppressive fire in both defensive and offensive operations.",
+    properties: [
+      "High rate of fire for suppressive capabilities.",
+      "Belt-fed with a capacity of 100 rounds.",
+      "Effective against groups of enemies and lightly armored targets.",
+      "Requires a bipod or tripod for optimal operation due to recoil.",
+      "Reliable in adverse conditions, though prone to overheating during prolonged use.",
+    ],
+  },
 ]
 
 // {
-//   name: "Basiliskanzunge",
-//   iconUrl: "/weapons/basiliskanzunge.svg",
-//   skill: "Fighting(Brawl)",
-//   range: "",
+//   name: "AK-47 Type 03",
+//   iconUrl: "/guns/Shotgun 03.svg",
+//   skill: "Firearms(R/S)",
 //   damage: "",
 //   attacks: "",
-//   description: "",
-//   properties: [""],
+//   ammo: ,
+//   range: "",
+//   malfunction: ,
+//   description:
+//     "",
+//   properties: [
+//     "",
+//   ],
 // },
 {
   /* 
   
-  Elfenbogen
-  Kompositbogen
-  Langbogen
-  Katana Type 01
-  Katana Type 02
-  Latin
-  Barong
-  Mace
-  Richtschwert
-  Club Weapon Type 03
+   AK47-Type01-Size256-Rotation30
 
 
   */
