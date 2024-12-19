@@ -578,6 +578,306 @@ export const weapons: Array<IWeapons> = [
       "Requires significant strength to wield properly.",
     ],
   },
+  {
+    name: "Dolch",
+    iconUrl: "/weapons/dolch.svg",
+    skill: "Fighting(Brawl)",
+    range: "0.5m",
+    damage: "1d6 + STR",
+    attacks: "1",
+    description:
+      "The Dolch is a small, versatile dagger used for quick, precise strikes. It is favored by assassins and those who require a lightweight weapon for stealthy attacks.",
+    properties: [
+      "Light and easy to conceal.",
+      "Good for quick, stealthy strikes.",
+      "Ideal for close combat and surprise attacks.",
+    ],
+  },
+  {
+    name: "Schwerer Dolch",
+    iconUrl: "/weapons/schwerer-dolch.svg",
+    skill: "Fighting(Brawl)",
+    range: "0.7m",
+    damage: "1d8 + STR",
+    attacks: "1",
+    description:
+      "The Schwerer Dolch is a heavier and larger version of the standard dagger. It has more reach and can deal more damage with each strike, making it suitable for direct combat.",
+    properties: [
+      "Heavier than a regular dagger, offering more damage.",
+      "Longer reach, effective for close-quarters combat.",
+      "Good for both stabbing and slashing.",
+    ],
+  },
+  {
+    name: "Sabel",
+    iconUrl: "/weapons/sabel.svg",
+    skill: "Fighting(Brawl)",
+    range: "1m",
+    damage: "1d8 + STR",
+    attacks: "1",
+    description:
+      "The Sabel is a curved sword known for its speed and fluidity in combat. It is ideal for slashing attacks and quick maneuvers, making it favored by many skilled sword fighters.",
+    properties: [
+      "Curved blade ideal for slashing.",
+      "Fast and fluid in combat.",
+      "Good for quick strikes and counters.",
+    ],
+  },
+  {
+    name: "Bastardschwert Type 01",
+    iconUrl: "/weapons/bastardschwert-type-01.svg",
+    skill: "Fighting(Brawl)",
+    range: "1.5m",
+    damage: "1d10 + STR",
+    attacks: "1",
+    description:
+      "The Bastardschwert is a versatile sword that can be wielded with one or two hands. It offers a balance between speed and power, making it effective for various combat styles.",
+    properties: [
+      "Can be used one or two-handed.",
+      "Versatile and balanced, offering both speed and power.",
+      "Effective for cutting and thrusting attacks.",
+    ],
+  },
+  {
+    name: "Sichel",
+    iconUrl: "/weapons/sichel.svg",
+    skill: "Fighting(Brawl)",
+    range: "1m",
+    damage: "1d8 + STR",
+    attacks: "1",
+    description:
+      "The Sichel is a curved blade designed for wide, sweeping attacks. It excels in hitting multiple enemies or dealing heavy damage to lightly armored foes.",
+    properties: [
+      "Curved blade for sweeping attacks.",
+      "Ideal for hitting multiple targets.",
+      "Effective against lightly armored enemies.",
+    ],
+  },
+  {
+    name: "Keule",
+    iconUrl: "/weapons/keule.svg",
+    skill: "Fighting(Brawl)",
+    range: "1.5m",
+    damage: "1d10 + STR",
+    attacks: "1",
+    description:
+      "The Keule is a heavy, blunt weapon used for smashing through enemy defenses. It is favored for its ability to deal devastating damage to opponents with little armor.",
+    properties: [
+      "Blunt weapon ideal for smashing and crushing.",
+      "Deals heavy damage, effective against lightly armored or unarmored foes.",
+      "Slower to wield but powerful.",
+    ],
+  },
+  {
+    name: "Entermesser",
+    iconUrl: "/weapons/entermesser.svg",
+    skill: "Fighting(Brawl)",
+    range: "1m",
+    damage: "1d6 + STR",
+    attacks: "1",
+    description:
+      "The Entermesser is a short, sharp sword designed for quick and precise strikes. It is effective for combatants who favor speed over raw power.",
+    properties: [
+      "Light and fast, ideal for quick strikes.",
+      "Effective for skilled sword fighters.",
+      "Good for thrusting and cutting.",
+    ],
+  },
+  {
+    name: "Florett Type 02",
+    iconUrl: "/weapons/florett-type-02.svg",
+    skill: "Fighting(Brawl)",
+    range: "1m",
+    damage: "1d6 + STR",
+    attacks: "1",
+    description:
+      "The Florett Type 02 is a lightweight and flexible fencing sword designed for quick, precise thrusts. It is ideal for those who focus on speed and agility in their strikes.",
+    properties: [
+      "Lightweight and flexible.",
+      "Ideal for precise thrusting attacks.",
+      "Great for agility-based combat.",
+    ],
+  },
+  {
+    name: "Baton",
+    iconUrl: "/weapons/baton.svg",
+    skill: "Fighting(Brawl)",
+    range: "0.5m",
+    damage: "1d4 + STR",
+    attacks: "1",
+    description:
+      "The Baton is a small, lightweight weapon designed for non-lethal combat. It is commonly used by law enforcement or for self-defense, delivering quick strikes to disarm or incapacitate opponents.",
+    properties: [
+      "Lightweight and easy to handle.",
+      "Designed for non-lethal combat.",
+      "Good for disarming or incapacitating opponents.",
+    ],
+  },
+  {
+    name: "Brass Knuckles",
+    iconUrl: "/weapons/brass-knuckles.svg",
+    skill: "Fighting(Brawl)",
+    range: "0m",
+    damage: "1d4 + STR",
+    attacks: "1",
+    description:
+      "Brass Knuckles are worn over the fingers to enhance the user's punching power. They are ideal for quick, brutal strikes in close combat.",
+    properties: [
+      "Enhances punching power.",
+      "Good for close-range combat.",
+      "Quick and easy to use in tight situations.",
+    ],
+  },
+  {
+    name: "Elfenbogen",
+    iconUrl: "/weapons/elfenbogen.svg",
+    skill: "Fighting(Brawl)",
+    range: "20m",
+    damage: "1d6 + DEX",
+    attacks: "1",
+    description:
+      "The Elfenbogen is a finely crafted bow used by elves, known for its precision and lightweight design. It allows for fast and accurate long-range attacks.",
+    properties: [
+      "Lightweight and fast to draw.",
+      "Ideal for long-range precision attacks.",
+      "Requires high Dexterity to use effectively.",
+    ],
+  },
+  {
+    name: "Kompositbogen",
+    iconUrl: "/weapons/kompositbogen.svg",
+    skill: "Fighting(Brawl)",
+    range: "30m",
+    damage: "1d8 + DEX",
+    attacks: "1",
+    description:
+      "The Kompositbogen is a composite bow that combines multiple materials for enhanced power and durability. It is great for both long-range accuracy and heavy damage.",
+    properties: [
+      "Powerful and durable, ideal for ranged combat.",
+      "Requires strength and Dexterity to use effectively.",
+      "Good for hunting or battle.",
+    ],
+  },
+  {
+    name: "Langbogen",
+    iconUrl: "/weapons/langbogen.svg",
+    skill: "Fighting(Brawl)",
+    range: "40m",
+    damage: "1d10 + DEX",
+    attacks: "1",
+    description:
+      "The Langbogen is a large, traditional longbow. It is favored by archers for its impressive range and powerful shots, capable of dealing heavy damage from a distance.",
+    properties: [
+      "Very long range and powerful damage.",
+      "Requires considerable strength to use effectively.",
+      "Effective for long-distance combat.",
+    ],
+  },
+  {
+    name: "Katana Type 01",
+    iconUrl: "/weapons/katana-type-01.svg",
+    skill: "Fighting(Brawl)",
+    range: "1m",
+    damage: "1d8 + STR",
+    attacks: "1",
+    description:
+      "Katana Type 01 is a traditional Japanese sword known for its sharpness and precision. It is ideal for quick, decisive strikes in close combat.",
+    properties: [
+      "Balanced blade, great for slashing and cutting.",
+      "Requires skill and precision to wield effectively.",
+      "Great for close-range, swift combat.",
+    ],
+  },
+  {
+    name: "Katana Type 02",
+    iconUrl: "/weapons/katana-type-02.svg",
+    skill: "Fighting(Brawl)",
+    range: "1m",
+    damage: "1d10 + STR",
+    attacks: "1",
+    description:
+      "Katana Type 02 is a heavier variant of the classic katana, offering more power behind each strike. It is designed for experienced users who seek both precision and strength.",
+    properties: [
+      "Heavier than Type 01, offering more damage.",
+      "Suitable for powerful, cutting strikes.",
+      "Requires strength and skill to wield effectively.",
+    ],
+  },
+  {
+    name: "Latin",
+    iconUrl: "/weapons/latin.svg",
+    skill: "Fighting(Brawl)",
+    range: "1m",
+    damage: "1d6 + STR",
+    attacks: "1",
+    description:
+      "The Latin is a type of short sword with a straight blade, commonly used for thrusting and stabbing. It is known for its quick, precise strikes in close combat.",
+    properties: [
+      "Light and quick, ideal for thrusting attacks.",
+      "Good for fast and precise strikes.",
+      "Effective in close-quarters combat.",
+    ],
+  },
+  {
+    name: "Barong",
+    iconUrl: "/weapons/barong.svg",
+    skill: "Fighting(Brawl)",
+    range: "1m",
+    damage: "1d8 + STR",
+    attacks: "1",
+    description:
+      "The Barong is a traditional Filipino sword with a leaf-shaped blade. It is excellent for both cutting and stabbing, favored for its versatility in combat.",
+    properties: [
+      "Leaf-shaped blade great for cutting and slashing.",
+      "Versatile weapon suitable for close and medium-range attacks.",
+      "Requires good technique for effective use.",
+    ],
+  },
+  {
+    name: "Mace",
+    iconUrl: "/weapons/mace.svg",
+    skill: "Fighting(Brawl)",
+    range: "1.5m",
+    damage: "1d8 + STR",
+    attacks: "1",
+    description:
+      "The Mace is a blunt weapon with a heavy head, perfect for delivering crushing blows. It is highly effective against armored foes and in crowd control.",
+    properties: [
+      "Blunt weapon, effective against armored enemies.",
+      "Deals significant damage with each strike.",
+      "Slower to swing but powerful.",
+    ],
+  },
+  {
+    name: "Richtschwert",
+    iconUrl: "/weapons/richtschwert.svg",
+    skill: "Fighting(Brawl)",
+    range: "1.5m",
+    damage: "1d8 + STR",
+    attacks: "1",
+    description:
+      "The Richtschwert is a longsword designed for precision strikes. It is ideal for both cutting and thrusting, often used by knights and elite warriors.",
+    properties: [
+      "Balanced sword great for cutting and thrusting.",
+      "Versatile in combat, effective in both offense and defense.",
+      "Requires good skill for optimal use.",
+    ],
+  },
+  {
+    name: "Club Weapon Type 03",
+    iconUrl: "/weapons/club-weapon-type-03.svg",
+    skill: "Fighting(Brawl)",
+    range: "1.5m",
+    damage: "1d10 + STR",
+    attacks: "1",
+    description:
+      "Club Weapon Type 03 is a heavy, blunt instrument designed to deal crushing damage. It is ideal for smashing through defenses and overpowering foes.",
+    properties: [
+      "Heavy blunt weapon for crushing damage.",
+      "Ideal for breaking through armor and shields.",
+      "Slower to swing but highly effective in close combat.",
+    ],
+  },
 ]
 
 // {
@@ -590,3 +890,20 @@ export const weapons: Array<IWeapons> = [
 //   description: "",
 //   properties: [""],
 // },
+{
+  /* 
+  
+  Elfenbogen
+  Kompositbogen
+  Langbogen
+  Katana Type 01
+  Katana Type 02
+  Latin
+  Barong
+  Mace
+  Richtschwert
+  Club Weapon Type 03
+
+
+  */
+}

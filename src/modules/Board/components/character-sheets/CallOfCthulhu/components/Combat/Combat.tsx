@@ -37,7 +37,7 @@ export const Combat = ({ activeItems, toggleItem }: CombatProps) => {
           <div className="p-4 w-[681px]">
             <div className="flex items-center gap-x-2">
               <div className="w-[80px] h-[80px] cursor-pointer hover:bg-ashes flex items-center justify-center bg-border rounded aspect-square">
-                <img src={selectedWeapon.iconUrl} />
+                <img src={selectedWeapon.iconUrl} className="w-full" />
               </div>
               <span className="text-2xl font-medium">
                 {selectedWeapon.name}
@@ -181,9 +181,9 @@ export const Combat = ({ activeItems, toggleItem }: CombatProps) => {
             <div
               key={index}
               onClick={() => setSelectedWeapon(weapon)}
-              className="col-span-1 cursor-pointer hover:bg-ashes flex items-center justify-center bg-border rounded w-full h-full aspect-square"
+              className="col-span-1 cursor-pointer p-1 hover:bg-ashes flex items-center justify-center bg-border rounded w-full h-full aspect-square"
             >
-              <img src={weapon.iconUrl} />
+              <img src={weapon.iconUrl} className="w-full" />
             </div>
           ))}
         </div>
