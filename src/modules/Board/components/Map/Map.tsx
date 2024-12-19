@@ -120,7 +120,7 @@ export const Map: React.FC = () => {
   const handleMouseUp = () => setIsDragging(false)
 
   return (
-    <div className="relative w-[50vw] h-[100vh] overflow-hidden">
+    <div className="relative aspect-square w-[50vw] h-[100vh] overflow-hidden">
       {showResetMap && (
         <div
           onClick={resetConfig}
@@ -155,6 +155,8 @@ export const Map: React.FC = () => {
           transform: `translate(${position.x}px, ${position.y}px) scale(${zoom})`,
           transformOrigin: "top left",
           cursor: isDragging ? "grabbing" : "grab",
+          aspectRatio: '1 / 1',
+          gap: '1px'
         }}
       >
         {/* Background do mapa */}
@@ -164,7 +166,7 @@ export const Map: React.FC = () => {
           width={1000}
           height={1000}
           quality={100}
-          className="absolute z-0 w-full h-full object-fill select-none pointer-events-none"
+          className="absolute aspect-square z-0 w-full h-full object-fill select-none pointer-events-none"
         />
 
         {/* Grid com células */}
@@ -174,7 +176,7 @@ export const Map: React.FC = () => {
               key={`${rowIndex}-${colIndex}`}
               onDrop={(e) => handleDrop(e, colIndex, rowIndex)}
               onDragOver={handleDragOver}
-              className="relative w-[30px] h-[30px] rounded mx-auto overflow-hidden"
+              className="relative aspect-square w-full h-full mx-auto overflow-hidden"
             >
               {items
                 .filter((item) => item.x === colIndex && item.y === rowIndex)
@@ -231,7 +233,9 @@ export const DraggableItem: React.FC<DraggableItemProps> = ({
       <img
         src={imgUrl}
         alt={type}
-        className="w-full rounded h-full select-none object-cover"
+        width={200}
+        height={400}
+        className="w-full h-full select-none object-cover"
       />
     </div>
   )

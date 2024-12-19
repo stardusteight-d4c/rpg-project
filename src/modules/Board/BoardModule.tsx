@@ -55,25 +55,23 @@ export function BoardModule() {
                 <path d="M83.19,174.4a8,8,0,0,0,11.21-1.6,52,52,0,0,1,83.2,0,8,8,0,1,0,12.8-9.6A67.88,67.88,0,0,0,163,141.51a40,40,0,1,0-53.94,0A67.88,67.88,0,0,0,81.6,163.2,8,8,0,0,0,83.19,174.4ZM112,112a24,24,0,1,1,24,24A24,24,0,0,1,112,112Zm96-88H64A16,16,0,0,0,48,40V64H32a8,8,0,0,0,0,16H48v40H32a8,8,0,0,0,0,16H48v40H32a8,8,0,0,0,0,16H48v24a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V40A16,16,0,0,0,208,24Zm0,192H64V40H208Z"></path>
               </svg>
             </span>
+
             {/* <span
-              onClick={() => setActive("characters")}
-              className="cursor-pointer"
+             onClick={() => setActive("diary")} className="cursor-pointer"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="40"
                 height="40"
-                fill="#000000"
                 viewBox="0 0 256 256"
                 className={`${
-                  active === "characters"
-                    ? " background-gradient fill-background "
-                    : " fill-white "
-                } rounded p-1`}
+                  active === "diary" && " background-gradient "
+                } rounded p-1 fill-white`}
               >
-                <path d="M117.25,157.92a60,60,0,1,0-66.5,0A95.83,95.83,0,0,0,3.53,195.63a8,8,0,1,0,13.4,8.74,80,80,0,0,1,134.14,0,8,8,0,0,0,13.4-8.74A95.83,95.83,0,0,0,117.25,157.92ZM40,108a44,44,0,1,1,44,44A44.05,44.05,0,0,1,40,108Zm210.14,98.7a8,8,0,0,1-11.07-2.33A79.83,79.83,0,0,0,172,168a8,8,0,0,1,0-16,44,44,0,1,0-16.34-84.87,8,8,0,1,1-5.94-14.85,60,60,0,0,1,55.53,105.64,95.83,95.83,0,0,1,47.22,37.71A8,8,0,0,1,250.14,206.7Z"></path>
+                <path d="M27.2,126.4a8,8,0,0,0,11.2-1.6,52,52,0,0,1,83.2,0,8,8,0,0,0,11.2,1.59,7.73,7.73,0,0,0,1.59-1.59h0a52,52,0,0,1,83.2,0,8,8,0,0,0,12.8-9.61A67.85,67.85,0,0,0,203,93.51a40,40,0,1,0-53.94,0,67.27,67.27,0,0,0-21,14.31,67.27,67.27,0,0,0-21-14.31,40,40,0,1,0-53.94,0A67.88,67.88,0,0,0,25.6,115.2,8,8,0,0,0,27.2,126.4ZM176,40a24,24,0,1,1-24,24A24,24,0,0,1,176,40ZM80,40A24,24,0,1,1,56,64,24,24,0,0,1,80,40ZM203,197.51a40,40,0,1,0-53.94,0,67.27,67.27,0,0,0-21,14.31,67.27,67.27,0,0,0-21-14.31,40,40,0,1,0-53.94,0A67.88,67.88,0,0,0,25.6,219.2a8,8,0,1,0,12.8,9.6,52,52,0,0,1,83.2,0,8,8,0,0,0,11.2,1.59,7.73,7.73,0,0,0,1.59-1.59h0a52,52,0,0,1,83.2,0,8,8,0,0,0,12.8-9.61A67.85,67.85,0,0,0,203,197.51ZM80,144a24,24,0,1,1-24,24A24,24,0,0,1,80,144Zm96,0a24,24,0,1,1-24,24A24,24,0,0,1,176,144Z"></path>
               </svg>
             </span> */}
+
             <span onClick={() => setActive("diary")} className="cursor-pointer">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -105,36 +103,62 @@ export function BoardModule() {
             </span>
           </div>
         </div>
-        <div className="max-w-[50vw] w-full relative h-screen">
+        <div className="max-w-[50vw] w-full relative overflow-hidden h-screen">
           {active === "map" && <Board.Map />}
           {active === "character_sheet" && (
             <Board.CharactersSheets.CallOfCthulhu />
           )}
           {active === "characters" && <Board.Characters />}
         </div>
-        <div className="w-[26vw] h-screen border-l border-border">
+        <div className="w-[30vw] pb-2 overflow-y-scroll no-scrollbar h-screen border-l border-border">
           <Board.Cam />
-          <div>
-            <span className="block text-xl p-2">Characters</span>
-            <div className="flex items-center gap-x-2 flex-wrap px-2">
-              <div className="w-[48px] h-[48px] rounded overflow-hidden">
+          <div className="mt-8">
+            <span className="block text-xl p-2 border-white">Characters</span>
+            <div className="grid grid-cols-3 w-full items-center justify-center">
+              <div className="col-span-1 border border-border aspect-[9/13] h-full w-full">
                 <DraggableItem
                   id="1"
                   imgUrl="https://imgcdn.stablediffusionweb.com/2024/10/24/23cb7d83-7cac-43f6-8ac8-84c9cd8475a6.jpg"
                   type="box"
                 />
               </div>
-              <div className="w-[48px] h-[48px] rounded overflow-hidden">
+              <div className="col-span-1 border border-border aspect-[9/13] h-full w-full">
                 <DraggableItem
                   id="2"
                   imgUrl="https://neural.love/cdn/thumbnails/1eed6701-3f10-66ae-a3ea-41b70a0743ac/eeb65884-de3b-5ffc-9982-79cfe16f394b.webp?Expires=1767225599&Signature=tnQgxe3HIRNHu4D532pE79A2nbqUhNwYrzKXOsl-ZX9uqsiDQY1orBDBv1pBmKVfHtCWwp9N31Q7wP4n2S~BKTJRHElZheN-DJU5Q3nHRIiXqvXdxKBYnD7ZH3Mcjl6n9RuxIy5YywbWqvTIs05HYX13SmDMOBx4sCaJvD4MBovknJ1OWL~1txwStM7fNnsyLKf8j857Kci1OLDKuDeJyRgKzQryixLSt-KB7lknK2tXGeAA~XW31yW9dbVhw0oeuXwhJAXYtezI9pcGaBHmm2sPtr3BMM7mJtkK-arna11zegqXaYVEeCsdRxQCwTHQUuApPYk0Kc6OHZ4eTnr42w__&Key-Pair-Id=K2RFTOXRBNSROX"
                   type="box"
                 />
               </div>
-              <div className="w-[48px] h-[48px] rounded overflow-hidden">
+              <div className="col-span-1 border border-border aspect-[9/13] h-full w-full">
                 <DraggableItem
                   id="3"
                   imgUrl="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/f2664fbe-b0bd-454c-bfe6-6e930a07fc49/dh1yf6m-9a50d508-4a14-4f63-9a0b-b4339f5d284a.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcL2YyNjY0ZmJlLWIwYmQtNDU0Yy1iZmU2LTZlOTMwYTA3ZmM0OVwvZGgxeWY2bS05YTUwZDUwOC00YTE0LTRmNjMtOWEwYi1iNDMzOWY1ZDI4NGEuanBnIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.VNORNfSflxfLfH0SH-r1mLEM8eyB8LsRfinCHZuP5Jc"
+                  type="box"
+                />
+              </div>
+            </div>
+          </div>
+          <div>
+            <span className="block text-xl p-2 border-white">NPCs</span>
+            <div className="grid grid-cols-4 w-full items-center justify-center">
+              <div className="col-span-1 border border-border aspect-square h-full w-full">
+                <DraggableItem
+                  id="111"
+                  imgUrl="/characters/01.jpg"
+                  type="box"
+                />
+              </div>
+              <div className="col-span-1 border border-border aspect-square h-full w-full">
+                <DraggableItem
+                  id="222"
+                  imgUrl="/characters/02.jpg"
+                  type="box"
+                />
+              </div>
+              <div className="col-span-1 border border-border aspect-square h-full w-full">
+                <DraggableItem
+                  id="333"
+                  imgUrl="/characters/04.jpg"
                   type="box"
                 />
               </div>
