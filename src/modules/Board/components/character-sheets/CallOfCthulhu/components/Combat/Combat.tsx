@@ -1,3 +1,6 @@
+import { Tooltip } from "@/shared/components"
+import { weapons } from "./data"
+
 interface CombatProps {
   activeItems: (
     | "attributes"
@@ -21,36 +24,6 @@ interface WeaponData {
   ammo: number
   malf: number
 }
-
-const weapons: WeaponData[] = [
-  {
-    weapon: "Unarmed",
-    skill: "Fighting (Brawl)",
-    damage: "1d3 +db",
-    range: "-",
-    attacks: "1",
-    ammo: 0,
-    malf: 0,
-  },
-  {
-    weapon: "Faca",
-    skill: "Fighting (Brawl)",
-    damage: "1d4 +db",
-    range: "-",
-    attacks: "1",
-    ammo: 0,
-    malf: 0,
-  },
-  {
-    weapon: "Revolver .32",
-    skill: "Firearms (HG)",
-    damage: "1d8 +0",
-    range: "15m",
-    attacks: "1(3)",
-    ammo: 6,
-    malf: 75,
-  },
-]
 
 export const Combat = ({ activeItems, toggleItem }: CombatProps) => {
   return (
@@ -105,67 +78,39 @@ export const Combat = ({ activeItems, toggleItem }: CombatProps) => {
         </svg>
       </div>
       {activeItems.includes("combat") && (
-        <div>
-          Exibir armas, quando clicar exibir atributos da arma em modal. Fazer todo um
-          sistema de cadastro da arma em um modal
-          <tbody>
-            {weapons.map((weapon, index) => (
-              <tr
-                key={index}
-                className="grid grid-cols-7 justify-between w-full"
-              >
-                <td
-                  className={`${
-                    weapons.length != index + 1 && " border-b "
-                  } border-r border-border col-span-1 p-2 flex items-center justify-center w-full`}
-                >
-                  {weapon.weapon}
-                </td>
-                <td
-                  className={`${
-                    weapons.length != index + 1 && " border-b "
-                  } border-r border-border col-span-1 p-2 flex items-center justify-center w-full`}
-                >
-                  {weapon.skill}
-                </td>
-                <td
-                  className={`${
-                    weapons.length != index + 1 && " border-b "
-                  } border-r border-border col-span-1 p-2 flex items-center justify-center w-full`}
-                >
-                  {weapon.damage}
-                </td>
-                <td
-                  className={`${
-                    weapons.length != index + 1 && " border-b "
-                  } border-r border-border col-span-1 p-2 flex items-center justify-center w-full`}
-                >
-                  {weapon.range}
-                </td>
-                <td
-                  className={`${
-                    weapons.length != index + 1 && " border-b "
-                  } border-r border-border col-span-1 p-2 flex items-center justify-center w-full`}
-                >
-                  {weapon.attacks}
-                </td>
-                <td
-                  className={`${
-                    weapons.length != index + 1 && " border-b "
-                  } border-r border-border col-span-1 p-2 flex items-center justify-center w-full`}
-                >
-                  {weapon.ammo}
-                </td>
-                <td
-                  className={`${
-                    weapons.length != index + 1 && " border-b "
-                  } col-span-1 border-border p-2 flex items-center justify-center w-full`}
-                >
-                  {weapon.malf}
-                </td>
+        <div className="grid grid-cols-10 p-2 gap-2">
+          {weapons.map((weapon, index) => (
+            <div className="col-span-1 flex items-center justify-center bg-border rounded w-full h-full aspect-square">
+              <img src={weapon.iconUrl} />
+            </div>
+          ))}
+          {/* <table className="w-full table-auto ">
+            <thead>
+              <tr className="grid grid-cols-6 justify-between w-full border-b border-border">
+                <th className="col-span-1 border-r border-border p-2 text-xl">Skill</th>
+                <th className="col-span-1 border-r border-border p-2 text-xl">Damage</th>
+                <th className="col-span-1 border-r border-border p-2 text-xl">Range</th>
+                <th className="col-span-1 border-r border-border p-2 text-xl">Attacks</th>
+                <th className="col-span-1 border-r border-border p-2 text-xl">Ammo</th>
+                <th className="col-span-1 p-2 text-xl">Malf</th>
               </tr>
-            ))}
-          </tbody>
+            </thead>
+            <tbody>
+              {weapons.map((weapon, index) => (
+                <tr
+                  key={index}
+                  className="grid grid-cols-6 justify-between w-full"
+                >
+                  <td className={`${weapons.length != index + 1 && ' border-b ' } border-r border-border col-span-1 p-2 flex items-center justify-center w-full`}>{weapon.skill}</td>
+                  <td className={`${weapons.length != index + 1 && ' border-b ' } border-r border-border col-span-1 p-2 flex items-center justify-center w-full`}>{weapon.damage}</td>
+                  <td className={`${weapons.length != index + 1 && ' border-b ' } border-r border-border col-span-1 p-2 flex items-center justify-center w-full`}>{weapon.range}</td>
+                  <td className={`${weapons.length != index + 1 && ' border-b ' } border-r border-border col-span-1 p-2 flex items-center justify-center w-full`}>{weapon.attacks}</td>
+                  <td className={`${weapons.length != index + 1 && ' border-b ' } border-r border-border col-span-1 p-2 flex items-center justify-center w-full`}>{weapon.ammo}</td>
+                  <td className={`${weapons.length != index + 1 && ' border-b ' } col-span-1 border-border p-2 flex items-center justify-center w-full`}>{weapon.malf}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table> */}
         </div>
       )}
     </div>

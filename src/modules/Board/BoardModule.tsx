@@ -112,7 +112,7 @@ export function BoardModule() {
         </div>
         <div className="w-[30vw] pb-2 overflow-y-scroll no-scrollbar h-screen border-l border-border">
           <Board.Cam />
-          <div className="mt-8">
+          <div className="">
             <span className="block text-xl p-2 border-white">Characters</span>
             <div className="grid grid-cols-3 w-full items-center justify-center">
               <div className="col-span-1 border border-border aspect-[9/13] h-full w-full">
