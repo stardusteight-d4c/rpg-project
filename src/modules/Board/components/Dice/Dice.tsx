@@ -109,7 +109,7 @@ export const Dice: React.FC = () => {
   }
 
   return (
-    <section className="p-4 select-none z-[999] flex flex-col gap-4">
+    <section className="p-4 w-[500px] select-none z-[999] flex flex-col gap-4">
       <h3 className="block text-3xl font-bold background-gradient bg-clip-text text-transparent">
         Roll
       </h3>

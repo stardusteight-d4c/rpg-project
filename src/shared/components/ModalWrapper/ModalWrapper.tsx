@@ -6,7 +6,7 @@ import { Zoom } from "react-awesome-reveal"
 
 interface ModalWrapperProps {
   status: "open" | "close"
-  onStatusChange: Dispatch<SetStateAction<"close" | "open">>
+  onStatusChange: (status: "close" | "open") => void
   children: React.ReactNode
 }
 
@@ -37,7 +37,7 @@ export const ModalWrapper = ({
           <div className="w-screen h-screen relative z-[950]">
             <div
               ref={modalContentRef} // Referência ao conteúdo do modal
-              className="z-[900] max-h-[500px] w-[500px] overflow-y-scroll no-scrollbar  md:bg-background shadow-p md:border md:border-border rounded-2xl absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2"
+              className="z-[900] max-h-[500px] w-fit overflow-y-scroll no-scrollbar  md:bg-background shadow-p md:border md:border-border rounded-2xl absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"

@@ -1,5 +1,8 @@
-import { Tooltip } from "@/shared/components"
+"use client"
+
+import { useState } from "react"
 import { weapons } from "./data"
+import { ModalWrapper } from "@/shared/components"
 
 interface CombatProps {
   activeItems: (
@@ -15,19 +18,112 @@ interface CombatProps {
   ) => void
 }
 
-interface WeaponData {
-  weapon: string
-  skill: string
-  damage: string
-  range: string
-  attacks: string
-  ammo: number
-  malf: number
-}
-
 export const Combat = ({ activeItems, toggleItem }: CombatProps) => {
+  const [selectedWeapon, setSelectedWeapon] = useState<IWeapons | null>(null)
+
+  function handleOnStatusChange(status: "open" | "close") {
+    if (status === "open") return
+    if (status === "close") setSelectedWeapon(null)
+    return
+  }
+
   return (
     <div className="mb-4 rounded border border-border">
+      {selectedWeapon && (
+        <ModalWrapper
+          onStatusChange={handleOnStatusChange}
+          status={selectedWeapon ? "open" : "close"}
+        >
+          <div className="p-4">
+            <div className="flex items-center gap-x-2">
+              <div className="w-[80px] h-[80px] cursor-pointer hover:bg-ashes flex items-center justify-center bg-border rounded aspect-square">
+                <img src={selectedWeapon.iconUrl} />
+              </div>
+              <span className="text-2xl font-medium">
+                {selectedWeapon.name}
+              </span>
+            </div>
+            <div className="py-2">
+              <span className="text-gray-400">
+                {selectedWeapon.description}
+              </span>
+            </div>
+            <table className="w-[800px] table-auto ">
+              <thead>
+                <tr className="grid grid-cols-6 justify-between overflow-hidden rounded-t-md w-full border border-border">
+                  <th className="col-span-1 border-r border-border p-2 text-xl">
+                    Skill
+                  </th>
+                  <th className="col-span-1 border-r border-border p-2 text-xl">
+                    Damage
+                  </th>
+                  <th className="col-span-1 border-r border-border p-2 text-xl">
+                    Range
+                  </th>
+                  <th className="col-span-1 border-r border-border p-2 text-xl">
+                    Attacks
+                  </th>
+                  <th className="col-span-1 border-r border-border p-2 text-xl">
+                    Ammo
+                  </th>
+                  <th className="col-span-1 p-2 text-xl">Malf</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr className="grid border-x border-b rounded-b-md border-border grid-cols-6 justify-between w-full">
+                  <td
+                    className={
+                      "border-r border-border col-span-1 p-2 flex items-center justify-center w-full"
+                    }
+                  >
+                    {selectedWeapon.skill}
+                  </td>
+                  <td
+                    className={
+                      "border-r border-border col-span-1 p-2 flex items-center justify-center w-full"
+                    }
+                  >
+                    {/* {selectedWeapon.damage} */} 1d10
+                  </td>
+                  <td
+                    className={
+                      "border-r border-border col-span-1 p-2 flex items-center justify-center w-full"
+                    }
+                  >
+                    {/* {selectedWeapon.range} */} 1m
+                  </td>
+                  <td
+                    className={
+                      "border-r border-border col-span-1 p-2 flex items-center justify-center w-full"
+                    }
+                  >
+                    {selectedWeapon.attacks} 1(2)
+                  </td>
+                  <td
+                    className={
+                      "border-r border-border col-span-1 p-2 flex items-center justify-center w-full"
+                    }
+                  >
+                    {selectedWeapon.ammo} -
+                  </td>
+                  <td
+                    className={
+                      "col-span-1 border-border p-2 flex items-center justify-center w-full"
+                    }
+                  >
+                    {selectedWeapon.malfunction} 80
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <ul className="mt-2">
+              {selectedWeapon.properties.map((property) => (
+                <li className="text-gray-400 text-sm list-disc ml-4">{property}</li>
+              ))}
+            </ul>
+          </div>
+        </ModalWrapper>
+      )}
       <div
         onClick={() => toggleItem("combat")}
         className="flex cursor-pointer p-2 items-center justify-between bg-border"
@@ -80,37 +176,14 @@ export const Combat = ({ activeItems, toggleItem }: CombatProps) => {
       {activeItems.includes("combat") && (
         <div className="grid grid-cols-10 p-2 gap-2">
           {weapons.map((weapon, index) => (
-            <div className="col-span-1 flex items-center justify-center bg-border rounded w-full h-full aspect-square">
+            <div
+              key={index}
+              onClick={() => setSelectedWeapon(weapon)}
+              className="col-span-1 cursor-pointer hover:bg-ashes flex items-center justify-center bg-border rounded w-full h-full aspect-square"
+            >
               <img src={weapon.iconUrl} />
             </div>
           ))}
-          {/* <table className="w-full table-auto ">
-            <thead>
-              <tr className="grid grid-cols-6 justify-between w-full border-b border-border">
-                <th className="col-span-1 border-r border-border p-2 text-xl">Skill</th>
-                <th className="col-span-1 border-r border-border p-2 text-xl">Damage</th>
-                <th className="col-span-1 border-r border-border p-2 text-xl">Range</th>
-                <th className="col-span-1 border-r border-border p-2 text-xl">Attacks</th>
-                <th className="col-span-1 border-r border-border p-2 text-xl">Ammo</th>
-                <th className="col-span-1 p-2 text-xl">Malf</th>
-              </tr>
-            </thead>
-            <tbody>
-              {weapons.map((weapon, index) => (
-                <tr
-                  key={index}
-                  className="grid grid-cols-6 justify-between w-full"
-                >
-                  <td className={`${weapons.length != index + 1 && ' border-b ' } border-r border-border col-span-1 p-2 flex items-center justify-center w-full`}>{weapon.skill}</td>
-                  <td className={`${weapons.length != index + 1 && ' border-b ' } border-r border-border col-span-1 p-2 flex items-center justify-center w-full`}>{weapon.damage}</td>
-                  <td className={`${weapons.length != index + 1 && ' border-b ' } border-r border-border col-span-1 p-2 flex items-center justify-center w-full`}>{weapon.range}</td>
-                  <td className={`${weapons.length != index + 1 && ' border-b ' } border-r border-border col-span-1 p-2 flex items-center justify-center w-full`}>{weapon.attacks}</td>
-                  <td className={`${weapons.length != index + 1 && ' border-b ' } border-r border-border col-span-1 p-2 flex items-center justify-center w-full`}>{weapon.ammo}</td>
-                  <td className={`${weapons.length != index + 1 && ' border-b ' } col-span-1 border-border p-2 flex items-center justify-center w-full`}>{weapon.malf}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table> */}
         </div>
       )}
     </div>
