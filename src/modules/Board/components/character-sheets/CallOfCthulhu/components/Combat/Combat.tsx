@@ -83,28 +83,28 @@ export const Combat = ({ activeItems, toggleItem }: CombatProps) => {
                       "border-r border-border col-span-1 p-2 flex items-center justify-center w-full"
                     }
                   >
-                    {/* {selectedWeapon.damage} */} 1d10
+                    {selectedWeapon.damage}
                   </td>
                   <td
                     className={
                       "border-r border-border col-span-1 p-2 flex items-center justify-center w-full"
                     }
                   >
-                    {/* {selectedWeapon.range} */} 1m
+                    {selectedWeapon.range}
                   </td>
                   <td
                     className={
                       "border-r border-border col-span-1 p-2 flex items-center justify-center w-full"
                     }
                   >
-                    {selectedWeapon.attacks} 1(2)
+                    {selectedWeapon.attacks}
                   </td>
                   <td
                     className={
                       "border-r border-border col-span-1 p-2 flex items-center justify-center w-full"
                     }
                   >
-                    {selectedWeapon.ammo} -
+                    {selectedWeapon.ammo ? selectedWeapon.ammo : "-"}
                   </td>
                   <td
                     className={
@@ -118,7 +118,9 @@ export const Combat = ({ activeItems, toggleItem }: CombatProps) => {
             </table>
             <ul className="mt-2">
               {selectedWeapon.properties.map((property) => (
-                <li className="text-gray-400 text-sm list-disc ml-4">{property}</li>
+                <li className="text-gray-400 text-sm list-disc ml-4">
+                  {property}
+                </li>
               ))}
             </ul>
           </div>
