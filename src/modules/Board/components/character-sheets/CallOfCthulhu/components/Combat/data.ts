@@ -1450,28 +1450,89 @@ export const guns: Array<IGun> = [
       "Reliable in adverse conditions, though prone to overheating during prolonged use.",
     ],
   },
+  {
+    name: "Hunter 01",
+    iconUrl: "/guns/hunter-01.svg",
+    skill: "Firearms(R/S)",
+    damage: "2d6+4",
+    attacks: "1",
+    ammo: 5,
+    range: "150m",
+    malfunction: 96,
+    description:
+      "The Hunter 01 is a precision rifle designed for long-range engagements. Ideal for hunting and sharpshooting, it delivers powerful damage over extended distances.",
+    properties: [
+      "Bolt-action mechanism for accuracy.",
+      "Effective for long-range precision targeting.",
+      "Requires manual reload after each shot.",
+    ],
+  },
+  {
+    name: "Hunter 02",
+    iconUrl: "/guns/hunter-02.svg",
+    skill: "Firearms(R/S)",
+    damage: "2d8+2",
+    attacks: "1",
+    ammo: 10,
+    range: "180m",
+    malfunction: 98,
+    description:
+      "The Hunter 02 is an advanced sniper rifle featuring enhanced optics and increased stopping power. Ideal for expert marksmen, this weapon excels in high-stakes precision scenarios.",
+    properties: [
+      "Semi-automatic with a larger magazine.",
+      "Equipped with high-powered optics.",
+      "Superior performance in long-range encounters.",
+    ],
+  },
+  {
+    name: "S-49",
+    iconUrl: "/guns/s-49.svg",
+    skill: "Firearms(R/S)",
+    damage: "2d8+4",
+    attacks: "1",
+    ammo: 10,
+    range: "200m",
+    malfunction: 95,
+    description:
+      "The S-49 is a versatile semi-automatic rifle, offering good accuracy and stopping power. Ideal for medium to long-range engagements, it is reliable and easy to maintain.",
+    properties: [
+      "Semi-automatic rifle.",
+      "Good balance of range and accuracy.",
+      "High rate of fire with moderate recoil.",
+    ],
+  },
+  {
+    name: "MCV-55",
+    iconUrl: "/guns/mcv-55.svg",
+    skill: "Firearms(R/S)",
+    damage: "3d6+2",
+    attacks: "1",
+    ammo: 8,
+    range: "300m",
+    malfunction: 98,
+    description:
+      "The MCV-55 is a powerful, semi-automatic marksman rifle. Known for its excellent accuracy at long ranges, it is designed for precision shooters who need more power and range.",
+    properties: [
+      "Precision rifle with a high-caliber round.",
+      "Great for long-range combat.",
+      "Heavy recoil but delivers superior damage.",
+    ],
+  },
+  {
+    name: "M82A1 SASR",
+    iconUrl: "/guns/m82a1-sasr.svg",
+    skill: "Firearms(R/S)",
+    damage: "4d8+5",
+    attacks: "1",
+    ammo: 5,
+    range: "1200m",
+    malfunction: 100,
+    description:
+      "The M82A1 SASR (Special Applications Scoped Rifle) is a long-range sniper rifle designed for extreme distances. It is capable of taking out targets at over a kilometer, making it a top choice for precision military operations.",
+    properties: [
+      "Semi-automatic sniper rifle with extreme range.",
+      "Fires powerful .50 caliber rounds.",
+      "Heavy recoil; requires strong control to handle effectively.",
+    ],
+  },
 ]
-
-// {
-//   name: "AK-47 Type 03",
-//   iconUrl: "/guns/Shotgun 03.svg",
-//   skill: "Firearms(R/S)",
-//   damage: "",
-//   attacks: "",
-//   ammo: ,
-//   range: "",
-//   malfunction: ,
-//   description:
-//     "",
-//   properties: [
-//     "",
-//   ],
-// },
-{
-  /* 
-  
-   AK47-Type01-Size256-Rotation30
-
-
-  */
-}
