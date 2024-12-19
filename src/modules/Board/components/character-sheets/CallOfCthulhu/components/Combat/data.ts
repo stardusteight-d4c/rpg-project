@@ -384,6 +384,200 @@ export const weapons: Array<IWeapons> = [
       "Can be used to entangle or disarm opponents with proper technique.",
     ],
   },
+  {
+    name: "Bat",
+    iconUrl: "/weapons/bat.svg",
+    skill: "Fighting(Brawl)",
+    range: "1m",
+    damage: "1d6 + STR",
+    attacks: "1(2)",
+    description:
+      "The Bat is a simple and sturdy blunt weapon, often used for striking with force. Its light weight allows for quick swings, but it lacks the stopping power of heavier weapons.",
+    properties: [
+      "Light and quick, making it effective for rapid strikes.",
+      "Can be used to knock enemies back or knock them unconscious with non-lethal damage.",
+    ],
+  },
+  {
+    name: "Baseball Bat",
+    iconUrl: "/weapons/baseball-bat.svg",
+    skill: "Fighting(Brawl)",
+    range: "1m",
+    damage: "1d8 + STR",
+    attacks: "1(2)",
+    description:
+      "The Baseball Bat is a popular blunt weapon, often used in street combat. Its longer length and heavier weight compared to a regular bat allow for more powerful strikes, ideal for breaking bones or causing significant damage.",
+    properties: [
+      "Longer reach than a regular bat, ideal for keeping enemies at a distance.",
+      "Heavy enough to deliver devastating blows, especially when swung with strength.",
+    ],
+  },
+  {
+    name: "Nagaika",
+    iconUrl: "/weapons/nagaika.svg",
+    skill: "Fighting(Brawl)",
+    range: "2m",
+    damage: "1d10 + STR",
+    attacks: "1",
+    description:
+      "The Nagaika is a Russian whip-like weapon, typically used to lash out at opponents. Its flexibility allows it to bypass defenses, making it effective for delivering quick, painful strikes. Often used in both combat and as a tool for subjugation.",
+    properties: [
+      "Flexible and long, able to strike at a distance with quick, painful lashes.",
+      "Can bypass shields and armor due to its ability to coil around obstacles.",
+      "Requires skill and precision to use effectively, making it a weapon of finesse.",
+    ],
+  },
+  {
+    name: "Bastardschwert Type 02",
+    iconUrl: "/weapons/bastardschwert-type-02.svg",
+    skill: "Fighting(Brawl)",
+    range: "1(2)m",
+    damage: "1d10 + STR",
+    attacks: "1(2)",
+    description:
+      "The Bastardschwert Type 02 is a versatile one- or two-handed sword, offering a balance of speed and power. It is a hybrid weapon, perfect for those who need adaptability in the heat of combat. With the ability to switch between one and two hands, it offers flexibility for both defensive and offensive tactics.",
+    properties: [
+      "Can be wielded with one or two hands, switching between speed and power.",
+      "Balanced for both slashing and thrusting attacks.",
+      "Effective for a variety of combat styles.",
+    ],
+  },
+  {
+    name: "Nachtwind",
+    iconUrl: "/weapons/nachtwind.svg",
+    skill: "Fighting(Brawl)",
+    range: "1m",
+    damage: "1d8 + STR",
+    attacks: "1",
+    description:
+      "The Nachtwind is a finely crafted sword known for its elegance and deadly precision. It is favored by those who focus on finesse over raw power. Its balanced design allows for fast strikes, often used by skilled duelists to target weak points in an opponent's defense.",
+    properties: [
+      "Light and precise, ideal for finesse attacks.",
+      "Great for targeting weak points with speed and precision.",
+      "Can be used to parry and counterattack effectively.",
+    ],
+  },
+  {
+    name: "Florett Type 01",
+    iconUrl: "/weapons/florett-type-01.svg",
+    skill: "Fighting(Brawl)",
+    range: "1m",
+    damage: "1d6 + DEX",
+    attacks: "1",
+    description:
+      "The Florett Type 01 is a lightweight, flexible rapier designed for rapid thrusting attacks. It is a weapon favored by those who rely on agility and precision, often used in fencing or duels. The weapon excels in quick, pinpoint strikes, making it ideal for those who favor finesse and dexterity over raw strength.",
+    properties: [
+      "Light and agile, perfect for quick thrusts and rapid attacks.",
+      "Allows finesse attacks, using Dexterity instead of Strength for attack rolls.",
+      "Great for defensive maneuvers, allowing for quick counterattacks.",
+    ],
+  },
+  {
+    name: "Wolfsmesser",
+    iconUrl: "/weapons/wolfsmesser.svg",
+    skill: "Fighting(Brawl)",
+    range: "1m",
+    damage: "1d10 + STR",
+    attacks: "1",
+    description:
+      "The Wolfsmesser is a large, single-edged sword known for its brutal slashing ability. It is a weapon favored by those who rely on power and cleaving attacks, often used to overwhelm opponents with its heavy strikes. It is effective for cutting through defenses and dealing significant damage.",
+    properties: [
+      "Heavy and powerful, ideal for cleaving strikes.",
+      "Can break through armor and shields with powerful blows.",
+      "Best used for overwhelming opponents with strength and precision.",
+    ],
+  },
+  {
+    name: "Khunchomer",
+    iconUrl: "/weapons/khunchomer.svg",
+    skill: "Fighting(Brawl)",
+    range: "1m",
+    damage: "1d8 + STR",
+    attacks: "1",
+    description:
+      "The Khunchomer is a curved, versatile weapon originating from Central Asia. It is often used in both cutting and thrusting motions, making it effective in a variety of combat scenarios. Its unique curve and design allow for swift, powerful attacks that are difficult to block or parry.",
+    properties: [
+      "Curved design allows for powerful slashing and thrusting attacks.",
+      "Effective at cutting through armor and defense.",
+      "Requires finesse to use effectively, offering swift and precise strikes.",
+    ],
+  },
+  {
+    name: "Hakendolch",
+    iconUrl: "/weapons/hakendolch.svg",
+    skill: "Fighting(Brawl)",
+    range: "1m",
+    damage: "1d6 + DEX",
+    attacks: "1",
+    description:
+      "The Hakendolch is a unique weapon featuring a curved blade designed for stabbing and slicing. Its short, hooked design makes it especially deadly in close-quarters combat, where quick, precise strikes are needed to catch an opponent off guard.",
+    properties: [
+      "Short and curved, ideal for close-range stabbing and slicing.",
+      "Can bypass armor and defenses due to its unique blade shape.",
+      "Allows finesse attacks, enabling the user to use Dexterity instead of Strength.",
+    ],
+  },
+
+  {
+    name: "Boronssichel",
+    iconUrl: "/weapons/boronssichel.svg",
+    skill: "Fighting(Brawl)",
+    range: "1m",
+    damage: "1d8 + STR",
+    attacks: "1",
+    description:
+      "The Boronssichel is a large, curved scythe designed for swift, wide-reaching strikes. Its blade allows for sweeping attacks that can hit multiple opponents in a single movement. The weapon is effective against lightly armored or unarmored enemies.",
+    properties: [
+      "Curved blade, ideal for wide, sweeping strikes and area attacks.",
+      "Effective against lightly armored or unarmored enemies.",
+      "Good for dealing damage to groups, hitting multiple targets.",
+    ],
+  },
+  {
+    name: "Grober Sklaventod",
+    iconUrl: "/weapons/grober-sklaventod.svg",
+    skill: "Fighting(Brawl)",
+    range: "1m",
+    damage: "1d10 + STR",
+    attacks: "1",
+    description:
+      "The Grober Sklaventod is a massive and brutal weapon designed to deal devastating damage with each strike. Its size and weight allow it to break through the defenses of stronger enemies, although its size makes it slow to wield. Ideal for combat against heavily armored foes.",
+    properties: [
+      "Deals massive damage and breaks defenses.",
+      "Slow to wield, but extremely powerful.",
+      "Ideal against heavily armored or shielded targets.",
+    ],
+  },
+  {
+    name: "Amazonensabel",
+    iconUrl: "/weapons/amazonensabel.svg",
+    skill: "Fighting(Brawl)",
+    range: "1m",
+    damage: "1d8 + STR",
+    attacks: "1",
+    description:
+      "The Amazonensabel is a lightweight, curved sword designed for quick, precise strikes. Ideal for combatants who favor mobility, it allows for rapid attacks and evasive maneuvers, making it useful both offensively and defensively.",
+    properties: [
+      "Short, curved blade, ideal for fast and agile attacks.",
+      "Perfect for combatants who prioritize speed and agility.",
+      "Balanced, allowing for effective attacks and defenses.",
+    ],
+  },
+  {
+    name: "Zweihander",
+    iconUrl: "/weapons/zweihander.svg",
+    skill: "Fighting(Brawl)",
+    range: "2m",
+    damage: "1d12 + STR",
+    attacks: "1(2)",
+    description:
+      "The Zweihander is an extremely heavy two-handed sword designed to deliver crushing blows. Its large size allows it to strike multiple enemies with a single blow, but it requires significant strength to wield effectively. Ideal for combat against groups or heavily armored foes.",
+    properties: [
+      "Two-handed sword with great reach and damage.",
+      "Ideal for mass attacks, hitting multiple enemies.",
+      "Requires significant strength to wield properly.",
+    ],
+  },
 ]
 
 // {
@@ -396,9 +590,3 @@ export const weapons: Array<IWeapons> = [
 //   description: "",
 //   properties: [""],
 // },
-
-//
-//
-//
-//
-//

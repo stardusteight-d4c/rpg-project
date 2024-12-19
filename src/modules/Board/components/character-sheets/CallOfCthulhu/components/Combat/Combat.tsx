@@ -34,7 +34,7 @@ export const Combat = ({ activeItems, toggleItem }: CombatProps) => {
           onStatusChange={handleOnStatusChange}
           status={selectedWeapon ? "open" : "close"}
         >
-          <div className="p-4">
+          <div className="p-4 w-[681px]">
             <div className="flex items-center gap-x-2">
               <div className="w-[80px] h-[80px] cursor-pointer hover:bg-ashes flex items-center justify-center bg-border rounded aspect-square">
                 <img src={selectedWeapon.iconUrl} />
@@ -48,7 +48,7 @@ export const Combat = ({ activeItems, toggleItem }: CombatProps) => {
                 {selectedWeapon.description}
               </span>
             </div>
-            <table className="w-[800px] table-auto ">
+            <table className="w-fit table-auto ">
               <thead>
                 <tr className="grid grid-cols-6 justify-between overflow-hidden rounded-t-md w-full border border-border">
                   <th className="col-span-1 border-r border-border p-2 text-xl">
