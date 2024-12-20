@@ -1,7 +1,3 @@
-"use client"
-
-import { useEffect, useRef, useState } from "react"
-
 interface CustomNumericInputProps {
   value: number
   onChange: (value: number) => void
@@ -11,9 +7,6 @@ export const CustomNumericInput: React.FC<CustomNumericInputProps> = ({
   value,
   onChange,
 }) => {
-  const intervalRef = useRef<NodeJS.Timeout | null>(null)
-  const [clickType, setClickType] = useState<"up" | "down" | null>(null)
-
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value
 
@@ -28,74 +21,14 @@ export const CustomNumericInput: React.FC<CustomNumericInputProps> = ({
     }
   }
 
-  useEffect(() => {
-    if (clickType) {
-      intervalRef.current = setInterval(() => {
-        const newValue =
-          clickType === "up" ? Math.min(100, value + 1) : Math.max(0, value - 1)
-        onChange(newValue)
-      }, 100)
-    } else if (intervalRef.current) {
-      clearInterval(intervalRef.current)
-      intervalRef.current = null
-    }
-
-    return () => {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current)
-      }
-    }
-  }, [clickType, onChange])
-
-  useEffect(() => {
-    const handleMouseUp = () => setClickType(null)
-
-    window.addEventListener("mouseup", handleMouseUp)
-    return () => window.removeEventListener("mouseup", handleMouseUp)
-  }, [])
-
   return (
-    <div className="flex w-fit rounded-full overflow-hidden items-center">
+    <div className="flex min-w-[35px] min-h-[35px] max-w-[35px] max-h-[35px] rounded-full overflow-hidden items-center">
       <input
         type="text"
         value={value}
         onChange={handleInputChange}
-        className="w-[35px] pl-2 font-medium z-10 relative h-[30px] bg-ashes outline-none caret-white"
+        className="w-[35px] h-[35px] aspect-square text-center font-medium z-10 relative bg-ashes outline-none caret-white"
       />
-      <div className="h-[30px] bg-ashes pr-2">
-        <svg
-          onClick={() => onChange(Math.min(100, value + 1))}
-          onMouseDown={() => setClickType("up")}
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="#FFFFFF"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          className="w-full h-[50%] cursor-pointer"
-        >
-          <path d="m18 15-6-6-6 6" />
-        </svg>
-        <svg
-          onClick={() => onChange(Math.max(0, value - 1))}
-          onMouseDown={() => setClickType("down")}
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="#FFFFFF"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          className="w-full h-[50%] cursor-pointer rotate-180"
-        >
-          <path d="m18 15-6-6-6 6" />
-        </svg>
-      </div>
     </div>
   )
 }

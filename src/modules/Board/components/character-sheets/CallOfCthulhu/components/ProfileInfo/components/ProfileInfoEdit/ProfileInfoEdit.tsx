@@ -1,6 +1,10 @@
 "use client"
 
-import { CustomNumericInput, DonutChart } from "@/shared/components"
+import {
+  CustomNumericInput,
+  DonutChart,
+  GlowingWrapper,
+} from "@/shared/components"
 import { useState } from "react"
 
 interface ProfileInfoProps {
@@ -54,10 +58,9 @@ export const ProfileInfoEdit = ({ infos, player }: ProfileInfoProps) => {
 
   return (
     <div className="flex">
-      <div className="relative bg-ashes rounded w-fit">
-        <button
-          onClick={() => handleClick()}
-          className="bg-ashes cursor-pointer absolute z-10 top-2 right-2 flex items-center justify-center text-white p-1 rounded-full shadow-p group-hover:bg-gradient-to-tr group-hover:from-[#42d392] group-hover:to-[#8B5CF6] duration-300 ease-in-out transition-all"
+      <div className="relative rounded w-fit">
+        {/* <button
+          className="bg-ashes cursor-pointer absolute z-10 top-2 right-2 flex items-center justify-center text-white p-1 rounded-full shadow-sm shadow-black/50 group-hover:bg-gradient-to-tr group-hover:from-[#42d392] group-hover:to-[#8B5CF6] duration-300 ease-in-out transition-all"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -68,13 +71,16 @@ export const ProfileInfoEdit = ({ infos, player }: ProfileInfoProps) => {
           >
             <path d="M216,40H40A16,16,0,0,0,24,56V200a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A16,16,0,0,0,216,40Zm0,16V158.75l-26.07-26.06a16,16,0,0,0-22.63,0l-20,20-44-44a16,16,0,0,0-22.62,0L40,149.37V56ZM40,172l52-52,80,80H40Zm176,28H194.63l-36-36,20-20L216,181.38V200ZM144,100a12,12,0,1,1,12,12A12,12,0,0,1,144,100Z"></path>
           </svg>
-        </button>
+        </button> */}
         <div className="w-fit h-fit relative">
-          <img
-            src={editableData.characterUrl}
-            alt="Imagem do Personagem"
-            className="min-w-[210px] max-w-[210px] min-h-[210px] max-h-[210px] border border-border object-cover rounded"
-          />
+          <GlowingWrapper>
+            <img
+              onClick={() => handleClick()}
+              src={editableData.characterUrl}
+              alt="Imagem do Personagem"
+              className="min-w-[210px] max-w-[210px] min-h-[210px] max-h-[210px] cursor-pointer overflow-hidden border border-border object-cover rounded"
+            />
+          </GlowingWrapper>
           <input
             id="file-input"
             type="file"
@@ -83,149 +89,160 @@ export const ProfileInfoEdit = ({ infos, player }: ProfileInfoProps) => {
             onChange={handleFileChange}
           />
           <div className="flex absolute bottom-2 left-2 items-center group w-fit gap-x-2">
-            <button
-              onClick={() =>
-                handleEdit("inspiration", !editableData.inspiration)
-              }
-              className="bg-ashes flex cursor-pointer transition-all duration-300 ease-in-out active:scale-95 items-center justify-center text-white p-1 rounded-full shadow-p"
-            >
-              {editableData.inspiration ? (
-                <svg
-                  width="22"
-                  height="22"
-                  viewBox="0 0 32 32"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M29.2862 14.3558L23.6612 19.2096L25.3749 26.4683C25.4695 26.8623 25.4451 27.2756 25.305 27.6558C25.1648 28.036 24.9151 28.3661 24.5873 28.6045C24.2596 28.8429 23.8686 28.9787 23.4637 28.995C23.0588 29.0112 22.6582 28.9071 22.3124 28.6958L15.9999 24.8108L9.68367 28.6958C9.33796 28.9059 8.9378 29.009 8.5336 28.9922C8.12939 28.9753 7.7392 28.8393 7.41217 28.6011C7.08514 28.363 6.83589 28.0334 6.6958 27.6538C6.55571 27.2743 6.53105 26.8618 6.62492 26.4683L8.34492 19.2096L2.71992 14.3558C2.41404 14.0914 2.19283 13.7428 2.0839 13.3535C1.97497 12.9641 1.98316 12.5513 2.10744 12.1666C2.23172 11.7819 2.46659 11.4424 2.78271 11.1903C3.09883 10.9383 3.48219 10.785 3.88492 10.7496L11.2599 10.1546L14.1049 3.26955C14.2589 2.89432 14.521 2.57336 14.8579 2.34748C15.1948 2.12159 15.5912 2.00098 15.9968 2.00098C16.4024 2.00098 16.7988 2.12159 17.1357 2.34748C17.4726 2.57336 17.7347 2.89432 17.8887 3.26955L20.7324 10.1546L28.1074 10.7496C28.511 10.7837 28.8954 10.9361 29.2127 11.1878C29.53 11.4395 29.7659 11.7792 29.891 12.1644C30.016 12.5495 30.0246 12.9631 29.9157 13.3531C29.8068 13.7432 29.5852 14.0924 29.2787 14.3571L29.2862 14.3558Z"
-                    fill="url(#paint0_linear_85_8)"
-                  />
-                  <defs>
-                    <linearGradient
-                      id="paint0_linear_85_8"
-                      x1="15.9997"
-                      y1="2.00098"
-                      x2="15.9997"
-                      y2="28.9966"
-                      gradientUnits="userSpaceOnUse"
-                    >
-                      <stop stop-color="#42D392" />
-                      <stop offset="1" stop-color="#8B5CF6" />
-                    </linearGradient>
-                  </defs>
-                </svg>
-              ) : (
-                <svg
-                  width="22"
-                  height="22"
-                  viewBox="0 0 32 32"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M29.8976 12.1573C29.7726 11.773 29.5366 11.4342 29.2194 11.1838C28.9022 10.9333 28.5179 10.7823 28.1151 10.7498L20.7401 10.1548L17.8926 3.26858C17.7386 2.89335 17.4765 2.57239 17.1396 2.3465C16.8027 2.12061 16.4063 2 16.0007 2C15.5951 2 15.1987 2.12061 14.8618 2.3465C14.5249 2.57239 14.2628 2.89335 14.1088 3.26858L11.2638 10.1536L3.88508 10.7498C3.48156 10.784 3.09707 10.9364 2.7798 11.1881C2.46253 11.4398 2.22659 11.7795 2.10153 12.1646C1.97648 12.5498 1.96787 12.9633 2.07679 13.3534C2.18571 13.7434 2.40731 14.0927 2.71383 14.3573L8.33883 19.2111L6.62508 26.4686C6.52924 26.8629 6.55271 27.2767 6.69251 27.6577C6.83231 28.0386 7.08214 28.3694 7.41028 28.608C7.73843 28.8467 8.13009 28.9825 8.53555 28.9982C8.94102 29.0139 9.34199 28.9087 9.68758 28.6961L16.0001 24.8111L22.3163 28.6961C22.662 28.9062 23.0622 29.0093 23.4664 28.9925C23.8706 28.9756 24.2608 28.8395 24.5878 28.6014C24.9149 28.3632 25.1641 28.0336 25.3042 27.6541C25.4443 27.2746 25.469 26.8621 25.3751 26.4686L23.6551 19.2098L29.2801 14.3561C29.5891 14.0919 29.8127 13.7419 29.9226 13.3504C30.0326 12.959 30.0238 12.5438 29.8976 12.1573ZM27.9801 12.8411L21.8926 18.0911C21.7538 18.2107 21.6505 18.3662 21.5941 18.5406C21.5376 18.715 21.5302 18.9015 21.5726 19.0798L23.4326 26.9298C23.4374 26.9406 23.4379 26.9529 23.4339 26.9641C23.43 26.9752 23.4219 26.9844 23.4113 26.9898C23.3888 27.0073 23.3826 27.0036 23.3638 26.9898L16.5238 22.7836C16.3663 22.6867 16.185 22.6354 16.0001 22.6354C15.8152 22.6354 15.6339 22.6867 15.4763 22.7836L8.63633 26.9923C8.61758 27.0036 8.61258 27.0073 8.58883 26.9923C8.57828 26.9869 8.5702 26.9777 8.56625 26.9666C8.56229 26.9554 8.56277 26.9431 8.56758 26.9323L10.4276 19.0823C10.47 18.904 10.4625 18.7175 10.4061 18.5431C10.3497 18.3687 10.2464 18.2132 10.1076 18.0936L4.02008 12.8436C4.00508 12.8311 3.99133 12.8198 4.00383 12.7811C4.01633 12.7423 4.02633 12.7473 4.04508 12.7448L12.0351 12.0998C12.2183 12.0841 12.3937 12.0181 12.5419 11.9092C12.6901 11.8003 12.8054 11.6526 12.8751 11.4823L15.9526 4.03108C15.9626 4.00983 15.9663 3.99983 15.9963 3.99983C16.0263 3.99983 16.0301 4.00983 16.0401 4.03108L19.1251 11.4823C19.1954 11.6526 19.3114 11.8002 19.4603 11.9087C19.6092 12.0172 19.7852 12.0825 19.9688 12.0973L27.9588 12.7423C27.9776 12.7423 27.9888 12.7423 28.0001 12.7786C28.0113 12.8148 28.0001 12.8286 27.9801 12.8411Z"
-                    fill="#CCC"
-                  />
-                  <defs>
-                    <linearGradient
-                      id="paint0_linear_82_5"
-                      x1="16.0001"
-                      y1="2"
-                      x2="16.0001"
-                      y2="28.9997"
-                      gradientUnits="userSpaceOnUse"
-                    >
-                      <stop stopColor="#42D392" />
-                      <stop offset="1" stopColor="#8B5CF6" />
-                    </linearGradient>
-                  </defs>
-                </svg>
-              )}
-            </button>
+            <GlowingWrapper>
+              <button
+                onClick={() =>
+                  handleEdit("inspiration", !editableData.inspiration)
+                }
+                className="bg-ashes flex cursor-pointer transition-all duration-300 ease-in-out active:scale-95 items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50"
+              >
+                {editableData.inspiration ? (
+                  <svg
+                    width="22"
+                    height="22"
+                    viewBox="0 0 32 32"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M29.2862 14.3558L23.6612 19.2096L25.3749 26.4683C25.4695 26.8623 25.4451 27.2756 25.305 27.6558C25.1648 28.036 24.9151 28.3661 24.5873 28.6045C24.2596 28.8429 23.8686 28.9787 23.4637 28.995C23.0588 29.0112 22.6582 28.9071 22.3124 28.6958L15.9999 24.8108L9.68367 28.6958C9.33796 28.9059 8.9378 29.009 8.5336 28.9922C8.12939 28.9753 7.7392 28.8393 7.41217 28.6011C7.08514 28.363 6.83589 28.0334 6.6958 27.6538C6.55571 27.2743 6.53105 26.8618 6.62492 26.4683L8.34492 19.2096L2.71992 14.3558C2.41404 14.0914 2.19283 13.7428 2.0839 13.3535C1.97497 12.9641 1.98316 12.5513 2.10744 12.1666C2.23172 11.7819 2.46659 11.4424 2.78271 11.1903C3.09883 10.9383 3.48219 10.785 3.88492 10.7496L11.2599 10.1546L14.1049 3.26955C14.2589 2.89432 14.521 2.57336 14.8579 2.34748C15.1948 2.12159 15.5912 2.00098 15.9968 2.00098C16.4024 2.00098 16.7988 2.12159 17.1357 2.34748C17.4726 2.57336 17.7347 2.89432 17.8887 3.26955L20.7324 10.1546L28.1074 10.7496C28.511 10.7837 28.8954 10.9361 29.2127 11.1878C29.53 11.4395 29.7659 11.7792 29.891 12.1644C30.016 12.5495 30.0246 12.9631 29.9157 13.3531C29.8068 13.7432 29.5852 14.0924 29.2787 14.3571L29.2862 14.3558Z"
+                      fill="url(#paint0_linear_85_8)"
+                    />
+                    <defs>
+                      <linearGradient
+                        id="paint0_linear_85_8"
+                        x1="15.9997"
+                        y1="2.00098"
+                        x2="15.9997"
+                        y2="28.9966"
+                        gradientUnits="userSpaceOnUse"
+                      >
+                        <stop stop-color="#42D392" />
+                        <stop offset="1" stop-color="#8B5CF6" />
+                      </linearGradient>
+                    </defs>
+                  </svg>
+                ) : (
+                  <svg
+                    width="22"
+                    height="22"
+                    viewBox="0 0 32 32"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M29.8976 12.1573C29.7726 11.773 29.5366 11.4342 29.2194 11.1838C28.9022 10.9333 28.5179 10.7823 28.1151 10.7498L20.7401 10.1548L17.8926 3.26858C17.7386 2.89335 17.4765 2.57239 17.1396 2.3465C16.8027 2.12061 16.4063 2 16.0007 2C15.5951 2 15.1987 2.12061 14.8618 2.3465C14.5249 2.57239 14.2628 2.89335 14.1088 3.26858L11.2638 10.1536L3.88508 10.7498C3.48156 10.784 3.09707 10.9364 2.7798 11.1881C2.46253 11.4398 2.22659 11.7795 2.10153 12.1646C1.97648 12.5498 1.96787 12.9633 2.07679 13.3534C2.18571 13.7434 2.40731 14.0927 2.71383 14.3573L8.33883 19.2111L6.62508 26.4686C6.52924 26.8629 6.55271 27.2767 6.69251 27.6577C6.83231 28.0386 7.08214 28.3694 7.41028 28.608C7.73843 28.8467 8.13009 28.9825 8.53555 28.9982C8.94102 29.0139 9.34199 28.9087 9.68758 28.6961L16.0001 24.8111L22.3163 28.6961C22.662 28.9062 23.0622 29.0093 23.4664 28.9925C23.8706 28.9756 24.2608 28.8395 24.5878 28.6014C24.9149 28.3632 25.1641 28.0336 25.3042 27.6541C25.4443 27.2746 25.469 26.8621 25.3751 26.4686L23.6551 19.2098L29.2801 14.3561C29.5891 14.0919 29.8127 13.7419 29.9226 13.3504C30.0326 12.959 30.0238 12.5438 29.8976 12.1573ZM27.9801 12.8411L21.8926 18.0911C21.7538 18.2107 21.6505 18.3662 21.5941 18.5406C21.5376 18.715 21.5302 18.9015 21.5726 19.0798L23.4326 26.9298C23.4374 26.9406 23.4379 26.9529 23.4339 26.9641C23.43 26.9752 23.4219 26.9844 23.4113 26.9898C23.3888 27.0073 23.3826 27.0036 23.3638 26.9898L16.5238 22.7836C16.3663 22.6867 16.185 22.6354 16.0001 22.6354C15.8152 22.6354 15.6339 22.6867 15.4763 22.7836L8.63633 26.9923C8.61758 27.0036 8.61258 27.0073 8.58883 26.9923C8.57828 26.9869 8.5702 26.9777 8.56625 26.9666C8.56229 26.9554 8.56277 26.9431 8.56758 26.9323L10.4276 19.0823C10.47 18.904 10.4625 18.7175 10.4061 18.5431C10.3497 18.3687 10.2464 18.2132 10.1076 18.0936L4.02008 12.8436C4.00508 12.8311 3.99133 12.8198 4.00383 12.7811C4.01633 12.7423 4.02633 12.7473 4.04508 12.7448L12.0351 12.0998C12.2183 12.0841 12.3937 12.0181 12.5419 11.9092C12.6901 11.8003 12.8054 11.6526 12.8751 11.4823L15.9526 4.03108C15.9626 4.00983 15.9663 3.99983 15.9963 3.99983C16.0263 3.99983 16.0301 4.00983 16.0401 4.03108L19.1251 11.4823C19.1954 11.6526 19.3114 11.8002 19.4603 11.9087C19.6092 12.0172 19.7852 12.0825 19.9688 12.0973L27.9588 12.7423C27.9776 12.7423 27.9888 12.7423 28.0001 12.7786C28.0113 12.8148 28.0001 12.8286 27.9801 12.8411Z"
+                      fill="#CCC"
+                    />
+                    <defs>
+                      <linearGradient
+                        id="paint0_linear_82_5"
+                        x1="16.0001"
+                        y1="2"
+                        x2="16.0001"
+                        y2="28.9997"
+                        gradientUnits="userSpaceOnUse"
+                      >
+                        <stop stopColor="#42D392" />
+                        <stop offset="1" stopColor="#8B5CF6" />
+                      </linearGradient>
+                    </defs>
+                  </svg>
+                )}
+              </button>
+            </GlowingWrapper>
           </div>
         </div>
       </div>
       <div className="w-full px-4">
         <div className="flex items-center gap-x-2">
-          <input
-            value={editableData.name}
-            placeholder="Name"
-            className="block placeholder:text-gray-400 placeholder:bg-background text-3xl outline-none caret-white font-bold background-gradient bg-clip-text text-transparent"
-            onChange={(e) => handleEdit("name", e.target.value)}
-          />
-
-          {editableData.sex === "male" && (
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="32"
-              height="32"
-              fill="#3b82f6"
-              viewBox="0 0 256 256"
-              className="bg-border p-1 rounded-full cursor-pointer active:scale-95 duration-300 ease-in-out transition-all"
-              onClick={() => handleEdit("sex", "female")}
-            >
-              <path d="M216,32H168a8,8,0,0,0,0,16h28.69L154.62,90.07a80,80,0,1,0,11.31,11.31L208,59.32V88a8,8,0,0,0,16,0V40A8,8,0,0,0,216,32ZM149.24,197.29a64,64,0,1,1,0-90.53A64.1,64.1,0,0,1,149.24,197.29Z"></path>
-            </svg>
-          )}
-          {editableData.sex === "female" && (
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="32"
-              height="32"
-              fill="#ec4899"
-              viewBox="0 0 256 256"
-              className="bg-border p-1 rounded-full cursor-pointer active:scale-95 duration-300 ease-in-out transition-all"
-              onClick={() => handleEdit("sex", "male")}
-            >
-              <path d="M208,96a80,80,0,1,0-88,79.6V200H88a8,8,0,0,0,0,16h32v24a8,8,0,0,0,16,0V216h32a8,8,0,0,0,0-16H136V175.6A80.11,80.11,0,0,0,208,96ZM64,96a64,64,0,1,1,64,64A64.07,64.07,0,0,1,64,96Z"></path>
-            </svg>
-          )}
+          <GlowingWrapper>
+            <input
+              value={editableData.name}
+              placeholder="Name"
+              className="block w-[400px] placeholder:text-gray-400 placeholder:bg-background text-3xl outline-none caret-white font-bold background-gradient bg-clip-text text-transparent"
+              onChange={(e) => handleEdit("name", e.target.value)}
+            />
+          </GlowingWrapper>
+          <GlowingWrapper>
+            {editableData.sex === "male" && (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="32"
+                height="32"
+                fill="#3b82f6"
+                viewBox="0 0 256 256"
+                className="bg-ashes p-1 rounded-full cursor-pointer active:scale-95 duration-300 ease-in-out transition-all"
+                onClick={() => handleEdit("sex", "female")}
+              >
+                <path d="M216,32H168a8,8,0,0,0,0,16h28.69L154.62,90.07a80,80,0,1,0,11.31,11.31L208,59.32V88a8,8,0,0,0,16,0V40A8,8,0,0,0,216,32ZM149.24,197.29a64,64,0,1,1,0-90.53A64.1,64.1,0,0,1,149.24,197.29Z"></path>
+              </svg>
+            )}
+            {editableData.sex === "female" && (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="32"
+                height="32"
+                fill="#ec4899"
+                viewBox="0 0 256 256"
+                className="bg-ashes p-1 rounded-full cursor-pointer active:scale-95 duration-300 ease-in-out transition-all"
+                onClick={() => handleEdit("sex", "male")}
+              >
+                <path d="M208,96a80,80,0,1,0-88,79.6V200H88a8,8,0,0,0,0,16h32v24a8,8,0,0,0,16,0V216h32a8,8,0,0,0,0-16H136V175.6A80.11,80.11,0,0,0,208,96ZM64,96a64,64,0,1,1,64,64A64.07,64.07,0,0,1,64,96Z"></path>
+              </svg>
+            )}
+          </GlowingWrapper>
         </div>
-        <span className="flex items-center text-sm text-gray-400">
-          <input
-            value={editableData.occupation}
-            placeholder="Occupation"
-            onChange={(e) => handleEdit("occupation", e.target.value)}
-            className="text-sm placeholder:text-gray-400 bg-background outline-none w-full text-gray-400 block"
-          />
+        <span className="flex w-full items-center text-sm text-gray-400">
+          <GlowingWrapper>
+            <input
+              value={editableData.occupation}
+              placeholder="Occupation"
+              onChange={(e) => handleEdit("occupation", e.target.value)}
+              className="text-sm min-w-[407px] placeholder:text-gray-400 bg-background outline-none text-gray-400 block"
+            />
+          </GlowingWrapper>
         </span>
         <div className="mt-2">
           <div className="mt-2 flex w-full items-center gap-4">
             <div className="w-full space-y-1">
-              <div className="flex items-end justify-between">
+              <div className="flex items-center justify-between">
                 <span className="font-medium whitespace-nowrap">
                   Hit Points
                 </span>
-                <CustomNumericInput
-                  value={editableData.hitPoints}
-                  onChange={(value) => handleEdit("hitPoints", value)}
-                />
+                <GlowingWrapper>
+                  <CustomNumericInput
+                    value={editableData.hitPoints}
+                    onChange={(value) => handleEdit("hitPoints", value)}
+                  />
+                </GlowingWrapper>
               </div>
-              <div className="w-full bg-border overflow-hidden h-3 rounded-full">
+              <div className="w-full bg-ashes/80 overflow-hidden h-3 rounded-full">
                 <div
-                  className="h-full rounded-full bg-gradient-to-tr from-red-500 to-red-400"
+                  className="h-full rounded-full bg-gradient-to-tr from-red-600 to-red-400"
                   style={{ width: `${editableData.hitPoints}%` }}
                 ></div>
               </div>
             </div>
             <div className="w-full space-y-1">
-              <div className="flex items-end justify-between">
+              <div className="flex items-center justify-between">
                 <span className="font-medium">Magic Points</span>
-                <CustomNumericInput
-                  value={editableData.magicPoints}
-                  onChange={(value) => handleEdit("magicPoints", value)}
-                />
+                <GlowingWrapper>
+                  <CustomNumericInput
+                    value={editableData.magicPoints}
+                    onChange={(value) => handleEdit("magicPoints", value)}
+                  />
+                </GlowingWrapper>
               </div>
-              <div className="w-full bg-border overflow-hidden h-3 rounded-full">
+              <div className="w-full bg-ashes/80 overflow-hidden h-3 rounded-full">
                 <div
-                  className="h-full rounded-full bg-gradient-to-tr from-blue-500 to-blue-400"
-                  style={{ width: `${infos.magicPoints}%` }}
+                  className="h-full rounded-full bg-gradient-to-tr from-blue-600 to-blue-400"
+                  style={{ width: `${editableData.magicPoints}%` }}
                 ></div>
               </div>
             </div>
           </div>
           <div className="w-fit relative text-lg mt-4 mx-auto">
-            <span className="font-medium absolute top-1/2 -translate-y-1/2 -left-[75px]">
+            <span className="font-medium absolute top-1/2 -translate-y-1/2 -left-[60px]">
               Sanity
             </span>
             <div className="relative">
@@ -261,11 +278,13 @@ export const ProfileInfoEdit = ({ infos, player }: ProfileInfoProps) => {
                 strokeWidth={10}
               />
             </div>
-            <span className="font-medium absolute top-1/2 -translate-y-1/2 -right-[90px]">
-              <CustomNumericInput
-                value={editableData.sanity}
-                onChange={(value) => handleEdit("sanity", value)}
-              />
+            <span className="font-medium absolute top-1/2 -translate-y-1/2 -right-[50px]">
+              <GlowingWrapper>
+                <CustomNumericInput
+                  value={editableData.sanity}
+                  onChange={(value) => handleEdit("sanity", value)}
+                />
+              </GlowingWrapper>
             </span>
           </div>
         </div>

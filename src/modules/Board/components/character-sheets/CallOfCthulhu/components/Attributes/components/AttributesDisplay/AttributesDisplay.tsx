@@ -31,7 +31,7 @@ export const AttributesDisplay = ({
     <div className="my-4 rounded border border-border">
       <div
         onClick={() => toggleItem("attributes")}
-        className="flex p-2 shadow-md shadow-black/50 cursor-pointer items-center justify-between bg-border/50"
+        className="flex p-2  cursor-pointer items-center justify-between bg-border/50"
       >
         <h3 className="text-2xl flex items-center gap-x-2 font-semibold">
           <span className="p-2 rounded">
@@ -89,7 +89,7 @@ export const AttributesDisplay = ({
                 <span className="font-medium capitalize text-lg">
                   {attribute}
                 </span>
-                <span className="flex items-center font-medium aspect-square text-lg justify-center rounded-full bg-ashes/90 w-[35px] h-[35px]">
+                <span className="w-[35px] h-[35px] rounded-full flex items-center justify-center aspect-square text-center font-medium z-10 relative bg-ashes outline-none caret-white">
                   {value}
                 </span>
               </div>

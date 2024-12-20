@@ -37,31 +37,33 @@ export const CharacterRoll = ({
 
   return (
     <div className="w-full rounded select-none overflow-hidden border border-border">
-      <span className="block bg-border px-4 py-2 font-bold text-base">
-        {action} Roll
+      <span className="block text-2xl bg-border px-4 py-2 font-bold">
+        <span className="w-fit block mx-auto">{action} Roll</span>
       </span>
       <div className="w-full h-[0px] border-t border-t-border" />
       <div className="grid grid-cols-3 items-center justify-center w-full">
-        <span className="col-span-1 block p-2 text-center font-bold text-lg text-red-500">
+        <span className="col-span-1 block p-2 text-center font-bold text-xl text-red-500">
           {`x>`}
           {values[0]}
         </span>
-        <span className="col-span-1 block p-2 border-x border-border text-center font-bold text-lg text-green-500">
+        <span className="col-span-1 block p-2 border-x border-border text-center font-bold text-xl text-green-500">
           {`x>`}
           {values[1]}
           {`>x`}
         </span>
-        <span className="col-span-1 block p-2 text-center font-bold text-lg bg-clip-text text-transparent bg-gradient-to-tr from-violet-500 to-pink-500">
+        <span className="col-span-1 block p-2 text-center font-bold text-xl bg-clip-text text-transparent bg-gradient-to-tr from-violet-500 to-pink-500">
           {values[2]}
           {`>x`}
         </span>
       </div>
       <div className="w-full h-[0px] border-t border-t-border" />
-      <div className={`${bgClass} px-4 py-2`}>
-        <span className="block px-4 font-bold text-2xl text-center">
+      <div className={`${bgClass} p-2`}>
+        <span className="block px-4 font-black text-4xl text-center">
           {result}
         </span>
-        <span className="block text-center font-medium -mt-1">{label}</span>
+        <span className="block text-lg text-center -mt-2">
+          {label}
+        </span>
       </div>
     </div>
   )

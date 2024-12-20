@@ -1,4 +1,4 @@
-import { CustomNumericInput } from "@/shared/components"
+import { CustomNumericInput, GlowingWrapper } from "@/shared/components"
 import { useState } from "react"
 
 interface AttributesEditProps {
@@ -42,7 +42,7 @@ export const AttributesEdit = ({
     <div className="my-4 rounded border border-border">
       <div
         onClick={() => toggleItem("attributes")}
-        className="flex p-2 shadow-md shadow-black/50 cursor-pointer items-center justify-between bg-border/50"
+        className="flex p-2 cursor-pointer items-center justify-between bg-border/50"
       >
         <h3 className="text-2xl flex items-center gap-x-2 font-semibold">
           <span className="p-2 rounded">
@@ -97,11 +97,15 @@ export const AttributesEdit = ({
               className="bg-border/50 border border-border overflow-hidden rounded"
             >
               <div className="flex justify-between items-center px-4 pt-2">
-                <span className="font-medium capitalize text-lg">{attribute}</span>
-                <CustomNumericInput
-                  value={value}
-                  onChange={(value) => handleEdit(attribute, value)}
-                />
+                <span className="font-medium capitalize text-lg">
+                  {attribute}
+                </span>
+                <GlowingWrapper>
+                  <CustomNumericInput
+                    value={value}
+                    onChange={(value) => handleEdit(attribute, value)}
+                  />
+                </GlowingWrapper>
               </div>
               <div
                 style={{ width: `${value}%` }}

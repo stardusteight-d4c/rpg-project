@@ -27,7 +27,7 @@ export const SkillsDisplay = ({
     <div className="mb-4 rounded border border-border">
       <div
         onClick={() => toggleItem("skills")}
-        className="flex shadow-md shadow-black/50 bg-border/50 p-2 cursor-pointer items-center justify-between"
+        className="flex bg-border/50 p-2 cursor-pointer items-center justify-between"
       >
         <h3 className="text-2xl flex items-center gap-x-2 font-semibold">
           <span className="p-2 rounded">
@@ -112,7 +112,7 @@ export const SkillsDisplay = ({
                     ></div>
                   </div>
                 )}
-                <span className="flex items-center aspect-square font-medium text-lg justify-center rounded-full bg-ashes/90 w-[35px] h-[35px]">
+                 <span className="w-[35px] h-[35px] rounded-full flex items-center justify-center aspect-square text-center font-medium z-10 relative bg-ashes outline-none caret-white">
                   {`${skill.currentValue}`}
                 </span>
               </div>

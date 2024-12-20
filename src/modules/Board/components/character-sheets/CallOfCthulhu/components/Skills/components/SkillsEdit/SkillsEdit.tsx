@@ -1,6 +1,6 @@
 "use client"
 
-import { CustomNumericInput } from "@/shared/components"
+import { CustomNumericInput, GlowingWrapper } from "@/shared/components"
 import { useState } from "react"
 
 interface SkillsEditProps {
@@ -42,10 +42,10 @@ export const SkillsEdit = ({
     <div className="mb-4 rounded border border-border">
       <div
         onClick={() => toggleItem("skills")}
-        className="flex cursor-pointer p-2 items-center justify-between bg-border"
+        className="flex bg-border/50 p-2 cursor-pointer items-center justify-between"
       >
         <h3 className="text-2xl flex items-center gap-x-2 font-semibold">
-          <span className="bg-border border border-border p-2 rounded">
+          <span className="p-2 rounded">
             <svg
               width="32"
               height="32"
@@ -90,11 +90,11 @@ export const SkillsEdit = ({
         </svg>
       </div>
       {activeItems.includes("skills") && (
-        <div className="grid grid-cols-2 gap-4 p-2">
+        <div className="grid grid-cols-3 gap-2 p-2">
           {editableData.map((skill) => (
             <div
               key={skill.name}
-              className="space-y-1 border-b border-l rounded-bl p-1 border-border"
+              className="bg-border/50 border border-border  rounded p-2"
             >
               <div className="flex justify-between">
                 <span className="font-medium flex items-center gap-x-2">
@@ -116,7 +116,7 @@ export const SkillsEdit = ({
                       </svg>
                     </label>
                   </div>
-                  <div className="flex items-center gap-x-1">
+                  <div className="flex text-lg items-center gap-x-1">
                     {skill.name}
                     <span className="block text-sm font-normal text-gray-400">
                       {typeof skill.baseValue === "string"
@@ -125,21 +125,25 @@ export const SkillsEdit = ({
                     </span>
                   </div>
                 </span>
-                <CustomNumericInput
-                  value={skill.currentValue}
-                  onChange={(value) =>
-                    handleEdit(skill.name, "currentValue", value)
-                  } 
-                />
               </div>
-              {typeof skill.currentValue === "number" && (
-                <div className="w-full bg-border overflow-hidden h-3 rounded-full">
-                  <div
-                    className="h-full background-gradient rounded-full"
-                    style={{ width: `${skill.currentValue}%` }}
-                  ></div>
-                </div>
-              )}
+              <div className="flex items-center gap-x-2">
+                {typeof skill.currentValue === "number" && (
+                  <div className="w-full relative bg-ashes/40 overflow-hidden rounded-full">
+                    <div
+                      className="h-2 font-medium background-gradient rounded-full"
+                      style={{ width: `${skill.currentValue}%` }}
+                    ></div>
+                  </div>
+                )}
+                <GlowingWrapper>
+                  <CustomNumericInput
+                    value={skill.currentValue}
+                    onChange={(value) =>
+                      handleEdit(skill.name, "currentValue", value)
+                    }
+                  />
+                </GlowingWrapper>
+              </div>
             </div>
           ))}
         </div>

@@ -55,7 +55,7 @@ export const CombatDisplay = ({
       )}
       <div
         onClick={() => toggleItem("combat")}
-        className="flex shadow-md shadow-black/50 p-2 cursor-pointer items-center justify-between rounded bg-border/50"
+        className="flex p-2 cursor-pointer items-center justify-between rounded bg-border/50"
       >
         <h3 className="text-2xl flex items-center gap-x-2 font-semibold">
           <span className="p-2 rounded">

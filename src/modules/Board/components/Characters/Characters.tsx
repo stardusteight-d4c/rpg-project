@@ -28,7 +28,12 @@ export const Characters = () => {
     )
 
   if (selectedCharacter)
-    return <SelectedCharacterDisplay  {...selectedCharacterState} />
+    return (
+      <SelectedCharacterDisplay
+        setEditMode={setEditMode}
+        {...selectedCharacterState}
+      />
+    )
 
   if (!selectedCharacter)
     return (
