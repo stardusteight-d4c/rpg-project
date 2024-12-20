@@ -6,7 +6,7 @@ interface IWeapon {
   attacks: "1" | "1(2)" | "1(3)" | "1(4)" | "1(5)"
   ammo?: number
   range: string
-  malfunction?: number
+  malfunction?: number | null
   quality?: "Excellent" | "Good" | "Bad" | "Broken"
   description: string
   properties: Array<string>
@@ -20,7 +20,21 @@ interface IGun {
   attacks: string
   ammo?: number
   range: string
-  malfunction?: number
+  malfunction?: number | null
+  quality?: "Excellent" | "Good" | "Bad" | "Broken"
+  description: string
+  properties: Array<string>
+}
+
+interface IExplosive {
+  name: string
+  iconUrl: string
+  skill: "Throwing" | "Demolitions"
+  damage: string
+  attacks: string
+  ammo?: number
+  range: string
+  malfunction?: number | null
   quality?: "Excellent" | "Good" | "Bad" | "Broken"
   description: string
   properties: Array<string>

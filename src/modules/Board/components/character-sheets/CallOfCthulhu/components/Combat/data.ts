@@ -1536,3 +1536,100 @@ export const guns: Array<IGun> = [
     ],
   },
 ]
+
+export const explosives: Array<IExplosive> = [
+  {
+    name: "Pineapple",
+    iconUrl: "/explosives/pineapple.svg",
+    skill: "Throwing",
+    damage: "4d10",
+    attacks: "1",
+    range: "10m",
+    malfunction: null,
+    description:
+      "A classic fragmentation grenade with a devastating explosive radius.",
+    properties: [
+      "Explodes after 3 seconds upon activation.",
+      "Deals damage in a 5-meter radius.",
+      "Can be thrown up to 10 meters.",
+    ],
+  },
+  {
+    name: "M-67",
+    iconUrl: "/explosives/m-67.svg",
+    skill: "Throwing",
+    damage: "5d10",
+    attacks: "1",
+    range: "15m",
+    malfunction: null,
+    description: "A modern fragmentation grenade with high explosive power.",
+    properties: [
+      "Explodes 4 seconds after pin release.",
+      "Causes shrapnel damage in a 7-meter radius.",
+      "Light and easy to handle.",
+    ],
+  },
+  {
+    name: "M-84 Stun",
+    iconUrl: "/explosives/m-84-stun.svg",
+    skill: "Throwing",
+    damage: "0",
+    attacks: "1",
+    range: "10m",
+    malfunction: null,
+    description:
+      "A stun grenade designed to disorient targets with sound and light.",
+    properties: [
+      "Causes blindness and deafness in a 6-meter radius.",
+      "No physical damage but incapacitates enemies.",
+      "Effective for crowd control.",
+    ],
+  },
+  {
+    name: "MK-3 High Explosive",
+    iconUrl: "/explosives/mk-3-high-explosive.svg",
+    skill: "Throwing",
+    damage: "6d10",
+    attacks: "1",
+    range: "12m",
+    malfunction: null,
+    description: "A high-explosive grenade designed for maximum impact.",
+    properties: [
+      "Explodes after 3 seconds with a large blast radius.",
+      "Ideal for clearing rooms and structures.",
+      "High risk of collateral damage.",
+    ],
+  },
+  {
+    name: "MK-2",
+    iconUrl: "/explosives/mk-2.svg",
+    skill: "Throwing",
+    damage: "3d10",
+    attacks: "1",
+    range: "8m",
+    malfunction: null,
+    description:
+      "An older model fragmentation grenade with moderate explosive power.",
+    properties: [
+      "Explodes 5 seconds after activation.",
+      "Effective in a 4-meter radius.",
+      "Reliable and widely used in past conflicts.",
+    ],
+  },
+  {
+    name: "TNT",
+    iconUrl: "/explosives/tnt.svg",
+    skill: "Demolitions",
+    damage: "8d10",
+    attacks: "1",
+    range: "N/A",
+    malfunction: null,
+    description:
+      "A powerful explosive charge used for demolition and destruction.",
+    properties: [
+      "Requires manual placement and activation.",
+      "Deals massive damage in a 10-meter radius.",
+      "Ideal for destroying fortifications or vehicles.",
+    ],
+  },
+]

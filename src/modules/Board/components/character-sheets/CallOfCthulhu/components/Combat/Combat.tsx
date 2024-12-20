@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { guns, weapons } from "./data"
+import { explosives, guns, weapons } from "./data"
 import { ModalWrapper } from "@/shared/components"
 
 interface CombatProps {
@@ -19,9 +19,9 @@ interface CombatProps {
 }
 
 export const Combat = ({ activeItems, toggleItem }: CombatProps) => {
-  const [selectedWeapon, setSelectedWeapon] = useState<IWeapon | IGun | null>(
-    null
-  )
+  const [selectedWeapon, setSelectedWeapon] = useState<
+    IWeapon | IGun | IExplosive | null
+  >(null)
 
   function handleOnStatusChange(status: "open" | "close") {
     if (status === "open") return
@@ -41,8 +41,7 @@ export const Combat = ({ activeItems, toggleItem }: CombatProps) => {
               <div className="w-[80px] h-[80px] bg-border flex items-center justify-center rounded aspect-square">
                 <div
                   style={{
-                    background:
-                      "linear-gradient(to right, #42d392, #8B5CF6)",
+                    background: "linear-gradient(to right, #42d392, #8B5CF6)",
                     WebkitMaskImage: `url(${selectedWeapon.iconUrl})`,
                     WebkitMaskSize: "contain",
                     WebkitMaskRepeat: "no-repeat",
@@ -211,6 +210,15 @@ export const Combat = ({ activeItems, toggleItem }: CombatProps) => {
               className="col-span-1 cursor-pointer hover:bg-ashes flex items-center justify-center bg-border rounded w-full h-full aspect-square"
             >
               <img src={gun.iconUrl} className="w-full h-full" />
+            </div>
+          ))}
+          {explosives.map((explosive, index) => (
+            <div
+              key={index}
+              onClick={() => setSelectedWeapon(explosive)}
+              className="col-span-1 cursor-pointer hover:bg-ashes flex items-center justify-center bg-border rounded w-full h-full aspect-square"
+            >
+              <img src={explosive.iconUrl} className="w-full h-full" />
             </div>
           ))}
         </div>
