@@ -159,7 +159,7 @@ export const Chat = () => {
       {showButton && (
         <button
           onClick={scrollToBottom}
-          className="sticky z-40 bottom-4 left-1/2 -translate-x-1/2 bg-ashes text-white p-1 rounded-full shadow-p"
+          className="sticky z-40 bottom-4 left-1/2 -translate-x-1/2 bg-ashes text-white p-1 rounded-full  shadow-md shadow-black/50"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -176,7 +176,7 @@ export const Chat = () => {
         <span
           className={`${
             openDiceModal === "open" ? " rotate-90 " : " hover:rotate-90 "
-          } cursor-pointer group bg-border p-2 rounded-full shadow-p transition-all transform duration-500 ease-in-out`}
+          } cursor-pointer group bg-border p-2 rounded-full  shadow-md shadow-black/50 transition-all transform duration-500 ease-in-out`}
           onClick={() => setOpenDiceModal("open")}
         >
           <svg

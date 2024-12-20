@@ -46,7 +46,7 @@ export const ProfileInfoDisplay = ({
 
           <div className="flex absolute bottom-2 z-40 left-2 items-center w-fit gap-x-2">
             <Tooltip text="Point of Inspiration">
-              <button className="bg-ashes flex !cursor-default items-center justify-center text-white p-1 rounded-full shadow-p">
+              <button className="bg-ashes flex !cursor-default items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50">
                 {infos.inspiration ? (
                   <svg
                     width="22"

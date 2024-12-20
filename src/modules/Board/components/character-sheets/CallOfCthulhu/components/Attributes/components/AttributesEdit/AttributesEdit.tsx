@@ -31,7 +31,7 @@ export const AttributesEdit = ({
   toggleItem,
 }: AttributesEditProps) => {
   const [editableData, setEditableData] = useState({
-   ...attributes
+    ...attributes,
   })
 
   const handleEdit = (field: string, value: any) => {
@@ -42,10 +42,10 @@ export const AttributesEdit = ({
     <div className="my-4 rounded border border-border">
       <div
         onClick={() => toggleItem("attributes")}
-        className="flex p-2 cursor-pointer items-center justify-between bg-border"
+        className="flex p-2 shadow-md shadow-black/50 cursor-pointer items-center justify-between bg-border/50"
       >
         <h3 className="text-2xl flex items-center gap-x-2 font-semibold">
-          <span className="bg-border border border-border p-2 rounded">
+          <span className="p-2 rounded">
             <svg
               width="32"
               height="32"
@@ -90,16 +90,22 @@ export const AttributesEdit = ({
         </svg>
       </div>
       {activeItems.includes("attributes") && (
-        <div className="grid grid-cols-2 gap-4 p-2">
+        <div className="grid grid-cols-2 gap-2 p-2">
           {Object.entries(editableData).map(([attribute, value]) => (
             <div
               key={attribute}
-              className="flex border-b border-l  rounded-bl p-1 border-border justify-between"
+              className="bg-border/50 border border-border overflow-hidden rounded"
             >
-              <span className="font-medium capitalize">{attribute}</span>
-              <CustomNumericInput
-                value={value}
-                onChange={(value) => handleEdit(attribute, value)}
+              <div className="flex justify-between items-center px-4 pt-2">
+                <span className="font-medium capitalize text-lg">{attribute}</span>
+                <CustomNumericInput
+                  value={value}
+                  onChange={(value) => handleEdit(attribute, value)}
+                />
+              </div>
+              <div
+                style={{ width: `${value}%` }}
+                className="w-full background-gradient h-[4px] mt-2"
               />
             </div>
           ))}

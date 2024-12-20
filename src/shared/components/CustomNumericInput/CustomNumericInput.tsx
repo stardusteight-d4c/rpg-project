@@ -55,14 +55,14 @@ export const CustomNumericInput: React.FC<CustomNumericInputProps> = ({
   }, [])
 
   return (
-    <div className="flex items-center">
+    <div className="flex w-fit rounded-full overflow-hidden items-center">
       <input
         type="text"
         value={value}
         onChange={handleInputChange}
-        className="w-[28px] font-medium z-10 relative pl-1 h-[30px] rounded-l bg-border outline-none caret-white"
+        className="w-[35px] pl-2 font-medium z-10 relative h-[30px] bg-ashes outline-none caret-white"
       />
-      <div className="w-[30px] h-[30px] bg-border rounded-r">
+      <div className="h-[30px] bg-ashes pr-2">
         <svg
           onClick={() => onChange(Math.min(100, value + 1))}
           onMouseDown={() => setClickType("up")}
@@ -75,7 +75,7 @@ export const CustomNumericInput: React.FC<CustomNumericInputProps> = ({
           stroke-width="2"
           stroke-linecap="round"
           stroke-linejoin="round"
-          className="w-full h-[50%] cursor-pointer border-b border-border"
+          className="w-full h-[50%] cursor-pointer"
         >
           <path d="m18 15-6-6-6 6" />
         </svg>

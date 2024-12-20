@@ -127,7 +127,7 @@ export const Map: React.FC = () => {
           className="absolute top-2 left-2 z-50 flex gap-2"
         >
           <div className="flex cursor-pointer items-center group w-fit gap-x-2">
-            <button className="bg-ashes flex items-center justify-center text-white p-1 rounded-full shadow-p group-hover:bg-gradient-to-tr group-hover:from-[#42d392] group-hover:to-[#8B5CF6] duration-300 ease-in-out transition-all">
+            <button className="bg-ashes flex items-center justify-center text-white p-1 rounded-full  shadow-md shadow-black/50 group-hover:bg-gradient-to-tr group-hover:from-[#42d392] group-hover:to-[#8B5CF6] duration-300 ease-in-out transition-all">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -176,7 +176,7 @@ export const Map: React.FC = () => {
               key={`${rowIndex}-${colIndex}`}
               onDrop={(e) => handleDrop(e, colIndex, rowIndex)}
               onDragOver={handleDragOver}
-              className="relative aspect-square w-full h-full mx-auto overflow-hidden"
+              className="relative rounded-full aspect-square w-fit h-full mx-auto overflow-hidden"
             >
               {items
                 .filter((item) => item.x === colIndex && item.y === rowIndex)
