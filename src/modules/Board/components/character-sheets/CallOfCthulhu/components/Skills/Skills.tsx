@@ -21,14 +21,7 @@ interface SkillsProps {
   isEditMode?: boolean
 }
 
-export const Skills = ({
-  isEditMode,
-  activeItems,
-  toggleItem,
-  skills,
-}: SkillsProps) => {
-  if (!isEditMode)
-    return <SkillsDisplay {...{ activeItems, toggleItem, skills }} />
-
-  if (isEditMode) return <SkillsEdit {...{ activeItems, toggleItem, skills }} />
+export const Skills = ({ isEditMode, ...props }: SkillsProps) => {
+  if (!isEditMode) return <SkillsDisplay {...props} />
+  if (isEditMode) return <SkillsEdit {...props} />
 }

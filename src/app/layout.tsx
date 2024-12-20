@@ -2,7 +2,7 @@ import type { Metadata } from "next"
 import { Roboto_Condensed } from "next/font/google"
 import "./globals.css"
 
-const poppins = Roboto_Condensed({
+const robotoCondensed = Roboto_Condensed({
   subsets: ["latin"],
   weight: ["100", "300", "400", "500", "700", "900"],
 })
@@ -19,7 +19,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${poppins.className} antialiased`}>{children}</body>
+      <body className={`${robotoCondensed.className} antialiased`}>{children}</body>
     </html>
   )
 }

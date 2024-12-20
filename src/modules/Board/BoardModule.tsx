@@ -97,6 +97,7 @@ export function BoardModule() {
           <img
             src="https://lh3.googleusercontent.com/a/ACg8ocKZ6-8Y81xmgJICx4clB0lEyFaGLS2L4qVB1K6ETBP4k-3Ovlk=s258-c-no"
             alt=""
+            referrerPolicy="no-referrer"
             className="w-[40px] absolute bottom-4 cursor-pointer object-cover left-1/2 -translate-x-1/2 h-[40px] rounded-full mt-auto"
           />
         </div>

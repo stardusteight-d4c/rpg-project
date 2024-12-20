@@ -1,4 +1,5 @@
 interface IWeapon {
+  id?: string
   name: string
   iconUrl: string
   skill: "Fighting(Brawl)"
@@ -13,6 +14,7 @@ interface IWeapon {
 }
 
 interface IGun {
+  id?: string
   name: string
   iconUrl: string
   skill: "Firearms(HG)" | "Firearms(R/S)" | "Firearms(HW)"
@@ -27,6 +29,7 @@ interface IGun {
 }
 
 interface IExplosive {
+  id?: string
   name: string
   iconUrl: string
   skill: "Throwing" | "Demolitions"

@@ -1,5 +1,19 @@
 export const weapons: Array<IWeapon> = [
   {
+    name: "Unarmed",
+    iconUrl: "/weapons/fist.svg",
+    skill: "Fighting(Brawl)",
+    range: "-",
+    damage: "1d3",
+    attacks: "1",
+    description:
+      "Combat using only your fists or other unarmed techniques. Effective in close quarters but limited in damage.",
+    properties: [
+      "Can be used by any character without requiring special equipment.",
+      "Damage is low but does not rely on external items.",
+    ],
+  },
+  {
     name: "Morgenstern",
     iconUrl: "/weapons/morgenstern.svg",
     skill: "Fighting(Brawl)",

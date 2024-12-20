@@ -14,19 +14,21 @@ export const SystemRoll = ({ results, diceType }: SystemRollProps) => {
         Rolling {results.length}d{diceType}
       </span>
       {results.length > 1 && (
-        <div className="grid w-fit mb-2 grid-cols-5 gap-2">
+        <div className="grid w-full mb-2 grid-cols-4 xl:grid-cols-5 gap-2">
           {results.map((result, index) => (
             <div
               key={index}
-              className="col-span-1 text-lg select-none w-[48px] h-[48px] bg-border rounded flex items-center justify-center text-center"
+              className="col-span-1 aspect-square select-none h-full w-full bg-border rounded flex items-center justify-center text-center"
             >
               {result}
             </div>
           ))}
         </div>
       )}
-      <div className="select-none text-lg w-[48px] h-[48px] background-gradient rounded flex items-center justify-center text-center">
-        {sumArray(results)}
+      <div className="grid w-full mb-2 grid-cols-4 xl:grid-cols-5 gap-2">
+        <div className="col-span-1 aspect-square select-none h-full w-full bg-border rounded flex items-center justify-center text-center">
+          {sumArray(results)}
+        </div>
       </div>
     </div>
   )

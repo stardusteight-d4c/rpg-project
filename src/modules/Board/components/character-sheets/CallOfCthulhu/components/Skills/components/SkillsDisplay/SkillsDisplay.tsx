@@ -75,50 +75,50 @@ export const SkillsDisplay = ({
         </svg>
       </div>
       {activeItems.includes("skills") && (
-        <div className="grid grid-cols-2 gap-4 p-2">
+        <div className="grid grid-cols-3 gap-2 p-2">
           {skills.map((skill) => (
             <div
               key={skill.name}
-              className="space-y-1 border-b border-l rounded-bl p-1 border-border"
+              className="bg-border rounded p-2 border-border"
             >
-              <div className="flex justify-between">
-                <span className="font-medium flex items-center gap-x-2">
-                  <div className="pointer-events-none select-none">
-                    <input
-                      type="checkbox"
-                      id={skill.name}
-                      style={{ display: "none" }}
-                      checked={skill.checked}
-                      className="cbx2"
-                    />
-                    <label htmlFor={skill.name} className="check">
-                      <svg width="18px" height="18px" viewBox="0 0 18 18">
-                        <path d="M 1 9 L 1 9 c 0 -5 3 -8 8 -8 L 9 1 C 14 1 17 5 17 9 L 17 9 c 0 4 -4 8 -8 8 L 9 17 C 5 17 1 14 1 9 L 1 9 Z"></path>
-                        <polyline points="1 9 7 14 15 4"></polyline>
-                      </svg>
-                    </label>
+              <span className="font-medium flex items-center gap-x-2">
+                <div className="pointer-events-none select-none">
+                  <input
+                    type="checkbox"
+                    id={skill.name}
+                    style={{ display: "none" }}
+                    checked={skill.checked}
+                    className="cbx2"
+                  />
+                  <label htmlFor={skill.name} className="check">
+                    <svg width="18px" height="18px" viewBox="0 0 18 18">
+                      <path d="M 1 9 L 1 9 c 0 -5 3 -8 8 -8 L 9 1 C 14 1 17 5 17 9 L 17 9 c 0 4 -4 8 -8 8 L 9 17 C 5 17 1 14 1 9 L 1 9 Z"></path>
+                      <polyline points="1 9 7 14 15 4"></polyline>
+                    </svg>
+                  </label>
+                </div>
+                <div className="flex text-lg items-center gap-x-1">
+                  {skill.name}
+                  <span className="block text-sm font-normal text-gray-400">
+                    {typeof skill.baseValue === "string"
+                      ? skill.baseValue
+                      : `(${skill.baseValue}%)`}
+                  </span>
+                </div>
+              </span>
+              <div className="flex items-center gap-x-2">
+                {typeof skill.currentValue === "number" && (
+                  <div className="w-full relative bg-ashes/40 overflow-hidden rounded-full">
+                    <div
+                      className="h-3 font-medium background-gradient rounded-full"
+                      style={{ width: `${skill.currentValue}%` }}
+                    ></div>
                   </div>
-                  <div className="flex items-center gap-x-1">
-                    {skill.name}
-                    <span className="block text-sm font-normal text-gray-400">
-                      {typeof skill.baseValue === "string"
-                        ? skill.baseValue
-                        : `(${skill.baseValue}%)`}
-                    </span>
-                  </div>
-                </span>
-                <span className="bg-gradient-to-tr from-border to-transparent rounded-full  block px-2">
-                  {`${skill.currentValue}%`}
+                )}
+                <span className="flex items-center aspect-square font-medium text-lg justify-center rounded-full bg-ashes/90 w-[35px] h-[35px]">
+                  {`${skill.currentValue}`}
                 </span>
               </div>
-              {typeof skill.currentValue === "number" && (
-                <div className="w-full bg-border overflow-hidden h-3 rounded-full">
-                  <div
-                    className="h-full background-gradient rounded-full"
-                    style={{ width: `${skill.currentValue}%` }}
-                  ></div>
-                </div>
-              )}
             </div>
           ))}
         </div>

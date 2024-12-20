@@ -79,16 +79,20 @@ export const AttributesDisplay = ({
         </svg>
       </div>
       {activeItems.includes("attributes") && (
-        <div className="grid grid-cols-2 gap-4 p-2">
+        <div className="grid grid-cols-2 gap-2 p-2">
           {Object.entries(attributes).map(([attribute, value]) => (
-            <div
-              key={attribute}
-              className="flex border-b border-l  rounded-bl p-1 border-border justify-between"
-            >
-              <span className="font-medium capitalize">{attribute}</span>
-              <span className="bg-gradient-to-tr from-border to-transparent rounded-full block px-2">
-                {value}
-              </span>
+            <div key={attribute} className="bg-border overflow-hidden rounded">
+              <div className="flex justify-between items-center px-4 pt-2">
+                <span className="font-medium capitalize text-lg">{attribute}</span>
+                <span className="flex items-center font-medium aspect-square text-lg justify-center rounded-full bg-ashes/90 w-[35px] h-[35px]">
+                  {value}
+                </span>
+              </div>
+
+              <div
+                style={{ width: `${value}%` }}
+                className="w-full background-gradient h-[4px] mt-2"
+              />
             </div>
           ))}
         </div>

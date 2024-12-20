@@ -14,6 +14,7 @@ export const Characters = () => {
     infos: any
     attributes: any
     skills: any
+    combat: any
   } | null>(null)
   const [editMode, setEditMode] = useState<boolean>(false)
   const selectedCharacterState = { selectedCharacter, setSelectedCharacter }
@@ -27,7 +28,7 @@ export const Characters = () => {
     )
 
   if (selectedCharacter)
-    return <SelectedCharacterDisplay {...selectedCharacterState} />
+    return <SelectedCharacterDisplay  {...selectedCharacterState} />
 
   if (!selectedCharacter)
     return (

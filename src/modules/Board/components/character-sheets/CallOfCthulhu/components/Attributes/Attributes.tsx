@@ -25,14 +25,7 @@ interface AttributesProps {
   isEditMode?: boolean
 }
 
-export const Attributes = ({
-  activeItems,
-  toggleItem,
-  attributes,
-  isEditMode,
-}: AttributesProps) => {
-  if (!isEditMode)
-    return <AttributesDisplay {...{ activeItems, toggleItem, attributes }} />
-
-  if (isEditMode) return <AttributesEdit {...{ activeItems, toggleItem, attributes }} />
+export const Attributes = ({ isEditMode, ...props }: AttributesProps) => {
+  if (!isEditMode) return <AttributesDisplay {...props} />
+  if (isEditMode) return <AttributesEdit {...props} />
 }

@@ -1,6 +1,6 @@
 "use client"
 
-import { Dispatch, SetStateAction, useState } from "react"
+import { useState } from "react"
 import {
   Attributes,
   Backstory,
@@ -16,6 +16,7 @@ interface SelectedCharacterDisplayProps {
     infos: any
     attributes: any
     skills: any
+    combat: any
   } | null
   setSelectedCharacter: (
     value: {
@@ -23,6 +24,7 @@ interface SelectedCharacterDisplayProps {
       infos: any
       attributes: any
       skills: any
+      combat: any
     } | null
   ) => void
 }
@@ -54,33 +56,41 @@ export const SelectedCharacterDisplay = ({
   }
 
   return (
-    <section className="p-2 h-screen overflow-y-scroll no-scrollbar">
-      <div
-        onClick={() => setSelectedCharacter(null)}
-        className="flex mb-2 cursor-pointer items-center group w-fit gap-x-2"
-      >
-        <button className="bg-ashes flex items-center justify-center text-white p-1 rounded-full shadow-p group-hover:bg-gradient-to-tr group-hover:from-[#42d392] group-hover:to-[#8B5CF6] duration-300 ease-in-out transition-all">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            fill="#FFFFFF"
-            viewBox="0 0 256 256"
-          >
-            <path d="M224,128a8,8,0,0,1-8,8H59.31l58.35,58.34a8,8,0,0,1-11.32,11.32l-72-72a8,8,0,0,1,0-11.32l72-72a8,8,0,0,1,11.32,11.32L59.31,120H216A8,8,0,0,1,224,128Z"></path>
-          </svg>
-        </button>
-        <span>Back</span>
+    <section className="relative h-screen overflow-y-scroll no-scrollbar">
+      <div className="sticky border-b border-border shadow-p z-50 top-0 p-2 w-full inset-x-0 bg-background">
+        <div
+          onClick={() => setSelectedCharacter(null)}
+          className="cursor-pointer w-fit flex items-center group gap-x-2"
+        >
+          <button className="bg-ashes flex items-center justify-center text-white p-1 rounded-full shadow-p group-hover:bg-gradient-to-tr group-hover:from-[#42d392] group-hover:to-[#8B5CF6] duration-300 ease-in-out transition-all">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              fill="#FFFFFF"
+              viewBox="0 0 256 256"
+            >
+              <path d="M224,128a8,8,0,0,1-8,8H59.31l58.35,58.34a8,8,0,0,1-11.32,11.32l-72-72a8,8,0,0,1,0-11.32l72-72a8,8,0,0,1,11.32,11.32L59.31,120H216A8,8,0,0,1,224,128Z"></path>
+            </svg>
+          </button>
+          <span>Back</span>
+        </div>
       </div>
-      <ProfileInfo
-        infos={selectedCharacter.infos}
-        player={selectedCharacter.player}
-      />
-      <Attributes attributes={selectedCharacter.attributes} {...actions} />
-      <Skills skills={selectedCharacter.skills} {...actions} />
-      <Combat {...actions} />
-      <Inventory {...actions} />
-      <Backstory {...actions} />
+      <div className="p-2">
+        <ProfileInfo
+          infos={selectedCharacter.infos}
+          player={selectedCharacter.player}
+        />
+        <Attributes attributes={selectedCharacter.attributes} {...actions} />
+        <Skills skills={selectedCharacter.skills} {...actions} />
+        <Combat
+          {...actions}
+          infos={selectedCharacter.infos}
+          combat={selectedCharacter.combat}
+        />
+        <Inventory {...actions} />
+        <Backstory {...actions} />
+      </div>
     </section>
   )
 }
