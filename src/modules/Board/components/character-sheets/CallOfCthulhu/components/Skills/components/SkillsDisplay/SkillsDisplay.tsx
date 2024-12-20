@@ -24,13 +24,13 @@ export const SkillsDisplay = ({
   activeItems,
 }: SkillsDisplayProps) => {
   return (
-    <div className="mb-4 rounded border border-border">
+    <div className="mb-4 rounded">
       <div
         onClick={() => toggleItem("skills")}
-        className="flex cursor-pointer p-2 items-center justify-between bg-border"
+        className="flex p-2 cursor-pointer items-center justify-between rounded border border-border bg-border/50"
       >
         <h3 className="text-2xl flex items-center gap-x-2 font-semibold">
-          <span className="bg-border border border-border p-2 rounded">
+          <span className="p-2 rounded">
             <svg
               width="32"
               height="32"
@@ -75,12 +75,9 @@ export const SkillsDisplay = ({
         </svg>
       </div>
       {activeItems.includes("skills") && (
-        <div className="grid grid-cols-3 gap-2 p-2">
+        <div className="grid grid-cols-3 gap-2 mt-2">
           {skills.map((skill) => (
-            <div
-              key={skill.name}
-              className="bg-border rounded p-2 border-border"
-            >
+            <div key={skill.name} className="bg-border/50 rounded p-2">
               <span className="font-medium flex items-center gap-x-2">
                 <div className="pointer-events-none select-none">
                   <input
@@ -110,7 +107,7 @@ export const SkillsDisplay = ({
                 {typeof skill.currentValue === "number" && (
                   <div className="w-full relative bg-ashes/40 overflow-hidden rounded-full">
                     <div
-                      className="h-3 font-medium background-gradient rounded-full"
+                      className="h-2 font-medium background-gradient rounded-full"
                       style={{ width: `${skill.currentValue}%` }}
                     ></div>
                   </div>

@@ -17,7 +17,7 @@ export function BoardModule() {
       <div className="w-full flex">
         <Board.Chat />
         <div className="w-fit h-screen relative p-2 border-x border-border">
-          <div className="bg-background  flex flex-col items-center gap-y-4">
+          <div className="flex flex-col items-center gap-y-4">
             <span onClick={() => setActive("map")} className="cursor-pointer">
               <svg
                 xmlns="http://www.w3.org/2000/svg"

@@ -158,7 +158,7 @@ export const ProfileInfoDisplay = ({
                 </div>
                 <div className="w-full bg-ashes/80 overflow-hidden h-3 rounded-full">
                   <div
-                    className="h-full rounded-full bg-gradient-to-tr from-red-500 to-red-400"
+                    className="h-full rounded-full bg-gradient-to-tr from-red-600 to-red-400"
                     style={{ width: `${infos.hitPoints}%` }}
                   ></div>
                 </div>
@@ -170,7 +170,7 @@ export const ProfileInfoDisplay = ({
                 </div>
                 <div className="w-full bg-ashes/80 overflow-hidden h-3 rounded-full">
                   <div
-                    className="h-full rounded-full bg-gradient-to-tr from-blue-500 to-blue-400"
+                    className="h-full rounded-full bg-gradient-to-tr from-blue-600 to-blue-500"
                     style={{ width: `${infos.magicPoints}%` }}
                   ></div>
                 </div>

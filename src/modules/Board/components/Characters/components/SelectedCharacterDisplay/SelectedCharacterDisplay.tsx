@@ -88,8 +88,8 @@ export const SelectedCharacterDisplay = ({
           infos={selectedCharacter.infos}
           combat={selectedCharacter.combat}
         />
-        <Inventory {...actions} />
-        <Backstory {...actions} />
+        {/* <Inventory {...actions} />
+        <Backstory {...actions} /> */}
       </div>
     </section>
   )
