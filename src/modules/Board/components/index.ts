@@ -1,5 +1,4 @@
 import { Cam } from "./Cam"
-import { CallOfCthulhu } from "./character-sheets"
 import { Chat } from "./Chat"
 import { Map } from "./Map"
 import { Dice } from "./Dice"
@@ -10,6 +9,5 @@ export const Board = {
   Map,
   Cam,
   Dice,
-  CharactersSheets: { CallOfCthulhu },
   Characters,
 }

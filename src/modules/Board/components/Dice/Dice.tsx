@@ -230,7 +230,7 @@ export const Dice: React.FC = () => {
                   </defs>
                 </svg>
               </span>
-              <span
+              {/* <span
                 onClick={() => setSelectedType("combat")}
                 className="bg-border p-2 rounded cursor-pointer"
               >
@@ -259,7 +259,7 @@ export const Dice: React.FC = () => {
                     </linearGradient>
                   </defs>
                 </svg>
-              </span>
+              </span> */}
             </div>
           </div>
 

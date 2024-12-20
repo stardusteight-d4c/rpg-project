@@ -9,19 +9,14 @@ import { ModalWrapper } from "@/shared/components/ModalWrapper/ModalWrapper"
 
 export function BoardModule() {
   const [active, setActive] = useState<
-    | "map"
-    | "dice"
-    | "character_sheet"
-    | "characters"
-    | "diary"
-    | "notifications"
+    "map" | "dice" | "characters" | "diary" | "notifications" | "notes"
   >("map")
 
   return (
     <main className="max-h-screen select-none relative overflow-hidden">
       <div className="w-full flex">
         <Board.Chat />
-        <div className="w-fit p-2 border-x border-border">
+        <div className="w-fit h-screen relative p-2 border-x border-border">
           <div className="bg-background  flex flex-col items-center gap-y-4">
             <span onClick={() => setActive("map")} className="cursor-pointer">
               <svg
@@ -55,23 +50,6 @@ export function BoardModule() {
                 <path d="M83.19,174.4a8,8,0,0,0,11.21-1.6,52,52,0,0,1,83.2,0,8,8,0,1,0,12.8-9.6A67.88,67.88,0,0,0,163,141.51a40,40,0,1,0-53.94,0A67.88,67.88,0,0,0,81.6,163.2,8,8,0,0,0,83.19,174.4ZM112,112a24,24,0,1,1,24,24A24,24,0,0,1,112,112Zm96-88H64A16,16,0,0,0,48,40V64H32a8,8,0,0,0,0,16H48v40H32a8,8,0,0,0,0,16H48v40H32a8,8,0,0,0,0,16H48v24a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V40A16,16,0,0,0,208,24Zm0,192H64V40H208Z"></path>
               </svg>
             </span>
-
-            {/* <span
-             onClick={() => setActive("diary")} className="cursor-pointer"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="40"
-                height="40"
-                viewBox="0 0 256 256"
-                className={`${
-                  active === "diary" && " background-gradient "
-                } rounded p-1 fill-white`}
-              >
-                <path d="M27.2,126.4a8,8,0,0,0,11.2-1.6,52,52,0,0,1,83.2,0,8,8,0,0,0,11.2,1.59,7.73,7.73,0,0,0,1.59-1.59h0a52,52,0,0,1,83.2,0,8,8,0,0,0,12.8-9.61A67.85,67.85,0,0,0,203,93.51a40,40,0,1,0-53.94,0,67.27,67.27,0,0,0-21,14.31,67.27,67.27,0,0,0-21-14.31,40,40,0,1,0-53.94,0A67.88,67.88,0,0,0,25.6,115.2,8,8,0,0,0,27.2,126.4ZM176,40a24,24,0,1,1-24,24A24,24,0,0,1,176,40ZM80,40A24,24,0,1,1,56,64,24,24,0,0,1,80,40ZM203,197.51a40,40,0,1,0-53.94,0,67.27,67.27,0,0,0-21,14.31,67.27,67.27,0,0,0-21-14.31,40,40,0,1,0-53.94,0A67.88,67.88,0,0,0,25.6,219.2a8,8,0,1,0,12.8,9.6,52,52,0,0,1,83.2,0,8,8,0,0,0,11.2,1.59,7.73,7.73,0,0,0,1.59-1.59h0a52,52,0,0,1,83.2,0,8,8,0,0,0,12.8-9.61A67.85,67.85,0,0,0,203,197.51ZM80,144a24,24,0,1,1-24,24A24,24,0,0,1,80,144Zm96,0a24,24,0,1,1-24,24A24,24,0,0,1,176,144Z"></path>
-              </svg>
-            </span> */}
-
             <span onClick={() => setActive("diary")} className="cursor-pointer">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -83,6 +61,20 @@ export function BoardModule() {
                 } rounded p-1 fill-white`}
               >
                 <path d="M208,24H72A32,32,0,0,0,40,56V224a8,8,0,0,0,8,8H192a8,8,0,0,0,0-16H56a16,16,0,0,1,16-16H208a8,8,0,0,0,8-8V32A8,8,0,0,0,208,24ZM120,40h48v72L148.79,97.6a8,8,0,0,0-9.6,0L120,112Zm80,144H72a31.82,31.82,0,0,0-16,4.29V56A16,16,0,0,1,72,40h32v88a8,8,0,0,0,12.8,6.4L144,114l27.21,20.4A8,8,0,0,0,176,136a8,8,0,0,0,8-8V40h16Z"></path>
+              </svg>
+            </span>
+
+            <span onClick={() => setActive("notes")} className="cursor-pointer">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="40"
+                height="40"
+                viewBox="0 0 256 256"
+                className={`${
+                  active === "notes" && " background-gradient "
+                } rounded p-1 fill-white`}
+              >
+                <path d="M168,128a8,8,0,0,1-8,8H96a8,8,0,0,1,0-16h64A8,8,0,0,1,168,128Zm-8,24H96a8,8,0,0,0,0,16h64a8,8,0,0,0,0-16ZM216,40V200a32,32,0,0,1-32,32H72a32,32,0,0,1-32-32V40a8,8,0,0,1,8-8H72V24a8,8,0,0,1,16,0v8h32V24a8,8,0,0,1,16,0v8h32V24a8,8,0,0,1,16,0v8h24A8,8,0,0,1,216,40Zm-16,8H184v8a8,8,0,0,1-16,0V48H136v8a8,8,0,0,1-16,0V48H88v8a8,8,0,0,1-16,0V48H56V200a16,16,0,0,0,16,16H184a16,16,0,0,0,16-16Z"></path>
               </svg>
             </span>
             <span
@@ -102,12 +94,14 @@ export function BoardModule() {
               </svg>
             </span>
           </div>
+          <img
+            src="https://lh3.googleusercontent.com/a/ACg8ocKZ6-8Y81xmgJICx4clB0lEyFaGLS2L4qVB1K6ETBP4k-3Ovlk=s258-c-no"
+            alt=""
+            className="w-[40px] absolute bottom-4 cursor-pointer object-cover left-1/2 -translate-x-1/2 h-[40px] rounded-full mt-auto"
+          />
         </div>
         <div className="max-w-[50vw] w-full relative overflow-hidden h-screen">
           {active === "map" && <Board.Map />}
-          {active === "character_sheet" && (
-            <Board.CharactersSheets.CallOfCthulhu />
-          )}
           {active === "characters" && <Board.Characters />}
         </div>
         <div className="w-[26vw] 2xl:w-[30vw] pb-2 overflow-y-scroll no-scrollbar h-screen border-l border-border">
