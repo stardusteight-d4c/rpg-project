@@ -3,6 +3,7 @@
 import { useState } from "react"
 import {
   Attributes,
+  Combat,
   ProfileInfo,
   Skills,
 } from "../../../character-sheets/CallOfCthulhu/components"
@@ -62,9 +63,7 @@ export const CharactersEdit = ({
             </button>
             <span>Back</span>
           </div>
-          <div
-            className="flex cursor-pointer items-center group w-fit gap-x-2"
-          >
+          <div className="flex cursor-pointer items-center group w-fit gap-x-2">
             <button className="flex items-center justify-center text-gray-500 p-1 rounded-full  shadow-md shadow-black/50 bg-gradient-to-tr from-[#42d392] to-[#8B5CF6] duration-300 ease-in-out transition-all">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -110,6 +109,12 @@ export const CharactersEdit = ({
         />
         <Skills
           skills={playerCharacter.skills}
+          isEditMode={true}
+          {...actions}
+        />
+        <Combat
+          infos={playerCharacter.infos}
+          combat={playerCharacter.skills}
           isEditMode={true}
           {...actions}
         />

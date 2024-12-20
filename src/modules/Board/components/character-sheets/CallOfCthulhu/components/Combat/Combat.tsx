@@ -1,8 +1,6 @@
 "use client"
 
-import { useState } from "react"
-import { ModalWrapper } from "@/shared/components"
-import { CombatDisplay } from "./components"
+import { CombatDisplay, CombatEdit } from "./components"
 
 interface CombatProps {
   combat: Array<IWeapon | IGun | IExplosive>
@@ -32,4 +30,5 @@ interface CombatProps {
 
 export const Combat = ({ isEditMode, ...props }: CombatProps) => {
   if (!isEditMode) return <CombatDisplay {...props} />
+  if (isEditMode) return <CombatEdit {...props} />
 }
