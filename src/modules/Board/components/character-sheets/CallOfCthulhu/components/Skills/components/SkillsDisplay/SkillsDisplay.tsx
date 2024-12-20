@@ -24,10 +24,10 @@ export const SkillsDisplay = ({
   activeItems,
 }: SkillsDisplayProps) => {
   return (
-    <div className="mb-4 rounded">
+    <div className="mb-4 rounded border border-border">
       <div
         onClick={() => toggleItem("skills")}
-        className="flex p-2 cursor-pointer items-center justify-between rounded border border-border bg-border/50"
+        className="flex shadow-md shadow-black/50 bg-border/50 p-2 cursor-pointer items-center justify-between"
       >
         <h3 className="text-2xl flex items-center gap-x-2 font-semibold">
           <span className="p-2 rounded">
@@ -75,9 +75,9 @@ export const SkillsDisplay = ({
         </svg>
       </div>
       {activeItems.includes("skills") && (
-        <div className="grid grid-cols-3 gap-2 mt-2">
+        <div className="grid grid-cols-3 gap-2 p-2">
           {skills.map((skill) => (
-            <div key={skill.name} className="bg-border/50 rounded p-2">
+            <div key={skill.name} className="bg-border/50 border border-border  rounded p-2">
               <span className="font-medium flex items-center gap-x-2">
                 <div className="pointer-events-none select-none">
                   <input

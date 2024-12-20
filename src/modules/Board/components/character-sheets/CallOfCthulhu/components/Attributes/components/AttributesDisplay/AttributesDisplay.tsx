@@ -28,10 +28,10 @@ export const AttributesDisplay = ({
   toggleItem,
 }: AttributesDisplayProps) => {
   return (
-    <div className="my-4 rounded">
+    <div className="my-4 rounded border border-border">
       <div
         onClick={() => toggleItem("attributes")}
-        className="flex p-2 cursor-pointer items-center justify-between rounded border border-border bg-border/50"
+        className="flex p-2 shadow-md shadow-black/50 cursor-pointer items-center justify-between bg-border/50"
       >
         <h3 className="text-2xl flex items-center gap-x-2 font-semibold">
           <span className="p-2 rounded">
@@ -79,11 +79,11 @@ export const AttributesDisplay = ({
         </svg>
       </div>
       {activeItems.includes("attributes") && (
-        <div className="grid grid-cols-2 gap-2 mt-2">
+        <div className="grid grid-cols-2 gap-2 p-2">
           {Object.entries(attributes).map(([attribute, value]) => (
             <div
               key={attribute}
-              className="bg-border/50 overflow-hidden rounded"
+              className="bg-border/50 border border-border overflow-hidden rounded"
             >
               <div className="flex justify-between items-center px-4 pt-2">
                 <span className="font-medium capitalize text-lg">

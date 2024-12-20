@@ -45,7 +45,7 @@ export const CombatDisplay = ({
   }
 
   return (
-    <div className="mb-4 rounded">
+    <div className="mb-4 rounded border border-border">
       {selectedWeapon && (
         <ModalWrapper
           onStatusChange={handleOnStatusChange}
@@ -53,7 +53,7 @@ export const CombatDisplay = ({
         >
           <div className="p-4 w-[681px]">
             <div className="flex items-center gap-x-2">
-              <div className="w-[80px] h-[80px] border border-border bg-border/50 flex items-center justify-center rounded aspect-square">
+              <div className="w-[80px] h-[80px] bg-border/50 flex items-center justify-center rounded aspect-square">
                 <div
                   style={{
                     background: "linear-gradient(to right, #42d392, #8B5CF6)",
@@ -160,7 +160,7 @@ export const CombatDisplay = ({
       )}
       <div
         onClick={() => toggleItem("combat")}
-        className="flex p-2 cursor-pointer items-center justify-between rounded border border-border bg-border/50"
+        className="flex shadow-md shadow-black/50 p-2 cursor-pointer items-center justify-between rounded border border-border bg-border/50"
       >
         <h3 className="text-2xl flex items-center gap-x-2 font-semibold">
           <span className="p-2 rounded">
@@ -210,14 +210,14 @@ export const CombatDisplay = ({
       {activeItems.includes("combat") && (
         <div>
           {combat && combat.length > 1 ? (
-            <div className="grid grid-cols-10 mt-2 gap-2">
+            <div className="grid grid-cols-10 p-2 gap-2">
               {combat.map((weapon, index) => (
                 <div>
                   {weapon.name === "Unarmed" ? (
                     <div
                       key={index}
                       onClick={() => setSelectedWeapon(weapon)}
-                      className="col-span-1 cursor-pointer hover:brightness-150 flex items-center justify-center bg-border/50 rounded w-full h-full aspect-square"
+                      className="col-span-1 cursor-pointer hover:brightness-150 flex items-center justify-center border border-border bg-border/50 rounded w-full h-full aspect-square"
                     >
                       <img src={weapon.iconUrl} className="w-full" />
                     </div>
@@ -225,7 +225,7 @@ export const CombatDisplay = ({
                     <div
                       key={index}
                       onClick={() => setSelectedWeapon(weapon)}
-                      className="col-span-1 cursor-pointer p-1 hover:brightness-150 flex items-center justify-center bg-border/50 rounded w-full h-full aspect-square"
+                      className="col-span-1 cursor-pointer p-1 hover:brightness-150 flex items-center justify-center border border-border bg-border/50 rounded w-full h-full aspect-square"
                     >
                       <img src={weapon.iconUrl} className="w-full" />
                     </div>
@@ -239,7 +239,7 @@ export const CombatDisplay = ({
                 <div
                   key={index}
                   onClick={() => setSelectedWeapon(weapon)}
-                  className="col-span-1 cursor-pointer w-[50px] h-[50px] hover:brightness-150 flex items-center justify-center bg-border/50 rounded aspect-square"
+                  className="col-span-1 cursor-pointer w-[50px] h-[50px] hover:brightness-150 flex items-center justify-center border border-border bg-border/50 rounded aspect-square"
                 >
                   <img src={weapon.iconUrl} className="w-full" />
                 </div>
