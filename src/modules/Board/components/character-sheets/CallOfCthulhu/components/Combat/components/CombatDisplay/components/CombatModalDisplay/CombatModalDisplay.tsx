@@ -1,14 +1,14 @@
 import { ModalWrapper } from "@/shared/components"
 
-interface CombatModalProps {
+interface CombatModalDisplayProps {
   handleOnStatusChange: (status: "open" | "close") => void
   selectedWeapon: IWeapon | IGun | IExplosive
 }
 
-export const CombatModal = ({
+export const CombatModalDisplay = ({
   handleOnStatusChange,
   selectedWeapon,
-}: CombatModalProps) => {
+}: CombatModalDisplayProps) => {
   return (
     <ModalWrapper
       onStatusChange={handleOnStatusChange}
