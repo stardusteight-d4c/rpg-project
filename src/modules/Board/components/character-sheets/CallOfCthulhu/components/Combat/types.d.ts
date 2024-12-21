@@ -5,9 +5,9 @@ interface IWeapon {
   skill: "Fighting(Brawl)"
   damage: string
   attacks: "1" | "1(2)" | "1(3)" | "1(4)" | "1(5)"
-  ammo?: number
+  ammo?: string | number
   range: string
-  malfunction?: number | null
+  malfunction?: string | number
   quality?: "Excellent" | "Good" | "Bad" | "Broken"
   description: string
   properties: Array<string>
@@ -20,9 +20,9 @@ interface IGun {
   skill: "Firearms(HG)" | "Firearms(R/S)" | "Firearms(HW)"
   damage: string
   attacks: string
-  ammo?: number
+  ammo?: string | number
   range: string
-  malfunction?: number | null
+  malfunction?: string | number 
   quality?: "Excellent" | "Good" | "Bad" | "Broken"
   description: string
   properties: Array<string>
@@ -35,9 +35,9 @@ interface IExplosive {
   skill: "Throwing" | "Demolitions"
   damage: string
   attacks: string
-  ammo?: number
+  ammo?: string | number
   range: string
-  malfunction?: number | null
+  malfunction?: string | number | null
   quality?: "Excellent" | "Good" | "Bad" | "Broken"
   description: string
   properties: Array<string>

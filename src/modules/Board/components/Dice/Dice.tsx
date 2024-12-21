@@ -141,7 +141,7 @@ export const Dice: React.FC = () => {
             <div className="flex items-center gap-2">
               <span
                 onClick={() => setSelectedType("status")}
-                className="bg-border p-2 rounded cursor-pointer"
+                className="bg-border hover:brightness-125 p-2 rounded cursor-pointer"
               >
                 <svg
                   width="32"
@@ -172,7 +172,7 @@ export const Dice: React.FC = () => {
               {/*  */}
               <span
                 onClick={() => setSelectedType("attributes")}
-                className="bg-border p-2 rounded cursor-pointer"
+                className="bg-border hover:brightness-125 p-2 rounded cursor-pointer"
               >
                 <svg
                   width="32"
@@ -202,7 +202,7 @@ export const Dice: React.FC = () => {
               </span>
               <span
                 onClick={() => setSelectedType("skills")}
-                className="bg-border p-2 rounded cursor-pointer"
+                className="bg-border hover:brightness-125 p-2 rounded cursor-pointer"
               >
                 <svg
                   width="32"
@@ -232,7 +232,7 @@ export const Dice: React.FC = () => {
               </span>
               {/* <span
                 onClick={() => setSelectedType("combat")}
-                className="bg-border p-2 rounded cursor-pointer"
+                className="bg-border hover:brightness-125 p-2 rounded cursor-pointer"
               >
                 <svg
                   width="32"
@@ -274,7 +274,7 @@ export const Dice: React.FC = () => {
                       key={key}
                       className={`${
                         selectedAttribute === key && " background-gradient "
-                      } col-span-1 cursor-pointer flex bg-border rounded p-1 border-border justify-between`}
+                      } col-span-1 cursor-pointer hover:brightness-125 flex bg-border rounded p-1 border-border justify-between`}
                     >
                       <span className="font-medium capitalize">{key}</span>
                       <span className="block">{value}</span>
@@ -284,7 +284,7 @@ export const Dice: React.FC = () => {
               </div>
               {selectedAttribute && (
                 <button
-                  className="p-2 -mb-2 font-medium capitalize w-full text-center text-lg background-gradient text-white rounded border-border border"
+                  className="p-2 -mb-2 hover:brightness-125 font-medium capitalize w-full text-center text-lg background-gradient text-white rounded border-border border"
                   onClick={() => rollDice(100, 1)}
                 >
                   {selectedAttribute} Roll
@@ -304,7 +304,7 @@ export const Dice: React.FC = () => {
                       key={key}
                       className={`${
                         selectedAttribute === key && " background-gradient "
-                      } col-span-1 cursor-pointer flex bg-border rounded p-1 border-border justify-between`}
+                      } col-span-1 cursor-pointer hover:brightness-125 flex bg-border rounded p-1 border-border justify-between`}
                     >
                       <span className="font-medium capitalize">
                         {formatStatName(key)}
@@ -316,10 +316,10 @@ export const Dice: React.FC = () => {
               </div>
               {selectedStatus && (
                 <button
-                  className="p-2 -mb-2 font-medium capitalize w-full text-center text-lg background-gradient text-white rounded border-border border"
+                  className="p-2 -mb-2 hover:brightness-125 font-medium capitalize w-full text-center text-lg background-gradient text-white rounded border-border border"
                   onClick={() => rollDice(100, 1)}
                 >
-                  {selectedStatus} Roll
+                  {formatStatName(selectedStatus)} Roll
                 </button>
               )}
             </div>
@@ -336,7 +336,7 @@ export const Dice: React.FC = () => {
                       key={index}
                       className={`${
                         selectedSkill === skill.name && " background-gradient "
-                      } col-span-1 cursor-pointer flex bg-border rounded p-1 border-border justify-between`}
+                      } col-span-1 cursor-pointer hover:brightness-125 flex bg-border rounded p-1 border-border justify-between`}
                     >
                       <span className="font-medium capitalize">
                         {skill.name}
@@ -348,7 +348,7 @@ export const Dice: React.FC = () => {
               </div>
               {selectedSkill && (
                 <button
-                  className="p-2 -mb-2 font-medium capitalize w-full text-center text-lg background-gradient text-white rounded border-border border"
+                  className="p-2 -mb-2 font-medium hover:brightness-125 capitalize w-full text-center text-lg background-gradient text-white rounded border-border border"
                   onClick={() => rollDice(100, 1)}
                 >
                   {selectedSkill} Roll
@@ -375,7 +375,7 @@ export const Dice: React.FC = () => {
                     key={index}
                     className={`${
                       numDice === index + 1 && "background-gradient"
-                    } col-span-1 text-lg cursor-pointer select-none w-[48px] h-[48px] bg-border rounded flex items-center justify-center text-center`}
+                    } col-span-1 text-lg hover:brightness-125 cursor-pointer select-none w-[48px] h-[48px] bg-border rounded flex items-center justify-center text-center`}
                   >
                     {index + 1}
                   </div>
@@ -399,7 +399,7 @@ export const Dice: React.FC = () => {
             </div>
           )}
           <button
-            className="p-2 -mb-2 font-medium w-full text-center text-lg background-gradient text-white rounded border-border border"
+            className="p-2 -mb-2 font-medium w-full text-center text-lg background-gradient hover:brightness-125 text-white rounded border-border border"
             onClick={() => rollDice(diceType, numDice)}
           >
             Roll Dice
@@ -410,7 +410,7 @@ export const Dice: React.FC = () => {
       {/* Reset Button */}
       {mode !== null && (
         <button
-          className="p-2 w-full font-medium text-center text-lg bg-border text-white rounded border-border border"
+          className="p-2 w-full hover:brightness-125 font-medium text-center text-lg bg-border text-white rounded border-border border"
           onClick={() => {
             setMode(null)
             setSelectedType(null)

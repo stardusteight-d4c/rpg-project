@@ -33,6 +33,7 @@ export const playerCharacter = {
     appearance: 60,
     size: 50,
     education: 70,
+    luck: 42,
   },
   combat: [
     {
@@ -393,6 +394,7 @@ export const characters: any = [
       appearance: 60,
       size: 50,
       education: 70,
+      luck: 42,
     },
     combat: [
       {
@@ -752,6 +754,7 @@ export const characters: any = [
       appearance: 60,
       size: 50,
       education: 70,
+      luck: 42,
     },
     combat: [
       {
@@ -1110,6 +1113,7 @@ export const characters: any = [
       appearance: 60,
       size: 50,
       education: 70,
+      luck: 42,
     },
     combat: [
       {

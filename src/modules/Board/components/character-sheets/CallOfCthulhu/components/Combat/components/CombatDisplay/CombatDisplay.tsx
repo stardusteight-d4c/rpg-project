@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { ModalWrapper } from "@/shared/components"
-import { CombatModal } from "./components"
+import { CombatModalDisplay } from "./components"
 
 interface CombatDisplayProps {
   combat: Array<IWeapon | IGun | IExplosive>
@@ -48,7 +48,7 @@ export const CombatDisplay = ({
   return (
     <div className="mb-4 rounded border border-border">
       {selectedWeapon && (
-        <CombatModal
+        <CombatModalDisplay
           selectedWeapon={selectedWeapon}
           handleOnStatusChange={handleOnStatusChange}
         />
@@ -107,7 +107,7 @@ export const CombatDisplay = ({
           {combat && combat.length > 1 ? (
             <div className="grid grid-cols-10 p-2 gap-2">
               {combat.map((weapon, index) => (
-                <div>
+                <div className="col-span-1">
                   {weapon.name === "Unarmed" ? (
                     <div
                       key={index}

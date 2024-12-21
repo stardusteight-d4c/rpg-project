@@ -14,6 +14,7 @@ interface CharactersEditProps {
     infos: any
     attributes: any
     skills: any
+    combat: any
   }
   setEditMode: (value: boolean) => void
 }
@@ -114,7 +115,7 @@ export const CharactersEdit = ({
         />
         <Combat
           infos={playerCharacter.infos}
-          combat={playerCharacter.skills}
+          combat={playerCharacter.combat}
           isEditMode={true}
           {...actions}
         />

@@ -57,11 +57,11 @@ export const CharacterRoll = ({
         </span>
       </div>
       <div className="w-full h-[0px] border-t border-t-border" />
-      <div className={`${bgClass} p-2`}>
+      <div className={`${bgClass} p-4`}>
         <span className="block px-4 font-black text-4xl text-center">
           {result}
         </span>
-        <span className="block text-lg text-center -mt-2">
+        <span className="block text-base text-center -mt-2">
           {label}
         </span>
       </div>
