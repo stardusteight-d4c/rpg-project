@@ -90,7 +90,7 @@ export const AttributesEdit = ({
         </svg>
       </div>
       {activeItems.includes("attributes") && (
-        <div className="grid grid-cols-2 gap-2 p-2">
+        <div className="grid grid-cols-3 gap-2 p-2">
           {Object.entries(editableData).map(([attribute, value]) => (
             <div
               key={attribute}
