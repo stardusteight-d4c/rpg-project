@@ -1,8 +1,10 @@
 "use client"
 
-import { useState } from "react"
-import { ModalWrapper } from "@/shared/components"
-import { CombatModal } from "../CombatDisplay/components"
+import { Key, SetStateAction, useState } from "react"
+import { GlowingWrapper, ModalWrapper } from "@/shared/components"
+import { log } from "console"
+import { explosives, guns, weapons } from "../../mock-data"
+import { CombatEditModal } from "./CombatEditModal"
 
 interface CombatEditProps {
   combat: Array<IWeapon | IGun | IExplosive>
@@ -35,6 +37,9 @@ export const CombatEdit = ({
   combat,
   infos,
 }: CombatEditProps) => {
+  const [editableData, setEditableData] =
+    useState<(IWeapon | IGun | IExplosive)[]>(combat)
+  const [selectionMode, setSelectionMode] = useState<boolean>(false)
   const [selectedWeapon, setSelectedWeapon] = useState<
     IWeapon | IGun | IExplosive | null
   >(null)
@@ -45,12 +50,44 @@ export const CombatEdit = ({
     return
   }
 
+  function handleRemoveWeapon(removedWeapon: IWeapon | IGun | IExplosive) {
+    if (removedWeapon.id)
+      setEditableData((prev) =>
+        prev.filter((weapon) => weapon.id !== removedWeapon.id)
+      )
+  }
+
+  function handleUpdateWeapon(updatedWeapon: IWeapon | IGun | IExplosive) {
+    setEditableData((prev) =>
+      prev.map((weapon) => {
+        if (weapon.id === updatedWeapon.id) {
+          return { ...weapon, ...updatedWeapon } as IWeapon | IGun | IExplosive
+        }
+        return weapon
+      })
+    )
+  }
+
+  function handleAddWeapon(newWeapon: IWeapon | IGun | IExplosive) {
+    const weaponWithId = { ...newWeapon, id: crypto.randomUUID() }
+    setEditableData((prev) => [...prev, weaponWithId])
+  }
+
   return (
     <div className="mb-4 rounded border border-border">
       {selectedWeapon && (
-        <CombatModal
+        <CombatEditModal
           selectedWeapon={selectedWeapon}
           handleOnStatusChange={handleOnStatusChange}
+          onUpdateWeapon={handleUpdateWeapon}
+          onRemoveItem={handleRemoveWeapon}
+        />
+      )}
+      {selectionMode && (
+        <SelectionMode
+          handleAddWeapon={handleAddWeapon}
+          selectionMode={selectionMode}
+          setSelectionMode={setSelectionMode}
         />
       )}
       <div
@@ -79,8 +116,8 @@ export const CombatEdit = ({
                   y2="29.0016"
                   gradientUnits="userSpaceOnUse"
                 >
-                  <stop stop-color="#42D392" />
-                  <stop offset="1" stop-color="#8B5CF6" />
+                  <stop stopColor="#42D392" />
+                  <stop offset="1" stopColor="#8B5CF6" />
                 </linearGradient>
               </defs>
             </svg>
@@ -104,49 +141,285 @@ export const CombatEdit = ({
       </div>
       {activeItems.includes("combat") && (
         <div>
-          {combat && combat.length > 1 ? (
-            <div className="grid grid-cols-10 p-2 gap-2">
-              {combat.map((weapon, index) => (
-                <div>
-                  {weapon.name === "Unarmed" ? (
+          <div className="grid grid-cols-10 p-2 gap-2">
+            {editableData.map((weapon, index) => (
+              <div>
+                {weapon.name === "Unarmed" ? (
+                  <div
+                    key={index}
+                    onClick={() => setSelectedWeapon(weapon)}
+                    className="col-span-1 cursor-pointer hover:brightness-150 flex items-center justify-center border border-border bg-border/50 rounded w-full h-full aspect-square"
+                  >
+                    <img src={weapon.iconUrl} className="w-full" />
+                  </div>
+                ) : (
+                  <div
+                    key={index}
+                    onClick={() => setSelectedWeapon(weapon)}
+                    className="col-span-1 cursor-pointer p-1 hover:brightness-150 flex items-center justify-center border border-border bg-border/50 rounded w-full h-full aspect-square"
+                  >
+                    <img src={weapon.iconUrl} className="w-full" />
+                  </div>
+                )}
+              </div>
+            ))}
+            <div
+              onClick={() => setSelectionMode(true)}
+              className="col-span-1 cursor-pointer p-1 hover:brightness-125 flex items-center justify-center  background-gradient rounded w-full h-full aspect-square"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="32"
+                height="32"
+                fill="#FFFFFF"
+                viewBox="0 0 256 256"
+              >
+                <path d="M224,128a8,8,0,0,1-8,8H136v80a8,8,0,0,1-16,0V136H40a8,8,0,0,1,0-16h80V40a8,8,0,0,1,16,0v80h80A8,8,0,0,1,224,128Z"></path>
+              </svg>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
+
+interface SelectionModeProps {
+  selectionMode: boolean
+  setSelectionMode: (value: boolean) => void
+  handleAddWeapon: (newWeapon: IWeapon | IGun | IExplosive) => void
+}
+
+const SelectionMode = ({
+  selectionMode,
+  setSelectionMode,
+  handleAddWeapon,
+}: SelectionModeProps) => {
+  const [selectedWeapon, setSelectedWeapon] = useState<
+    IWeapon | IGun | IExplosive | null
+  >(null)
+  const [selectedType, setSelectedType] = useState<
+    "weapons" | "guns" | "explosives"
+  >("weapons")
+  const [editableWeapon, setEditableWeapon] = useState<
+    IWeapon | IGun | IExplosive
+  >({
+    name: "",
+    iconUrl: "",
+    skill: "Fighting(Brawl)",
+    range: "-",
+    damage: "",
+    attacks: "1(2)",
+    description: "",
+    malfunction: "-",
+    properties: [""],
+  })
+
+  const handleEdit = (field: string, value: any) => {
+    setEditableWeapon((prev) => ({ ...prev, [field]: value }))
+  }
+
+  const items = {
+    weapons,
+    guns,
+    explosives,
+  }
+
+  return (
+    <ModalWrapper
+      onStatusChange={(value: "open" | "close") => {
+        if (value === "close") return setSelectionMode(false)
+        setSelectionMode(true)
+      }}
+      status={selectionMode ? "open" : "close"}
+    >
+      {selectedWeapon ? (
+        <div className="p-4 w-[681px] relative">
+          <div
+            onClick={() => setSelectedWeapon(null)}
+            className="flex items-center gap-x-2"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="42"
+              height="42"
+              fill="#cccccc80"
+              viewBox="0 0 256 256"
+              className="absolute left-4 top-4 w-fit bg-background p-1 rounded cursor-pointer"
+            >
+              <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm48-88a8,8,0,0,1-8,8H107.31l18.35,18.34a8,8,0,0,1-11.32,11.32l-32-32a8,8,0,0,1,0-11.32l32-32a8,8,0,0,1,11.32,11.32L107.31,120H168A8,8,0,0,1,176,128Z"></path>
+            </svg>
+            <span>Back</span>
+          </div>
+
+          <div className="flex pt-6 items-center gap-x-2">
+            <div className="w-[80px] h-[80px] bg-border/50 border border-border flex items-center justify-center rounded aspect-square">
+              <div
+                style={{
+                  background: "linear-gradient(to right, #42d392, #8B5CF6)",
+                  WebkitMaskImage: `url(${selectedWeapon.iconUrl})`,
+                  WebkitMaskSize: "contain",
+                  WebkitMaskRepeat: "no-repeat",
+                  WebkitMaskPosition: "center",
+                  maskImage: `url(${selectedWeapon.iconUrl})`,
+                  maskSize: "contain",
+                  maskRepeat: "no-repeat",
+                  maskPosition: "center",
+                }}
+                className="relative z-20 w-[80px] h-[80px]"
+              ></div>
+            </div>
+            <span className="text-2xl background-gradient text-transparent bg-clip-text font-medium">
+              {selectedWeapon.name}
+            </span>
+          </div>
+          <div className="py-2">
+            <span className="text-gray-400">{selectedWeapon.description}</span>
+          </div>
+          <table className="w-full table-auto ">
+            <thead>
+              <tr className="grid grid-cols-6 justify-between overflow-hidden rounded-t-md w-full border border-border">
+                <th className="col-span-1 border-r border-border p-2 text-xl">
+                  Skill
+                </th>
+                <th className="col-span-1 border-r border-border p-2 text-xl">
+                  Damage
+                </th>
+                <th className="col-span-1 border-r border-border p-2 text-xl">
+                  Range
+                </th>
+                <th className="col-span-1 border-r border-border p-2 text-xl">
+                  Attacks
+                </th>
+                <th className="col-span-1 border-r border-border p-2 text-xl">
+                  Ammo
+                </th>
+                <th className="col-span-1 p-2 text-xl">Malf</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr className="grid border-x border-b rounded-b-md border-border grid-cols-6 justify-between w-full">
+                <td
+                  className={
+                    "border-r border-border col-span-1 p-2 flex items-center justify-center w-full"
+                  }
+                >
+                  {selectedWeapon.skill}
+                </td>
+                <GlowingWrapper>
+                  <input
+                    value={editableWeapon.damage ?? ""}
+                    placeholder="-"
+                    onChange={(e) => handleEdit("damage", e.target.value)}
+                    className={
+                      "border-r border-border text-center bg-background w-full h-full col-span-1 p-2 flex items-center justify-center outline-none"
+                    }
+                  />
+                </GlowingWrapper>
+                <GlowingWrapper>
+                  <input
+                    value={editableWeapon.range ?? ""}
+                    placeholder="-"
+                    onChange={(e) => handleEdit("range", e.target.value)}
+                    className={
+                      "border-r border-border text-center bg-background w-full h-full col-span-1 p-2 flex items-center justify-center outline-none"
+                    }
+                  />
+                </GlowingWrapper>
+                <GlowingWrapper>
+                  <input
+                    value={editableWeapon.attacks ?? ""}
+                    placeholder="-"
+                    onChange={(e) => handleEdit("attacks", e.target.value)}
+                    className={
+                      "border-r border-border text-center bg-background w-full h-full col-span-1 p-2 flex items-center justify-center outline-none"
+                    }
+                  />
+                </GlowingWrapper>
+                <GlowingWrapper>
+                  <input
+                    value={editableWeapon.ammo ?? ""}
+                    placeholder="-"
+                    onChange={(e) => handleEdit("ammo", e.target.value)}
+                    className={
+                      "border-r border-border text-center bg-background w-full h-full col-span-1 p-2 flex items-center justify-center outline-none"
+                    }
+                  />
+                </GlowingWrapper>
+                <GlowingWrapper>
+                  <input
+                    value={editableWeapon.malfunction ?? ""}
+                    placeholder="-"
+                    onChange={(e) => handleEdit("malfunction", e.target.value)}
+                    className={
+                      "border-r border-border text-center bg-background w-full h-full col-span-1 p-2 flex items-center justify-center outline-none"
+                    }
+                  />
+                </GlowingWrapper>
+              </tr>
+            </tbody>
+          </table>
+          <ul className="mt-2">
+            {selectedWeapon.properties.map((property) => (
+              <li className="text-gray-400 text-sm list-disc ml-4">
+                {property}
+              </li>
+            ))}
+          </ul>
+          <button
+            onClick={() => {
+              handleAddWeapon(editableWeapon)
+              setSelectionMode(false)
+            }}
+            className="p-2 mt-4 w-full hover:brightness-125 font-medium text-center text-lg background-gradient text-white rounded"
+          >
+            Add
+          </button>
+        </div>
+      ) : (
+        <div className="p-4 w-[681px]">
+          <h3 className="block text-3xl font-bold background-gradient bg-clip-text text-transparent">
+            Choose a weapon
+          </h3>
+          <ul className="grid grid-cols-3 mt-4 gap-2">
+            {["weapons" as const, "guns" as const, "explosives" as const].map(
+              (item, index) => (
+                <li
+                  onClick={() => setSelectedType(item)}
+                  key={index}
+                  className={`${
+                    selectedType === item
+                      ? " background-gradient "
+                      : " bg-border "
+                  } p-2 col-span-1 capitalize w-full hover:brightness-125 cursor-pointer font-medium text-center text-lg text-white rounded`}
+                >
+                  {item}
+                </li>
+              )
+            )}
+          </ul>
+          <div className="grid grid-cols-10 mt-2 gap-2">
+            {items[selectedType].map(
+              (weapon: IWeapon | IGun | IExplosive, index: number) => (
+                <>
+                  {weapon.name !== "Unarmed" && (
                     <div
                       key={index}
-                      onClick={() => setSelectedWeapon(weapon)}
-                      className="col-span-1 cursor-pointer hover:brightness-150 flex items-center justify-center border border-border bg-border/50 rounded w-full h-full aspect-square"
-                    >
-                      <img src={weapon.iconUrl} className="w-full" />
-                    </div>
-                  ) : (
-                    <div
-                      key={index}
-                      onClick={() => setSelectedWeapon(weapon)}
+                      onClick={() => {
+                        setEditableWeapon(weapon)
+                        setSelectedWeapon(weapon)
+                      }}
                       className="col-span-1 cursor-pointer p-1 hover:brightness-150 flex items-center justify-center border border-border bg-border/50 rounded w-full h-full aspect-square"
                     >
                       <img src={weapon.iconUrl} className="w-full" />
                     </div>
                   )}
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div className="p-8 flex flex-col items-center justify-center">
-              {combat.map((weapon, index) => (
-                <div
-                  key={weapon.id}
-                  onClick={() => setSelectedWeapon(weapon)}
-                  className="col-span-1 cursor-pointer w-[50px] h-[50px] hover:brightness-150 flex items-center justify-center border border-border bg-border/50 rounded aspect-square"
-                >
-                  <img src={weapon.iconUrl} className="w-full" />
-                </div>
-              ))}
-              <span className="text-gray-400 mt-2 w-[400px] text-center">
-                The enemies arm themselves, while {infos.name} empty-handed...
-                gazes into the abyss of his preparation.
-              </span>
-            </div>
-          )}
+                </>
+              )
+            )}
+          </div>
         </div>
       )}
-    </div>
+    </ModalWrapper>
   )
 }
