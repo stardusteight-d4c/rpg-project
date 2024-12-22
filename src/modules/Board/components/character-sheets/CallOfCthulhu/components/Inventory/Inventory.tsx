@@ -1,4 +1,18 @@
 interface InventoryProps {
+  inventory: Array<{
+    id: string
+    name: string
+  }>
+  infos: {
+    name: string
+    sex: "male" | "female"
+    characterUrl: string
+    occupation: string
+    hitPoints: number
+    magicPoints: number
+    sanity: number
+    inspiration: boolean
+  }
   activeItems: (
     | "attributes"
     | "skills"
@@ -12,15 +26,20 @@ interface InventoryProps {
   ) => void
 }
 
-export const Inventory = ({ activeItems, toggleItem }: InventoryProps) => {
+export const Inventory = ({
+  activeItems,
+  toggleItem,
+  inventory,
+  infos,
+}: InventoryProps) => {
   return (
     <div className="mb-4 rounded border border-border">
       <div
         onClick={() => toggleItem("inventory")}
-        className="flex cursor-pointer p-2 items-center justify-between bg-border"
+        className="flex p-2 cursor-pointer items-center justify-between sticky top-[49px] z-[100] shadow-sm shadow-black/50 bg-[#0e0e0e]"
       >
         <h3 className="text-2xl flex items-center gap-x-2 font-semibold">
-          <span className="bg-border border border-border p-2 rounded">
+          <span className="p-2 rounded">
             <svg
               width="32"
               height="32"
@@ -29,20 +48,20 @@ export const Inventory = ({ activeItems, toggleItem }: InventoryProps) => {
               xmlns="http://www.w3.org/2000/svg"
             >
               <path
-                d="M21 5.0725V4C21 3.20435 20.6839 2.44129 20.1213 1.87868C19.5587 1.31607 18.7956 1 18 1H14C13.2044 1 12.4413 1.31607 11.8787 1.87868C11.3161 2.44129 11 3.20435 11 4V5.0725C9.3351 5.31517 7.81298 6.14844 6.71147 7.42023C5.60995 8.69202 5.00251 10.3175 5 12V27C5 27.5304 5.21071 28.0391 5.58579 28.4142C5.96086 28.7893 6.46957 29 7 29H25C25.5304 29 26.0391 28.7893 26.4142 28.4142C26.7893 28.0391 27 27.5304 27 27V12C26.9975 10.3175 26.39 8.69202 25.2885 7.42023C24.187 6.14844 22.6649 5.31517 21 5.0725ZM14 3H18C18.2652 3 18.5196 3.10536 18.7071 3.29289C18.8946 3.48043 19 3.73478 19 4V5H13V4C13 3.73478 13.1054 3.48043 13.2929 3.29289C13.4804 3.10536 13.7348 3 14 3ZM21 20H11V19C11 18.7348 11.1054 18.4804 11.2929 18.2929C11.4804 18.1054 11.7348 18 12 18H20C20.2652 18 20.5196 18.1054 20.7071 18.2929C20.8946 18.4804 21 18.7348 21 19V20ZM11 22H17V23C17 23.2652 17.1054 23.5196 17.2929 23.7071C17.4804 23.8946 17.7348 24 18 24C18.2652 24 18.5196 23.8946 18.7071 23.7071C18.8946 23.5196 19 23.2652 19 23V22H21V27H11V22ZM25 27H23V19C23 18.2044 22.6839 17.4413 22.1213 16.8787C21.5587 16.3161 20.7956 16 20 16H12C11.2044 16 10.4413 16.3161 9.87868 16.8787C9.31607 17.4413 9 18.2044 9 19V27H7V12C7 10.6739 7.52678 9.40215 8.46447 8.46447C9.40215 7.52678 10.6739 7 12 7H20C21.3261 7 22.5979 7.52678 23.5355 8.46447C24.4732 9.40215 25 10.6739 25 12V27ZM19 11C19 11.2652 18.8946 11.5196 18.7071 11.7071C18.5196 11.8946 18.2652 12 18 12H14C13.7348 12 13.4804 11.8946 13.2929 11.7071C13.1054 11.5196 13 11.2652 13 11C13 10.7348 13.1054 10.4804 13.2929 10.2929C13.4804 10.1054 13.7348 10 14 10H18C18.2652 10 18.5196 10.1054 18.7071 10.2929C18.8946 10.4804 19 10.7348 19 11Z"
-                fill="url(#paint0_linear_52_2)"
+                d="M23 5H9C7.14409 5.00199 5.36477 5.74012 4.05245 7.05245C2.74012 8.36477 2.00199 10.1441 2 12V24C2 24.5304 2.21071 25.0391 2.58579 25.4142C2.96086 25.7893 3.46957 26 4 26H28C28.5304 26 29.0391 25.7893 29.4142 25.4142C29.7893 25.0391 30 24.5304 30 24V12C29.998 10.1441 29.2599 8.36477 27.9476 7.05245C26.6352 5.74012 24.8559 5.00199 23 5ZM28 12V13H24V7.1C25.1286 7.33205 26.1427 7.94613 26.8713 8.8387C27.6 9.73128 27.9986 10.8478 28 12ZM17 17H15V13H17V17ZM14 19H18C18.2652 19 18.5196 18.8946 18.7071 18.7071C18.8946 18.5196 19 18.2652 19 18V15H22V24H10V15H13V18C13 18.2652 13.1054 18.5196 13.2929 18.7071C13.4804 18.8946 13.7348 19 14 19ZM19 13V12C19 11.7348 18.8946 11.4804 18.7071 11.2929C18.5196 11.1054 18.2652 11 18 11H14C13.7348 11 13.4804 11.1054 13.2929 11.2929C13.1054 11.4804 13 11.7348 13 12V13H10V7H22V13H19ZM8 7.1V13H4V12C4.00141 10.8478 4.40003 9.73128 5.12866 8.8387C5.8573 7.94613 6.87139 7.33205 8 7.1ZM4 15H8V24H4V15ZM28 24H24V15H28V24Z"
+                fill="url(#paint0_linear_87_2)"
               />
               <defs>
                 <linearGradient
-                  id="paint0_linear_52_2"
+                  id="paint0_linear_87_2"
                   x1="16"
-                  y1="1"
+                  y1="5"
                   x2="16"
-                  y2="29"
+                  y2="26"
                   gradientUnits="userSpaceOnUse"
                 >
-                  <stop stopColor="#42D392" />
-                  <stop offset="1" stopColor="#8B5CF6" />
+                  <stop stop-color="#42D392" />
+                  <stop offset="1" stop-color="#8B5CF6" />
                 </linearGradient>
               </defs>
             </svg>
@@ -65,17 +84,38 @@ export const Inventory = ({ activeItems, toggleItem }: InventoryProps) => {
         </svg>
       </div>
       {activeItems.includes("inventory") && (
-        <ul className="list-disc flex flex-col gap-y-2 p-2">
-          <li className="bg-gradient-to-tr from-border to-transparent rounded-full block w-fit px-2">
-            Revólver
-          </li>
-          <li className="bg-gradient-to-tr from-border to-transparent rounded-full block w-fit px-2">
-            Lanterna
-          </li>
-          <li className="bg-gradient-to-tr from-border to-transparent rounded-full block w-fit px-2">
-            Kit de primeiros socorros
-          </li>
-        </ul>
+        <>
+          {inventory.length === 0 ? (
+            <div className="p-8 flex flex-col items-center justify-center">
+              <div className="col-span-1 cursor-pointer w-[50px] h-[50px] hover:brightness-150 flex items-center justify-center border border-border bg-border/50 rounded aspect-square">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="32"
+                  height="32"
+                  fill="#FFFFFF"
+                  viewBox="0 0 256 256"
+                >
+                  <path d="M198.24,62.63l15.68-17.25a8,8,0,0,0-11.84-10.76L186.4,51.86A95.95,95.95,0,0,0,57.76,193.37L42.08,210.62a8,8,0,1,0,11.84,10.76L69.6,204.14A95.95,95.95,0,0,0,198.24,62.63ZM48,128A80,80,0,0,1,175.6,63.75l-107,117.73A79.63,79.63,0,0,1,48,128Zm80,80a79.55,79.55,0,0,1-47.6-15.75l107-117.73A79.95,79.95,0,0,1,128,208Z"></path>
+                </svg>
+              </div>
+              <span className="text-gray-400 mt-2 w-[400px] text-center">
+                {infos.name} rummage through your inventory, but find only the
+                weight of nothing.
+              </span>
+            </div>
+          ) : (
+            <ul className="grid grid-cols-2 gap-2 p-2">
+              {inventory.map((item) => (
+                <li
+                  key={item.id}
+                  className="p-2 w-full line-clamp-1 rounded bg-border/50 border border-border "
+                >
+                  <span>{item.name}</span>
+                </li>
+              ))}
+            </ul>
+          )}
+        </>
       )}
     </div>
   )
