@@ -3,6 +3,7 @@
 import { useState } from "react"
 import {
   Attributes,
+  Backstory,
   Combat,
   Inventory,
   ProfileInfo,
@@ -17,6 +18,7 @@ interface CharactersEditProps {
     skills: any
     combat: any
     inventory: any
+    backstory: string
   }
   setEditMode: (value: boolean) => void
 }
@@ -125,6 +127,11 @@ export const CharactersEdit = ({
           {...actions}
           infos={playerCharacter.infos}
           inventory={playerCharacter.inventory}
+          isEditMode={true}
+        />
+        <Backstory
+          {...actions}
+          backstory={playerCharacter.backstory}
           isEditMode={true}
         />
       </div>

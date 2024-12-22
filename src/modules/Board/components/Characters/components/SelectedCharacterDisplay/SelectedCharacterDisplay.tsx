@@ -21,6 +21,7 @@ interface SelectedCharacterDisplayProps {
       id: string
       name: string
     }>
+    backstory: string
   } | null
   setSelectedCharacter: (
     value: {
@@ -130,7 +131,7 @@ export const SelectedCharacterDisplay = ({
           infos={selectedCharacter.infos}
           inventory={selectedCharacter.inventory}
         />
-        <Backstory {...actions} />
+        <Backstory {...actions} backstory={selectedCharacter.backstory} />
       </div>
     </section>
   )
