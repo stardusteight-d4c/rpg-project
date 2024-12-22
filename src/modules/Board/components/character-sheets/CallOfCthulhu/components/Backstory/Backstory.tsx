@@ -1,3 +1,5 @@
+import ReactMarkdown from "react-markdown"
+
 interface BackstoryProps {
   activeItems: (
     | "attributes"
@@ -13,14 +15,49 @@ interface BackstoryProps {
 }
 
 export const Backstory = ({ activeItems, toggleItem }: BackstoryProps) => {
+  const backstory = `
+  **Nome:** Lyra Valtharion  
+  **Classe:** Guerreira  
+  **Raça:** Elfa  
+  **Idade:** 128 anos (jovem para os padrões élficos)  
+  **Equipamento:** Espada longa ancestral, armadura prateada ornamentada com símbolos lunares, capa azul-acinzentada.  
+  **Aparência:** Alta e esguia, com traços nobres, olhos prateados e cabelos acinzentados que brilham como seda à luz do luar.  
+  
+  ---
+  
+  ### **História**
+  
+  Lyra nasceu no coração de **Silverglade**, um reino élfico isolado e protegido por florestas encantadas. Desde cedo, ela mostrou uma afinidade incomum com a espada, um talento que chamou a atenção dos Sentinelas Lunares, uma ordem de elite que defendia o reino contra ameaças externas. Embora os elfos de Silverglade preferissem o arco e a magia, Lyra sentia-se mais conectada à força e à elegância do combate corpo a corpo, acreditando que a espada era a extensão mais pura da alma de um guerreiro.
+  
+  **O Chamado da Guerra:**  
+  Quando Lyra tinha apenas 90 anos, um ataque surpresa de invasores humanos rompeu a paz secular de Silverglade. Lyra lutou ao lado dos Sentinelas Lunares, mas a batalha terminou em tragédia. Seu mentor e amigo, o Capitão Elyndor, foi morto protegendo-a. Antes de morrer, ele entregou a Lyra sua espada ancestral, **Auriel**, dizendo:  
+  *"Essa lâmina não é apenas para matar. Ela é uma promessa de que nossos valores jamais serão esquecidos."*  
+  
+  **A Jornada Solitária:**  
+  Após a batalha, Lyra sentiu-se consumida pela culpa e decidiu partir em exílio voluntário, jurando aprimorar suas habilidades e buscar justiça para os caídos. Durante sua jornada, Lyra enfrentou criaturas sombrias, explorou ruínas esquecidas e desvendou segredos antigos que conectavam seu povo às forças do cosmos. Sua armadura prateada, forjada pelos mestres artífices de Silverglade, tornou-se um símbolo de esperança e luz para aqueles que a encontravam.  
+  
+  **O Retorno e o Destino:**  
+  Lyra descobriu que os invasores estavam ligados a um império humano corrupto que desejava usar a magia élfica para conquistar o mundo. Determinada a proteger seu lar e expor a verdade, ela retornou a Silverglade, não como uma simples guerreira, mas como uma heroína marcada por suas cicatrizes e pelo brilho inabalável de sua determinação.  
+  
+  **Personalidade:**  
+  Lyra é determinada, séria e movida por um profundo senso de justiça. Embora possa parecer reservada, ela demonstra grande empatia por aqueles que sofrem injustiças. Sua experiência com perda e sacrifício a tornou sábia e estratégica, sempre priorizando o bem maior.  
+  
+  **Habilidades Notáveis:**  
+  - **Golpe Lunar:** Um ataque devastador que canaliza energia prateada de sua espada, inspirado nas fases da lua.  
+  - **Defesa Celestial:** Sua armadura pode refletir ataques mágicos de menor intensidade.  
+  - **Liderança Inspiradora:** Lyra tem o dom de motivar aliados, despertando coragem até nos momentos mais sombrios.  
+  
+  Agora, Lyra percorre o mundo, lutando não apenas por Silverglade, mas por todos aqueles que não podem se defender sozinhos. Sua espada brilha como uma estrela cadente no campo de batalha, e sua lenda continua a crescer.
+    `
+
   return (
     <div className="mb-4 rounded border border-border">
       <div
         onClick={() => toggleItem("backstory")}
-        className="flex cursor-pointer p-2 items-center justify-between bg-border"
+        className="flex p-2 cursor-pointer items-center justify-between sticky top-[49px] z-[100] shadow-sm shadow-black/50 bg-[#0e0e0e]"
       >
         <h3 className="text-2xl flex items-center gap-x-2 font-semibold">
-          <span className="bg-border border border-border p-2 rounded">
+          <span className="p-2 rounded">
             <svg
               width="32"
               height="32"
@@ -64,19 +101,11 @@ export const Backstory = ({ activeItems, toggleItem }: BackstoryProps) => {
           <path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"></path>
         </svg>
       </div>
-      {/* {activeItems.includes("inventory") && (
-          <ul className="list-disc flex flex-col gap-y-2 p-2">
-            <li className="bg-gradient-to-tr from-border to-transparent rounded-full block w-fit px-2">
-              Revólver
-            </li>
-            <li className="bg-gradient-to-tr from-border to-transparent rounded-full block w-fit px-2">
-              Lanterna
-            </li>
-            <li className="bg-gradient-to-tr from-border to-transparent rounded-full block w-fit px-2">
-              Kit de primeiros socorros
-            </li>
-          </ul>
-        )} */}
+      {activeItems.includes("backstory") && (
+        <div className="p-2 space-y-4 text-base">
+          <ReactMarkdown>{backstory}</ReactMarkdown>
+        </div>
+      )}
     </div>
   )
 }
