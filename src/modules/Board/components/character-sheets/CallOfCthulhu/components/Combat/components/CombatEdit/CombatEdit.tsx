@@ -145,38 +145,44 @@ export const CombatEdit = ({
             {editableData.map((weapon, index) => (
               <div>
                 {weapon.name === "Unarmed" ? (
-                  <div
-                    key={index}
-                    onClick={() => setSelectedWeapon(weapon)}
-                    className="col-span-1 cursor-pointer hover:brightness-150 flex items-center justify-center border border-border bg-border/50 rounded w-full h-full aspect-square"
-                  >
-                    <img src={weapon.iconUrl} className="w-full" />
-                  </div>
+                  <GlowingWrapper>
+                    <div
+                      key={index}
+                      onClick={() => setSelectedWeapon(weapon)}
+                      className="col-span-1 cursor-pointer hover:brightness-150 flex items-center justify-center border border-border bg-border/50 rounded w-full h-full aspect-square"
+                    >
+                      <img src={weapon.iconUrl} className="w-full" />
+                    </div>
+                  </GlowingWrapper>
                 ) : (
-                  <div
-                    key={index}
-                    onClick={() => setSelectedWeapon(weapon)}
-                    className="col-span-1 cursor-pointer p-1 hover:brightness-150 flex items-center justify-center border border-border bg-border/50 rounded w-full h-full aspect-square"
-                  >
-                    <img src={weapon.iconUrl} className="w-full" />
-                  </div>
+                  <GlowingWrapper>
+                    <div
+                      key={index}
+                      onClick={() => setSelectedWeapon(weapon)}
+                      className="col-span-1 cursor-pointer p-1 hover:brightness-150 flex items-center justify-center border border-border bg-border/50 rounded w-full h-full aspect-square"
+                    >
+                      <img src={weapon.iconUrl} className="w-full" />
+                    </div>
+                  </GlowingWrapper>
                 )}
               </div>
             ))}
-            <div
-              onClick={() => setSelectionMode(true)}
-              className="col-span-1 cursor-pointer p-1 hover:brightness-125 flex items-center justify-center  background-gradient rounded w-full h-full aspect-square"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="32"
-                height="32"
-                fill="#FFFFFF"
-                viewBox="0 0 256 256"
+            <GlowingWrapper>
+              <div
+                onClick={() => setSelectionMode(true)}
+                className="col-span-1 cursor-pointer p-1 hover:brightness-125 flex items-center justify-center  background-gradient rounded w-full h-full aspect-square"
               >
-                <path d="M224,128a8,8,0,0,1-8,8H136v80a8,8,0,0,1-16,0V136H40a8,8,0,0,1,0-16h80V40a8,8,0,0,1,16,0v80h80A8,8,0,0,1,224,128Z"></path>
-              </svg>
-            </div>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="32"
+                  height="32"
+                  fill="#FFFFFF"
+                  viewBox="0 0 256 256"
+                >
+                  <path d="M224,128a8,8,0,0,1-8,8H136v80a8,8,0,0,1-16,0V136H40a8,8,0,0,1,0-16h80V40a8,8,0,0,1,16,0v80h80A8,8,0,0,1,224,128Z"></path>
+                </svg>
+              </div>
+            </GlowingWrapper>
           </div>
         </div>
       )}
@@ -306,7 +312,7 @@ const SelectionMode = ({
                 >
                   {selectedWeapon.skill}
                 </td>
-                <GlowingWrapper>
+                <GlowingWrapper inset='0'>
                   <input
                     value={editableWeapon.damage ?? ""}
                     placeholder="-"
@@ -316,7 +322,7 @@ const SelectionMode = ({
                     }
                   />
                 </GlowingWrapper>
-                <GlowingWrapper>
+                <GlowingWrapper inset='0'>
                   <input
                     value={editableWeapon.range ?? ""}
                     placeholder="-"
@@ -326,7 +332,7 @@ const SelectionMode = ({
                     }
                   />
                 </GlowingWrapper>
-                <GlowingWrapper>
+                <GlowingWrapper inset='0'>
                   <input
                     value={editableWeapon.attacks ?? ""}
                     placeholder="-"
@@ -336,7 +342,7 @@ const SelectionMode = ({
                     }
                   />
                 </GlowingWrapper>
-                <GlowingWrapper>
+                <GlowingWrapper inset='0'>
                   <input
                     value={editableWeapon.ammo ?? ""}
                     placeholder="-"
@@ -346,7 +352,7 @@ const SelectionMode = ({
                     }
                   />
                 </GlowingWrapper>
-                <GlowingWrapper>
+                <GlowingWrapper inset='0'>
                   <input
                     value={editableWeapon.malfunction ?? ""}
                     placeholder="-"
@@ -384,17 +390,19 @@ const SelectionMode = ({
           <ul className="grid grid-cols-3 mt-4 gap-2">
             {["weapons" as const, "guns" as const, "explosives" as const].map(
               (item, index) => (
-                <li
-                  onClick={() => setSelectedType(item)}
-                  key={index}
-                  className={`${
-                    selectedType === item
-                      ? " background-gradient "
-                      : " bg-border "
-                  } p-2 col-span-1 capitalize w-full hover:brightness-125 cursor-pointer font-medium text-center text-lg text-white rounded`}
-                >
-                  {item}
-                </li>
+                <GlowingWrapper>
+                  <li
+                    onClick={() => setSelectedType(item)}
+                    key={index}
+                    className={`${
+                      selectedType === item
+                        ? " background-gradient "
+                        : " bg-border "
+                    } p-2 col-span-1 capitalize w-full hover:brightness-125 cursor-pointer font-medium text-center text-lg text-white rounded`}
+                  >
+                    {item}
+                  </li>
+                </GlowingWrapper>
               )
             )}
           </ul>
@@ -403,16 +411,18 @@ const SelectionMode = ({
               (weapon: IWeapon | IGun | IExplosive, index: number) => (
                 <>
                   {weapon.name !== "Unarmed" && (
-                    <div
-                      key={index}
-                      onClick={() => {
-                        setEditableWeapon(weapon)
-                        setSelectedWeapon(weapon)
-                      }}
-                      className="col-span-1 cursor-pointer p-1 hover:brightness-150 flex items-center justify-center border border-border bg-border/50 rounded w-full h-full aspect-square"
-                    >
-                      <img src={weapon.iconUrl} className="w-full" />
-                    </div>
+                    <GlowingWrapper>
+                      <div
+                        key={index}
+                        onClick={() => {
+                          setEditableWeapon(weapon)
+                          setSelectedWeapon(weapon)
+                        }}
+                        className="col-span-1 cursor-pointer p-1 hover:brightness-150 flex items-center justify-center border border-border bg-border/50 rounded w-full h-full aspect-square"
+                      >
+                        <img src={weapon.iconUrl} className="w-full" />
+                      </div>
+                    </GlowingWrapper>
                   )}
                 </>
               )

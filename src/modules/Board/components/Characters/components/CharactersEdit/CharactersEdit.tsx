@@ -4,6 +4,7 @@ import { useState } from "react"
 import {
   Attributes,
   Combat,
+  Inventory,
   ProfileInfo,
   Skills,
 } from "../../../character-sheets/CallOfCthulhu/components"
@@ -15,6 +16,7 @@ interface CharactersEditProps {
     attributes: any
     skills: any
     combat: any
+    inventory: any
   }
   setEditMode: (value: boolean) => void
 }
@@ -118,6 +120,12 @@ export const CharactersEdit = ({
           combat={playerCharacter.combat}
           isEditMode={true}
           {...actions}
+        />
+        <Inventory
+          {...actions}
+          infos={playerCharacter.infos}
+          inventory={playerCharacter.inventory}
+          isEditMode={true}
         />
       </div>
     </section>

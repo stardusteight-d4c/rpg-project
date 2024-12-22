@@ -59,19 +59,6 @@ export const ProfileInfoEdit = ({ infos, player }: ProfileInfoProps) => {
   return (
     <div className="flex">
       <div className="relative rounded w-fit">
-        {/* <button
-          className="bg-ashes cursor-pointer absolute z-10 top-2 right-2 flex items-center justify-center text-white p-1 rounded-full shadow-sm shadow-black/50 group-hover:bg-gradient-to-tr group-hover:from-[#42d392] group-hover:to-[#8B5CF6] duration-300 ease-in-out transition-all"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            fill="#CCC"
-            viewBox="0 0 256 256"
-          >
-            <path d="M216,40H40A16,16,0,0,0,24,56V200a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A16,16,0,0,0,216,40Zm0,16V158.75l-26.07-26.06a16,16,0,0,0-22.63,0l-20,20-44-44a16,16,0,0,0-22.62,0L40,149.37V56ZM40,172l52-52,80,80H40Zm176,28H194.63l-36-36,20-20L216,181.38V200ZM144,100a12,12,0,1,1,12,12A12,12,0,0,1,144,100Z"></path>
-          </svg>
-        </button> */}
         <div className="w-fit h-fit relative">
           <GlowingWrapper>
             <img
@@ -155,7 +142,7 @@ export const ProfileInfoEdit = ({ infos, player }: ProfileInfoProps) => {
       </div>
       <div className="w-full px-4">
         <div className="flex items-center gap-x-2">
-          <GlowingWrapper>
+          <GlowingWrapper inset='0'>
             <input
               value={editableData.name}
               placeholder="Name"
@@ -193,7 +180,7 @@ export const ProfileInfoEdit = ({ infos, player }: ProfileInfoProps) => {
           </GlowingWrapper>
         </div>
         <span className="flex w-full items-center text-sm text-gray-400">
-          <GlowingWrapper>
+          <GlowingWrapper inset='0'>
             <input
               value={editableData.occupation}
               placeholder="Occupation"
