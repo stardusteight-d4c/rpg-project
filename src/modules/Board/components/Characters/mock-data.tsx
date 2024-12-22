@@ -67,6 +67,10 @@ export const playerCharacter = {
       ],
     },
   ],
+  inventory: [
+    { id: "asdasafssasafsa", name: "Cantil de Whisky" },
+    { id: "saasasdaskçdsaç", name: "Carta achada na Caverna Sagrada" },
+  ],
   skills: [
     {
       id: "saklsakdsalkdlska",
@@ -428,6 +432,10 @@ export const characters: any = [
         ],
       },
     ],
+    inventory: [
+      { id: "asdasafssasafsa", name: "Cantil de Whisky" },
+      { id: "saasasdaskçdsaç", name: "Carta achada na Caverna Sagrada" },
+    ],
     skills: [
       {
         id: "saklsakdsalkdlska",
@@ -744,7 +752,6 @@ export const characters: any = [
       sanity: 100,
       inspiration: false,
     },
-
     attributes: {
       strength: 50,
       dexterity: 60,
@@ -772,21 +779,11 @@ export const characters: any = [
           "Damage is low but does not rely on external items.",
         ],
       },
-      //   {
-      //     id: "assldksaldskl",
-      //     name: "Morgenstern",
-      //     iconUrl: "/weapons/morgenstern.svg",
-      //     skill: "Fighting(Brawl)",
-      //     range: "2m",
-      //     damage: "1d20 + STR",
-      //     attacks: "1",
-      //     description:
-      //       "The Morgenstern, also known as the morning star, is a blunt weapon with a spiked (or pointed) head attached to a shaft. It was designed to deal severe damage with crushing blows and can penetrate weaker armors.",
-      //     properties: [
-      //       "Ideal for blunt attacks that cause damage to denser areas, such as heavy armor.",
-      //       "Chance to deal additional damage when attacking targets with weaker armor.",
-      //     ],
-      //   },
+    ],
+    inventory: [
+      { id: "5as15sc1s5a", name: "Coquetel Molotov" },
+      { id: "6a5cs6a56s5", name: "Chave Misteriosa do Louis Bar" },
+      { id: "sa59s59sacs", name: "Página sobre a tribo Sicaiook" },
     ],
     skills: [
       {
@@ -1164,6 +1161,7 @@ export const characters: any = [
         ],
       },
     ],
+    inventory: [],
     skills: [
       {
         id: "saklsakdsalkdlska",

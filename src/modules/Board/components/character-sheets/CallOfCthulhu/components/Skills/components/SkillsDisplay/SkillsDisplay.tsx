@@ -27,7 +27,7 @@ export const SkillsDisplay = ({
     <div className="mb-4 rounded border border-border">
       <div
         onClick={() => toggleItem("skills")}
-        className="flex bg-border/50 p-2 cursor-pointer items-center justify-between"
+        className="flex p-2 cursor-pointer items-center justify-between sticky top-[49px] z-[100] shadow-sm shadow-black/50 bg-[#0e0e0e]"
       >
         <h3 className="text-2xl flex items-center gap-x-2 font-semibold">
           <span className="p-2 rounded">
@@ -77,7 +77,10 @@ export const SkillsDisplay = ({
       {activeItems.includes("skills") && (
         <div className="grid grid-cols-3 gap-2 p-2">
           {skills.map((skill) => (
-            <div key={skill.name} className="bg-border/50 border border-border  rounded p-2">
+            <div
+              key={skill.name}
+              className="bg-border/50 border border-border  rounded p-2"
+            >
               <span className="font-medium flex items-center gap-x-2">
                 <div className="pointer-events-none select-none">
                   <input
@@ -112,7 +115,7 @@ export const SkillsDisplay = ({
                     ></div>
                   </div>
                 )}
-                 <span className="w-[35px] h-[35px] rounded-full flex items-center justify-center aspect-square text-center font-medium z-10 relative bg-ashes outline-none caret-white">
+                <span className="w-[35px] h-[35px] rounded-full flex items-center justify-center aspect-square text-center font-medium z-10 relative bg-ashes outline-none caret-white">
                   {`${skill.currentValue}`}
                 </span>
               </div>

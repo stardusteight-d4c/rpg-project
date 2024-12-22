@@ -55,7 +55,7 @@ export const CombatDisplay = ({
       )}
       <div
         onClick={() => toggleItem("combat")}
-        className="flex p-2 cursor-pointer items-center justify-between rounded bg-border/50"
+        className="flex p-2 cursor-pointer items-center justify-between sticky top-[49px] z-[100] shadow-sm shadow-black/50 bg-[#0e0e0e]"
       >
         <h3 className="text-2xl flex items-center gap-x-2 font-semibold">
           <span className="p-2 rounded">
@@ -107,7 +107,7 @@ export const CombatDisplay = ({
           {combat && combat.length > 1 ? (
             <div className="grid grid-cols-10 p-2 gap-2">
               {combat.map((weapon, index) => (
-                <div className="col-span-1">
+                <div key={index} className="col-span-1">
                   {weapon.name === "Unarmed" ? (
                     <div
                       key={index}

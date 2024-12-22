@@ -31,7 +31,7 @@ export const AttributesDisplay = ({
     <div className="my-4 rounded border border-border">
       <div
         onClick={() => toggleItem("attributes")}
-        className="flex p-2  cursor-pointer items-center justify-between bg-border/50"
+        className="flex p-2 sticky top-[49px] z-[100] shadow-sm shadow-black/50 cursor-pointer items-center justify-between bg-[#0e0e0e]"
       >
         <h3 className="text-2xl flex items-center gap-x-2 font-semibold">
           <span className="p-2 rounded">

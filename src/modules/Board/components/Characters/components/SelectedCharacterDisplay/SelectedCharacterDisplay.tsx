@@ -17,6 +17,10 @@ interface SelectedCharacterDisplayProps {
     attributes: any
     skills: any
     combat: any
+    inventory: Array<{
+      id: string
+      name: string
+    }>
   } | null
   setSelectedCharacter: (
     value: {
@@ -25,6 +29,10 @@ interface SelectedCharacterDisplayProps {
       attributes: any
       skills: any
       combat: any
+      inventory: Array<{
+        id: string
+        name: string
+      }>
     } | null
   ) => void
   setEditMode: (value: boolean) => void
@@ -65,7 +73,7 @@ export const SelectedCharacterDisplay = ({
 
   return (
     <section className="relative h-screen overflow-y-scroll no-scrollbar">
-      <div className="sticky border-b border-border  shadow-md shadow-black/50 z-50 top-0 p-2 w-full inset-x-0 bg-background">
+      <div className="sticky z-[200] border-b border-border  shadow-sm shadow-black/50 top-0 p-2 w-full inset-x-0 bg-background">
         <div className="flex items-center gap-x-4">
           <div
             onClick={() => setSelectedCharacter(null)}
@@ -117,8 +125,12 @@ export const SelectedCharacterDisplay = ({
           infos={selectedCharacter.infos}
           combat={selectedCharacter.combat}
         />
-        {/* <Inventory {...actions} />
-        <Backstory {...actions} /> */}
+        <Inventory
+          {...actions}
+          infos={selectedCharacter.infos}
+          inventory={selectedCharacter.inventory}
+        />
+        <Backstory {...actions} />
       </div>
     </section>
   )
