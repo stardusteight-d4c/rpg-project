@@ -155,10 +155,23 @@ export const Map: React.FC = () => {
           transform: `translate(${position.x}px, ${position.y}px) scale(${zoom})`,
           transformOrigin: "top left",
           cursor: isDragging ? "grabbing" : "grab",
-          aspectRatio: '1 / 1',
-          gap: '1px'
+          aspectRatio: "1 / 1",
+          gap: "1px",
         }}
       >
+        <div
+          className="absolute circle-effect pointer-events-none select-none w-[5000px] h-[5000px] z-[50]"
+          onDragOver={handleDragOver}
+          onDrop={handleDragOver}
+          draggable="false"
+          style={{
+            left: `${(items[0]?.x * 100) / gridSize}%`,
+            top: `${(items[0]?.y * 100) / gridSize}%`,
+            transform: "translate(-50%, -50%)",
+            marginTop: "15px",
+            marginLeft: "15px",
+          }}
+        />
         {/* Background do mapa */}
         <Image
           src="/Simple-house-1.png"
@@ -176,7 +189,7 @@ export const Map: React.FC = () => {
               key={`${rowIndex}-${colIndex}`}
               onDrop={(e) => handleDrop(e, colIndex, rowIndex)}
               onDragOver={handleDragOver}
-              className="relative rounded-full aspect-square w-fit h-full mx-auto overflow-hidden"
+              className="relative rounded-full aspect-square overflow-hidden w-fit h-full mx-auto"
             >
               {items
                 .filter((item) => item.x === colIndex && item.y === rowIndex)
@@ -186,6 +199,7 @@ export const Map: React.FC = () => {
                     id={item.id}
                     imgUrl={item.imgUrl}
                     type={item.type}
+                    blur
                     setIsItemDragging={setIsItemDragging}
                   />
                 ))}
@@ -203,6 +217,7 @@ interface DraggableItemProps {
   imgUrl: string // URL da imagem
   type: string // Tipo do item (usado para lógica ou estilização)
   setIsItemDragging?: (isDragging: boolean) => void
+  blur?: boolean
 }
 
 export const DraggableItem: React.FC<DraggableItemProps> = ({
@@ -210,6 +225,7 @@ export const DraggableItem: React.FC<DraggableItemProps> = ({
   imgUrl,
   type,
   setIsItemDragging,
+  blur,
 }) => {
   // Manipula o início do arrasto
   const handleDragStart = (e: DragEvent<HTMLDivElement>) => {
@@ -222,21 +238,15 @@ export const DraggableItem: React.FC<DraggableItemProps> = ({
   const handleDragEnd = () => setIsItemDragging && setIsItemDragging(false) // Finaliza o arrasto de item
 
   return (
-    <div
+    <img
       draggable
       onMouseEnter={() => setIsItemDragging && setIsItemDragging(true)}
       onMouseLeave={() => setIsItemDragging && setIsItemDragging(false)}
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
-      className="w-full relative h-full cursor-grab m-auto flex items-center justify-center"
-    >
-      <img
-        src={imgUrl}
-        alt={type}
-        width={200}
-        height={400}
-        className="w-full h-full select-none object-cover"
-      />
-    </div>
+      src={imgUrl}
+      alt={type}
+      className="w-full relative z-[60] select-none  object-cover h-full cursor-grab m-auto flex items-center justify-center"
+    />
   )
 }

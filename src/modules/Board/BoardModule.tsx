@@ -14,7 +14,7 @@ export function BoardModule() {
   >("map")
 
   return (
-    <main className="max-h-screen select-none relative overflow-hidden">
+    <main className="max-h-screen relative overflow-hidden">
       <div className="w-full flex">
         <Board.Chat />
         <div className="w-fit h-screen relative p-2 border-x border-border">
@@ -119,6 +119,7 @@ export function BoardModule() {
         <div className="max-w-[50vw] w-full relative overflow-hidden h-screen">
           {active === "map" && <Board.Map />}
           {active === "characters" && <Board.Characters />}
+          {active === "diary" && <Board.Diary />}
         </div>
         <div className="w-[26vw] 2xl:w-[30vw] pb-2 overflow-y-scroll no-scrollbar h-screen border-l border-border">
           <Board.Cam />
