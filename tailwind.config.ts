@@ -7,6 +7,9 @@ export default {
     "./src/shared/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
+    fontFamily: {
+      delius: ['var(--font-delius)'],
+    },
     screens: {
       // => @media (min-width: 640px) { ... }
       usm: "400px",

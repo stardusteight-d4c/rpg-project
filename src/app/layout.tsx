@@ -1,10 +1,16 @@
 import type { Metadata } from "next"
-import { Roboto_Condensed } from "next/font/google"
+import { Roboto_Condensed, Delius } from "next/font/google"
 import "./globals.css"
 
 const robotoCondensed = Roboto_Condensed({
   subsets: ["latin"],
   weight: ["100", "300", "400", "500", "700", "900"],
+})
+
+const delius = Delius({
+  subsets: ["latin"],
+  weight: ["400"],
+  variable: '--font-delius',
 })
 
 export const metadata: Metadata = {
@@ -19,7 +25,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${robotoCondensed.className} antialiased`}>{children}</body>
+      <body className={`${robotoCondensed.className} ${delius.variable} antialiased`}>{children}</body>
     </html>
   )
 }

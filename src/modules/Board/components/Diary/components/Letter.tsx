@@ -24,7 +24,7 @@ export const Letter = () => {
 
   return (
     <div className="w-[681px] relative">
-      <div className="absolute h-[975px] overflow-y-scroll w-[635px] px-5 py-4 space-y-4 markdown-context text-lg text-black left-8 top-4">
+      <div className="absolute h-fit italic !font-delius overflow-y-scroll w-[635px] px-5 py-4 space-y-4 markdown-context text-lg text-black left-8 top-4">
         <ReactMarkdown rehypePlugins={[rehypeRaw]}>{test}</ReactMarkdown>
       </div>
       <Image

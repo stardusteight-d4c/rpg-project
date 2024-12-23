@@ -1,11 +1,21 @@
+"use client"
+
 import { ModalWrapper } from "@/shared/components"
 import Image from "next/image"
 import ReactMarkdown from "react-markdown"
 import rehypeRaw from "rehype-raw"
 import { Newspaper } from "./components/Newspaper"
 import { Letter } from "./components/Letter"
+import { useState } from "react"
+import { HandoutModalWrapper } from "./components/HandoutModalWrapper"
 
 export const Diary = () => {
+  const [modalState, setModalState] = useState<"close" | "open">("open")
+
+  function handleOpenModal(value: "open" | "close") {
+    setModalState(value)
+  }
+
   const handoutsCategories = [
     "Letters",
     "Notes",
@@ -42,14 +52,21 @@ export const Diary = () => {
           <li>{category}</li>
         ))} */}
 
-        <Newspaper />
-        <Letter />
+        <HandoutModalWrapper
+          onStatusChange={handleOpenModal}
+          status={modalState}
+          showCloseIcon={false}
+        >
+          {/* <Newspaper /> */}
+          {/* <Letter /> */}
+            
         <div className="w-[681px] relative">
-          <div className="absolute h-[975px] overflow-y-scroll w-[635px] px-5 py-4 space-y-4 markdown-context text-lg text-black left-8 top-4">
+          <div className="absolute !font-delius font-medium text-xl w-[480px] !italic space-y-4 markdown-context text-black top-[50px] left-[50px] ">
+
             <ReactMarkdown rehypePlugins={[rehypeRaw]}>{test}</ReactMarkdown>
           </div>
           <Image
-            src="/note_h.png"
+            src="/note_m_with_shadow.png"
             width={1000}
             height={1000}
             quality={100}
@@ -57,6 +74,8 @@ export const Diary = () => {
             className="select-none pointer-events-none"
           />
         </div>
+        </HandoutModalWrapper>
+      
       </ul>
     </section>
   )

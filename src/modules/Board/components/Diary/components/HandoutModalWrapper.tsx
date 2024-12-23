@@ -4,19 +4,19 @@ import React, { Dispatch, SetStateAction, useRef } from "react"
 import ReactDOM from "react-dom"
 import { Zoom } from "react-awesome-reveal"
 
-interface ModalWrapperProps {
+interface HandoutModalWrapperProps {
   status: "open" | "close"
   onStatusChange: (status: "close" | "open") => void
   children: React.ReactNode
   showCloseIcon?: boolean
 }
 
-export const ModalWrapper = ({
+export const HandoutModalWrapper = ({
   status,
   children,
   onStatusChange,
   showCloseIcon = true,
-}: ModalWrapperProps) => {
+}: HandoutModalWrapperProps) => {
   if (status === "close") return null
 
   const modalContentRef = useRef<HTMLDivElement | null>(null)
@@ -45,7 +45,7 @@ export const ModalWrapper = ({
           <div className="w-screen h-screen relative z-[950]">
             <div
               ref={modalContentRef} // Referência ao conteúdo do modal
-              className="z-[900] max-h-[500px] w-fit overflow-y-scroll no-scrollbar  md:bg-background shadow-p md:border md:border-border rounded-2xl absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2"
+              className="z-[900]  w-fit overflow-y-scroll h-screen py-3 no-scrollbar   absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2"
             >
               {showCloseIcon && (
                 <svg
