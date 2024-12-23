@@ -121,12 +121,18 @@ export const Map: React.FC = () => {
 
   return (
     <div className="relative aspect-square w-[50vw] h-[100vh] overflow-hidden">
+      <img
+        src="https://images.alphacoders.com/138/thumb-1920-1383443.png"
+        className="absolute h-screen object-cover inset-0 select-none pointer-events-none opacity-30 z-0"
+        alt=""
+      />
+
       {showResetMap && (
         <div
           onClick={resetConfig}
           className="absolute top-2 left-2 z-50 flex gap-2"
         >
-          <div className="flex cursor-pointer items-center group w-fit gap-x-2">
+          <div className="flex select-none cursor-pointer items-center group w-fit gap-x-2">
             <button className="bg-ashes flex items-center justify-center text-white p-1 rounded-full  shadow-md shadow-black/50 group-hover:bg-gradient-to-tr group-hover:from-[#42d392] group-hover:to-[#8B5CF6] duration-300 ease-in-out transition-all">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -142,72 +148,73 @@ export const Map: React.FC = () => {
           </div>
         </div>
       )}
-      <div
-        className="w-[50vw] h-[100vh] grid absolute"
-        onMouseDown={handleMouseDown}
-        onMouseMove={handleMouseMove}
-        onMouseUp={handleMouseUp}
-        onMouseLeave={handleMouseUp}
-        onWheel={handleWheel}
-        style={{
-          gridTemplateColumns: `repeat(${gridSize}, 1fr)`,
-          gridTemplateRows: `repeat(${gridSize}, 1fr)`,
-          transform: `translate(${position.x}px, ${position.y}px) scale(${zoom})`,
-          transformOrigin: "top left",
-          cursor: isDragging ? "grabbing" : "grab",
-          aspectRatio: "1 / 1",
-          gap: "1px",
-        }}
-      >
         <div
-          className="absolute circle-effect pointer-events-none select-none w-[5000px] h-[5000px] z-[50]"
-          onDragOver={handleDragOver}
-          onDrop={handleDragOver}
-          draggable="false"
+          className="w-[50vw] h-[100vh] grid absolute"
+          onMouseDown={handleMouseDown}
+          onMouseMove={handleMouseMove}
+          onMouseUp={handleMouseUp}
+          onMouseLeave={handleMouseUp}
+          onWheel={handleWheel}
           style={{
-            left: `${(items[0]?.x * 100) / gridSize}%`,
-            top: `${(items[0]?.y * 100) / gridSize}%`,
-            transform: "translate(-50%, -50%)",
-            marginTop: "15px",
-            marginLeft: "15px",
+            gridTemplateColumns: `repeat(${gridSize}, 1fr)`,
+            gridTemplateRows: `repeat(${gridSize}, 1fr)`,
+            transform: `translate(${position.x}px, ${position.y}px) scale(${zoom})`,
+            transformOrigin: "top left",
+            cursor: isDragging ? "grabbing" : "grab",
+            aspectRatio: "1 / 1",
+            gap: "1px",
+            overflow: "hidden",
           }}
-        />
-        {/* Background do mapa */}
-        <Image
-          src="/Simple-house-1.png"
-          alt="Mapa"
-          width={1000}
-          height={1000}
-          quality={100}
-          className="absolute aspect-square z-0 w-full h-full object-fill select-none pointer-events-none"
-        />
+        >
+          <div
+            className="absolute circle-effect overflow-hidden pointer-events-none select-none w-[5000px] h-[5000px] z-[50]"
+            onDragOver={handleDragOver}
+            onDrop={handleDragOver}
+            draggable="false"
+            style={{
+              left: `${(items[0]?.x * 100) / gridSize}%`,
+              top: `${(items[0]?.y * 100) / gridSize}%`,
+              transform: "translate(-50%, -50%)",
+              marginTop: "15px",
+              marginLeft: "15px",
+            }}
+          ></div>
+          {/* Background do mapa */}
+          <Image
+            src="/Simple-house-1.png"
+            alt="Mapa"
+            width={1000}
+            height={1000}
+            quality={100}
+            className="absolute aspect-square z-0 w-full h-full object-fill select-none pointer-events-none"
+          />
 
-        {/* Grid com células */}
-        {Array.from({ length: gridSize }).map((_, rowIndex) =>
-          Array.from({ length: gridSize }).map((_, colIndex) => (
-            <div
-              key={`${rowIndex}-${colIndex}`}
-              onDrop={(e) => handleDrop(e, colIndex, rowIndex)}
-              onDragOver={handleDragOver}
-              className="relative rounded-full aspect-square overflow-hidden w-fit h-full mx-auto"
-            >
-              {items
-                .filter((item) => item.x === colIndex && item.y === rowIndex)
-                .map((item) => (
-                  <DraggableItem
-                    key={item.id}
-                    id={item.id}
-                    imgUrl={item.imgUrl}
-                    type={item.type}
-                    blur
-                    setIsItemDragging={setIsItemDragging}
-                  />
-                ))}
-            </div>
-          ))
-        )}
+          {/* Grid com células */}
+          {Array.from({ length: gridSize }).map((_, rowIndex) =>
+            Array.from({ length: gridSize }).map((_, colIndex) => (
+              <div
+                key={`${rowIndex}-${colIndex}`}
+                onDrop={(e) => handleDrop(e, colIndex, rowIndex)}
+                onDragOver={handleDragOver}
+                className="relative rounded-full aspect-square overflow-hidden w-fit h-full mx-auto"
+              >
+                {items
+                  .filter((item) => item.x === colIndex && item.y === rowIndex)
+                  .map((item) => (
+                    <DraggableItem
+                      key={item.id}
+                      id={item.id}
+                      imgUrl={item.imgUrl}
+                      type={item.type}
+                      blur
+                      setIsItemDragging={setIsItemDragging}
+                    />
+                  ))}
+              </div>
+            ))
+          )}
+        </div>
       </div>
-    </div>
   )
 }
 
