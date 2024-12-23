@@ -11,11 +11,9 @@ export const GlowingWrapper: React.FC<GlowingWrapperProps> = ({
 
   return (
     <div className="relative group">
-      {/* Efeito de brilho e borda no hover */}
       <div
-        className={`${insetValue} absolute z-50 rounded-md border-2 border-transparent group-hover:border-blue-500 group-hover:brightness-150 transition-all duration-300 pointer-events-none`}
+        className={`${insetValue} absolute z-50 rounded-md border-2 border-transparent group-focus-within:border-blue-500 group-hover:border-blue-500 group-hover:brightness-150 transition-all duration-300 pointer-events-none`}
       ></div>
-      {/* Conteúdo interno */}
       <div className="relative">{children}</div>
     </div>
   )

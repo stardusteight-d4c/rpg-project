@@ -147,12 +147,14 @@ export const InventoryEdit = ({
             </div>
           ))}
           <div className="relative">
-            <input
-              value={newItemName}
-              onChange={(e) => setNewItemName(e.target.value)}
-              placeholder="Add new item..."
-              className="py-2 pl-2 pr-[40px] w-full line-clamp-1 outline-none hover:brightness-125 rounded-sm bg-border/50 border border-dashed border-gray-400/20"
-            />
+            <GlowingWrapper>
+              <input
+                value={newItemName}
+                onChange={(e) => setNewItemName(e.target.value)}
+                placeholder="Add new item..."
+                className="py-2 pl-2 pr-[40px] w-full line-clamp-1 outline-none hover:brightness-125 rounded-sm bg-border/50 border border-dashed border-gray-400/20"
+              />
+            </GlowingWrapper>
             <span
               onClick={handleAdd}
               className="absolute cursor-pointer p-1 top-1/2 -translate-y-1/2 right-1"

@@ -81,7 +81,7 @@ export const playerCharacter = {
   
   ---
   
-  ### **História**
+  # **História**
   
   Lyra nasceu no coração de **Silverglade**, um reino élfico isolado e protegido por florestas encantadas. Desde cedo, ela mostrou uma afinidade incomum com a espada, um talento que chamou a atenção dos Sentinelas Lunares, uma ordem de elite que defendia o reino contra ameaças externas. Embora os elfos de Silverglade preferissem o arco e a magia, Lyra sentia-se mais conectada à força e à elegância do combate corpo a corpo, acreditando que a espada era a extensão mais pura da alma de um guerreiro.
   
@@ -480,7 +480,7 @@ export const characters: any = [
   
   ---
   
-  ### **História**
+  # **História**
   
   Lyra nasceu no coração de **Silverglade**, um reino élfico isolado e protegido por florestas encantadas. Desde cedo, ela mostrou uma afinidade incomum com a espada, um talento que chamou a atenção dos Sentinelas Lunares, uma ordem de elite que defendia o reino contra ameaças externas. Embora os elfos de Silverglade preferissem o arco e a magia, Lyra sentia-se mais conectada à força e à elegância do combate corpo a corpo, acreditando que a espada era a extensão mais pura da alma de um guerreiro.
   
@@ -863,7 +863,7 @@ export const characters: any = [
   
   ---
   
-  ### **História**
+  # **História**
   
   Lyra nasceu no coração de **Silverglade**, um reino élfico isolado e protegido por florestas encantadas. Desde cedo, ela mostrou uma afinidade incomum com a espada, um talento que chamou a atenção dos Sentinelas Lunares, uma ordem de elite que defendia o reino contra ameaças externas. Embora os elfos de Silverglade preferissem o arco e a magia, Lyra sentia-se mais conectada à força e à elegância do combate corpo a corpo, acreditando que a espada era a extensão mais pura da alma de um guerreiro.
   
@@ -1274,7 +1274,7 @@ export const characters: any = [
   
   ---
   
-  ### **História**
+  # **História**
   
   Lyra nasceu no coração de **Silverglade**, um reino élfico isolado e protegido por florestas encantadas. Desde cedo, ela mostrou uma afinidade incomum com a espada, um talento que chamou a atenção dos Sentinelas Lunares, uma ordem de elite que defendia o reino contra ameaças externas. Embora os elfos de Silverglade preferissem o arco e a magia, Lyra sentia-se mais conectada à força e à elegância do combate corpo a corpo, acreditando que a espada era a extensão mais pura da alma de um guerreiro.
   

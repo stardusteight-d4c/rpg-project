@@ -38,7 +38,7 @@ export const CharacterRoll = ({
   return (
     <div className="w-full rounded select-none overflow-hidden border border-border">
       <span className="block text-2xl bg-border px-4 py-2 font-bold">
-        <span className="w-fit block mx-auto">{action} Roll</span>
+        <span className="w-fit block">{action} Roll</span>
       </span>
       <div className="w-full h-[0px] border-t border-t-border" />
       <div className="grid grid-cols-3 items-center justify-center w-full">

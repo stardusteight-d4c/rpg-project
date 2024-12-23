@@ -1,4 +1,7 @@
+"use client"
+
 import ReactMarkdown from "react-markdown"
+import rehypeRaw from "rehype-raw"
 
 interface BackstoryDisplayProps {
   backstory: string
@@ -72,8 +75,8 @@ export const BackstoryDisplay = ({
         </svg>
       </div>
       {activeItems.includes("backstory") && (
-        <div className="p-2 space-y-4 text-base">
-          <ReactMarkdown>{backstory}</ReactMarkdown>
+        <div className="p-2 space-y-4 markdown-context">
+          <ReactMarkdown rehypePlugins={[rehypeRaw]}>{backstory}</ReactMarkdown>
         </div>
       )}
     </div>
