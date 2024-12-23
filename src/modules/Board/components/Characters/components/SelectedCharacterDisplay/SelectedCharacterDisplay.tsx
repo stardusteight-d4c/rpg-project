@@ -34,6 +34,7 @@ interface SelectedCharacterDisplayProps {
         id: string
         name: string
       }>
+      backstory: string
     } | null
   ) => void
   setEditMode: (value: boolean) => void

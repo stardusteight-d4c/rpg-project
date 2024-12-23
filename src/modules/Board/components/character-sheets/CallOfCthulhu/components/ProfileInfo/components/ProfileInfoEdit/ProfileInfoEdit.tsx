@@ -61,12 +61,29 @@ export const ProfileInfoEdit = ({ infos, player }: ProfileInfoProps) => {
       <div className="relative rounded w-fit">
         <div className="w-fit h-fit relative">
           <GlowingWrapper>
-            <img
-              onClick={() => handleClick()}
-              src={editableData.characterUrl}
-              alt="Imagem do Personagem"
-              className="min-w-[210px] max-w-[210px] min-h-[210px] max-h-[210px] cursor-pointer overflow-hidden border border-border object-cover rounded"
-            />
+            {editableData.characterUrl.length > 0 ? (
+              <img
+                onClick={() => handleClick()}
+                src={editableData.characterUrl}
+                alt="Imagem do Personagem"
+                className="min-w-[210px] max-w-[210px] min-h-[210px] max-h-[210px] cursor-pointer overflow-hidden border border-border object-cover rounded"
+              />
+            ) : (
+              <div
+                onClick={() => handleClick()}
+                className="min-w-[210px] opacity-50 bg-ashes cursor-pointer flex items-center justify-center flex-col max-w-[210px] min-h-[210px] max-h-[210px] border border-border object-cover rounded"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="42"
+                  height="42"
+                  fill="#FFFFFF"
+                  viewBox="0 0 256 256"
+                >
+                  <path d="M216,40H40A16,16,0,0,0,24,56V200a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A16,16,0,0,0,216,40Zm0,16V158.75l-26.07-26.06a16,16,0,0,0-22.63,0l-20,20-44-44a16,16,0,0,0-22.62,0L40,149.37V56ZM40,172l52-52,80,80H40Zm176,28H194.63l-36-36,20-20L216,181.38V200ZM144,100a12,12,0,1,1,12,12A12,12,0,0,1,144,100Z"></path>
+                </svg>
+              </div>
+            )}
           </GlowingWrapper>
           <input
             id="file-input"
@@ -142,7 +159,7 @@ export const ProfileInfoEdit = ({ infos, player }: ProfileInfoProps) => {
       </div>
       <div className="w-full px-4">
         <div className="flex items-center gap-x-2">
-          <GlowingWrapper inset='0'>
+          <GlowingWrapper inset="0">
             <input
               value={editableData.name}
               placeholder="Name"
@@ -180,7 +197,7 @@ export const ProfileInfoEdit = ({ infos, player }: ProfileInfoProps) => {
           </GlowingWrapper>
         </div>
         <span className="flex w-full items-center text-sm text-gray-400">
-          <GlowingWrapper inset='0'>
+          <GlowingWrapper inset="0">
             <input
               value={editableData.occupation}
               placeholder="Occupation"

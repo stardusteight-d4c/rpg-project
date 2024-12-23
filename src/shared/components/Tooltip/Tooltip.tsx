@@ -82,7 +82,7 @@ const TooltipVariant: React.FC<TooltipVariantProps> = ({
       {visible && (
         <>
           <div
-            className={`opacityAnimation absolute shadow-sm shadow-black/50 font-medium z-[100] rounded-full overflow-hidden ${positionClasses[position]} w-max px-4 py-1 text-white bg-background border border-border transition-all duration-200`}
+            className={`opacityAnimation -ml-0 absolute shadow-sm shadow-black/50 font-medium z-[100] rounded-full overflow-hidden ${positionClasses[position]} w-max px-4 py-1 text-white bg-background border border-border transition-all duration-200`}
            
          >
             {text}
