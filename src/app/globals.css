@@ -34,14 +34,16 @@ body {
 ::-webkit-scrollbar {
   width: 10px;
   height: 10px;
-  background: #151515;
+  background: #0c0c0c00;
+  border-radius: 20px;
 }
 ::-moz-scrollbar {
   background-color: transparent;
+  border-radius: 20px;
 }
 ::-webkit-scrollbar-thumb {
   cursor: pointer;
-  background: #646464;
+  background: #0c0c0c;
   border-radius: 20px;
 }
 
@@ -205,10 +207,10 @@ body {
 }
 
 .markdown-context blockquote {
-  border-left: 4px solid #18181b; 
-  padding-left: 16px; 
-  margin: 16px 0; 
-  font-style: italic; 
+  border-left: 4px solid #18181b;
+  padding-left: 16px;
+  margin: 16px 0;
+  font-style: italic;
 }
 
 .markdown-context a {
@@ -234,7 +236,18 @@ body {
   display: block;
   width: 100%;
   height: 100%;
-  background: radial-gradient(ellipse at center, #0c0c0c00 0%,#0c0c0ce1 1.5%, #0c0c0c 2%,#0c0c0c 100%);
+  background: radial-gradient(
+    ellipse at center,
+    #0c0c0c00 0%,
+    #0c0c0ce1 1.5%,
+    #0c0c0c 2%,
+    #0c0c0c 100%
+  );
   border-radius: 50%;
   position: absolute;
+}
+
+::selection {
+  color: #FFFFFF;
+  background-color: #18181b;
 }
