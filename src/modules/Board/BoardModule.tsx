@@ -1,16 +1,13 @@
 "use client"
 
-import Image from "next/image"
-import { useParams } from "next/navigation"
 import { Board } from "./components"
 import { useState } from "react"
 import { DraggableItem } from "./components/Map/Map"
-import { ModalWrapper } from "@/shared/components/ModalWrapper/ModalWrapper"
 import { Tooltip } from "@/shared/components"
 
 export function BoardModule() {
   const [active, setActive] = useState<
-    "map" | "dice" | "characters" | "diary" | "notifications" | "notes"
+    "map" | "dice" | "characters" | "handouts" | "notifications" | "notes"
   >("map")
 
   return (
@@ -54,9 +51,9 @@ export function BoardModule() {
                 </svg>
               </span>
             </Tooltip>
-            <Tooltip text="Diary" variant position="right">
+            <Tooltip text="Handouts" variant position="right">
               <span
-                onClick={() => setActive("diary")}
+                onClick={() => setActive("handouts")}
                 className="cursor-pointer"
               >
                 <svg
@@ -65,7 +62,7 @@ export function BoardModule() {
                   height="40"
                   viewBox="0 0 256 256"
                   className={`${
-                    active === "diary" && " background-gradient "
+                    active === "handouts" && " background-gradient "
                   } rounded p-1 fill-white`}
                 >
                   <path d="M208,24H72A32,32,0,0,0,40,56V224a8,8,0,0,0,8,8H192a8,8,0,0,0,0-16H56a16,16,0,0,1,16-16H208a8,8,0,0,0,8-8V32A8,8,0,0,0,208,24ZM120,40h48v72L148.79,97.6a8,8,0,0,0-9.6,0L120,112Zm80,144H72a31.82,31.82,0,0,0-16,4.29V56A16,16,0,0,1,72,40h32v88a8,8,0,0,0,12.8,6.4L144,114l27.21,20.4A8,8,0,0,0,176,136a8,8,0,0,0,8-8V40h16Z"></path>
@@ -119,7 +116,7 @@ export function BoardModule() {
         <div className="max-w-[50vw] w-full relative overflow-hidden h-screen">
           {active === "map" && <Board.Map />}
           {active === "characters" && <Board.Characters />}
-          {active === "diary" && <Board.Diary />}
+          {active === "handouts" && <Board.Handouts />}
         </div>
         <div className="w-[26vw] 2xl:w-[30vw] pb-2 overflow-y-scroll no-scrollbar h-screen border-l border-border">
           <Board.Cam />

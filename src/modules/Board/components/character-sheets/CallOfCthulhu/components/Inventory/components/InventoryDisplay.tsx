@@ -1,7 +1,7 @@
 "use client"
 
-import { HandoutDisplay } from "@/modules/Board/components/Diary/components/HandoutDisplay"
-import { HandoutModalWrapper } from "@/modules/Board/components/Diary/components/HandoutModalWrapper"
+import { HandoutDisplay } from "@/modules/Board/components/Handouts/components/HandoutDisplay"
+import { HandoutModalWrapper } from "@/modules/Board/components/Handouts/components/HandoutModalWrapper"
 import { useState } from "react"
 
 interface InventoryDisplayProps {
