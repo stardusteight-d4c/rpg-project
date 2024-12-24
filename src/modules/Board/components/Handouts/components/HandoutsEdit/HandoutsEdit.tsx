@@ -38,25 +38,68 @@ export const HandoutsEdit = ({ handout, onEdit }: HandoutsEditProps) => {
         </div>
       </div>
 
-      <div className="mt-4">
+      <div className="">
         <div className="p-2">
-          <ul className="grid grid-cols-1 gap-2">
-            <li className="col-span-1 text-lg flex-wrap flex items-center gap-x-2">
-              <span>For:</span>
-              <span className="p-2 w-fit cursor-pointer hover:brightness-125 flex items-center gap-x-1 line-clamp-1 rounded-sm bg-border/50 border border-dashed border-gray-400/20">
-                Henry Farawel
+          <h3 className="block mb-2 text-3xl font-bold background-gradient bg-clip-text text-transparent">
+            Handout Informations
+          </h3>
+          <ul className="grid grid-cols-1 gap-2  text-lg">
+            <li className="col-span-1 text-lg flex-wrap flex items-center">
+              <span className="font-medium min-w-[100px] max-w-[100px]">
+                Type:
               </span>
-              <span className="p-2 w-fit cursor-pointer hover:brightness-125 flex items-center gap-x-1 line-clamp-1 rounded-sm bg-border/50 border border-dashed border-gray-400/20">
-                Lizabeth White
+              <span className="py-1 px-2 w-fit cursor-pointer hover:brightness-125 flex items-center gap-x-1 line-clamp-1 rounded-sm bg-border/50 border border-dashed border-gray-400/20">
+                Newspaper
               </span>
             </li>
-            <li className="col-span-1 text-lg flex items-center gap-x-2">
-              <span>Visibility:</span>
-              <span className="p-2 w-fit cursor-pointer hover:brightness-125 flex items-center gap-x-1 line-clamp-1 rounded-sm bg-border/50 border border-dashed border-gray-400/20">
-                All
+            <li className="col-span-1 text-lg flex-wrap flex items-center">
+              <span className="font-medium min-w-[100px] max-w-[100px]">
+                For:
               </span>
+              <div className="flex items-center gap-x-2">
+                <span className="py-1 px-2 w-fit cursor-pointer hover:brightness-125 flex items-center gap-x-1 line-clamp-1 rounded-sm bg-border/50 border border-dashed border-gray-400/20">
+                  Henry Farawel
+                </span>
+                <span className="py-1 px-2 w-fit cursor-pointer hover:brightness-125 flex items-center gap-x-1 line-clamp-1 rounded-sm bg-border/50 border border-dashed border-gray-400/20">
+                  Lizabeth White
+                </span>
+              </div>
+            </li>
+            <li className="col-span-1 text-lg flex items-center">
+              <span className="font-medium min-w-[100px] max-w-[100px]">
+                Visibility:
+              </span>
+              <div className="flex items-center gap-x-2">
+                <span className="py-1 px-2 w-fit cursor-pointer hover:brightness-125 flex items-center gap-x-1 line-clamp-1 rounded-sm bg-border/50 border border-dashed border-gray-400/20">
+                  All
+                </span>
+              </div>
               {/* 'todos' | 'lista de personagens' | 'invisivel' */}
             </li>
+            <li className="col-span-1 text-lg flex items-center">
+              <span className="font-medium min-w-[100px] max-w-[100px]">
+                Name:
+              </span>
+              <input className="py-1 px-2 w-full cursor-pointer hover:brightness-125 flex items-center gap-x-1 line-clamp-1 rounded-sm bg-border/50 border border-dashed border-gray-400/20 outline-none" />
+            </li>
+            {/* type === 'newspaper' && () */}
+            <div className="col-span-1 mt-8 space-y-2">
+              <h3 className="block mb-2 text-3xl font-bold background-gradient bg-clip-text text-transparent">
+                Handout Content
+              </h3>
+              <li className="text-lg flex items-center">
+                <span className="font-medium min-w-[100px] max-w-[100px]">
+                  Title:
+                </span>
+                <input className="py-1 px-2 w-full cursor-pointer hover:brightness-125 flex items-center gap-x-1 line-clamp-1 rounded-sm bg-border/50 border border-dashed border-gray-400/20 outline-none" />
+              </li>
+              <li className="text-lg flex items-center">
+                <span className="font-medium min-w-[100px] max-w-[100px]">
+                  Article:
+                </span>
+                <textarea className="py-1 px-2 w-full cursor-pointer hover:brightness-125 flex items-center gap-x-1 line-clamp-1 rounded-sm bg-border/50 border border-dashed border-gray-400/20 outline-none" />
+              </li>
+            </div>
           </ul>
         </div>
 
