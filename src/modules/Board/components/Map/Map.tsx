@@ -149,7 +149,7 @@ export const Map: React.FC = () => {
         </div>
       )}
       <div
-        className="w-[50vw] h-[100vh] grid absolute"
+        className="w-[50vw] h-[100vh] shadow-2xl shadow-black grid absolute"
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}

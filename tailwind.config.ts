@@ -25,7 +25,7 @@ export default {
         ashes: "#18181b",
         border: "#101010",
         tag: "#1B1C1C",
-        white: "#FFF",
+        white: "#FAFAFA",
       },
     },
   },

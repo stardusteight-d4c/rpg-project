@@ -5,6 +5,8 @@ interface InventoryProps {
   inventory: Array<{
     id: string
     name: string
+    type?: string 
+    content?: object
   }>
   infos: {
     name: string

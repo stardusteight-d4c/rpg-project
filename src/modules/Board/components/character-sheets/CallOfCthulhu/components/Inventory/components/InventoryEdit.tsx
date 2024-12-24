@@ -7,6 +7,8 @@ interface InventoryEditProps {
   inventory: Array<{
     id: string
     name: string
+    type?: "Note Type 01" | "Note Type 02" | "Newspaper" | "Letter"
+    content?: any
   }>
   infos: {
     name: string
@@ -41,6 +43,8 @@ export const InventoryEdit = ({
     {
       id: string
       name: string
+      type?: "Note Type 01" | "Note Type 02" | "Newspaper" | "Letter"
+      content?: any
     }[]
   >(inventory)
   const [newItemName, setNewItemName] = useState("")
@@ -118,33 +122,37 @@ export const InventoryEdit = ({
       {activeItems.includes("inventory") && (
         <ul className="grid grid-cols-2 gap-2 p-2">
           {editableData.map((item) => (
-            <div className="relative">
-              <GlowingWrapper>
-                <input
-                  value={item.name}
-                  onChange={(e) =>
-                    handleEdit({ id: item.id, newValue: e.target.value })
-                  }
-                  placeholder="Provide a name..."
-                  key={item.id}
-                  className="py-2 pl-2 pr-[40px] w-full line-clamp-1 outline-none hover:brightness-125 rounded-sm bg-border/50 border border-dashed border-gray-400/20"
-                />
-                <span
-                  onClick={() => handleDelete(item.id)}
-                  className="absolute cursor-pointer p-1 top-1/2 -translate-y-1/2 right-1"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="32"
-                    height="32"
-                    fill="#ef4444"
-                    viewBox="0 0 256 256"
-                  >
-                    <path d="M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V208a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16ZM96,40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8v8H96Zm96,168H64V64H192ZM112,104v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Z"></path>
-                  </svg>
-                </span>
-              </GlowingWrapper>
-            </div>
+            <>
+              {!item.type && (
+                <div className="relative">
+                  <GlowingWrapper>
+                    <input
+                      value={item.name}
+                      onChange={(e) =>
+                        handleEdit({ id: item.id, newValue: e.target.value })
+                      }
+                      placeholder="Provide a name..."
+                      key={item.id}
+                      className="py-2 pl-2 pr-[40px] w-full line-clamp-1 outline-none hover:brightness-125 rounded-sm bg-border/50 border border-dashed border-gray-400/20"
+                    />
+                    <span
+                      onClick={() => handleDelete(item.id)}
+                      className="absolute cursor-pointer p-1 top-1/2 -translate-y-1/2 right-1"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="32"
+                        height="32"
+                        fill="#ef4444"
+                        viewBox="0 0 256 256"
+                      >
+                        <path d="M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V208a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16ZM96,40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8v8H96Zm96,168H64V64H192ZM112,104v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Z"></path>
+                      </svg>
+                    </span>
+                  </GlowingWrapper>
+                </div>
+              )}
+            </>
           ))}
           <div className="relative">
             <GlowingWrapper>
