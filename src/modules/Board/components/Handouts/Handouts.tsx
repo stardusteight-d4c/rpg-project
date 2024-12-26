@@ -12,7 +12,12 @@ export const Handouts = () => {
       id: "salklasklklasas",
       name: "Blackwater Creek Map",
       type: "Newspaper",
-      for: [],
+      for: [
+        {
+          id: "asdsaas",
+          name: "Erwin Farwell",
+        },
+      ],
       visibility: [],
       content: {
         type: "Newspaper",
