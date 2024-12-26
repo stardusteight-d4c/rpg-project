@@ -54,6 +54,23 @@ export const HandoutsDisplay = ({
             </button>
             <span>Create Handout</span>
           </div>
+          <div
+            // onClick={() => setCreateMode(true)}
+            className="flex cursor-pointer items-center group w-fit gap-x-2"
+          >
+            <button className="bg-ashes flex items-center justify-center text-white p-1 rounded-full  shadow-md shadow-black/50 group-hover:bg-gradient-to-tr group-hover:from-[#42d392] group-hover:to-[#8B5CF6] duration-300 ease-in-out transition-all">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                fill="#FFFFFF"
+                viewBox="0 0 256 256"
+              >
+                <path d="M224,144v64a8,8,0,0,1-8,8H40a8,8,0,0,1-8-8V144a8,8,0,0,1,16,0v56H208V144a8,8,0,0,1,16,0ZM93.66,77.66,120,51.31V144a8,8,0,0,0,16,0V51.31l26.34,26.35a8,8,0,0,0,11.32-11.32l-40-40a8,8,0,0,0-11.32,0l-40,40A8,8,0,0,0,93.66,77.66Z"></path>
+              </svg>
+            </button>
+            <span>Upload Handout</span>
+          </div>
         </div>
       </div>
 
@@ -69,8 +86,8 @@ export const HandoutsDisplay = ({
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    width="32"
-                    height="32"
+                    width="24"
+                    height="24"
                     fill="#CCCCCC50"
                     viewBox="0 0 256 256"
                   >

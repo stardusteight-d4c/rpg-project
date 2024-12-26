@@ -2,6 +2,8 @@
 
 import { useState } from "react"
 import { HandoutDisplay } from "../HandoutDisplay"
+import { handoutsTypes } from "../../data"
+import Image from "next/image"
 
 interface HandoutsEditProps {
   handout: {
@@ -48,9 +50,25 @@ export const HandoutsEdit = ({ handout, onEdit }: HandoutsEditProps) => {
               <span className="font-medium min-w-[100px] max-w-[100px]">
                 Type:
               </span>
-              <span className="py-1 px-2 w-fit cursor-pointer hover:brightness-125 flex items-center gap-x-1 line-clamp-1 rounded-sm bg-border/50 border border-dashed border-gray-400/20">
-                Newspaper
-              </span>
+              <div className="relative overflow-visible group py-1 px-2 w-fit cursor-pointer hover:brightness-125 flex items-center gap-x-1 line-clamp-1 rounded-sm bg-border/50 border border-dashed border-gray-400/20">
+                <span>Newspaper</span>
+                <ul className="left-1/2 -translate-x-1/2 bg-background rounded-md shadow-p border border-border top-full hidden absolute z-[200] group-hover:flex flex-col w-[200px] no-scrollbar max-h-[300px] overflow-y-scroll gap-y-1">
+                  {handoutsTypes.map((handoutType, index) => (
+                    <li
+                      key={index}
+                      className="whitespace-nowrap flex items-center gap-x-2 hover:brightness-125 hover:bg-border/50 p-2"
+                    >
+                      <Image
+                        src={handoutType.icon}
+                        width={24}
+                        height={24}
+                        alt=""
+                      />
+                      <span>{handoutType.type}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </li>
             <li className="col-span-1 text-lg flex-wrap flex items-center">
               <span className="font-medium min-w-[100px] max-w-[100px]">

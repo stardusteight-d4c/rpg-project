@@ -70,28 +70,7 @@ O incidente ganhou ainda mais atenção quando o mestre do jogo, conhecido apena
     },
   ]
 
-  const handoutsCategories = [
-    "Letters",
-    "Notes",
-    "Newspapers",
-    "Books",
-    "Passports",
-    "Postcards",
-    "Magazines",
-    "Telegrams",
-    "Certificates",
-    "Bank check",
-    "Reports/forms",
-    "Ids",
-    "Licenses",
-    "Photos",
-    "Tapes",
-    "Wall writing",
-    "Computer",
-    "Tickets",
-    "CCTV",
-    "Film reel",
-  ]
+
 
   function handleOnClickHandout(handout: {
     id: string
