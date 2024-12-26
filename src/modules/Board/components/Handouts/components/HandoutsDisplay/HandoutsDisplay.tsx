@@ -1,32 +1,6 @@
 interface HandoutsDisplayProps {
-  handouts: Array<{
-    id: string
-    name: string
-    for: Array<{
-      id: string
-      name: string
-    }>
-    visibility: Array<{
-      id: string
-      name: string
-    }>
-    type: "Note Type 01" | "Note Type 02" | "Newspaper" | "Letter"
-    content: any
-  }>
-  handleOnClickHandout: (handout: {
-    id: string
-    name: string
-    for: Array<{
-      id: string
-      name: string
-    }>
-    visibility: Array<{
-      id: string
-      name: string
-    }>
-    type: "Note Type 01" | "Note Type 02" | "Newspaper" | "Letter"
-    content: any
-  }) => void
+  handouts: Array<IHandout>
+  handleOnClickHandout: (handout: IHandout) => void
 }
 
 export const HandoutsDisplay = ({

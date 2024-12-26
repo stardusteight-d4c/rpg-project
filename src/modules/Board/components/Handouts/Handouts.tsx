@@ -5,35 +5,9 @@ import { HandoutsDisplay, HandoutsEdit } from "./components"
 
 export const Handouts = () => {
   const [isEditMode, setIsEditMode] = useState<boolean>(false)
-  const [selectedHandout, setSelectedHandout] = useState<{
-    id: string
-    name: string
-    for: Array<{
-      id: string
-      name: string
-    }>
-    visibility: Array<{
-      id: string
-      name: string
-    }>
-    type: "Note Type 01" | "Note Type 02" | "Newspaper" | "Letter"
-    content: any
-  } | null>(null)
+  const [selectedHandout, setSelectedHandout] = useState<IHandout | null>(null)
 
-  const handouts: Array<{
-    id: string
-    name: string
-    for: Array<{
-      id: string
-      name: string
-    }>
-    visibility: Array<{
-      id: string
-      name: string
-    }>
-    type: "Note Type 01" | "Note Type 02" | "Newspaper" | "Letter"
-    content: any
-  }> = [
+  const handouts: Array<IHandout> = [
     {
       id: "salklasklklasas",
       name: "Blackwater Creek Map",
@@ -41,6 +15,7 @@ export const Handouts = () => {
       for: [],
       visibility: [],
       content: {
+        type: "Newspaper",
         title:
           '"A Assombração de Call of Cthulhu": Um Mistério Sobrenatural Intriga Investigadores',
         article: `A pequena cidade costeira de Innsmouth está em alvoroço após uma série de eventos inexplicáveis envolvendo um jogo de RPG de mesa online. Conhecido por evocar mistérios cósmicos e criaturas além da compreensão humana, Call of Cthulhu tornou-se o epicentro de uma narrativa que parece ultrapassar as barreiras entre ficção e realidade.
@@ -57,8 +32,9 @@ O incidente ganhou ainda mais atenção quando o mestre do jogo, conhecido apena
       name: "Carta secreta",
       for: [],
       visibility: [],
-      type: "Note Type 02",
+      type: "Letter",
       content: {
+        type: "Note Type 02",
         text: `A pequena cidade costeira de Innsmouth está em alvoroço após uma série de eventos inexplicáveis envolvendo um jogo de RPG de mesa online. Conhecido por evocar mistérios cósmicos e criaturas além da compreensão humana, Call of Cthulhu tornou-se o epicentro de uma narrativa que parece ultrapassar as barreiras entre ficção e realidade.
 
 Jogadores de uma sessão recente relataram fenômenos perturbadores: mensagens enigmáticas aparecendo no chat sem que ninguém as tivesse digitado, movimentos de peças no tabuleiro digital aparentemente por conta própria, e até mesmo sons inquietantes que ecoavam pelos fones de ouvido, mesmo quando o microfone de todos estava desligado.
@@ -70,10 +46,9 @@ O incidente ganhou ainda mais atenção quando o mestre do jogo, conhecido apena
     },
   ]
 
-
-
   function handleOnClickHandout(handout: {
     id: string
+    type: HandoutType
     name: string
     for: Array<{
       id: string
@@ -83,7 +58,6 @@ O incidente ganhou ainda mais atenção quando o mestre do jogo, conhecido apena
       id: string
       name: string
     }>
-    type: "Note Type 01" | "Note Type 02" | "Newspaper" | "Letter"
     content: any
   }) {
     setIsEditMode(true)

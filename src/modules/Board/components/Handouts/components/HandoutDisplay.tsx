@@ -4,13 +4,11 @@ import Image from "next/image"
 import ReactMarkdown from "react-markdown"
 import rehypeRaw from "rehype-raw"
 
-interface HandoutDisplayProps {
-  type: "Note Type 01" | "Note Type 02" | "Newspaper" | "Letter"
-  content: any
+interface HandoutDisplayProps extends IHandout {
 }
 
-export const HandoutDisplay = ({ type, content }: HandoutDisplayProps) => {
-  if (type === "Note Type 01")
+export const HandoutDisplay = ({content }: HandoutDisplayProps) => {
+  if (content.type === "Note Type 01")
     return (
       <div className="w-[681px] relative">
         <div className="absolute !font-delius h-[400px] overflow-y-hidden font-medium text-xl w-[460px] !italic space-y-4 markdown-context text-black top-[50px] left-[50px] ">
@@ -29,7 +27,7 @@ export const HandoutDisplay = ({ type, content }: HandoutDisplayProps) => {
       </div>
     )
 
-  if (type === "Note Type 02")
+  if (content.type === "Note Type 02")
     return (
       <div className="w-[681px] relative">
         <div className="absolute !font-delius font-medium text-lg w-[450px] h-[800px] overflow-y-hidden !italic space-y-4 markdown-context text-black top-[100px] left-[120px] ">
@@ -48,7 +46,7 @@ export const HandoutDisplay = ({ type, content }: HandoutDisplayProps) => {
       </div>
     )
 
-  if (type === "Newspaper")
+  if (content.type === "Newspaper")
     return (
       <div className="w-[681px] relative">
         <div className="absolute tracking-tight top-[68px] pr-5 w-[530px] left-[80px] text-black text-3xl h-[82px] overflow-y-scroll font-bold">
@@ -75,7 +73,7 @@ export const HandoutDisplay = ({ type, content }: HandoutDisplayProps) => {
       </div>
     )
 
-  if (type === "Letter")
+  if (content.type === "Letter")
     return (
       <div className="w-[681px] relative">
         <div className="absolute italic !font-delius w-[550px] h-[800] overflow-y-hidden space-y-4 markdown-context text-lg text-black left-[80px] top-[60px]">

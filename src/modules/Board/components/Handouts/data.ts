@@ -40,3 +40,10 @@ export const handoutsTypes = [
     icon: "/handouts/telegram.svg",
   },
 ]
+
+export const handoutContentTypes = [
+  "Note Type 01",
+  "Note Type 02",
+  "Newspaper",
+  "Letter",
+]

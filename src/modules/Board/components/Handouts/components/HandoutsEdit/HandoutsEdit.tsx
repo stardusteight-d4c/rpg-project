@@ -1,21 +1,20 @@
 "use client"
 
 import { useState } from "react"
-import { HandoutDisplay } from "../HandoutDisplay"
-import { handoutsTypes } from "../../data"
+import { handoutContentTypes, handoutsTypes } from "../../data"
 import Image from "next/image"
+import { HandoutDisplay } from "../HandoutDisplay"
 
 interface HandoutsEditProps {
-  handout: {
-    id: string
-    name: string
-    type: "Note Type 01" | "Note Type 02" | "Newspaper" | "Letter"
-    content: any
-  }
+  handout: IHandout
   onEdit: (value: boolean) => void
 }
 
 export const HandoutsEdit = ({ handout, onEdit }: HandoutsEditProps) => {
+  const [editableData, setEditableData] = useState<IHandout>({
+    ...handout,
+  })
+
   return (
     <section className="relative h-screen overflow-y-scroll no-scrollbar">
       <div className="sticky border-b border-border  shadow-sm shadow-black/50 z-50 top-0 p-2 w-full inset-x-0 bg-background">
@@ -43,7 +42,7 @@ export const HandoutsEdit = ({ handout, onEdit }: HandoutsEditProps) => {
       <div className="">
         <div className="p-2">
           <h3 className="block mb-2 text-3xl font-bold background-gradient bg-clip-text text-transparent">
-            Handout Informations
+            Informations
           </h3>
           <ul className="grid grid-cols-1 gap-2  text-lg">
             <li className="col-span-1 text-lg flex-wrap flex items-center">
@@ -51,21 +50,25 @@ export const HandoutsEdit = ({ handout, onEdit }: HandoutsEditProps) => {
                 Type:
               </span>
               <div className="relative overflow-visible group py-1 px-2 w-fit cursor-pointer hover:brightness-125 flex items-center gap-x-1 line-clamp-1 rounded-sm bg-border/50 border border-dashed border-gray-400/20">
-                <span>Newspaper</span>
-                <ul className="left-1/2 -translate-x-1/2 bg-background rounded-md shadow-p border border-border top-full hidden absolute z-[200] group-hover:flex flex-col w-[200px] no-scrollbar max-h-[300px] overflow-y-scroll gap-y-1">
+                <span>{editableData.type}</span>
+                <ul className="left-1/2 -translate-x-1/2 bg-background rounded-md shadow-p border border-border top-full hidden absolute z-[200] group-hover:flex flex-col w-[150px] no-scrollbar max-h-[300px] overflow-y-scroll gap-y-1">
                   {handoutsTypes.map((handoutType, index) => (
-                    <li
-                      key={index}
-                      className="whitespace-nowrap flex items-center gap-x-2 hover:brightness-125 hover:bg-border/50 p-2"
-                    >
-                      <Image
-                        src={handoutType.icon}
-                        width={24}
-                        height={24}
-                        alt=""
-                      />
-                      <span>{handoutType.type}</span>
-                    </li>
+                    <>
+                      {editableData.type !== handoutType.type && (
+                        <li
+                          key={index}
+                          className="whitespace-nowrap flex items-center gap-x-2 hover:brightness-125 hover:bg-border/50 p-2"
+                        >
+                          <Image
+                            src={handoutType.icon}
+                            width={24}
+                            height={24}
+                            alt=""
+                          />
+                          <span>{handoutType.type}</span>
+                        </li>
+                      )}
+                    </>
                   ))}
                 </ul>
               </div>
@@ -75,12 +78,14 @@ export const HandoutsEdit = ({ handout, onEdit }: HandoutsEditProps) => {
                 For:
               </span>
               <div className="flex items-center gap-x-2">
-                <span className="py-1 px-2 w-fit cursor-pointer hover:brightness-125 flex items-center gap-x-1 line-clamp-1 rounded-sm bg-border/50 border border-dashed border-gray-400/20">
-                  Henry Farawel
-                </span>
-                <span className="py-1 px-2 w-fit cursor-pointer hover:brightness-125 flex items-center gap-x-1 line-clamp-1 rounded-sm bg-border/50 border border-dashed border-gray-400/20">
-                  Lizabeth White
-                </span>
+                {editableData.for.map((character) => (
+                  <span
+                    key={character.id}
+                    className="py-1 px-2 w-fit cursor-pointer hover:brightness-125 flex items-center gap-x-1 line-clamp-1 rounded-sm bg-border/50 border border-dashed border-gray-400/20"
+                  >
+                    {character.name}
+                  </span>
+                ))}
               </div>
             </li>
             <li className="col-span-1 text-lg flex items-center">
@@ -88,23 +93,52 @@ export const HandoutsEdit = ({ handout, onEdit }: HandoutsEditProps) => {
                 Visibility:
               </span>
               <div className="flex items-center gap-x-2">
-                <span className="py-1 px-2 w-fit cursor-pointer hover:brightness-125 flex items-center gap-x-1 line-clamp-1 rounded-sm bg-border/50 border border-dashed border-gray-400/20">
-                  All
-                </span>
+                {editableData.visibility.map((character) => (
+                  <span
+                    key={character.id}
+                    className="py-1 px-2 w-fit cursor-pointer hover:brightness-125 flex items-center gap-x-1 line-clamp-1 rounded-sm bg-border/50 border border-dashed border-gray-400/20"
+                  >
+                    {character.name}
+                  </span>
+                ))}
               </div>
-              {/* 'todos' | 'lista de personagens' | 'invisivel' */}
             </li>
             <li className="col-span-1 text-lg flex items-center">
               <span className="font-medium min-w-[100px] max-w-[100px]">
                 Name:
               </span>
-              <input className="py-1 px-2 w-full cursor-pointer hover:brightness-125 flex items-center gap-x-1 line-clamp-1 rounded-sm bg-border/50 border border-dashed border-gray-400/20 outline-none" />
+              <input
+                value={editableData.name}
+                className="py-1 px-2 w-full cursor-pointer hover:brightness-125 flex items-center gap-x-1 line-clamp-1 rounded-sm bg-border/50 border border-dashed border-gray-400/20 outline-none"
+              />
             </li>
             {/* type === 'newspaper' && () */}
             <div className="col-span-1 mt-8 space-y-2">
               <h3 className="block mb-2 text-3xl font-bold background-gradient bg-clip-text text-transparent">
-                Handout Content
+                Content
               </h3>
+              <li className="col-span-1 text-lg flex-wrap flex items-center">
+                <span className="font-medium min-w-[100px] max-w-[100px]">
+                  Type:
+                </span>
+                <div className="relative overflow-visible group py-1 px-2 w-fit cursor-pointer hover:brightness-125 flex items-center gap-x-1 line-clamp-1 rounded-sm bg-border/50 border border-dashed border-gray-400/20">
+                  <span>{editableData.content.type}</span>
+                  <ul className="left-1/2 -translate-x-1/2 bg-background rounded-md shadow-p border border-border top-full hidden absolute z-[50] group-hover:flex flex-col w-[150px] no-scrollbar max-h-[200px] overflow-y-scroll gap-y-1">
+                    {handoutContentTypes.map((handoutContentType, index) => (
+                      <>
+                        {editableData.content.title !== handoutContentType && (
+                          <li
+                            key={index}
+                            className="whitespace-nowrap flex items-center gap-x-2 hover:brightness-125 hover:bg-border/50 p-2"
+                          >
+                            <span>{handoutContentType}</span>
+                          </li>
+                        )}
+                      </>
+                    ))}
+                  </ul>
+                </div>
+              </li>
               <li className="text-lg flex items-center">
                 <span className="font-medium min-w-[100px] max-w-[100px]">
                   Title:
@@ -120,8 +154,10 @@ export const HandoutsEdit = ({ handout, onEdit }: HandoutsEditProps) => {
             </div>
           </ul>
         </div>
+<div className="relative z-0">
 
-        <HandoutDisplay {...handout} />
+        <HandoutDisplay {...editableData} />
+</div>
       </div>
     </section>
   )
