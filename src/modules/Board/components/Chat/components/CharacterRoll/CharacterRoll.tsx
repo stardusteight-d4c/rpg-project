@@ -36,7 +36,7 @@ export const CharacterRoll = ({
   const { label, bgClass } = getResultMeta()
 
   return (
-    <div className="w-full rounded select-none overflow-hidden border border-border">
+    <div className="w-full rounded-3xl select-none overflow-hidden border border-border">
       <span className="block text-2xl bg-border px-4 py-2 font-bold">
         <span className="w-fit block">{action} Roll</span>
       </span>

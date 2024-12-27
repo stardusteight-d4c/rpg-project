@@ -5,6 +5,8 @@ import { handoutContentTypes, handoutsTypes } from "../../data"
 import Image from "next/image"
 import { HandoutDisplay } from "../HandoutDisplay"
 import { characters } from "../../../Characters/mock-data"
+import { getHandoutIconByType } from "@/shared/utils/getHandoutIconByType"
+import { GlowingWrapper } from "@/shared/components"
 
 interface HandoutsEditProps {
   handout: IHandout
@@ -75,166 +77,181 @@ export const HandoutsEdit = ({ handout, onEdit }: HandoutsEditProps) => {
           <h3 className="block mb-2 text-3xl font-bold background-gradient bg-clip-text text-transparent">
             Informations
           </h3>
-          <ul className="grid grid-cols-1 gap-2  text-lg">
-            <li className="col-span-1 text-lg flex flex-col">
+          <ul className="grid grid-cols-2 gap-2 text-base">
+            <li className="col-span-1 text-base flex flex-col">
               <span className="text-gray-400 text-sm font-medium">Type:</span>
-              <div className="relative z-20 overflow-visible group py-1 px-2 w-[250px] cursor-pointer hover:brightness-125 flex items-center justify-center gap-x-1 line-clamp-1 rounded-sm bg-border/50 border border-dashed border-gray-400/20">
-                <span>{editableData.type}</span>
-                <ul className="left-1/2 -translate-x-1/2 bg-background rounded-md shadow-p border border-border top-full hidden absolute z-[200] group-hover:flex flex-col w-[250px] no-scrollbar max-h-[300px] overflow-y-scroll gap-y-1">
-                  {handoutsTypes.map((handoutType, index) => (
-                    <>
-                      {editableData.type !== handoutType.type && (
-                        <li
-                          key={index}
-                          className="whitespace-nowrap flex items-center gap-x-2 hover:brightness-125 hover:bg-border/50 p-2"
-                        >
-                          <Image
-                            src={handoutType.icon}
-                            width={24}
-                            height={24}
-                            alt=""
-                          />
-                          <span>{handoutType.type}</span>
-                        </li>
-                      )}
-                    </>
-                  ))}
-                </ul>
-              </div>
+              <GlowingWrapper>
+                <div className="relative z-20 overflow-visible group py-1 px-2 w-full cursor-pointer hover:brightness-125 flex items-center justify-center gap-x-1 line-clamp-1 rounded bg-border/50 border border-dashed border-gray-400/20">
+                  <Image
+                    src={getHandoutIconByType(editableData.type)!}
+                    width={24}
+                    height={24}
+                    alt=""
+                  />
+                  <span>{editableData.type}</span>
+                  <ul className="left-1/2 -translate-x-1/2 bg-background rounded-md shadow-p border border-border top-full hidden absolute z-[200] group-hover:flex flex-col w-full no-scrollbar max-h-[300px] overflow-y-scroll gap-y-1">
+                    {handoutsTypes.map((handoutType, index) => (
+                      <>
+                        {editableData.type !== handoutType.type && (
+                          <li
+                            key={index}
+                            className="whitespace-nowrap flex items-center gap-x-1 text-base hover:brightness-125 hover:bg-border/50 p-2"
+                          >
+                            <Image
+                              src={handoutType.icon}
+                              width={24}
+                              height={24}
+                              alt=""
+                            />
+                            <span>{handoutType.type}</span>
+                          </li>
+                        )}
+                      </>
+                    ))}
+                  </ul>
+                </div>
+              </GlowingWrapper>
             </li>
-            <li className="col-span-1 text-lg flex-wrap flex flex-col">
+            <li className="col-span-1 text-base flex-wrap flex flex-col">
               <span className="text-gray-400 text-sm font-medium">For:</span>
-              <div className="group w-fit h-fit relative">
-                <button className="relative z-10 overflow-visible py-1 px-2 w-[250px] cursor-pointer hover:brightness-125 flex items-center justify-center gap-x-2 line-clamp-1 rounded-sm bg-border/50 border border-dashed border-gray-400/20">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    fill="#9ca3af"
-                    viewBox="0 0 256 256"
-                  >
-                    <path d="M256,136a8,8,0,0,1-8,8H232v16a8,8,0,0,1-16,0V144H200a8,8,0,0,1,0-16h16V112a8,8,0,0,1,16,0v16h16A8,8,0,0,1,256,136Zm-57.87,58.85a8,8,0,0,1-12.26,10.3C165.75,181.19,138.09,168,108,168s-57.75,13.19-77.87,37.15a8,8,0,0,1-12.25-10.3c14.94-17.78,33.52-30.41,54.17-37.17a68,68,0,1,1,71.9,0C164.6,164.44,183.18,177.07,198.13,194.85ZM108,152a52,52,0,1,0-52-52A52.06,52.06,0,0,0,108,152Z"></path>
-                  </svg>
-                  <span>Select</span>
-                </button>
-                <ul className="left-1/2 -translate-x-1/2 bg-background rounded-md shadow-p border border-border top-full hidden absolute z-[200] group-hover:flex flex-col w-[250px] no-scrollbar max-h-[300px] overflow-y-scroll gap-y-1">
-                  {characters.map((character: any) => (
-                    <li
-                      onClick={() =>
-                        handleCheckEdit({
-                          type: "for",
-                          characterId: character.infos.id,
-                          characterName: character.infos.name,
-                        })
-                      }
-                      className="whitespace-nowrap cursor-pointer flex items-center gap-x-2 hover:brightness-125 hover:bg-border/50 p-3"
+              <GlowingWrapper>
+                <div className="group w-full h-fit relative">
+                  <button className="relative z-10 overflow-visible py-1 px-2 w-full cursor-pointer hover:brightness-125 flex items-center justify-center gap-x-2 line-clamp-1 rounded bg-border/50 border border-dashed border-gray-400/20">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      fill="#9ca3af"
+                      viewBox="0 0 256 256"
                     >
-                      <div
-                        key={character.infos.id}
-                        className="check cursor-pointer !ml-0 !w-fit !px-0 flex items-center gap-x-1"
-                      >
-                        <input
-                          type="checkbox"
-                          id={character.infos.id}
-                          style={{ display: "none" }}
-                          checked={handleCheckbox({
+                      <path d="M256,136a8,8,0,0,1-8,8H232v16a8,8,0,0,1-16,0V144H200a8,8,0,0,1,0-16h16V112a8,8,0,0,1,16,0v16h16A8,8,0,0,1,256,136Zm-57.87,58.85a8,8,0,0,1-12.26,10.3C165.75,181.19,138.09,168,108,168s-57.75,13.19-77.87,37.15a8,8,0,0,1-12.25-10.3c14.94-17.78,33.52-30.41,54.17-37.17a68,68,0,1,1,71.9,0C164.6,164.44,183.18,177.07,198.13,194.85ZM108,152a52,52,0,1,0-52-52A52.06,52.06,0,0,0,108,152Z"></path>
+                    </svg>
+                    <span>Select</span>
+                  </button>
+                  <ul className="left-1/2 -translate-x-1/2 bg-background rounded-md shadow-p border border-border top-full hidden absolute z-[200] group-hover:flex flex-col w-full no-scrollbar max-h-[300px] overflow-y-scroll gap-y-1">
+                    {characters.map((character: any) => (
+                      <li
+                        onClick={() =>
+                          handleCheckEdit({
                             type: "for",
                             characterId: character.infos.id,
-                          })}
-                          className="cbx2 !ml-0 !w-fit !px-0"
-                        />
-                        <label
-                          htmlFor={character.infos.id}
-                          className="check !ml-0 !w-fit !px-0 pointer-events-none select-none"
-                        >
-                          <svg width="18px" height="18px" viewBox="0 0 18 18">
-                            <path d="M 1 9 L 1 9 c 0 -5 3 -8 8 -8 L 9 1 C 14 1 17 5 17 9 L 17 9 c 0 4 -4 8 -8 8 L 9 17 C 5 17 1 14 1 9 L 1 9 Z"></path>
-                            <polyline points="1 9 7 14 15 4"></polyline>
-                          </svg>
-                        </label>
-                        <span>{character.infos.name}</span>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </li>
-            <li className="col-span-1 text-lg flex-wrap flex flex-col">
-              <span className="text-gray-400 text-sm font-medium">Visibility:</span>
-              <div className="group w-fit h-fit relative">
-                <button className="relative z-10 overflow-visible py-1 px-2 w-[250px] cursor-pointer hover:brightness-125 flex items-center justify-center gap-x-2 line-clamp-1 rounded-sm bg-border/50 border border-dashed border-gray-400/20">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    fill="#9ca3af"
-                    viewBox="0 0 256 256"
-                  >
-                    <path d="M256,136a8,8,0,0,1-8,8H232v16a8,8,0,0,1-16,0V144H200a8,8,0,0,1,0-16h16V112a8,8,0,0,1,16,0v16h16A8,8,0,0,1,256,136Zm-57.87,58.85a8,8,0,0,1-12.26,10.3C165.75,181.19,138.09,168,108,168s-57.75,13.19-77.87,37.15a8,8,0,0,1-12.25-10.3c14.94-17.78,33.52-30.41,54.17-37.17a68,68,0,1,1,71.9,0C164.6,164.44,183.18,177.07,198.13,194.85ZM108,152a52,52,0,1,0-52-52A52.06,52.06,0,0,0,108,152Z"></path>
-                  </svg>
-                  <span>Select</span>
-                </button>
-                <ul className="left-1/2 -translate-x-1/2 bg-background rounded-md shadow-p border border-border top-full hidden absolute z-[200] group-hover:flex flex-col w-[250px] no-scrollbar max-h-[300px] overflow-y-scroll gap-y-1">
-                  {characters.map((character: any) => (
-                    <li
-                      onClick={() =>
-                        handleCheckEdit({
-                          type: "visibility",
-                          characterId: character.infos.id,
-                          characterName: character.infos.name,
-                        })
-                      }
-                      className="whitespace-nowrap cursor-pointer flex items-center gap-x-2 hover:brightness-125 hover:bg-border/50 p-3"
-                    >
-                      <div
-                        key={character.infos.id}
-                        className="check cursor-pointer !ml-0 !w-fit !px-0 flex items-center gap-x-1"
+                            characterName: character.infos.name,
+                          })
+                        }
+                        className="whitespace-nowrap cursor-pointer flex items-center gap-x-2 hover:brightness-125 hover:bg-border/50 p-3"
                       >
-                        <input
-                          type="checkbox"
-                          id={character.infos.id}
-                          style={{ display: "none" }}
-                          checked={handleCheckbox({
+                        <div
+                          key={character.infos.id}
+                          className="check cursor-pointer !ml-0 !w-fit !px-0 flex items-center gap-x-2"
+                        >
+                          <input
+                            type="checkbox"
+                            id={character.infos.id}
+                            style={{ display: "none" }}
+                            checked={handleCheckbox({
+                              type: "for",
+                              characterId: character.infos.id,
+                            })}
+                            className="cbx2 !ml-0 !w-fit !px-0"
+                          />
+                          <label
+                            htmlFor={character.infos.id}
+                            className="check !ml-0 !w-fit !px-0 pointer-events-none select-none"
+                          >
+                            <svg width="18px" height="18px" viewBox="0 0 18 18">
+                              <path d="M 1 9 L 1 9 c 0 -5 3 -8 8 -8 L 9 1 C 14 1 17 5 17 9 L 17 9 c 0 4 -4 8 -8 8 L 9 17 C 5 17 1 14 1 9 L 1 9 Z"></path>
+                              <polyline points="1 9 7 14 15 4"></polyline>
+                            </svg>
+                          </label>
+                          <span>{character.infos.name}</span>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </GlowingWrapper>
+            </li>
+
+            <li className="col-span-1 text-base flex-wrap flex flex-col">
+              <span className="text-gray-400 text-sm font-medium">
+                Visibility:
+              </span>
+              <GlowingWrapper>
+                <div className="group w-full h-fit relative">
+                  <button className="relative z-10 overflow-visible py-1 px-2 w-full cursor-pointer hover:brightness-125 flex items-center justify-center gap-x-2 line-clamp-1 rounded bg-border/50 border border-dashed border-gray-400/20">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      fill="#9ca3af"
+                      viewBox="0 0 256 256"
+                    >
+                      <path d="M256,136a8,8,0,0,1-8,8H232v16a8,8,0,0,1-16,0V144H200a8,8,0,0,1,0-16h16V112a8,8,0,0,1,16,0v16h16A8,8,0,0,1,256,136Zm-57.87,58.85a8,8,0,0,1-12.26,10.3C165.75,181.19,138.09,168,108,168s-57.75,13.19-77.87,37.15a8,8,0,0,1-12.25-10.3c14.94-17.78,33.52-30.41,54.17-37.17a68,68,0,1,1,71.9,0C164.6,164.44,183.18,177.07,198.13,194.85ZM108,152a52,52,0,1,0-52-52A52.06,52.06,0,0,0,108,152Z"></path>
+                    </svg>
+                    <span>Select</span>
+                  </button>
+                  <ul className="left-1/2 -translate-x-1/2 bg-background rounded-md shadow-p border border-border top-full hidden absolute z-[200] group-hover:flex flex-col w-full no-scrollbar max-h-[300px] overflow-y-scroll gap-y-1">
+                    {characters.map((character: any) => (
+                      <li
+                        onClick={() =>
+                          handleCheckEdit({
                             type: "visibility",
                             characterId: character.infos.id,
-                          })}
-                          className="cbx2 !ml-0 !w-fit !px-0"
-                        />
-                        <label
-                          htmlFor={character.infos.id}
-                          className="check !ml-0 !w-fit !px-0 pointer-events-none select-none"
+                            characterName: character.infos.name,
+                          })
+                        }
+                        className="whitespace-nowrap cursor-pointer flex items-center gap-x-2 hover:brightness-125 hover:bg-border/50 p-3"
+                      >
+                        <div
+                          key={character.infos.id}
+                          className="check cursor-pointer !ml-0 !w-fit !px-0 flex items-center gap-x-2"
                         >
-                          <svg width="18px" height="18px" viewBox="0 0 18 18">
-                            <path d="M 1 9 L 1 9 c 0 -5 3 -8 8 -8 L 9 1 C 14 1 17 5 17 9 L 17 9 c 0 4 -4 8 -8 8 L 9 17 C 5 17 1 14 1 9 L 1 9 Z"></path>
-                            <polyline points="1 9 7 14 15 4"></polyline>
-                          </svg>
-                        </label>
-                        <span>{character.infos.name}</span>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+                          <input
+                            type="checkbox"
+                            id={character.infos.id}
+                            style={{ display: "none" }}
+                            checked={handleCheckbox({
+                              type: "visibility",
+                              characterId: character.infos.id,
+                            })}
+                            className="cbx2 !ml-0 !w-fit !px-0"
+                          />
+                          <label
+                            htmlFor={character.infos.id}
+                            className="check !ml-0 !w-fit !px-0 pointer-events-none select-none"
+                          >
+                            <svg width="18px" height="18px" viewBox="0 0 18 18">
+                              <path d="M 1 9 L 1 9 c 0 -5 3 -8 8 -8 L 9 1 C 14 1 17 5 17 9 L 17 9 c 0 4 -4 8 -8 8 L 9 17 C 5 17 1 14 1 9 L 1 9 Z"></path>
+                              <polyline points="1 9 7 14 15 4"></polyline>
+                            </svg>
+                          </label>
+                          <span>{character.infos.name}</span>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </GlowingWrapper>
             </li>
-            <li className="col-span-1 text-lg flex items-center">
-              <span className="font-medium min-w-[100px] max-w-[100px]">
-                Name:
-              </span>
-              <input
-                value={editableData.name}
-                className="py-1 px-2 w-full cursor-pointer hover:brightness-125 flex items-center gap-x-1 line-clamp-1 rounded-sm bg-border/50 border border-dashed border-gray-400/20 outline-none"
-              />
+            <li className="col-span-1 text-base flex flex-col">
+              <span className="text-gray-400 text-sm font-medium">Name:</span>
+              <GlowingWrapper>
+                <input
+                  value={editableData.name}
+                  className="py-1 px-2 w-full cursor-pointer hover:brightness-125 flex items-center gap-x-1 line-clamp-1 rounded bg-border/50 border border-dashed border-gray-400/20 outline-none"
+                />
+              </GlowingWrapper>
             </li>
             {/* type === 'newspaper' && () */}
-            <div className="col-span-1 mt-8 space-y-2">
+          </ul>
+          <div className="grid grid-cols-2 border-t border-border w-full mt-8 pt-6 space-y-2">
+            <div className="col-span-1 w-full">
               <h3 className="block mb-2 text-3xl font-bold background-gradient bg-clip-text text-transparent">
                 Content
               </h3>
-              <li className="col-span-1 text-lg flex-wrap flex items-center">
-                <span className="font-medium min-w-[100px] max-w-[100px]">
-                  Type:
-                </span>
-                <div className="relative z-10 overflow-visible group py-1 px-2 w-fit cursor-pointer hover:brightness-125 flex items-center gap-x-1 line-clamp-1 rounded-sm bg-border/50 border border-dashed border-gray-400/20">
+              <li className="col-span-1 text-lg flex-wrap flex flex-col w-full">
+                <span className="text-gray-400 text-sm font-medium">Type:</span>
+                <div className="relative z-10 overflow-visible group py-1 px-2 w-fit cursor-pointer hover:brightness-125 flex items-center gap-x-1 line-clamp-1 rounded bg-border/50 border border-dashed border-gray-400/20">
                   <span>{editableData.content.type}</span>
                   <ul className="left-1/2 -translate-x-1/2 bg-background rounded-md shadow-p border border-border top-full hidden absolute z-[200] group-hover:flex flex-col w-[150px] no-scrollbar max-h-[200px] overflow-y-scroll gap-y-1">
                     {handoutContentTypes.map((handoutContentType, index) => (
@@ -256,16 +273,16 @@ export const HandoutsEdit = ({ handout, onEdit }: HandoutsEditProps) => {
                 <span className="font-medium min-w-[100px] max-w-[100px]">
                   Title:
                 </span>
-                <input className="py-1 px-2 w-full cursor-pointer hover:brightness-125 flex items-center gap-x-1 line-clamp-1 rounded-sm bg-border/50 border border-dashed border-gray-400/20 outline-none" />
+                <input className="py-1 px-2 w-full cursor-pointer hover:brightness-125 flex items-center gap-x-1 line-clamp-1 rounded bg-border/50 border border-dashed border-gray-400/20 outline-none" />
               </li>
               <li className="text-lg flex items-center">
                 <span className="font-medium min-w-[100px] max-w-[100px]">
                   Article:
                 </span>
-                <textarea className="py-1 px-2 w-full cursor-pointer hover:brightness-125 flex items-center gap-x-1 line-clamp-1 rounded-sm bg-border/50 border border-dashed border-gray-400/20 outline-none" />
+                <textarea className="py-1 px-2 w-full cursor-pointer hover:brightness-125 flex items-center gap-x-1 line-clamp-1 rounded bg-border/50 border border-dashed border-gray-400/20 outline-none" />
               </li>
             </div>
-          </ul>
+          </div>
         </div>
         <div className="relative z-0">
           <HandoutDisplay {...editableData} />

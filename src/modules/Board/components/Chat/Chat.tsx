@@ -172,11 +172,11 @@ export const Chat = () => {
           </svg>
         </button>
       )}
-      <div className="h-[80px] bg-background flex items-center justify-center w-[20vw] border-t border-border">
+      <div className="h-[100px] bg-background flex items-center justify-center w-[20vw] border-t border-border">
         <span
           className={`${
             openDiceModal === "open" ? " rotate-90 " : " hover:rotate-90 "
-          } cursor-pointer group bg-border p-2 rounded-full  shadow-md shadow-black/50 transition-all transform duration-500 ease-in-out`}
+          }  transition-all transform duration-500 ease-in-out cursor-pointer group bg-border p-2 rounded-full  shadow-md shadow-black/50`}
           onClick={() => setOpenDiceModal("open")}
         >
           <svg
