@@ -8,7 +8,7 @@ export default {
   ],
   theme: {
     fontFamily: {
-      delius: ['var(--font-delius)'],
+      delius: ["var(--font-delius)"],
     },
     screens: {
       // => @media (min-width: 640px) { ... }
