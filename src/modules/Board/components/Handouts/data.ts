@@ -42,8 +42,12 @@ export const handoutsTypes = [
 ]
 
 export const handoutContentTypes = [
-  "Note Type 01",
-  "Note Type 02",
-  "Newspaper",
-  "Letter",
+  {
+    category: "Letter",
+    types: ["Note Type 01", "Note Type 02", "Letter"],
+  },
+  {
+    category: "Newspaper",
+    types: ["Newspaper"],
+  },
 ]

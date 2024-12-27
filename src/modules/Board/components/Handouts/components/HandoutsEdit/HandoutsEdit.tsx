@@ -7,6 +7,7 @@ import { HandoutDisplay } from "../HandoutDisplay"
 import { characters } from "../../../Characters/mock-data"
 import { getHandoutIconByType } from "@/shared/utils/getHandoutIconByType"
 import { GlowingWrapper } from "@/shared/components"
+import { getHandoutContentTypeByCategory } from "@/shared/utils/getHandoutContentTypeByCategory"
 
 interface HandoutsEditProps {
   handout: IHandout
@@ -17,6 +18,13 @@ export const HandoutsEdit = ({ handout, onEdit }: HandoutsEditProps) => {
   const [editableData, setEditableData] = useState<IHandout>({
     ...handout,
   })
+
+  function updateEditableData(data: { key: keyof IHandout; value: any }) {
+    setEditableData((prev) => ({
+      ...prev,
+      [data.key]: data.value,
+    }))
+  }
 
   function handleCheckbox(data: {
     type: "for" | "visibility"
@@ -74,14 +82,14 @@ export const HandoutsEdit = ({ handout, onEdit }: HandoutsEditProps) => {
 
       <div className="">
         <div className="p-2">
-          <h3 className="block mb-2 text-3xl font-bold background-gradient bg-clip-text text-transparent">
+          <h3 className="block mb-2 text-4xl font-bold background-gradient bg-clip-text text-transparent">
             Informations
           </h3>
           <ul className="grid grid-cols-2 gap-2 text-base">
             <li className="col-span-1 text-base flex flex-col">
               <span className="text-gray-400 text-sm font-medium">Type:</span>
-              <GlowingWrapper>
-                <div className="relative z-20 overflow-visible group py-1 px-2 w-full cursor-pointer hover:brightness-125 flex items-center justify-center gap-x-1 line-clamp-1 rounded bg-border/50 border border-dashed border-gray-400/20">
+              <GlowingWrapper inset="0">
+                <div className="relative z-20 overflow-visible group py-1 px-2 w-full cursor-pointer hover:brightness-125 flex items-center justify-center gap-x-1 line-clamp-1 rounded-xl bg-border/50 border border-border">
                   <Image
                     src={getHandoutIconByType(editableData.type)!}
                     width={24}
@@ -89,12 +97,22 @@ export const HandoutsEdit = ({ handout, onEdit }: HandoutsEditProps) => {
                     alt=""
                   />
                   <span>{editableData.type}</span>
-                  <ul className="left-1/2 -translate-x-1/2 bg-background rounded-md shadow-p border border-border top-full hidden absolute z-[200] group-hover:flex flex-col w-full no-scrollbar max-h-[300px] overflow-y-scroll gap-y-1">
+                  <ul className="left-1/2 -translate-x-1/2 bg-background rounded-2xl shadow-p border border-border top-full hidden absolute z-[200] group-hover:flex flex-col w-full no-scrollbar max-h-[300px] overflow-y-scroll gap-y-1">
                     {handoutsTypes.map((handoutType, index) => (
                       <>
                         {editableData.type !== handoutType.type && (
                           <li
                             key={index}
+                            onClick={() => {
+                              updateEditableData({
+                                key: "type",
+                                value: handoutType.type,
+                              })
+                              updateEditableData({
+                                key: "content",
+                                value: { type: undefined, inputs: [] },
+                              })
+                            }}
                             className="whitespace-nowrap flex items-center gap-x-1 text-base hover:brightness-125 hover:bg-border/50 p-2"
                           >
                             <Image
@@ -114,9 +132,9 @@ export const HandoutsEdit = ({ handout, onEdit }: HandoutsEditProps) => {
             </li>
             <li className="col-span-1 text-base flex-wrap flex flex-col">
               <span className="text-gray-400 text-sm font-medium">For:</span>
-              <GlowingWrapper>
+              <GlowingWrapper inset="0">
                 <div className="group w-full h-fit relative">
-                  <button className="relative z-10 overflow-visible py-1 px-2 w-full cursor-pointer hover:brightness-125 flex items-center justify-center gap-x-2 line-clamp-1 rounded bg-border/50 border border-dashed border-gray-400/20">
+                  <button className="relative z-10 overflow-visible py-1 px-2 w-full cursor-pointer hover:brightness-125 flex items-center justify-center gap-x-2 line-clamp-1 rounded-xl bg-border/50 border border-border">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="24"
@@ -128,7 +146,7 @@ export const HandoutsEdit = ({ handout, onEdit }: HandoutsEditProps) => {
                     </svg>
                     <span>Select</span>
                   </button>
-                  <ul className="left-1/2 -translate-x-1/2 bg-background rounded-md shadow-p border border-border top-full hidden absolute z-[200] group-hover:flex flex-col w-full no-scrollbar max-h-[300px] overflow-y-scroll gap-y-1">
+                  <ul className="left-1/2 -translate-x-1/2 bg-background rounded-2xl shadow-p border border-border top-full hidden absolute z-[500] group-hover:flex flex-col w-full no-scrollbar max-h-[300px] overflow-y-scroll gap-y-1">
                     {characters.map((character: any) => (
                       <li
                         onClick={() =>
@@ -176,9 +194,9 @@ export const HandoutsEdit = ({ handout, onEdit }: HandoutsEditProps) => {
               <span className="text-gray-400 text-sm font-medium">
                 Visibility:
               </span>
-              <GlowingWrapper>
+              <GlowingWrapper inset="0">
                 <div className="group w-full h-fit relative">
-                  <button className="relative z-10 overflow-visible py-1 px-2 w-full cursor-pointer hover:brightness-125 flex items-center justify-center gap-x-2 line-clamp-1 rounded bg-border/50 border border-dashed border-gray-400/20">
+                  <button className="relative z-10 overflow-visible py-1 px-2 w-full cursor-pointer hover:brightness-125 flex items-center justify-center gap-x-2 line-clamp-1 rounded-xl bg-border/50 border border-border">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="24"
@@ -190,7 +208,7 @@ export const HandoutsEdit = ({ handout, onEdit }: HandoutsEditProps) => {
                     </svg>
                     <span>Select</span>
                   </button>
-                  <ul className="left-1/2 -translate-x-1/2 bg-background rounded-md shadow-p border border-border top-full hidden absolute z-[200] group-hover:flex flex-col w-full no-scrollbar max-h-[300px] overflow-y-scroll gap-y-1">
+                  <ul className="left-1/2 -translate-x-1/2 bg-background rounded-2xl shadow-p border border-border top-full hidden absolute z-[200] group-hover:flex flex-col w-full no-scrollbar max-h-[300px] overflow-y-scroll gap-y-1">
                     {characters.map((character: any) => (
                       <li
                         onClick={() =>
@@ -235,58 +253,57 @@ export const HandoutsEdit = ({ handout, onEdit }: HandoutsEditProps) => {
             </li>
             <li className="col-span-1 text-base flex flex-col">
               <span className="text-gray-400 text-sm font-medium">Name:</span>
-              <GlowingWrapper>
+              <GlowingWrapper inset="0">
                 <input
+                  onChange={(e) =>
+                    updateEditableData({ key: "name", value: e.target.value })
+                  }
                   value={editableData.name}
-                  className="py-1 px-2 w-full cursor-pointer hover:brightness-125 flex items-center gap-x-1 line-clamp-1 rounded bg-border/50 border border-dashed border-gray-400/20 outline-none"
+                  className="py-1 px-2 w-full cursor-text hover:brightness-125 flex items-center gap-x-1 line-clamp-1 rounded-xl bg-border/50 border border-border outline-none"
                 />
               </GlowingWrapper>
             </li>
             {/* type === 'newspaper' && () */}
           </ul>
-          <div className="grid grid-cols-2 border-t border-border w-full mt-8 pt-6 space-y-2">
-            <div className="col-span-1 w-full">
-              <h3 className="block mb-2 text-3xl font-bold background-gradient bg-clip-text text-transparent">
-                Content
-              </h3>
-              <li className="col-span-1 text-lg flex-wrap flex flex-col w-full">
+          <div className="border-t border-border w-full mt-8 pt-6 space-y-2">
+            <h3 className="block mb-2 text-4xl font-bold background-gradient bg-clip-text text-transparent">
+              Content
+            </h3>
+            <ul className="grid grid-cols-2">
+              <li className="col-span-1 text-base flex-wrap flex flex-col w-full">
                 <span className="text-gray-400 text-sm font-medium">Type:</span>
-                <div className="relative z-10 overflow-visible group py-1 px-2 w-fit cursor-pointer hover:brightness-125 flex items-center gap-x-1 line-clamp-1 rounded bg-border/50 border border-dashed border-gray-400/20">
-                  <span>{editableData.content.type}</span>
-                  <ul className="left-1/2 -translate-x-1/2 bg-background rounded-md shadow-p border border-border top-full hidden absolute z-[200] group-hover:flex flex-col w-[150px] no-scrollbar max-h-[200px] overflow-y-scroll gap-y-1">
-                    {handoutContentTypes.map((handoutContentType, index) => (
-                      <>
-                        {editableData.content.title !== handoutContentType && (
-                          <li
-                            key={index}
-                            className="whitespace-nowrap flex items-center gap-x-2 hover:brightness-125 hover:bg-border/50 p-2"
-                          >
-                            <span>{handoutContentType}</span>
-                          </li>
-                        )}
-                      </>
-                    ))}
-                  </ul>
-                </div>
+                <GlowingWrapper inset="0">
+                  <div className="relative z-10 overflow-visible text-center justify-center group py-1 px-2 w-full cursor-pointer hover:brightness-125 flex items-center gap-x-1 line-clamp-1 rounded-xl bg-border/50 border border-border">
+                    <span>{editableData.content.type ?? "Select"}</span>
+                    <ul className="left-1/2 -translate-x-1/2 bg-background rounded-2xl shadow-p border border-border top-full hidden absolute z-[200] group-hover:flex flex-col w-full no-scrollbar max-h-[200px] overflow-y-scroll gap-y-1">
+                      {getHandoutContentTypeByCategory(
+                        editableData.type
+                      )?.types.map((item, index) => (
+                        <li
+                          onClick={() =>
+                            updateEditableData({
+                              key: "content",
+                              value: { type: item, inputs: [] },
+                            })
+                          }
+                          key={index}
+                          className="whitespace-nowrap cursor-pointer flex items-center gap-x-2 hover:brightness-125 hover:bg-border/50 p-3"
+                        >
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </GlowingWrapper>
               </li>
-              <li className="text-lg flex items-center">
-                <span className="font-medium min-w-[100px] max-w-[100px]">
-                  Title:
-                </span>
-                <input className="py-1 px-2 w-full cursor-pointer hover:brightness-125 flex items-center gap-x-1 line-clamp-1 rounded bg-border/50 border border-dashed border-gray-400/20 outline-none" />
-              </li>
-              <li className="text-lg flex items-center">
-                <span className="font-medium min-w-[100px] max-w-[100px]">
-                  Article:
-                </span>
-                <textarea className="py-1 px-2 w-full cursor-pointer hover:brightness-125 flex items-center gap-x-1 line-clamp-1 rounded bg-border/50 border border-dashed border-gray-400/20 outline-none" />
-              </li>
-            </div>
+            </ul>
           </div>
         </div>
-        <div className="relative z-0">
-          <HandoutDisplay {...editableData} />
-        </div>
+        {editableData.content.type && (
+          <div className="relative z-0">
+            <HandoutDisplay {...editableData} />
+          </div>
+        )}
       </div>
     </section>
   )

@@ -24,8 +24,6 @@ interface IHandout {
   }>
   content: {
     type: "Note Type 01" | "Note Type 02" | "Newspaper" | "Letter"
-    title?: string
-    article?: string
-    text?: string
+    inputs: Array<string>
   }
 }

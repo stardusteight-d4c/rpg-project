@@ -42,10 +42,10 @@ export const ProfileInfoDisplay = ({
             <img
               src={infos.characterUrl}
               alt="Imagem do Personagem"
-              className="min-w-[210px] max-w-[210px] min-h-[210px] max-h-[210px] border border-border object-cover rounded-md"
+              className="min-w-[210px] max-w-[210px] min-h-[210px] max-h-[210px] border border-border object-cover rounded-xl"
             />
           ) : (
-            <div className="min-w-[210px] opacity-50 cursor-pointer flex items-center justify-center flex-col max-w-[210px] min-h-[210px] max-h-[210px] border border-border object-cover rounded-md">
+            <div className="min-w-[210px] opacity-50 cursor-pointer flex items-center justify-center flex-col max-w-[210px] min-h-[210px] max-h-[210px] border border-border object-cover rounded-xl">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="42"

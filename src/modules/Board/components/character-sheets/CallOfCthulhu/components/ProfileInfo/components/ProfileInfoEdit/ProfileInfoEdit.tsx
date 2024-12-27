@@ -66,12 +66,12 @@ export const ProfileInfoEdit = ({ infos, player }: ProfileInfoProps) => {
                 onClick={() => handleClick()}
                 src={editableData.characterUrl}
                 alt="Imagem do Personagem"
-                className="min-w-[210px] max-w-[210px] min-h-[210px] max-h-[210px] cursor-pointer overflow-hidden border border-border object-cover rounded-md"
+                className="min-w-[210px] max-w-[210px] min-h-[210px] max-h-[210px] cursor-pointer overflow-hidden border border-border object-cover rounded-xl"
               />
             ) : (
               <div
                 onClick={() => handleClick()}
-                className="min-w-[210px] opacity-50 bg-ashes cursor-pointer flex items-center justify-center flex-col max-w-[210px] min-h-[210px] max-h-[210px] border border-border object-cover rounded-md"
+                className="min-w-[210px] opacity-50 bg-ashes cursor-pointer flex items-center justify-center flex-col max-w-[210px] min-h-[210px] max-h-[210px] border border-border object-cover rounded-xl"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

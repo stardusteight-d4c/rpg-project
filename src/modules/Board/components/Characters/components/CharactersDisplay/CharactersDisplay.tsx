@@ -59,7 +59,7 @@ export const CharactersDisplay = ({
           <div
             onClick={() => setSelectedCharacter(character)}
             key={character.infos.id}
-            className="cursor-pointer border border-border hover:bg-border hover:brightness-105 p-2 rounded-md"
+            className="cursor-pointer border border-border hover:bg-border hover:brightness-105 p-2 rounded-xl"
           >
             <ProfileInfo infos={character.infos} player={character.player} />
           </div>
