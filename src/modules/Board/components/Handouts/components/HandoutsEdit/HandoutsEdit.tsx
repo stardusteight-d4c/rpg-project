@@ -336,7 +336,7 @@ export const HandoutsEdit = ({ handout, onEdit }: HandoutsEditProps) => {
           )}
         </ul>
         {editableData.content.type && (
-          <div className="relative z-0">
+          <div className="relative z-0 mx-auto w-fit">
             <HandoutDisplay {...editableData} />
           </div>
         )}
