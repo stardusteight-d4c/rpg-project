@@ -20,7 +20,7 @@ export const Handouts = () => {
       ],
       visibility: [],
       content: {
-        type: "Newspaper",
+        type: { name: "Newspaper", inputs: 2 },
         inputs: [
           '"A Assombração de Call of Cthulhu": Um Mistério Sobrenatural Intriga Investigadores',
 
@@ -41,7 +41,7 @@ O incidente ganhou ainda mais atenção quando o mestre do jogo, conhecido apena
       visibility: [],
       type: "Letter",
       content: {
-        type: "Note Type 02",
+        type: { name: "Note Type 02", inputs: 1 },
         inputs: [
           `A pequena cidade costeira de Innsmouth está em alvoroço após uma série de eventos inexplicáveis envolvendo um jogo de RPG de mesa online. Conhecido por evocar mistérios cósmicos e criaturas além da compreensão humana, Call of Cthulhu tornou-se o epicentro de uma narrativa que parece ultrapassar as barreiras entre ficção e realidade.
 

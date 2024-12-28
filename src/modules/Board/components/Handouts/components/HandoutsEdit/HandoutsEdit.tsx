@@ -56,6 +56,21 @@ export const HandoutsEdit = ({ handout, onEdit }: HandoutsEditProps) => {
     }
   }
 
+  const handleInputChange = (index: number, value: string) => {
+    setEditableData((prev) => {
+      const updatedInputs = [...prev.content.inputs]
+      updatedInputs[index] = value
+
+      return {
+        ...prev,
+        content: {
+          ...prev.content,
+          inputs: updatedInputs,
+        },
+      }
+    })
+  }
+
   return (
     <section className="relative h-screen overflow-y-scroll no-scrollbar">
       <div className="sticky border-b border-border  shadow-sm shadow-black/50 z-50 top-0 p-2 w-full inset-x-0 bg-background">
@@ -87,9 +102,9 @@ export const HandoutsEdit = ({ handout, onEdit }: HandoutsEditProps) => {
           </h3>
           <ul className="grid grid-cols-2 gap-2 text-base">
             <li className="col-span-1 text-base flex flex-col">
-              <span className="text-gray-400 text-sm font-medium">Type:</span>
+              <span className="text-gray-400 text-sm font-medium">Type</span>
               <GlowingWrapper inset="0">
-                <div className="relative z-20 overflow-visible group py-1 px-2 w-full cursor-pointer hover:brightness-125 flex items-center justify-center gap-x-1 line-clamp-1 rounded-xl bg-border/50 border border-border">
+                <div className="relative z-20 overflow-visible group py-1 px-2 w-full cursor-pointer hover:brightness-125 flex items-center justify-center gap-x-1 line-clamp-1 rounded bg-border/50 border border-border">
                   <Image
                     src={getHandoutIconByType(editableData.type)!}
                     width={24}
@@ -131,10 +146,10 @@ export const HandoutsEdit = ({ handout, onEdit }: HandoutsEditProps) => {
               </GlowingWrapper>
             </li>
             <li className="col-span-1 text-base flex-wrap flex flex-col">
-              <span className="text-gray-400 text-sm font-medium">For:</span>
+              <span className="text-gray-400 text-sm font-medium">For</span>
               <GlowingWrapper inset="0">
                 <div className="group w-full h-fit relative">
-                  <button className="relative z-10 overflow-visible py-1 px-2 w-full cursor-pointer hover:brightness-125 flex items-center justify-center gap-x-2 line-clamp-1 rounded-xl bg-border/50 border border-border">
+                  <button className="relative z-10 overflow-visible py-1 px-2 w-full cursor-pointer hover:brightness-125 flex items-center justify-center gap-x-2 line-clamp-1 rounded bg-border/50 border border-border">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="24"
@@ -192,11 +207,11 @@ export const HandoutsEdit = ({ handout, onEdit }: HandoutsEditProps) => {
 
             <li className="col-span-1 text-base flex-wrap flex flex-col">
               <span className="text-gray-400 text-sm font-medium">
-                Visibility:
+                Visibility
               </span>
               <GlowingWrapper inset="0">
                 <div className="group w-full h-fit relative">
-                  <button className="relative z-10 overflow-visible py-1 px-2 w-full cursor-pointer hover:brightness-125 flex items-center justify-center gap-x-2 line-clamp-1 rounded-xl bg-border/50 border border-border">
+                  <button className="relative z-10 overflow-visible py-1 px-2 w-full cursor-pointer hover:brightness-125 flex items-center justify-center gap-x-2 line-clamp-1 rounded bg-border/50 border border-border">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="24"
@@ -252,14 +267,14 @@ export const HandoutsEdit = ({ handout, onEdit }: HandoutsEditProps) => {
               </GlowingWrapper>
             </li>
             <li className="col-span-1 text-base flex flex-col">
-              <span className="text-gray-400 text-sm font-medium">Name:</span>
+              <span className="text-gray-400 text-sm font-medium">Name</span>
               <GlowingWrapper inset="0">
                 <input
                   onChange={(e) =>
                     updateEditableData({ key: "name", value: e.target.value })
                   }
                   value={editableData.name}
-                  className="py-1 px-2 w-full cursor-text hover:brightness-125 flex items-center gap-x-1 line-clamp-1 rounded-xl bg-border/50 border border-border outline-none"
+                  className="py-1 px-2 w-full cursor-text hover:brightness-125 flex items-center gap-x-1 line-clamp-1 rounded bg-border/50 border border-border outline-none"
                 />
               </GlowingWrapper>
             </li>
@@ -271,11 +286,11 @@ export const HandoutsEdit = ({ handout, onEdit }: HandoutsEditProps) => {
             </h3>
             <ul className="grid grid-cols-2">
               <li className="col-span-1 text-base flex-wrap flex flex-col w-full">
-                <span className="text-gray-400 text-sm font-medium">Type:</span>
+                <span className="text-gray-400 text-sm font-medium">Type</span>
                 <GlowingWrapper inset="0">
-                  <div className="relative z-10 overflow-visible text-center justify-center group py-1 px-2 w-full cursor-pointer hover:brightness-125 flex items-center gap-x-1 line-clamp-1 rounded-xl bg-border/50 border border-border">
-                    <span>{editableData.content.type ?? "Select"}</span>
-                    <ul className="left-1/2 -translate-x-1/2 bg-background rounded-2xl shadow-p border border-border top-full hidden absolute z-[200] group-hover:flex flex-col w-full no-scrollbar max-h-[200px] overflow-y-scroll gap-y-1">
+                  <div className="relative z-10 overflow-visible text-center justify-center group py-1 px-2 w-full cursor-pointer hover:brightness-125 flex items-center gap-x-1 line-clamp-1 rounded bg-border/50 border border-border">
+                    <span>{editableData.content.type?.name ?? "Select"}</span>
+                    <ul className="left-1/2 -translate-x-1/2 bg-background rounded-2xl shadow-p border border-border top-full hidden absolute z-[900] group-hover:flex flex-col w-full no-scrollbar max-h-[200px] overflow-y-scroll gap-y-1">
                       {getHandoutContentTypeByCategory(
                         editableData.type
                       )?.types.map((item, index) => (
@@ -283,13 +298,13 @@ export const HandoutsEdit = ({ handout, onEdit }: HandoutsEditProps) => {
                           onClick={() =>
                             updateEditableData({
                               key: "content",
-                              value: { type: item, inputs: [] },
+                              value: { ...editableData.content, type: item },
                             })
                           }
                           key={index}
                           className="whitespace-nowrap cursor-pointer flex items-center gap-x-2 hover:brightness-125 hover:bg-border/50 p-3"
                         >
-                          {item}
+                          {item.name}
                         </li>
                       ))}
                     </ul>
@@ -299,6 +314,27 @@ export const HandoutsEdit = ({ handout, onEdit }: HandoutsEditProps) => {
             </ul>
           </div>
         </div>
+        <ul className="grid grid-cols-2 gap-2 p-2">
+          {Array.from({ length: editableData.content.type?.inputs }).map(
+            (_, index) => (
+              <li
+                key={index}
+                className="col-span-1 relative z-0 text-base flex flex-col"
+              >
+                <span className="text-gray-400 z-0 relative text-sm font-medium">
+                  Input {index + 1}
+                </span>
+                <GlowingWrapper inset="0">
+                  <textarea
+                    value={editableData.content.inputs[index] || ""} // Mostra o valor atual
+                    onChange={(e) => handleInputChange(index, e.target.value)} // Atualiza o estado
+                    className="py-1 px-2 resize-none h-[100px] w-full cursor-text hover:brightness-125 flex items-center gap-x-1 line-clamp-1 rounded bg-border/50 border border-border outline-none"
+                  />
+                </GlowingWrapper>
+              </li>
+            )
+          )}
+        </ul>
         {editableData.content.type && (
           <div className="relative z-0">
             <HandoutDisplay {...editableData} />

@@ -23,7 +23,10 @@ interface IHandout {
     name: string
   }>
   content: {
-    type: "Note Type 01" | "Note Type 02" | "Newspaper" | "Letter"
+    type: {
+      name: string
+      inputs: number
+    }
     inputs: Array<string>
   }
 }
