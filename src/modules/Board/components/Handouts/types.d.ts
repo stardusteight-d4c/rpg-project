@@ -30,3 +30,8 @@ interface IHandout {
     inputs: Array<string>
   }
 }
+
+interface IHandoutContentTypes {
+  category: string
+  types: Array<{ name: string; inputs: number }>
+}

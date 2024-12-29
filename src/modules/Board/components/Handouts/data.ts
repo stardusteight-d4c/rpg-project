@@ -41,20 +41,33 @@ export const handoutsTypes = [
   },
 ]
 
-export const handoutContentTypes = [
+export const handoutContentTypes: IHandoutContentTypes[] = [
   {
     category: "Letter",
+    types: [
+      { name: "Letter Type 01", inputs: 1 },
+      { name: "Letter Type 02", inputs: 1 },
+    ],
+  },
+  {
+    category: "Note",
     types: [
       {
         name: "Note Type 01",
         inputs: 1,
       },
-      { name: "Note Type 02", inputs: 1 },
-      { name: "Letter", inputs: 1 },
+      {
+        name: "Note Type 02",
+        inputs: 1,
+      },
+      {
+        name: "Note Type 03",
+        inputs: 1,
+      },
     ],
   },
   {
     category: "Newspaper",
-    types: [{ name: "Newspaper", inputs: 2 }],
+    types: [{ name: "Newspaper Type 01", inputs: 2 }],
   },
 ]
