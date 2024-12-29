@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { handoutContentTypes } from "../../data"
+import { handoutContentTypes, handoutsTypes } from "../../data"
 import { HandoutDisplay } from "../HandoutDisplay"
 import { characters } from "../../../Characters/mock-data"
 import { GlowingWrapper } from "@/shared/components"
@@ -109,8 +109,8 @@ export const HandoutsEdit = ({ handout, onEdit }: HandoutsEditProps) => {
         </div>
       </div>
 
-      <div className="">
-        <div className="p-2">
+      <div className="p-2">
+        <div className="">
           <h3 className="block mb-2 text-4xl font-bold background-gradient bg-clip-text text-transparent">
             Informations
           </h3>
@@ -273,41 +273,13 @@ export const HandoutsEdit = ({ handout, onEdit }: HandoutsEditProps) => {
               </GlowingWrapper>
             </li>
           </ul>
-          <div className="border-t border-border w-full mt-8 pt-6 space-y-2">
-            <h3 className="block mb-2 text-4xl font-bold background-gradient bg-clip-text text-transparent">
-              Content
-            </h3>
-            {/* <ul className="grid grid-cols-2"> */}
-            {/* <li className="col-span-1 text-base flex-wrap flex flex-col w-full">
-                <span className="text-gray-400 text-sm font-medium">Type</span>
-                <GlowingWrapper inset="0">
-                  <div className="relative z-10 overflow-visible text-center justify-center group py-1 px-2 w-full cursor-pointer hover:brightness-125 flex items-center gap-x-1 line-clamp-1 rounded bg-border/50 border border-border">
-                    <span>{editableData.content.type?.name ?? "Select"}</span>
-                    <ul className="left-1/2 -translate-x-1/2 bg-background rounded-2xl shadow-p border border-border top-full hidden absolute z-[900] group-hover:flex flex-col w-full no-scrollbar max-h-[200px] overflow-y-scroll gap-y-1">
-                      {getHandoutContentTypeByCategory(
-                        editableData.type
-                      )?.types.map((item, index) => (
-                        <li
-                          onClick={() =>
-                            updateEditableData({
-                              key: "content",
-                              value: { ...editableData.content, type: item },
-                            })
-                          }
-                          key={index}
-                          className="whitespace-nowrap cursor-pointer flex items-center gap-x-2 hover:brightness-125 hover:bg-border/50 p-3"
-                        >
-                          {item.name}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </GlowingWrapper>
-              </li> */}
-            {/* </ul> */}
-          </div>
         </div>
-        <ul className="grid grid-cols-2 gap-2 p-2">
+        <div className="border-t border-border w-full mt-8 pt-6">
+          <h3 className="block mb-2 text-4xl font-bold background-gradient bg-clip-text text-transparent">
+            Content
+          </h3>
+        </div>
+        <ul className="grid grid-cols-2 gap-2">
           {Array.from({ length: editableData.content.type?.inputs }).map(
             (_, index) => (
               <li
