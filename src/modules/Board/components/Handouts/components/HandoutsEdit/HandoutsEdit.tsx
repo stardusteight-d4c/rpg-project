@@ -1,13 +1,10 @@
 "use client"
 
 import { useState } from "react"
-import { handoutContentTypes, handoutsTypes } from "../../data"
-import Image from "next/image"
+import { handoutContentTypes } from "../../data"
 import { HandoutDisplay } from "../HandoutDisplay"
 import { characters } from "../../../Characters/mock-data"
-import { getHandoutIconByType } from "@/shared/utils/getHandoutIconByType"
 import { GlowingWrapper } from "@/shared/components"
-import { getHandoutContentTypeByCategory } from "@/shared/utils/getHandoutContentTypeByCategory"
 
 interface HandoutsEditProps {
   handout: IHandout
@@ -92,6 +89,23 @@ export const HandoutsEdit = ({ handout, onEdit }: HandoutsEditProps) => {
             </button>
             <span>Back</span>
           </div>
+          <div
+            onClick={() => onEdit(false)}
+            className="cursor-pointer w-fit flex items-center group gap-x-2"
+          >
+            <button className="bg-ashes flex items-center justify-center text-white p-1 rounded-full shadow-p group-hover:bg-green-500 duration-300 ease-in-out transition-all">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                fill="#FFFFFF"
+                viewBox="0 0 256 256"
+              >
+                <path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z"></path>
+              </svg>
+            </button>
+            <span>Save Changes</span>
+          </div>
         </div>
       </div>
 
@@ -101,54 +115,46 @@ export const HandoutsEdit = ({ handout, onEdit }: HandoutsEditProps) => {
             Informations
           </h3>
           <ul className="grid grid-cols-2 gap-2 text-base">
-            <li className="col-span-1 text-base flex flex-col">
+            <li className="col-span-1 text-base relative z-[60] flex flex-col">
               <span className="text-gray-400 text-sm font-medium">Type</span>
               <GlowingWrapper inset="0">
-                <div className="relative z-20 overflow-visible group py-1 px-2 w-full cursor-pointer hover:brightness-125 flex items-center justify-center gap-x-1 line-clamp-1 rounded bg-border/50 border border-border">
-                  <Image
-                    src={getHandoutIconByType(editableData.type)!}
-                    width={24}
-                    height={24}
-                    alt=""
-                  />
-                  <span>{editableData.type}</span>
-                  <ul className="left-1/2 -translate-x-1/2 bg-background rounded-2xl shadow-p border border-border top-full hidden absolute z-[200] group-hover:flex flex-col w-full no-scrollbar max-h-[300px] overflow-y-scroll gap-y-1">
-                    {handoutsTypes.map((handoutType, index) => (
-                      <>
-                        {editableData.type !== handoutType.type && (
-                          <li
-                            key={index}
-                            onClick={() => {
-                              updateEditableData({
-                                key: "type",
-                                value: handoutType.type,
-                              })
-                              updateEditableData({
-                                key: "content",
-                                value: { type: undefined, inputs: [] },
-                              })
-                            }}
-                            className="whitespace-nowrap flex items-center gap-x-1 text-base hover:brightness-125 hover:bg-border/50 p-2"
-                          >
-                            <Image
-                              src={handoutType.icon}
-                              width={24}
-                              height={24}
-                              alt=""
-                            />
-                            <span>{handoutType.type}</span>
-                          </li>
-                        )}
-                      </>
+                <div className="relative z-10 overflow-visible text-center justify-center group py-1 px-2 w-full cursor-pointer hover:brightness-125 flex items-center gap-x-1 line-clamp-1 rounded bg-border/50 border border-border">
+                  <span>{editableData.content.type?.name ?? "Select"}</span>
+                  <ul className="left-1/2 -translate-x-1/2 bg-background rounded-2xl shadow-p border border-border top-full hidden absolute z-[900] group-hover:flex flex-col w-full no-scrollbar max-h-[200px] overflow-y-scroll gap-y-1">
+                    {handoutContentTypes.map((item, index) => (
+                      <li
+                        onClick={() =>
+                          updateEditableData({
+                            key: "content",
+                            value: { ...editableData.content, type: item },
+                          })
+                        }
+                        key={index}
+                        className="whitespace-nowrap cursor-pointer flex items-center gap-x-2 hover:brightness-125 hover:bg-border/50 p-3"
+                      >
+                        {item.name}
+                      </li>
                     ))}
                   </ul>
                 </div>
               </GlowingWrapper>
             </li>
-            <li className="col-span-1 text-base flex-wrap flex flex-col">
+            <li className="col-span-1 text-base flex flex-col">
+              <span className="text-gray-400 text-sm font-medium">Name</span>
+              <GlowingWrapper inset="0">
+                <input
+                  onChange={(e) =>
+                    updateEditableData({ key: "name", value: e.target.value })
+                  }
+                  value={editableData.name}
+                  className="py-1 px-2 w-full cursor-text hover:brightness-125 flex items-center gap-x-1 line-clamp-1 rounded bg-border/50 border border-border outline-none"
+                />
+              </GlowingWrapper>
+            </li>
+            <li className="col-span-1 text-base relative z-50 flex-wrap flex flex-col">
               <span className="text-gray-400 text-sm font-medium">For</span>
               <GlowingWrapper inset="0">
-                <div className="group w-full h-fit relative">
+                <div className="group w-full h-fit z-0 relative">
                   <button className="relative z-10 overflow-visible py-1 px-2 w-full cursor-pointer hover:brightness-125 flex items-center justify-center gap-x-2 line-clamp-1 rounded bg-border/50 border border-border">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -266,26 +272,13 @@ export const HandoutsEdit = ({ handout, onEdit }: HandoutsEditProps) => {
                 </div>
               </GlowingWrapper>
             </li>
-            <li className="col-span-1 text-base flex flex-col">
-              <span className="text-gray-400 text-sm font-medium">Name</span>
-              <GlowingWrapper inset="0">
-                <input
-                  onChange={(e) =>
-                    updateEditableData({ key: "name", value: e.target.value })
-                  }
-                  value={editableData.name}
-                  className="py-1 px-2 w-full cursor-text hover:brightness-125 flex items-center gap-x-1 line-clamp-1 rounded bg-border/50 border border-border outline-none"
-                />
-              </GlowingWrapper>
-            </li>
-            {/* type === 'newspaper' && () */}
           </ul>
           <div className="border-t border-border w-full mt-8 pt-6 space-y-2">
             <h3 className="block mb-2 text-4xl font-bold background-gradient bg-clip-text text-transparent">
               Content
             </h3>
-            <ul className="grid grid-cols-2">
-              <li className="col-span-1 text-base flex-wrap flex flex-col w-full">
+            {/* <ul className="grid grid-cols-2"> */}
+            {/* <li className="col-span-1 text-base flex-wrap flex flex-col w-full">
                 <span className="text-gray-400 text-sm font-medium">Type</span>
                 <GlowingWrapper inset="0">
                   <div className="relative z-10 overflow-visible text-center justify-center group py-1 px-2 w-full cursor-pointer hover:brightness-125 flex items-center gap-x-1 line-clamp-1 rounded bg-border/50 border border-border">
@@ -310,8 +303,8 @@ export const HandoutsEdit = ({ handout, onEdit }: HandoutsEditProps) => {
                     </ul>
                   </div>
                 </GlowingWrapper>
-              </li>
-            </ul>
+              </li> */}
+            {/* </ul> */}
           </div>
         </div>
         <ul className="grid grid-cols-2 gap-2 p-2">
@@ -319,7 +312,7 @@ export const HandoutsEdit = ({ handout, onEdit }: HandoutsEditProps) => {
             (_, index) => (
               <li
                 key={index}
-                className="col-span-1 relative z-0 text-base flex flex-col"
+                className="col-span-1 relative -z-0 text-base flex flex-col"
               >
                 <span className="text-gray-400 z-0 relative text-sm font-medium">
                   Input {index + 1}

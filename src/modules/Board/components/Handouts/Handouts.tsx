@@ -11,7 +11,6 @@ export const Handouts = () => {
     {
       id: "salklasklklasas",
       name: "Blackwater Creek Map",
-      type: "Newspaper",
       for: [
         {
           id: "asdsaas",
@@ -39,7 +38,6 @@ O incidente ganhou ainda mais atenção quando o mestre do jogo, conhecido apena
       name: "Carta secreta",
       for: [],
       visibility: [],
-      type: "Letter",
       content: {
         type: { name: "Letter Type 02", inputs: 1 },
         inputs: [
@@ -57,7 +55,6 @@ O incidente ganhou ainda mais atenção quando o mestre do jogo, conhecido apena
 
   function handleOnClickHandout(handout: {
     id: string
-    type: HandoutType
     name: string
     for: Array<{
       id: string

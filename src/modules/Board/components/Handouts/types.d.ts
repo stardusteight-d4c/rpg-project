@@ -1,18 +1,5 @@
-type HandoutType =
-  | "Letter"
-  | "Id"
-  | "Note"
-  | "Newspaper"
-  | "Bank check"
-  | "Book"
-  | "Passport"
-  | "Postcard"
-  | "Magazine"
-  | "Telegram"
-
 interface IHandout {
   id: string
-  type: HandoutType
   name: string
   for: Array<{
     id: string
@@ -32,6 +19,6 @@ interface IHandout {
 }
 
 interface IHandoutContentTypes {
-  category: string
-  types: Array<{ name: string; inputs: number }>
+  name: string
+  inputs: number
 }
