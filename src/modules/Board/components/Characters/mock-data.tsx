@@ -18,7 +18,7 @@ export const playerCharacter = {
     name: "Erwin Farwell",
     sex: "male" as "male",
     characterUrl:
-      "https://i.pinimg.com/736x/6e/99/22/6e99220513c04623c12e004ba5f951f6.jpg",
+      "https://imgcdn.stablediffusionweb.com/2024/10/24/23cb7d83-7cac-43f6-8ac8-84c9cd8475a6.jpg",
     occupation: "Journalist and Private Detective",
     hitPoints: 75,
     magicPoints: 42,
@@ -448,7 +448,7 @@ export const characters: any = [
       name: "Erwin Farwell",
       sex: "male" as "male",
       characterUrl:
-        "https://i.pinimg.com/736x/6e/99/22/6e99220513c04623c12e004ba5f951f6.jpg",
+        "https://imgcdn.stablediffusionweb.com/2024/10/24/23cb7d83-7cac-43f6-8ac8-84c9cd8475a6.jpg",
       occupation: "Journalist and Private Detective",
       hitPoints: 75,
       magicPoints: 42,

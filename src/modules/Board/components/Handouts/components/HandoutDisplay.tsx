@@ -10,7 +10,7 @@ export const HandoutDisplay = ({ content }: HandoutDisplayProps) => {
   if (content.type.name === "Letter Type 01")
     return (
       <div className="w-[681px] relative">
-        <div className="absolute italic !font-delius w-[550px] h-[800] overflow-y-hidden space-y-4 markdown-context text-lg text-black left-[80px] top-[60px]">
+        <div className="absolute pr-5 !font-delius w-[550px] h-[850px] overflow-y-scroll space-y-4 markdown-context text-lg text-black left-[80px] top-[60px]">
           <ReactMarkdown rehypePlugins={[rehypeRaw]}>
             {content.inputs[0]}
           </ReactMarkdown>
@@ -29,7 +29,7 @@ export const HandoutDisplay = ({ content }: HandoutDisplayProps) => {
   if (content.type.name === "Letter Type 02")
     return (
       <div className="w-[681px] relative">
-        <div className="absolute !font-delius font-medium text-lg w-[450px] h-[800px] overflow-y-hidden !italic space-y-4 markdown-context text-black top-[100px] left-[120px] ">
+        <div className="absolute !font-delius pr-5 font-medium text-lg w-[500px] h-[800px] overflow-y-scroll space-y-4 markdown-context text-black top-[100px] left-[120px] ">
           <ReactMarkdown rehypePlugins={[rehypeRaw]}>
             {content.inputs[0]}
           </ReactMarkdown>
@@ -48,7 +48,7 @@ export const HandoutDisplay = ({ content }: HandoutDisplayProps) => {
   if (content.type.name === "Note Type 01")
     return (
       <div className="w-[681px] relative">
-        <div className="absolute !font-delius h-[400px] overflow-y-hidden font-medium text-xl w-[500px] !italic space-y-4 markdown-context text-black top-[50px] left-[50px] ">
+         <div className="absolute pr-5 !font-delius w-[550px] h-[900px] overflow-y-scroll space-y-4 markdown-context text-lg text-black left-[80px] top-[60px]">
           <ReactMarkdown rehypePlugins={[rehypeRaw]}>
             {content.inputs[0]}
           </ReactMarkdown>
@@ -67,7 +67,7 @@ export const HandoutDisplay = ({ content }: HandoutDisplayProps) => {
   if (content.type.name === "Note Type 02")
     return (
       <div className="w-[681px] relative">
-        <div className="absolute !font-delius h-[400px] overflow-y-hidden font-medium text-xl w-[460px] !italic space-y-4 markdown-context text-black top-[50px] left-[50px] ">
+        <div className="absolute !font-delius h-[560px] overflow-hidden pr-5 font-medium text-xl w-[600px] !italic space-y-4 markdown-context text-black top-[50px] left-[50px] ">
           <ReactMarkdown rehypePlugins={[rehypeRaw]}>
             {content.inputs[0]}
           </ReactMarkdown>
@@ -86,7 +86,7 @@ export const HandoutDisplay = ({ content }: HandoutDisplayProps) => {
   if (content.type.name === "Note Type 03")
     return (
       <div className="w-[681px] relative mb-10">
-        <div className="absolute !font-delius h-[135px] overflow-y-hidden font-medium text-4xl w-[560px] !italic space-y-4 markdown-context text-black top-[50px] left-[50px] ">
+        <div className="absolute !font-delius h-[160px] overflow-y-scroll pr-5 font-medium text-4xl w-[560px] !italic space-y-4 markdown-context text-black top-[50px] left-[50px] ">
           <ReactMarkdown rehypePlugins={[rehypeRaw]}>
             {content.inputs[0]}
           </ReactMarkdown>

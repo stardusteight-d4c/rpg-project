@@ -326,9 +326,9 @@ export const HandoutsEdit = ({ handout, onEdit }: HandoutsEditProps) => {
                 </span>
                 <GlowingWrapper inset="0">
                   <textarea
-                    value={editableData.content.inputs[index] || ""} // Mostra o valor atual
-                    onChange={(e) => handleInputChange(index, e.target.value)} // Atualiza o estado
-                    className="py-1 px-2 resize-none h-[100px] w-full cursor-text hover:brightness-125 flex items-center gap-x-1 line-clamp-1 rounded bg-border/50 border border-border outline-none"
+                    value={editableData.content.inputs[index] || ""}
+                    onChange={(e) => handleInputChange(index, e.target.value)}
+                    className="py-1 px-2 resize-none overflow-y-scroll no-scrollbar h-[100px] w-full cursor-text hover:brightness-125 flex items-center gap-x-1 line-clamp-1 rounded bg-border/50 border border-border outline-none"
                   />
                 </GlowingWrapper>
               </li>
