@@ -1,10 +1,11 @@
 "use client"
 
 import { useState } from "react"
-import { HandoutsDisplay, HandoutsEdit } from "./components"
+import { HandoutsCreate, HandoutsDisplay, HandoutsEdit } from "./components"
 
 export const Handouts = () => {
   const [isEditMode, setIsEditMode] = useState<boolean>(false)
+  const [isCreateMode, setIsCreateMode] = useState<boolean>(false)
   const [selectedHandout, setSelectedHandout] = useState<IHandout | null>(null)
 
   const handouts: Array<IHandout> = [
@@ -70,14 +71,17 @@ O incidente ganhou ainda mais atenção quando o mestre do jogo, conhecido apena
     setSelectedHandout(handout)
   }
 
-  if (!isEditMode)
+  if (isCreateMode) return <HandoutsCreate onCreate={setIsCreateMode} />
+
+  if (!isEditMode && !isCreateMode)
     return (
       <HandoutsDisplay
         handouts={handouts}
+        onCreate={setIsCreateMode}
         handleOnClickHandout={handleOnClickHandout}
       />
     )
 
-  if (isEditMode && selectedHandout)
+  if (isEditMode && selectedHandout && !isCreateMode)
     return <HandoutsEdit handout={selectedHandout} onEdit={setIsEditMode} />
 }
