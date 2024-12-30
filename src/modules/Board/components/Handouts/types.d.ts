@@ -9,6 +9,7 @@ interface IHandout {
     id: string
     name: string
   }>
+  upload?: string
   content: {
     type: {
       name: string
