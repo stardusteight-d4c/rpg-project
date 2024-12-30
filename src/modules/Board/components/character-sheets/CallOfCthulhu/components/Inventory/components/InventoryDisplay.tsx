@@ -1,5 +1,6 @@
 "use client"
 
+import { playerCharacter } from "@/modules/Board/components/Characters/mock-data"
 import { HandoutDisplay } from "@/modules/Board/components/Handouts/components/HandoutDisplay"
 import { HandoutModalWrapper } from "@/modules/Board/components/Handouts/components/HandoutModalWrapper"
 import { useState } from "react"
@@ -7,7 +8,8 @@ import { useState } from "react"
 interface InventoryDisplayProps {
   inventory: Array<{
     id: string
-    name: string 
+    name: string
+    upload?: string
     for?: Array<{
       id: string
       name: string
@@ -54,6 +56,7 @@ export const InventoryDisplay = ({
   infos,
 }: InventoryDisplayProps) => {
   const [showHandout, setShowHandout] = useState<IHandout | null>(null)
+  playerCharacter
 
   return (
     <div className="mb-4">
@@ -141,26 +144,59 @@ export const InventoryDisplay = ({
             <ul className="grid grid-cols-2 gap-2">
               {inventory.map((item) => (
                 <>
-                  {item.content && (
-                    <li
-                      key={item.id}
-                      onClick={() => setShowHandout(item as any)}
-                      className="p-2 cursor-pointer hover:brightness-125 w-full flex items-center gap-x-1 line-clamp-1 rounded bg-border/50 border border-border"
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        fill="#494949"
-                        viewBox="0 0 256 256"
+                  {item.content &&
+                    !item.upload &&
+                    item.visibility
+                      ?.map((visibility) => {
+                        if (visibility.id === playerCharacter.infos.id)
+                          return true
+                      })
+                      .includes(true) && (
+                      <li
+                        key={item.id}
+                        onClick={() => setShowHandout(item as any)}
+                        className="p-2 cursor-pointer hover:brightness-125 w-full flex items-center gap-x-1 line-clamp-1 rounded bg-border/50 border border-border"
                       >
-                        <path d="M88,112a8,8,0,0,1,8-8h80a8,8,0,0,1,0,16H96A8,8,0,0,1,88,112Zm8,40h80a8,8,0,0,0,0-16H96a8,8,0,0,0,0,16ZM232,64V184a24,24,0,0,1-24,24H32A24,24,0,0,1,8,184.11V88a8,8,0,0,1,16,0v96a8,8,0,0,0,16,0V64A16,16,0,0,1,56,48H216A16,16,0,0,1,232,64Zm-16,0H56V184a23.84,23.84,0,0,1-1.37,8H208a8,8,0,0,0,8-8Z"></path>
-                      </svg>
-                      <span>{item.name}</span>
-                    </li>
-                  )}
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          fill="#494949"
+                          viewBox="0 0 256 256"
+                        >
+                          <path d="M88,112a8,8,0,0,1,8-8h80a8,8,0,0,1,0,16H96A8,8,0,0,1,88,112Zm8,40h80a8,8,0,0,0,0-16H96a8,8,0,0,0,0,16ZM232,64V184a24,24,0,0,1-24,24H32A24,24,0,0,1,8,184.11V88a8,8,0,0,1,16,0v96a8,8,0,0,0,16,0V64A16,16,0,0,1,56,48H216A16,16,0,0,1,232,64Zm-16,0H56V184a23.84,23.84,0,0,1-1.37,8H208a8,8,0,0,0,8-8Z"></path>
+                        </svg>
+                        <span>{item.name}</span>
+                      </li>
+                    )}
 
-                  {!item.content && (
+                  {item.upload &&
+                    !item.content &&
+                    item.visibility
+                      ?.map((visibility) => {
+                        if (visibility.id === playerCharacter.infos.id)
+                          return true
+                      })
+                      .includes(true) && (
+                      <li
+                        key={item.id}
+                        onClick={() => setShowHandout(item as any)}
+                        className="p-2 cursor-pointer hover:brightness-125 w-full flex items-center gap-x-1 line-clamp-1 rounded bg-border/50 border border-border"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          fill="#494949"
+                          viewBox="0 0 256 256"
+                        >
+                          <path d="M88,112a8,8,0,0,1,8-8h80a8,8,0,0,1,0,16H96A8,8,0,0,1,88,112Zm8,40h80a8,8,0,0,0,0-16H96a8,8,0,0,0,0,16ZM232,64V184a24,24,0,0,1-24,24H32A24,24,0,0,1,8,184.11V88a8,8,0,0,1,16,0v96a8,8,0,0,0,16,0V64A16,16,0,0,1,56,48H216A16,16,0,0,1,232,64Zm-16,0H56V184a23.84,23.84,0,0,1-1.37,8H208a8,8,0,0,0,8-8Z"></path>
+                        </svg>
+                        <span>{item.name}</span>
+                      </li>
+                    )}
+
+                  {!item.content && !item.upload && (
                     <li
                       key={item.id}
                       className="p-2 w-full flex items-center gap-x-1 line-clamp-1 rounded bg-border/50 border border-border"

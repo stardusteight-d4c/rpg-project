@@ -4,9 +4,23 @@ import Image from "next/image"
 import ReactMarkdown from "react-markdown"
 import rehypeRaw from "rehype-raw"
 
-interface HandoutDisplayProps extends IHandout {}
+interface HandoutDisplayProps extends IHandout {
+  upload?: string
+}
 
-export const HandoutDisplay = ({ content }: HandoutDisplayProps) => {
+export const HandoutDisplay = ({ upload, content }: HandoutDisplayProps) => {
+  if (upload) {
+    return (
+      <img
+        src={upload}
+        width={1000}
+        height={1000}
+        alt=""
+        className="select-none mt-[60px] w-[681px] mx-auto pointer-events-none"
+      />
+    )
+  }
+
   if (content.type.name === "Letter Type 01")
     return (
       <div className="w-[681px] relative">
@@ -48,7 +62,7 @@ export const HandoutDisplay = ({ content }: HandoutDisplayProps) => {
   if (content.type.name === "Note Type 01")
     return (
       <div className="w-[681px] relative">
-         <div className="absolute pr-5 !font-delius w-[550px] h-[900px] overflow-y-scroll space-y-4 markdown-context text-lg text-black left-[80px] top-[60px]">
+        <div className="absolute pr-5 !font-delius w-[550px] h-[900px] overflow-y-scroll space-y-4 markdown-context text-lg text-black left-[80px] top-[60px]">
           <ReactMarkdown rehypePlugins={[rehypeRaw]}>
             {content.inputs[0]}
           </ReactMarkdown>
