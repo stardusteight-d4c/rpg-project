@@ -39,13 +39,13 @@ export const SkillsEdit = ({
   }
 
   return (
-    <div className="mb-4 rounded border border-border">
+    <div className="mb-4">
       <div
         onClick={() => toggleItem("skills")}
-        className="flex p-2 cursor-pointer items-center justify-between sticky top-[49px] z-[100] shadow-sm shadow-black/50 bg-[#0e0e0e]"
+        className="flex py-2 cursor-pointer items-center justify-between sticky top-[47px] z-[100] shadow-sm shadow-black/50 bg-background"
       >
         <h3 className="text-2xl flex items-center gap-x-2 font-semibold">
-          <span className="p-2 rounded">
+          <span>
             <svg
               width="32"
               height="32"
@@ -78,9 +78,9 @@ export const SkillsEdit = ({
         </h3>
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          width="32"
-          height="32"
-          fill="#cccccc80"
+          width="24"
+          height="24"
+          fill="#FFFFFF"
           viewBox="0 0 256 256"
           className={`${
             activeItems.includes("skills") ? "rotate-180" : "rotate-0"
@@ -90,11 +90,11 @@ export const SkillsEdit = ({
         </svg>
       </div>
       {activeItems.includes("skills") && (
-        <div className="grid grid-cols-3 gap-2 p-2">
+        <div className="grid grid-cols-3 gap-2">
           {editableData.map((skill) => (
             <div
               key={skill.name}
-              className="bg-border/50 border border-border  rounded p-2"
+              className="bg-border/50 border border-border overflow-hidden rounded-md p-2"
             >
               <div className="flex justify-between">
                 <span className="font-medium flex items-center gap-x-2">
@@ -128,7 +128,7 @@ export const SkillsEdit = ({
               </div>
               <div className="flex items-center gap-x-2">
                 {typeof skill.currentValue === "number" && (
-                  <div className="w-full relative bg-ashes/40 overflow-hidden rounded-full">
+                  <div className="w-full relative bg-gray-600/10 overflow-hidden rounded-full">
                     <div
                       className="h-2 font-medium background-gradient rounded-full"
                       style={{ width: `${skill.currentValue}%` }}

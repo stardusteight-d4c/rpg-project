@@ -29,7 +29,7 @@ export const HandoutDisplay = ({ content }: HandoutDisplayProps) => {
   if (content.type.name === "Letter Type 02")
     return (
       <div className="w-[681px] relative">
-        <div className="absolute !font-delius pr-5 font-medium text-lg w-[500px] h-[800px] overflow-y-scroll space-y-4 markdown-context text-black top-[100px] left-[120px] ">
+        <div className="absolute !font-delius pr-5 font-medium text-lg w-[500px] h-[800px] overflow-y-scroll space-y-4 markdown-context text-black top-[100px] left-[110px] ">
           <ReactMarkdown rehypePlugins={[rehypeRaw]}>
             {content.inputs[0]}
           </ReactMarkdown>

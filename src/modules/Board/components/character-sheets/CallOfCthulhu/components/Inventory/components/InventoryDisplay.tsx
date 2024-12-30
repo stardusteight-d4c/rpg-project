@@ -7,9 +7,22 @@ import { useState } from "react"
 interface InventoryDisplayProps {
   inventory: Array<{
     id: string
-    name: string
-    type?: "Note Type 01" | "Note Type 02" | "Newspaper" | "Letter"
-    content?: any
+    name: string 
+    for?: Array<{
+      id: string
+      name: string
+    }>
+    visibility?: Array<{
+      id: string
+      name: string
+    }>
+    content?: {
+      type: {
+        name: string
+        inputs: number
+      }
+      inputs: Array<string>
+    }
   }>
   infos: {
     name: string
@@ -40,15 +53,10 @@ export const InventoryDisplay = ({
   inventory,
   infos,
 }: InventoryDisplayProps) => {
-  const [showHandout, setShowHandout] = useState<{
-    id: string
-    name: string
-    type: "Note Type 01" | "Note Type 02" | "Newspaper" | "Letter"
-    content: any
-  } | null>(null)
+  const [showHandout, setShowHandout] = useState<IHandout | null>(null)
 
   return (
-    <div className="mb-4 rounded border border-border">
+    <div className="mb-4">
       {showHandout && (
         <HandoutModalWrapper
           onStatusChange={(value: "open" | "close") =>
@@ -62,10 +70,10 @@ export const InventoryDisplay = ({
       )}
       <div
         onClick={() => toggleItem("inventory")}
-        className="flex p-2 cursor-pointer items-center justify-between sticky top-[49px] z-[100] shadow-sm shadow-black/50 bg-[#0e0e0e]"
+        className="flex py-2 cursor-pointer items-center justify-between sticky top-[47px] z-[100] shadow-sm shadow-black/50 bg-background"
       >
         <h3 className="text-2xl flex items-center gap-x-2 font-semibold">
-          <span className="p-2 rounded">
+          <span>
             <svg
               width="32"
               height="32"
@@ -98,9 +106,9 @@ export const InventoryDisplay = ({
         </h3>
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          width="32"
-          height="32"
-          fill="#cccccc80"
+          width="24"
+          height="24"
+          fill="#FFFFFF"
           viewBox="0 0 256 256"
           className={`${
             activeItems.includes("inventory") ? "rotate-180" : "rotate-0"
@@ -130,20 +138,20 @@ export const InventoryDisplay = ({
               </span>
             </div>
           ) : (
-            <ul className="grid grid-cols-2 gap-2 p-2">
+            <ul className="grid grid-cols-2 gap-2">
               {inventory.map((item) => (
                 <>
-                  {item.type && (
+                  {item.content && (
                     <li
                       key={item.id}
                       onClick={() => setShowHandout(item as any)}
-                      className="p-2 cursor-pointer hover:brightness-125 w-full flex items-center gap-x-1 line-clamp-1 rounded-sm bg-border/50 border border-dashed border-gray-400/20"
+                      className="p-2 cursor-pointer hover:brightness-125 w-full flex items-center gap-x-1 line-clamp-1 rounded bg-border/50 border border-border"
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        width="32"
-                        height="32"
-                        fill="#CCCCCC50"
+                        width="24"
+                        height="24"
+                        fill="#494949"
                         viewBox="0 0 256 256"
                       >
                         <path d="M88,112a8,8,0,0,1,8-8h80a8,8,0,0,1,0,16H96A8,8,0,0,1,88,112Zm8,40h80a8,8,0,0,0,0-16H96a8,8,0,0,0,0,16ZM232,64V184a24,24,0,0,1-24,24H32A24,24,0,0,1,8,184.11V88a8,8,0,0,1,16,0v96a8,8,0,0,0,16,0V64A16,16,0,0,1,56,48H216A16,16,0,0,1,232,64Zm-16,0H56V184a23.84,23.84,0,0,1-1.37,8H208a8,8,0,0,0,8-8Z"></path>
@@ -152,10 +160,10 @@ export const InventoryDisplay = ({
                     </li>
                   )}
 
-                  {!item.type && (
+                  {!item.content && (
                     <li
                       key={item.id}
-                      className="p-2 w-full line-clamp-1 rounded-sm bg-border/50 border border-dashed border-gray-400/20"
+                      className="p-2 w-full flex items-center gap-x-1 line-clamp-1 rounded bg-border/50 border border-border"
                     >
                       <span>{item.name}</span>
                     </li>

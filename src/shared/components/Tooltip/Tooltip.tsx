@@ -27,7 +27,7 @@ export const Tooltip = ({
       <div className="z-10 cursor-default relative">{children}</div>
       <div className="hidden group-hover:block">
         <Fade duration={300}>
-          <div className="bg-ashes cursor-default z-0 rounded-full py-1 pl-9 pr-2 text-gray-400 whitespace-nowrap left-0 top-0  absolute">
+          <div className="bg-background cursor-default z-0 rounded-full py-1 pl-9 pr-2 text-white whitespace-nowrap left-0 top-0  absolute">
             {text}
           </div>
         </Fade>

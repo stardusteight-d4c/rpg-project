@@ -4,9 +4,22 @@ import { InventoryEdit } from "./components/InventoryEdit"
 interface InventoryProps {
   inventory: Array<{
     id: string
-    name: string
-    type?: string 
-    content?: object
+    name: string 
+    for?: Array<{
+      id: string
+      name: string
+    }>
+    visibility?: Array<{
+      id: string
+      name: string
+    }>
+    content?: {
+      type: {
+        name: string
+        inputs: number
+      }
+      inputs: Array<string>
+    }
   }>
   infos: {
     name: string

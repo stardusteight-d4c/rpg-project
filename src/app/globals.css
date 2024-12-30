@@ -243,10 +243,10 @@ body {
   height: 100%;
   background: radial-gradient(
     ellipse at center,
-    #0c0c0c00 0%,
-    #0c0c0ce1 1.5%,
-    #0c0c0c 2%,
-    #0c0c0c 100%
+    #00000000 0%,
+    #000000e1 1.5%,
+    #000000 2%,
+    #000000 100%
   );
   border-radius: 50%;
   position: absolute;

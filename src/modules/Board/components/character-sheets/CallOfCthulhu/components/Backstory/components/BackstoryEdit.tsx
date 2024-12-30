@@ -49,13 +49,13 @@ export const BackstoryEdit = ({
   }
 
   return (
-    <div className="mb-4 rounded border border-border">
+    <div className="mb-4">
       <div
         onClick={() => toggleItem("backstory")}
-        className="flex p-2 cursor-pointer items-center justify-between sticky top-[49px] z-[100] shadow-sm shadow-black/50 bg-[#0e0e0e]"
+        className="flex py-2 cursor-pointer items-center justify-between sticky top-[47px] z-[200] shadow-sm shadow-black/50 bg-background"
       >
         <h3 className="text-2xl flex items-center gap-x-2 font-semibold">
-          <span className="p-2 rounded">
+          <span>
             <svg
               width="32"
               height="32"
@@ -88,9 +88,9 @@ export const BackstoryEdit = ({
         </h3>
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          width="32"
-          height="32"
-          fill="#cccccc80"
+          width="24"
+          height="24"
+          fill="#FFFFFF"
           viewBox="0 0 256 256"
           className={`${
             activeItems.includes("backstory") ? "rotate-180" : "rotate-0"
@@ -101,7 +101,7 @@ export const BackstoryEdit = ({
       </div>
       {activeItems.includes("backstory") && (
         <div className="h-fit w-full">
-          <div className="sticky flex px-2 items-center justify-between top-[113px] z-[100] w-full bg-border border-b border-border shadow-sm shadow-black/50">
+          <div className="sticky flex px-2 items-center justify-between top-[90px] z-[200] w-full bg-ashes border-b border-border shadow-sm shadow-black/50">
             <div className="flex items-center gap-x-2">
               <Tooltip variant text="Editor" position="right">
                 <span
@@ -157,7 +157,7 @@ export const BackstoryEdit = ({
             </span>
           </div>
           {view === "markdown" && (
-            <div className="p-2 space-y-4 markdown-context">
+            <div className="space-y-4 markdown-context bg-border/50 border border-border px-4 py-2 rounded-b">
               <ReactMarkdown rehypePlugins={[rehypeRaw]}>
                 {currentBackstory}
               </ReactMarkdown>
@@ -168,14 +168,14 @@ export const BackstoryEdit = ({
               <textarea
                 ref={textareaRef}
                 spellCheck="false"
-                className="w-full min-h-[400px] p-2 border-none rounded bg-background resize-none outline-none"
+                className="w-full min-h-[400px] bg-border/50 border border-border px-4 py-2 rounded-b resize-none outline-none"
                 value={currentBackstory}
                 onChange={handleInputChange}
               ></textarea>
             </GlowingWrapper>
           )}
           {view === "tutorial" && (
-            <div className="p-2 space-y-4 text-gray-400 markdown-context">
+            <div className="space-y-4 markdown-context bg-border/50 border border-border px-4 py-2 rounded-b">
               <ReactMarkdown rehypePlugins={[rehypeRaw]}>
                 {tutorial}
               </ReactMarkdown>

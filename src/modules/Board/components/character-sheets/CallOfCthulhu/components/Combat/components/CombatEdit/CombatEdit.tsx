@@ -74,7 +74,7 @@ export const CombatEdit = ({
   }
 
   return (
-    <div className="mb-4 rounded border border-border">
+    <div className="mb-4">
       {selectedWeapon && (
         <CombatEditModal
           selectedWeapon={selectedWeapon}
@@ -92,10 +92,10 @@ export const CombatEdit = ({
       )}
       <div
         onClick={() => toggleItem("combat")}
-        className="flex p-2 cursor-pointer items-center justify-between sticky top-[49px] z-[100] shadow-sm shadow-black/50 bg-[#0e0e0e]"
+        className="flex py-2 cursor-pointer items-center justify-between sticky top-[49px] z-[100] shadow-sm shadow-black/50 bg-background"
       >
         <h3 className="text-2xl flex items-center gap-x-2 font-semibold">
-          <span className="p-2 rounded">
+          <span>
             <svg
               width="32"
               height="32"
@@ -128,9 +128,9 @@ export const CombatEdit = ({
         </h3>
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          width="32"
-          height="32"
-          fill="#cccccc80"
+          width="24"
+          height="24"
+          fill="#FFFFFF"
           viewBox="0 0 256 256"
           className={`${
             activeItems.includes("combat") ? "rotate-180" : "rotate-0"
@@ -141,7 +141,7 @@ export const CombatEdit = ({
       </div>
       {activeItems.includes("combat") && (
         <div>
-          <div className="grid grid-cols-10 p-2 gap-2">
+          <div className="grid grid-cols-10 gap-2">
             {editableData.map((weapon, index) => (
               <div>
                 {weapon.name === "Unarmed" ? (
@@ -149,7 +149,7 @@ export const CombatEdit = ({
                     <div
                       key={index}
                       onClick={() => setSelectedWeapon(weapon)}
-                      className="col-span-1 cursor-pointer hover:brightness-150 flex items-center justify-center border border-border bg-border/50 rounded w-full h-full aspect-square"
+                      className="col-span-1 cursor-pointer hover:brightness-150 flex items-center justify-center bg-border/50 border border-border rounded w-full h-full aspect-square"
                     >
                       <img src={weapon.iconUrl} className="w-full" />
                     </div>
@@ -159,7 +159,7 @@ export const CombatEdit = ({
                     <div
                       key={index}
                       onClick={() => setSelectedWeapon(weapon)}
-                      className="col-span-1 cursor-pointer p-1 hover:brightness-150 flex items-center justify-center border border-border bg-border/50 rounded w-full h-full aspect-square"
+                      className="col-span-1 cursor-pointer p-1 hover:brightness-150 flex items-center justify-center bg-border/50 border border-border rounded w-full h-full aspect-square"
                     >
                       <img src={weapon.iconUrl} className="w-full" />
                     </div>
@@ -312,7 +312,7 @@ const SelectionMode = ({
                 >
                   {selectedWeapon.skill}
                 </td>
-                <GlowingWrapper inset='0'>
+                <GlowingWrapper inset="0">
                   <input
                     value={editableWeapon.damage ?? ""}
                     placeholder="-"
@@ -322,7 +322,7 @@ const SelectionMode = ({
                     }
                   />
                 </GlowingWrapper>
-                <GlowingWrapper inset='0'>
+                <GlowingWrapper inset="0">
                   <input
                     value={editableWeapon.range ?? ""}
                     placeholder="-"
@@ -332,7 +332,7 @@ const SelectionMode = ({
                     }
                   />
                 </GlowingWrapper>
-                <GlowingWrapper inset='0'>
+                <GlowingWrapper inset="0">
                   <input
                     value={editableWeapon.attacks ?? ""}
                     placeholder="-"
@@ -342,7 +342,7 @@ const SelectionMode = ({
                     }
                   />
                 </GlowingWrapper>
-                <GlowingWrapper inset='0'>
+                <GlowingWrapper inset="0">
                   <input
                     value={editableWeapon.ammo ?? ""}
                     placeholder="-"
@@ -352,7 +352,7 @@ const SelectionMode = ({
                     }
                   />
                 </GlowingWrapper>
-                <GlowingWrapper inset='0'>
+                <GlowingWrapper inset="0">
                   <input
                     value={editableWeapon.malfunction ?? ""}
                     placeholder="-"
@@ -418,7 +418,7 @@ const SelectionMode = ({
                           setEditableWeapon(weapon)
                           setSelectedWeapon(weapon)
                         }}
-                        className="col-span-1 cursor-pointer p-1 hover:brightness-150 flex items-center justify-center border border-border bg-border/50 rounded w-full h-full aspect-square"
+                        className="col-span-1 cursor-pointer p-1 hover:brightness-150 flex items-center justify-center bg-border/50 border border-border rounded w-full h-full aspect-square"
                       >
                         <img src={weapon.iconUrl} className="w-full" />
                       </div>

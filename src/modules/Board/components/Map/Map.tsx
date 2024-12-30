@@ -149,7 +149,7 @@ export const Map: React.FC = () => {
         </div>
       )}
       <div
-        className="w-[50vw] h-[100vh] shadow-2xl shadow-black grid absolute"
+        className="w-[50vw] h-[683px] shadow-2xl shadow-black grid absolute"
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
@@ -162,7 +162,6 @@ export const Map: React.FC = () => {
           transformOrigin: "top left",
           cursor: isDragging ? "grabbing" : "grab",
           aspectRatio: "1 / 1",
-          gap: "1px",
           overflow: "hidden",
         }}
       >
@@ -179,7 +178,6 @@ export const Map: React.FC = () => {
             marginLeft: "15px",
           }}
         ></div>
-        {/* Background do mapa */}
         <Image
           src="/Simple-house-1.png"
           alt="Mapa"
@@ -205,7 +203,6 @@ export const Map: React.FC = () => {
                     id={item.id}
                     imgUrl={item.imgUrl}
                     type={item.type}
-                    blur
                     setIsItemDragging={setIsItemDragging}
                   />
                 ))}
@@ -223,7 +220,7 @@ interface DraggableItemProps {
   imgUrl: string // URL da imagem
   type: string // Tipo do item (usado para lógica ou estilização)
   setIsItemDragging?: (isDragging: boolean) => void
-  blur?: boolean
+  player?: boolean 
 }
 
 export const DraggableItem: React.FC<DraggableItemProps> = ({
@@ -231,7 +228,7 @@ export const DraggableItem: React.FC<DraggableItemProps> = ({
   imgUrl,
   type,
   setIsItemDragging,
-  blur,
+  player
 }) => {
   // Manipula o início do arrasto
   const handleDragStart = (e: DragEvent<HTMLDivElement>) => {
@@ -252,7 +249,7 @@ export const DraggableItem: React.FC<DraggableItemProps> = ({
       onDragEnd={handleDragEnd}
       src={imgUrl}
       alt={type}
-      className="w-full relative z-[60] select-none  object-cover h-full cursor-grab m-auto flex items-center justify-center"
+      className={`${player ? ' z-[60] ' : ' z-[0] '} w-full relative select-none  object-cover h-full cursor-grab m-auto flex items-center justify-center`}
     />
   )
 }

@@ -128,6 +128,7 @@ export function BoardModule() {
                   id="1"
                   imgUrl="https://imgcdn.stablediffusionweb.com/2024/10/24/23cb7d83-7cac-43f6-8ac8-84c9cd8475a6.jpg"
                   type="box"
+                  player={true}
                 />
               </div>
               <div className="col-span-1 border rounded-2xl overflow-hidden border-border aspect-[9/13] h-full w-full">

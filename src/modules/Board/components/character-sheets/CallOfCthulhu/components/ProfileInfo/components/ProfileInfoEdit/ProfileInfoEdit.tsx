@@ -71,7 +71,7 @@ export const ProfileInfoEdit = ({ infos, player }: ProfileInfoProps) => {
             ) : (
               <div
                 onClick={() => handleClick()}
-                className="min-w-[210px] opacity-50 bg-ashes cursor-pointer flex items-center justify-center flex-col max-w-[210px] min-h-[210px] max-h-[210px] border border-border object-cover rounded-xl"
+                className="min-w-[210px] opacity-50 bg-gray-600/10 cursor-pointer flex items-center justify-center flex-col max-w-[210px] min-h-[210px] max-h-[210px] border border-border object-cover rounded-xl"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -98,7 +98,7 @@ export const ProfileInfoEdit = ({ infos, player }: ProfileInfoProps) => {
                 onClick={() =>
                   handleEdit("inspiration", !editableData.inspiration)
                 }
-                className="bg-ashes flex cursor-pointer transition-all duration-300 ease-in-out active:scale-95 items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50"
+                className="bg-background flex cursor-pointer transition-all duration-300 ease-in-out active:scale-95 items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50"
               >
                 {editableData.inspiration ? (
                   <svg
@@ -157,7 +157,7 @@ export const ProfileInfoEdit = ({ infos, player }: ProfileInfoProps) => {
           </div>
         </div>
       </div>
-      <div className="w-full px-4">
+      <div className="w-full pl-4">
         <div className="flex items-center gap-x-2">
           <GlowingWrapper inset="0">
             <input
@@ -175,7 +175,7 @@ export const ProfileInfoEdit = ({ infos, player }: ProfileInfoProps) => {
                 height="32"
                 fill="#3b82f6"
                 viewBox="0 0 256 256"
-                className="bg-ashes p-1 rounded-full cursor-pointer active:scale-95 duration-300 ease-in-out transition-all"
+                className="bg-gray-600/10 p-1 rounded-full cursor-pointer active:scale-95 duration-300 ease-in-out transition-all"
                 onClick={() => handleEdit("sex", "female")}
               >
                 <path d="M216,32H168a8,8,0,0,0,0,16h28.69L154.62,90.07a80,80,0,1,0,11.31,11.31L208,59.32V88a8,8,0,0,0,16,0V40A8,8,0,0,0,216,32ZM149.24,197.29a64,64,0,1,1,0-90.53A64.1,64.1,0,0,1,149.24,197.29Z"></path>
@@ -188,7 +188,7 @@ export const ProfileInfoEdit = ({ infos, player }: ProfileInfoProps) => {
                 height="32"
                 fill="#ec4899"
                 viewBox="0 0 256 256"
-                className="bg-ashes p-1 rounded-full cursor-pointer active:scale-95 duration-300 ease-in-out transition-all"
+                className="bg-gray-600/10 p-1 rounded-full cursor-pointer active:scale-95 duration-300 ease-in-out transition-all"
                 onClick={() => handleEdit("sex", "male")}
               >
                 <path d="M208,96a80,80,0,1,0-88,79.6V200H88a8,8,0,0,0,0,16h32v24a8,8,0,0,0,16,0V216h32a8,8,0,0,0,0-16H136V175.6A80.11,80.11,0,0,0,208,96ZM64,96a64,64,0,1,1,64,64A64.07,64.07,0,0,1,64,96Z"></path>
@@ -220,7 +220,7 @@ export const ProfileInfoEdit = ({ infos, player }: ProfileInfoProps) => {
                   />
                 </GlowingWrapper>
               </div>
-              <div className="w-full bg-ashes/80 overflow-hidden h-3 rounded-full">
+              <div className="w-full bg-gray-600/10 overflow-hidden h-3 rounded-full">
                 <div
                   className="h-full rounded-full bg-gradient-to-tr from-red-600 to-red-400"
                   style={{ width: `${editableData.hitPoints}%` }}
@@ -237,7 +237,7 @@ export const ProfileInfoEdit = ({ infos, player }: ProfileInfoProps) => {
                   />
                 </GlowingWrapper>
               </div>
-              <div className="w-full bg-ashes/80 overflow-hidden h-3 rounded-full">
+              <div className="w-full bg-gray-600/10 overflow-hidden h-3 rounded-full">
                 <div
                   className="h-full rounded-full bg-gradient-to-tr from-blue-600 to-blue-400"
                   style={{ width: `${editableData.magicPoints}%` }}

@@ -69,13 +69,13 @@ export const InventoryEdit = ({
   }
 
   return (
-    <div className="mb-4 rounded border border-border">
+    <div className="mb-4">
       <div
         onClick={() => toggleItem("inventory")}
-        className="flex p-2 cursor-pointer items-center justify-between sticky top-[49px] z-[100] shadow-sm shadow-black/50 bg-[#0e0e0e]"
+        className="flex py-2 cursor-pointer items-center justify-between sticky top-[47px] z-[100] shadow-sm shadow-black/50 bg-background"
       >
         <h3 className="text-2xl flex items-center gap-x-2 font-semibold">
-          <span className="p-2 rounded">
+          <span>
             <svg
               width="32"
               height="32"
@@ -108,9 +108,9 @@ export const InventoryEdit = ({
         </h3>
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          width="32"
-          height="32"
-          fill="#cccccc80"
+          width="24"
+          height="24"
+          fill="#FFFFFF"
           viewBox="0 0 256 256"
           className={`${
             activeItems.includes("inventory") ? "rotate-180" : "rotate-0"
@@ -120,7 +120,7 @@ export const InventoryEdit = ({
         </svg>
       </div>
       {activeItems.includes("inventory") && (
-        <ul className="grid grid-cols-2 gap-2 p-2">
+        <ul className="grid grid-cols-2 gap-2">
           {editableData.map((item) => (
             <>
               {!item.type && (
@@ -133,7 +133,7 @@ export const InventoryEdit = ({
                       }
                       placeholder="Provide a name..."
                       key={item.id}
-                      className="py-2 pl-2 pr-[40px] w-full line-clamp-1 outline-none hover:brightness-125 rounded-sm bg-border/50 border border-dashed border-gray-400/20"
+                      className="py-2 pl-2 pr-[40px] w-full line-clamp-1 outline-none hover:brightness-125 border border-border bg-border/50 rounded"
                     />
                     <span
                       onClick={() => handleDelete(item.id)}
@@ -160,7 +160,7 @@ export const InventoryEdit = ({
                 value={newItemName}
                 onChange={(e) => setNewItemName(e.target.value)}
                 placeholder="Add new item..."
-                className="py-2 pl-2 pr-[40px] w-full line-clamp-1 outline-none hover:brightness-125 rounded-sm bg-border/50 border border-dashed border-gray-400/20"
+                className="py-2 pl-2 pr-[40px] w-full line-clamp-1 outline-none hover:brightness-125 border border-border bg-border/50 rounded"
               />
             </GlowingWrapper>
             <span

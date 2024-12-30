@@ -24,13 +24,13 @@ export const BackstoryDisplay = ({
   backstory,
 }: BackstoryDisplayProps) => {
   return (
-    <div className="mb-4 rounded border border-border">
+    <div className="mb-4">
       <div
         onClick={() => toggleItem("backstory")}
-        className="flex p-2 cursor-pointer items-center justify-between sticky top-[49px] z-[100] shadow-sm shadow-black/50 bg-[#0e0e0e]"
+        className="flex py-2 cursor-pointer items-center justify-between sticky top-[47px] z-[100] shadow-sm shadow-black/50 bg-background"
       >
         <h3 className="text-2xl flex items-center gap-x-2 font-semibold">
-          <span className="p-2 rounded">
+          <span>
             <svg
               width="32"
               height="32"
@@ -63,9 +63,9 @@ export const BackstoryDisplay = ({
         </h3>
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          width="32"
-          height="32"
-          fill="#cccccc80"
+          width="24"
+          height="24"
+          fill="#FFFFFF"
           viewBox="0 0 256 256"
           className={`${
             activeItems.includes("backstory") ? "rotate-180" : "rotate-0"
@@ -75,7 +75,7 @@ export const BackstoryDisplay = ({
         </svg>
       </div>
       {activeItems.includes("backstory") && (
-        <div className="p-2 space-y-4 markdown-context">
+        <div className="space-y-4 markdown-context bg-border/50 border border-border px-4 py-2 rounded">
           <ReactMarkdown rehypePlugins={[rehypeRaw]}>{backstory}</ReactMarkdown>
         </div>
       )}

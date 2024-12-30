@@ -13,22 +13,22 @@ export const CharacterRoll = ({
     if (result >= values[0] * 2) {
       return {
         label: "Fumble",
-        bgClass: "bg-gradient-to-tr from-black to-black/10",
+        bgClass: "bg-gradient-to-tr from-black to-gray-500/10",
       }
     } else if (result > values[0]) {
       return {
         label: "Fail",
-        bgClass: "bg-gradient-to-tr from-red-500 to-red-400",
+        bgClass: "bg-gradient-to-tr from-red-600 to-red-500",
       }
     } else if (result > values[2]) {
       return {
         label: "Success",
-        bgClass: "bg-gradient-to-tr from-green-500 to-green-400",
+        bgClass: "bg-gradient-to-tr from-green-600 to-green-500",
       }
     } else {
       return {
         label: "Extreme Success",
-        bgClass: "bg-gradient-to-tr from-violet-500 to-pink-500",
+        bgClass: "bg-gradient-to-tr from-violet-600 to-pink-500",
       }
     }
   }
@@ -37,8 +37,8 @@ export const CharacterRoll = ({
 
   return (
     <div className="w-full rounded-3xl select-none overflow-hidden border border-border">
-      <span className="block text-2xl bg-border px-4 py-2 font-bold">
-        <span className="w-fit block">{action} Roll</span>
+      <span className="block text-2xl bg-border/30 px-4 py-2 font-bold">
+        <span className="w-fit block -tracking-wide">{action} Roll</span>
       </span>
       <div className="w-full h-[0px] border-t border-t-border" />
       <div className="grid grid-cols-3 items-center justify-center w-full">

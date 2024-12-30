@@ -60,7 +60,7 @@ export const ProfileInfoDisplay = ({
 
           <div className="flex absolute bottom-2 z-40 left-2 items-center w-fit gap-x-2">
             <Tooltip text="Point of Inspiration">
-              <button className="bg-ashes flex !cursor-default items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50">
+              <button className="bg-background flex !cursor-default items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50">
                 {infos.inspiration ? (
                   <svg
                     width="22"
@@ -117,7 +117,7 @@ export const ProfileInfoDisplay = ({
             </Tooltip>
           </div>
         </div>
-        <div className="w-full px-4">
+        <div className="w-full pl-4">
           <div className="flex items-center gap-x-2">
             <span className="block text-3xl font-bold background-gradient bg-clip-text text-transparent">
               {infos.name}{" "}
@@ -172,9 +172,9 @@ export const ProfileInfoDisplay = ({
                     {infos.hitPoints}
                   </span>
                 </div>
-                <div className="w-full bg-ashes/80 overflow-hidden h-3 rounded-full">
+                <div className="w-full bg-gray-600/10 overflow-hidden h-3 rounded-full">
                   <div
-                    className="h-full rounded-full bg-gradient-to-tr from-red-600 to-red-400"
+                    className="h-full rounded-full bg-gradient-to-tr from-red-600 to-red-500"
                     style={{ width: `${infos.hitPoints}%` }}
                   ></div>
                 </div>
@@ -186,9 +186,9 @@ export const ProfileInfoDisplay = ({
                     {infos.magicPoints}
                   </span>{" "}
                 </div>
-                <div className="w-full bg-ashes/80 overflow-hidden h-3 rounded-full">
+                <div className="w-full bg-gray-600/10 overflow-hidden h-3 rounded-full">
                   <div
-                    className="h-full rounded-full bg-gradient-to-tr from-blue-600 to-blue-400"
+                    className="h-full rounded-full bg-gradient-to-tr from-blue-600 to-blue-500"
                     style={{ width: `${infos.magicPoints}%` }}
                   ></div>
                 </div>
