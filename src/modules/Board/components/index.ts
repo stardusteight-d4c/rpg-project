@@ -1,15 +1,17 @@
 import { Cam } from "./Cam"
-import { Chat } from "./Chat"
+import { Actions } from "./Actions"
 import { Map } from "./Map"
 import { Dice } from "./Dice"
 import { Characters } from "./Characters"
 import { Handouts } from "./Handouts"
+import { Chat } from "./Chat"
 
 export const Board = {
-  Chat,
+  Actions,
   Map,
   Cam,
   Dice,
   Characters,
-  Handouts
+  Handouts,
+  Chat,
 }

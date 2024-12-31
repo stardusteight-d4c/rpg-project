@@ -7,13 +7,13 @@ import { Tooltip } from "@/shared/components"
 
 export function BoardModule() {
   const [active, setActive] = useState<
-    "map" | "dice" | "characters" | "handouts" | "notifications" | "notes"
+    "map" | "dice" | "characters" | "handouts" | "notifications" | "chat"
   >("map")
 
   return (
     <main className="max-h-screen relative overflow-hidden">
       <div className="w-full flex">
-        <Board.Chat />
+        <Board.Actions />
         <div className="w-fit h-screen relative p-2 border-x border-border">
           <div className="flex flex-col items-center gap-y-4">
             <Tooltip text="Map" variant position="right">
@@ -69,9 +69,9 @@ export function BoardModule() {
                 </svg>
               </span>
             </Tooltip>
-            <Tooltip text="Notes" variant position="right">
+            <Tooltip text="Chat" variant position="right">
               <span
-                onClick={() => setActive("notes")}
+                onClick={() => setActive("chat")}
                 className="cursor-pointer"
               >
                 <svg
@@ -80,10 +80,10 @@ export function BoardModule() {
                   height="40"
                   viewBox="0 0 256 256"
                   className={`${
-                    active === "notes" && " background-gradient "
+                    active === "chat" && " background-gradient "
                   } rounded-xl p-1 fill-white`}
                 >
-                  <path d="M168,128a8,8,0,0,1-8,8H96a8,8,0,0,1,0-16h64A8,8,0,0,1,168,128Zm-8,24H96a8,8,0,0,0,0,16h64a8,8,0,0,0,0-16ZM216,40V200a32,32,0,0,1-32,32H72a32,32,0,0,1-32-32V40a8,8,0,0,1,8-8H72V24a8,8,0,0,1,16,0v8h32V24a8,8,0,0,1,16,0v8h32V24a8,8,0,0,1,16,0v8h24A8,8,0,0,1,216,40Zm-16,8H184v8a8,8,0,0,1-16,0V48H136v8a8,8,0,0,1-16,0V48H88v8a8,8,0,0,1-16,0V48H56V200a16,16,0,0,0,16,16H184a16,16,0,0,0,16-16Z"></path>
+                  <path d="M140,128a12,12,0,1,1-12-12A12,12,0,0,1,140,128ZM84,116a12,12,0,1,0,12,12A12,12,0,0,0,84,116Zm88,0a12,12,0,1,0,12,12A12,12,0,0,0,172,116Zm60,12A104,104,0,0,1,79.12,219.82L45.07,231.17a16,16,0,0,1-20.24-20.24l11.35-34.05A104,104,0,1,1,232,128Zm-16,0A88,88,0,1,0,51.81,172.06a8,8,0,0,1,.66,6.54L40,216,77.4,203.53a7.85,7.85,0,0,1,2.53-.42,8,8,0,0,1,4,1.08A88,88,0,0,0,216,128Z"></path>
                 </svg>
               </span>
             </Tooltip>
@@ -117,6 +117,7 @@ export function BoardModule() {
           {active === "map" && <Board.Map />}
           {active === "characters" && <Board.Characters />}
           {active === "handouts" && <Board.Handouts />}
+          {active === "chat" && <Board.Chat />}
         </div>
         <div className="w-[26vw] 2xl:w-[30vw] pb-2 overflow-y-scroll no-scrollbar h-screen border-l border-border">
           <Board.Cam />
