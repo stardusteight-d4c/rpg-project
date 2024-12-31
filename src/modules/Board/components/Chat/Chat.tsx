@@ -47,20 +47,21 @@ Disse que no sonho a voz de sua mãe a chamava para casa, a chamava para ficar c
         </div>
       </div>
 
-      <div className="h-[100px] bg-background z-[200] flex items-center gap-x-4 p-2 bottom-0 inset-x-0 border-t border-border absolute">
+      <div className="h-[100px] bg-background z-[200] flex items-center gap-x-4 p-2 pr-4 bottom-0 inset-x-0 border-t border-border absolute">
         <GlowingWrapper styles="w-full" border="rounded-3xl" inset="0">
           <textarea
             name=""
             id=""
+            placeholder="Send a message..."
             spellCheck="false"
             className="p-2 px-4 resize-none overflow-y-scroll no-scrollbar h-[84px] w-full cursor-text hover:brightness-125 flex items-center gap-x-1 line-clamp-1 rounded-3xl shadow-p bg-border/50 border border-border outline-none"
           ></textarea>
         </GlowingWrapper>
-        <span className="bg-ashes flex items-center  justify-center text-white p-1 rounded-full w-fit  shadow-md shadow-black/50 cursor-pointer hover:bg-gradient-to-tr hover:from-[#42d392] hover:to-[#8B5CF6] duration-300 ease-in-out transition-all">
+        <span className="flex hover:brightness-125 active:scale-95 transition-all duration-300 ease-in-out items-center  justify-center text-white p-2 rounded-full w-fit  shadow-md shadow-black/50 cursor-pointer bg-gradient-to-tr from-[#42d392] to-[#8B5CF6]">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="32"
-            height="32"
+            width="24"
+            height="24"
             fill="#FFFFFF"
             viewBox="0 0 256 256"
           >

@@ -176,7 +176,7 @@ export const Actions = () => {
         <span
           className={`${
             openDiceModal === "open" ? " rotate-90 " : " hover:rotate-90 "
-          }  transition-all transform duration-500 ease-in-out cursor-pointer group bg-border p-2 rounded-full  shadow-md shadow-black/50`}
+          }  transition-all transform duration-500 ease-in-out cursor-pointer group bg-ashes p-2 rounded-full  shadow-md shadow-black/50`}
           onClick={() => setOpenDiceModal("open")}
         >
           <svg

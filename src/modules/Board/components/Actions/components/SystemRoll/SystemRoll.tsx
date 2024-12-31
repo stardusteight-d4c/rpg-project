@@ -18,7 +18,7 @@ export const SystemRoll = ({ results, diceType }: SystemRollProps) => {
           {results.map((result, index) => (
             <div
               key={index}
-              className="col-span-1 text-2xl text-white font-bold aspect-square select-none h-full w-full bg-border rounded-xl flex items-center justify-center text-center"
+              className="col-span-1 text-2xl text-white font-bold aspect-square select-none h-full w-full bg-ashes border border-border rounded-xl flex items-center justify-center text-center"
             >
               {result}
             </div>
