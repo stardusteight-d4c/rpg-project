@@ -386,6 +386,7 @@ export const HandoutsCreate = ({ onCreate }: HandoutsCreateProps) => {
                     </span>
                     <GlowingWrapper inset="0">
                       <textarea
+                        spellCheck="false"
                         value={editableData.content.inputs[index] || ""}
                         onChange={(e) =>
                           handleInputChange(index, e.target.value)

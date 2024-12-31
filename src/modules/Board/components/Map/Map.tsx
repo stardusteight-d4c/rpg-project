@@ -3,44 +3,37 @@
 import React, { useState, DragEvent } from "react"
 import Image from "next/image"
 
-// Define o tipo de item no grid
 interface GridItem {
-  id: string // Identificador único do item
-  type: string // Tipo do item (usado para lógica ou estilização)
-  x: number // Coluna atual
-  y: number // Linha atual
-  imgUrl: string // URL da imagem do item
+  id: string
+  type: string
+  x: number
+  y: number
+  imgUrl: string
 }
 
-// Componente principal do mapa
 export const Map: React.FC = () => {
-  const [items, setItems] = useState<GridItem[]>([]) // Começa com o grid vazio
-  const gridSize = 20 // Número de linhas e colunas no grid
-  const [zoom, setZoom] = useState(1) // Estado para o zoom
-  const [position, setPosition] = useState({ x: 0, y: 0 }) // Estado para posição do mapa
-  const [isDragging, setIsDragging] = useState(false) // Estado para arrasto
-  const [startDragPos, setStartDragPos] = useState({ x: 0, y: 0 }) // Posição inicial ao arrastar
-  const [isItemDragging, setIsItemDragging] = useState(false) // Novo estado para arrasto de itens
+  const [items, setItems] = useState<GridItem[]>([])
+  const gridSize = 20
+  const [zoom, setZoom] = useState(1)
+  const [position, setPosition] = useState({ x: 0, y: 0 })
+  const [isDragging, setIsDragging] = useState(false)
+  const [startDragPos, setStartDragPos] = useState({ x: 0, y: 0 })
+  const [isItemDragging, setIsItemDragging] = useState(false)
   const showResetMap = zoom !== 1 || position.x !== 0 || position.y !== 0
-  // Manipula o drop dos itens no grid
   const handleDrop = (e: DragEvent<HTMLDivElement>, x: number, y: number) => {
     e.preventDefault()
 
-    // Recupera os dados do item arrastado
     const itemId = e.dataTransfer.getData("id")
     const imgUrl = e.dataTransfer.getData("imgUrl")
     const type = e.dataTransfer.getData("type")
 
     setItems((prev) => {
-      // Verifica se o item já existe no grid
       const existingItem = prev.find((item) => item.id === itemId)
       if (existingItem) {
-        // Atualiza a posição se já existir
         return prev.map((item) =>
           item.id === itemId ? { ...item, x, y } : item
         )
       } else {
-        // Adiciona o item se ainda não existir
         return [
           ...prev,
           {
@@ -48,14 +41,13 @@ export const Map: React.FC = () => {
             type,
             x,
             y,
-            imgUrl, // Usa a URL da imagem do item arrastado
+            imgUrl,
           },
         ]
       }
     })
   }
 
-  // Previne o comportamento padrão ao arrastar sobre uma célula
   const handleDragOver = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault()
   }
@@ -68,28 +60,21 @@ export const Map: React.FC = () => {
     })
   )
 
-  // Manipula o scroll para ajustar o zoom
   const handleWheel = (e: React.WheelEvent<HTMLDivElement>) => {
     e.preventDefault()
 
-    // Calculando a posição relativa do mouse no mapa
     const mouseX = e.clientX - e.currentTarget.getBoundingClientRect().left
     const mouseY = e.clientY - e.currentTarget.getBoundingClientRect().top
 
-    // Zoom para dentro ou fora
     const newZoom =
-      e.deltaY < 0
-        ? Math.min(zoom + 0.1, 3) // Scroll para cima (zoom in)
-        : Math.max(zoom - 0.1, 0.5) // Scroll para baixo (zoom out)
+      e.deltaY < 0 ? Math.min(zoom + 0.1, 3) : Math.max(zoom - 0.1, 0.5)
 
-    // Calcular a diferença de zoom
     const scaleDifference = newZoom / zoom
 
-    // Ajusta a posição do mapa para que o ponto do cursor permaneça fixo
     setPosition((prevPosition) => {
       const newPosX = prevPosition.x - mouseX * (scaleDifference - 1)
       const newPosY = prevPosition.y - mouseY * (scaleDifference - 1)
-      setZoom(newZoom) // Atualiza o zoom
+      setZoom(newZoom)
       return {
         x: newPosX,
         y: newPosY,
@@ -97,7 +82,6 @@ export const Map: React.FC = () => {
     })
   }
 
-  // Manipuladores de Movimento
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
     if (isItemDragging) return
     setIsDragging(true)
@@ -107,7 +91,6 @@ export const Map: React.FC = () => {
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!isDragging) return
 
-    // Nova posição baseada no movimento do mouse
     const newPosX = e.clientX - startDragPos.x
     const newPosY = e.clientY - startDragPos.y
 
@@ -214,13 +197,12 @@ export const Map: React.FC = () => {
   )
 }
 
-// Componente para itens arrastáveis
 interface DraggableItemProps {
-  id: string // Identificador único do item
-  imgUrl: string // URL da imagem
-  type: string // Tipo do item (usado para lógica ou estilização)
+  id: string
+  imgUrl: string
+  type: string
   setIsItemDragging?: (isDragging: boolean) => void
-  player?: boolean 
+  player?: boolean
 }
 
 export const DraggableItem: React.FC<DraggableItemProps> = ({
@@ -228,17 +210,16 @@ export const DraggableItem: React.FC<DraggableItemProps> = ({
   imgUrl,
   type,
   setIsItemDragging,
-  player
+  player,
 }) => {
-  // Manipula o início do arrasto
   const handleDragStart = (e: DragEvent<HTMLDivElement>) => {
-    e.dataTransfer.setData("id", id) // Armazena o ID do item no evento
-    e.dataTransfer.setData("imgUrl", imgUrl) // Armazena a URL da imagem
-    e.dataTransfer.setData("type", type) // Armazena o tipo do item
-    setIsItemDragging && setIsItemDragging(true) // Ativa estado de arrasto de item
+    e.dataTransfer.setData("id", id)
+    e.dataTransfer.setData("imgUrl", imgUrl)
+    e.dataTransfer.setData("type", type)
+    setIsItemDragging && setIsItemDragging(true)
   }
 
-  const handleDragEnd = () => setIsItemDragging && setIsItemDragging(false) // Finaliza o arrasto de item
+  const handleDragEnd = () => setIsItemDragging && setIsItemDragging(false)
   if (imgUrl.length === 0) return null
   return (
     <img
@@ -249,7 +230,9 @@ export const DraggableItem: React.FC<DraggableItemProps> = ({
       onDragEnd={handleDragEnd}
       src={imgUrl}
       alt={type}
-      className={`${player ? ' z-[60] ' : ' z-[0] '} w-full relative select-none  object-cover h-full cursor-grab m-auto flex items-center justify-center`}
+      className={`${
+        player ? " z-[60] " : " z-[0] "
+      } w-full relative select-none  object-cover h-full cursor-grab m-auto flex items-center justify-center`}
     />
   )
 }

@@ -37,6 +37,7 @@ export const Notes = () => {
       </div>
       <div className="p-2">
         <textarea
+          spellCheck="false"
           className="w-full h-32 bg-border p-2 outline-none resize-none rounded"
           placeholder="Write your notes here..."
         />
