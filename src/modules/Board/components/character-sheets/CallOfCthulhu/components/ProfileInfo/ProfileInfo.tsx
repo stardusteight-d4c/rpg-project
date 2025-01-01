@@ -20,6 +20,7 @@ interface ProfileInfoProps {
     avatarUrl: string
   }
   isEditMode?: boolean
+  showPlayerInfo?: boolean
 }
 
 export const ProfileInfo = ({ isEditMode, ...props }: ProfileInfoProps) => {

@@ -134,6 +134,8 @@ export const SelectedCharacterDisplay = ({
         <ProfileInfo
           infos={selectedCharacter.infos}
           player={selectedCharacter.player}
+          showPlayerInfo={true}
+
         />
         <Attributes attributes={selectedCharacter.attributes} {...actions} />
         <Skills skills={selectedCharacter.skills} {...actions} />
