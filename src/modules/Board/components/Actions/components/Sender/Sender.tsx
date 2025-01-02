@@ -9,7 +9,7 @@ export const Sender = ({ name, characterUrl }: SenderProps) => {
       <img
         src={characterUrl}
         alt=""
-        className="w-[48px] object-cover select-none pointer-events-none h-[48px] border border-border rounded-full"
+        className="w-[48px] aspect-square object-cover select-none pointer-events-none h-[48px] border border-border rounded-full"
       />
       <span className="block text-lg font-bold -tracking-wide">{name}</span>
     </div>

@@ -5,6 +5,7 @@ import { Dice } from "./Dice"
 import { Characters } from "./Characters"
 import { Handouts } from "./Handouts"
 import { Chat } from "./Chat"
+import { Notifications } from "./Notifications"
 
 export const Board = {
   Actions,
@@ -14,4 +15,5 @@ export const Board = {
   Characters,
   Handouts,
   Chat,
+  Notifications,
 }

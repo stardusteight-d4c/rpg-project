@@ -58,7 +58,7 @@ export function BoardModule() {
               </span>
             </Tooltip>
 
-            <Tooltip text="NPCs" variant position="right">
+            <Tooltip text="NPCs & Enemies" variant position="right">
               <span
                 onClick={() => {
                   setActive("npcs")
@@ -115,10 +115,12 @@ export function BoardModule() {
               </span>
             </Tooltip>
             <Tooltip text="Notifications" variant position="right">
-              <span
+              <div
                 onClick={() => setActive("notifications")}
-                className="cursor-pointer"
+                className="cursor-pointer block relative !w-[40px] !h-[40px]"
               >
+                <div className="absolute z-50 top-[6px] right-[9px] rounded-full bg-red-500 w-2 h-2" />
+                <div className="absolute z-50 animate-ping top-[6px] right-[9px] rounded-full bg-red-500 w-2 h-2" />
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="40"
@@ -130,7 +132,7 @@ export function BoardModule() {
                 >
                   <path d="M221.8,175.94C216.25,166.38,208,139.33,208,104a80,80,0,1,0-160,0c0,35.34-8.26,62.38-13.81,71.94A16,16,0,0,0,48,200H88.81a40,40,0,0,0,78.38,0H208a16,16,0,0,0,13.8-24.06ZM128,216a24,24,0,0,1-22.62-16h45.24A24,24,0,0,1,128,216ZM48,184c7.7-13.24,16-43.92,16-80a64,64,0,1,1,128,0c0,36.05,8.28,66.73,16,80Z"></path>
                 </svg>
-              </span>
+              </div>
             </Tooltip>
           </div>
           <img
@@ -145,6 +147,7 @@ export function BoardModule() {
           {active === "characters" && <Board.Characters />}
           {active === "handouts" && <Board.Handouts />}
           {active === "chat" && <Board.Chat />}
+          {active === "notifications" && <Board.Notifications />}
         </div>
         <div className="w-[26vw] 2xl:w-[30vw] pb-2 overflow-y-scroll no-scrollbar h-screen border-l border-border">
           <Board.Cam />
