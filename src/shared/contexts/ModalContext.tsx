@@ -9,60 +9,93 @@ import React, {
 } from "react"
 import ReactDOM from "react-dom"
 
+type ModalData = {
+  id: string
+  content: ReactNode
+  position: { x: number; y: number }
+  zIndex: number
+}
+
 type ModalContextType = {
-  showModal: (content: ReactNode) => void
-  hideModal: () => void
+  showModal: (id: string, content: ReactNode) => void
+  hideModal: (id: string) => void
 }
 
 const ModalContext = createContext<ModalContextType | undefined>(undefined)
 
 export const ModalProvider = ({ children }: { children: ReactNode }) => {
-  const [modalContent, setModalContent] = useState<ReactNode | null>(null)
-  const [position, setPosition] = useState<{
-    x: number | undefined
-    y: number | undefined
-  }>({ x: undefined, y: undefined })
-  const [mounted, setMounted] = useState<boolean>(false)
+  const [modals, setModals] = useState<ModalData[]>([])
+  const [maxZIndex, setMaxZIndex] = useState(850)
+  const showModal = (id: string, content: ReactNode) => {
+    setModals((prevModals) => {
+      // Verifica se o modal já existe
+      if (prevModals.some((modal) => modal.id === id)) return prevModals
 
-  const showModal = (content: ReactNode) => {
-    setModalContent(content)
+      // Adiciona o novo modal
+      return [
+        ...prevModals,
+        {
+          id,
+          content,
+          position: {
+            x: window.innerWidth / 2,
+            y: window.innerHeight / 2,
+          },
+          zIndex: maxZIndex, // Define zIndex inicial
+        },
+      ]
+    })
+
+    // Incrementa o controle do maior z-index
+    setMaxZIndex((prev) => prev + 1)
   }
 
-  const hideModal = () => {
-    setModalContent(null)
-    setPosition({ x: undefined, y: undefined })
-    setMounted(false)
+  const hideModal = (id: string) => {
+    setModals((prevModals) => prevModals.filter((modal) => modal.id !== id))
   }
 
-  useEffect(() => {
-    if (modalContent && !mounted) {
-      setPosition({
-        x: window.innerWidth / 2,
-        y: window.innerHeight / 2,
-      })
-      setMounted(true)
-    }
-  }, [modalContent])
+  const updatePosition = (id: string, x: number, y: number) => {
+    setModals((prevModals) =>
+      prevModals.map((modal) =>
+        modal.id === id ? { ...modal, position: { x, y } } : modal
+      )
+    )
+  }
+
+  const bringToFront = (id: string) => {
+    setModals((prevModals) =>
+      prevModals.map((modal) =>
+        modal.id === id ? { ...modal, zIndex: maxZIndex } : modal
+      )
+    )
+    setMaxZIndex((prev) => prev + 1) // Incrementa o controle de z-index
+  }
 
   return (
     <ModalContext.Provider value={{ showModal, hideModal }}>
       {children}
-      {modalContent &&
+      {modals.map((modal) =>
         ReactDOM.createPortal(
           <div
+            key={modal.id}
             style={{
-              top: position.y === undefined ? "50%" : position.y,
-              left: position.x === undefined ? "50%" : position.x,
+              top: modal.position.y,
+              left: modal.position.x,
+              zIndex: modal.zIndex,
+              transform: "translate(-50%, -50%)",
+              position: "absolute",
             }}
-            onMouseDown={(e) => {
-              const offsetX = e.clientX - (position.x ?? 0)
-              const offsetY = e.clientY - (position.y ?? 0)
+            onMouseDown={() => bringToFront(modal.id)}
+            onMouseDownCapture={(e) => {
+              const offsetX = e.clientX - modal.position.x
+              const offsetY = e.clientY - modal.position.y
 
               const handleMouseMove = (moveEvent: MouseEvent) => {
-                setPosition({
-                  x: moveEvent.clientX - offsetX,
-                  y: moveEvent.clientY - offsetY,
-                })
+                updatePosition(
+                  modal.id,
+                  moveEvent.clientX - offsetX,
+                  moveEvent.clientY - offsetY
+                )
               }
 
               const handleMouseUp = () => {
@@ -73,12 +106,13 @@ export const ModalProvider = ({ children }: { children: ReactNode }) => {
               window.addEventListener("mousemove", handleMouseMove)
               window.addEventListener("mouseup", handleMouseUp)
             }}
-            className="select-none z-[800] max-h-[500px] w-[681px] overflow-y-hidden no-scrollbar  shadow-lg shadow-gray-600/5 md:bg-background  md:border md:border-border rounded-2xl absolute -translate-x-1/2 -translate-y-1/2"
+            className="select-none !scale-[.7] z-[800] max-h-[500px] w-[681px] overflow-y-hidden no-scrollbar shadow-lg shadow-gray-600/5 md:bg-background md:border md:border-border rounded-2xl"
           >
-            {modalContent}
+            {modal.content}
           </div>,
           document.body
-        )}
+        )
+      )}
     </ModalContext.Provider>
   )
 }

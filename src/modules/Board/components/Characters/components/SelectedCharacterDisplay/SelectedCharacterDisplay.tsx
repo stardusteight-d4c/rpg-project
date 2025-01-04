@@ -141,7 +141,7 @@ export const SelectedCharacterDisplay = ({
           )}
           {isModal && (
             <div
-              onClick={hideModal}
+              onClick={() => hideModal(selectedCharacter.infos.id)}
               className="flex cursor-pointer items-center group w-fit gap-x-2"
             >
               <button className="bg-ashes flex items-center justify-center text-white p-1 rounded-full  shadow-md shadow-black/50 group-hover:bg-gradient-to-tr group-hover:from-[#42d392] group-hover:to-[#8B5CF6] duration-300 ease-in-out transition-all">
@@ -156,6 +156,11 @@ export const SelectedCharacterDisplay = ({
                 </svg>
               </button>
               <span>Close</span>
+            </div>
+          )}
+          {isModal && (
+            <div className="font-medium absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2">
+              {selectedCharacter.infos.name}
             </div>
           )}
         </div>
