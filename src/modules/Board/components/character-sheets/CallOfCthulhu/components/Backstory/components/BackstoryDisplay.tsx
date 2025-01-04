@@ -27,7 +27,7 @@ export const BackstoryDisplay = ({
     <div className="mb-4">
       <div
         onClick={() => toggleItem("backstory")}
-        className="flex py-2 cursor-pointer items-center justify-between sticky top-[47px] z-[100] shadow-sm shadow-black/50 bg-background"
+        className="flex py-2 cursor-pointer items-center justify-between sticky top-[47px] z-[100] bg-background"
       >
         <h3 className="text-2xl flex items-center gap-x-2 font-semibold">
           <span>

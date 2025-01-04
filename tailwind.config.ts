@@ -21,9 +21,9 @@ export default {
     },
     extend: {
       colors: {
-        background: "#000000",
+        background: "#090909",
         ashes: "#0c0c0c",
-        border: "#10101080",
+        border: "#101010",
         tag: "#1B1C1C",
         white: "#FFFFFF",
       },

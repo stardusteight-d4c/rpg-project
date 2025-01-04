@@ -60,7 +60,9 @@ body {
 }
 
 .shadow-p {
-  box-shadow: 2px 4px 14px 2px #00000080;
+ -webkit-box-shadow: 4px 4px 4px 4px rgba(0,0,0,0.10);
+-moz-box-shadow: 4px 4px 4px 4px rgba(0,0,0,0.10);
+box-shadow: 4px 4px 4px 4px rgba(0,0,0,0.10);
 }
 .shadow-p-2 {
   box-shadow: 2px 28px 28px 2px #00000080;
@@ -185,7 +187,6 @@ body {
   font-style: italic;
 }
 
-
 .markdown-context pre {
   background-color: #101010;
   padding: 8px;
@@ -243,17 +244,16 @@ body {
   height: 100%;
   background: radial-gradient(
     ellipse at center,
-    #00000000 0%,
-    #000000e1 1.5%,
-    #000000 2%,
-    #000000 100%
+    #09090900 0%,
+    #090909e1 1.5%,
+    #090909 2%,
+    #090909 100%
   );
   border-radius: 50%;
   position: absolute;
-
 }
 
 ::selection {
-  color: #FFFFFF;
+  color: #ffffff;
   background-color: #18181b;
 }

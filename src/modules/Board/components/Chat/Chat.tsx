@@ -132,7 +132,7 @@ Disse que no sonho a voz de sua mãe a chamava para casa, a chamava para ficar c
             id=""
             placeholder="Send a message..."
             spellCheck="false"
-            className="p-2 px-4 resize-none overflow-y-scroll no-scrollbar h-[84px] w-full cursor-text hover:brightness-125 flex items-center gap-x-1 line-clamp-1 rounded-3xl shadow-p bg-border/50 border border-border outline-none"
+            className="p-2 px-4 resize-none overflow-y-scroll no-scrollbar h-[84px] w-full cursor-text hover:brightness-125 flex items-center gap-x-1 line-clamp-1 rounded-3xl bg-border/50 border border-border outline-none"
           ></textarea>
         </GlowingWrapper>
 

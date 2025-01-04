@@ -27,7 +27,7 @@ export const DonutChart: React.FC<DonutChartProps> = ({
           cy={size / 2}
           r={radius}
           fill="none"
-          stroke="#07080a"
+          stroke="#4b55631a"
           strokeWidth={strokeWidth}
         />
         {/* Progresso */}
