@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import { Roboto_Condensed, Delius } from "next/font/google"
 import "./globals.css"
+import { ModalProvider } from "@/shared/contexts/ModalContext"
 
 const robotoCondensed = Roboto_Condensed({
   subsets: ["latin"],
@@ -10,7 +11,7 @@ const robotoCondensed = Roboto_Condensed({
 const delius = Delius({
   subsets: ["latin"],
   weight: ["400"],
-  variable: '--font-delius',
+  variable: "--font-delius",
 })
 
 export const metadata: Metadata = {
@@ -25,7 +26,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${robotoCondensed.className} ${delius.variable} antialiased`}>{children}</body>
+      <body
+        className={`${robotoCondensed.className} ${delius.variable} overflow-hidden antialiased`}
+      >
+        <ModalProvider>{children}</ModalProvider>
+      </body>
     </html>
   )
 }

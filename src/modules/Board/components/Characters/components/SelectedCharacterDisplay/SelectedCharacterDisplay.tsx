@@ -9,6 +9,7 @@ import {
   ProfileInfo,
   Skills,
 } from "../../../character-sheets/CallOfCthulhu/components"
+import { useModal } from "@/shared/contexts/ModalContext"
 
 interface SelectedCharacterDisplayProps {
   selectedCharacter: {
@@ -19,7 +20,7 @@ interface SelectedCharacterDisplayProps {
     combat: any
     inventory: Array<{
       id: string
-      name: string 
+      name: string
       for?: Array<{
         id: string
         name: string
@@ -38,7 +39,7 @@ interface SelectedCharacterDisplayProps {
     }>
     backstory: string
   } | null
-  setSelectedCharacter: (
+  setSelectedCharacter?: (
     value: {
       player: any
       infos: any
@@ -52,15 +53,19 @@ interface SelectedCharacterDisplayProps {
       backstory: string
     } | null
   ) => void
-  setEditMode: (value: boolean) => void
+  setEditMode?: (value: boolean) => void
+  isModal?: boolean
+  hideModal?: () => void
 }
 
 export const SelectedCharacterDisplay = ({
   selectedCharacter,
   setSelectedCharacter,
   setEditMode,
+  isModal,
 }: SelectedCharacterDisplayProps) => {
   if (!selectedCharacter) return null
+  const { showModal, hideModal } = useModal()
 
   const [activeItems, setActiveItems] = useState<
     Array<"attributes" | "skills" | "inventory" | "combat" | "backstory" | null>
@@ -89,29 +94,35 @@ export const SelectedCharacterDisplay = ({
   }
 
   return (
-    <section className="relative h-screen overflow-y-scroll no-scrollbar">
+    <section
+      className={`${
+        isModal ? " max-h-[500px] " : " h-screen "
+      } relative overflow-y-scroll no-scrollbar`}
+    >
       <div className="sticky z-[200] border-b border-border  shadow-sm shadow-black/50 top-0 p-2 w-full inset-x-0 bg-background">
         <div className="flex items-center gap-x-4">
-          <div
-            onClick={() => setSelectedCharacter(null)}
-            className="cursor-pointer w-fit flex items-center group gap-x-2"
-          >
-            <button className="bg-ashes flex items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50 group-hover:bg-gradient-to-tr group-hover:from-[#42d392] group-hover:to-[#8B5CF6] duration-300 ease-in-out transition-all">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                fill="#FFFFFF"
-                viewBox="0 0 256 256"
-              >
-                <path d="M224,128a8,8,0,0,1-8,8H59.31l58.35,58.34a8,8,0,0,1-11.32,11.32l-72-72a8,8,0,0,1,0-11.32l72-72a8,8,0,0,1,11.32,11.32L59.31,120H216A8,8,0,0,1,224,128Z"></path>
-              </svg>
-            </button>
-            <span>Back</span>
-          </div>
-          {selectedCharacter.player.id === currentSession.id && (
+          {!isModal && (
             <div
-              onClick={() => setEditMode(true)}
+              onClick={() => setSelectedCharacter && setSelectedCharacter(null)}
+              className="cursor-pointer w-fit flex items-center group gap-x-2"
+            >
+              <button className="bg-ashes flex items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50 group-hover:bg-gradient-to-tr group-hover:from-[#42d392] group-hover:to-[#8B5CF6] duration-300 ease-in-out transition-all">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  fill="#FFFFFF"
+                  viewBox="0 0 256 256"
+                >
+                  <path d="M224,128a8,8,0,0,1-8,8H59.31l58.35,58.34a8,8,0,0,1-11.32,11.32l-72-72a8,8,0,0,1,0-11.32l72-72a8,8,0,0,1,11.32,11.32L59.31,120H216A8,8,0,0,1,224,128Z"></path>
+                </svg>
+              </button>
+              <span>Back</span>
+            </div>
+          )}
+          {!isModal && selectedCharacter.player.id === currentSession.id && (
+            <div
+              onClick={() => setEditMode && setEditMode(true)}
               className="flex cursor-pointer items-center group w-fit gap-x-2"
             >
               <button className="bg-ashes flex items-center justify-center text-white p-1 rounded-full  shadow-md shadow-black/50 group-hover:bg-gradient-to-tr group-hover:from-[#42d392] group-hover:to-[#8B5CF6] duration-300 ease-in-out transition-all">
@@ -128,6 +139,25 @@ export const SelectedCharacterDisplay = ({
               <span>Update Character</span>
             </div>
           )}
+          {isModal && (
+            <div
+              onClick={hideModal}
+              className="flex cursor-pointer items-center group w-fit gap-x-2"
+            >
+              <button className="bg-ashes flex items-center justify-center text-white p-1 rounded-full  shadow-md shadow-black/50 group-hover:bg-gradient-to-tr group-hover:from-[#42d392] group-hover:to-[#8B5CF6] duration-300 ease-in-out transition-all">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  fill="#FFFFFF"
+                  viewBox="0 0 256 256"
+                >
+                  <path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"></path>
+                </svg>
+              </button>
+              <span>Close</span>
+            </div>
+          )}
         </div>
       </div>
       <div className="p-2">
@@ -135,7 +165,6 @@ export const SelectedCharacterDisplay = ({
           infos={selectedCharacter.infos}
           player={selectedCharacter.player}
           showPlayerInfo={true}
-
         />
         <Attributes attributes={selectedCharacter.attributes} {...actions} />
         <Skills skills={selectedCharacter.skills} {...actions} />

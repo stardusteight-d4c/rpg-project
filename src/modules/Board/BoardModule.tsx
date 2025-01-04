@@ -4,6 +4,7 @@ import { Board } from "./components"
 import { useState } from "react"
 import { DraggableItem } from "./components/Map/Map"
 import { Tooltip } from "@/shared/components"
+import { characters } from "./components/Characters/mock-data"
 
 export function BoardModule() {
   const [active, setActive] = useState<
@@ -145,6 +146,7 @@ export function BoardModule() {
         <div className="max-w-[50vw] w-full relative overflow-hidden h-screen">
           {active === "map" && <Board.Map />}
           {active === "characters" && <Board.Characters />}
+          {active === "npcs" && <Board.NPCs />}
           {active === "handouts" && <Board.Handouts />}
           {active === "chat" && <Board.Chat />}
           {active === "notifications" && <Board.Notifications />}
@@ -154,28 +156,20 @@ export function BoardModule() {
           <div className="">
             <span className="block text-xl p-2 border-white">Characters</span>
             <div className="grid grid-cols-3 gap-1 px-2 w-full items-center justify-center">
-              <div className="col-span-1 border rounded-2xl overflow-hidden border-border aspect-[9/13] h-full w-full">
-                <DraggableItem
-                  id="1"
-                  imgUrl="https://imgcdn.stablediffusionweb.com/2024/10/24/23cb7d83-7cac-43f6-8ac8-84c9cd8475a6.jpg"
-                  type="box"
-                  player={true}
-                />
-              </div>
-              <div className="col-span-1 border rounded-2xl overflow-hidden border-border aspect-[9/13] h-full w-full">
-                <DraggableItem
-                  id="2"
-                  imgUrl="https://neural.love/cdn/thumbnails/1eed6701-3f10-66ae-a3ea-41b70a0743ac/eeb65884-de3b-5ffc-9982-79cfe16f394b.webp?Expires=1767225599&Signature=tnQgxe3HIRNHu4D532pE79A2nbqUhNwYrzKXOsl-ZX9uqsiDQY1orBDBv1pBmKVfHtCWwp9N31Q7wP4n2S~BKTJRHElZheN-DJU5Q3nHRIiXqvXdxKBYnD7ZH3Mcjl6n9RuxIy5YywbWqvTIs05HYX13SmDMOBx4sCaJvD4MBovknJ1OWL~1txwStM7fNnsyLKf8j857Kci1OLDKuDeJyRgKzQryixLSt-KB7lknK2tXGeAA~XW31yW9dbVhw0oeuXwhJAXYtezI9pcGaBHmm2sPtr3BMM7mJtkK-arna11zegqXaYVEeCsdRxQCwTHQUuApPYk0Kc6OHZ4eTnr42w__&Key-Pair-Id=K2RFTOXRBNSROX"
-                  type="box"
-                />
-              </div>
-              <div className="col-span-1 border rounded-2xl overflow-hidden border-border aspect-[9/13] h-full w-full">
-                <DraggableItem
-                  id="3"
-                  imgUrl="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/f2664fbe-b0bd-454c-bfe6-6e930a07fc49/dh1yf6m-9a50d508-4a14-4f63-9a0b-b4339f5d284a.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcL2YyNjY0ZmJlLWIwYmQtNDU0Yy1iZmU2LTZlOTMwYTA3ZmM0OVwvZGgxeWY2bS05YTUwZDUwOC00YTE0LTRmNjMtOWEwYi1iNDMzOWY1ZDI4NGEuanBnIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.VNORNfSflxfLfH0SH-r1mLEM8eyB8LsRfinCHZuP5Jc"
-                  type="box"
-                />
-              </div>
+              {characters.map((character: any, index: any) => (
+                <div
+                  key={index}
+                  className="col-span-1 border rounded-2xl overflow-hidden border-border aspect-[9/13] h-full w-full"
+                >
+                  <DraggableItem
+                    id={character.infos.id}
+                    imgUrl={character.infos.characterUrl}
+                    type="box"
+                    player={index === 0}
+                    character={character}
+                  />
+                </div>
+              ))}
             </div>
           </div>
           <div>
@@ -199,6 +193,25 @@ export function BoardModule() {
                 <DraggableItem
                   id="333"
                   imgUrl="/characters/04.jpg"
+                  type="box"
+                />
+              </div>
+            </div>
+          </div>
+          <div>
+            <span className="block text-xl p-2 border-white">Enemies</span>
+            <div className="grid grid-cols-4 gap-1 px-2 w-full items-center justify-center">
+              <div className="col-span-1 border rounded-2xl overflow-hidden border-border aspect-square h-full w-full">
+                <DraggableItem
+                  id="111"
+                  imgUrl="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/907bcc38-88f0-4bd7-998d-7bf2117fa6de/di0pgvo-0cc24cb7-0771-420b-b994-75c872d1a24b.jpg/v1/fill/w_350,h_350,q_70,strp/the_nameless_beast_of_the_abyss_lake_v2_by_gekkou25_di0pgvo-350t.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9MTAyNCIsInBhdGgiOiJcL2ZcLzkwN2JjYzM4LTg4ZjAtNGJkNy05OThkLTdiZjIxMTdmYTZkZVwvZGkwcGd2by0wY2MyNGNiNy0wNzcxLTQyMGItYjk5NC03NWM4NzJkMWEyNGIuanBnIiwid2lkdGgiOiI8PTEwMjQifV1dLCJhdWQiOlsidXJuOnNlcnZpY2U6aW1hZ2Uub3BlcmF0aW9ucyJdfQ.-AFdrmEJ6iXNCrYtPflkC6FDi9WlQIAGWBGRcGPuUpc"
+                  type="box"
+                />
+              </div>
+              <div className="col-span-1 border rounded-2xl overflow-hidden border-border aspect-square h-full w-full">
+                <DraggableItem
+                  id="222"
+                  imgUrl="https://images-ng.pixai.art/images/orig/04b02722-dcae-4701-ba9b-e31a21220776"
                   type="box"
                 />
               </div>
