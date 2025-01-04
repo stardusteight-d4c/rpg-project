@@ -215,6 +215,13 @@ export function BoardModule() {
                   type="box"
                 />
               </div>
+              <div className="col-span-1 border rounded-2xl overflow-hidden border-border aspect-square h-full w-full">
+                <DraggableItem
+                  id="adsadssd"
+                  imgUrl="https://d1vzi28wh99zvq.cloudfront.net/images/8135/_product_images/439376/DeanSpencer-spotcol-goblintankFP.jpg"
+                  type="box"
+                />
+              </div>
             </div>
           </div>
         </div>
