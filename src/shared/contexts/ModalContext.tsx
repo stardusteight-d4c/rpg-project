@@ -1,6 +1,12 @@
 "use client"
 
-import React, { createContext, useContext, useState, ReactNode } from "react"
+import React, {
+  createContext,
+  useContext,
+  useState,
+  ReactNode,
+  useEffect,
+} from "react"
 import ReactDOM from "react-dom"
 
 type ModalContextType = {
@@ -16,6 +22,7 @@ export const ModalProvider = ({ children }: { children: ReactNode }) => {
     x: number | undefined
     y: number | undefined
   }>({ x: undefined, y: undefined })
+  const [mounted, setMounted] = useState<boolean>(false)
 
   const showModal = (content: ReactNode) => {
     setModalContent(content)
@@ -23,7 +30,19 @@ export const ModalProvider = ({ children }: { children: ReactNode }) => {
 
   const hideModal = () => {
     setModalContent(null)
+    setPosition({ x: undefined, y: undefined })
+    setMounted(false)
   }
+
+  useEffect(() => {
+    if (modalContent && !mounted) {
+      setPosition({
+        x: window.innerWidth / 2,
+        y: window.innerHeight / 2,
+      })
+      setMounted(true)
+    }
+  }, [modalContent])
 
   return (
     <ModalContext.Provider value={{ showModal, hideModal }}>
@@ -58,7 +77,7 @@ export const ModalProvider = ({ children }: { children: ReactNode }) => {
           >
             {modalContent}
           </div>,
-          document.body 
+          document.body
         )}
     </ModalContext.Provider>
   )
