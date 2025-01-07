@@ -1,7 +1,12 @@
-export const NPCs = () => {
+interface NPCsProps {
+  isViewNPCs: boolean
+  toggleSwitch: () => void
+}
+
+export const NPCs = ({ isViewNPCs, toggleSwitch }: NPCsProps) => {
   return (
     <section>
-      <div className="sticky border-b border-border  shadow-sm shadow-black/50 z-50 top-0 p-2 w-full inset-x-0 bg-background">
+      <div className="sticky border-b border-border shadow-sm shadow-black/50 z-50 top-0 p-2 w-full inset-x-0 bg-background">
         <div className="flex items-center gap-x-4">
           <div className="flex cursor-pointer items-center group w-fit gap-x-2">
             <button className="bg-ashes flex items-center justify-center text-white p-1 rounded-full  shadow-md shadow-black/50 group-hover:bg-gradient-to-tr group-hover:from-[#42d392] group-hover:to-[#8B5CF6] duration-300 ease-in-out transition-all">
@@ -16,6 +21,30 @@ export const NPCs = () => {
               </svg>
             </button>
             <span>Create NPC/Enemy</span>
+          </div>
+
+          <div
+            onClick={toggleSwitch}
+            className="flex ml-auto cursor-pointer items-center group w-fit gap-x-2"
+          >
+            <span>
+              {" "}
+              {isViewNPCs ? "Change to Characters" : "Change to NPCs/Enimies"}
+            </span>
+            <button className="bg-ashes w-[32px] h-[32px] flex items-center justify-center text-white p-2 rounded-full  shadow-md shadow-black/50 group-hover:bg-gradient-to-tr group-hover:from-[#42d392] group-hover:to-[#8B5CF6] duration-300 ease-in-out transition-all">
+              <svg
+                width="28"
+                height="28"
+                viewBox="0 0 16 16"
+                fill="FFFFFF"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M3 7H3.42188C4.19375 8.76562 5.95 10 8 10C10.05 10 11.8062 8.76562 12.5781 7H13C13.275 7 13.5 6.775 13.5 6.5V3.5C13.5 3.225 13.275 3 13 3H12.5781C11.8062 1.23438 10.05 0 8 0C5.95 0 4.19375 1.23438 3.42188 3H3C2.725 3 2.5 3.225 2.5 3.5V6.5C2.5 6.775 2.725 7 3 7ZM4.25 4.25C4.25 3.55937 4.92188 3 5.75 3H10.25C11.0781 3 11.75 3.55937 11.75 4.25V5C11.75 6.65625 10.4062 8 8.75 8H7.25C5.59375 8 4.25 6.65625 4.25 5V4.25ZM6.5 6.5L6.875 5.375L8 5L6.875 4.625L6.5 3.5L6.125 4.625L5 5L6.125 5.375L6.5 6.5ZM11.2375 10.0437C10.3031 10.6469 9.19375 11 8 11C6.80625 11 5.69688 10.6469 4.7625 10.0437C2.65313 10.2656 1 12.0312 1 14.2V14.5C1 15.3281 1.67188 16 2.5 16H5V14C5 13.4469 5.44687 13 6 13H10C10.5531 13 11 13.4469 11 14V16H13.5C14.3281 16 15 15.3281 15 14.5V14.2C15 12.0312 13.3469 10.2656 11.2375 10.0437ZM9.5 14C9.225 14 9 14.225 9 14.5C9 14.775 9.225 15 9.5 15C9.775 15 10 14.775 10 14.5C10 14.225 9.775 14 9.5 14ZM6.5 14C6.225 14 6 14.225 6 14.5V16H7V14.5C7 14.225 6.775 14 6.5 14Z"
+                  fill="white"
+                />
+              </svg>
+            </button>
           </div>
         </div>
       </div>

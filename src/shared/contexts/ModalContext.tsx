@@ -5,7 +5,6 @@ import React, {
   useContext,
   useState,
   ReactNode,
-  useEffect,
 } from "react"
 import ReactDOM from "react-dom"
 

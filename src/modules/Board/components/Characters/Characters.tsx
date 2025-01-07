@@ -8,6 +8,7 @@ import {
 } from "./components"
 import { characters, playerCharacter } from "./mock-data"
 import { CharactersCreate } from "./components/CharactersCreate"
+import { NPCs } from "../NPCs"
 
 export const Characters = () => {
   const [selectedCharacter, setSelectedCharacter] = useState<{
@@ -24,7 +25,12 @@ export const Characters = () => {
   } | null>(null)
   const [editMode, setEditMode] = useState<boolean>(false)
   const [createMode, setCreateMode] = useState<boolean>(false)
+  const [isViewNPCs, setIsViewNPCs] = useState<boolean>(false)
   const selectedCharacterState = { selectedCharacter, setSelectedCharacter }
+
+  const toggleSwitch = () => {
+    setIsViewNPCs((prevState) => !prevState)
+  }
 
   if (createMode) return <CharactersCreate setCreateMode={setCreateMode} />
 
@@ -44,13 +50,18 @@ export const Characters = () => {
       />
     )
 
-  if (!selectedCharacter)
+  if (!selectedCharacter && !isViewNPCs)
     return (
       <CharactersDisplay
         setCreateMode={setCreateMode}
         setEditMode={setEditMode}
+        isViewNPCs={isViewNPCs}
+        toggleSwitch={toggleSwitch}
         characters={characters}
         {...selectedCharacterState}
       />
     )
+
+  if (isViewNPCs)
+    return <NPCs isViewNPCs={isViewNPCs} toggleSwitch={toggleSwitch} />
 }

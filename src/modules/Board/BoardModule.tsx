@@ -8,13 +8,7 @@ import { characters } from "./components/Characters/mock-data"
 
 export function BoardModule() {
   const [active, setActive] = useState<
-    | "map"
-    | "dice"
-    | "characters"
-    | "handouts"
-    | "notifications"
-    | "chat"
-    | "npcs"
+    "map" | "dice" | "characters" | "handouts" | "notifications" | "chat"
   >("map")
 
   return (
@@ -55,27 +49,6 @@ export function BoardModule() {
                   } rounded-xl p-1 fill-white`}
                 >
                   <path d="M83.19,174.4a8,8,0,0,0,11.21-1.6,52,52,0,0,1,83.2,0,8,8,0,1,0,12.8-9.6A67.88,67.88,0,0,0,163,141.51a40,40,0,1,0-53.94,0A67.88,67.88,0,0,0,81.6,163.2,8,8,0,0,0,83.19,174.4ZM112,112a24,24,0,1,1,24,24A24,24,0,0,1,112,112Zm96-88H64A16,16,0,0,0,48,40V64H32a8,8,0,0,0,0,16H48v40H32a8,8,0,0,0,0,16H48v40H32a8,8,0,0,0,0,16H48v24a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V40A16,16,0,0,0,208,24Zm0,192H64V40H208Z"></path>
-                </svg>
-              </span>
-            </Tooltip>
-
-            <Tooltip text="NPCs & Enemies" variant position="right">
-              <span
-                onClick={() => {
-                  setActive("npcs")
-                }}
-                className="cursor-pointer"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="40"
-                  height="40"
-                  viewBox="0 0 256 256"
-                  className={`${
-                    active === "npcs" && " background-gradient "
-                  } rounded-xl p-1 fill-white`}
-                >
-                  <path d="M168,104H88a40,40,0,0,0-40,40v8a40,40,0,0,0,40,40h80a40,40,0,0,0,40-40v-8A40,40,0,0,0,168,104Zm24,48a24,24,0,0,1-24,24H88a24,24,0,0,1-24-24v-8a24,24,0,0,1,24-24h80a24,24,0,0,1,24,24ZM208,40a32.06,32.06,0,0,0-31,24H79a32,32,0,0,0-63,8v80a72.08,72.08,0,0,0,72,72h80a72.08,72.08,0,0,0,72-72V72A32,32,0,0,0,208,40Zm16,112a56.06,56.06,0,0,1-56,56H88a56.06,56.06,0,0,1-56-56V72a16,16,0,0,1,32,0,8,8,0,0,0,8,8H184a8,8,0,0,0,8-8,16,16,0,0,1,32,0Zm-120-4a12,12,0,1,1-12-12A12,12,0,0,1,104,148Zm72,0a12,12,0,1,1-12-12A12,12,0,0,1,176,148Z"></path>
                 </svg>
               </span>
             </Tooltip>
@@ -146,7 +119,6 @@ export function BoardModule() {
         <div className="max-w-[50vw] w-full relative overflow-hidden h-screen">
           {active === "map" && <Board.Map />}
           {active === "characters" && <Board.Characters />}
-          {active === "npcs" && <Board.NPCs />}
           {active === "handouts" && <Board.Handouts />}
           {active === "chat" && <Board.Chat />}
           {active === "notifications" && <Board.Notifications />}
