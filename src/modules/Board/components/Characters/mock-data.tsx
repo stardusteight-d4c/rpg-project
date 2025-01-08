@@ -8,6 +8,7 @@ export const currentSession = {
 
 export const characters: any = [
   {
+    type: "player",
     player: {
       id: "alsmdlsamdslamds",
       name: "Gabriel Sena",
@@ -463,6 +464,7 @@ export const characters: any = [
     ],
   },
   {
+    type: "player",
     player: {
       id: "asnshlkasjlalssla",
       name: "Juan Paul",
@@ -868,6 +870,7 @@ export const characters: any = [
     ],
   },
   {
+    type: "player",
     player: {
       id: "sadjsaljdsaljdlsj",
       name: "Fernanda Sena",

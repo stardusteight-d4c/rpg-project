@@ -126,7 +126,7 @@ export function BoardModule() {
         <div className="w-[26vw] 2xl:w-[30vw] pb-2 overflow-y-scroll no-scrollbar h-screen border-l border-border">
           <Board.Cam />
           <div className="">
-            <span className="block text-xl p-2 border-white">Characters</span>
+            <span className="block text-xl p-2 border-white">Players</span>
             <div className="grid grid-cols-3 gap-[2px] w-full items-center justify-center">
               {characters.map((character: any, index: any) => (
                 <div
