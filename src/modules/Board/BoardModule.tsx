@@ -127,11 +127,11 @@ export function BoardModule() {
           <Board.Cam />
           <div className="">
             <span className="block text-xl p-2 border-white">Characters</span>
-            <div className="grid grid-cols-3 gap-1 px-2 w-full items-center justify-center">
+            <div className="grid grid-cols-3 gap-[2px] w-full items-center justify-center">
               {characters.map((character: any, index: any) => (
                 <div
                   key={index}
-                  className="col-span-1 border rounded-2xl overflow-hidden border-border aspect-[9/13] h-full w-full"
+                  className="col-span-1 overflow-hidden aspect-[9/13] h-full w-full"
                 >
                   <DraggableItem
                     id={character.infos.id}
@@ -146,22 +146,22 @@ export function BoardModule() {
           </div>
           <div>
             <span className="block text-xl p-2 border-white">NPCs</span>
-            <div className="grid grid-cols-4 gap-1 px-2 w-full items-center justify-center">
-              <div className="col-span-1 border rounded-2xl overflow-hidden border-border aspect-square h-full w-full">
+            <div className="grid grid-cols-3 gap-[2px] w-full items-center justify-center">
+              <div className="col-span-1 overflow-hidden aspect-square h-full w-full">
                 <DraggableItem
                   id="111"
                   imgUrl="/characters/01.jpg"
                   type="box"
                 />
               </div>
-              <div className="col-span-1 border rounded-2xl overflow-hidden border-border aspect-square h-full w-full">
+              <div className="col-span-1 overflow-hidden aspect-square h-full w-full">
                 <DraggableItem
                   id="222"
                   imgUrl="/characters/02.jpg"
                   type="box"
                 />
               </div>
-              <div className="col-span-1 border rounded-2xl overflow-hidden border-border aspect-square h-full w-full">
+              <div className="col-span-1 overflow-hidden aspect-square h-full w-full">
                 <DraggableItem
                   id="333"
                   imgUrl="/characters/04.jpg"
@@ -172,22 +172,22 @@ export function BoardModule() {
           </div>
           <div>
             <span className="block text-xl p-2 border-white">Enemies</span>
-            <div className="grid grid-cols-4 gap-1 px-2 w-full items-center justify-center">
-              <div className="col-span-1 border rounded-2xl overflow-hidden border-border aspect-square h-full w-full">
+            <div className="grid grid-cols-3 gap-[2px] w-full items-center justify-center">
+              <div className="col-span-1 overflow-hidden aspect-square h-full w-full">
                 <DraggableItem
                   id="sassasd"
                   imgUrl="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/907bcc38-88f0-4bd7-998d-7bf2117fa6de/di0pgvo-0cc24cb7-0771-420b-b994-75c872d1a24b.jpg/v1/fill/w_350,h_350,q_70,strp/the_nameless_beast_of_the_abyss_lake_v2_by_gekkou25_di0pgvo-350t.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9MTAyNCIsInBhdGgiOiJcL2ZcLzkwN2JjYzM4LTg4ZjAtNGJkNy05OThkLTdiZjIxMTdmYTZkZVwvZGkwcGd2by0wY2MyNGNiNy0wNzcxLTQyMGItYjk5NC03NWM4NzJkMWEyNGIuanBnIiwid2lkdGgiOiI8PTEwMjQifV1dLCJhdWQiOlsidXJuOnNlcnZpY2U6aW1hZ2Uub3BlcmF0aW9ucyJdfQ.-AFdrmEJ6iXNCrYtPflkC6FDi9WlQIAGWBGRcGPuUpc"
                   type="box"
                 />
               </div>
-              <div className="col-span-1 border rounded-2xl overflow-hidden border-border aspect-square h-full w-full">
+              <div className="col-span-1 overflow-hidden aspect-square h-full w-full">
                 <DraggableItem
                   id="asdsafs"
                   imgUrl="https://images-ng.pixai.art/images/orig/04b02722-dcae-4701-ba9b-e31a21220776"
                   type="box"
                 />
               </div>
-              <div className="col-span-1 border rounded-2xl overflow-hidden border-border aspect-square h-full w-full">
+              <div className="col-span-1 overflow-hidden aspect-square h-full w-full">
                 <DraggableItem
                   id="adsadssd"
                   imgUrl="https://d1vzi28wh99zvq.cloudfront.net/images/8135/_product_images/439376/DeanSpencer-spotcol-goblintankFP.jpg"

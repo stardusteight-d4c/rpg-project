@@ -9,51 +9,51 @@ export const Cam = () => {
           width={500}
           height={250}
           alt=""
-          className="w-full pointer-events-none object-cover border border-border cursor-pointer"
+          className="w-full pointer-events-none object-cover cursor-pointer"
         />
       </div>
-      <div className="grid grid-cols-3 w-full items-center justify-center">
+      <div className="grid grid-cols-3 gap-[2px] mt-[2px] w-full items-center justify-center">
         <Image
           src="/02.png"
           width={250}
           height={100}
           alt=""
-          className="col-span-1 pointer-events-none w-full h-full object-cover border border-border cursor-pointer"
+          className="col-span-1 pointer-events-none w-full h-full object-cover cursor-pointer"
         />
         <Image
           src="/03.png"
           width={250}
           height={100}
           alt=""
-          className="col-span-1 pointer-events-none w-full h-full object-cover border border-border cursor-pointer"
+          className="col-span-1 pointer-events-none w-full h-full object-cover cursor-pointer"
         />
         <Image
           src="/01.png"
           width={500}
           height={250}
           alt=""
-          className="col-span-1 pointer-events-none w-full h-full object-cover border border-border cursor-pointer"
+          className="col-span-1 pointer-events-none w-full h-full object-cover cursor-pointer"
         />
         <Image
           src="/01.png"
           width={500}
           height={250}
           alt=""
-          className="col-span-1 pointer-events-none w-full h-full object-cover border border-border cursor-pointer"
+          className="col-span-1 pointer-events-none w-full h-full object-cover cursor-pointer"
         />
         <Image
           src="/02.png"
           width={250}
           height={100}
           alt=""
-          className="col-span-1 pointer-events-none w-full h-full object-cover border border-border cursor-pointer"
+          className="col-span-1 pointer-events-none w-full h-full object-cover cursor-pointer"
         />
         <Image
           src="/03.png"
           width={250}
           height={100}
           alt=""
-          className="col-span-1 pointer-events-none w-full h-full object-cover border border-border cursor-pointer"
+          className="col-span-1 pointer-events-none w-full h-full object-cover cursor-pointer"
         />
       </div>
     </div>
