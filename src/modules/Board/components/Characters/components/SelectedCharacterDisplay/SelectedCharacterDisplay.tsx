@@ -97,7 +97,7 @@ export const SelectedCharacterDisplay = ({
     <section
       className={`${
         isModal ? " max-h-[500px] " : " h-screen "
-      } relative overflow-y-scroll no-scrollbar`}
+      } relative w-full overflow-y-scroll no-scrollbar`}
     >
       <div className="sticky z-[200] border-b border-border  shadow-sm shadow-black/50 top-0 p-2 w-full inset-x-0 bg-background">
         <div className="flex items-center gap-x-4">

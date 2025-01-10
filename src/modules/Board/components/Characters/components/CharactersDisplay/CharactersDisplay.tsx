@@ -46,7 +46,7 @@ export const CharactersDisplay = ({
   }
 
   return (
-    <section className="relative h-screen overflow-y-scroll no-scrollbar">
+    <section className="relative w-full h-screen overflow-y-scroll no-scrollbar">
       <div className="sticky border-b border-border  shadow-sm shadow-black/50 z-50 top-0 p-2 w-full inset-x-0 bg-background">
         <div className="flex items-center gap-x-4">
           <div
