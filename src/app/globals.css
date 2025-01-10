@@ -244,10 +244,10 @@ box-shadow: 4px 4px 4px 4px rgba(0,0,0,0.10);
   height: 100%;
   background: radial-gradient(
     ellipse at center,
-    #09090900 0%,
-    #090909e1 1.5%,
-    #090909 2%,
-    #090909 100%
+    #00000000 0%,
+    #000000e1 1.5%,
+    #000000 2%,
+    #000000 100%
   );
   border-radius: 50%;
   position: absolute;

@@ -43,7 +43,7 @@ export const Actions = () => {
   return (
     <section
       ref={chatRef}
-      className="w-[20vw] overflow-x-hidden box-content !relative  h-screen overflow-y-scroll no-scrollbar"
+      className="w-full overflow-x-hidden box-content !relative  h-screen overflow-y-scroll no-scrollbar"
     >
       {openDiceModal === "open" && (
         <ModalWrapper status={openDiceModal} onStatusChange={setOpenDiceModal}>
