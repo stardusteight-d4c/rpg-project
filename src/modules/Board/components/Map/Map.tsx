@@ -144,7 +144,7 @@ export const Map: React.FC = () => {
           </div>
         </div>
       )}
-      {/* <div
+      <div
         className="w-full min-h-[100vh] shadow-2xl shadow-black grid absolute"
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
@@ -205,7 +205,7 @@ export const Map: React.FC = () => {
             </div>
           ))
         )}
-      </div> */}
+      </div>
     </div>
   )
 }

@@ -8,6 +8,7 @@ export function renderingActiveSection(active: MenuItem) {
       {active === "handouts" && <Board.Handouts />}
       {active === "chat" && <Board.Chat />}
       {active === "notifications" && <Board.Notifications />}
+      {active === "cam" && <Board.Cam />}
     </div>
   )
 }
