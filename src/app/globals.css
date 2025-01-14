@@ -13,7 +13,7 @@
 }
 
 body {
-  @apply bg-background text-white antialiased scroll-smooth;
+  @apply bg-background  text-white antialiased scroll-smooth;
 }
 
 .background-gradient {
@@ -34,7 +34,7 @@ body {
 ::-webkit-scrollbar {
   width: 10px;
   height: 10px;
-  background: #0c0c0c00;
+  background: #ffffff;
   border-radius: 20px;
 }
 ::-moz-scrollbar {
@@ -43,7 +43,7 @@ body {
 }
 ::-webkit-scrollbar-thumb {
   cursor: pointer;
-  background: #0c0c0c;
+  background: #ffffff;
   border-radius: 20px;
 }
 

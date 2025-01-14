@@ -10,7 +10,7 @@ export function BoardModule() {
   const [active, setActive] = useState<MenuItem>("map")
 
   return (
-    <main className="max-h-screen relative overflow-hidden">
+    <main className="max-h-screen relative no-scrollbar overflow-hidden">
       <div className="w-full flex">
         <div className="min-w-[20vw] max-w-[20vw]">
           <Board.Actions />
@@ -19,7 +19,7 @@ export function BoardModule() {
           <Board.Menu active={active} onActive={setActive} />
         </div>
         <div className="w-full">{renderingActiveSection(active)}</div>
-        <div className="max-w-[60px] border-l py-2 border-border min-w-[60px] overflow-y-scroll h-screen">
+        <div className="flex flex-col items-center justify-center border-l py-2 min-w-[70px] border-border overflow-y-scroll overflow-x-hidden no-scrollbar h-screen">
           <div className="flex flex-col gap-2 w-full items-center mx-auto">
             {characters.map((character: any, index: any) => (
               <div
@@ -36,7 +36,7 @@ export function BoardModule() {
               </div>
             ))}
           </div>
-          <div className="w-full my-4 h-0 border-t border-border" />
+          <div className="w-[50px] mx-auto my-4 h-0 border-t border-border" />
           <div className="flex flex-col gap-2 w-full items-center mx-auto">
             <div className="rounded-full w-[48px] h-[48px] overflow-hidden aspect-[9/13]">
               <DraggableItem id="111" imgUrl="/characters/01.jpg" type="box" />
@@ -48,7 +48,7 @@ export function BoardModule() {
               <DraggableItem id="333" imgUrl="/characters/04.jpg" type="box" />
             </div>
           </div>
-          <div className="w-full my-4 h-0 border-t border-border" />
+          <div className="w-[50px] mx-auto my-4 h-0 border-t border-border" />
           <div className="flex flex-col gap-2 w-full items-center mx-auto">
             <div className="rounded-full w-[48px] h-[48px] overflow-hidden aspect-[9/13]">
               <DraggableItem

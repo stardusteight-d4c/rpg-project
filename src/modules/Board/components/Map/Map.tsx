@@ -119,7 +119,7 @@ export const Map: React.FC = () => {
       </button>
       <img
         src="/wallpaper.png"
-        className="absolute h-screen object-cover inset-0 select-none pointer-events-none opacity-30 z-0"
+        className="absolute h-screen object-cover inset-0 select-none pointer-events-none z-0"
         alt=""
       />
 
@@ -145,7 +145,7 @@ export const Map: React.FC = () => {
         </div>
       )}
       {/* <div
-        className="w-[50vw] min-h-[100vh] shadow-2xl shadow-black grid absolute"
+        className="w-full min-h-[100vh] shadow-2xl shadow-black grid absolute"
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
