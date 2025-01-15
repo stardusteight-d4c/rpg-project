@@ -2,10 +2,29 @@
 
 import { useState } from "react"
 import { Maps } from "./components"
+import { GlowingWrapper } from "@/shared/components"
+
+interface IMap {
+  type: "Map" | "Scenario"
+  name: string
+}
 
 export const Map: React.FC = () => {
   const [map, setMap] = useState<boolean>(false)
   const [selectedMap, setSelectedMap] = useState<boolean>(false)
+  const [editableData, setEditableData] = useState<IMap>({
+    type: "Map",
+    name: "",
+  })
+
+  function updateEditableData(data: { key: keyof IMap; value: any }) {
+    setEditableData((prev) => ({
+      ...prev,
+      [data.key]: data.value,
+    }))
+  }
+
+  const types = ["Map", "Scenario"]
 
   if (selectedMap) {
     return (
@@ -30,6 +49,50 @@ export const Map: React.FC = () => {
               <span>Back</span>
             </div>
           </div>
+        </div>
+        <div className="p-2">
+          <h3 className="block mb-2 text-4xl font-bold background-gradient bg-clip-text text-transparent">
+            Informations
+          </h3>
+          <ul className="grid grid-cols-2 gap-2 text-base">
+            <li className="col-span-1 text-base relative z-[60] flex flex-col">
+              <span className="text-gray-400 text-sm font-medium">Type</span>
+              <GlowingWrapper inset="0">
+                <div className="relative z-10 overflow-visible text-center justify-center group py-1 px-2 w-full cursor-pointer hover:brightness-125 flex items-center gap-x-1 line-clamp-1 rounded bg-border/50 border border-border">
+                  <span>{editableData.type ?? "Select"}</span>
+                  <ul className="left-1/2 -translate-x-1/2 bg-background rounded-2xl shadow-p border border-border top-full hidden absolute z-[900] group-hover:flex flex-col w-full no-scrollbar max-h-[200px] overflow-y-scroll gap-y-1">
+                    {types.map((type, index) => (
+                      <li
+                        onClick={() =>
+                          updateEditableData({
+                            key: "type",
+                            value: type,
+                          })
+                        }
+                        key={index}
+                        className="whitespace-nowrap cursor-pointer flex items-center gap-x-2 hover:brightness-125 hover:bg-border/50 p-3"
+                      >
+                        {type}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </GlowingWrapper>
+            </li>
+            <li className="col-span-1 text-base relative z-[60] flex flex-col">
+              <span className="text-gray-400 text-sm font-medium">Name</span>
+              <GlowingWrapper inset="0">
+                <input
+                  onChange={(e) =>
+                    updateEditableData({ key: "name", value: e.target.value })
+                  }
+                  placeholder={`Add a name for the ${editableData.type}`}
+                  value={editableData.name}
+                  className="py-1 px-2 w-full cursor-text hover:brightness-125 flex items-center gap-x-1 line-clamp-1 rounded bg-border/50 border border-border outline-none"
+                />
+              </GlowingWrapper>
+            </li>
+          </ul>
         </div>
       </section>
     )
