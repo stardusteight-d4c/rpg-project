@@ -2,9 +2,9 @@
 
 import { Board } from "./components"
 import { useState } from "react"
-import { DraggableItem } from "./components/Map/Map"
 import { characters } from "./components/Characters/mock-data"
 import { renderingActiveSection } from "./utils/renderingActiveSection"
+import { DraggableItem } from "./components/Map/components"
 
 export function BoardModule() {
   const [active, setActive] = useState<MenuItem>("map")
