@@ -5,8 +5,37 @@ import { Maps } from "./components"
 
 export const Map: React.FC = () => {
   const [map, setMap] = useState<boolean>(false)
+  const [selectedMap, setSelectedMap] = useState<boolean>(false)
 
-  if (!map)
+  if (selectedMap) {
+    return (
+      <section className="relative w-full h-screen overflow-y-scroll no-scrollbar">
+        <div className="sticky flex items-center border-b border-border shadow-sm shadow-black/50 z-[200] top-0 p-2 w-full inset-x-0 bg-background">
+          <div className="flex items-center gap-x-4">
+            <div
+              onClick={() => setSelectedMap(false)}
+              className="cursor-pointer w-fit flex items-center group gap-x-2"
+            >
+              <button className="bg-ashes flex items-center justify-center text-white p-1 rounded-full shadow-p group-hover:bg-gradient-to-tr group-hover:from-[#42d392] group-hover:to-[#8B5CF6] duration-300 ease-in-out transition-all">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  fill="#FFFFFF"
+                  viewBox="0 0 256 256"
+                >
+                  <path d="M224,128a8,8,0,0,1-8,8H59.31l58.35,58.34a8,8,0,0,1-11.32,11.32l-72-72a8,8,0,0,1,0-11.32l72-72a8,8,0,0,1,11.32,11.32L59.31,120H216A8,8,0,0,1,224,128Z"></path>
+                </svg>
+              </button>
+              <span>Back</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  if (!map && !selectedMap)
     return (
       <section className="relative w-full h-screen overflow-y-scroll no-scrollbar">
         <div className="sticky border-b border-border  shadow-sm shadow-black/50 z-50 top-0 p-2 w-full inset-x-0 bg-background">
@@ -28,7 +57,10 @@ export const Map: React.FC = () => {
           </div>
         </div>
         <div className="p-2 space-y-2">
-          <div className="cursor-pointer border border-border hover:bg-border hover:brightness-105 p-2 rounded-xl">
+          <div
+            onClick={() => setSelectedMap(true)}
+            className="cursor-pointer border border-border hover:bg-border hover:brightness-105 p-2 rounded-xl"
+          >
             <div className="flex gap-x-4">
               <img
                 src="/Simple-house-1.png"
@@ -49,9 +81,31 @@ export const Map: React.FC = () => {
               </div>
             </div>
           </div>
+          <div
+            onClick={() => setSelectedMap(true)}
+            className="cursor-pointer border border-border hover:bg-border hover:brightness-105 p-2 rounded-xl"
+          >
+            <div className="flex gap-x-4">
+              <img
+                src="https://cdn.pixabay.com/photo/2023/09/30/09/00/ai-generated-8285203_1280.jpg"
+                alt=""
+                className="min-w-[210px] max-w-[210px] min-h-[210px] max-h-[210px] border border-border object-cover rounded-xl"
+              />
+              <div className="flex flex-col gap-y-4">
+                <span className="block text-3xl font-bold background-gradient bg-clip-text text-transparent">
+                  Entrada da Casa Abandonada
+                </span>
+                <div className="flex flex-col gap-y-0">
+                  <span className="text-gray-400">Type: Scenario</span>
+                  <span className="text-gray-400">NPCs: 3</span>
+                  <span className="text-gray-400">Enemies: 2</span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
     )
 
-  if (map) return <Maps.Exploration />
+  if (map) return <Maps.Scenario />
 }

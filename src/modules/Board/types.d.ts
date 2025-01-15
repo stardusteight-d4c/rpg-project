@@ -6,3 +6,4 @@ type MenuItem =
   | "notifications"
   | "chat"
   | "cam"
+  | "sounds"
