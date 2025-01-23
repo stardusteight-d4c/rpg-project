@@ -257,3 +257,8 @@ box-shadow: 4px 4px 4px 4px rgba(0,0,0,0.10);
   color: #ffffff;
   background-color: #18181b;
 }
+
+
+.aspect-scenario {
+  aspect-ratio: 1.59 / 1;
+}

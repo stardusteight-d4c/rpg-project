@@ -27,7 +27,7 @@ export const Tooltip = ({
       <div className="z-10 cursor-default relative">{children}</div>
       <div className="hidden group-hover:block">
         <Fade duration={300}>
-          <div className="bg-background cursor-default z-0 rounded-full py-1 pl-9 pr-2 text-white whitespace-nowrap left-0 top-0  absolute">
+          <div className="bg-background !text-base cursor-default z-0 rounded-full py-1 pl-9 pr-2 text-white whitespace-nowrap left-0 top-0  absolute">
             {text}
           </div>
         </Fade>
@@ -82,7 +82,7 @@ const TooltipVariant: React.FC<TooltipVariantProps> = ({
       {visible && (
         <>
           <div
-            className={`opacityAnimation -ml-0 absolute shadow-sm shadow-black/50 font-medium z-[100] rounded-full overflow-hidden ${positionClasses[position]} w-max px-4 py-1 text-white bg-background border border-border transition-all duration-200`}
+            className={`opacityAnimation !text-base -ml-0 absolute shadow-sm shadow-black/50 font-medium z-[100] rounded-full overflow-hidden ${positionClasses[position]} w-max px-4 py-1 text-white bg-background border border-border transition-all duration-200`}
            
          >
             {text}
