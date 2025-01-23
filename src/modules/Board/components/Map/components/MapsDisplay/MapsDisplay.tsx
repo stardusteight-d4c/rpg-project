@@ -48,7 +48,7 @@ export const MapsDisplay = ({ onSelectedMap, onConfig }: MapsDisplayProps) => {
           <div
             key={map.id}
             onClick={() => onSelectedMap(map)}
-            className="cursor-pointer border border-border hover:bg-border hover:brightness-105 p-2 rounded-xl"
+            className="cursor-pointer relative border border-border hover:bg-border hover:brightness-105 p-2 rounded-xl"
           >
             <div className="flex gap-x-4 items-center">
               <img
