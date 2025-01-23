@@ -105,7 +105,7 @@ export const ModalProvider = ({ children }: { children: ReactNode }) => {
               window.addEventListener("mousemove", handleMouseMove)
               window.addEventListener("mouseup", handleMouseUp)
             }}
-            className="select-none !scale-[.7] z-[800] max-h-[500px] w-[681px] overflow-y-hidden no-scrollbar shadow-md shadow-black/50 md:bg-background md:border md:border-border rounded-2xl"
+            className="select-none !scale-[.8] z-[800] max-h-[500px] w-[681px] overflow-y-hidden no-scrollbar shadow-md shadow-black/50 md:bg-background md:border md:border-border rounded-2xl"
           >
             {modal.content}
           </div>,

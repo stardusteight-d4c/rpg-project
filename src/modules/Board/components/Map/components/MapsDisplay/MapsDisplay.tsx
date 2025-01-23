@@ -1,20 +1,32 @@
-import { useState } from "react"
 import { maps } from "../../mock-data"
-import { Tooltip } from "@/shared/components"
 
 interface MapsDisplayProps {
-  selectedMap: boolean
   onSelectedMap: (value: IMap) => void
+  onConfig: (value: boolean) => void
 }
 
-export const MapsDisplay = ({
-  onSelectedMap,
-  selectedMap,
-}: MapsDisplayProps) => {
+export const MapsDisplay = ({ onSelectedMap, onConfig }: MapsDisplayProps) => {
   return (
     <section className="relative w-full h-screen overflow-y-scroll no-scrollbar">
       <div className="sticky border-b border-border  shadow-sm shadow-black/50 z-50 top-0 p-2 w-full inset-x-0 bg-background">
         <div className="flex items-center gap-x-4">
+          <div
+            onClick={() => onConfig(false)}
+            className="cursor-pointer w-fit flex items-center group gap-x-2"
+          >
+            <button className="bg-ashes flex items-center justify-center text-white p-1 rounded-full shadow-p group-hover:bg-gradient-to-tr group-hover:from-[#42d392] group-hover:to-[#8B5CF6] duration-300 ease-in-out transition-all">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                fill="#FFFFFF"
+                viewBox="0 0 256 256"
+              >
+                <path d="M224,128a8,8,0,0,1-8,8H59.31l58.35,58.34a8,8,0,0,1-11.32,11.32l-72-72a8,8,0,0,1,0-11.32l72-72a8,8,0,0,1,11.32,11.32L59.31,120H216A8,8,0,0,1,224,128Z"></path>
+              </svg>
+            </button>
+            <span>Back</span>
+          </div>
           <div className="flex cursor-pointer items-center group w-fit gap-x-2">
             <button className="bg-ashes flex items-center justify-center text-white p-1 rounded-full  shadow-md shadow-black/50 group-hover:bg-gradient-to-tr group-hover:from-[#42d392] group-hover:to-[#8B5CF6] duration-300 ease-in-out transition-all">
               <svg

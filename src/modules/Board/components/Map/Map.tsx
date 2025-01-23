@@ -2,21 +2,33 @@
 
 import { useState } from "react"
 import { MapEdit, Maps, MapsDisplay } from "./components"
+import { maps } from "./mock-data"
 
 export const Map: React.FC = () => {
-  const [map, setMap] = useState<boolean>(false)
-  const [selectedMap, setSelectedMap] = useState<boolean>(false)
+  const [selectedMap, setSelectedMap] = useState<IMap | null>(null)
+  const [config, setConfig] = useState<boolean>(false)
+
+  const activeMap = maps.filter((map) => map.active === true)[0]
 
   const mapsDisplayProps = {
-    map,
-    selectedMap,
+    selectedMap: selectedMap!,
     onSelectedMap: setSelectedMap,
-    onSetMap: setMap,
+    onConfig: setConfig,
   }
 
-  if (selectedMap) return <MapEdit {...mapsDisplayProps} />
+  if (!config)
+    return (
+      <>
+        {activeMap.type === "scenario" ? (
+          <Maps.Scenario map={activeMap} onConfig={setConfig} />
+        ) : (
+          <Maps.Exploration map={activeMap} onConfig={setConfig} />
+        )}
+      </>
+    )
 
-  if (!map && !selectedMap) return <MapsDisplay {...mapsDisplayProps} />
+  if (selectedMap && selectedMap && config)
+    return <MapEdit {...mapsDisplayProps!} />
 
-  if (map) return <Maps.Scenario />
+  if (!selectedMap && config) return <MapsDisplay {...mapsDisplayProps} />
 }
