@@ -263,6 +263,7 @@ export const HandoutsEdit = ({ handout, onEdit }: HandoutsEditProps) => {
                   <ul className="left-1/2 -translate-x-1/2 bg-background rounded-2xl shadow-p border border-border top-full hidden absolute z-[500] group-hover:flex flex-col w-full no-scrollbar max-h-[300px] overflow-y-scroll gap-y-1">
                     {characters.map((character: any) => (
                       <li
+                        key={character.infos.id}
                         onClick={() =>
                           handleCheckEdit({
                             type: "for",
@@ -272,10 +273,7 @@ export const HandoutsEdit = ({ handout, onEdit }: HandoutsEditProps) => {
                         }
                         className="whitespace-nowrap cursor-pointer flex items-center gap-x-2 hover:brightness-125 hover:bg-border/50 p-3"
                       >
-                        <div
-                          key={character.infos.id}
-                          className="check cursor-pointer !ml-0 !w-fit !px-0 flex items-center gap-x-2"
-                        >
+                        <div className="check cursor-pointer !ml-0 !w-fit !px-0 flex items-center gap-x-2">
                           <input
                             type="checkbox"
                             id={character.infos.id}
