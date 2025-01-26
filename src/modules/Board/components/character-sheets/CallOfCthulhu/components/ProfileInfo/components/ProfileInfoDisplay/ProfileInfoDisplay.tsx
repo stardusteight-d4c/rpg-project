@@ -2,6 +2,7 @@
 
 import { DonutChart, ModalWrapper, Tooltip } from "@/shared/components"
 import { currentSession } from "@/shared/contexts/MatchUsers/mock-data"
+import { handleCharacterTooltipText } from "@/shared/utils/handleCharacterTooltipText"
 import { useState } from "react"
 
 interface ProfileInfoDisplayProps {
@@ -33,12 +34,6 @@ export const ProfileInfoDisplay = ({
   showPlayerInfo,
 }: ProfileInfoDisplayProps) => {
   const [isShowPlayerInfo, setIsShowPlayerInfo] = useState<boolean>(false)
-
-  function handleCharacterTooltipText() {
-    if (infos.type === "player") return "Player"
-    if (infos.type === "npc") return "NPC"
-    if (infos.type === "enemy") return "Enemy"
-  }
 
   if (!isEditMode) {
     return (
@@ -106,7 +101,7 @@ export const ProfileInfoDisplay = ({
             </div>
           )}
           <div className="flex absolute top-2 z-40 left-2 items-center w-fit gap-x-2">
-            <Tooltip text={handleCharacterTooltipText()!}>
+            <Tooltip text={handleCharacterTooltipText(infos.type)!}>
               <button className="bg-background flex !cursor-default items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50">
                 {infos.type === "player" && (
                   <svg
