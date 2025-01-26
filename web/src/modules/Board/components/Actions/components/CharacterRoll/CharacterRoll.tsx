@@ -1,0 +1,70 @@
+interface CharacterRollProps {
+  action: string
+  values: Array<number>
+  result: number
+}
+
+export const CharacterRoll = ({
+  action,
+  values,
+  result,
+}: CharacterRollProps) => {
+  function getResultMeta() {
+    if (result >= values[0] * 2) {
+      return {
+        label: "Fumble",
+        bgClass: "bg-gradient-to-tr from-black to-gray-500/10",
+      }
+    } else if (result > values[0]) {
+      return {
+        label: "Fail",
+        bgClass: "bg-gradient-to-tr from-red-600 to-red-500",
+      }
+    } else if (result > values[2]) {
+      return {
+        label: "Success",
+        bgClass: "bg-gradient-to-tr from-green-600 to-green-500",
+      }
+    } else {
+      return {
+        label: "Extreme Success",
+        bgClass: "bg-gradient-to-tr from-violet-600 to-pink-500",
+      }
+    }
+  }
+
+  const { label, bgClass } = getResultMeta()
+
+  return (
+    <div className="w-full rounded-3xl select-none overflow-hidden border border-border">
+      <span className="block text-2xl bg-ashes px-4 py-2 font-bold">
+        <span className="w-fit block -tracking-wide">{action} Roll</span>
+      </span>
+      <div className="w-full h-[0px] border-t border-t-border" />
+      <div className="grid grid-cols-3 bg-border/10 items-center justify-center w-full">
+        <span className="col-span-1 block p-2 text-center font-bold text-xl text-red-500">
+          {`x>`}
+          {values[0]}
+        </span>
+        <span className="col-span-1 block p-2 border-x border-border text-center font-bold text-xl text-green-500">
+          {`x>`}
+          {values[1]}
+          {`>x`}
+        </span>
+        <span className="col-span-1 block p-2 text-center font-bold text-xl bg-clip-text text-transparent bg-gradient-to-tr from-violet-500 to-pink-500">
+          {values[2]}
+          {`>x`}
+        </span>
+      </div>
+      <div className="w-full h-[0px] border-t border-t-border" />
+      <div className={`${bgClass} p-4`}>
+        <span className="block px-4 font-black text-4xl text-center">
+          {result}
+        </span>
+        <span className="block text-base text-center -mt-2">
+          {label}
+        </span>
+      </div>
+    </div>
+  )
+}
