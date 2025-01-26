@@ -1,1 +1,0 @@
-export { HandoutsDisplay } from "./HandoutsDisplay"

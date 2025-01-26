@@ -1,1 +1,0 @@
-export { SkillsEdit } from "./SkillsEdit"
