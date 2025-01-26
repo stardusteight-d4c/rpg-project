@@ -13,6 +13,7 @@ export const Scenario: React.FC<{
           Entrada da Casa Abandonada
         </span>
       </div>
+     
       <button className="bg-ashes absolute right-2 top-2 z-50 flex items-center justify-center text-white p-1 rounded-full  shadow-md shadow-black/50 group-hover:bg-gradient-to-tr group-hover:from-[#42d392] group-hover:to-[#8B5CF6] duration-300 ease-in-out transition-all">
         <svg
           onClick={() => onConfig(true)}

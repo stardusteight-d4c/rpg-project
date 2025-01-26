@@ -5,7 +5,6 @@ import { ProfileInfo } from "../../../character-sheets/CallOfCthulhu/components"
 
 interface CharactersDisplayProps {
   characters: Array<{
-    type: "player" | "npc" | "enemy"
     player: any
     infos: any
     attributes: any
@@ -18,7 +17,6 @@ interface CharactersDisplayProps {
   setCreateMode: (value: boolean) => void
   setSelectedCharacter: (
     value: {
-      type: "player" | "npc" | "enemy"
       player: any
       infos: any
       attributes: any
@@ -105,7 +103,8 @@ export const CharactersDisplay = ({
       <div className="p-2 space-y-2">
         {characters.map((character) => (
           <>
-            {typesObj[character.type] === activeCharacterType && (
+            {typesObj[character.infos.type as "player" | "npc" | "enemy"] ===
+              activeCharacterType && (
               <div
                 onClick={() => setSelectedCharacter(character)}
                 key={character.infos.id}

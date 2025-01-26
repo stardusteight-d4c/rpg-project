@@ -1,18 +1,7 @@
-export const currentSession = {
-  id: "alsmdlsamdslamds",
-  name: "Gabriel Sena",
-  username: "#stardusteight",
-  role: "master",
-  avatarUrl: "https://avatars.githubusercontent.com/u/87643260?v=4",
-}
-
-export const npcs: any = [
-]
-
 export const characters: any = [
   {
-    type: "npc",
     infos: {
+      type: "npc",
       id: "asdsaas",
       name: "Hannah Pinkman",
       sex: "male" as "male",
@@ -461,7 +450,6 @@ Agora, Lyra percorre o mundo, lutando não apenas por Silverglade, mas por todos
     ],
   },
   {
-    type: "player",
     player: {
       id: "alsmdlsamdslamds",
       name: "Gabriel Sena",
@@ -471,6 +459,7 @@ Agora, Lyra percorre o mundo, lutando não apenas por Silverglade, mas por todos
     },
     infos: {
       id: "asdsaas",
+      type: "player",
       name: "Erwin Farwell",
       sex: "male" as "male",
       characterUrl:
@@ -918,7 +907,6 @@ Agora, Lyra percorre o mundo, lutando não apenas por Silverglade, mas por todos
     ],
   },
   {
-    type: "player",
     player: {
       id: "asnshlkasjlalssla",
       name: "Juan Paul",
@@ -927,6 +915,7 @@ Agora, Lyra percorre o mundo, lutando não apenas por Silverglade, mas por todos
     },
     infos: {
       id: "asfafsafv",
+      type: "player",
       name: "Erik Bjorn",
       sex: "male" as "male",
       characterUrl:
@@ -1324,7 +1313,6 @@ Agora, Lyra percorre o mundo, lutando não apenas por Silverglade, mas por todos
     ],
   },
   {
-    type: "player",
     player: {
       id: "sadjsaljdsaljdlsj",
       name: "Fernanda Sena",
@@ -1333,6 +1321,7 @@ Agora, Lyra percorre o mundo, lutando não apenas por Silverglade, mas por todos
     },
     infos: {
       id: "aksalskals",
+      type: "player",
       name: "Lizabeth White",
       sex: "female" as "female",
       characterUrl:

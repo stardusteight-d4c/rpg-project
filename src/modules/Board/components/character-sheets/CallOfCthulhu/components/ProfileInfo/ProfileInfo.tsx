@@ -4,6 +4,7 @@ import { ProfileInfoDisplay, ProfileInfoEdit } from "./components"
 
 interface ProfileInfoProps {
   infos: {
+    type: "player",
     name: string
     sex: "male" | "female"
     characterUrl: string

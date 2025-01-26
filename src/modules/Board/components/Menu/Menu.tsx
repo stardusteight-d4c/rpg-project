@@ -1,4 +1,5 @@
 import { Tooltip } from "@/shared/components"
+import { currentSession } from "@/shared/contexts/MatchUsers/mock-data"
 
 interface MenuProps {
   active: MenuItem
@@ -45,21 +46,7 @@ export const Menu = ({ active, onActive }: MenuProps) => {
             </svg>
           </span>
         </Tooltip>
-        <Tooltip text="Handouts" variant position="right">
-          <span onClick={() => onActive("handouts")} className="cursor-pointer">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="40"
-              height="40"
-              viewBox="0 0 256 256"
-              className={`${
-                active === "handouts" && " background-gradient "
-              } rounded-xl p-1 fill-white`}
-            >
-              <path d="M88,112a8,8,0,0,1,8-8h80a8,8,0,0,1,0,16H96A8,8,0,0,1,88,112Zm8,40h80a8,8,0,0,0,0-16H96a8,8,0,0,0,0,16ZM232,64V184a24,24,0,0,1-24,24H32A24,24,0,0,1,8,184.11V88a8,8,0,0,1,16,0v96a8,8,0,0,0,16,0V64A16,16,0,0,1,56,48H216A16,16,0,0,1,232,64Zm-16,0H56V184a23.84,23.84,0,0,1-1.37,8H208a8,8,0,0,0,8-8Z"></path>
-            </svg>
-          </span>
-        </Tooltip>
+
         <Tooltip text="Chat" variant position="right">
           <span onClick={() => onActive("chat")} className="cursor-pointer">
             <svg
@@ -90,21 +77,47 @@ export const Menu = ({ active, onActive }: MenuProps) => {
             </svg>
           </span>
         </Tooltip>
-        <Tooltip text="Sounds" variant position="right">
-          <span onClick={() => onActive("sounds")} className="cursor-pointer">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="40"
-              height="40"
-              viewBox="0 0 256 256"
-              className={`${
-                active === "sounds" && " background-gradient "
-              } rounded-xl p-1 fill-white`}
-            >
-              <path d="M210.3,56.34l-80-24A8,8,0,0,0,120,40V148.26A48,48,0,1,0,136,184V98.75l69.7,20.91A8,8,0,0,0,216,112V64A8,8,0,0,0,210.3,56.34ZM88,216a32,32,0,1,1,32-32A32,32,0,0,1,88,216ZM200,101.25l-64-19.2V50.75L200,70Z"></path>
-            </svg>
-          </span>
-        </Tooltip>
+
+        {currentSession.role === "master" && (
+          <>
+            <Tooltip text="Handouts" variant position="right">
+              <span
+                onClick={() => onActive("handouts")}
+                className="cursor-pointer"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="40"
+                  height="40"
+                  viewBox="0 0 256 256"
+                  className={`${
+                    active === "handouts" && " background-gradient "
+                  } rounded-xl p-1 fill-white`}
+                >
+                  <path d="M88,112a8,8,0,0,1,8-8h80a8,8,0,0,1,0,16H96A8,8,0,0,1,88,112Zm8,40h80a8,8,0,0,0,0-16H96a8,8,0,0,0,0,16ZM232,64V184a24,24,0,0,1-24,24H32A24,24,0,0,1,8,184.11V88a8,8,0,0,1,16,0v96a8,8,0,0,0,16,0V64A16,16,0,0,1,56,48H216A16,16,0,0,1,232,64Zm-16,0H56V184a23.84,23.84,0,0,1-1.37,8H208a8,8,0,0,0,8-8Z"></path>
+                </svg>
+              </span>
+            </Tooltip>
+            <Tooltip text="Sounds" variant position="right">
+              <span
+                onClick={() => onActive("sounds")}
+                className="cursor-pointer"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="40"
+                  height="40"
+                  viewBox="0 0 256 256"
+                  className={`${
+                    active === "sounds" && " background-gradient "
+                  } rounded-xl p-1 fill-white`}
+                >
+                  <path d="M210.3,56.34l-80-24A8,8,0,0,0,120,40V148.26A48,48,0,1,0,136,184V98.75l69.7,20.91A8,8,0,0,0,216,112V64A8,8,0,0,0,210.3,56.34ZM88,216a32,32,0,1,1,32-32A32,32,0,0,1,88,216ZM200,101.25l-64-19.2V50.75L200,70Z"></path>
+                </svg>
+              </span>
+            </Tooltip>
+          </>
+        )}
 
         <Tooltip text="Notifications" variant position="right">
           <div
@@ -128,7 +141,7 @@ export const Menu = ({ active, onActive }: MenuProps) => {
         </Tooltip>
       </div>
       <img
-        src="https://lh3.googleusercontent.com/a/ACg8ocKZ6-8Y81xmgJICx4clB0lEyFaGLS2L4qVB1K6ETBP4k-3Ovlk=s258-c-no"
+        src={currentSession.avatar_url}
         alt=""
         referrerPolicy="no-referrer"
         className="w-[40px] absolute bottom-4 cursor-pointer object-cover left-1/2 -translate-x-1/2 h-[40px] rounded-full mt-auto"
