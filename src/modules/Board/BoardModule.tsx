@@ -19,8 +19,8 @@ export function BoardModule() {
           <Board.Menu active={active} onActive={setActive} />
         </div>
         <div className="w-full">{renderingActiveSection(active)}</div>
-        <div className="flex flex-col items-center justify-center border-l py-2 min-w-[70px] border-border overflow-y-scroll overflow-x-hidden no-scrollbar h-screen">
-          <div className="flex flex-col gap-2 w-full items-center mx-auto">
+        <div className="flex flex-col items-center justify-center border-l pb-2 min-w-[70px] border-border overflow-y-scroll overflow-x-hidden no-scrollbar h-screen">
+          <div className="flex flex-col gap-2 w-full items-center mx-auto mt-4">
             {characters.map((character: any, index: any) => (
               <div
                 key={index}

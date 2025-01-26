@@ -1,5 +1,7 @@
 export function HomeModule() {
   return (
-    <main>Hello, HomeModule!</main>
+    <main>
+      <section className="max-w-7xl w-full mx-auto">Hello, World!</section>
+    </main>
   )
 }

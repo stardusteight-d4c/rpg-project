@@ -2,6 +2,8 @@ import type { Metadata } from "next"
 import { Roboto_Condensed, Delius } from "next/font/google"
 import "./globals.css"
 import { ModalProvider } from "@/shared/contexts/ModalContext"
+import { MatchUsersProvider } from "@/shared/contexts/MatchUsers/MatchUsersContext"
+import React from "react"
 
 const robotoCondensed = Roboto_Condensed({
   subsets: ["latin"],
@@ -29,8 +31,14 @@ export default function RootLayout({
       <body
         className={`${robotoCondensed.className} ${delius.variable} overflow-hidden antialiased`}
       >
-        <ModalProvider>{children}</ModalProvider>
+        <Providers>{children}</Providers>
       </body>
     </html>
   )
 }
+
+const Providers = ({ children }: { children: React.ReactNode }) => (
+  <MatchUsersProvider>
+    <ModalProvider>{children}</ModalProvider>
+  </MatchUsersProvider>
+)

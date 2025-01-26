@@ -1,11 +1,6 @@
 "use client"
 
-import React, {
-  createContext,
-  useContext,
-  useState,
-  ReactNode,
-} from "react"
+import React, { createContext, useContext, useState, ReactNode } from "react"
 import ReactDOM from "react-dom"
 
 type ModalData = {
@@ -27,10 +22,8 @@ export const ModalProvider = ({ children }: { children: ReactNode }) => {
   const [maxZIndex, setMaxZIndex] = useState(850)
   const showModal = (id: string, content: ReactNode) => {
     setModals((prevModals) => {
-      // Verifica se o modal já existe
       if (prevModals.some((modal) => modal.id === id)) return prevModals
 
-      // Adiciona o novo modal
       return [
         ...prevModals,
         {
@@ -40,12 +33,11 @@ export const ModalProvider = ({ children }: { children: ReactNode }) => {
             x: window.innerWidth / 2,
             y: window.innerHeight / 2,
           },
-          zIndex: maxZIndex, // Define zIndex inicial
+          zIndex: maxZIndex,
         },
       ]
     })
 
-    // Incrementa o controle do maior z-index
     setMaxZIndex((prev) => prev + 1)
   }
 
@@ -67,7 +59,7 @@ export const ModalProvider = ({ children }: { children: ReactNode }) => {
         modal.id === id ? { ...modal, zIndex: maxZIndex } : modal
       )
     )
-    setMaxZIndex((prev) => prev + 1) // Incrementa o controle de z-index
+    setMaxZIndex((prev) => prev + 1)
   }
 
   return (
