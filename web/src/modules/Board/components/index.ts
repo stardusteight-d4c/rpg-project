@@ -7,6 +7,8 @@ import { Handouts } from "./Handouts"
 import { Chat } from "./Chat"
 import { Notifications } from "./Notifications"
 import { Menu } from "./Menu"
+import { ActiveSection } from "./ActiveSection"
+import { CharactersBar } from "./CharactersBar"
 
 export const Board = {
   Actions,
@@ -17,5 +19,7 @@ export const Board = {
   Handouts,
   Chat,
   Notifications,
-  Menu
+  Menu,
+  ActiveSection,
+  CharactersBar,
 }

@@ -8,7 +8,7 @@ interface MenuProps {
 
 export const Menu = ({ active, onActive }: MenuProps) => {
   return (
-    <div className="w-fit h-screen relative p-2">
+    <div className="w-fit relative p-2 max-w-[58px] border-x border-border min-w-[58px] h-screen">
       <div className="flex flex-col items-center gap-y-4">
         <Tooltip text="Map" variant position="right">
           <span onClick={() => onActive("map")} className="cursor-pointer">
