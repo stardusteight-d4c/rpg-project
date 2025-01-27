@@ -13,16 +13,7 @@ interface AttributesEditProps {
   toggleItem: (
     item: "attributes" | "skills" | "inventory" | "combat" | "backstory"
   ) => void
-  attributes: {
-    strength: number
-    dexterity: number
-    intelligence: number
-    power: number
-    constitution: number
-    appearance: number
-    size: number
-    education: number
-  }
+  attributes: Attributes
 }
 
 export const AttributesEdit = ({
@@ -107,10 +98,12 @@ export const AttributesEdit = ({
                   />
                 </GlowingWrapper>
               </div>
-              <div
-                style={{ width: `${value}%` }}
-                className="w-full background-gradient h-[4px] mt-2"
-              />
+              <div className="w-full bg-gray-600/10">
+                <div
+                  style={{ width: `${value}%` }}
+                  className="w-full background-gradient h-[4px] mt-2"
+                />
+              </div>
             </div>
           ))}
         </div>

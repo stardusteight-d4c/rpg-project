@@ -237,7 +237,7 @@ export const ProfileInfoDisplay = ({
                   height="32"
                   fill="#3b82f6"
                   viewBox="0 0 256 256"
-                  className="bg-ashes p-1 rounded-full"
+                  className="bg-gray-600/10 p-1 rounded-full"
                 >
                   <path d="M216,32H168a8,8,0,0,0,0,16h28.69L154.62,90.07a80,80,0,1,0,11.31,11.31L208,59.32V88a8,8,0,0,0,16,0V40A8,8,0,0,0,216,32ZM149.24,197.29a64,64,0,1,1,0-90.53A64.1,64.1,0,0,1,149.24,197.29Z"></path>
                 </svg>
@@ -249,7 +249,7 @@ export const ProfileInfoDisplay = ({
                   height="32"
                   fill="#ec4899"
                   viewBox="0 0 256 256"
-                  className="bg-ashes p-1 rounded-full"
+                  className="bg-gray-600/10 p-1 rounded-full"
                 >
                   <path d="M208,96a80,80,0,1,0-88,79.6V200H88a8,8,0,0,0,0,16h32v24a8,8,0,0,0,16,0V216h32a8,8,0,0,0,0-16H136V175.6A80.11,80.11,0,0,0,208,96ZM64,96a64,64,0,1,1,64,64A64.07,64.07,0,0,1,64,96Z"></path>
                 </svg>
@@ -261,7 +261,7 @@ export const ProfileInfoDisplay = ({
                   height="32"
                   fill="#CCCCCC"
                   viewBox="0 0 256 256"
-                  className="bg-ashes p-1 rounded-full"
+                  className="bg-gray-600/10 p-1 rounded-full"
                 >
                   <path d="M208,104a80,80,0,1,0-88,79.6V232a8,8,0,0,0,16,0V183.6A80.11,80.11,0,0,0,208,104Zm-80,64a64,64,0,1,1,64-64A64.07,64.07,0,0,1,128,168Z"></path>
                 </svg>
@@ -290,7 +290,7 @@ export const ProfileInfoDisplay = ({
               <div className="w-full space-y-1">
                 <div className="flex items-center font-medium justify-between">
                   <span className="font-medium">Hit Points</span>
-                  <span className="w-[35px] h-[35px] rounded-full flex items-center justify-center aspect-square text-center font-medium z-10 relative bg-ashes outline-none caret-white">
+                  <span className="w-[35px] h-[35px] rounded-full flex items-center justify-center aspect-square text-center font-medium z-10 relative bg-gray-600/10 outline-none caret-white">
                     {infos.hitPoints}
                   </span>
                 </div>
@@ -304,7 +304,7 @@ export const ProfileInfoDisplay = ({
               <div className="w-full space-y-1">
                 <div className="flex font-medium items-center justify-between">
                   <span className="font-medium">Magic Points</span>
-                  <span className="w-[35px] h-[35px] rounded-full flex items-center justify-center aspect-square text-center font-medium z-10 relative bg-ashes outline-none caret-white">
+                  <span className="w-[35px] h-[35px] rounded-full flex items-center justify-center aspect-square text-center font-medium z-10 relative bg-gray-600/10 outline-none caret-white">
                     {infos.magicPoints}
                   </span>{" "}
                 </div>
@@ -353,7 +353,7 @@ export const ProfileInfoDisplay = ({
                   strokeWidth={10}
                 />
               </div>
-              <span className="w-[35px] h-[35px] rounded-full flex items-center justify-center aspect-square text-center font-medium z-10 bg-ashes outline-none caret-white absolute top-1/2 -translate-y-1/2 -right-[50px]">
+              <span className="w-[35px] h-[35px] rounded-full flex items-center justify-center aspect-square text-center font-medium z-10 bg-gray-600/10 outline-none caret-white absolute top-1/2 -translate-y-1/2 -right-[50px]">
                 {infos.sanity}
               </span>
             </div>

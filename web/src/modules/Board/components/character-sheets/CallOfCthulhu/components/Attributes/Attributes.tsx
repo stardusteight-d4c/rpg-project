@@ -12,16 +12,7 @@ interface AttributesProps {
   toggleItem: (
     item: "attributes" | "skills" | "inventory" | "combat" | "backstory"
   ) => void
-  attributes: {
-    strength: number
-    dexterity: number
-    intelligence: number
-    power: number
-    constitution: number
-    appearance: number
-    size: number
-    education: number
-  }
+  attributes: Attributes
   isEditMode?: boolean
 }
 

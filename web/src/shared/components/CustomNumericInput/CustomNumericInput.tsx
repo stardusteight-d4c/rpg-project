@@ -27,7 +27,7 @@ export const CustomNumericInput: React.FC<CustomNumericInputProps> = ({
         type="text"
         value={value}
         onChange={handleInputChange}
-        className="w-[35px] h-[35px] aspect-square text-center font-medium z-10 relative bg-ashes outline-none caret-white"
+        className="w-[35px] h-[35px] aspect-square text-center font-medium z-10 relative bg-gray-600/10 outline-none caret-white"
       />
     </div>
   )

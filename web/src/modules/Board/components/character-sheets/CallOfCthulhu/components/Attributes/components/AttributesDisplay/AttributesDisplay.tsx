@@ -89,15 +89,17 @@ export const AttributesDisplay = ({
                 <span className="font-medium capitalize text-lg">
                   {attribute}
                 </span>
-                <span className="w-[35px] h-[35px] rounded-full flex items-center justify-center aspect-square text-center font-medium z-10 relative bg-ashes outline-none caret-white">
+                <span className="w-[35px] h-[35px] rounded-full flex items-center justify-center aspect-square text-center font-medium z-10 relative bg-gray-600/10 outline-none caret-white">
                   {value}
                 </span>
               </div>
 
-              <div
-                style={{ width: `${value}%` }}
-                className="w-full background-gradient h-[4px] mt-2"
-              />
+              <div className="w-full bg-gray-600/10">
+                <div
+                  style={{ width: `${value}%` }}
+                  className="w-full background-gradient h-[4px] mt-2"
+                />
+              </div>
             </div>
           ))}
         </div>
