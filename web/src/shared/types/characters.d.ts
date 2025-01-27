@@ -1,4 +1,4 @@
-type Gender = "male" | "female"
+type Gender = "male" | "female" | "neuter"
 type CharacterType = "player" | "npc" | "enemy"
 
 type Infos = {
