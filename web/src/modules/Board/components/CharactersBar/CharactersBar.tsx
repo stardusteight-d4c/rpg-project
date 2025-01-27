@@ -1,5 +1,6 @@
 import { useCharacters } from "@/shared/contexts/Characters/CharactersContext"
 import { DraggableItem } from "../Map/components"
+import { currentSession } from "@/shared/contexts/MatchUsers/mock-data"
 
 export const CharactersBar = () => {
   const charactersContext = useCharacters()
@@ -56,7 +57,11 @@ export const CharactersBar = () => {
         {npcs.map((character: ICharacter, index: any) => (
           <div
             key={index}
-            className="rounded-full w-[48px] h-[48px] overflow-hidden aspect-square"
+            className={`${
+              currentSession.role !== "master" &&
+              !character.infos.visibility &&
+              " hidden invisible sr-only "
+            } rounded-full w-[48px] h-[48px] overflow-hidden aspect-square`}
           >
             <DraggableItem
               id={character.infos.id}
@@ -87,7 +92,11 @@ export const CharactersBar = () => {
         {enemies.map((character: ICharacter, index: any) => (
           <div
             key={index}
-            className="rounded-full w-[48px] h-[48px] overflow-hidden aspect-square"
+            className={`${
+              currentSession.role !== "master" &&
+              !character.infos.visibility &&
+              " hidden invisible sr-only "
+            } rounded-full w-[48px] h-[48px] overflow-hidden aspect-square`}
           >
             <DraggableItem
               id={character.infos.id}

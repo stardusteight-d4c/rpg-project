@@ -6,6 +6,7 @@ type Infos = {
   type: CharacterType
   name: string
   sex: Gender
+  visibility?: boolean
   characterUrl: string
   occupation: string
   hitPoints: number

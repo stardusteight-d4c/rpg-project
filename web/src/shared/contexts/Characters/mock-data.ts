@@ -6,6 +6,7 @@ export const characters: ICharacter[] = [
     infos: {
       id: "sdjaksjdksdjkadsjk",
       type: "enemy",
+      visibility: false,
       name: "⍀⟟☌⊑⏁ ⋏⍜⍙",
       sex: "neuter" as "neuter",
       characterUrl:
@@ -908,6 +909,7 @@ export const characters: ICharacter[] = [
     infos: {
       type: "npc",
       id: "asddssadsasa",
+      visibility: true,
       name: "Hannah Pinkman",
       sex: "female" as "female",
       characterUrl:

@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { ProfileInfo } from "../../../character-sheets/CallOfCthulhu/components"
+import { currentSession } from "@/shared/contexts/MatchUsers/mock-data"
 
 interface CharactersDisplayProps {
   characters: Array<ICharacter>
@@ -84,7 +85,14 @@ export const CharactersDisplay = ({
 
       <div className="p-2 space-y-2">
         {characters.map((character) => (
-          <>
+          <div
+            className={`${
+              currentSession.role !== "master" &&
+              character.infos.type !== "player" &&
+              !character.infos.visibility &&
+              " hidden invisible sr-only "
+            }`}
+          >
             {typesObj[character.infos.type as "player" | "npc" | "enemy"] ===
               activeCharacterType && (
               <div
@@ -95,7 +103,7 @@ export const CharactersDisplay = ({
                 <ProfileInfo infos={character.infos} user={character.user} />
               </div>
             )}
-          </>
+          </div>
         ))}
       </div>
     </section>
