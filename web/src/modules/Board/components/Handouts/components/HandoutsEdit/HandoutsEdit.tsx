@@ -3,8 +3,8 @@
 import { useState } from "react"
 import { handoutContentTypes, handoutsTypes } from "../../data"
 import { HandoutDisplay } from "../HandoutDisplay"
-import { characters } from "../../../Characters/mock-data"
 import { GlowingWrapper } from "@/shared/components"
+import { useCharacters } from "@/shared/contexts/Characters/CharactersContext"
 
 interface HandoutsEditProps {
   handout: IHandout
@@ -12,6 +12,8 @@ interface HandoutsEditProps {
 }
 
 export const HandoutsEdit = ({ handout, onEdit }: HandoutsEditProps) => {
+  const characters = useCharacters().characters
+
   const [editableData, setEditableData] = useState<IHandout>({
     ...handout,
   })

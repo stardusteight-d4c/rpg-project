@@ -6,22 +6,12 @@ import {
   CharactersEdit,
   SelectedCharacterDisplay,
 } from "./components"
-import { characters, playerCharacter } from "./mock-data"
 import { CharactersCreate } from "./components/CharactersCreate"
+import { useCharacters } from "@/shared/contexts/Characters/CharactersContext"
 
 export const Characters = () => {
-  const [selectedCharacter, setSelectedCharacter] = useState<{
-    player: any
-    infos: any
-    attributes: any
-    skills: any
-    combat: any
-    inventory: Array<{
-      id: string
-      name: string
-    }>
-    backstory: string
-  } | null>(null)
+  const characters = useCharacters().characters
+  const [selectedCharacter, setSelectedCharacter] = useState<ICharacter | null>(null)
   const [editMode, setEditMode] = useState<boolean>(false)
   const [createMode, setCreateMode] = useState<boolean>(false)
   const selectedCharacterState = { selectedCharacter, setSelectedCharacter }
@@ -32,7 +22,7 @@ export const Characters = () => {
     return (
       <CharactersEdit
         setEditMode={setEditMode}
-        playerCharacter={playerCharacter}
+        playerCharacter={selectedCharacter!}
       />
     )
 

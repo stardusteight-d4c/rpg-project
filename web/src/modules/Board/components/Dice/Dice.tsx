@@ -1,9 +1,10 @@
 "use client"
 
+import { useCharacters } from "@/shared/contexts/Characters/CharactersContext"
 import { useState } from "react"
-import { playerCharacter } from "../Characters/mock-data"
 
 export const Dice: React.FC = () => {
+  const playerCharacter = useCharacters().characters[0]
   const [mode, setMode] = useState<"character" | "system" | null>(null)
   const [selectedType, setSelectedType] = useState<
     "attributes" | "status" | "skills" | "combat" | null

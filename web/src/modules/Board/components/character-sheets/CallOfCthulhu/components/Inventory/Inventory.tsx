@@ -2,35 +2,8 @@ import { InventoryDisplay } from "./components/InventoryDisplay"
 import { InventoryEdit } from "./components/InventoryEdit"
 
 interface InventoryProps {
-  inventory: Array<{
-    id: string
-    name: string 
-    for?: Array<{
-      id: string
-      name: string
-    }>
-    visibility?: Array<{
-      id: string
-      name: string
-    }>
-    content?: {
-      type: {
-        name: string
-        inputs: number
-      }
-      inputs: Array<string>
-    }
-  }>
-  infos: {
-    name: string
-    sex: "male" | "female"
-    characterUrl: string
-    occupation: string
-    hitPoints: number
-    magicPoints: number
-    sanity: number
-    inspiration: boolean
-  }
+  inventory:  Array<InventoryItem>
+  infos: Infos
   activeItems: (
     | "attributes"
     | "skills"

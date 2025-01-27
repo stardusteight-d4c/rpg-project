@@ -3,14 +3,15 @@
 import { useState } from "react"
 import { handoutContentTypes, handoutsTypes } from "../../data"
 import { HandoutDisplay } from "../HandoutDisplay"
-import { characters } from "../../../Characters/mock-data"
 import { GlowingWrapper } from "@/shared/components"
+import { useCharacters } from "@/shared/contexts/Characters/CharactersContext"
 
 interface HandoutsCreateProps {
   onCreate: (value: boolean) => void
 }
 
 export const HandoutsCreate = ({ onCreate }: HandoutsCreateProps) => {
+  const characters = useCharacters().characters
   const [editableData, setEditableData] = useState<IHandout>({
     id: "",
     name: "",

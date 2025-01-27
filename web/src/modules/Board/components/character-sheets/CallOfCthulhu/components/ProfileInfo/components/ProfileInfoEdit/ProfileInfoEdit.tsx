@@ -11,27 +11,12 @@ import { handleCharacterTooltipText } from "@/shared/utils/handleCharacterToolti
 import { useState } from "react"
 
 interface ProfileInfoProps {
-  infos: {
-    name: string
-    type: "player" | "npc" | "enemy"
-    sex: "male" | "female"
-    characterUrl: string
-    occupation: string
-    hitPoints: number
-    magicPoints: number
-    sanity: number
-    inspiration: boolean
-  }
-  player: {
-    id: string
-    name: string
-    username: string
-    avatarUrl: string
-  }
+  infos: Infos
+  user: IMatchUser
   isEditMode?: boolean
 }
 
-export const ProfileInfoEdit = ({ infos, player }: ProfileInfoProps) => {
+export const ProfileInfoEdit = ({ infos, user }: ProfileInfoProps) => {
   const [editableData, setEditableData] = useState({
     ...infos,
     type: infos.type ?? currentSession.role === "master" ? "npc" : "player",
@@ -53,7 +38,6 @@ export const ProfileInfoEdit = ({ infos, player }: ProfileInfoProps) => {
       // URL.revokeObjectURL(tempUrl)
     }
   }
-
 
   function handleType() {
     if (currentSession.role === "player") return

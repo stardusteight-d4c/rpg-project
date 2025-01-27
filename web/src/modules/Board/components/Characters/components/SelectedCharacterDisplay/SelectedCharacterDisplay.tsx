@@ -10,49 +10,11 @@ import {
   Skills,
 } from "../../../character-sheets/CallOfCthulhu/components"
 import { useModal } from "@/shared/contexts/ModalContext"
+import { currentSession } from "@/shared/contexts/MatchUsers/mock-data"
 
 interface SelectedCharacterDisplayProps {
-  selectedCharacter: {
-    player: any
-    infos: any
-    attributes: any
-    skills: any
-    combat: any
-    inventory: Array<{
-      id: string
-      name: string
-      for?: Array<{
-        id: string
-        name: string
-      }>
-      visibility?: Array<{
-        id: string
-        name: string
-      }>
-      content?: {
-        type: {
-          name: string
-          inputs: number
-        }
-        inputs: Array<string>
-      }
-    }>
-    backstory: string
-  } | null
-  setSelectedCharacter?: (
-    value: {
-      player: any
-      infos: any
-      attributes: any
-      skills: any
-      combat: any
-      inventory: Array<{
-        id: string
-        name: string
-      }>
-      backstory: string
-    } | null
-  ) => void
+  selectedCharacter: ICharacter | null
+  setSelectedCharacter?: (value: ICharacter | null) => void
   setEditMode?: (value: boolean) => void
   isModal?: boolean
   hideModal?: () => void
@@ -73,12 +35,6 @@ export const SelectedCharacterDisplay = ({
   const actions = {
     activeItems,
     toggleItem,
-  }
-  const currentSession = {
-    id: "alsmdlsamdslamds",
-    name: "Gabriel Sena",
-    username: "#stardusteight",
-    avatarUrl: "https://avatars.githubusercontent.com/u/87643260?v=4",
   }
 
   function toggleItem(
@@ -120,7 +76,7 @@ export const SelectedCharacterDisplay = ({
               <span>Back</span>
             </div>
           )}
-          {!isModal && selectedCharacter.player.id === currentSession.id && (
+          {!isModal && selectedCharacter.user?.id === currentSession.id && (
             <div
               onClick={() => setEditMode && setEditMode(true)}
               className="flex cursor-pointer items-center group w-fit gap-x-2"
@@ -168,7 +124,7 @@ export const SelectedCharacterDisplay = ({
       <div className="p-2">
         <ProfileInfo
           infos={selectedCharacter.infos}
-          player={selectedCharacter.player}
+          user={selectedCharacter.user}
           showPlayerInfo={true}
         />
         <Attributes attributes={selectedCharacter.attributes} {...actions} />

@@ -4,28 +4,10 @@ import { useState } from "react"
 import { ProfileInfo } from "../../../character-sheets/CallOfCthulhu/components"
 
 interface CharactersDisplayProps {
-  characters: Array<{
-    player: any
-    infos: any
-    attributes: any
-    skills: any
-    combat: any
-    inventory: any
-    backstory: any
-  }>
+  characters: Array<ICharacter>
   setEditMode: (value: boolean) => void
   setCreateMode: (value: boolean) => void
-  setSelectedCharacter: (
-    value: {
-      player: any
-      infos: any
-      attributes: any
-      skills: any
-      combat: any
-      inventory: any
-      backstory: any
-    } | null
-  ) => void
+  setSelectedCharacter: (value: ICharacter | null) => void
 }
 
 export const CharactersDisplay = ({
@@ -110,10 +92,7 @@ export const CharactersDisplay = ({
                 key={character.infos.id}
                 className="cursor-pointer border border-border hover:bg-border hover:brightness-105 p-2 rounded-xl"
               >
-                <ProfileInfo
-                  infos={character.infos}
-                  player={character.player}
-                />
+                <ProfileInfo infos={character.infos} user={character.user} />
               </div>
             )}
           </>

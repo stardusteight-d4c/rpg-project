@@ -1,462 +1,8 @@
-export const characters: any = [
+import { currentSession, matchUsers } from "../MatchUsers/mock-data"
+
+export const characters: ICharacter[] = [
   {
-    infos: {
-      type: "npc",
-      id: "asdsaas",
-      name: "Hannah Pinkman",
-      sex: "male" as "male",
-      characterUrl:
-        "https://images-ng.pixai.art/images/orig/1ecb2708-051b-4b9c-b379-f61a5a375155",
-      occupation: "Journalist and Private Detective",
-      hitPoints: 75,
-      magicPoints: 42,
-      sanity: 22,
-      inspiration: true,
-    },
-    attributes: {
-      strength: 50,
-      dexterity: 60,
-      intelligence: 70,
-      power: 65,
-      constitution: 55,
-      appearance: 60,
-      size: 50,
-      education: 70,
-      luck: 42,
-    },
-    combat: [
-      {
-        id: "askçsdadsçdças",
-        name: "Unarmed",
-        iconUrl: "/weapons/fist.svg",
-        skill: "Fighting(Brawl)",
-        range: "-",
-        damage: "1d3",
-        attacks: "1",
-        description:
-          "Combat using only your fists or other unarmed techniques. Effective in close quarters but limited in damage.",
-        properties: [
-          "Can be used by any character without requiring special equipment.",
-          "Damage is low but does not rely on external items.",
-        ],
-      },
-      {
-        id: "sdçdslçldaçls",
-        name: "Kriegsbeil",
-        iconUrl: "/weapons/kriegsbeil.svg",
-        skill: "Fighting(Brawl)",
-        range: "2m",
-        damage: "1d20 + STR",
-        attacks: "1",
-        description:
-          "The Kriegsbeil is a war axe of Germanic origin, commonly associated with heavy blades and a robust shaft. This weapon was designed for powerful strikes, capable of breaking through armor or dealing significant damage, but is generally limited to close combat.",
-        properties: [
-          "Has a chance to knock down or disarm the opponent.",
-          "Heavy and requires the use of both hands to maximize its impact.",
-        ],
-      },
-    ],
-    inventory: [
-      { id: "asdasafssasafsa", name: "Cantil de Whisky" },
-      { id: "saasasdaskçdsaç", name: "Carta achada na Caverna Sagrada" },
-      {
-        id: "salklasklklasas",
-        name: "Blackwater Creek Map",
-        for: [
-          {
-            id: "asdsaas",
-            name: "Erwin Farwell",
-          },
-        ],
-        visibility: [
-          {
-            id: "asdsaas",
-            name: "Erwin Farwell",
-          },
-        ],
-        content: {
-          type: { name: "Newspaper Type 01", inputs: 2 },
-          inputs: [
-            '"A Assombração de Call of Cthulhu": Um Mistério Sobrenatural Intriga Investigadores',
-
-            `A pequena cidade costeira de Innsmouth está em alvoroço após uma série de eventos inexplicáveis envolvendo um jogo de RPG de mesa online. Conhecido por evocar mistérios cósmicos e criaturas além da compreensão humana, Call of Cthulhu tornou-se o epicentro de uma narrativa que parece ultrapassar as barreiras entre ficção e realidade.
-    
-Jogadores de uma sessão recente relataram fenômenos perturbadores: mensagens enigmáticas aparecendo no chat sem que ninguém as tivesse digitado, movimentos de peças no tabuleiro digital aparentemente por conta própria, e até mesmo sons inquietantes que ecoavam pelos fones de ouvido, mesmo quando o microfone de todos estava desligado.
-  
-"Eu juro que vi um texto surgir no chat descrevendo um cenário horrível que nenhum de nós criou", disse Victor Reynolds, um dos jogadores. "Era como se algo ou alguém estivesse jogando conosco."
-  
-O incidente ganhou ainda mais atenção quando o mestre do jogo, conhecido apenas como "Keeper", afirmou ter sentido uma "presença" em sua casa durante a sessão. "As luzes começaram a piscar, e eu ouvi sussurros vindos do corredor", relatou ele ao The Publisher. "Quando fui verificar, não havia ninguém."`,
-          ],
-        },
-      },
-      {
-        id: "sasdaasasasdds",
-        name: "Carta secreta",
-        for: [
-          {
-            id: "asdsaas",
-            name: "Erwin Farwell",
-          },
-        ],
-        visibility: [
-          {
-            id: "asdsaas",
-            name: "Erwin Farwell",
-          },
-        ],
-        content: {
-          type: { name: "Letter Type 02", inputs: 1 },
-          inputs: [
-            `A pequena cidade costeira de Innsmouth está em alvoroço após uma série de eventos inexplicáveis envolvendo um jogo de RPG de mesa online. Conhecido por evocar mistérios cósmicos e criaturas além da compreensão humana, Call of Cthulhu tornou-se o epicentro de uma narrativa que parece ultrapassar as barreiras entre ficção e realidade.
-
-Jogadores de uma sessão recente relataram fenômenos perturbadores: mensagens enigmáticas aparecendo no chat sem que ninguém as tivesse digitado, movimentos de peças no tabuleiro digital aparentemente por conta própria, e até mesmo sons inquietantes que ecoavam pelos fones de ouvido, mesmo quando o microfone de todos estava desligado.
-  
-"Eu juro que vi um texto surgir no chat descrevendo um cenário horrível que nenhum de nós criou", disse Victor Reynolds, um dos jogadores. "Era como se algo ou alguém estivesse jogando conosco."
-  
-O incidente ganhou ainda mais atenção quando o mestre do jogo, conhecido apenas como "Keeper", afirmou ter sentido uma "presença" em sua casa durante a sessão. "As luzes começaram a piscar, e eu ouvi sussurros vindos do corredor", relatou ele ao The Publisher. "Quando fui verificar, não havia ninguém."`,
-          ],
-        },
-      },
-    ],
-    backstory: `
-**Nome:** Lyra Valtharion  
-**Classe:** Guerreira  
-**Raça:** Elfa  
-**Idade:** 128 anos (jovem para os padrões élficos)  
-**Equipamento:** Espada longa ancestral, armadura prateada ornamentada com símbolos lunares, capa azul-acinzentada.  
-**Aparência:** Alta e esguia, com traços nobres, olhos prateados e cabelos acinzentados que brilham como seda à luz do luar.  
-
----
-
-# **História**
-
-Lyra nasceu no coração de **Silverglade**, um reino élfico isolado e protegido por florestas encantadas. Desde cedo, ela mostrou uma afinidade incomum com a espada, um talento que chamou a atenção dos Sentinelas Lunares, uma ordem de elite que defendia o reino contra ameaças externas. Embora os elfos de Silverglade preferissem o arco e a magia, Lyra sentia-se mais conectada à força e à elegância do combate corpo a corpo, acreditando que a espada era a extensão mais pura da alma de um guerreiro.
-
-**O Chamado da Guerra:**  
-Quando Lyra tinha apenas 90 anos, um ataque surpresa de invasores humanos rompeu a paz secular de Silverglade. Lyra lutou ao lado dos Sentinelas Lunares, mas a batalha terminou em tragédia. Seu mentor e amigo, o Capitão Elyndor, foi morto protegendo-a. Antes de morrer, ele entregou a Lyra sua espada ancestral, **Auriel**, dizendo:  
-*"Essa lâmina não é apenas para matar. Ela é uma promessa de que nossos valores jamais serão esquecidos."*  
-
-**A Jornada Solitária:**  
-Após a batalha, Lyra sentiu-se consumida pela culpa e decidiu partir em exílio voluntário, jurando aprimorar suas habilidades e buscar justiça para os caídos. Durante sua jornada, Lyra enfrentou criaturas sombrias, explorou ruínas esquecidas e desvendou segredos antigos que conectavam seu povo às forças do cosmos. Sua armadura prateada, forjada pelos mestres artífices de Silverglade, tornou-se um símbolo de esperança e luz para aqueles que a encontravam.  
-
-**O Retorno e o Destino:**  
-Lyra descobriu que os invasores estavam ligados a um império humano corrupto que desejava usar a magia élfica para conquistar o mundo. Determinada a proteger seu lar e expor a verdade, ela retornou a Silverglade, não como uma simples guerreira, mas como uma heroína marcada por suas cicatrizes e pelo brilho inabalável de sua determinação.  
-
-**Personalidade:**  
-Lyra é determinada, séria e movida por um profundo senso de justiça. Embora possa parecer reservada, ela demonstra grande empatia por aqueles que sofrem injustiças. Sua experiência com perda e sacrifício a tornou sábia e estratégica, sempre priorizando o bem maior.  
-
-**Habilidades Notáveis:**  
-- **Golpe Lunar:** Um ataque devastador que canaliza energia prateada de sua espada, inspirado nas fases da lua.  
-- **Defesa Celestial:** Sua armadura pode refletir ataques mágicos de menor intensidade.  
-- **Liderança Inspiradora:** Lyra tem o dom de motivar aliados, despertando coragem até nos momentos mais sombrios.  
-
-Agora, Lyra percorre o mundo, lutando não apenas por Silverglade, mas por todos aqueles que não podem se defender sozinhos. Sua espada brilha como uma estrela cadente no campo de batalha, e sua lenda continua a crescer.
-  `,
-    skills: [
-      {
-        id: "saklsakdsalkdlska",
-        name: "Accounting",
-        baseValue: 5,
-        currentValue: 50,
-        checked: false,
-      },
-      {
-        id: "saklsakdsalkdlska",
-        name: "Anthropology",
-        baseValue: 1,
-        currentValue: 50,
-        checked: true,
-      },
-      {
-        id: "saklsakdsalkdlska",
-        name: "Appraise",
-        baseValue: 5,
-        currentValue: 50,
-        checked: false,
-      },
-      {
-        id: "saklsakdsalkdlska",
-        name: "Archaeology",
-        baseValue: 1,
-        currentValue: 50,
-        checked: false,
-      },
-      {
-        id: "saklsakdsalkdlska",
-        name: "Charm",
-        baseValue: 15,
-        currentValue: 50,
-        checked: false,
-      },
-      {
-        id: "saklsakdsalkdlska",
-        name: "Climb",
-        baseValue: 20,
-        currentValue: 50,
-        checked: false,
-      },
-      {
-        id: "saklsakdsalkdlska",
-        name: "Credit Rating",
-        baseValue: 0,
-        currentValue: 50,
-        checked: false,
-      },
-      {
-        id: "saklsakdsalkdlska",
-        name: "Cthulhu Mythos",
-        baseValue: 0,
-        currentValue: 50,
-        checked: false,
-      },
-      {
-        id: "saklsakdsalkdlska",
-        name: "Disguise",
-        baseValue: 5,
-        currentValue: 50,
-        checked: false,
-      },
-      {
-        id: "saklsakdsalkdlska",
-        name: "Dodge",
-        baseValue: "half DEX",
-        currentValue: 50,
-        checked: false,
-      },
-      {
-        id: "saklsakdsalkdlska",
-        name: "Drive Auto",
-        baseValue: 20,
-        currentValue: 50,
-        checked: true,
-      },
-      {
-        id: "saklsakdsalkdlska",
-        name: "Elec Repair",
-        baseValue: 10,
-        currentValue: 50,
-        checked: false,
-      },
-      {
-        id: "saklsakdsalkdlska",
-        name: "Fast Talk",
-        baseValue: 5,
-        currentValue: 50,
-        checked: false,
-      },
-      {
-        id: "saklsakdsalkdlska",
-        name: "Fighting(Brawl)",
-        baseValue: 25,
-        currentValue: 50,
-        checked: false,
-      },
-      {
-        id: "saklsakdsalkdlska",
-        name: "Firearms(HG)",
-        baseValue: 20,
-        currentValue: 50,
-        checked: false,
-      },
-      {
-        id: "saklsakdsalkdlska",
-        name: "Firearms(R/S)",
-        baseValue: 25,
-        currentValue: 50,
-        checked: false,
-      },
-      {
-        id: "saklsakdsalkdlska",
-        name: "First Aid",
-        baseValue: 30,
-        currentValue: 50,
-        checked: false,
-      },
-      {
-        id: "saklsakdsalkdlska",
-        name: "History",
-        baseValue: 5,
-        currentValue: 50,
-        checked: false,
-      },
-      {
-        id: "saklsakdsalkdlska",
-        name: "Intimidate",
-        baseValue: 15,
-        currentValue: 50,
-        checked: true,
-      },
-      {
-        id: "saklsakdsalkdlska",
-        name: "Jump",
-        baseValue: 20,
-        currentValue: 50,
-        checked: false,
-      },
-      {
-        id: "saklsakdsalkdlska",
-        name: "Language(Own)",
-        baseValue: "EDU",
-        currentValue: 50,
-        checked: false,
-      },
-      {
-        id: "saklsakdsalkdlska",
-        name: "Law",
-        baseValue: 5,
-        currentValue: 50,
-        checked: false,
-      },
-      {
-        id: "saklsakdsalkdlska",
-        name: "Library Use",
-        baseValue: 20,
-        currentValue: 50,
-        checked: false,
-      },
-      {
-        id: "saklsakdsalkdlska",
-        name: "Listen",
-        baseValue: 20,
-        currentValue: 50,
-        checked: false,
-      },
-      {
-        id: "saklsakdsalkdlska",
-        name: "Locksmith",
-        baseValue: 1,
-        currentValue: 50,
-        checked: false,
-      },
-      {
-        id: "saklsakdsalkdlska",
-        name: "Luck",
-        baseValue: 65,
-        currentValue: 50,
-        checked: false,
-      },
-      {
-        id: "saklsakdsalkdlska",
-        name: "Mech Repair",
-        baseValue: 10,
-        currentValue: 50,
-        checked: false,
-      },
-      {
-        id: "saklsakdsalkdlska",
-        name: "Medicine",
-        baseValue: 1,
-        currentValue: 50,
-        checked: false,
-      },
-      {
-        id: "saklsakdsalkdlska",
-        name: "Natural World",
-        baseValue: 10,
-        currentValue: 50,
-        checked: false,
-      },
-      {
-        id: "saklsakdsalkdlska",
-        name: "Navigate",
-        baseValue: 10,
-        currentValue: 50,
-        checked: false,
-      },
-      {
-        id: "saklsakdsalkdlska",
-        name: "Occult",
-        baseValue: 5,
-        currentValue: 50,
-        checked: false,
-      },
-      {
-        id: "saklsakdsalkdlska",
-        name: "Op Hv Machine",
-        baseValue: 1,
-        currentValue: 50,
-        checked: false,
-      },
-      {
-        id: "saklsakdsalkdlska",
-        name: "Persuade",
-        baseValue: 10,
-        currentValue: 50,
-        checked: false,
-      },
-      {
-        id: "saklsakdsalkdlska",
-        name: "Psychoanalysis",
-        baseValue: 1,
-        currentValue: 50,
-        checked: false,
-      },
-      {
-        id: "saklsakdsalkdlska",
-        name: "Psychology",
-        baseValue: 10,
-        currentValue: 50,
-        checked: false,
-      },
-      {
-        id: "saklsakdsalkdlska",
-        name: "Ride",
-        baseValue: 5,
-        currentValue: 50,
-        checked: false,
-      },
-      {
-        id: "saklsakdsalkdlska",
-        name: "Sleight of Hand",
-        baseValue: 10,
-        currentValue: 50,
-        checked: true,
-      },
-      {
-        id: "saklsakdsalkdlska",
-        name: "Spot Hidden",
-        baseValue: 25,
-        currentValue: 50,
-        checked: false,
-      },
-      {
-        id: "saklsakdsalkdlska",
-        name: "Stealth",
-        baseValue: 20,
-        currentValue: 50,
-        checked: false,
-      },
-      {
-        id: "saklsakdsalkdlska",
-        name: "Swim",
-        baseValue: 20,
-        currentValue: 50,
-        checked: false,
-      },
-      {
-        id: "saklsakdsalkdlska",
-        name: "Throw",
-        baseValue: 20,
-        currentValue: 50,
-        checked: false,
-      },
-      {
-        id: "saklsakdsalkdlska",
-        name: "Track",
-        baseValue: 10,
-        currentValue: 50,
-        checked: false,
-      },
-    ],
-  },
-  {
-    player: {
-      id: "alsmdlsamdslamds",
-      name: "Gabriel Sena",
-      username: "#stardusteight",
-      role: "master",
-      avatarUrl: "https://avatars.githubusercontent.com/u/87643260?v=4",
-    },
+    user: currentSession,
     infos: {
       id: "asdsaas",
       type: "player",
@@ -907,12 +453,458 @@ Agora, Lyra percorre o mundo, lutando não apenas por Silverglade, mas por todos
     ],
   },
   {
-    player: {
-      id: "asnshlkasjlalssla",
-      name: "Juan Paul",
-      username: "#paullz",
-      avatarUrl: "https://avatars.githubusercontent.com/u/87643260?v=4",
+    user: currentSession,
+    infos: {
+      type: "npc",
+      id: "asddssadsasa",
+      name: "Hannah Pinkman",
+      sex: "female" as "female",
+      characterUrl:
+        "https://images-ng.pixai.art/images/orig/1ecb2708-051b-4b9c-b379-f61a5a375155",
+      occupation: "Journalist and Private Detective",
+      hitPoints: 75,
+      magicPoints: 42,
+      sanity: 22,
+      inspiration: true,
     },
+    attributes: {
+      strength: 50,
+      dexterity: 60,
+      intelligence: 70,
+      power: 65,
+      constitution: 55,
+      appearance: 60,
+      size: 50,
+      education: 70,
+      luck: 42,
+    },
+    combat: [
+      {
+        id: "askçsdadsçdças",
+        name: "Unarmed",
+        iconUrl: "/weapons/fist.svg",
+        skill: "Fighting(Brawl)",
+        range: "-",
+        damage: "1d3",
+        attacks: "1",
+        description:
+          "Combat using only your fists or other unarmed techniques. Effective in close quarters but limited in damage.",
+        properties: [
+          "Can be used by any character without requiring special equipment.",
+          "Damage is low but does not rely on external items.",
+        ],
+      },
+      {
+        id: "sdçdslçldaçls",
+        name: "Kriegsbeil",
+        iconUrl: "/weapons/kriegsbeil.svg",
+        skill: "Fighting(Brawl)",
+        range: "2m",
+        damage: "1d20 + STR",
+        attacks: "1",
+        description:
+          "The Kriegsbeil is a war axe of Germanic origin, commonly associated with heavy blades and a robust shaft. This weapon was designed for powerful strikes, capable of breaking through armor or dealing significant damage, but is generally limited to close combat.",
+        properties: [
+          "Has a chance to knock down or disarm the opponent.",
+          "Heavy and requires the use of both hands to maximize its impact.",
+        ],
+      },
+    ],
+    inventory: [
+      { id: "asdasafssasafsa", name: "Cantil de Whisky" },
+      { id: "saasasdaskçdsaç", name: "Carta achada na Caverna Sagrada" },
+      {
+        id: "salklasklklasas",
+        name: "Blackwater Creek Map",
+        for: [
+          {
+            id: "asddssadsasa",
+            name: "Erwin Farwell",
+          },
+        ],
+        visibility: [
+          {
+            id: "asdsaas",
+            name: "Erwin Farwell",
+          },
+        ],
+        content: {
+          type: { name: "Newspaper Type 01", inputs: 2 },
+          inputs: [
+            '"A Assombração de Call of Cthulhu": Um Mistério Sobrenatural Intriga Investigadores',
+
+            `A pequena cidade costeira de Innsmouth está em alvoroço após uma série de eventos inexplicáveis envolvendo um jogo de RPG de mesa online. Conhecido por evocar mistérios cósmicos e criaturas além da compreensão humana, Call of Cthulhu tornou-se o epicentro de uma narrativa que parece ultrapassar as barreiras entre ficção e realidade.
+    
+Jogadores de uma sessão recente relataram fenômenos perturbadores: mensagens enigmáticas aparecendo no chat sem que ninguém as tivesse digitado, movimentos de peças no tabuleiro digital aparentemente por conta própria, e até mesmo sons inquietantes que ecoavam pelos fones de ouvido, mesmo quando o microfone de todos estava desligado.
+  
+"Eu juro que vi um texto surgir no chat descrevendo um cenário horrível que nenhum de nós criou", disse Victor Reynolds, um dos jogadores. "Era como se algo ou alguém estivesse jogando conosco."
+  
+O incidente ganhou ainda mais atenção quando o mestre do jogo, conhecido apenas como "Keeper", afirmou ter sentido uma "presença" em sua casa durante a sessão. "As luzes começaram a piscar, e eu ouvi sussurros vindos do corredor", relatou ele ao The Publisher. "Quando fui verificar, não havia ninguém."`,
+          ],
+        },
+      },
+      {
+        id: "sasdaasasasdds",
+        name: "Carta secreta",
+        for: [
+          {
+            id: "asdsaas",
+            name: "Erwin Farwell",
+          },
+        ],
+        visibility: [
+          {
+            id: "asdsaas",
+            name: "Erwin Farwell",
+          },
+        ],
+        content: {
+          type: { name: "Letter Type 02", inputs: 1 },
+          inputs: [
+            `A pequena cidade costeira de Innsmouth está em alvoroço após uma série de eventos inexplicáveis envolvendo um jogo de RPG de mesa online. Conhecido por evocar mistérios cósmicos e criaturas além da compreensão humana, Call of Cthulhu tornou-se o epicentro de uma narrativa que parece ultrapassar as barreiras entre ficção e realidade.
+
+Jogadores de uma sessão recente relataram fenômenos perturbadores: mensagens enigmáticas aparecendo no chat sem que ninguém as tivesse digitado, movimentos de peças no tabuleiro digital aparentemente por conta própria, e até mesmo sons inquietantes que ecoavam pelos fones de ouvido, mesmo quando o microfone de todos estava desligado.
+  
+"Eu juro que vi um texto surgir no chat descrevendo um cenário horrível que nenhum de nós criou", disse Victor Reynolds, um dos jogadores. "Era como se algo ou alguém estivesse jogando conosco."
+  
+O incidente ganhou ainda mais atenção quando o mestre do jogo, conhecido apenas como "Keeper", afirmou ter sentido uma "presença" em sua casa durante a sessão. "As luzes começaram a piscar, e eu ouvi sussurros vindos do corredor", relatou ele ao The Publisher. "Quando fui verificar, não havia ninguém."`,
+          ],
+        },
+      },
+    ],
+    backstory: `
+**Nome:** Lyra Valtharion  
+**Classe:** Guerreira  
+**Raça:** Elfa  
+**Idade:** 128 anos (jovem para os padrões élficos)  
+**Equipamento:** Espada longa ancestral, armadura prateada ornamentada com símbolos lunares, capa azul-acinzentada.  
+**Aparência:** Alta e esguia, com traços nobres, olhos prateados e cabelos acinzentados que brilham como seda à luz do luar.  
+
+---
+
+# **História**
+
+Lyra nasceu no coração de **Silverglade**, um reino élfico isolado e protegido por florestas encantadas. Desde cedo, ela mostrou uma afinidade incomum com a espada, um talento que chamou a atenção dos Sentinelas Lunares, uma ordem de elite que defendia o reino contra ameaças externas. Embora os elfos de Silverglade preferissem o arco e a magia, Lyra sentia-se mais conectada à força e à elegância do combate corpo a corpo, acreditando que a espada era a extensão mais pura da alma de um guerreiro.
+
+**O Chamado da Guerra:**  
+Quando Lyra tinha apenas 90 anos, um ataque surpresa de invasores humanos rompeu a paz secular de Silverglade. Lyra lutou ao lado dos Sentinelas Lunares, mas a batalha terminou em tragédia. Seu mentor e amigo, o Capitão Elyndor, foi morto protegendo-a. Antes de morrer, ele entregou a Lyra sua espada ancestral, **Auriel**, dizendo:  
+*"Essa lâmina não é apenas para matar. Ela é uma promessa de que nossos valores jamais serão esquecidos."*  
+
+**A Jornada Solitária:**  
+Após a batalha, Lyra sentiu-se consumida pela culpa e decidiu partir em exílio voluntário, jurando aprimorar suas habilidades e buscar justiça para os caídos. Durante sua jornada, Lyra enfrentou criaturas sombrias, explorou ruínas esquecidas e desvendou segredos antigos que conectavam seu povo às forças do cosmos. Sua armadura prateada, forjada pelos mestres artífices de Silverglade, tornou-se um símbolo de esperança e luz para aqueles que a encontravam.  
+
+**O Retorno e o Destino:**  
+Lyra descobriu que os invasores estavam ligados a um império humano corrupto que desejava usar a magia élfica para conquistar o mundo. Determinada a proteger seu lar e expor a verdade, ela retornou a Silverglade, não como uma simples guerreira, mas como uma heroína marcada por suas cicatrizes e pelo brilho inabalável de sua determinação.  
+
+**Personalidade:**  
+Lyra é determinada, séria e movida por um profundo senso de justiça. Embora possa parecer reservada, ela demonstra grande empatia por aqueles que sofrem injustiças. Sua experiência com perda e sacrifício a tornou sábia e estratégica, sempre priorizando o bem maior.  
+
+**Habilidades Notáveis:**  
+- **Golpe Lunar:** Um ataque devastador que canaliza energia prateada de sua espada, inspirado nas fases da lua.  
+- **Defesa Celestial:** Sua armadura pode refletir ataques mágicos de menor intensidade.  
+- **Liderança Inspiradora:** Lyra tem o dom de motivar aliados, despertando coragem até nos momentos mais sombrios.  
+
+Agora, Lyra percorre o mundo, lutando não apenas por Silverglade, mas por todos aqueles que não podem se defender sozinhos. Sua espada brilha como uma estrela cadente no campo de batalha, e sua lenda continua a crescer.
+  `,
+    skills: [
+      {
+        id: "saklsakdsalkdlska",
+        name: "Accounting",
+        baseValue: 5,
+        currentValue: 50,
+        checked: false,
+      },
+      {
+        id: "saklsakdsalkdlska",
+        name: "Anthropology",
+        baseValue: 1,
+        currentValue: 50,
+        checked: true,
+      },
+      {
+        id: "saklsakdsalkdlska",
+        name: "Appraise",
+        baseValue: 5,
+        currentValue: 50,
+        checked: false,
+      },
+      {
+        id: "saklsakdsalkdlska",
+        name: "Archaeology",
+        baseValue: 1,
+        currentValue: 50,
+        checked: false,
+      },
+      {
+        id: "saklsakdsalkdlska",
+        name: "Charm",
+        baseValue: 15,
+        currentValue: 50,
+        checked: false,
+      },
+      {
+        id: "saklsakdsalkdlska",
+        name: "Climb",
+        baseValue: 20,
+        currentValue: 50,
+        checked: false,
+      },
+      {
+        id: "saklsakdsalkdlska",
+        name: "Credit Rating",
+        baseValue: 0,
+        currentValue: 50,
+        checked: false,
+      },
+      {
+        id: "saklsakdsalkdlska",
+        name: "Cthulhu Mythos",
+        baseValue: 0,
+        currentValue: 50,
+        checked: false,
+      },
+      {
+        id: "saklsakdsalkdlska",
+        name: "Disguise",
+        baseValue: 5,
+        currentValue: 50,
+        checked: false,
+      },
+      {
+        id: "saklsakdsalkdlska",
+        name: "Dodge",
+        baseValue: "half DEX",
+        currentValue: 50,
+        checked: false,
+      },
+      {
+        id: "saklsakdsalkdlska",
+        name: "Drive Auto",
+        baseValue: 20,
+        currentValue: 50,
+        checked: true,
+      },
+      {
+        id: "saklsakdsalkdlska",
+        name: "Elec Repair",
+        baseValue: 10,
+        currentValue: 50,
+        checked: false,
+      },
+      {
+        id: "saklsakdsalkdlska",
+        name: "Fast Talk",
+        baseValue: 5,
+        currentValue: 50,
+        checked: false,
+      },
+      {
+        id: "saklsakdsalkdlska",
+        name: "Fighting(Brawl)",
+        baseValue: 25,
+        currentValue: 50,
+        checked: false,
+      },
+      {
+        id: "saklsakdsalkdlska",
+        name: "Firearms(HG)",
+        baseValue: 20,
+        currentValue: 50,
+        checked: false,
+      },
+      {
+        id: "saklsakdsalkdlska",
+        name: "Firearms(R/S)",
+        baseValue: 25,
+        currentValue: 50,
+        checked: false,
+      },
+      {
+        id: "saklsakdsalkdlska",
+        name: "First Aid",
+        baseValue: 30,
+        currentValue: 50,
+        checked: false,
+      },
+      {
+        id: "saklsakdsalkdlska",
+        name: "History",
+        baseValue: 5,
+        currentValue: 50,
+        checked: false,
+      },
+      {
+        id: "saklsakdsalkdlska",
+        name: "Intimidate",
+        baseValue: 15,
+        currentValue: 50,
+        checked: true,
+      },
+      {
+        id: "saklsakdsalkdlska",
+        name: "Jump",
+        baseValue: 20,
+        currentValue: 50,
+        checked: false,
+      },
+      {
+        id: "saklsakdsalkdlska",
+        name: "Language(Own)",
+        baseValue: "EDU",
+        currentValue: 50,
+        checked: false,
+      },
+      {
+        id: "saklsakdsalkdlska",
+        name: "Law",
+        baseValue: 5,
+        currentValue: 50,
+        checked: false,
+      },
+      {
+        id: "saklsakdsalkdlska",
+        name: "Library Use",
+        baseValue: 20,
+        currentValue: 50,
+        checked: false,
+      },
+      {
+        id: "saklsakdsalkdlska",
+        name: "Listen",
+        baseValue: 20,
+        currentValue: 50,
+        checked: false,
+      },
+      {
+        id: "saklsakdsalkdlska",
+        name: "Locksmith",
+        baseValue: 1,
+        currentValue: 50,
+        checked: false,
+      },
+      {
+        id: "saklsakdsalkdlska",
+        name: "Luck",
+        baseValue: 65,
+        currentValue: 50,
+        checked: false,
+      },
+      {
+        id: "saklsakdsalkdlska",
+        name: "Mech Repair",
+        baseValue: 10,
+        currentValue: 50,
+        checked: false,
+      },
+      {
+        id: "saklsakdsalkdlska",
+        name: "Medicine",
+        baseValue: 1,
+        currentValue: 50,
+        checked: false,
+      },
+      {
+        id: "saklsakdsalkdlska",
+        name: "Natural World",
+        baseValue: 10,
+        currentValue: 50,
+        checked: false,
+      },
+      {
+        id: "saklsakdsalkdlska",
+        name: "Navigate",
+        baseValue: 10,
+        currentValue: 50,
+        checked: false,
+      },
+      {
+        id: "saklsakdsalkdlska",
+        name: "Occult",
+        baseValue: 5,
+        currentValue: 50,
+        checked: false,
+      },
+      {
+        id: "saklsakdsalkdlska",
+        name: "Op Hv Machine",
+        baseValue: 1,
+        currentValue: 50,
+        checked: false,
+      },
+      {
+        id: "saklsakdsalkdlska",
+        name: "Persuade",
+        baseValue: 10,
+        currentValue: 50,
+        checked: false,
+      },
+      {
+        id: "saklsakdsalkdlska",
+        name: "Psychoanalysis",
+        baseValue: 1,
+        currentValue: 50,
+        checked: false,
+      },
+      {
+        id: "saklsakdsalkdlska",
+        name: "Psychology",
+        baseValue: 10,
+        currentValue: 50,
+        checked: false,
+      },
+      {
+        id: "saklsakdsalkdlska",
+        name: "Ride",
+        baseValue: 5,
+        currentValue: 50,
+        checked: false,
+      },
+      {
+        id: "saklsakdsalkdlska",
+        name: "Sleight of Hand",
+        baseValue: 10,
+        currentValue: 50,
+        checked: true,
+      },
+      {
+        id: "saklsakdsalkdlska",
+        name: "Spot Hidden",
+        baseValue: 25,
+        currentValue: 50,
+        checked: false,
+      },
+      {
+        id: "saklsakdsalkdlska",
+        name: "Stealth",
+        baseValue: 20,
+        currentValue: 50,
+        checked: false,
+      },
+      {
+        id: "saklsakdsalkdlska",
+        name: "Swim",
+        baseValue: 20,
+        currentValue: 50,
+        checked: false,
+      },
+      {
+        id: "saklsakdsalkdlska",
+        name: "Throw",
+        baseValue: 20,
+        currentValue: 50,
+        checked: false,
+      },
+      {
+        id: "saklsakdsalkdlska",
+        name: "Track",
+        baseValue: 10,
+        currentValue: 50,
+        checked: false,
+      },
+    ],
+  },
+  {
+    user: matchUsers[1],
     infos: {
       id: "asfafsafv",
       type: "player",
@@ -1313,12 +1305,7 @@ Agora, Lyra percorre o mundo, lutando não apenas por Silverglade, mas por todos
     ],
   },
   {
-    player: {
-      id: "sadjsaljdsaljdlsj",
-      name: "Fernanda Sena",
-      username: "#fevient",
-      avatarUrl: "https://avatars.githubusercontent.com/u/87643260?v=4",
-    },
+    user: matchUsers[2],
     infos: {
       id: "aksalskals",
       type: "player",
@@ -1725,5 +1712,3 @@ Agora, Lyra percorre o mundo, lutando não apenas por Silverglade, mas por todos
     ],
   },
 ]
-
-export const playerCharacter = characters[0]

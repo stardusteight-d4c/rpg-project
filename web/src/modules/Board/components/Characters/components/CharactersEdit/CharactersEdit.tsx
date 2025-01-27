@@ -11,15 +11,7 @@ import {
 } from "../../../character-sheets/CallOfCthulhu/components"
 
 interface CharactersEditProps {
-  playerCharacter: {
-    player: any
-    infos: any
-    attributes: any
-    skills: any
-    combat: any
-    inventory: any
-    backstory: string
-  }
+  playerCharacter: ICharacter
   setEditMode: (value: boolean) => void
 }
 
@@ -104,7 +96,7 @@ export const CharactersEdit = ({
       <div className="p-2">
         <ProfileInfo
           infos={playerCharacter.infos}
-          player={playerCharacter.player}
+          user={playerCharacter.user}
           isEditMode={true}
         />
         <Attributes

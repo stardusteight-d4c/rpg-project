@@ -3,7 +3,7 @@
 import { CombatDisplay, CombatEdit } from "./components"
 
 interface CombatProps {
-  combat: Array<IWeapon | IGun | IExplosive>
+  combat: CombatItem[]
   infos: {
     name: string
     sex: "male" | "female"

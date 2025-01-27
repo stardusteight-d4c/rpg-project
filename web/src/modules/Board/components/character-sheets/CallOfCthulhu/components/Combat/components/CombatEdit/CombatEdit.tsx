@@ -7,7 +7,7 @@ import { explosives, guns, weapons } from "../../mock-data"
 import { CombatEditModal } from "./CombatEditModal"
 
 interface CombatEditProps {
-  combat: Array<IWeapon | IGun | IExplosive>
+  combat: Array<CombatItem>
   infos: {
     name: string
     sex: "male" | "female"
@@ -37,12 +37,9 @@ export const CombatEdit = ({
   combat,
   infos,
 }: CombatEditProps) => {
-  const [editableData, setEditableData] =
-    useState<(IWeapon | IGun | IExplosive)[]>(combat)
+  const [editableData, setEditableData] = useState<Array<CombatItem>>(combat)
   const [selectionMode, setSelectionMode] = useState<boolean>(false)
-  const [selectedWeapon, setSelectedWeapon] = useState<
-    IWeapon | IGun | IExplosive | null
-  >(null)
+  const [selectedWeapon, setSelectedWeapon] = useState<CombatItem | null>(null)
 
   function handleOnStatusChange(status: "open" | "close") {
     if (status === "open") return
@@ -50,25 +47,25 @@ export const CombatEdit = ({
     return
   }
 
-  function handleRemoveWeapon(removedWeapon: IWeapon | IGun | IExplosive) {
+  function handleRemoveWeapon(removedWeapon: CombatItem) {
     if (removedWeapon.id)
       setEditableData((prev) =>
         prev.filter((weapon) => weapon.id !== removedWeapon.id)
       )
   }
 
-  function handleUpdateWeapon(updatedWeapon: IWeapon | IGun | IExplosive) {
+  function handleUpdateWeapon(updatedWeapon: CombatItem) {
     setEditableData((prev) =>
       prev.map((weapon) => {
         if (weapon.id === updatedWeapon.id) {
-          return { ...weapon, ...updatedWeapon } as IWeapon | IGun | IExplosive
+          return { ...weapon, ...updatedWeapon } as CombatItem
         }
         return weapon
       })
     )
   }
 
-  function handleAddWeapon(newWeapon: IWeapon | IGun | IExplosive) {
+  function handleAddWeapon(newWeapon: CombatItem) {
     const weaponWithId = { ...newWeapon, id: crypto.randomUUID() }
     setEditableData((prev) => [...prev, weaponWithId])
   }
@@ -193,7 +190,7 @@ export const CombatEdit = ({
 interface SelectionModeProps {
   selectionMode: boolean
   setSelectionMode: (value: boolean) => void
-  handleAddWeapon: (newWeapon: IWeapon | IGun | IExplosive) => void
+  handleAddWeapon: (newWeapon: CombatItem) => void
 }
 
 const SelectionMode = ({
@@ -202,13 +199,13 @@ const SelectionMode = ({
   handleAddWeapon,
 }: SelectionModeProps) => {
   const [selectedWeapon, setSelectedWeapon] = useState<
-    IWeapon | IGun | IExplosive | null
+    CombatItem | null
   >(null)
   const [selectedType, setSelectedType] = useState<
     "weapons" | "guns" | "explosives"
   >("weapons")
   const [editableWeapon, setEditableWeapon] = useState<
-    IWeapon | IGun | IExplosive
+    CombatItem
   >({
     name: "",
     iconUrl: "",
@@ -408,7 +405,7 @@ const SelectionMode = ({
           </ul>
           <div className="grid grid-cols-10 mt-2 gap-2">
             {items[selectedType].map(
-              (weapon: IWeapon | IGun | IExplosive, index: number) => (
+              (weapon: CombatItem, index: number) => (
                 <>
                   {weapon.name !== "Unarmed" && (
                     <GlowingWrapper>

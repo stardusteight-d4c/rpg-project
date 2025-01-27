@@ -1,41 +1,13 @@
 "use client"
 
-import { playerCharacter } from "@/modules/Board/components/Characters/mock-data"
 import { HandoutDisplay } from "@/modules/Board/components/Handouts/components/HandoutDisplay"
 import { HandoutModalWrapper } from "@/modules/Board/components/Handouts/components/HandoutModalWrapper"
+import { useCharacters } from "@/shared/contexts/Characters/CharactersContext"
 import { useState } from "react"
 
 interface InventoryDisplayProps {
-  inventory: Array<{
-    id: string
-    name: string
-    upload?: string
-    for?: Array<{
-      id: string
-      name: string
-    }>
-    visibility?: Array<{
-      id: string
-      name: string
-    }>
-    content?: {
-      type: {
-        name: string
-        inputs: number
-      }
-      inputs: Array<string>
-    }
-  }>
-  infos: {
-    name: string
-    sex: "male" | "female"
-    characterUrl: string
-    occupation: string
-    hitPoints: number
-    magicPoints: number
-    sanity: number
-    inspiration: boolean
-  }
+  inventory: Array<InventoryItem>
+  infos: Infos
   activeItems: (
     | "attributes"
     | "skills"
@@ -56,7 +28,7 @@ export const InventoryDisplay = ({
   infos,
 }: InventoryDisplayProps) => {
   const [showHandout, setShowHandout] = useState<IHandout | null>(null)
-  playerCharacter
+  const playerCharacter = useCharacters().characters[0]
 
   return (
     <div className="mb-4">

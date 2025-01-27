@@ -4,6 +4,7 @@ import "./globals.css"
 import { ModalProvider } from "@/shared/contexts/ModalContext"
 import { MatchUsersProvider } from "@/shared/contexts/MatchUsers/MatchUsersContext"
 import React from "react"
+import { CharactersProvider } from "@/shared/contexts/Characters/CharactersContext"
 
 const robotoCondensed = Roboto_Condensed({
   subsets: ["latin"],
@@ -39,6 +40,8 @@ export default function RootLayout({
 
 const Providers = ({ children }: { children: React.ReactNode }) => (
   <MatchUsersProvider>
-    <ModalProvider>{children}</ModalProvider>
+    <CharactersProvider>
+      <ModalProvider>{children}</ModalProvider>
+    </CharactersProvider>
   </MatchUsersProvider>
 )

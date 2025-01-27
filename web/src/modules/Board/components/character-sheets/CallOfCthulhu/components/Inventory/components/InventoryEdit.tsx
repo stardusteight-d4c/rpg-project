@@ -4,22 +4,8 @@ import { GlowingWrapper } from "@/shared/components"
 import { useState } from "react"
 
 interface InventoryEditProps {
-  inventory: Array<{
-    id: string
-    name: string
-    type?: "Note Type 01" | "Note Type 02" | "Newspaper" | "Letter"
-    content?: any
-  }>
-  infos: {
-    name: string
-    sex: "male" | "female"
-    characterUrl: string
-    occupation: string
-    hitPoints: number
-    magicPoints: number
-    sanity: number
-    inspiration: boolean
-  }
+  inventory: Array<InventoryItem>
+  infos: Infos
   activeItems: (
     | "attributes"
     | "skills"

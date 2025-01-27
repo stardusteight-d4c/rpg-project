@@ -6,31 +6,16 @@ import { handleCharacterTooltipText } from "@/shared/utils/handleCharacterToolti
 import { useState } from "react"
 
 interface ProfileInfoDisplayProps {
-  infos: {
-    type: "player" | "npc" | "enemy"
-    name: string
-    sex: "male" | "female"
-    characterUrl: string
-    occupation: string
-    hitPoints: number
-    magicPoints: number
-    sanity: number
-    inspiration: boolean
-  }
-  player: {
-    id: string
-    name: string
-    username: string
-    avatarUrl: string
-  }
+  infos: Infos
+  user: IMatchUser
   isEditMode?: boolean
   showPlayerInfo?: boolean
 }
 
 export const ProfileInfoDisplay = ({
   infos,
-  player,
   isEditMode,
+  user,
   showPlayerInfo,
 }: ProfileInfoDisplayProps) => {
   const [isShowPlayerInfo, setIsShowPlayerInfo] = useState<boolean>(false)
@@ -49,18 +34,16 @@ export const ProfileInfoDisplay = ({
             <div className="px-4 py-8 w-[681px] relative">
               <div className="flex flex-col items-center mt-4 gap-y-2 justify-center">
                 <img
-                  src={currentSession.avatar_url}
+                  src={user.avatar_url}
                   alt=""
                   referrerPolicy="no-referrer"
                   className="w-[100px] h-[100px] border border-border rounded-full"
                 />
                 <div className="flex flex-col items-center justify-center">
                   <span className="text-3xl background-gradient text-transparent bg-clip-text w-fit font-bold">
-                    {currentSession.name}
+                    {user.name}
                   </span>
-                  <span className="text-gray-400 -mt-1">
-                    {currentSession.username}
-                  </span>
+                  <span className="text-gray-400 -mt-1">{user.username}</span>
                 </div>
                 <div className="mt-4 flex items-center cursor-pointer group justify-center gap-x-2">
                   <span className="bg-border group-hover:bg-gradient-to-tr group-hover:from-[#42d392] group-hover:to-[#8B5CF6] duration-300 ease-in-out transition-all p-2 rounded-xl">

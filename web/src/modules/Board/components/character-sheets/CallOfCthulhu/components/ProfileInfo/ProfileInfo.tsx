@@ -3,23 +3,8 @@
 import { ProfileInfoDisplay, ProfileInfoEdit } from "./components"
 
 interface ProfileInfoProps {
-  infos: {
-    type: "player",
-    name: string
-    sex: "male" | "female"
-    characterUrl: string
-    occupation: string
-    hitPoints: number
-    magicPoints: number
-    sanity: number
-    inspiration: boolean
-  }
-  player: {
-    id: string
-    name: string
-    username: string
-    avatarUrl: string
-  }
+  infos: Infos
+  user: IMatchUser
   isEditMode?: boolean
   showPlayerInfo?: boolean
 }

@@ -8,33 +8,7 @@ interface DraggableItemProps {
   type: string
   setIsItemDragging?: (isDragging: boolean) => void
   player?: boolean
-  character?: {
-    player: any
-    infos: any
-    attributes: any
-    skills: any
-    combat: any
-    inventory: Array<{
-      id: string
-      name: string
-      for?: Array<{
-        id: string
-        name: string
-      }>
-      visibility?: Array<{
-        id: string
-        name: string
-      }>
-      content?: {
-        type: {
-          name: string
-          inputs: number
-        }
-        inputs: Array<string>
-      }
-    }>
-    backstory: string
-  }
+  character?: ICharacter
 }
 
 export const DraggableItem: React.FC<DraggableItemProps> = ({
