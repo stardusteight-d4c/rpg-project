@@ -49,7 +49,7 @@ export const BackstoryEdit = ({
   }
 
   return (
-    <div className="mb-4">
+    <div>
       <div
         onClick={() => toggleItem("backstory")}
         className="flex py-2 cursor-pointer items-center justify-between sticky top-[47px] z-[200] bg-background"

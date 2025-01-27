@@ -4,16 +4,7 @@ import { CombatDisplay, CombatEdit } from "./components"
 
 interface CombatProps {
   combat: CombatItem[]
-  infos: {
-    name: string
-    sex: "male" | "female"
-    characterUrl: string
-    occupation: string
-    hitPoints: number
-    magicPoints: number
-    sanity: number
-    inspiration: boolean
-  }
+  infos: Infos
   activeItems: (
     | "attributes"
     | "skills"

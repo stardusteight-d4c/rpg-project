@@ -8,16 +8,7 @@ import { CombatEditModal } from "./CombatEditModal"
 
 interface CombatEditProps {
   combat: Array<CombatItem>
-  infos: {
-    name: string
-    sex: "male" | "female"
-    characterUrl: string
-    occupation: string
-    hitPoints: number
-    magicPoints: number
-    sanity: number
-    inspiration: boolean
-  }
+  infos: Infos
   activeItems: (
     | "attributes"
     | "skills"

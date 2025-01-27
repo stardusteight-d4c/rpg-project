@@ -5,17 +5,8 @@ import { ModalWrapper } from "@/shared/components"
 import { CombatModalDisplay } from "./components"
 
 interface CombatDisplayProps {
-  combat: Array<IWeapon | IGun | IExplosive>
-  infos: {
-    name: string
-    sex: "male" | "female"
-    characterUrl: string
-    occupation: string
-    hitPoints: number
-    magicPoints: number
-    sanity: number
-    inspiration: boolean
-  }
+  combat: Array<CombatItem>
+  infos: Infos
   activeItems: (
     | "attributes"
     | "skills"
@@ -35,9 +26,7 @@ export const CombatDisplay = ({
   combat,
   infos,
 }: CombatDisplayProps) => {
-  const [selectedWeapon, setSelectedWeapon] = useState<
-    IWeapon | IGun | IExplosive | null
-  >(null)
+  const [selectedWeapon, setSelectedWeapon] = useState<CombatItem | null>(null)
 
   function handleOnStatusChange(status: "open" | "close") {
     if (status === "open") return
