@@ -6,8 +6,8 @@ import { useCharacters } from "@/modules/Board/contexts/Characters/CharactersCon
 import { useState } from "react"
 
 interface InventoryDisplayProps {
-  inventory: Array<InventoryItem>
-  infos: Infos
+  character: ICharacter
+
   activeItems: (
     | "attributes"
     | "skills"
@@ -24,8 +24,7 @@ interface InventoryDisplayProps {
 export const InventoryDisplay = ({
   activeItems,
   toggleItem,
-  inventory,
-  infos,
+  character,
 }: InventoryDisplayProps) => {
   const [showHandout, setShowHandout] = useState<IHandout | null>(null)
   const playerCharacter = useCharacters().characters[0]
@@ -94,7 +93,7 @@ export const InventoryDisplay = ({
       </div>
       {activeItems.includes("inventory") && (
         <>
-          {inventory.length === 0 ? (
+          {character.inventory.length === 0 ? (
             <div className="p-8 flex flex-col items-center justify-center">
               <div className="col-span-1 cursor-pointer w-[50px] h-[50px] hover:brightness-150 flex items-center justify-center border border-border bg-border/50 rounded aspect-square">
                 <svg
@@ -108,20 +107,19 @@ export const InventoryDisplay = ({
                 </svg>
               </div>
               <span className="text-gray-400 mt-2 w-[400px] text-center">
-                {infos.name} rummage through your inventory, but find only the
-                weight of nothing.
+                {character.infos.name} rummage through your inventory, but find
+                only the weight of nothing.
               </span>
             </div>
           ) : (
             <ul className="grid grid-cols-2 gap-2">
-              {inventory.map((item) => (
+              {character.inventory.map((item) => (
                 <>
                   {item.content &&
                     !item.upload &&
                     item.visibility
                       ?.map((visibility) => {
-                        if (visibility.id === playerCharacter.id)
-                          return true
+                        if (visibility.id === playerCharacter.id) return true
                       })
                       .includes(true) && (
                       <li
@@ -146,8 +144,7 @@ export const InventoryDisplay = ({
                     !item.content &&
                     item.visibility
                       ?.map((visibility) => {
-                        if (visibility.id === playerCharacter.id)
-                          return true
+                        if (visibility.id === playerCharacter.id) return true
                       })
                       .includes(true) && (
                       <li

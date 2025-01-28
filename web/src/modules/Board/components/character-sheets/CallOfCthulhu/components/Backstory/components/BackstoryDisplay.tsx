@@ -4,7 +4,7 @@ import ReactMarkdown from "react-markdown"
 import rehypeRaw from "rehype-raw"
 
 interface BackstoryDisplayProps {
-  backstory: string
+  character: ICharacter
   activeItems: (
     | "attributes"
     | "skills"
@@ -21,7 +21,7 @@ interface BackstoryDisplayProps {
 export const BackstoryDisplay = ({
   activeItems,
   toggleItem,
-  backstory,
+  character,
 }: BackstoryDisplayProps) => {
   return (
     <div>
@@ -76,7 +76,9 @@ export const BackstoryDisplay = ({
       </div>
       {activeItems.includes("backstory") && (
         <div className="space-y-4 markdown-context bg-border/50 border border-border px-4 py-2 rounded">
-          <ReactMarkdown rehypePlugins={[rehypeRaw]}>{backstory}</ReactMarkdown>
+          <ReactMarkdown rehypePlugins={[rehypeRaw]}>
+            {character.backstory}
+          </ReactMarkdown>
         </div>
       )}
     </div>

@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { ProfileInfo } from "../../../character-sheets/CallOfCthulhu/components"
 import { currentSession } from "@/modules/Board/contexts/Users/mock-data"
+import { useCharacters } from "@/modules/Board/contexts/Characters/CharactersContext"
 
 interface CharactersDisplayProps {
   characters: Array<ICharacter>
@@ -16,6 +17,7 @@ export const CharactersDisplay = ({
   setSelectedCharacter,
   setCreateMode,
 }: CharactersDisplayProps) => {
+  const { updateCopyCharacter } = useCharacters()
   const [activeCharacterType, setActiveCharacterType] = useState<
     "Players" | "NPCs" | "Enemies"
   >("Players")
@@ -96,7 +98,10 @@ export const CharactersDisplay = ({
             {typesObj[character.infos.type as "player" | "npc" | "enemy"] ===
               activeCharacterType && (
               <div
-                onClick={() => setSelectedCharacter(character)}
+                onClick={() => {
+                  updateCopyCharacter(character.id, character)
+                  setSelectedCharacter(character)
+                }}
                 key={character.id}
                 className="cursor-pointer border border-border hover:bg-border hover:brightness-105 p-2 rounded-xl"
               >

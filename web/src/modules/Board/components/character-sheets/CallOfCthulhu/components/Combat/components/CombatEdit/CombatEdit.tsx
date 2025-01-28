@@ -1,14 +1,13 @@
 "use client"
 
-import { Key, SetStateAction, useState } from "react"
+import {  useState } from "react"
 import { GlowingWrapper, ModalWrapper } from "@/shared/components"
-import { log } from "console"
 import { explosives, guns, weapons } from "../../mock-data"
 import { CombatEditModal } from "./CombatEditModal"
+import { useCharacters } from "@/modules/Board/contexts/Characters/CharactersContext"
 
 interface CombatEditProps {
-  combat: Array<CombatItem>
-  infos: Infos
+  character: ICharacter
   activeItems: (
     | "attributes"
     | "skills"
@@ -25,10 +24,13 @@ interface CombatEditProps {
 export const CombatEdit = ({
   activeItems,
   toggleItem,
-  combat,
-  infos,
+  character,
 }: CombatEditProps) => {
-  const [editableData, setEditableData] = useState<Array<CombatItem>>(combat)
+  const { updateCharacter } = useCharacters()
+
+  const [editableData, setEditableData] = useState<Array<CombatItem>>(
+    character.combat
+  )
   const [selectionMode, setSelectionMode] = useState<boolean>(false)
   const [selectedWeapon, setSelectedWeapon] = useState<CombatItem | null>(null)
 
@@ -39,26 +41,37 @@ export const CombatEdit = ({
   }
 
   function handleRemoveWeapon(removedWeapon: CombatItem) {
-    if (removedWeapon.id)
-      setEditableData((prev) =>
-        prev.filter((weapon) => weapon.id !== removedWeapon.id)
+    if (removedWeapon.id) {
+      const updatedWeapons = editableData.filter(
+        (weapon) => weapon.id !== removedWeapon.id
       )
+      setEditableData(updatedWeapons)
+      updateCharacter(character.id ?? crypto.randomUUID(), {
+        combat: updatedWeapons,
+      })
+    }
   }
 
   function handleUpdateWeapon(updatedWeapon: CombatItem) {
-    setEditableData((prev) =>
-      prev.map((weapon) => {
-        if (weapon.id === updatedWeapon.id) {
-          return { ...weapon, ...updatedWeapon } as CombatItem
-        }
-        return weapon
-      })
-    )
+    const updatedWeapons = editableData.map((weapon) => {
+      if (weapon.id === updatedWeapon.id) {
+        return { ...weapon, ...updatedWeapon } as CombatItem
+      }
+      return weapon
+    })
+    setEditableData(updatedWeapons)
+    updateCharacter(character.id ?? crypto.randomUUID(), {
+      combat: updatedWeapons,
+    })
   }
 
   function handleAddWeapon(newWeapon: CombatItem) {
     const weaponWithId = { ...newWeapon, id: crypto.randomUUID() }
-    setEditableData((prev) => [...prev, weaponWithId])
+    const updatedWeapons = [...editableData, weaponWithId]
+    setEditableData(updatedWeapons)
+    updateCharacter(character.id ?? crypto.randomUUID(), {
+      combat: updatedWeapons,
+    })
   }
 
   return (
@@ -129,7 +142,10 @@ export const CombatEdit = ({
       </div>
       {activeItems.includes("combat") && (
         <div>
-          <div className="grid grid-cols-10 gap-2">
+          <div
+            className="grid gap-2"
+            style={{ gridTemplateColumns: "repeat(15, minmax(0, 1fr))" }}
+          >
             {editableData.map((weapon, index) => (
               <div>
                 {weapon.name === "Unarmed" ? (
@@ -189,15 +205,11 @@ const SelectionMode = ({
   setSelectionMode,
   handleAddWeapon,
 }: SelectionModeProps) => {
-  const [selectedWeapon, setSelectedWeapon] = useState<
-    CombatItem | null
-  >(null)
+  const [selectedWeapon, setSelectedWeapon] = useState<CombatItem | null>(null)
   const [selectedType, setSelectedType] = useState<
     "weapons" | "guns" | "explosives"
   >("weapons")
-  const [editableWeapon, setEditableWeapon] = useState<
-    CombatItem
-  >({
+  const [editableWeapon, setEditableWeapon] = useState<CombatItem>({
     name: "",
     iconUrl: "",
     skill: "Fighting(Brawl)",
@@ -395,26 +407,24 @@ const SelectionMode = ({
             )}
           </ul>
           <div className="grid grid-cols-10 mt-2 gap-2">
-            {items[selectedType].map(
-              (weapon: CombatItem, index: number) => (
-                <>
-                  {weapon.name !== "Unarmed" && (
-                    <GlowingWrapper>
-                      <div
-                        key={index}
-                        onClick={() => {
-                          setEditableWeapon(weapon)
-                          setSelectedWeapon(weapon)
-                        }}
-                        className="col-span-1 cursor-pointer p-1 hover:brightness-150 flex items-center justify-center bg-border/50 border border-border rounded w-full h-full aspect-square"
-                      >
-                        <img src={weapon.iconUrl} className="w-full" />
-                      </div>
-                    </GlowingWrapper>
-                  )}
-                </>
-              )
-            )}
+            {items[selectedType].map((weapon: CombatItem, index: number) => (
+              <>
+                {weapon.name !== "Unarmed" && (
+                  <GlowingWrapper>
+                    <div
+                      key={index}
+                      onClick={() => {
+                        setEditableWeapon(weapon)
+                        setSelectedWeapon(weapon)
+                      }}
+                      className="col-span-1 cursor-pointer p-1 hover:brightness-150 flex items-center justify-center bg-border/50 border border-border rounded w-full h-full aspect-square"
+                    >
+                      <img src={weapon.iconUrl} className="w-full" />
+                    </div>
+                  </GlowingWrapper>
+                )}
+              </>
+            ))}
           </div>
         </div>
       )}

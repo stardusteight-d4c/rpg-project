@@ -63,64 +63,64 @@ export const characters: ICharacter[] = [
     inventory: [
       { id: "asdasafssasafsa", name: "Cantil de Whisky" },
       { id: "saasasdaskçdsaç", name: "Carta achada na Caverna Sagrada" },
-      {
-        id: "salklasklklasas",
-        name: "Blackwater Creek Map",
-        for: [
-          {
-            id: "asdsaas",
-            name: "Erwin Farwell",
-          },
-        ],
-        visibility: [
-          {
-            id: "asdsaas",
-            name: "Erwin Farwell",
-          },
-        ],
-        content: {
-          type: { name: "Newspaper Type 01", inputs: 2 },
-          inputs: [
-            '"A Assombração de Call of Cthulhu": Um Mistério Sobrenatural Intriga Investigadores',
+  //     {
+  //       id: "salklasklklasas",
+  //       name: "Blackwater Creek Map",
+  //       for: [
+  //         {
+  //           id: "asdsaas",
+  //           name: "Erwin Farwell",
+  //         },
+  //       ],
+  //       visibility: [
+  //         {
+  //           id: "asdsaas",
+  //           name: "Erwin Farwell",
+  //         },
+  //       ],
+  //       content: {
+  //         type: { name: "Newspaper Type 01", inputs: 2 },
+  //         inputs: [
+  //           '"A Assombração de Call of Cthulhu": Um Mistério Sobrenatural Intriga Investigadores',
 
-            `A pequena cidade costeira de Innsmouth está em alvoroço após uma série de eventos inexplicáveis envolvendo um jogo de RPG de mesa online. Conhecido por evocar mistérios cósmicos e criaturas além da compreensão humana, Call of Cthulhu tornou-se o epicentro de uma narrativa que parece ultrapassar as barreiras entre ficção e realidade.
+  //           `A pequena cidade costeira de Innsmouth está em alvoroço após uma série de eventos inexplicáveis envolvendo um jogo de RPG de mesa online. Conhecido por evocar mistérios cósmicos e criaturas além da compreensão humana, Call of Cthulhu tornou-se o epicentro de uma narrativa que parece ultrapassar as barreiras entre ficção e realidade.
       
-  Jogadores de uma sessão recente relataram fenômenos perturbadores: mensagens enigmáticas aparecendo no chat sem que ninguém as tivesse digitado, movimentos de peças no tabuleiro digital aparentemente por conta própria, e até mesmo sons inquietantes que ecoavam pelos fones de ouvido, mesmo quando o microfone de todos estava desligado.
+  // Jogadores de uma sessão recente relataram fenômenos perturbadores: mensagens enigmáticas aparecendo no chat sem que ninguém as tivesse digitado, movimentos de peças no tabuleiro digital aparentemente por conta própria, e até mesmo sons inquietantes que ecoavam pelos fones de ouvido, mesmo quando o microfone de todos estava desligado.
     
-  "Eu juro que vi um texto surgir no chat descrevendo um cenário horrível que nenhum de nós criou", disse Victor Reynolds, um dos jogadores. "Era como se algo ou alguém estivesse jogando conosco."
+  // "Eu juro que vi um texto surgir no chat descrevendo um cenário horrível que nenhum de nós criou", disse Victor Reynolds, um dos jogadores. "Era como se algo ou alguém estivesse jogando conosco."
     
-  O incidente ganhou ainda mais atenção quando o mestre do jogo, conhecido apenas como "Keeper", afirmou ter sentido uma "presença" em sua casa durante a sessão. "As luzes começaram a piscar, e eu ouvi sussurros vindos do corredor", relatou ele ao The Publisher. "Quando fui verificar, não havia ninguém."`,
-          ],
-        },
-      },
-      {
-        id: "sasdaasasasdds",
-        name: "Carta secreta",
-        for: [
-          {
-            id: "asdsaas",
-            name: "Erwin Farwell",
-          },
-        ],
-        visibility: [
-          {
-            id: "asdsaas",
-            name: "Erwin Farwell",
-          },
-        ],
-        content: {
-          type: { name: "Letter Type 02", inputs: 1 },
-          inputs: [
-            `A pequena cidade costeira de Innsmouth está em alvoroço após uma série de eventos inexplicáveis envolvendo um jogo de RPG de mesa online. Conhecido por evocar mistérios cósmicos e criaturas além da compreensão humana, Call of Cthulhu tornou-se o epicentro de uma narrativa que parece ultrapassar as barreiras entre ficção e realidade.
+  // O incidente ganhou ainda mais atenção quando o mestre do jogo, conhecido apenas como "Keeper", afirmou ter sentido uma "presença" em sua casa durante a sessão. "As luzes começaram a piscar, e eu ouvi sussurros vindos do corredor", relatou ele ao The Publisher. "Quando fui verificar, não havia ninguém."`,
+  //         ],
+  //       },
+  //     },
+  //     {
+  //       id: "sasdaasasasdds",
+  //       name: "Carta secreta",
+  //       for: [
+  //         {
+  //           id: "asdsaas",
+  //           name: "Erwin Farwell",
+  //         },
+  //       ],
+  //       visibility: [
+  //         {
+  //           id: "asdsaas",
+  //           name: "Erwin Farwell",
+  //         },
+  //       ],
+  //       content: {
+  //         type: { name: "Letter Type 02", inputs: 1 },
+  //         inputs: [
+  //           `A pequena cidade costeira de Innsmouth está em alvoroço após uma série de eventos inexplicáveis envolvendo um jogo de RPG de mesa online. Conhecido por evocar mistérios cósmicos e criaturas além da compreensão humana, Call of Cthulhu tornou-se o epicentro de uma narrativa que parece ultrapassar as barreiras entre ficção e realidade.
   
-  Jogadores de uma sessão recente relataram fenômenos perturbadores: mensagens enigmáticas aparecendo no chat sem que ninguém as tivesse digitado, movimentos de peças no tabuleiro digital aparentemente por conta própria, e até mesmo sons inquietantes que ecoavam pelos fones de ouvido, mesmo quando o microfone de todos estava desligado.
+  // Jogadores de uma sessão recente relataram fenômenos perturbadores: mensagens enigmáticas aparecendo no chat sem que ninguém as tivesse digitado, movimentos de peças no tabuleiro digital aparentemente por conta própria, e até mesmo sons inquietantes que ecoavam pelos fones de ouvido, mesmo quando o microfone de todos estava desligado.
     
-  "Eu juro que vi um texto surgir no chat descrevendo um cenário horrível que nenhum de nós criou", disse Victor Reynolds, um dos jogadores. "Era como se algo ou alguém estivesse jogando conosco."
+  // "Eu juro que vi um texto surgir no chat descrevendo um cenário horrível que nenhum de nós criou", disse Victor Reynolds, um dos jogadores. "Era como se algo ou alguém estivesse jogando conosco."
     
-  O incidente ganhou ainda mais atenção quando o mestre do jogo, conhecido apenas como "Keeper", afirmou ter sentido uma "presença" em sua casa durante a sessão. "As luzes começaram a piscar, e eu ouvi sussurros vindos do corredor", relatou ele ao The Publisher. "Quando fui verificar, não havia ninguém."`,
-          ],
-        },
-      },
+  // O incidente ganhou ainda mais atenção quando o mestre do jogo, conhecido apenas como "Keeper", afirmou ter sentido uma "presença" em sua casa durante a sessão. "As luzes começaram a piscar, e eu ouvi sussurros vindos do corredor", relatou ele ao The Publisher. "Quando fui verificar, não havia ninguém."`,
+  //         ],
+  //       },
+  //     },
     ],
     backstory: `
   **Nome:** Lyra Valtharion  
@@ -514,64 +514,64 @@ export const characters: ICharacter[] = [
     inventory: [
       { id: "asdasafssasafsa", name: "Cantil de Whisky" },
       { id: "saasasdaskçdsaç", name: "Carta achada na Caverna Sagrada" },
-      {
-        id: "salklasklklasas",
-        name: "Blackwater Creek Map",
-        for: [
-          {
-            id: "asdsaas",
-            name: "Erwin Farwell",
-          },
-        ],
-        visibility: [
-          {
-            id: "asdsaas",
-            name: "Erwin Farwell",
-          },
-        ],
-        content: {
-          type: { name: "Newspaper Type 01", inputs: 2 },
-          inputs: [
-            '"A Assombração de Call of Cthulhu": Um Mistério Sobrenatural Intriga Investigadores',
+  //     {
+  //       id: "salklasklklasas",
+  //       name: "Blackwater Creek Map",
+  //       for: [
+  //         {
+  //           id: "asdsaas",
+  //           name: "Erwin Farwell",
+  //         },
+  //       ],
+  //       visibility: [
+  //         {
+  //           id: "asdsaas",
+  //           name: "Erwin Farwell",
+  //         },
+  //       ],
+  //       content: {
+  //         type: { name: "Newspaper Type 01", inputs: 2 },
+  //         inputs: [
+  //           '"A Assombração de Call of Cthulhu": Um Mistério Sobrenatural Intriga Investigadores',
 
-            `A pequena cidade costeira de Innsmouth está em alvoroço após uma série de eventos inexplicáveis envolvendo um jogo de RPG de mesa online. Conhecido por evocar mistérios cósmicos e criaturas além da compreensão humana, Call of Cthulhu tornou-se o epicentro de uma narrativa que parece ultrapassar as barreiras entre ficção e realidade.
+  //           `A pequena cidade costeira de Innsmouth está em alvoroço após uma série de eventos inexplicáveis envolvendo um jogo de RPG de mesa online. Conhecido por evocar mistérios cósmicos e criaturas além da compreensão humana, Call of Cthulhu tornou-se o epicentro de uma narrativa que parece ultrapassar as barreiras entre ficção e realidade.
       
-  Jogadores de uma sessão recente relataram fenômenos perturbadores: mensagens enigmáticas aparecendo no chat sem que ninguém as tivesse digitado, movimentos de peças no tabuleiro digital aparentemente por conta própria, e até mesmo sons inquietantes que ecoavam pelos fones de ouvido, mesmo quando o microfone de todos estava desligado.
+  // Jogadores de uma sessão recente relataram fenômenos perturbadores: mensagens enigmáticas aparecendo no chat sem que ninguém as tivesse digitado, movimentos de peças no tabuleiro digital aparentemente por conta própria, e até mesmo sons inquietantes que ecoavam pelos fones de ouvido, mesmo quando o microfone de todos estava desligado.
     
-  "Eu juro que vi um texto surgir no chat descrevendo um cenário horrível que nenhum de nós criou", disse Victor Reynolds, um dos jogadores. "Era como se algo ou alguém estivesse jogando conosco."
+  // "Eu juro que vi um texto surgir no chat descrevendo um cenário horrível que nenhum de nós criou", disse Victor Reynolds, um dos jogadores. "Era como se algo ou alguém estivesse jogando conosco."
     
-  O incidente ganhou ainda mais atenção quando o mestre do jogo, conhecido apenas como "Keeper", afirmou ter sentido uma "presença" em sua casa durante a sessão. "As luzes começaram a piscar, e eu ouvi sussurros vindos do corredor", relatou ele ao The Publisher. "Quando fui verificar, não havia ninguém."`,
-          ],
-        },
-      },
-      {
-        id: "sasdaasasasdds",
-        name: "Carta secreta",
-        for: [
-          {
-            id: "asdsaas",
-            name: "Erwin Farwell",
-          },
-        ],
-        visibility: [
-          {
-            id: "asdsaas",
-            name: "Erwin Farwell",
-          },
-        ],
-        content: {
-          type: { name: "Letter Type 02", inputs: 1 },
-          inputs: [
-            `A pequena cidade costeira de Innsmouth está em alvoroço após uma série de eventos inexplicáveis envolvendo um jogo de RPG de mesa online. Conhecido por evocar mistérios cósmicos e criaturas além da compreensão humana, Call of Cthulhu tornou-se o epicentro de uma narrativa que parece ultrapassar as barreiras entre ficção e realidade.
+  // O incidente ganhou ainda mais atenção quando o mestre do jogo, conhecido apenas como "Keeper", afirmou ter sentido uma "presença" em sua casa durante a sessão. "As luzes começaram a piscar, e eu ouvi sussurros vindos do corredor", relatou ele ao The Publisher. "Quando fui verificar, não havia ninguém."`,
+  //         ],
+  //       },
+  //     },
+  //     {
+  //       id: "sasdaasasasdds",
+  //       name: "Carta secreta",
+  //       for: [
+  //         {
+  //           id: "asdsaas",
+  //           name: "Erwin Farwell",
+  //         },
+  //       ],
+  //       visibility: [
+  //         {
+  //           id: "asdsaas",
+  //           name: "Erwin Farwell",
+  //         },
+  //       ],
+  //       content: {
+  //         type: { name: "Letter Type 02", inputs: 1 },
+  //         inputs: [
+  //           `A pequena cidade costeira de Innsmouth está em alvoroço após uma série de eventos inexplicáveis envolvendo um jogo de RPG de mesa online. Conhecido por evocar mistérios cósmicos e criaturas além da compreensão humana, Call of Cthulhu tornou-se o epicentro de uma narrativa que parece ultrapassar as barreiras entre ficção e realidade.
   
-  Jogadores de uma sessão recente relataram fenômenos perturbadores: mensagens enigmáticas aparecendo no chat sem que ninguém as tivesse digitado, movimentos de peças no tabuleiro digital aparentemente por conta própria, e até mesmo sons inquietantes que ecoavam pelos fones de ouvido, mesmo quando o microfone de todos estava desligado.
+  // Jogadores de uma sessão recente relataram fenômenos perturbadores: mensagens enigmáticas aparecendo no chat sem que ninguém as tivesse digitado, movimentos de peças no tabuleiro digital aparentemente por conta própria, e até mesmo sons inquietantes que ecoavam pelos fones de ouvido, mesmo quando o microfone de todos estava desligado.
     
-  "Eu juro que vi um texto surgir no chat descrevendo um cenário horrível que nenhum de nós criou", disse Victor Reynolds, um dos jogadores. "Era como se algo ou alguém estivesse jogando conosco."
+  // "Eu juro que vi um texto surgir no chat descrevendo um cenário horrível que nenhum de nós criou", disse Victor Reynolds, um dos jogadores. "Era como se algo ou alguém estivesse jogando conosco."
     
-  O incidente ganhou ainda mais atenção quando o mestre do jogo, conhecido apenas como "Keeper", afirmou ter sentido uma "presença" em sua casa durante a sessão. "As luzes começaram a piscar, e eu ouvi sussurros vindos do corredor", relatou ele ao The Publisher. "Quando fui verificar, não havia ninguém."`,
-          ],
-        },
-      },
+  // O incidente ganhou ainda mais atenção quando o mestre do jogo, conhecido apenas como "Keeper", afirmou ter sentido uma "presença" em sua casa durante a sessão. "As luzes começaram a piscar, e eu ouvi sussurros vindos do corredor", relatou ele ao The Publisher. "Quando fui verificar, não havia ninguém."`,
+  //         ],
+  //       },
+  //     },
     ],
     backstory: `
   **Nome:** Lyra Valtharion  
@@ -966,64 +966,64 @@ export const characters: ICharacter[] = [
     inventory: [
       { id: "asdasafssasafsa", name: "Cantil de Whisky" },
       { id: "saasasdaskçdsaç", name: "Carta achada na Caverna Sagrada" },
-      {
-        id: "salklasklklasas",
-        name: "Blackwater Creek Map",
-        for: [
-          {
-            id: "asddssadsasa",
-            name: "Erwin Farwell",
-          },
-        ],
-        visibility: [
-          {
-            id: "asdsaas",
-            name: "Erwin Farwell",
-          },
-        ],
-        content: {
-          type: { name: "Newspaper Type 01", inputs: 2 },
-          inputs: [
-            '"A Assombração de Call of Cthulhu": Um Mistério Sobrenatural Intriga Investigadores',
+//       {
+//         id: "salklasklklasas",
+//         name: "Blackwater Creek Map",
+//         for: [
+//           {
+//             id: "asddssadsasa",
+//             name: "Erwin Farwell",
+//           },
+//         ],
+//         visibility: [
+//           {
+//             id: "asdsaas",
+//             name: "Erwin Farwell",
+//           },
+//         ],
+//         content: {
+//           type: { name: "Newspaper Type 01", inputs: 2 },
+//           inputs: [
+//             '"A Assombração de Call of Cthulhu": Um Mistério Sobrenatural Intriga Investigadores',
 
-            `A pequena cidade costeira de Innsmouth está em alvoroço após uma série de eventos inexplicáveis envolvendo um jogo de RPG de mesa online. Conhecido por evocar mistérios cósmicos e criaturas além da compreensão humana, Call of Cthulhu tornou-se o epicentro de uma narrativa que parece ultrapassar as barreiras entre ficção e realidade.
+//             `A pequena cidade costeira de Innsmouth está em alvoroço após uma série de eventos inexplicáveis envolvendo um jogo de RPG de mesa online. Conhecido por evocar mistérios cósmicos e criaturas além da compreensão humana, Call of Cthulhu tornou-se o epicentro de uma narrativa que parece ultrapassar as barreiras entre ficção e realidade.
     
-Jogadores de uma sessão recente relataram fenômenos perturbadores: mensagens enigmáticas aparecendo no chat sem que ninguém as tivesse digitado, movimentos de peças no tabuleiro digital aparentemente por conta própria, e até mesmo sons inquietantes que ecoavam pelos fones de ouvido, mesmo quando o microfone de todos estava desligado.
+// Jogadores de uma sessão recente relataram fenômenos perturbadores: mensagens enigmáticas aparecendo no chat sem que ninguém as tivesse digitado, movimentos de peças no tabuleiro digital aparentemente por conta própria, e até mesmo sons inquietantes que ecoavam pelos fones de ouvido, mesmo quando o microfone de todos estava desligado.
   
-"Eu juro que vi um texto surgir no chat descrevendo um cenário horrível que nenhum de nós criou", disse Victor Reynolds, um dos jogadores. "Era como se algo ou alguém estivesse jogando conosco."
+// "Eu juro que vi um texto surgir no chat descrevendo um cenário horrível que nenhum de nós criou", disse Victor Reynolds, um dos jogadores. "Era como se algo ou alguém estivesse jogando conosco."
   
-O incidente ganhou ainda mais atenção quando o mestre do jogo, conhecido apenas como "Keeper", afirmou ter sentido uma "presença" em sua casa durante a sessão. "As luzes começaram a piscar, e eu ouvi sussurros vindos do corredor", relatou ele ao The Publisher. "Quando fui verificar, não havia ninguém."`,
-          ],
-        },
-      },
-      {
-        id: "sasdaasasasdds",
-        name: "Carta secreta",
-        for: [
-          {
-            id: "asdsaas",
-            name: "Erwin Farwell",
-          },
-        ],
-        visibility: [
-          {
-            id: "asdsaas",
-            name: "Erwin Farwell",
-          },
-        ],
-        content: {
-          type: { name: "Letter Type 02", inputs: 1 },
-          inputs: [
-            `A pequena cidade costeira de Innsmouth está em alvoroço após uma série de eventos inexplicáveis envolvendo um jogo de RPG de mesa online. Conhecido por evocar mistérios cósmicos e criaturas além da compreensão humana, Call of Cthulhu tornou-se o epicentro de uma narrativa que parece ultrapassar as barreiras entre ficção e realidade.
+// O incidente ganhou ainda mais atenção quando o mestre do jogo, conhecido apenas como "Keeper", afirmou ter sentido uma "presença" em sua casa durante a sessão. "As luzes começaram a piscar, e eu ouvi sussurros vindos do corredor", relatou ele ao The Publisher. "Quando fui verificar, não havia ninguém."`,
+//           ],
+//         },
+//       },
+//       {
+//         id: "sasdaasasasdds",
+//         name: "Carta secreta",
+//         for: [
+//           {
+//             id: "asdsaas",
+//             name: "Erwin Farwell",
+//           },
+//         ],
+//         visibility: [
+//           {
+//             id: "asdsaas",
+//             name: "Erwin Farwell",
+//           },
+//         ],
+//         content: {
+//           type: { name: "Letter Type 02", inputs: 1 },
+//           inputs: [
+//             `A pequena cidade costeira de Innsmouth está em alvoroço após uma série de eventos inexplicáveis envolvendo um jogo de RPG de mesa online. Conhecido por evocar mistérios cósmicos e criaturas além da compreensão humana, Call of Cthulhu tornou-se o epicentro de uma narrativa que parece ultrapassar as barreiras entre ficção e realidade.
 
-Jogadores de uma sessão recente relataram fenômenos perturbadores: mensagens enigmáticas aparecendo no chat sem que ninguém as tivesse digitado, movimentos de peças no tabuleiro digital aparentemente por conta própria, e até mesmo sons inquietantes que ecoavam pelos fones de ouvido, mesmo quando o microfone de todos estava desligado.
+// Jogadores de uma sessão recente relataram fenômenos perturbadores: mensagens enigmáticas aparecendo no chat sem que ninguém as tivesse digitado, movimentos de peças no tabuleiro digital aparentemente por conta própria, e até mesmo sons inquietantes que ecoavam pelos fones de ouvido, mesmo quando o microfone de todos estava desligado.
   
-"Eu juro que vi um texto surgir no chat descrevendo um cenário horrível que nenhum de nós criou", disse Victor Reynolds, um dos jogadores. "Era como se algo ou alguém estivesse jogando conosco."
+// "Eu juro que vi um texto surgir no chat descrevendo um cenário horrível que nenhum de nós criou", disse Victor Reynolds, um dos jogadores. "Era como se algo ou alguém estivesse jogando conosco."
   
-O incidente ganhou ainda mais atenção quando o mestre do jogo, conhecido apenas como "Keeper", afirmou ter sentido uma "presença" em sua casa durante a sessão. "As luzes começaram a piscar, e eu ouvi sussurros vindos do corredor", relatou ele ao The Publisher. "Quando fui verificar, não havia ninguém."`,
-          ],
-        },
-      },
+// O incidente ganhou ainda mais atenção quando o mestre do jogo, conhecido apenas como "Keeper", afirmou ter sentido uma "presença" em sua casa durante a sessão. "As luzes começaram a piscar, e eu ouvi sussurros vindos do corredor", relatou ele ao The Publisher. "Quando fui verificar, não havia ninguém."`,
+//           ],
+//         },
+//       },
     ],
     backstory: `
 **Nome:** Lyra Valtharion  
@@ -1403,28 +1403,28 @@ Agora, Lyra percorre o mundo, lutando não apenas por Silverglade, mas por todos
       { id: "5as15sc1s5a", name: "Coquetel Molotov" },
       { id: "6a5cs6a56s5", name: "Chave Misteriosa do Louis Bar" },
       { id: "sa59s59sacs", name: "Página sobre a tribo Sicaiook" },
-      {
-        id: "akdldsaklds",
-        name: "Mapa para buscar o Cu(bo)",
-        upload:
-          "https://wyrmlog.wyrmworld.com/wp-content/uploads/2019/05/mig.png",
-        for: [
-          {
-            id: "asfafsafv",
-            name: "Erik Bjorn",
-          },
-        ],
-        visibility: [
-          {
-            id: "asdsaas",
-            name: "Erwin Farwell",
-          },
-          {
-            id: "asfafsafv",
-            name: "Erik Bjorn",
-          },
-        ],
-      },
+      // {
+      //   id: "akdldsaklds",
+      //   name: "Mapa para buscar o Cu(bo)",
+      //   upload:
+      //     "https://wyrmlog.wyrmworld.com/wp-content/uploads/2019/05/mig.png",
+      //   for: [
+      //     {
+      //       id: "asfafsafv",
+      //       name: "Erik Bjorn",
+      //     },
+      //   ],
+      //   visibility: [
+      //     {
+      //       id: "asdsaas",
+      //       name: "Erwin Farwell",
+      //     },
+      //     {
+      //       id: "asfafsafv",
+      //       name: "Erik Bjorn",
+      //     },
+      //   ],
+      // },
     ],
     backstory: `
   **Nome:** Lyra Valtharion  

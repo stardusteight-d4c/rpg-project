@@ -9,6 +9,8 @@ import {
   ProfileInfo,
   Skills,
 } from "../../../character-sheets/CallOfCthulhu/components"
+import { useCharacters } from "@/modules/Board/contexts/Characters/CharactersContext"
+import { log } from "node:console"
 
 interface CharactersEditProps {
   playerCharacter: ICharacter
@@ -19,12 +21,20 @@ export const CharactersEdit = ({
   playerCharacter,
   setEditMode,
 }: CharactersEditProps) => {
+  const { updateCharacter, copyCharacters } = useCharacters()
   const [activeItems, setActiveItems] = useState<
     Array<"attributes" | "skills" | "inventory" | "combat" | "backstory" | null>
   >([null])
-  const actions = {
-    activeItems,
-    toggleItem,
+
+  const props = {
+    actions: {
+      activeItems,
+      toggleItem,
+    },
+    infos: {
+      character: playerCharacter,
+      isEditMode: true,
+    },
   }
 
   function toggleItem(
@@ -37,6 +47,14 @@ export const CharactersEdit = ({
         return [...prev, item]
       }
     })
+  }
+
+  function onSave() {
+    const updatedCharacter = copyCharacters.find(
+      (character) => character.id === playerCharacter.id
+    )
+    updateCharacter(playerCharacter.id, updatedCharacter!)
+    setEditMode(false)
   }
 
   return (
@@ -75,7 +93,7 @@ export const CharactersEdit = ({
             <span>Update Character</span>
           </div>
           <div
-            onClick={() => setEditMode(false)}
+            onClick={onSave}
             className="cursor-pointer w-fit flex items-center group gap-x-2"
           >
             <button className="bg-ashes flex items-center justify-center text-white p-1 rounded-full shadow-p group-hover:bg-green-500 duration-300 ease-in-out transition-all">
@@ -94,30 +112,12 @@ export const CharactersEdit = ({
         </div>
       </div>
       <div className="p-2">
-        <ProfileInfo character={playerCharacter} isEditMode={true} />
-        <Attributes
-          character={playerCharacter}
-          isEditMode={true}
-          {...actions}
-        />
-        <Skills character={playerCharacter} isEditMode={true} {...actions} />
-        <Combat
-          infos={playerCharacter.infos}
-          combat={playerCharacter.combat}
-          isEditMode={true}
-          {...actions}
-        />
-        <Inventory
-          {...actions}
-          infos={playerCharacter.infos}
-          inventory={playerCharacter.inventory}
-          isEditMode={true}
-        />
-        <Backstory
-          {...actions}
-          backstory={playerCharacter.backstory}
-          isEditMode={true}
-        />
+        <ProfileInfo {...props.infos} />
+        <Attributes {...props.infos} {...props.actions} />
+        <Skills {...props.infos} {...props.actions} />
+        <Combat {...props.infos} {...props.actions} />
+        <Inventory {...props.infos} {...props.actions} />
+        <Backstory {...props.infos} {...props.actions} />
       </div>
     </section>
   )

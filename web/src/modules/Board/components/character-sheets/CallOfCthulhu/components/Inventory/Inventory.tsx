@@ -2,8 +2,7 @@ import { InventoryDisplay } from "./components/InventoryDisplay"
 import { InventoryEdit } from "./components/InventoryEdit"
 
 interface InventoryProps {
-  inventory:  Array<InventoryItem>
-  infos: Infos
+  character: ICharacter
   activeItems: (
     | "attributes"
     | "skills"

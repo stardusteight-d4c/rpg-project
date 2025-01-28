@@ -3,8 +3,7 @@
 import { CombatDisplay, CombatEdit } from "./components"
 
 interface CombatProps {
-  combat: CombatItem[]
-  infos: Infos
+  character: ICharacter
   activeItems: (
     | "attributes"
     | "skills"

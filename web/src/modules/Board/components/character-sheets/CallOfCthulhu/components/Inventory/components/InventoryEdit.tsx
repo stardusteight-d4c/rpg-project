@@ -1,11 +1,12 @@
 "use client"
 
+import { useCharacters } from "@/modules/Board/contexts/Characters/CharactersContext"
 import { GlowingWrapper } from "@/shared/components"
 import { useState } from "react"
 
 interface InventoryEditProps {
-  inventory: Array<InventoryItem>
-  infos: Infos
+  character: ICharacter
+
   activeItems: (
     | "attributes"
     | "skills"
@@ -22,9 +23,10 @@ interface InventoryEditProps {
 export const InventoryEdit = ({
   activeItems,
   toggleItem,
-  inventory,
-  infos,
+  character,
 }: InventoryEditProps) => {
+  const { updateCharacter } = useCharacters()
+
   const [editableData, setEditableData] = useState<
     {
       id: string
@@ -32,26 +34,41 @@ export const InventoryEdit = ({
       type?: "Note Type 01" | "Note Type 02" | "Newspaper" | "Letter"
       content?: any
     }[]
-  >(inventory)
+  >(character.inventory)
   const [newItemName, setNewItemName] = useState("")
 
   function handleEdit(data: { id: string; newValue: string }) {
-    setEditableData((prevData) =>
-      prevData.map((item) =>
-        item.id === data.id ? { ...item, name: data.newValue } : item
-      )
+    const updatedData = editableData.map((item) =>
+      item.id === data.id ? { ...item, name: data.newValue } : item
     )
+  
+    setEditableData(updatedData)
+    updateCharacter(character.id ?? crypto.randomUUID(), {
+      inventory: updatedData,
+    })
   }
-
+  
   function handleDelete(id: string) {
-    setEditableData((prevData) => prevData.filter((item) => item.id !== id))
+    const updatedData = editableData.filter((item) => item.id !== id)
+  
+    setEditableData(updatedData)
+    
+    updateCharacter(character.id ?? crypto.randomUUID(), {
+      inventory: updatedData,
+    })
   }
-
+  
   function handleAdd() {
     if (newItemName.trim() === "") return
+  
     const newItem = { id: crypto.randomUUID(), name: newItemName }
-    setEditableData((prevData) => [...prevData, newItem])
+    const updatedData = [...editableData, newItem]
+  
+    setEditableData(updatedData)
     setNewItemName("")
+    updateCharacter(character.id ?? crypto.randomUUID(), {
+      inventory: updatedData,
+    })
   }
 
   return (

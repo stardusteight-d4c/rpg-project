@@ -5,9 +5,10 @@ import { useEffect, useRef, useState } from "react"
 import ReactMarkdown from "react-markdown"
 import rehypeRaw from "rehype-raw"
 import { tutorial } from "./data"
+import { useCharacters } from "@/modules/Board/contexts/Characters/CharactersContext"
 
 interface BackstoryEditProps {
-  backstory: string
+  character: ICharacter
   activeItems: (
     | "attributes"
     | "skills"
@@ -24,9 +25,12 @@ interface BackstoryEditProps {
 export const BackstoryEdit = ({
   activeItems,
   toggleItem,
-  backstory,
+  character,
 }: BackstoryEditProps) => {
-  const [currentBackstory, setCurrentBackstory] = useState(backstory)
+  const { updateCharacter } = useCharacters()
+
+  const [currentBackstory, setCurrentBackstory] = useState(character.backstory)
+
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   const [view, setView] = useState<"editor" | "markdown" | "tutorial">("editor")
 
@@ -44,8 +48,13 @@ export const BackstoryEdit = ({
   }
 
   function handleInputChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
+    const newBackstory = e.target.value
     adjustHeight()
-    setCurrentBackstory(e.target.value)
+    setCurrentBackstory(newBackstory)
+  
+    updateCharacter(character.id ?? crypto.randomUUID(), {
+      backstory: newBackstory,
+    })
   }
 
   return (

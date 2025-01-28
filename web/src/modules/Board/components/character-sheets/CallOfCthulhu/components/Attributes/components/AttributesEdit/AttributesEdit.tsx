@@ -23,14 +23,14 @@ export const AttributesEdit = ({
   character,
   toggleItem,
 }: AttributesEditProps) => {
-  const { updateCharacter } = useCharacters()
+  const { updateCopyCharacter } = useCharacters()
   const [editableData, setEditableData] = useState({
     ...character.attributes,
   })
 
   const handleEdit = (field: string, value: any) => {
     setEditableData((prev) => ({ ...prev, [field]: value }))
-    updateCharacter(character.id ?? randomUUID(), {
+    updateCopyCharacter(character.id ?? randomUUID(), {
       attributes: { ...editableData, [field]: value },
     })
   }

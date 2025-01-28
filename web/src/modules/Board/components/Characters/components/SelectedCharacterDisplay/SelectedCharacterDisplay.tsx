@@ -11,6 +11,7 @@ import {
 } from "../../../character-sheets/CallOfCthulhu/components"
 import { useModal } from "@/modules/Board/contexts/ModalContext"
 import { currentSession } from "@/modules/Board/contexts/Users/mock-data"
+import { useCharacters } from "@/modules/Board/contexts/Characters/CharactersContext"
 
 interface SelectedCharacterDisplayProps {
   selectedCharacter: ICharacter | null
@@ -27,14 +28,23 @@ export const SelectedCharacterDisplay = ({
   isModal,
 }: SelectedCharacterDisplayProps) => {
   if (!selectedCharacter) return null
+  const { getCharacterById } = useCharacters()
+  selectedCharacter = getCharacterById(selectedCharacter.id)!
   const { showModal, hideModal } = useModal()
 
   const [activeItems, setActiveItems] = useState<
     Array<"attributes" | "skills" | "inventory" | "combat" | "backstory" | null>
   >([null])
-  const actions = {
-    activeItems,
-    toggleItem,
+
+  const props = {
+    actions: {
+      activeItems,
+      toggleItem,
+    },
+    infos: {
+      character: selectedCharacter,
+      isEditMode: false,
+    },
   }
 
   function toggleItem(
@@ -122,20 +132,12 @@ export const SelectedCharacterDisplay = ({
         </div>
       </div>
       <div className="p-2">
-        <ProfileInfo character={selectedCharacter} showPlayerInfo={true} />
-        <Attributes character={selectedCharacter} {...actions} />
-        <Skills character={selectedCharacter} {...actions} />
-        <Combat
-          {...actions}
-          infos={selectedCharacter.infos}
-          combat={selectedCharacter.combat}
-        />
-        <Inventory
-          {...actions}
-          infos={selectedCharacter.infos}
-          inventory={selectedCharacter.inventory}
-        />
-        <Backstory {...actions} backstory={selectedCharacter.backstory} />
+        <ProfileInfo {...props.infos} showPlayerInfo={true} />
+        <Attributes {...props.infos} {...props.actions} />
+        <Skills {...props.infos} {...props.actions} />
+        <Combat {...props.infos} {...props.actions} />
+        <Inventory {...props.infos} {...props.actions} />
+        <Backstory {...props.infos} {...props.actions} />
       </div>
     </section>
   )

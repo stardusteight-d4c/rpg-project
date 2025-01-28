@@ -5,6 +5,8 @@ import { characters as mockCharacters } from "./mock-data"
 
 interface CharactersState {
   characters: ICharacter[]
+  copyCharacters: ICharacter[]
+  getCharacterById: (id: string) => ICharacter | undefined
   getCharactersByType: () => {
     players: ICharacter[]
     npcs: ICharacter[]
@@ -12,11 +14,16 @@ interface CharactersState {
   }
   addCharacter: (user: ICharacter) => void
   updateCharacter: (id: string, updatedCharacter: Partial<ICharacter>) => void
+  updateCopyCharacter: (
+    id: string,
+    updatedCharacter: Partial<ICharacter>
+  ) => void
   removeCharacter: (id: string) => void
 }
 
 const defaultState: CharactersState = {
   characters: [],
+  copyCharacters: [],
   getCharactersByType: () => ({
     players: [],
     npcs: [],
@@ -24,7 +31,9 @@ const defaultState: CharactersState = {
   }),
   addCharacter: () => {},
   updateCharacter: () => {},
+  updateCopyCharacter: () => {},
   removeCharacter: () => {},
+  getCharacterById: () => undefined,
 }
 
 const CharactersContext = createContext<CharactersState>(defaultState)
@@ -33,6 +42,8 @@ export const CharactersProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const [characters, setCharacters] = useState<ICharacter[]>(mockCharacters)
+  const [copyCharacters, setCopyCharacters] =
+    useState<ICharacter[]>(mockCharacters)
 
   const getCharactersByType = (): {
     players: ICharacter[]
@@ -56,7 +67,21 @@ export const CharactersProvider: React.FC<{ children: ReactNode }> = ({
     setCharacters((prev) => [...prev, user])
   }
 
-  const updateCharacter = (id: string, updatedCharacter: Partial<ICharacter>) => {
+  const updateCopyCharacter = (
+    id: string,
+    updatedCharacter: Partial<ICharacter>
+  ) => {
+    setCopyCharacters((prev) =>
+      prev.map((character) =>
+        character.id === id ? { ...character, ...updatedCharacter } : character
+      )
+    )
+  }
+
+  const updateCharacter = (
+    id: string,
+    updatedCharacter: Partial<ICharacter>
+  ) => {
     setCharacters((prev) =>
       prev.map((character) =>
         character.id === id ? { ...character, ...updatedCharacter } : character
@@ -68,13 +93,20 @@ export const CharactersProvider: React.FC<{ children: ReactNode }> = ({
     setCharacters((prev) => prev.filter((character) => character.id !== id))
   }
 
+  const getCharacterById = (id: string): ICharacter | undefined => {
+    return characters.find((character) => character.id === id)
+  }
+
   return (
     <CharactersContext.Provider
       value={{
         characters,
+        copyCharacters,
         getCharactersByType,
         addCharacter,
+        getCharacterById,
         updateCharacter,
+        updateCopyCharacter,
         removeCharacter,
       }}
     >

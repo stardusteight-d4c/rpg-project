@@ -5,8 +5,7 @@ import { ModalWrapper } from "@/shared/components"
 import { CombatModalDisplay } from "./components"
 
 interface CombatDisplayProps {
-  combat: Array<CombatItem>
-  infos: Infos
+  character: ICharacter
   activeItems: (
     | "attributes"
     | "skills"
@@ -23,8 +22,7 @@ interface CombatDisplayProps {
 export const CombatDisplay = ({
   activeItems,
   toggleItem,
-  combat,
-  infos,
+  character,
 }: CombatDisplayProps) => {
   const [selectedWeapon, setSelectedWeapon] = useState<CombatItem | null>(null)
 
@@ -93,9 +91,12 @@ export const CombatDisplay = ({
       </div>
       {activeItems.includes("combat") && (
         <div>
-          {combat && combat.length > 1 ? (
-            <div className="grid grid-cols-10 gap-2">
-              {combat.map((weapon, index) => (
+          {character.combat && character.combat.length > 1 ? (
+            <div
+              className="grid gap-2"
+              style={{ gridTemplateColumns: "repeat(15, minmax(0, 1fr))" }}
+            >
+              {character.combat.map((weapon, index) => (
                 <div key={index} className="col-span-1">
                   {weapon.name === "Unarmed" ? (
                     <div
@@ -119,7 +120,7 @@ export const CombatDisplay = ({
             </div>
           ) : (
             <div className="p-8 flex flex-col items-center justify-center">
-              {combat.map((weapon, index) => (
+              {character.combat.map((weapon, index) => (
                 <div
                   key={index}
                   onClick={() => setSelectedWeapon(weapon)}
@@ -129,8 +130,8 @@ export const CombatDisplay = ({
                 </div>
               ))}
               <span className="text-gray-400 mt-2 w-[400px] text-center">
-                The enemies arm themselves, while {infos.name} empty-handed...
-                gazes into the abyss of his preparation.
+                The enemies arm themselves, while {character.infos.name}{" "}
+                empty-handed... gazes into the abyss of his preparation.
               </span>
             </div>
           )}
