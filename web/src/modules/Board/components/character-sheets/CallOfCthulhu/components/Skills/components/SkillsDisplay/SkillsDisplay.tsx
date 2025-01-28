@@ -10,17 +10,12 @@ interface SkillsDisplayProps {
   toggleItem: (
     item: "attributes" | "skills" | "inventory" | "combat" | "backstory"
   ) => void
-  skills: {
-    name: string
-    baseValue: number | string
-    currentValue: number
-    checked: boolean
-  }[]
+  character: ICharacter
 }
 
 export const SkillsDisplay = ({
   toggleItem,
-  skills,
+  character,
   activeItems,
 }: SkillsDisplayProps) => {
   return (
@@ -76,7 +71,7 @@ export const SkillsDisplay = ({
       </div>
       {activeItems.includes("skills") && (
         <div className="grid grid-cols-3 gap-2">
-          {skills.map((skill) => (
+          {character.skills.map((skill) => (
             <div
               key={skill.name}
               className="bg-border/50 border border-border overflow-hidden rounded-md p-2"

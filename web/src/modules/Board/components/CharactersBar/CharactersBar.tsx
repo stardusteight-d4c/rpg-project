@@ -1,6 +1,6 @@
-import { useCharacters } from "@/shared/contexts/Characters/CharactersContext"
+import { useCharacters } from "@/modules/Board/contexts/Characters/CharactersContext"
 import { DraggableItem } from "../Map/components"
-import { currentSession } from "@/shared/contexts/MatchUsers/mock-data"
+import { currentSession } from "@/modules/Board/contexts/Users/mock-data"
 
 export const CharactersBar = () => {
   const charactersContext = useCharacters()
@@ -29,7 +29,7 @@ export const CharactersBar = () => {
             className="rounded-full w-[48px] h-[48px] overflow-hidden aspect-square"
           >
             <DraggableItem
-              id={character.infos.id}
+              id={character.id}
               imgUrl={character.infos.characterUrl}
               type="box"
               player={index === 0}
@@ -64,7 +64,7 @@ export const CharactersBar = () => {
             } rounded-full w-[48px] h-[48px] overflow-hidden aspect-square`}
           >
             <DraggableItem
-              id={character.infos.id}
+              id={character.id}
               imgUrl={character.infos.characterUrl}
               type="box"
               player={index === 0}
@@ -99,7 +99,7 @@ export const CharactersBar = () => {
             } rounded-full w-[48px] h-[48px] overflow-hidden aspect-square`}
           >
             <DraggableItem
-              id={character.infos.id}
+              id={character.id}
               imgUrl={character.infos.characterUrl}
               type="box"
               player={index === 0}

@@ -1,5 +1,5 @@
 import { Tooltip } from "@/shared/components"
-import { currentSession } from "@/shared/contexts/MatchUsers/mock-data"
+import { currentSession } from "@/modules/Board/contexts/Users/mock-data"
 
 interface MenuProps {
   active: MenuItem

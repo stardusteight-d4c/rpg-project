@@ -4,7 +4,7 @@ import { useState } from "react"
 import { handoutContentTypes, handoutsTypes } from "../../data"
 import { HandoutDisplay } from "../HandoutDisplay"
 import { GlowingWrapper } from "@/shared/components"
-import { useCharacters } from "@/shared/contexts/Characters/CharactersContext"
+import { useCharacters } from "@/modules/Board/contexts/Characters/CharactersContext"
 
 interface HandoutsCreateProps {
   onCreate: (value: boolean) => void
@@ -259,28 +259,28 @@ export const HandoutsCreate = ({ onCreate }: HandoutsCreateProps) => {
                         onClick={() =>
                           handleCheckEdit({
                             type: "for",
-                            characterId: character.infos.id,
+                            characterId: character.id,
                             characterName: character.infos.name,
                           })
                         }
                         className="whitespace-nowrap cursor-pointer flex items-center gap-x-2 hover:brightness-125 hover:bg-border/50 p-3"
                       >
                         <div
-                          key={character.infos.id}
+                          key={character.id}
                           className="check cursor-pointer !ml-0 !w-fit !px-0 flex items-center gap-x-2"
                         >
                           <input
                             type="checkbox"
-                            id={character.infos.id}
+                            id={character.id}
                             style={{ display: "none" }}
                             checked={handleCheckbox({
                               type: "for",
-                              characterId: character.infos.id,
+                              characterId: character.id,
                             })}
                             className="cbx2 !ml-0 !w-fit !px-0"
                           />
                           <label
-                            htmlFor={character.infos.id}
+                            htmlFor={character.id}
                             className="check !ml-0 !w-fit !px-0 pointer-events-none select-none"
                           >
                             <svg width="18px" height="18px" viewBox="0 0 18 18">
@@ -321,28 +321,28 @@ export const HandoutsCreate = ({ onCreate }: HandoutsCreateProps) => {
                         onClick={() =>
                           handleCheckEdit({
                             type: "visibility",
-                            characterId: character.infos.id,
-                            characterName: character.infos.name,
+                            characterId: character.id,
+                            characterName: character.name,
                           })
                         }
                         className="whitespace-nowrap cursor-pointer flex items-center gap-x-2 hover:brightness-125 hover:bg-border/50 p-3"
                       >
                         <div
-                          key={character.infos.id}
+                          key={character.id}
                           className="check cursor-pointer !ml-0 !w-fit !px-0 flex items-center gap-x-2"
                         >
                           <input
                             type="checkbox"
-                            id={character.infos.id}
+                            id={character.id}
                             style={{ display: "none" }}
                             checked={handleCheckbox({
                               type: "visibility",
-                              characterId: character.infos.id,
+                              characterId: character.id,
                             })}
                             className="cbx2 !ml-0 !w-fit !px-0"
                           />
                           <label
-                            htmlFor={character.infos.id}
+                            htmlFor={character.id}
                             className="check !ml-0 !w-fit !px-0 pointer-events-none select-none"
                           >
                             <svg width="18px" height="18px" viewBox="0 0 18 18">

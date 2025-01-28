@@ -2,7 +2,6 @@ type Gender = "male" | "female" | "neuter"
 type CharacterType = "player" | "npc" | "enemy"
 
 type Infos = {
-  id: string
   type: CharacterType
   name: string
   sex: Gender
@@ -95,7 +94,8 @@ type Skill = {
 }
 
 interface ICharacter {
-  user: IMatchUser
+  id: string
+  user: IUser
   infos: Infos
   attributes: Attributes
   combat: CombatItem[]

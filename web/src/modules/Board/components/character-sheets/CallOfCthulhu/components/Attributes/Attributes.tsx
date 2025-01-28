@@ -12,8 +12,8 @@ interface AttributesProps {
   toggleItem: (
     item: "attributes" | "skills" | "inventory" | "combat" | "backstory"
   ) => void
-  attributes: Attributes
   isEditMode?: boolean
+  character: ICharacter
 }
 
 export const Attributes = ({ isEditMode, ...props }: AttributesProps) => {

@@ -9,8 +9,8 @@ import {
   ProfileInfo,
   Skills,
 } from "../../../character-sheets/CallOfCthulhu/components"
-import { useModal } from "@/shared/contexts/ModalContext"
-import { currentSession } from "@/shared/contexts/MatchUsers/mock-data"
+import { useModal } from "@/modules/Board/contexts/ModalContext"
+import { currentSession } from "@/modules/Board/contexts/Users/mock-data"
 
 interface SelectedCharacterDisplayProps {
   selectedCharacter: ICharacter | null
@@ -97,7 +97,7 @@ export const SelectedCharacterDisplay = ({
           )}
           {isModal && (
             <div
-              onClick={() => hideModal(selectedCharacter.infos.id)}
+              onClick={() => hideModal(selectedCharacter.id)}
               className="flex cursor-pointer items-center group w-fit gap-x-2"
             >
               <button className="bg-ashes flex items-center justify-center text-white p-1 rounded-full  shadow-md shadow-black/50 group-hover:bg-gradient-to-tr group-hover:from-[#42d392] group-hover:to-[#8B5CF6] duration-300 ease-in-out transition-all">
@@ -122,13 +122,9 @@ export const SelectedCharacterDisplay = ({
         </div>
       </div>
       <div className="p-2">
-        <ProfileInfo
-          infos={selectedCharacter.infos}
-          user={selectedCharacter.user}
-          showPlayerInfo={true}
-        />
-        <Attributes attributes={selectedCharacter.attributes} {...actions} />
-        <Skills skills={selectedCharacter.skills} {...actions} />
+        <ProfileInfo character={selectedCharacter} showPlayerInfo={true} />
+        <Attributes character={selectedCharacter} {...actions} />
+        <Skills character={selectedCharacter} {...actions} />
         <Combat
           {...actions}
           infos={selectedCharacter.infos}

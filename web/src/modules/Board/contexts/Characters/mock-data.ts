@@ -1,10 +1,10 @@
-import { currentSession, matchUsers } from "../MatchUsers/mock-data"
+import { currentSession, matchUsers } from "../Users/mock-data"
 
 export const characters: ICharacter[] = [
   {
+    id: "313c22a9-ddc4-41c1-9678-a78d2e014d19",
     user: currentSession,
     infos: {
-      id: "sdjaksjdksdjkadsjk",
       type: "enemy",
       visibility: false,
       name: "⍀⟟☌⊑⏁ ⋏⍜⍙",
@@ -454,9 +454,9 @@ export const characters: ICharacter[] = [
     ],
   },
   {
+    id: "2abdb32e-a1dd-47f3-827d-c0ec025c734e",
     user: currentSession,
     infos: {
-      id: "ashdhsjahsjhsdj",
       type: "player",
       name: "Erwin Farwell",
       sex: "male" as "male",
@@ -905,10 +905,10 @@ export const characters: ICharacter[] = [
     ],
   },
   {
+    id: "b07b165d-3e36-4cb7-b86f-4979c404fe0e",
     user: currentSession,
     infos: {
       type: "npc",
-      id: "asddssadsasa",
       visibility: true,
       name: "Hannah Pinkman",
       sex: "female" as "female",
@@ -1357,9 +1357,9 @@ Agora, Lyra percorre o mundo, lutando não apenas por Silverglade, mas por todos
     ],
   },
   {
+    id: "a717fbd9-459a-4afa-ae3a-7a907d537ac1",
     user: matchUsers[1],
     infos: {
-      id: "asfafsafv",
       type: "player",
       name: "Erik Bjorn",
       sex: "male" as "male",
@@ -1758,9 +1758,9 @@ Agora, Lyra percorre o mundo, lutando não apenas por Silverglade, mas por todos
     ],
   },
   {
+    id: "72a480fe-c004-4a34-9225-95ac8b8a74bd",
     user: matchUsers[2],
     infos: {
-      id: "aksalskals",
       type: "player",
       name: "Lizabeth White",
       sex: "female" as "female",

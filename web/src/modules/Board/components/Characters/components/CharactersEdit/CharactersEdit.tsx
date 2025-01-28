@@ -94,21 +94,13 @@ export const CharactersEdit = ({
         </div>
       </div>
       <div className="p-2">
-        <ProfileInfo
-          infos={playerCharacter.infos}
-          user={playerCharacter.user}
-          isEditMode={true}
-        />
+        <ProfileInfo character={playerCharacter} isEditMode={true} />
         <Attributes
-          attributes={playerCharacter.attributes}
+          character={playerCharacter}
           isEditMode={true}
           {...actions}
         />
-        <Skills
-          skills={playerCharacter.skills}
-          isEditMode={true}
-          {...actions}
-        />
+        <Skills character={playerCharacter} isEditMode={true} {...actions} />
         <Combat
           infos={playerCharacter.infos}
           combat={playerCharacter.combat}

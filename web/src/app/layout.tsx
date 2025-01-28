@@ -1,10 +1,10 @@
 import type { Metadata } from "next"
 import { Roboto_Condensed, Delius } from "next/font/google"
 import "./globals.css"
-import { ModalProvider } from "@/shared/contexts/ModalContext"
-import { MatchUsersProvider } from "@/shared/contexts/MatchUsers/MatchUsersContext"
+import { ModalProvider } from "@/modules/Board/contexts/ModalContext"
+import { UsersProvider } from "@/modules/Board/contexts/Users/UsersContext"
 import React from "react"
-import { CharactersProvider } from "@/shared/contexts/Characters/CharactersContext"
+import { CharactersProvider } from "@/modules/Board/contexts/Characters/CharactersContext"
 
 const robotoCondensed = Roboto_Condensed({
   subsets: ["latin"],
@@ -39,9 +39,9 @@ export default function RootLayout({
 }
 
 const Providers = ({ children }: { children: React.ReactNode }) => (
-  <MatchUsersProvider>
+  <UsersProvider>
     <CharactersProvider>
       <ModalProvider>{children}</ModalProvider>
     </CharactersProvider>
-  </MatchUsersProvider>
+  </UsersProvider>
 )

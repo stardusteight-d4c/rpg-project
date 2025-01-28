@@ -1,10 +1,10 @@
-type MatchUserRole = "master" | "player"
+type UserRole = "master" | "player"
 
-interface IMatchUser {
+interface IUser {
   id: string
   name: string
   username: string
   email: string
   avatar_url: string
-  role: MatchUserRole
+  role: UserRole
 }

@@ -2,7 +2,7 @@
 
 import { HandoutDisplay } from "@/modules/Board/components/Handouts/components/HandoutDisplay"
 import { HandoutModalWrapper } from "@/modules/Board/components/Handouts/components/HandoutModalWrapper"
-import { useCharacters } from "@/shared/contexts/Characters/CharactersContext"
+import { useCharacters } from "@/modules/Board/contexts/Characters/CharactersContext"
 import { useState } from "react"
 
 interface InventoryDisplayProps {
@@ -120,7 +120,7 @@ export const InventoryDisplay = ({
                     !item.upload &&
                     item.visibility
                       ?.map((visibility) => {
-                        if (visibility.id === playerCharacter.infos.id)
+                        if (visibility.id === playerCharacter.id)
                           return true
                       })
                       .includes(true) && (
@@ -146,7 +146,7 @@ export const InventoryDisplay = ({
                     !item.content &&
                     item.visibility
                       ?.map((visibility) => {
-                        if (visibility.id === playerCharacter.infos.id)
+                        if (visibility.id === playerCharacter.id)
                           return true
                       })
                       .includes(true) && (

@@ -1,6 +1,8 @@
 "use client"
 
+import { useCharacters } from "@/modules/Board/contexts/Characters/CharactersContext"
 import { CustomNumericInput, GlowingWrapper } from "@/shared/components"
+import { randomUUID } from "crypto"
 import { useState } from "react"
 
 interface SkillsEditProps {
@@ -15,27 +17,25 @@ interface SkillsEditProps {
   toggleItem: (
     item: "attributes" | "skills" | "inventory" | "combat" | "backstory"
   ) => void
-  skills: {
-    name: string
-    baseValue: number | string
-    currentValue: number
-    checked: boolean
-  }[]
+  character: ICharacter
 }
 
 export const SkillsEdit = ({
   toggleItem,
-  skills,
+  character,
   activeItems,
 }: SkillsEditProps) => {
-  const [editableData, setEditableData] = useState(skills)
+  const { updateCharacter } = useCharacters()
+  const [editableData, setEditableData] = useState(character.skills)
 
   const handleEdit = (name: string, field: string, value: any) => {
-    setEditableData((prev) =>
-      prev.map((skill) =>
-        skill.name === name ? { ...skill, [field]: value } : skill
-      )
+    const updatedSkills = editableData.map((skill) =>
+      skill.name === name ? { ...skill, [field]: value } : skill
     )
+    setEditableData(updatedSkills)
+    updateCharacter(character.id ?? randomUUID(), {
+      skills: updatedSkills,
+    })
   }
 
   return (

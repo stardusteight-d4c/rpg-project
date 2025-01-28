@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { ProfileInfo } from "../../../character-sheets/CallOfCthulhu/components"
-import { currentSession } from "@/shared/contexts/MatchUsers/mock-data"
+import { currentSession } from "@/modules/Board/contexts/Users/mock-data"
 
 interface CharactersDisplayProps {
   characters: Array<ICharacter>
@@ -97,10 +97,10 @@ export const CharactersDisplay = ({
               activeCharacterType && (
               <div
                 onClick={() => setSelectedCharacter(character)}
-                key={character.infos.id}
+                key={character.id}
                 className="cursor-pointer border border-border hover:bg-border hover:brightness-105 p-2 rounded-xl"
               >
-                <ProfileInfo infos={character.infos} user={character.user} />
+                <ProfileInfo character={character} />
               </div>
             )}
           </div>

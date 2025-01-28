@@ -10,21 +10,12 @@ interface AttributesDisplayProps {
   toggleItem: (
     item: "attributes" | "skills" | "inventory" | "combat" | "backstory"
   ) => void
-  attributes: {
-    strength: number
-    dexterity: number
-    intelligence: number
-    power: number
-    constitution: number
-    appearance: number
-    size: number
-    education: number
-  }
+  character: ICharacter
 }
 
 export const AttributesDisplay = ({
   activeItems,
-  attributes,
+  character,
   toggleItem,
 }: AttributesDisplayProps) => {
   return (
@@ -80,7 +71,7 @@ export const AttributesDisplay = ({
       </div>
       {activeItems.includes("attributes") && (
         <div className="grid grid-cols-3 gap-2">
-          {Object.entries(attributes).map(([attribute, value]) => (
+          {Object.entries(character.attributes).map(([attribute, value]) => (
             <div
               key={attribute}
               className="bg-border/50 border border-border overflow-hidden rounded"

@@ -1,4 +1,6 @@
+import { useCharacters } from "@/modules/Board/contexts/Characters/CharactersContext"
 import { CustomNumericInput, GlowingWrapper } from "@/shared/components"
+import { randomUUID } from "node:crypto"
 import { useState } from "react"
 
 interface AttributesEditProps {
@@ -13,20 +15,24 @@ interface AttributesEditProps {
   toggleItem: (
     item: "attributes" | "skills" | "inventory" | "combat" | "backstory"
   ) => void
-  attributes: Attributes
+  character: ICharacter
 }
 
 export const AttributesEdit = ({
   activeItems,
-  attributes,
+  character,
   toggleItem,
 }: AttributesEditProps) => {
+  const { updateCharacter } = useCharacters()
   const [editableData, setEditableData] = useState({
-    ...attributes,
+    ...character.attributes,
   })
 
   const handleEdit = (field: string, value: any) => {
     setEditableData((prev) => ({ ...prev, [field]: value }))
+    updateCharacter(character.id ?? randomUUID(), {
+      attributes: { ...editableData, [field]: value },
+    })
   }
 
   return (

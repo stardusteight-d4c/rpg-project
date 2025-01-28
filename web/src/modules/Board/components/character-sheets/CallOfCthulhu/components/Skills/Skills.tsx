@@ -12,12 +12,7 @@ interface SkillsProps {
   toggleItem: (
     item: "attributes" | "skills" | "inventory" | "combat" | "backstory"
   ) => void
-  skills: {
-    name: string
-    baseValue: number | string
-    currentValue: number
-    checked: boolean
-  }[]
+  character:  ICharacter
   isEditMode?: boolean
 }
 

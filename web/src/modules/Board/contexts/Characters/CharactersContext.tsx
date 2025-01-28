@@ -11,6 +11,8 @@ interface CharactersState {
     enemies: ICharacter[]
   }
   addCharacter: (user: ICharacter) => void
+  updateCharacter: (id: string, updatedCharacter: Partial<ICharacter>) => void
+  removeCharacter: (id: string) => void
 }
 
 const defaultState: CharactersState = {
@@ -21,6 +23,8 @@ const defaultState: CharactersState = {
     enemies: [],
   }),
   addCharacter: () => {},
+  updateCharacter: () => {},
+  removeCharacter: () => {},
 }
 
 const CharactersContext = createContext<CharactersState>(defaultState)
@@ -52,9 +56,27 @@ export const CharactersProvider: React.FC<{ children: ReactNode }> = ({
     setCharacters((prev) => [...prev, user])
   }
 
+  const updateCharacter = (id: string, updatedCharacter: Partial<ICharacter>) => {
+    setCharacters((prev) =>
+      prev.map((character) =>
+        character.id === id ? { ...character, ...updatedCharacter } : character
+      )
+    )
+  }
+
+  const removeCharacter = (id: string) => {
+    setCharacters((prev) => prev.filter((character) => character.id !== id))
+  }
+
   return (
     <CharactersContext.Provider
-      value={{ characters, getCharactersByType, addCharacter }}
+      value={{
+        characters,
+        getCharactersByType,
+        addCharacter,
+        updateCharacter,
+        removeCharacter,
+      }}
     >
       {children}
     </CharactersContext.Provider>

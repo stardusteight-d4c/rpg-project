@@ -1,22 +1,20 @@
 "use client"
 
 import { DonutChart, ModalWrapper, Tooltip } from "@/shared/components"
-import { currentSession } from "@/shared/contexts/MatchUsers/mock-data"
+import { currentSession } from "@/modules/Board/contexts/Users/mock-data"
 import { handleCharacterTooltipText } from "@/shared/utils/handleCharacterTooltipText"
 import { handleCharacterVisibilityTooltipText } from "@/shared/utils/handleCharacterVisibilityTooltipText"
 import { useState } from "react"
 
 interface ProfileInfoDisplayProps {
-  infos: Infos
-  user: IMatchUser
+  character: ICharacter
   isEditMode?: boolean
   showPlayerInfo?: boolean
 }
 
 export const ProfileInfoDisplay = ({
-  infos,
+  character,
   isEditMode,
-  user,
   showPlayerInfo,
 }: ProfileInfoDisplayProps) => {
   const [isShowPlayerInfo, setIsShowPlayerInfo] = useState<boolean>(false)
@@ -35,16 +33,18 @@ export const ProfileInfoDisplay = ({
             <div className="px-4 py-8 w-[681px] relative">
               <div className="flex flex-col items-center mt-4 gap-y-2 justify-center">
                 <img
-                  src={user.avatar_url}
+                  src={character.user.avatar_url}
                   alt=""
                   referrerPolicy="no-referrer"
                   className="w-[100px] h-[100px] border border-border rounded-full"
                 />
                 <div className="flex flex-col items-center justify-center">
                   <span className="text-3xl background-gradient text-transparent bg-clip-text w-fit font-bold">
-                    {user.name}
+                    {character.user.name}
                   </span>
-                  <span className="text-gray-400 -mt-1">{user.username}</span>
+                  <span className="text-gray-400 -mt-1">
+                    {character.user.username}
+                  </span>
                 </div>
                 <div className="mt-4 flex items-center cursor-pointer group justify-center gap-x-2">
                   <span className="bg-border group-hover:bg-gradient-to-tr group-hover:from-[#42d392] group-hover:to-[#8B5CF6] duration-300 ease-in-out transition-all p-2 rounded-xl">
@@ -65,9 +65,9 @@ export const ProfileInfoDisplay = ({
           </ModalWrapper>
         )}
         <div className="relative w-fit h-fit">
-          {infos.characterUrl.length > 0 ? (
+          {character.infos.characterUrl.length > 0 ? (
             <img
-              src={infos.characterUrl}
+              src={character.infos.characterUrl}
               alt="Imagem do Personagem"
               className="min-w-[210px] max-w-[210px] min-h-[210px] max-h-[210px] border border-border object-cover rounded-xl"
             />
@@ -85,9 +85,9 @@ export const ProfileInfoDisplay = ({
             </div>
           )}
           <div className="flex absolute top-2 z-40 left-2 items-center w-fit gap-x-2">
-            <Tooltip text={handleCharacterTooltipText(infos.type)!}>
+            <Tooltip text={handleCharacterTooltipText(character.infos.type)!}>
               <button className="bg-background flex !cursor-default items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50">
-                {infos.type === "player" && (
+                {character.infos.type === "player" && (
                   <svg
                     width="22"
                     height="22"
@@ -101,7 +101,7 @@ export const ProfileInfoDisplay = ({
                     />
                   </svg>
                 )}
-                {infos.type === "npc" && (
+                {character.infos.type === "npc" && (
                   <svg
                     width="22"
                     height="22"
@@ -115,7 +115,7 @@ export const ProfileInfoDisplay = ({
                     />
                   </svg>
                 )}
-                {infos.type === "enemy" && (
+                {character.infos.type === "enemy" && (
                   <svg
                     width="22"
                     height="22"
@@ -132,13 +132,13 @@ export const ProfileInfoDisplay = ({
               </button>
             </Tooltip>
           </div>
-          {currentSession.role === "master" && infos.type !== "player" && (
+          {currentSession.role === "master" && character.infos.type !== "player" && (
             <div className="flex absolute top-2 z-40 right-2 items-center w-fit gap-x-2">
               <Tooltip
-                text={handleCharacterVisibilityTooltipText(infos.visibility!)}
+                text={handleCharacterVisibilityTooltipText(character.infos.visibility!)}
               >
                 <button className="bg-background flex !cursor-default items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50">
-                  {infos.visibility ? (
+                  {character.infos.visibility ? (
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="22"
@@ -163,11 +163,11 @@ export const ProfileInfoDisplay = ({
               </Tooltip>
             </div>
           )}
-          {infos.type === "player" && (
+          {character.infos.type === "player" && (
             <div className="flex absolute bottom-2 z-40 left-2 items-center w-fit gap-x-2">
               <Tooltip text="Point of Inspiration">
                 <button className="bg-background flex !cursor-default items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50">
-                  {infos.inspiration ? (
+                  {character.infos.inspiration ? (
                     <svg
                       width="22"
                       height="22"
@@ -227,10 +227,10 @@ export const ProfileInfoDisplay = ({
         <div className="w-full pl-4">
           <div className="flex items-center gap-x-2">
             <span className="block text-3xl font-bold background-gradient bg-clip-text text-transparent">
-              {infos.name}{" "}
+              {character.infos.name}{" "}
             </span>
             <div>
-              {infos.sex === "male" && (
+              {character.infos.sex === "male" && (
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="32"
@@ -242,7 +242,7 @@ export const ProfileInfoDisplay = ({
                   <path d="M216,32H168a8,8,0,0,0,0,16h28.69L154.62,90.07a80,80,0,1,0,11.31,11.31L208,59.32V88a8,8,0,0,0,16,0V40A8,8,0,0,0,216,32ZM149.24,197.29a64,64,0,1,1,0-90.53A64.1,64.1,0,0,1,149.24,197.29Z"></path>
                 </svg>
               )}
-              {infos.sex === "female" && (
+              {character.infos.sex === "female" && (
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="32"
@@ -254,7 +254,7 @@ export const ProfileInfoDisplay = ({
                   <path d="M208,96a80,80,0,1,0-88,79.6V200H88a8,8,0,0,0,0,16h32v24a8,8,0,0,0,16,0V216h32a8,8,0,0,0,0-16H136V175.6A80.11,80.11,0,0,0,208,96ZM64,96a64,64,0,1,1,64,64A64.07,64.07,0,0,1,64,96Z"></path>
                 </svg>
               )}
-              {infos.sex === "neuter" && (
+              {character.infos.sex === "neuter" && (
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="32"
@@ -283,7 +283,7 @@ export const ProfileInfoDisplay = ({
             )}
           </div>
           <span className="text-sm text-gray-400 block">
-            {infos.occupation}
+            {character.infos.occupation}
           </span>
           <div className="mt-2">
             <div className="mt-2 flex w-full items-center gap-4">
@@ -291,13 +291,13 @@ export const ProfileInfoDisplay = ({
                 <div className="flex items-center font-medium justify-between">
                   <span className="font-medium">Hit Points</span>
                   <span className="w-[35px] h-[35px] rounded-full flex items-center justify-center aspect-square text-center font-medium z-10 relative bg-gray-600/10 outline-none caret-white">
-                    {infos.hitPoints}
+                    {character.infos.hitPoints}
                   </span>
                 </div>
                 <div className="w-full bg-gray-600/10 overflow-hidden h-3 rounded-full">
                   <div
                     className="h-full rounded-full bg-gradient-to-tr from-red-600 to-red-500"
-                    style={{ width: `${infos.hitPoints}%` }}
+                    style={{ width: `${character.infos.hitPoints}%` }}
                   ></div>
                 </div>
               </div>
@@ -305,13 +305,13 @@ export const ProfileInfoDisplay = ({
                 <div className="flex font-medium items-center justify-between">
                   <span className="font-medium">Magic Points</span>
                   <span className="w-[35px] h-[35px] rounded-full flex items-center justify-center aspect-square text-center font-medium z-10 relative bg-gray-600/10 outline-none caret-white">
-                    {infos.magicPoints}
+                    {character.infos.magicPoints}
                   </span>{" "}
                 </div>
                 <div className="w-full bg-gray-600/10 overflow-hidden h-3 rounded-full">
                   <div
                     className="h-full rounded-full bg-gradient-to-tr from-blue-600 to-blue-500"
-                    style={{ width: `${infos.magicPoints}%` }}
+                    style={{ width: `${character.infos.magicPoints}%` }}
                   ></div>
                 </div>
               </div>
@@ -348,13 +348,13 @@ export const ProfileInfoDisplay = ({
                   </defs>
                 </svg>
                 <DonutChart
-                  percentage={infos.sanity}
+                  percentage={character.infos.sanity}
                   size={80}
                   strokeWidth={10}
                 />
               </div>
               <span className="w-[35px] h-[35px] rounded-full flex items-center justify-center aspect-square text-center font-medium z-10 bg-gray-600/10 outline-none caret-white absolute top-1/2 -translate-y-1/2 -right-[50px]">
-                {infos.sanity}
+                {character.infos.sanity}
               </span>
             </div>
           </div>
