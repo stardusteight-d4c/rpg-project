@@ -25,7 +25,7 @@ export const SkillsEdit = ({
   character,
   activeItems,
 }: SkillsEditProps) => {
-  const { updateCharacter } = useCharacters()
+  const { updateCopyCharacter } = useCharacters()
   const [editableData, setEditableData] = useState(character.skills)
 
   const handleEdit = (name: string, field: string, value: any) => {
@@ -33,7 +33,7 @@ export const SkillsEdit = ({
       skill.name === name ? { ...skill, [field]: value } : skill
     )
     setEditableData(updatedSkills)
-    updateCharacter(character.id ?? randomUUID(), {
+    updateCopyCharacter(character.id ?? randomUUID(), {
       skills: updatedSkills,
     })
   }

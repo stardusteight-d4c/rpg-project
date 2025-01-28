@@ -25,7 +25,7 @@ export const InventoryEdit = ({
   toggleItem,
   character,
 }: InventoryEditProps) => {
-  const { updateCharacter } = useCharacters()
+  const { updateCopyCharacter } = useCharacters()
 
   const [editableData, setEditableData] = useState<
     {
@@ -43,7 +43,7 @@ export const InventoryEdit = ({
     )
   
     setEditableData(updatedData)
-    updateCharacter(character.id ?? crypto.randomUUID(), {
+    updateCopyCharacter(character.id ?? crypto.randomUUID(), {
       inventory: updatedData,
     })
   }
@@ -53,7 +53,7 @@ export const InventoryEdit = ({
   
     setEditableData(updatedData)
     
-    updateCharacter(character.id ?? crypto.randomUUID(), {
+    updateCopyCharacter(character.id ?? crypto.randomUUID(), {
       inventory: updatedData,
     })
   }
@@ -66,7 +66,7 @@ export const InventoryEdit = ({
   
     setEditableData(updatedData)
     setNewItemName("")
-    updateCharacter(character.id ?? crypto.randomUUID(), {
+    updateCopyCharacter(character.id ?? crypto.randomUUID(), {
       inventory: updatedData,
     })
   }

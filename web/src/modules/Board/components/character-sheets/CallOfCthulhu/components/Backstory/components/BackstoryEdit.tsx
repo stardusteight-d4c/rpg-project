@@ -27,7 +27,7 @@ export const BackstoryEdit = ({
   toggleItem,
   character,
 }: BackstoryEditProps) => {
-  const { updateCharacter } = useCharacters()
+  const { updateCopyCharacter } = useCharacters()
 
   const [currentBackstory, setCurrentBackstory] = useState(character.backstory)
 
@@ -52,7 +52,7 @@ export const BackstoryEdit = ({
     adjustHeight()
     setCurrentBackstory(newBackstory)
   
-    updateCharacter(character.id ?? crypto.randomUUID(), {
+    updateCopyCharacter(character.id ?? crypto.randomUUID(), {
       backstory: newBackstory,
     })
   }

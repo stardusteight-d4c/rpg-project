@@ -16,7 +16,7 @@ import { randomUUID } from "node:crypto"
 export const ProfileInfoEdit: React.FC<{ character: ICharacter }> = ({
   character,
 }) => {
-  const { updateCharacter } = useCharacters()
+  const { updateCopyCharacter } = useCharacters()
 
   const [editableData, setEditableData] = useState({
     ...character.infos,
@@ -30,7 +30,7 @@ export const ProfileInfoEdit: React.FC<{ character: ICharacter }> = ({
 
   const handleEdit = (field: string, value: any) => {
     setEditableData((prev) => ({ ...prev, [field]: value }))
-    updateCharacter(character.id ?? randomUUID(), {
+    updateCopyCharacter(character.id ?? randomUUID(), {
       infos: { ...editableData, [field]: value },
     })
   }
@@ -42,7 +42,7 @@ export const ProfileInfoEdit: React.FC<{ character: ICharacter }> = ({
 
       handleEdit("characterUrl", tempUrl)
       handleEdit("characterFile", file)
-      updateCharacter(character.id, {
+      updateCopyCharacter(character.id, {
         infos: { ...editableData, characterUrl: tempUrl },
       })
       // URL.revokeObjectURL(tempUrl)

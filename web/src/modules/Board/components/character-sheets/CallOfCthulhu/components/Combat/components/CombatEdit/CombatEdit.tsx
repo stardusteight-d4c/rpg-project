@@ -26,7 +26,7 @@ export const CombatEdit = ({
   toggleItem,
   character,
 }: CombatEditProps) => {
-  const { updateCharacter } = useCharacters()
+  const { updateCopyCharacter } = useCharacters()
 
   const [editableData, setEditableData] = useState<Array<CombatItem>>(
     character.combat
@@ -46,7 +46,7 @@ export const CombatEdit = ({
         (weapon) => weapon.id !== removedWeapon.id
       )
       setEditableData(updatedWeapons)
-      updateCharacter(character.id ?? crypto.randomUUID(), {
+      updateCopyCharacter(character.id ?? crypto.randomUUID(), {
         combat: updatedWeapons,
       })
     }
@@ -60,7 +60,7 @@ export const CombatEdit = ({
       return weapon
     })
     setEditableData(updatedWeapons)
-    updateCharacter(character.id ?? crypto.randomUUID(), {
+    updateCopyCharacter(character.id ?? crypto.randomUUID(), {
       combat: updatedWeapons,
     })
   }
@@ -69,7 +69,7 @@ export const CombatEdit = ({
     const weaponWithId = { ...newWeapon, id: crypto.randomUUID() }
     const updatedWeapons = [...editableData, weaponWithId]
     setEditableData(updatedWeapons)
-    updateCharacter(character.id ?? crypto.randomUUID(), {
+    updateCopyCharacter(character.id ?? crypto.randomUUID(), {
       combat: updatedWeapons,
     })
   }
