@@ -1,4 +1,4 @@
-import { maps } from "../../mock-data"
+import { useMaps } from "@/modules/Board/contexts/Maps/MapsContext"
 
 interface MapsDisplayProps {
   onSelectedMap: (value: IMap) => void
@@ -6,6 +6,8 @@ interface MapsDisplayProps {
 }
 
 export const MapsDisplay = ({ onSelectedMap, onConfig }: MapsDisplayProps) => {
+  const { maps } = useMaps()
+
   return (
     <section className="relative w-full h-screen overflow-y-scroll no-scrollbar">
       <div className="sticky border-b border-border  shadow-sm shadow-black/50 z-50 top-0 p-2 w-full inset-x-0 bg-background">
@@ -44,7 +46,7 @@ export const MapsDisplay = ({ onSelectedMap, onConfig }: MapsDisplayProps) => {
         </div>
       </div>
       <div className="p-2 space-y-2">
-        {maps.map((map, index) => (
+        {maps.map((map) => (
           <div
             key={map.id}
             onClick={() => onSelectedMap(map)}

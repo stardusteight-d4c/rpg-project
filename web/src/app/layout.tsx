@@ -3,8 +3,8 @@ import { Roboto_Condensed, Delius } from "next/font/google"
 import "./globals.css"
 import { ModalProvider } from "@/modules/Board/contexts/ModalContext"
 import { UsersProvider } from "@/modules/Board/contexts/Users/UsersContext"
-import React from "react"
 import { CharactersProvider } from "@/modules/Board/contexts/Characters/CharactersContext"
+import { MapsProvider } from "@/modules/Board/contexts/Maps/MapsContext"
 
 const robotoCondensed = Roboto_Condensed({
   subsets: ["latin"],
@@ -41,7 +41,9 @@ export default function RootLayout({
 const Providers = ({ children }: { children: React.ReactNode }) => (
   <UsersProvider>
     <CharactersProvider>
-      <ModalProvider>{children}</ModalProvider>
+      <MapsProvider>
+        <ModalProvider>{children}</ModalProvider>
+      </MapsProvider>
     </CharactersProvider>
   </UsersProvider>
 )

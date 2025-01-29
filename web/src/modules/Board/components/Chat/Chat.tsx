@@ -82,17 +82,9 @@ Disse que no sonho a voz de sua mãe a chamava para casa, a chamava para ficar c
             characterUrl="https://imgcdn.stablediffusionweb.com/2024/10/24/23cb7d83-7cac-43f6-8ac8-84c9cd8475a6.jpg"
             name="Erwin Farwell"
           />
-          <div className="space-y-4 markdown-context w-full bg-border/50 rounded-3xl border border-border px-4 pb-2">
+          <div className="space-y-4 markdown-context w-fit bg-border/50 rounded-3xl border border-border px-4">
             <ReactMarkdown rehypePlugins={[rehypeRaw]}>
-              {`Agnes não acompanhou Clarence e Walter na noite de bebedeira. Diz que ficou estudando na cabana. Reforça que foi visitar Walter, mas ele nao deixou ela entrar porque a mãe estava doente. Ela revela que a mãe de Walter morreu faz 10 anos. 
-
-Relata que teve sonhos estranhos no vale de miskatonic, mas depois que foi embora, os sonhos pararam. Diz que era como se ela estivesse sendo enterrada no sonho, como se ela estivesse debaixo da terra.*
-
-Diz que escutava a voz de sua mãe, que cada um escutava uma voz diferente. 
-
-Disse que no sonho a voz de sua mãe a chamava para casa, a chamava para ficar com ela novamente.
-
-*Será que a sensação tem algo a ver com a caverna sagrada?`}
+              {`Blackwive seu maldito!!!!!!!!`}
             </ReactMarkdown>
           </div>
           <div className="text-gray-500/80 select-none flex items-center gap-x-[2px] mt-1 w-full justify-end">

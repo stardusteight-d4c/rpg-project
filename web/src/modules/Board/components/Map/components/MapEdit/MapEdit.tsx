@@ -2,6 +2,8 @@
 
 import { useState } from "react"
 import { CustomNumericInput, GlowingWrapper } from "@/shared/components"
+import { useMaps } from "@/modules/Board/contexts/Maps/MapsContext"
+import { randomUUID } from "node:crypto"
 
 interface MapEditProps {
   selectedMap: IMap
@@ -9,11 +11,12 @@ interface MapEditProps {
 }
 
 export const MapEdit = ({ selectedMap, onSelectedMap }: MapEditProps) => {
+  const { updateCopyMap, copyMaps, updateMap } = useMaps()
   const [editableData, setEditableData] = useState<IMap>({
     ...selectedMap,
     grid_size: selectedMap.grid_size ?? [20, 20],
     visibility: selectedMap.visibility ?? "default",
-    active: false,
+    active: selectedMap.active ?? false,
   })
   const [file, setFile] = useState<File | null>(null)
 
@@ -22,6 +25,10 @@ export const MapEdit = ({ selectedMap, onSelectedMap }: MapEditProps) => {
       ...prev,
       [data.key]: data.value,
     }))
+    updateCopyMap(editableData.id ?? randomUUID(), {
+      ...editableData,
+      [data.key]: data.value,
+    })
   }
 
   function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -33,7 +40,17 @@ export const MapEdit = ({ selectedMap, onSelectedMap }: MapEditProps) => {
         ...prevData,
         image_url: tempUrl,
       }))
+      updateCopyMap(editableData.id ?? randomUUID(), {
+        ...editableData,
+        image_url: tempUrl,
+      })
     }
+  }
+
+  function onSave() {
+    const updatedMap = copyMaps.find((map) => map.id === editableData.id)
+    updateMap(editableData.id, updatedMap!)
+    onSelectedMap(null)
   }
 
   function handleClick() {
@@ -110,6 +127,7 @@ export const MapEdit = ({ selectedMap, onSelectedMap }: MapEditProps) => {
             <span className="capitalize">Delete {editableData.type}</span>
           </div>
           <div
+            onClick={onSave}
             className="cursor-pointer w-fit flex items-center group gap-x-2"
           >
             <button className="bg-ashes flex items-center justify-center text-white p-1 rounded-full shadow-p group-hover:bg-green-500 duration-300 ease-in-out transition-all">

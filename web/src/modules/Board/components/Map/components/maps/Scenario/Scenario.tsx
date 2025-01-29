@@ -1,7 +1,3 @@
-"use client"
-
-import React, { useState, DragEvent } from "react"
-
 export const Scenario: React.FC<{
   map: IMap
   onConfig: (value: boolean) => void
@@ -10,7 +6,7 @@ export const Scenario: React.FC<{
     <div className="relative w-full h-[100vh] overflow-hidden">
       <div className="px-2 border border-border bg-background w-fit z-50 shadow-sm shadow-black/50 rounded-full font-medium text-xl absolute bottom-4 right-4">
         <span className="background-gradient bg-clip-text text-transparent whitespace-nowrap select-none cursor-default pointer-events-none">
-          Entrada da Casa Abandonada
+          {map.name}
         </span>
       </div>
      

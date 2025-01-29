@@ -2,19 +2,20 @@
 
 import { useState } from "react"
 import { MapEdit, Maps, MapsDisplay } from "./components"
-import { maps } from "./mock-data"
+import { useMaps } from "../../contexts/Maps/MapsContext"
 
 export const Map: React.FC = () => {
+  const { activeMap } = useMaps()
   const [selectedMap, setSelectedMap] = useState<IMap | null>(null)
   const [config, setConfig] = useState<boolean>(false)
-
-  const activeMap = maps.filter((map) => map.active === true)[0]
 
   const mapsDisplayProps = {
     selectedMap: selectedMap!,
     onSelectedMap: setSelectedMap,
     onConfig: setConfig,
   }
+
+  if (!activeMap) return null
 
   if (!config)
     return (
