@@ -1,6 +1,6 @@
 export const initialData: any = {
+  id: "",
   infos: {
-    id: "",
     name: "",
     sex: "male" as "male",
     characterUrl: "",
@@ -8,6 +8,7 @@ export const initialData: any = {
     hitPoints: 0,
     magicPoints: 0,
     sanity: 0,
+    type: 'player',
     inspiration: false,
   },
   attributes: {

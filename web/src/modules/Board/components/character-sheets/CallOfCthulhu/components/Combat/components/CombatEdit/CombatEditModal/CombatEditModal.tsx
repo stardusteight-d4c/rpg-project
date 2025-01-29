@@ -5,9 +5,9 @@ import { useState } from "react"
 
 interface CombatEditModalProps {
   handleOnStatusChange: (status: "open" | "close") => void
-  selectedWeapon: IWeapon | IGun | IExplosive
-  onRemoveItem: (removedWeapon: IWeapon | IGun | IExplosive) => void
-  onUpdateWeapon: (updatedWeapon: IWeapon | IGun | IExplosive) => void
+  selectedWeapon: CombatItem
+  onRemoveItem: (removedWeapon: CombatItem) => void
+  onUpdateWeapon: (updatedWeapon: CombatItem) => void
 }
 
 export const CombatEditModal = ({
@@ -16,9 +16,8 @@ export const CombatEditModal = ({
   onRemoveItem,
   onUpdateWeapon,
 }: CombatEditModalProps) => {
-  const [editableWeapon, setEditableWeapon] = useState<
-    IWeapon | IGun | IExplosive
-  >(selectedWeapon)
+  const [editableWeapon, setEditableWeapon] =
+    useState<CombatItem>(selectedWeapon)
 
   const handleEdit = (field: string, value: any) => {
     setEditableWeapon((prev) => ({ ...prev, [field]: value }))

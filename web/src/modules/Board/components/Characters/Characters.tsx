@@ -23,6 +23,7 @@ export const Characters = () => {
       <CharactersEdit
         setEditMode={setEditMode}
         playerCharacter={selectedCharacter!}
+        setSelectedCharacter={setSelectedCharacter}
       />
     )
 

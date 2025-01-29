@@ -10,11 +10,13 @@ import {
   Skills,
 } from "../../../character-sheets/CallOfCthulhu/components"
 import { initialData } from "./initialData"
+import { useCharacters } from "@/modules/Board/contexts/Characters/CharactersContext"
 
 interface CharactersCreateProps {
   setCreateMode: (value: boolean) => void
 }
 export const CharactersCreate = ({ setCreateMode }: CharactersCreateProps) => {
+  const { addCharacter, copyCharacters } = useCharacters()
   const [activeItems, setActiveItems] = useState<
     Array<"attributes" | "skills" | "inventory" | "combat" | "backstory" | null>
   >([null])
@@ -22,12 +24,10 @@ export const CharactersCreate = ({ setCreateMode }: CharactersCreateProps) => {
     activeItems,
     toggleItem,
   }
-  const currentSession = {
-    id: "alsmdlsamdslamds",
-    name: "Gabriel Sena",
-    username: "#stardusteight",
-    avatarUrl: "https://avatars.githubusercontent.com/u/87643260?v=4",
-  }
+
+  // function onCreate() {
+  //   addCharacter()
+  // }
 
   function toggleItem(
     item: "attributes" | "skills" | "inventory" | "combat" | "backstory"
@@ -96,30 +96,12 @@ export const CharactersCreate = ({ setCreateMode }: CharactersCreateProps) => {
         </div>
       </div>
       <div className="p-2">
-        <ProfileInfo
-          infos={initialData.infos}
-          player={currentSession}
-          isEditMode
-        />
-        <Attributes
-          attributes={initialData.attributes}
-          {...actions}
-          isEditMode
-        />
-        <Skills skills={initialData.skills} {...actions} isEditMode />
-        <Combat
-          {...actions}
-          infos={initialData.infos}
-          combat={initialData.combat}
-          isEditMode
-        />
-        <Inventory
-          {...actions}
-          infos={initialData.infos}
-          inventory={initialData.inventory}
-          isEditMode
-        />
-        <Backstory {...actions} backstory={initialData.backstory} isEditMode />
+        <ProfileInfo character={initialData} isEditMode />
+        <Attributes character={initialData} {...actions} isEditMode />
+        <Skills character={initialData} {...actions} isEditMode />
+        <Combat character={initialData} {...actions} isEditMode />
+        <Inventory character={initialData} {...actions} isEditMode />
+        <Backstory character={initialData} {...actions} isEditMode />
       </div>
     </section>
   )

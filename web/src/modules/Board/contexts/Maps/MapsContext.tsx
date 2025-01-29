@@ -1,6 +1,12 @@
 "use client"
 
-import React, { createContext, useContext, useState, ReactNode } from "react"
+import React, {
+  createContext,
+  useContext,
+  useState,
+  ReactNode,
+  useEffect,
+} from "react"
 import { maps as mockMaps } from "./mock-data"
 
 interface MapsState {
@@ -8,6 +14,7 @@ interface MapsState {
   copyMaps: IMap[]
   activeMap: IMap | undefined
   addMap: (map: IMap) => void
+  deleteMap: (id: string) => void
   updateMap: (id: string, updatedMap: IMap) => void
   updateCopyMap: (id: string, updatedMap: Partial<IMap>) => void
 }
@@ -17,6 +24,7 @@ const defaultState: MapsState = {
   copyMaps: [],
   activeMap: undefined,
   addMap: () => {},
+  deleteMap: () => {},
   updateMap: () => {},
   updateCopyMap: () => {},
 }
@@ -32,8 +40,16 @@ export const MapsProvider: React.FC<{ children: ReactNode }> = ({
     maps.find((map) => map.active === true)
   )
 
+  useEffect(() => {
+    setActiveMap(maps.find((map) => map.active === true))
+  }, [maps])
+
   const addMap = (user: IMap) => {
     setMaps((prev) => [...prev, user])
+  }
+
+  const deleteMap = (id: string) => {
+    setMaps((prev) => prev.filter((map) => map.id !== id))
   }
 
   const updateCopyMap = (id: string, updatedMap: Partial<IMap>) => {
@@ -43,8 +59,6 @@ export const MapsProvider: React.FC<{ children: ReactNode }> = ({
   }
 
   const updateMap = (id: string, updatedMap: IMap) => {
-    console.log(updatedMap)
-
     if (updatedMap.type === "scenario") {
       delete updatedMap.grid_size
       delete updatedMap.visibility
@@ -63,6 +77,14 @@ export const MapsProvider: React.FC<{ children: ReactNode }> = ({
       }
     }
 
+    if (
+      activeMap &&
+      activeMap.id === updatedMap.id &&
+      updatedMap.active === false
+    ) {
+      setActiveMap(undefined)
+    }
+
     setMaps((prev) =>
       prev.map((map) => (map.id === id ? { ...updatedMap } : map))
     )
@@ -70,7 +92,15 @@ export const MapsProvider: React.FC<{ children: ReactNode }> = ({
 
   return (
     <MapsContext.Provider
-      value={{ maps, copyMaps, addMap, activeMap, updateMap, updateCopyMap }}
+      value={{
+        maps,
+        copyMaps,
+        addMap,
+        activeMap,
+        deleteMap,
+        updateMap,
+        updateCopyMap,
+      }}
     >
       {children}
     </MapsContext.Provider>
