@@ -71,11 +71,19 @@ export const CharactersProvider: React.FC<{ children: ReactNode }> = ({
     id: string,
     updatedCharacter: Partial<ICharacter>
   ) => {
-    setCopyCharacters((prev) =>
-      prev.map((character) =>
-        character.id === id ? { ...character, ...updatedCharacter } : character
-      )
-    )
+    setCopyCharacters((prev) => {
+      const existingCharacter = prev.find((character) => character.id === id)
+
+      if (existingCharacter) {
+        return prev.map((character) =>
+          character.id === id
+            ? { ...character, ...updatedCharacter }
+            : character
+        )
+      } else {
+        return [...prev, { id, ...updatedCharacter } as ICharacter]
+      }
+    })
   }
 
   const updateCharacter = (
@@ -91,6 +99,7 @@ export const CharactersProvider: React.FC<{ children: ReactNode }> = ({
 
   const removeCharacter = (id: string) => {
     setCharacters((prev) => prev.filter((character) => character.id !== id))
+    setCopyCharacters((prev) => prev.filter((character) => character.id !== id))
   }
 
   const getCharacterById = (id: string): ICharacter | undefined => {

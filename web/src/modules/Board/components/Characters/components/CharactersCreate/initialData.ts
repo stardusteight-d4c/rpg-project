@@ -8,7 +8,7 @@ export const initialData: any = {
     hitPoints: 0,
     magicPoints: 0,
     sanity: 0,
-    type: 'player',
+    type: undefined,
     inspiration: false,
   },
   attributes: {

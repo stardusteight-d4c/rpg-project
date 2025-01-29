@@ -1,13 +1,14 @@
 "use client"
 
 import { useState } from "react"
-import { MapEdit, Maps, MapsDisplay } from "./components"
+import { MapCreate, MapEdit, Maps, MapsDisplay } from "./components"
 import { useMaps } from "../../contexts/Maps/MapsContext"
 
 export const Map: React.FC = () => {
   const { activeMap } = useMaps()
   const [selectedMap, setSelectedMap] = useState<IMap | null>(null)
   const [config, setConfig] = useState<boolean>(false)
+  const [createMode, setCreateMode] = useState<boolean>(false)
 
   const mapsDisplayProps = {
     selectedMap: selectedMap!,
@@ -43,8 +44,12 @@ export const Map: React.FC = () => {
       </div>
     )
 
-  if (selectedMap && selectedMap && config)
+  if (!selectedMap && config && createMode)
+    return <MapCreate onCreateMode={setCreateMode} />
+
+  if (selectedMap && config && !createMode)
     return <MapEdit {...mapsDisplayProps!} />
 
-  if (!selectedMap && config) return <MapsDisplay {...mapsDisplayProps} />
+  if (!selectedMap && config)
+    return <MapsDisplay onCreateMode={setCreateMode} {...mapsDisplayProps} />
 }

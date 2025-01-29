@@ -1,3 +1,4 @@
-// - Baixar e Instalar o GitHub CLI (Command Line Interface)
+// CREATE | READ | UPDATE | DELETE -> CRUD
 // - Baixar e Instalar o NVM e NPM
+
 

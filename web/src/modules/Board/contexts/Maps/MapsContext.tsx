@@ -44,8 +44,20 @@ export const MapsProvider: React.FC<{ children: ReactNode }> = ({
     setActiveMap(maps.find((map) => map.active === true))
   }, [maps])
 
-  const addMap = (user: IMap) => {
-    setMaps((prev) => [...prev, user])
+  const addMap = (createdMap: IMap) => {
+    if (activeMap) {
+      if (createdMap.active === true) {
+        if (createdMap.id !== activeMap?.id) {
+          setMaps((prev) =>
+            prev.map((map) =>
+              map.id === activeMap.id ? { ...map, active: false } : map
+            )
+          )
+        }
+        setActiveMap(createdMap)
+      }
+      setMaps((prev) => [...prev, createdMap])
+    }
   }
 
   const deleteMap = (id: string) => {
@@ -53,9 +65,22 @@ export const MapsProvider: React.FC<{ children: ReactNode }> = ({
   }
 
   const updateCopyMap = (id: string, updatedMap: Partial<IMap>) => {
-    setCopyMaps((prev) =>
-      prev.map((map) => (map.id === id ? { ...map, ...updatedMap } : map))
-    )
+    setCopyMaps((prev) => {
+      if (updatedMap.type === "scenario") {
+        delete updatedMap.grid_size
+        delete updatedMap.visibility
+      }
+
+      const existingMap = prev.find((map) => map.id === id)
+
+      if (existingMap) {
+        return prev.map((map) =>
+          map.id === id ? { ...map, ...updatedMap } : map
+        )
+      } else {
+        return [...prev, { id, ...updatedMap } as IMap]
+      }
+    })
   }
 
   const updateMap = (id: string, updatedMap: IMap) => {

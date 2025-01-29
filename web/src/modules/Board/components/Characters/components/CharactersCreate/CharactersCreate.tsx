@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import {
   Attributes,
   Backstory,
@@ -9,14 +9,21 @@ import {
   ProfileInfo,
   Skills,
 } from "../../../character-sheets/CallOfCthulhu/components"
-import { initialData } from "./initialData"
+import { initialData as mockInitialData } from "./initialData"
 import { useCharacters } from "@/modules/Board/contexts/Characters/CharactersContext"
+import { useUsers } from "@/modules/Board/contexts/Users/UsersContext"
+import { currentSession } from "@/modules/Board/contexts/Users/mock-data"
 
 interface CharactersCreateProps {
   setCreateMode: (value: boolean) => void
 }
 export const CharactersCreate = ({ setCreateMode }: CharactersCreateProps) => {
-  const { addCharacter, copyCharacters } = useCharacters()
+  const { addCharacter, updateCopyCharacter, copyCharacters, characters } =
+    useCharacters()
+  const [initialData, setInitialData] = useState({
+    ...mockInitialData,
+    id: crypto.randomUUID(),
+  })
   const [activeItems, setActiveItems] = useState<
     Array<"attributes" | "skills" | "inventory" | "combat" | "backstory" | null>
   >([null])
@@ -25,9 +32,21 @@ export const CharactersCreate = ({ setCreateMode }: CharactersCreateProps) => {
     toggleItem,
   }
 
-  // function onCreate() {
-  //   addCharacter()
-  // }
+  useEffect(() => {
+    updateCopyCharacter(initialData.id, {
+      ...initialData,
+      user: currentSession,
+    })
+  }, [])
+
+  function onCreate() {
+    const createdCharacter = copyCharacters.find(
+      (character) => character.id === initialData.id
+    )
+    if (!createdCharacter) return null
+    addCharacter(createdCharacter)
+    setCreateMode(false)
+  }
 
   function toggleItem(
     item: "attributes" | "skills" | "inventory" | "combat" | "backstory"
@@ -77,7 +96,7 @@ export const CharactersCreate = ({ setCreateMode }: CharactersCreateProps) => {
             <span>Create Character</span>
           </div>
           <div
-            onClick={() => setCreateMode(false)}
+            onClick={onCreate}
             className="cursor-pointer w-fit flex items-center group gap-x-2"
           >
             <button className="bg-ashes flex items-center justify-center text-white p-1 rounded-full shadow-p group-hover:bg-blue-500 duration-300 ease-in-out transition-all">
