@@ -129,7 +129,7 @@ export const CombatDisplay = ({
                   <img src={weapon.iconUrl} className="w-full" />
                 </div>
               ))}
-              <span className="text-gray-400 mt-2 w-[400px] text-center">
+              <span className="text-gray-400 block mt-2 w-[400px] text-center">
                 The enemies arm themselves, while {character.infos.name}{" "}
                 empty-handed... gazes into the abyss of his preparation.
               </span>

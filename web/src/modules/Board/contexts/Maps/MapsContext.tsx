@@ -57,6 +57,8 @@ export const MapsProvider: React.FC<{ children: ReactNode }> = ({
         setActiveMap(createdMap)
       }
       setMaps((prev) => [...prev, createdMap])
+    } else {
+      setMaps((prev) => [...prev, createdMap])
     }
   }
 

@@ -28,7 +28,7 @@ export const MapCreate = ({ onCreateMode }: MapCreateProps) => {
 
   useEffect(() => {
     updateCopyMap(editableData.id, editableData)
-  }, [])
+  }, [editableData])
 
   function updateEditableData(data: { key: keyof IMap; value: any }) {
     setEditableData((prev) => ({
