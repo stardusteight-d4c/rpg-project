@@ -65,6 +65,23 @@ export const Map: React.FC = () => {
                   are no active map yet. How about we fix this before they try
                   explore the void?
                 </span>
+                <div className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2">
+                  <div className="col-span-1 mx-auto cursor-pointer w-[50px] h-[50px] hover:brightness-150 flex items-center justify-center border border-border bg-border/50 rounded aspect-square">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="32"
+                      height="32"
+                      fill="#FFFFFF"
+                      viewBox="0 0 256 256"
+                    >
+                      <path d="M198.24,62.63l15.68-17.25a8,8,0,0,0-11.84-10.76L186.4,51.86A95.95,95.95,0,0,0,57.76,193.37L42.08,210.62a8,8,0,1,0,11.84,10.76L69.6,204.14A95.95,95.95,0,0,0,198.24,62.63ZM48,128A80,80,0,0,1,175.6,63.75l-107,117.73A79.63,79.63,0,0,1,48,128Zm80,80a79.55,79.55,0,0,1-47.6-15.75l107-117.73A79.95,79.95,0,0,1,128,208Z"></path>
+                    </svg>
+                  </div>
+                  <span className="text-gray-400 block mt-2 w-[400px] text-center">
+                    The adventurers took a step forward… and there is nothing.
+                    No ground, no road, not even a horizon.
+                  </span>
+                </div>
               </>
             ) : (
               <div className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2">

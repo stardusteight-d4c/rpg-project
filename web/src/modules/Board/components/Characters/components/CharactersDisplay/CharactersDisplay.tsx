@@ -22,6 +22,29 @@ export const CharactersDisplay = ({
     "Players" | "NPCs" | "Enemies"
   >("Players")
 
+  const countVisibility = (characters: ICharacter[], type: CharacterType) => {
+    return characters.reduce(
+      (acc, character) => {
+        if (character.infos.type === type) {
+          if (character.infos.visibility) {
+            acc.visible++
+          } else {
+            acc.invisible++
+          }
+          acc.total++
+        }
+        return acc
+      },
+      { invisible: 0, visible: 0, total: 0 }
+    )
+  }
+
+  const players = countVisibility(characters, "player")
+  const npcs = countVisibility(characters, "npc")
+  const enemies = countVisibility(characters, "enemy")
+
+  console.log(players, npcs, enemies)
+
   const typesObj = {
     player: "Players",
     npc: "NPCs",
@@ -85,32 +108,169 @@ export const CharactersDisplay = ({
         </div>
       </div>
 
-      <div className="p-2 space-y-2">
-        {characters.map((character) => (
-          <div
-            className={`${
-              currentSession.role !== "master" &&
-              character.infos.type !== "player" &&
-              !character.infos.visibility &&
-              " hidden invisible sr-only "
-            }`}
-          >
-            {typesObj[character.infos.type as "player" | "npc" | "enemy"] ===
-              activeCharacterType && (
-              <div
-                onClick={() => {
-                  updateCopyCharacter(character.id, character)
-                  setSelectedCharacter(character)
-                }}
-                key={character.id}
-                className="cursor-pointer border border-border hover:bg-border hover:brightness-105 p-2 rounded-xl"
+      {activeCharacterType === "Players" &&
+        currentSession.role === "player" &&
+        players.visible === 0 && (
+          <div className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2">
+            <div className="col-span-1 mx-auto cursor-pointer w-[50px] h-[50px] hover:brightness-150 flex items-center justify-center border border-border bg-border/50 rounded aspect-square">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="32"
+                height="32"
+                fill="#FFFFFF"
+                viewBox="0 0 256 256"
               >
-                <ProfileInfo character={character} />
-              </div>
-            )}
+                <path d="M198.24,62.63l15.68-17.25a8,8,0,0,0-11.84-10.76L186.4,51.86A95.95,95.95,0,0,0,57.76,193.37L42.08,210.62a8,8,0,1,0,11.84,10.76L69.6,204.14A95.95,95.95,0,0,0,198.24,62.63ZM48,128A80,80,0,0,1,175.6,63.75l-107,117.73A79.63,79.63,0,0,1,48,128Zm80,80a79.55,79.55,0,0,1-47.6-15.75l107-117.73A79.95,79.95,0,0,1,128,208Z"></path>
+              </svg>
+            </div>
+            <span className="text-gray-400 block mt-2 w-[400px] text-center">
+              If a dragon roars on the mountain and there are no heroes to hear
+              it, did it make a sound? Better create some characters and find
+              out.
+            </span>
           </div>
-        ))}
-      </div>
+        )}
+
+      {activeCharacterType === "Players" &&
+        currentSession.role === "master" &&
+        players.total === 0 && (
+          <div className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2">
+            <div className="col-span-1 mx-auto cursor-pointer w-[50px] h-[50px] hover:brightness-150 flex items-center justify-center border border-border bg-border/50 rounded aspect-square">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="32"
+                height="32"
+                fill="#FFFFFF"
+                viewBox="0 0 256 256"
+              >
+                <path d="M198.24,62.63l15.68-17.25a8,8,0,0,0-11.84-10.76L186.4,51.86A95.95,95.95,0,0,0,57.76,193.37L42.08,210.62a8,8,0,1,0,11.84,10.76L69.6,204.14A95.95,95.95,0,0,0,198.24,62.63ZM48,128A80,80,0,0,1,175.6,63.75l-107,117.73A79.63,79.63,0,0,1,48,128Zm80,80a79.55,79.55,0,0,1-47.6-15.75l107-117.73A79.95,79.95,0,0,1,128,208Z"></path>
+              </svg>
+            </div>
+            <span className="text-gray-400 block mt-2 w-[400px] text-center">
+              If a dragon roars on the mountain and there are no heroes to hear
+              it, does it even count? Time to invite some friends and find out!
+            </span>
+          </div>
+        )}
+
+      {activeCharacterType === "NPCs" &&
+        currentSession.role === "master" &&
+        npcs.total === 0 && (
+          <div className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2">
+            <div className="col-span-1 mx-auto cursor-pointer w-[50px] h-[50px] hover:brightness-150 flex items-center justify-center border border-border bg-border/50 rounded aspect-square">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="32"
+                height="32"
+                fill="#FFFFFF"
+                viewBox="0 0 256 256"
+              >
+                <path d="M198.24,62.63l15.68-17.25a8,8,0,0,0-11.84-10.76L186.4,51.86A95.95,95.95,0,0,0,57.76,193.37L42.08,210.62a8,8,0,1,0,11.84,10.76L69.6,204.14A95.95,95.95,0,0,0,198.24,62.63ZM48,128A80,80,0,0,1,175.6,63.75l-107,117.73A79.63,79.63,0,0,1,48,128Zm80,80a79.55,79.55,0,0,1-47.6-15.75l107-117.73A79.95,79.95,0,0,1,128,208Z"></path>
+              </svg>
+            </div>
+            <span className="text-gray-400 block mt-2 w-[400px] text-center">
+              A village with no villagers, a kingdom with no ruler... it's
+              eerily quiet. Maybe it's time to bring some NPCs to life?
+            </span>
+          </div>
+        )}
+
+      {activeCharacterType === "NPCs" &&
+        currentSession.role === "player" &&
+        npcs.visible === 0 && (
+          <div className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2">
+            <div className="col-span-1 mx-auto cursor-pointer w-[50px] h-[50px] hover:brightness-150 flex items-center justify-center border border-border bg-border/50 rounded aspect-square">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="32"
+                height="32"
+                fill="#FFFFFF"
+                viewBox="0 0 256 256"
+              >
+                <path d="M198.24,62.63l15.68-17.25a8,8,0,0,0-11.84-10.76L186.4,51.86A95.95,95.95,0,0,0,57.76,193.37L42.08,210.62a8,8,0,1,0,11.84,10.76L69.6,204.14A95.95,95.95,0,0,0,198.24,62.63ZM48,128A80,80,0,0,1,175.6,63.75l-107,117.73A79.63,79.63,0,0,1,48,128Zm80,80a79.55,79.55,0,0,1-47.6-15.75l107-117.73A79.95,79.95,0,0,1,128,208Z"></path>
+              </svg>
+            </div>
+            <span className="text-gray-400 block mt-2 w-[400px] text-center">
+              The kingdom is empty, the tavern is deserted... it's so quiet it's
+              kind of scary. Did the Master forget to create the NPCs, or are we
+              supposed to rule this place?
+            </span>
+          </div>
+        )}
+
+      {activeCharacterType === "Enemies" &&
+        currentSession.role === "master" &&
+        enemies.total === 0 && (
+          <div className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2">
+            <div className="col-span-1 mx-auto cursor-pointer w-[50px] h-[50px] hover:brightness-150 flex items-center justify-center border border-border bg-border/50 rounded aspect-square">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="32"
+                height="32"
+                fill="#FFFFFF"
+                viewBox="0 0 256 256"
+              >
+                <path d="M198.24,62.63l15.68-17.25a8,8,0,0,0-11.84-10.76L186.4,51.86A95.95,95.95,0,0,0,57.76,193.37L42.08,210.62a8,8,0,1,0,11.84,10.76L69.6,204.14A95.95,95.95,0,0,0,198.24,62.63ZM48,128A80,80,0,0,1,175.6,63.75l-107,117.73A79.63,79.63,0,0,1,48,128Zm80,80a79.55,79.55,0,0,1-47.6-15.75l107-117.73A79.95,79.95,0,0,1,128,208Z"></path>
+              </svg>
+            </div>
+            <span className="text-gray-400 block mt-2 w-[400px] text-center">
+              No monsters, no villains, not even a pesky goblin in sight. The
+              heroes might get bored... better create some enemies to spice
+              things up!
+            </span>
+          </div>
+        )}
+
+      {activeCharacterType === "Enemies" &&
+        currentSession.role === "player" &&
+        enemies.visible === 0 && (
+          <div className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2">
+            <div className="col-span-1 mx-auto cursor-pointer w-[50px] h-[50px] hover:brightness-150 flex items-center justify-center border border-border bg-border/50 rounded aspect-square">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="32"
+                height="32"
+                fill="#FFFFFF"
+                viewBox="0 0 256 256"
+              >
+                <path d="M198.24,62.63l15.68-17.25a8,8,0,0,0-11.84-10.76L186.4,51.86A95.95,95.95,0,0,0,57.76,193.37L42.08,210.62a8,8,0,1,0,11.84,10.76L69.6,204.14A95.95,95.95,0,0,0,198.24,62.63ZM48,128A80,80,0,0,1,175.6,63.75l-107,117.73A79.63,79.63,0,0,1,48,128Zm80,80a79.55,79.55,0,0,1-47.6-15.75l107-117.73A79.95,79.95,0,0,1,128,208Z"></path>
+              </svg>
+            </div>
+            <span className="text-gray-400 block mt-2 w-[400px] text-center">
+              Where are the goblins? The dragons? Does the Master think the
+              greatest enemy is ourselves?
+            </span>
+          </div>
+        )}
+
+      {characters.length > 0 && (
+        <div className="p-2 space-y-2">
+          {characters.map((character) => (
+            <div
+              className={`${
+                currentSession.role !== "master" &&
+                character.infos.type !== "player" &&
+                !character.infos.visibility &&
+                " hidden invisible sr-only "
+              }`}
+            >
+              {typesObj[character.infos.type as "player" | "npc" | "enemy"] ===
+                activeCharacterType && (
+                <div
+                  onClick={() => {
+                    updateCopyCharacter(character.id, character)
+                    setSelectedCharacter(character)
+                  }}
+                  key={character.id}
+                  className="cursor-pointer border border-border hover:bg-border hover:brightness-105 p-2 rounded-xl"
+                >
+                  <ProfileInfo character={character} />
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
     </section>
   )
 }

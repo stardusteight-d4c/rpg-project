@@ -312,7 +312,7 @@ export const MapEdit = ({
         {editableData.type === "map" && (
           <ul>
             <h3 className="block mb-2 mt-4 text-4xl font-bold background-gradient bg-clip-text text-transparent">
-              Config
+              Settings
             </h3>
             <ul className="grid relative z-[90] grid-cols-2 gap-2 text-base">
               <li className="col-span-1 text-base relative z-[10] flex flex-col">
