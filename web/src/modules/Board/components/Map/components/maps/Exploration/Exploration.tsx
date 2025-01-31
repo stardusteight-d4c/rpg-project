@@ -21,6 +21,7 @@ export const Exploration: React.FC<{
   const [startDragPos, setStartDragPos] = useState({ x: 0, y: 0 })
   const [isItemDragging, setIsItemDragging] = useState(false)
   const showResetMap = zoom !== 1 || position.x !== 0 || position.y !== 0
+
   const handleDrop = (e: DragEvent<HTMLDivElement>, x: number, y: number) => {
     e.preventDefault()
 
@@ -161,8 +162,8 @@ export const Exploration: React.FC<{
           className="absolute z-0 w-full h-full object-fill select-none pointer-events-none"
         />
 
-        {Array.from({ length: map.grid_size![0] }).map((_, rowIndex) =>
-          Array.from({ length: map.grid_size![1] }).map((_, colIndex) => (
+        {Array.from({ length: map.grid_size![1] }).map((_, rowIndex) =>
+          Array.from({ length: map.grid_size![0] }).map((_, colIndex) => (
             <div
               key={`${rowIndex}-${colIndex}`}
               onDrop={(e) => handleDrop(e, colIndex, rowIndex)}
@@ -217,7 +218,7 @@ export const FogOfWar: React.FC<{
     items.forEach((item) => {
       const cellWidth = canvas.width / map.grid_size![0]
       const cellHeight = canvas.height / map.grid_size![1]
-    
+
       const gridX = (item.x + 0.5) * cellWidth // Centraliza no meio do quadrado
       const gridY = (item.y + 0.5) * cellHeight // Centraliza no meio do quadrado
       const radius = Math.max(cellWidth, cellHeight) * 2 // Garante que cobre 2 quadrados ao redor
