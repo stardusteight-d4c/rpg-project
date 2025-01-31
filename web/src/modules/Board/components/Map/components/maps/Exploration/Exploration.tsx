@@ -2,6 +2,8 @@
 
 import React, { useState, DragEvent, useRef, useEffect } from "react"
 import { DraggableItem } from "../../DraggableItem"
+import { useMaps } from "@/modules/Board/contexts/Maps/MapsContext"
+import { currentSession } from "@/modules/Board/contexts/Users/mock-data"
 
 interface GridItem {
   id: string
@@ -14,6 +16,7 @@ interface GridItem {
 export const Exploration: React.FC<{
   map: IMap
 }> = ({ map }) => {
+  const { wallpaper, addWallpaper } = useMaps()
   const [items, setItems] = useState<GridItem[]>([])
   const [zoom, setZoom] = useState(1)
   const [position, setPosition] = useState({ x: 0, y: 0 })
@@ -21,6 +24,23 @@ export const Exploration: React.FC<{
   const [startDragPos, setStartDragPos] = useState({ x: 0, y: 0 })
   const [isItemDragging, setIsItemDragging] = useState(false)
   const showResetMap = zoom !== 1 || position.x !== 0 || position.y !== 0
+  const [file, setFile] = useState<File | undefined>(undefined)
+
+  function handleClick() {
+    const fileInput = document.getElementById("file-input") as HTMLInputElement
+    if (fileInput) {
+      fileInput.click()
+    }
+  }
+
+  function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0]
+    if (file) {
+      const tempUrl = URL.createObjectURL(file)
+      setFile(file)
+      addWallpaper(tempUrl)
+    }
+  }
 
   const handleDrop = (e: DragEvent<HTMLDivElement>, x: number, y: number) => {
     e.preventDefault()
@@ -111,11 +131,50 @@ export const Exploration: React.FC<{
           {map.name}
         </span>
       </div>
-      <img
-        src="/wallpaper.png"
-        className="absolute h-screen object-cover inset-0 select-none pointer-events-none opacity-50 z-0"
-        alt=""
-      />
+      {map.grid_size?.length &&
+        map.grid_size?.length > 0 &&
+        currentSession.role === "master" && (
+          <div className="absolute bottom-4 left-4 z-50">
+            <div
+              onClick={handleClick}
+              className="flex cursor-pointer select-none items-center group w-fit gap-x-2"
+            >
+              <button className="bg-ashes flex items-center justify-center text-white p-1 rounded-full  shadow-md shadow-black/50 group-hover:bg-blue-500 duration-300 ease-in-out transition-all">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  fill="#FFFFFF"
+                  viewBox="0 0 256 256"
+                >
+                  <path d="M224,144v64a8,8,0,0,1-8,8H40a8,8,0,0,1-8-8V144a8,8,0,0,1,16,0v56H208V144a8,8,0,0,1,16,0ZM93.66,77.66,120,51.31V144a8,8,0,0,0,16,0V51.31l26.34,26.35a8,8,0,0,0,11.32-11.32l-40-40a8,8,0,0,0-11.32,0l-40,40A8,8,0,0,0,93.66,77.66Z"></path>
+                </svg>
+              </button>
+              <span className="capitalize">
+                {wallpaper
+                  ? "Change Background Wallpaper"
+                  : "Upload Background Wallpaper"}
+              </span>
+              <input
+                id="file-input"
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={handleFileChange}
+              />
+            </div>
+          </div>
+        )}
+
+      {map.grid_size?.length && map.grid_size?.length > 0 && wallpaper && (
+        <>
+          <img
+            src={wallpaper}
+            className="absolute h-screen object-cover inset-0 select-none pointer-events-none opacity-50 z-0"
+            alt=""
+          />
+        </>
+      )}
 
       {showResetMap && (
         <div
@@ -212,9 +271,6 @@ export const FogOfWar: React.FC<{
 
     ctx.globalCompositeOperation = "destination-out"
 
-    console.log(items);
-    
-
     items.forEach((item) => {
       const cellWidth = canvas.width / map.grid_size![0]
       const cellHeight = canvas.height / map.grid_size![1]
@@ -222,7 +278,7 @@ export const FogOfWar: React.FC<{
       const gridX = (item.x + 0.5) * cellWidth // Centraliza no meio do quadrado
       const gridY = (item.y + 0.5) * cellHeight // Centraliza no meio do quadrado
       const radius = Math.max(cellWidth, cellHeight) * 2 // Garante que cobre 2 quadrados ao redor
-    
+
       const gradient = ctx.createRadialGradient(
         gridX,
         gridY,
@@ -231,10 +287,10 @@ export const FogOfWar: React.FC<{
         gridY,
         radius
       )
-    
+
       gradient.addColorStop(0, "rgba(9, 9, 9, 1)")
       gradient.addColorStop(1, "rgba(9, 9, 9, 0)")
-    
+
       ctx.fillStyle = gradient
       ctx.beginPath()
       ctx.arc(gridX, gridY, radius, 0, Math.PI * 2)

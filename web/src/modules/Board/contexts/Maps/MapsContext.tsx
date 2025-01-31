@@ -12,8 +12,10 @@ import { maps as mockMaps } from "./mock-data"
 interface MapsState {
   maps: IMap[]
   copyMaps: IMap[]
+  wallpaper: string | undefined
   activeMap: IMap | undefined
   addMap: (map: IMap) => void
+  addWallpaper: (wallpaper_url: string) => void
   deleteMap: (id: string) => void
   updateMap: (id: string, updatedMap: IMap) => void
   updateCopyMap: (id: string, updatedMap: Partial<IMap>) => void
@@ -21,9 +23,11 @@ interface MapsState {
 
 const defaultState: MapsState = {
   maps: [],
+  wallpaper: undefined,
   copyMaps: [],
   activeMap: undefined,
   addMap: () => {},
+  addWallpaper: () => {},
   deleteMap: () => {},
   updateMap: () => {},
   updateCopyMap: () => {},
@@ -39,10 +43,13 @@ export const MapsProvider: React.FC<{ children: ReactNode }> = ({
   const [activeMap, setActiveMap] = useState<IMap | undefined>(
     maps.find((map) => map.active === true)
   )
+  const [wallpaper, setWallpaper] = useState<string | undefined>(undefined)
 
   useEffect(() => {
     setActiveMap(maps.find((map) => map.active === true))
   }, [maps])
+
+  const addWallpaper = (wallpaper_url: string) => setWallpaper(wallpaper_url)
 
   const addMap = (createdMap: IMap) => {
     if (activeMap) {
@@ -121,8 +128,10 @@ export const MapsProvider: React.FC<{ children: ReactNode }> = ({
     <MapsContext.Provider
       value={{
         maps,
+        wallpaper,
         copyMaps,
         addMap,
+        addWallpaper,
         activeMap,
         deleteMap,
         updateMap,

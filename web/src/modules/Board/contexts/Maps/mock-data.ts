@@ -5,8 +5,8 @@ export const maps: IMap[] = [
     name: "Casa Abandonada",
     image_url: "/Simple-house-1.png",
     grid_size: [20, 20],
-    visibility: "default",
-    active: false,
+    visibility: "low",
+    active: true,
   },
   {
     id: "kaslkdsadks",
@@ -14,7 +14,7 @@ export const maps: IMap[] = [
     name: "Entrada da Casa Abandonada",
     image_url:
       "https://cdn.pixabay.com/photo/2023/09/30/09/00/ai-generated-8285203_1280.jpg",
-    active: true,
+    active: false,
   },
   {
     id: "sasdksalklds",
