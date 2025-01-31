@@ -47,37 +47,6 @@ export const Menu = ({ active, onActive }: MenuProps) => {
           </span>
         </Tooltip>
 
-        <Tooltip text="Chat" variant position="right">
-          <span onClick={() => onActive("chat")} className="cursor-pointer">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="40"
-              height="40"
-              viewBox="0 0 256 256"
-              className={`${
-                active === "chat" && " background-gradient "
-              } rounded-xl p-1 fill-white`}
-            >
-              <path d="M140,128a12,12,0,1,1-12-12A12,12,0,0,1,140,128ZM84,116a12,12,0,1,0,12,12A12,12,0,0,0,84,116Zm88,0a12,12,0,1,0,12,12A12,12,0,0,0,172,116Zm60,12A104,104,0,0,1,79.12,219.82L45.07,231.17a16,16,0,0,1-20.24-20.24l11.35-34.05A104,104,0,1,1,232,128Zm-16,0A88,88,0,1,0,51.81,172.06a8,8,0,0,1,.66,6.54L40,216,77.4,203.53a7.85,7.85,0,0,1,2.53-.42,8,8,0,0,1,4,1.08A88,88,0,0,0,216,128Z"></path>
-            </svg>
-          </span>
-        </Tooltip>
-        <Tooltip text="Cam" variant position="right">
-          <span onClick={() => onActive("cam")} className="cursor-pointer">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="40"
-              height="40"
-              viewBox="0 0 256 256"
-              className={`${
-                active === "cam" && " background-gradient "
-              } rounded-xl p-1 fill-white`}
-            >
-              <path d="M117.25,157.92a60,60,0,1,0-66.5,0A95.83,95.83,0,0,0,3.53,195.63a8,8,0,1,0,13.4,8.74,80,80,0,0,1,134.14,0,8,8,0,0,0,13.4-8.74A95.83,95.83,0,0,0,117.25,157.92ZM40,108a44,44,0,1,1,44,44A44.05,44.05,0,0,1,40,108Zm210.14,98.7a8,8,0,0,1-11.07-2.33A79.83,79.83,0,0,0,172,168a8,8,0,0,1,0-16,44,44,0,1,0-16.34-84.87,8,8,0,1,1-5.94-14.85,60,60,0,0,1,55.53,105.64,95.83,95.83,0,0,1,47.22,37.71A8,8,0,0,1,250.14,206.7Z"></path>
-            </svg>
-          </span>
-        </Tooltip>
-
         {currentSession.role === "master" && (
           <>
             <Tooltip text="Handouts" variant position="right">
@@ -118,6 +87,37 @@ export const Menu = ({ active, onActive }: MenuProps) => {
             </Tooltip>
           </>
         )}
+
+        <Tooltip text="Chat" variant position="right">
+          <span onClick={() => onActive("chat")} className="cursor-pointer">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="40"
+              height="40"
+              viewBox="0 0 256 256"
+              className={`${
+                active === "chat" && " background-gradient "
+              } rounded-xl p-1 fill-white`}
+            >
+              <path d="M140,128a12,12,0,1,1-12-12A12,12,0,0,1,140,128ZM84,116a12,12,0,1,0,12,12A12,12,0,0,0,84,116Zm88,0a12,12,0,1,0,12,12A12,12,0,0,0,172,116Zm60,12A104,104,0,0,1,79.12,219.82L45.07,231.17a16,16,0,0,1-20.24-20.24l11.35-34.05A104,104,0,1,1,232,128Zm-16,0A88,88,0,1,0,51.81,172.06a8,8,0,0,1,.66,6.54L40,216,77.4,203.53a7.85,7.85,0,0,1,2.53-.42,8,8,0,0,1,4,1.08A88,88,0,0,0,216,128Z"></path>
+            </svg>
+          </span>
+        </Tooltip>
+        <Tooltip text="Cam" variant position="right">
+          <span onClick={() => onActive("cam")} className="cursor-pointer">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="40"
+              height="40"
+              viewBox="0 0 256 256"
+              className={`${
+                active === "cam" && " background-gradient "
+              } rounded-xl p-1 fill-white`}
+            >
+              <path d="M117.25,157.92a60,60,0,1,0-66.5,0A95.83,95.83,0,0,0,3.53,195.63a8,8,0,1,0,13.4,8.74,80,80,0,0,1,134.14,0,8,8,0,0,0,13.4-8.74A95.83,95.83,0,0,0,117.25,157.92ZM40,108a44,44,0,1,1,44,44A44.05,44.05,0,0,1,40,108Zm210.14,98.7a8,8,0,0,1-11.07-2.33A79.83,79.83,0,0,0,172,168a8,8,0,0,1,0-16,44,44,0,1,0-16.34-84.87,8,8,0,1,1-5.94-14.85,60,60,0,0,1,55.53,105.64,95.83,95.83,0,0,1,47.22,37.71A8,8,0,0,1,250.14,206.7Z"></path>
+            </svg>
+          </span>
+        </Tooltip>
 
         <Tooltip text="Notifications" variant position="right">
           <div

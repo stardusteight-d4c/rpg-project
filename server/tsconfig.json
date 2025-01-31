@@ -1,0 +1,32 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ES2022",
+    "moduleResolution": "node",
+    "allowJs": true,
+    "experimentalDecorators": true,
+    "strict": true,
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "allowSyntheticDefaultImports": true,
+    "sourceMap": true,
+    "incremental": true,
+    "strictNullChecks": false,
+    "noImplicitAny": false,
+    "strictBindCallApply": false,
+    "forceConsistentCasingInFileNames": false,
+    "noFallthroughCasesInSwitch": false,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "strictPropertyInitialization": false,
+    "outDir": "./dist",
+    "rootDir": "./",
+    "baseUrl": "./",
+    // "paths": {
+    //   "@api/*": ["src/api/*"]
+    // }
+  },
+  // "include": ["src/**/*.ts"],
+  "exclude": ["node_modules"]
+}

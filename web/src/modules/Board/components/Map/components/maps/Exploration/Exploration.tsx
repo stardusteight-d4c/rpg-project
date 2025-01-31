@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState, DragEvent } from "react"
+import React, { useState, DragEvent, useRef, useEffect } from "react"
 import { DraggableItem } from "../../DraggableItem"
 
 interface GridItem {
@@ -110,11 +110,11 @@ export const Exploration: React.FC<{
           {map.name}
         </span>
       </div>
-      {/* <img
+      <img
         src="/wallpaper.png"
         className="absolute h-screen object-cover inset-0 select-none pointer-events-none opacity-50 z-0"
         alt=""
-      /> */}
+      />
 
       {showResetMap && (
         <div
@@ -154,21 +154,7 @@ export const Exploration: React.FC<{
           overflow: "hidden",
         }}
       >
-        {map.visibility === "low" && (
-          <div
-            className="absolute circle-effect overflow-hidden pointer-events-none select-none w-[5000px] h-[5000px] z-[50]"
-            onDragOver={handleDragOver}
-            onDrop={handleDragOver}
-            draggable="false"
-            style={{
-              left: `${(items[0]?.x * 100) / map.grid_size![0]}%`,
-              top: `${(items[0]?.y * 100) / map.grid_size![1]}%`,
-              transform: "translate(-50%, -50%)",
-              marginTop: "20px",
-              marginLeft: "20px",
-            }}
-          ></div>
-        )}
+        {map.visibility === "low" && <FogOfWar map={map} items={items} />}
         <img
           src={map.image_url}
           alt="Mapa"
@@ -201,5 +187,66 @@ export const Exploration: React.FC<{
         )}
       </div>
     </div>
+  )
+}
+
+export const FogOfWar: React.FC<{
+  map: IMap
+  items: GridItem[]
+}> = ({ map, items }) => {
+  const canvasRef = useRef<HTMLCanvasElement>(null)
+
+  useEffect(() => {
+    const canvas = canvasRef.current
+    if (!canvas) return
+
+    const ctx = canvas.getContext("2d")
+    if (!ctx) return
+
+    canvas.width = canvas.offsetWidth
+    canvas.height = canvas.offsetHeight
+
+    ctx.fillStyle = "#090909"
+    ctx.fillRect(0, 0, canvas.width, canvas.height)
+
+    ctx.globalCompositeOperation = "destination-out"
+
+    console.log(items);
+    
+
+    items.forEach((item) => {
+      const cellWidth = canvas.width / map.grid_size![0]
+      const cellHeight = canvas.height / map.grid_size![1]
+    
+      const gridX = (item.x + 0.5) * cellWidth // Centraliza no meio do quadrado
+      const gridY = (item.y + 0.5) * cellHeight // Centraliza no meio do quadrado
+      const radius = Math.max(cellWidth, cellHeight) * 2 // Garante que cobre 2 quadrados ao redor
+    
+      const gradient = ctx.createRadialGradient(
+        gridX,
+        gridY,
+        radius * 0.3,
+        gridX,
+        gridY,
+        radius
+      )
+    
+      gradient.addColorStop(0, "rgba(9, 9, 9, 1)")
+      gradient.addColorStop(1, "rgba(9, 9, 9, 0)")
+    
+      ctx.fillStyle = gradient
+      ctx.beginPath()
+      ctx.arc(gridX, gridY, radius, 0, Math.PI * 2)
+      ctx.fill()
+    })
+
+    ctx.globalCompositeOperation = "source-over"
+  }, [map, items])
+
+  return (
+    <canvas
+      ref={canvasRef}
+      className="absolute z-[600] top-0 left-0 w-full h-full pointer-events-none"
+    />
   )
 }
