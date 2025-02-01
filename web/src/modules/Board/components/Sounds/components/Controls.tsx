@@ -1,10 +1,6 @@
 import React from "react"
 
 export const Controls = ({
-  sounds,
-  currentSound,
-  setCurrentSound,
-  setProgress,
   audioElementRef,
   setIsPlaying,
   isPlaying,
@@ -81,7 +77,7 @@ export const Controls = ({
 
   return (
     <div className="flex flex-row items-center justify-between w-full mt-2">
-      <div className="flex items-center justify-center gap-x-4">
+      <div className="flex items-center justify-center -ml-1">
         {isPlaying ? (
           <span onClick={handlePlay}>
             <svg
@@ -108,8 +104,8 @@ export const Controls = ({
           </span>
         )}
       </div>
-      <div className="min-w-[100px] max-w-[100px] mt-4 md:mt-0">
-        <div className="sliderContainer text-2xl flex items-center justify-center gap-x-2">
+      <div className="min-w-[100px] max-w-[100px] mt-0">
+        <div className="w-full text-2xl flex items-center justify-center gap-x-2">
           <div onClick={() => setMute(!mute)}>{rendersVolumeIcon()}</div>
           <input {...rangeSliderInputProps} />
         </div>

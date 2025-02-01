@@ -32,9 +32,7 @@ interface ProgressBarProps {
 }
 
 interface ControlsProps {
-  sounds: Sound[]
   currentSound: CurrentSound
-  setCurrentSound: React.Dispatch<React.SetStateAction<CurrentSound | undefined>>
   setProgress: React.Dispatch<React.SetStateAction<number>>
   audioElementRef: any
   setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>

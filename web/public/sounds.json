@@ -4,7 +4,7 @@
     "artist": "Brood Mother",
     "music": "Brood Mother",
     "category": "",
-    "url": "/01_Brood_Mother.mp3",
+    "url": "/sounds/01_Brood_Mother.mp3",
     "cover": "https://images.tabletopaudio.com/brood-mother.jpg"
   },
   {
@@ -12,7 +12,31 @@
     "artist": "Spectral Abbey",
     "music": "Spectral Abbey",
     "category": "",
-    "url": "/02_Spectral_Abbey.mp3",
+    "url": "/sounds/02_Spectral_Abbey.mp3",
     "cover": "https://images.tabletopaudio.com/spectral-abbey.jpg"
+  },
+  {
+    "id": "08660876-2eb1-4a4f-9a7a-8171fa53aeb0",
+    "artist": "The Undercroft",
+    "music": "The Undercroft",
+    "category": "",
+    "url": "/sounds/03_The_Undercroft.mp3",
+    "cover": "https://images.tabletopaudio.com/the-undercroft.jpg"
+  },
+  {
+    "id": "34edbe83-3889-4dbc-b67c-91ab195d8f59",
+    "artist": "Winter Encampment",
+    "music": "Winter Encampment",
+    "category": "",
+    "url": "/sounds/04_Winter_Encampment.mp3",
+    "cover": "https://images.tabletopaudio.com/winter-encampment.jpg"
+  },
+  {
+    "id": "0358384e-929c-4290-a09e-84d1e936d107",
+    "artist": "Darkmoor",
+    "music": "Darkmoor",
+    "category": "",
+    "url": "/sounds/05_Darkmoor.mp3",
+    "cover": "https://images.tabletopaudio.com/darkmoor.jpg"
   }
 ]
