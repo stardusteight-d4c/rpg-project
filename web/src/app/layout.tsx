@@ -5,6 +5,7 @@ import { ModalProvider } from "@/modules/Board/contexts/ModalContext"
 import { UsersProvider } from "@/modules/Board/contexts/Users/UsersContext"
 import { CharactersProvider } from "@/modules/Board/contexts/Characters/CharactersContext"
 import { MapsProvider } from "@/modules/Board/contexts/Maps/MapsContext"
+import { NotificationsProvider } from "@/modules/Board/contexts/Notifications/NotificationsContext"
 
 const robotoCondensed = Roboto_Condensed({
   subsets: ["latin"],
@@ -39,11 +40,13 @@ export default function RootLayout({
 }
 
 const Providers = ({ children }: { children: React.ReactNode }) => (
-  <UsersProvider>
-    <CharactersProvider>
-      <MapsProvider>
-        <ModalProvider>{children}</ModalProvider>
-      </MapsProvider>
-    </CharactersProvider>
-  </UsersProvider>
+  <NotificationsProvider>
+    <UsersProvider>
+      <CharactersProvider>
+        <MapsProvider>
+          <ModalProvider>{children}</ModalProvider>
+        </MapsProvider>
+      </CharactersProvider>
+    </UsersProvider>
+  </NotificationsProvider>
 )

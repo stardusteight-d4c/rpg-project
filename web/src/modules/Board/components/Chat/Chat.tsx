@@ -117,7 +117,7 @@ Disse que no sonho a voz de sua mãe a chamava para casa, a chamava para ficar c
           </svg>
         </button>
       )}
-      <div className="h-[100px] bg-background z-[200] flex items-center gap-x-4 p-2 pr-4 bottom-0 inset-x-0 border-t border-border absolute">
+      <div className="h-[100px] bg-background z-[200] flex items-center gap-x-4 p-2 bottom-0 inset-x-0 border-t border-border absolute">
         <GlowingWrapper styles="w-full" border="rounded-3xl" inset="0">
           <textarea
             name=""
