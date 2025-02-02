@@ -6,6 +6,7 @@ export const ProgressBar = ({
   audioElementRef,
   setProgress,
   progress,
+  setCurrentSound,
 }: ProgressBarProps) => {
   const formatTime = (time: number) => {
     if (time && !isNaN(time)) {
@@ -26,20 +27,31 @@ export const ProgressBar = ({
   const handleProgress = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     const width = progressBarElementRef.current.clientWidth
     const offset = e.nativeEvent.offsetX
+    if (
+      !audioElementRef.current ||
+      !currentSound?.duration ||
+      isNaN(currentSound.duration)
+    )
+      return
+
     const progress = (offset / width) * 100
+
+    if (isNaN(progress) || !isFinite(progress)) return
+
     audioElementRef.current.currentTime =
-      (progress / 100) * currentSound.duration!
+      (progress / 100) * currentSound.duration
+    audioElementRef.current.play()
     setProgress(progress)
   }
 
   return (
-    <div className="w-full cursor-pointer">
+    <div className="w-full">
       <div className="flex items-center justify-between">
         <span>{formatTime(currentSound.currentTime!)}</span>
         <span>{formatTime(currentSound.duration!)}</span>
       </div>
       <div
-        className="w-full bg-gray-600/10 shadow-inner relative z-10 h-2 overflow-hidden rounded-full"
+        className="w-full bg-gray-600/10 cursor-pointer shadow-inner relative z-10 h-2 overflow-hidden rounded-full"
         onClick={(e) => handleProgress(e)}
         ref={progressBarElementRef}
       >

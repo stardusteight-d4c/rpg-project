@@ -277,10 +277,6 @@ box-shadow: 4px 4px 4px 4px rgba(0,0,0,0.10);
   transition: opacity 0.2s;
 }
 
-.rangeSlider:hover {
-  background: rgb(75 85 99 / 0.50);
-}
-
 .rangeSlider::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;

@@ -28,7 +28,7 @@ export const Controls = ({
 
   const rendersVolumeIcon = () => {
     return mute ? (
-      <span className="cursor-pointer">
+      <span className="cursor-pointer bg-gray-600/10 border border-border shadow-black/50 shadow-sm rounded-full p-1 flex items-center justify-center w-[32px] h-[32px]">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="32"
@@ -40,7 +40,7 @@ export const Controls = ({
         </svg>
       </span>
     ) : volume <= 50 ? (
-      <span className="cursor-pointer">
+      <span className="cursor-pointer bg-gray-600/10 border border-border shadow-black/50 shadow-sm rounded-full p-1 flex items-center justify-center w-[32px] h-[32px]">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="32"
@@ -52,7 +52,7 @@ export const Controls = ({
         </svg>
       </span>
     ) : (
-      <span className="cursor-pointer">
+      <span className="cursor-pointer bg-gray-600/10 border border-border shadow-black/50 shadow-sm rounded-full p-1 flex items-center justify-center w-[32px] h-[32px]">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="32"
@@ -79,7 +79,7 @@ export const Controls = ({
     <div className="flex flex-row items-center justify-between w-full mt-2">
       <div className="flex items-center justify-center -ml-1">
         {isPlaying ? (
-          <span onClick={handlePlay}>
+          <span onClick={handlePlay} className="bg-gray-600/10 cursor-pointer border border-border shadow-black/50 shadow-sm rounded-full p-1 flex items-center justify-center w-[32px] h-[32px]">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="32"
@@ -91,7 +91,7 @@ export const Controls = ({
             </svg>
           </span>
         ) : (
-          <span onClick={handlePlay}>
+          <span onClick={handlePlay} className="bg-gray-600/10 cursor-pointer border border-border shadow-black/50 shadow-sm rounded-full p-1 flex items-center justify-center w-[32px] h-[32px]">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="32"

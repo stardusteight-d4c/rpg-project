@@ -1,4 +1,5 @@
 interface Sound {
+  id: string
   artist: string
   music: string
   url: string
@@ -11,20 +12,9 @@ interface CurrentSound extends Sound {
   duration?: number
 }
 
-interface PlayerProps {
-  sounds: Sound[]
-  setSounds: React.Dispatch<React.SetStateAction<Music[]>>
-  isPlaying: boolean
-  setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>
-  currentSound: CurrentSound
-  setCurrentSound: React.Dispatch<React.SetStateAction<CurrentSound | undefined>>
-  audioElementRef: any
-  mute: boolean
-  setMute: React.Dispatch<React.SetStateAction<boolean>>
-}
-
 interface ProgressBarProps {
   currentSound: CurrentSound
+  setCurrentSound: React.Dispatch<React.SetStateAction<CurrentSound>>
   progressBarElementRef: any
   audioElementRef: any
   progress: number

@@ -62,7 +62,7 @@ export const CharactersCreate = ({ setCreateMode }: CharactersCreateProps) => {
 
   return (
     <section className="relative w-full h-screen overflow-y-scroll no-scrollbar">
-      <div className="sticky z-[200] border-b border-border  shadow-sm shadow-black/50 top-0 p-2 w-full inset-x-0 bg-background">
+      <div className="sticky z-[200] border-b border-border shadow-sm shadow-black/50 top-0 p-2 w-full inset-x-0 bg-background">
         <div className="flex items-center gap-x-4">
           <div
             onClick={() => setCreateMode(false)}
