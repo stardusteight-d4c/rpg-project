@@ -56,12 +56,6 @@ export const SystemRolling = ({ mode }: SystemRollingProps) => {
           </div>
         </div>
       </div>
-      {results.length > 0 && (
-        <div>
-          <h4 className="text-lg font-semibold">Results:</h4>
-          <p>{results.join(", ")}</p>
-        </div>
-      )}
       <button
         className="p-2 -mb-2 font-medium w-full text-center text-lg background-gradient hover:brightness-125 text-white rounded-xl border-border border"
         onClick={() => rollDice(diceType, numDice)}

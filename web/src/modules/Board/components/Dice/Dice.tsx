@@ -10,7 +10,7 @@ import {
 } from "./components"
 
 export const Dice: React.FC = () => {
-  const playerCharacter = useCharacters().characters[0]
+  const playerCharacter = useCharacters().characters[1]
   const [mode, setMode] = useState<"character" | "system" | null>(null)
   const [selectedType, setSelectedType] = useState<
     "attributes" | "status" | "skills" | "combat" | null

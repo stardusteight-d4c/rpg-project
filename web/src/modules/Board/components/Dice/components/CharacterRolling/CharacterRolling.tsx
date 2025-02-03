@@ -1,3 +1,4 @@
+import { useRolls } from "@/modules/Board/contexts/Rolls/RollsContext"
 import { useState } from "react"
 
 interface CharacterRollingProps {
@@ -16,13 +17,19 @@ export const CharacterRolling = ({
   mode,
 }: CharacterRollingProps) => {
   if (mode !== "character") return null
-
-  const [results, setResults] = useState<number[]>([])
-  const [selectedAttribute, setSelectedAttribute] = useState<string | null>(
-    null
-  )
-  const [selectedSkill, setSelectedSkill] = useState<string | null>(null)
-  const [selectedStatus, setSelectedStatus] = useState<string | null>(null)
+  const { addRoll, setOpenDiceModal } = useRolls()
+  const [selectedAttribute, setSelectedAttribute] = useState<{
+    name: string
+    value: number
+  } | null>(null)
+  const [selectedSkill, setSelectedSkill] = useState<{
+    name: string
+    value: number
+  } | null>(null)
+  const [selectedStatus, setSelectedStatus] = useState<{
+    name: string
+    value: number
+  } | null>(null)
   const status = {
     hitPoints: playerCharacter.infos.hitPoints,
     magicPoints: playerCharacter.infos.magicPoints,
@@ -35,12 +42,20 @@ export const CharacterRolling = ({
       .replace(/^./, (str) => str.toUpperCase())
   }
 
-  const rollDice = (sides: number, quantity: number) => {
-    const rolls = Array.from(
-      { length: quantity },
-      () => Math.floor(Math.random() * sides) + 1
-    )
-    setResults(rolls)
+  const rollDice = (selectedRoll: { value: number; name: string }) => {
+    addRoll({
+      id: crypto.randomUUID(),
+      character: playerCharacter,
+      character_roll: {
+        name: selectedRoll.name.toLocaleLowerCase(),
+        value: selectedRoll.value,
+        half_value: Math.floor(selectedRoll.value / 2),
+        fifth_value: Math.floor(selectedRoll.value / 5),
+        rolled: Math.floor(Math.random() * 100) + 1,
+      },
+      createdAt: new Date().toISOString(),
+    })
+    setOpenDiceModal("close")
   }
 
   return (
@@ -173,42 +188,46 @@ export const CharacterRolling = ({
             <h4 className="text-sm text-gray-400 block">Status</h4>
             <ul className="grid grid-cols-2 gap-2">
               {Object.entries(status).map(([key, value]) => (
-               
                 <div
-                onClick={() => setSelectedStatus(key)}
-                key={key}
-                className={`${
-                  selectedStatus === key
-                    ? " bg-border brightness-125 "
-                    : " bg-border/50 "
-                } ${
-                  key === "sanity" ? " col-span-2 " : " col-span-1 "
-                } cursor-pointer border border-border overflow-hidden rounded`}
-              >
-                <div className="flex justify-between items-center px-2 pt-2">
-                  <span className="font-medium capitalize text-lg">
-                    {formatStatName(key)}
-                  </span>
-                  <span className="bg-gray-600/10 w-[35px] h-[35px] rounded-full flex items-center justify-center aspect-square text-center font-medium z-10 relative bg-ashes outline-none caret-white">
-                    {value}
-                  </span>
+                  onClick={() => setSelectedStatus({ name: key, value })}
+                  key={key}
+                  className={`${
+                    selectedStatus?.name === key
+                      ? " bg-border brightness-125 "
+                      : " bg-border/50 "
+                  } ${
+                    key === "sanity" ? " col-span-2 " : " col-span-1 "
+                  } cursor-pointer border border-border overflow-hidden rounded`}
+                >
+                  <div className="flex justify-between items-center px-2 pt-2">
+                    <span className="font-medium capitalize text-lg">
+                      {formatStatName(key)}
+                    </span>
+                    <span className="bg-gray-600/10 w-[35px] h-[35px] rounded-full flex items-center justify-center aspect-square text-center font-medium z-10 relative bg-ashes outline-none caret-white">
+                      {value}
+                    </span>
+                  </div>
+                  <div className="w-full bg-gray-600/10">
+                    <div
+                      style={{ width: `${value}%` }}
+                      className="w-full background-gradient h-[4px] mt-2"
+                    />
+                  </div>
                 </div>
-                <div className="w-full bg-gray-600/10">
-                  <div
-                    style={{ width: `${value}%` }}
-                    className="w-full background-gradient h-[4px] mt-2"
-                  />
-                </div>
-              </div>
               ))}
             </ul>
           </div>
           {selectedStatus && (
             <button
               className="p-2 -mb-2 hover:brightness-125 font-medium capitalize w-full text-center text-lg background-gradient text-white rounded-xl border-border border"
-              onClick={() => rollDice(100, 1)}
+              onClick={() =>
+                rollDice({
+                  name: formatStatName(selectedStatus.name),
+                  value: selectedStatus.value,
+                })
+              }
             >
-              {formatStatName(selectedStatus)} Roll
+              {formatStatName(selectedStatus.name)} Roll
             </button>
           )}
         </div>
@@ -222,10 +241,12 @@ export const CharacterRolling = ({
               {Object.entries(playerCharacter.attributes).map(
                 ([attribute, value]) => (
                   <div
-                    onClick={() => setSelectedAttribute(attribute)}
+                    onClick={() =>
+                      setSelectedAttribute({ name: attribute, value })
+                    }
                     key={attribute}
                     className={`${
-                      selectedAttribute === attribute
+                      selectedAttribute?.name === attribute
                         ? " bg-border brightness-125 "
                         : " bg-border/50 "
                     } ${
@@ -254,9 +275,14 @@ export const CharacterRolling = ({
           {selectedAttribute && (
             <button
               className="p-2 -mb-2 font-medium capitalize w-full text-center text-lg background-gradient text-white rounded-xl"
-              onClick={() => rollDice(100, 1)}
+              onClick={() =>
+                rollDice({
+                  name: selectedAttribute.name,
+                  value: selectedAttribute.value,
+                })
+              }
             >
-              {selectedAttribute} Roll
+              {selectedAttribute.name} Roll
             </button>
           )}
         </div>
@@ -270,9 +296,14 @@ export const CharacterRolling = ({
               {playerCharacter.skills.map((skill, index) => (
                 <div
                   key={skill.name}
-                  onClick={() => setSelectedSkill(skill.name)}
+                  onClick={() =>
+                    setSelectedSkill({
+                      name: skill.name,
+                      value: skill.currentValue,
+                    })
+                  }
                   className={`${
-                    selectedSkill === skill.name
+                    selectedSkill?.name === skill.name
                       ? " bg-border brightness-125 "
                       : " bg-border/50 "
                   } cursor-pointer border border-border overflow-hidden rounded-md p-2`}
@@ -322,9 +353,14 @@ export const CharacterRolling = ({
           {selectedSkill && (
             <button
               className="p-2 -mb-2 font-medium hover:brightness-125 capitalize w-full text-center text-lg background-gradient text-white rounded-xl"
-              onClick={() => rollDice(100, 1)}
+              onClick={() =>
+                rollDice({
+                  name: selectedSkill.name,
+                  value: selectedSkill.value,
+                })
+              }
             >
-              {selectedSkill} Roll
+              {selectedSkill.name} Roll
             </button>
           )}
         </div>
