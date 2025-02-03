@@ -111,10 +111,7 @@ export const Actions = () => {
                 characterUrl={roll.character.infos.characterUrl}
               />
               <div className="space-y-4">
-                <SystemRoll
-                  results={roll.system_roll.rolled}
-                  diceType={roll.system_roll.dice_type}
-                />
+                <SystemRoll {...roll.system_roll} />
               </div>
               <div className="text-gray-500/80 select-none flex items-center gap-x-[2px] mt-1 w-full justify-end">
                 <svg

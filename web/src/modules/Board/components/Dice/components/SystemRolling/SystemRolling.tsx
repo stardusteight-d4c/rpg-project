@@ -1,14 +1,15 @@
+import { useRolls } from "@/modules/Board/contexts/Rolls/RollsContext"
 import { useState } from "react"
 
 interface SystemRollingProps {
   mode: "system" | "character" | null
+  playerCharacter: ICharacter
 }
 
-export const SystemRolling = ({ mode }: SystemRollingProps) => {
+export const SystemRolling = ({ mode, playerCharacter }: SystemRollingProps) => {
   if (mode !== "system") return null
-  
+  const { addRoll, setOpenDiceModal } = useRolls()
   const [numDice, setNumDice] = useState<number>(1)
-  const [results, setResults] = useState<number[]>([])
   const [diceType, setDiceType] = useState<number>(6)
 
   function handleDiceType() {
@@ -23,7 +24,18 @@ export const SystemRolling = ({ mode }: SystemRollingProps) => {
       { length: quantity },
       () => Math.floor(Math.random() * sides) + 1
     )
-    setResults(rolls)
+    addRoll({
+      id: crypto.randomUUID(),
+      character: playerCharacter,
+      system_roll: {
+       dice_quantity: numDice,
+       dice_type: diceType,
+       rolled: rolls,
+       total: rolls.reduce((acc, num) => acc + num, 0)
+      },
+      createdAt: new Date().toISOString(),
+    })
+    setOpenDiceModal("close")
   }
 
   return (

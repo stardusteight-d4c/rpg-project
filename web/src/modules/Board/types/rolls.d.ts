@@ -12,7 +12,7 @@ interface IRoll {
     dice_quantity: number
     dice_type: number
     rolled: Array<number>
-    total: 6
+    total: number
   }
   createdAt: string
 }

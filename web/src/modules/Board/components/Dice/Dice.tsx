@@ -28,7 +28,7 @@ export const Dice: React.FC = () => {
         setSelectedType={setSelectedType}
         mode={mode}
       />
-      <SystemRolling mode={mode} />
+      <SystemRolling mode={mode} playerCharacter={playerCharacter} />
       <BackButton mode={mode} setMode={setMode} />
     </section>
   )
