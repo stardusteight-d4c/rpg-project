@@ -1,12 +1,12 @@
 import type { Metadata } from "next"
 import { Roboto_Condensed, Delius } from "next/font/google"
 import "./globals.css"
-import { ModalProvider } from "@/modules/Board/contexts/ModalContext"
-import { UsersProvider } from "@/modules/Board/contexts/Users/UsersContext"
-import { CharactersProvider } from "@/modules/Board/contexts/Characters/CharactersContext"
-import { MapsProvider } from "@/modules/Board/contexts/Maps/MapsContext"
-import { NotificationsProvider } from "@/modules/Board/contexts/Notifications/NotificationsContext"
-import { RollsProvider } from "@/modules/Board/contexts/Rolls/RollsContext"
+import { ModalProvider } from "@/modules/Table/contexts/ModalContext"
+import { UsersProvider } from "@/modules/Table/contexts/Users/UsersContext"
+import { CharactersProvider } from "@/modules/Table/contexts/Characters/CharactersContext"
+import { MapsProvider } from "@/modules/Table/contexts/Maps/MapsContext"
+import { NotificationsProvider } from "@/modules/Table/contexts/Notifications/NotificationsContext"
+import { RollsProvider } from "@/modules/Table/contexts/Rolls/RollsContext"
 
 const robotoCondensed = Roboto_Condensed({
   subsets: ["latin"],

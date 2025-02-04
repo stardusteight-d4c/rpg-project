@@ -26,6 +26,7 @@ export default {
         border: "#101010",
         tag: "#1B1C1C",
         white: "#FFFFFF",
+        button: "#1F1F1F",
       },
     },
   },
