@@ -1,5 +1,5 @@
-// import { ProfileModule } from "@/modules/Profile"
+import { ProfileModule } from "@/modules/Profile"
 
 export default function Profile() {
-  return  <main  className="">Hello, World!</main>
+  return <ProfileModule />
 }

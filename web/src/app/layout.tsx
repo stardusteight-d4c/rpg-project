@@ -31,7 +31,7 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${robotoCondensed.className} ${delius.variable} overflow-hidden antialiased`}
+        className={`${robotoCondensed.className} ${delius.variable} antialiased`}
       >
         <Providers session={session}>{children}</Providers>
       </body>

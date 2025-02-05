@@ -1,6 +1,6 @@
 import { Tooltip } from "@/shared/components"
+import { useAuth } from "@/shared/contexts/Auth/AuthContext"
 import { currentSession } from "@/shared/contexts/Users/mock-data"
-import { useAuth } from "@/shared/hooks/useAuth"
 
 interface MenuProps {
   active: MenuItem

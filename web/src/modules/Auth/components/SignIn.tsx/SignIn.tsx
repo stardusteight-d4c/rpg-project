@@ -76,7 +76,7 @@ export const SignIn = () => {
           <GlowingWrapper inset="0" border="rounded-full">
             <input
               name="usernameOrEmail"
-              placeholder="Name"
+              placeholder="Username or Email"
               spellCheck="false"
               value={formData.usernameOrEmail}
               onChange={handleChange}

@@ -13,7 +13,7 @@
 }
 
 body {
-  @apply bg-background  text-white antialiased scroll-smooth;
+  @apply bg-background overflow-x-hidden w-screen text-white antialiased scroll-smooth;
 }
 
 .background-gradient {
@@ -32,19 +32,17 @@ body {
 
 /* Scrollbar */
 ::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
-  background: #ffffff;
-  border-radius: 20px;
+  width: 8px;
+  height: 8px;
+  background: #101010;
 }
 ::-moz-scrollbar {
   background-color: transparent;
-  border-radius: 20px;
 }
 ::-webkit-scrollbar-thumb {
   cursor: pointer;
-  background: #ffffff;
-  border-radius: 20px;
+  background: #1F1F1F;
+  border-radius: 0px;
 }
 
 .glassmorphism {
