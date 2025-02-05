@@ -9,9 +9,9 @@ import {
   ProfileInfo,
   Skills,
 } from "../../../character-sheets/CallOfCthulhu/components"
-import { useModal } from "@/modules/Table/contexts/ModalContext"
-import { currentSession } from "@/modules/Table/contexts/Users/mock-data"
-import { useCharacters } from "@/modules/Table/contexts/Characters/CharactersContext"
+import { useModal } from "@/shared/contexts/ModalContext"
+import { currentSession } from "@/shared/contexts/Users/mock-data"
+import { useCharacters } from "@/shared/contexts/Characters/CharactersContext"
 
 interface SelectedCharacterDisplayProps {
   selectedCharacter: ICharacter | null

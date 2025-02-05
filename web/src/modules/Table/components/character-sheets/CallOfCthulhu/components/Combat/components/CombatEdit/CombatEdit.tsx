@@ -4,7 +4,7 @@ import {  useState } from "react"
 import { GlowingWrapper, ModalWrapper } from "@/shared/components"
 import { explosives, guns, weapons } from "../../mock-data"
 import { CombatEditModal } from "./CombatEditModal"
-import { useCharacters } from "@/modules/Table/contexts/Characters/CharactersContext"
+import { useCharacters } from "@/shared/contexts/Characters/CharactersContext"
 
 interface CombatEditProps {
   character: ICharacter

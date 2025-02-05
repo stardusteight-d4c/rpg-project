@@ -7,7 +7,7 @@ import {
   SelectedCharacterDisplay,
 } from "./components"
 import { CharactersCreate } from "./components/CharactersCreate"
-import { useCharacters } from "@/modules/Table/contexts/Characters/CharactersContext"
+import { useCharacters } from "@/shared/contexts/Characters/CharactersContext"
 
 export const Characters = () => {
   const characters = useCharacters().characters

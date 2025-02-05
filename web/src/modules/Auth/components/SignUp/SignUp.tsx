@@ -4,8 +4,10 @@ import { GlowingWrapper } from "@/shared/components"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { Fade } from "react-awesome-reveal"
+import { useAuth } from "@/shared/contexts/Auth/AuthContext"
 
 export const SignUp = () => {
+  const { signUpWithGoogle, signUp } = useAuth()
   const { push } = useRouter()
   const [formData, setFormData] = useState({
     name: "",
@@ -26,7 +28,7 @@ export const SignUp = () => {
     <div className="grid grid-cols-10 h-screen overflow-hidden">
       <section className="col-span-7 relative">
         <h1 className="font-bold text-3xl z-[100] absolute items-center justify-center left-2 top-2 bg-background shadow-sm shadow-black/50 rounded-full py-1 px-4 pointer-events-none select-none flex gap-2">
-          <img src="/favicon.png" alt="" className="w-[42px] h-[42px]" />
+          <img src="/favicon.png" alt="" className="w-[32px] h-[32px]" />
           Campfire
         </h1>
         <span className="absolute z-[100] left-2 bottom-1 text-gray-400 text-xl font-medium">
@@ -41,7 +43,10 @@ export const SignUp = () => {
       </section>
       <section className="col-span-3 flex flex-col items-center justify-center">
         <div className="w-[350px] flex flex-col gap-y-2">
-          <button className="w-full rounded-full active:scale-95 text-center group flex items-center justify-center gap-x-4 p-2 hover:bg-white hover:border-transparent border border-border transition-all duration-300 ease-in-out">
+          <button
+            onClick={signUpWithGoogle}
+            className="w-full rounded-full active:scale-95 text-center flex items-center justify-center gap-x-4 p-2 bg-white transition-all duration-300 ease-in-out"
+          >
             <svg
               width="32"
               height="32"
@@ -66,7 +71,7 @@ export const SignUp = () => {
                 fill="#EA4335"
               />
             </svg>
-            <span className="text-xl group-hover:text-background font-bold">
+            <span className="text-xl text-background font-bold">
               Sign up with Google
             </span>
           </button>
@@ -115,7 +120,10 @@ export const SignUp = () => {
               className="py-1 px-2 w-full cursor-text hover:brightness-125 flex items-center gap-x-1 line-clamp-1 rounded-full bg-ashes border border-border outline-none"
             />
           </GlowingWrapper>
-          <button className="p-2 font-medium capitalize w-full text-center text-lg bg-button text-white rounded-full">
+          <button
+            onClick={() => signUp(formData)}
+            className="p-2 font-medium capitalize w-full text-center text-lg bg-button text-white rounded-full"
+          >
             <span className="text-xl font-bold">Sign up</span>
           </button>
           <span className="text-gray-400">

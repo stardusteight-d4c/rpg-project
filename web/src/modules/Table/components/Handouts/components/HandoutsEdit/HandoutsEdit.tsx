@@ -4,7 +4,7 @@ import { useState } from "react"
 import { handoutContentTypes, handoutsTypes } from "../../data"
 import { HandoutDisplay } from "../HandoutDisplay"
 import { GlowingWrapper } from "@/shared/components"
-import { useCharacters } from "@/modules/Table/contexts/Characters/CharactersContext"
+import { useCharacters } from "@/shared/contexts/Characters/CharactersContext"
 
 interface HandoutsEditProps {
   handout: IHandout

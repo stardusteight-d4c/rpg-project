@@ -6,7 +6,7 @@ import {
   GlowingWrapper,
   ModalWrapper,
 } from "@/shared/components"
-import { useMaps } from "@/modules/Table/contexts/Maps/MapsContext"
+import { useMaps } from "@/shared/contexts/Maps/MapsContext"
 import { randomUUID } from "node:crypto"
 
 interface MapCreateProps {

@@ -1,6 +1,6 @@
 "use client"
 
-import { useCharacters } from "@/modules/Table/contexts/Characters/CharactersContext"
+import { useCharacters } from "@/shared/contexts/Characters/CharactersContext"
 import { CustomNumericInput, GlowingWrapper } from "@/shared/components"
 import { randomUUID } from "crypto"
 import { useState } from "react"

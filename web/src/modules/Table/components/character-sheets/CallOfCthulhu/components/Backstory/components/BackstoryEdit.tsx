@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react"
 import ReactMarkdown from "react-markdown"
 import rehypeRaw from "rehype-raw"
 import { tutorial } from "./data"
-import { useCharacters } from "@/modules/Table/contexts/Characters/CharactersContext"
+import { useCharacters } from "@/shared/contexts/Characters/CharactersContext"
 
 interface BackstoryEditProps {
   character: ICharacter

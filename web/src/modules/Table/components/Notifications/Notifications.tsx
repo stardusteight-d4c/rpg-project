@@ -1,8 +1,8 @@
 "use client"
 
 import { GlowingWrapper } from "@/shared/components"
-import { useNotifications } from "../../contexts/Notifications/NotificationsContext"
-import { currentSession } from "../../contexts/Users/mock-data"
+import { useNotifications } from "../../../../shared/contexts/Notifications/NotificationsContext"
+import { currentSession } from "../../../../shared/contexts/Users/mock-data"
 import { useState } from "react"
 import { PlayerNotification } from "./components/PlayerNotification"
 import { MasterNotification } from "./components/MasterNotification"

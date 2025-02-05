@@ -1,4 +1,4 @@
-import { useRolls } from "@/modules/Table/contexts/Rolls/RollsContext"
+import { useRolls } from "@/shared/contexts/Rolls/RollsContext"
 import { useState } from "react"
 
 interface CharacterRollingProps {

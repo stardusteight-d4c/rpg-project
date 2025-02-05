@@ -1,5 +1,6 @@
 import { Tooltip } from "@/shared/components"
-import { currentSession } from "@/modules/Table/contexts/Users/mock-data"
+import { currentSession } from "@/shared/contexts/Users/mock-data"
+import { useAuth } from "@/shared/hooks/useAuth"
 
 interface MenuProps {
   active: MenuItem
@@ -7,6 +8,8 @@ interface MenuProps {
 }
 
 export const Menu = ({ active, onActive }: MenuProps) => {
+  const { logout } = useAuth()
+
   return (
     <div className="w-fit relative p-2 max-w-[58px] border-x border-border min-w-[58px] h-screen">
       <div className="flex flex-col items-center gap-y-4">
@@ -141,6 +144,7 @@ export const Menu = ({ active, onActive }: MenuProps) => {
         </Tooltip>
       </div>
       <img
+        onClick={logout}
         src={currentSession.avatar_url}
         alt=""
         referrerPolicy="no-referrer"

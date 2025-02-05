@@ -1,12 +1,9 @@
 import type { Metadata } from "next"
 import { Roboto_Condensed, Delius } from "next/font/google"
+import { getServerSession } from "next-auth"
+import { Providers } from "@/shared/providers/Providers"
 import "./globals.css"
-import { ModalProvider } from "@/modules/Table/contexts/ModalContext"
-import { UsersProvider } from "@/modules/Table/contexts/Users/UsersContext"
-import { CharactersProvider } from "@/modules/Table/contexts/Characters/CharactersContext"
-import { MapsProvider } from "@/modules/Table/contexts/Maps/MapsContext"
-import { NotificationsProvider } from "@/modules/Table/contexts/Notifications/NotificationsContext"
-import { RollsProvider } from "@/modules/Table/contexts/Rolls/RollsContext"
+import { authOptions } from "@/shared/libs/next_auth"
 
 const robotoCondensed = Roboto_Condensed({
   subsets: ["latin"],
@@ -24,32 +21,20 @@ export const metadata: Metadata = {
   description: "Online Tabletop RPG",
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const session = await getServerSession(authOptions)
+
   return (
     <html lang="en">
       <body
         className={`${robotoCondensed.className} ${delius.variable} overflow-hidden antialiased`}
       >
-        <Providers>{children}</Providers>
+        <Providers session={session}>{children}</Providers>
       </body>
     </html>
   )
 }
-
-const Providers = ({ children }: { children: React.ReactNode }) => (
-  <RollsProvider>
-    <NotificationsProvider>
-      <UsersProvider>
-        <CharactersProvider>
-          <MapsProvider>
-            <ModalProvider>{children}</ModalProvider>
-          </MapsProvider>
-        </CharactersProvider>
-      </UsersProvider>
-    </NotificationsProvider>
-  </RollsProvider>
-)

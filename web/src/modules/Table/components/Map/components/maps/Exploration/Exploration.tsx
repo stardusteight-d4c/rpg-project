@@ -2,8 +2,8 @@
 
 import React, { useState, DragEvent, useRef, useEffect } from "react"
 import { DraggableItem } from "../../DraggableItem"
-import { useMaps } from "@/modules/Table/contexts/Maps/MapsContext"
-import { currentSession } from "@/modules/Table/contexts/Users/mock-data"
+import { useMaps } from "@/shared/contexts/Maps/MapsContext"
+import { currentSession } from "@/shared/contexts/Users/mock-data"
 
 interface GridItem {
   id: string

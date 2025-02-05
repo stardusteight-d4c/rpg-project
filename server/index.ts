@@ -5,15 +5,16 @@ import { compare, hash } from "bcrypt"
 const app = Fastify()
 
 // organizar o código
-// definir user.d.ts
-// jogar função signUp para user.ts e importar aqui
+// definir auth.d.ts
+// jogar função signUp para auth.ts e importar aqui
 
 // const users = []
 // signUp => salvar usuário localmente, retornar sessão do usuário
 // json web tokens
 // refreshToken and acessToken
+// settar cookies via plugin fastfy/cookies do fastfy
 // signIn => mandar username e password, ver se existe um user com aquele username, comparar senha, e criar sessão do usuário
-// depois criar classe userRoutes
+// depois criar classe authRoutes
 
 interface IUser {
   id: string
@@ -37,6 +38,7 @@ async function signUp(
   return reply.send(newUser)
 }
 
+// mudar para auth/
 app.post("/user/signup", signUp)
 
 const start = async () => {

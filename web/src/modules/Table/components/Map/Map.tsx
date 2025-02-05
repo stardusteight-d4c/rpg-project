@@ -2,8 +2,8 @@
 
 import { useState } from "react"
 import { MapCreate, MapEdit, Maps, MapsDisplay } from "./components"
-import { useMaps } from "../../contexts/Maps/MapsContext"
-import { currentSession } from "../../contexts/Users/mock-data"
+import { useMaps } from "../../../../shared/contexts/Maps/MapsContext"
+import { currentSession } from "../../../../shared/contexts/Users/mock-data"
 
 export const Map: React.FC = () => {
   const { activeMap } = useMaps()

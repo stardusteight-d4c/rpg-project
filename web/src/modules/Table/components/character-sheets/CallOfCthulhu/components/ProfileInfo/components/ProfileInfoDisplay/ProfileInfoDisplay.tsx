@@ -1,7 +1,7 @@
 "use client"
 
 import { DonutChart, ModalWrapper, Tooltip } from "@/shared/components"
-import { currentSession } from "@/modules/Table/contexts/Users/mock-data"
+import { currentSession } from "@/shared/contexts/Users/mock-data"
 import { handleCharacterTooltipText } from "@/shared/utils/handleCharacterTooltipText"
 import { handleCharacterVisibilityTooltipText } from "@/shared/utils/handleCharacterVisibilityTooltipText"
 import { useState } from "react"

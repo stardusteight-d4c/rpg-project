@@ -10,9 +10,9 @@ import {
   Skills,
 } from "../../../character-sheets/CallOfCthulhu/components"
 import { initialData as mockInitialData } from "./initialData"
-import { useCharacters } from "@/modules/Table/contexts/Characters/CharactersContext"
-import { useUsers } from "@/modules/Table/contexts/Users/UsersContext"
-import { currentSession } from "@/modules/Table/contexts/Users/mock-data"
+import { useCharacters } from "@/shared/contexts/Characters/CharactersContext"
+import { useUsers } from "@/shared/contexts/Users/UsersContext"
+import { currentSession } from "@/shared/contexts/Users/mock-data"
 
 interface CharactersCreateProps {
   setCreateMode: (value: boolean) => void

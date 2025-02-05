@@ -1,6 +1,6 @@
 "use client"
 
-import { useCharacters } from "@/modules/Table/contexts/Characters/CharactersContext"
+import { useCharacters } from "@/shared/contexts/Characters/CharactersContext"
 import { useState } from "react"
 import {
   BackButton,

@@ -2,8 +2,8 @@
 
 import { useState } from "react"
 import { ProfileInfo } from "../../../character-sheets/CallOfCthulhu/components"
-import { currentSession } from "@/modules/Table/contexts/Users/mock-data"
-import { useCharacters } from "@/modules/Table/contexts/Characters/CharactersContext"
+import { currentSession } from "@/shared/contexts/Users/mock-data"
+import { useCharacters } from "@/shared/contexts/Characters/CharactersContext"
 
 interface CharactersDisplayProps {
   characters: Array<ICharacter>

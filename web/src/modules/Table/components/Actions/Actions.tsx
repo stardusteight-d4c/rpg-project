@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react"
 import { CharacterRoll, Sender, SystemRoll } from "./components"
 import { ModalWrapper } from "@/shared/components/ModalWrapper/ModalWrapper"
 import { Dice } from "../Dice"
-import { useRolls } from "../../contexts/Rolls/RollsContext"
+import { useRolls } from "../../../../shared/contexts/Rolls/RollsContext"
 import { convertTimestamp } from "../../utils/convertTimestamp"
 
 export const Actions = () => {

@@ -6,11 +6,11 @@ import {
   GlowingWrapper,
   Tooltip,
 } from "@/shared/components"
-import { currentSession } from "@/modules/Table/contexts/Users/mock-data"
+import { currentSession } from "@/shared/contexts/Users/mock-data"
 import { handleCharacterTooltipText } from "@/shared/utils/handleCharacterTooltipText"
 import { handleCharacterVisibilityTooltipText } from "@/shared/utils/handleCharacterVisibilityTooltipText"
 import { useState } from "react"
-import { useCharacters } from "@/modules/Table/contexts/Characters/CharactersContext"
+import { useCharacters } from "@/shared/contexts/Characters/CharactersContext"
 import { randomUUID } from "node:crypto"
 
 export const ProfileInfoEdit: React.FC<{ character: ICharacter }> = ({

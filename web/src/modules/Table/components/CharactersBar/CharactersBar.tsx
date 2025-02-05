@@ -1,6 +1,6 @@
-import { useCharacters } from "@/modules/Table/contexts/Characters/CharactersContext"
+import { useCharacters } from "@/shared/contexts/Characters/CharactersContext"
 import { DraggableItem } from "../Map/components"
-import { currentSession } from "@/modules/Table/contexts/Users/mock-data"
+import { currentSession } from "@/shared/contexts/Users/mock-data"
 
 export const CharactersBar = () => {
   const charactersContext = useCharacters()

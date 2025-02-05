@@ -2,7 +2,7 @@
 
 import { HandoutDisplay } from "@/modules/Table/components/Handouts/components/HandoutDisplay"
 import { HandoutModalWrapper } from "@/modules/Table/components/Handouts/components/HandoutModalWrapper"
-import { useCharacters } from "@/modules/Table/contexts/Characters/CharactersContext"
+import { useCharacters } from "@/shared/contexts/Characters/CharactersContext"
 import { useState } from "react"
 
 interface InventoryDisplayProps {

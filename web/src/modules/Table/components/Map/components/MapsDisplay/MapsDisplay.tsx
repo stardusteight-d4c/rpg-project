@@ -1,4 +1,4 @@
-import { useMaps } from "@/modules/Table/contexts/Maps/MapsContext"
+import { useMaps } from "@/shared/contexts/Maps/MapsContext"
 
 interface MapsDisplayProps {
   onSelectedMap: (value: IMap) => void
