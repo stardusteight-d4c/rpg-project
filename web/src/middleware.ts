@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server"
-import { useAuth } from "./shared/contexts/Auth/AuthContext"
 
 export async function middleware(req: NextRequest) {
   // const { getToken } = useAuth()

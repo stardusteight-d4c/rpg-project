@@ -455,7 +455,7 @@ export const characters: ICharacter[] = [
   },
   {
     id: "2abdb32e-a1dd-47f3-827d-c0ec025c734e",
-    user: currentSession,
+    user: matchUsers[0],
     infos: {
       type: "player",
       name: "Erwin Farwell",

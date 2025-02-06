@@ -1,45 +1,17 @@
-import Fastify, { FastifyReply, FastifyRequest } from "fastify"
-import { randomUUID } from "node:crypto"
-import { compare, hash } from "bcrypt"
+import Fastify from "fastify"
+import { signIn, signUp } from "./src/routes/auth"
 
 const app = Fastify()
 
-// organizar o código
-// definir auth.d.ts
-// jogar função signUp para auth.ts e importar aqui
-
-// const users = []
 // signUp => salvar usuário localmente, retornar sessão do usuário
 // json web tokens
 // refreshToken and acessToken
 // settar cookies via plugin fastfy/cookies do fastfy
 // signIn => mandar username e password, ver se existe um user com aquele username, comparar senha, e criar sessão do usuário
-// depois criar classe authRoutes
+// depois criar classe authRoutes 
 
-interface IUser {
-  id: string
-  name: string
-  username: string
-  password: string
-  email: string
-}
-
-async function signUp(
-  request: FastifyRequest<{ Body: IUser }>,
-  reply: FastifyReply
-) {
-  const newUser: IUser = {
-    id: randomUUID(),
-    password: await hash(request.body.password, 10),
-    email: request.body.email,
-    name: request.body.name,
-    username: request.body.username,
-  }
-  return reply.send(newUser)
-}
-
-// mudar para auth/
-app.post("/user/signup", signUp)
+app.post("/auth/signup", signUp)
+app.post("/auth/signin", signIn)
 
 const start = async () => {
   try {
