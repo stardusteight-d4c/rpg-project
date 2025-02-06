@@ -1,6 +1,10 @@
 "use client"
 
+import { useRouter } from "next/navigation"
+
 export function ProfileModule() {
+  const { push } = useRouter()
+
   return (
     <main className="w-screen relative">
       <nav className=" bg-background z-[100] w-screen border-b py-1 border-border shadow-sm shadow-black/50 ">
@@ -44,6 +48,12 @@ export function ProfileModule() {
               </button>
               <span>Create campaign</span>
             </div>
+            <img
+              onClick={() => push("/profile/stardusteight")}
+              src="https://avatars.githubusercontent.com/u/87643260?v=4"
+              alt=""
+              className="w-[32px] h-[32px] cursor-pointer rounded-full object-cover"
+            />
           </div>
         </div>
       </nav>
@@ -256,6 +266,9 @@ export function ProfileModule() {
             ].map((item, index) => (
               <div
                 key={index}
+                onClick={() =>
+                  push("/campaign/c84df9de-5834-43ef-a526-d838a77e75dc")
+                }
                 className="col-span-1 cursor-pointer relative h-[200px] rounded-3xl bg-ashes"
               >
                 <img

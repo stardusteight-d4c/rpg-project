@@ -1,10 +1,10 @@
 "use client"
 
 import { useCharacters } from "@/shared/contexts/Characters/CharactersContext"
-import { useUsers } from "@/shared/contexts/Users/UsersContext"
+import { useRouter } from "next/navigation"
 
 export function CampaignModule() {
-  const { users } = useUsers()
+  const { push } = useRouter()
   const { getCharactersByType } = useCharacters()
 
   return (
@@ -50,6 +50,12 @@ export function CampaignModule() {
               </button>
               <span>Create campaign</span>
             </div>
+            <img
+              onClick={() => push("/profile/stardusteight")}
+              src="https://avatars.githubusercontent.com/u/87643260?v=4"
+              alt=""
+              className="w-[32px] h-[32px] cursor-pointer rounded-full object-cover"
+            />
           </div>
         </div>
       </nav>
@@ -70,24 +76,38 @@ export function CampaignModule() {
           </div>
         </div>
         <div className="grid grid-cols-2 items-center justify-center gap-x-4">
-          <div className="col-span-1">
+          <div className="col-span-1 relative">
             <img
               src="https://assetsio.gnwcdn.com/call-of-cthulhu-rpg-arkham-sourcebook-artwork.png?width=1200&height=1200&fit=bounds&quality=70&format=jpg&auto=webp"
               alt=""
               className="w-full object-fill rounded-3xl h-[350px]"
             />
-            <div className="text-gray-500/80 select-none flex items-center gap-x-[2px] mt-1 w-full justify-start">
+            <span className="absolute bottom-4 left-4 bg-background flex items-center gap-x-2 shadow-sm shadow-black/50 duration-300 ease-in-out transition-all p-2 rounded-full">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                fill="#6b7280"
+                width="24"
+                height="24"
+                fill="#FFFFFF"
                 viewBox="0 0 256 256"
               >
-                <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm64-88a8,8,0,0,1-8,8H128a8,8,0,0,1-8-8V72a8,8,0,0,1,16,0v48h48A8,8,0,0,1,192,128Z"></path>
+                <path d="M208,32H184V24a8,8,0,0,0-16,0v8H88V24a8,8,0,0,0-16,0v8H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM72,48v8a8,8,0,0,0,16,0V48h80v8a8,8,0,0,0,16,0V48h24V80H48V48ZM208,208H48V96H208V208Zm-68-76a12,12,0,1,1-12-12A12,12,0,0,1,140,132Zm44,0a12,12,0,1,1-12-12A12,12,0,0,1,184,132ZM96,172a12,12,0,1,1-12-12A12,12,0,0,1,96,172Zm44,0a12,12,0,1,1-12-12A12,12,0,0,1,140,172Zm44,0a12,12,0,1,1-12-12A12,12,0,0,1,184,172Z"></path>
               </svg>
-              <span className="block">90 hours of campaign so far</span>
-            </div>
+              <span className="text-lg font-medium pr-1">
+                Created on 2020-05-22
+              </span>
+            </span>
+            <span className="absolute bottom-4 right-4 bg-background flex items-center gap-x-2 shadow-sm shadow-black/50 duration-300 ease-in-out transition-all p-2 rounded-full">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                fill="#FFFFFF"
+                viewBox="0 0 256 256"
+              >
+                <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm64-88a8,8,0,0,1-8,8H128a8,8,0,0,1-8-8V72a8,8,0,0,1,16,0v48h48A8,8,0,0,1,192,128Z"></path>{" "}
+              </svg>
+              <span className="text-lg font-medium pr-1">90 hours</span>
+            </span>
           </div>
           <div className="col-span-1 flex -mt-2 flex-col gap-y-2">
             <h2 className="text-5xl mt-4 font-bold background-gradient text-transparent bg-clip-text">
@@ -102,17 +122,25 @@ export function CampaignModule() {
               psicológico, com um clima de desespero crescente, enquanto as
               criaturas e mistérios antigos ameaçam a humanidade.
             </span>
-            <span className="bg-border cursor-pointer w-fit flex items-center gap-x-2 shadow-sm shadow-black/50 hover:bg-gradient-to-tr hover:from-[#42d392] hover:to-[#8B5CF6] duration-300 ease-in-out transition-all p-2 rounded-full">
+            <span
+              onClick={() =>
+                push("/table/118c3962-fbbc-4dc0-8381-0f0d0a1afa38")
+              }
+              className="bg-background border border-border cursor-pointer w-fit flex items-center gap-x-2 shadow-sm shadow-black/50 hover:bg-border duration-300 ease-in-out transition-all px-4 py-2 rounded-full"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="28"
                 height="28"
-                fill="#FFFFFF"
+                fill="#22c55e"
                 viewBox="0 0 256 256"
               >
-                <path d="M141.66,133.66l-40,40a8,8,0,0,1-11.32-11.32L116.69,136H24a8,8,0,0,1,0-16h92.69L90.34,93.66a8,8,0,0,1,11.32-11.32l40,40A8,8,0,0,1,141.66,133.66ZM200,32H136a8,8,0,0,0,0,16h56V208H136a8,8,0,0,0,0,16h64a8,8,0,0,0,8-8V40A8,8,0,0,0,200,32Z"></path>
+                <path d="M168,96v48a8,8,0,0,1-16,0V115.31l-50.34,50.35a8,8,0,0,1-11.32-11.32L140.69,104H112a8,8,0,0,1,0-16h48A8,8,0,0,1,168,96Zm64,32A104,104,0,1,1,128,24,104.11,104.11,0,0,1,232,128Zm-16,0a88,88,0,1,0-88,88A88.1,88.1,0,0,0,216,128Z"></path>
               </svg>
-              <span className="text-xl font-medium pr-1">Join the table</span>
+
+              <span className="text-xl font-medium text-green-500 pr-1">
+                Join the table
+              </span>
             </span>
           </div>
           <div className="col-span-2 mt-4 w-full">
