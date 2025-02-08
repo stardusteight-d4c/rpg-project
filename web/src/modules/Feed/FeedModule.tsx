@@ -98,8 +98,79 @@ export function FeedModule() {
           </div>
         </div>
       </nav>
-      <div className="max-w-7xl mt-[45px] pt-4 border-x border-border w-full mx-auto flex items-center">
-        <section className="min-w-[860px] pb-[100px] space-y-4 px-2 border-r border-border w-full min-h-screen">
+      <div className="max-w-7xl mt-[45px] w-full mx-auto flex">
+        <section className="min-w-[860px] pb-[100px] space-y-4 px-4 pt-4 border-r border-border w-full min-h-screen">
+          <div className="mb-[40px]">
+            <div className="flex items-start gap-x-4 p-2 bottom-0 inset-x-0">
+              <img
+                src="https://avatars.githubusercontent.com/u/87643260?v=4"
+                alt=""
+                className="w-[48px] aspect-square object-cover select-none pointer-events-none h-[48px] rounded-full"
+              />
+
+              <div className="shadow-sm shadow-black/50 rounded-3xl overflow-hidden w-full">
+                <GlowingWrapper
+                  styles="w-full"
+                  border="rounded-3xl rounded-b-none"
+                  inset="0"
+                >
+                  <textarea
+                    // onChange={(e) => handleInputChange(e)}
+                    // value={newNotification}
+                    placeholder="Make a post"
+                    spellCheck="false"
+                    className="p-2 bg-background h-[100px]  resize-none overflow-y-scroll no-scrollbar w-full cursor-text hover:brightness-125 flex items-center gap-x-1 line-clamp-1 rounded-3xl rounded-b-none border border-border outline-none"
+                  />
+                </GlowingWrapper>
+                <div className="flex w-full items-center gap-x-2 px-4 py-2 bg-border">
+                  <button className="bg-background flex items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50 hover:bg-gradient-to-tr hover:from-[#42d392] hover:to-[#8B5CF6] duration-300 ease-in-out transition-all">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      fill="#FFFFFF"
+                      viewBox="0 0 256 256"
+                    >
+                      <path d="M216,40H40A16,16,0,0,0,24,56V200a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A16,16,0,0,0,216,40Zm0,16V158.75l-26.07-26.06a16,16,0,0,0-22.63,0l-20,20-44-44a16,16,0,0,0-22.62,0L40,149.37V56ZM40,172l52-52,80,80H40Zm176,28H194.63l-36-36,20-20L216,181.38V200ZM144,100a12,12,0,1,1,12,12A12,12,0,0,1,144,100Z"></path>
+                    </svg>
+                  </button>
+                  <button className="bg-background flex items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50 hover:bg-gradient-to-tr hover:from-[#42d392] hover:to-[#8B5CF6] duration-300 ease-in-out transition-all">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      fill="#FFFFFF"
+                      viewBox="0 0 256 256"
+                    >
+                      <path d="M42.76,50A8,8,0,0,0,40,56V224a8,8,0,0,0,16,0V179.77c26.79-21.16,49.87-9.75,76.45,3.41,16.4,8.11,34.06,16.85,53,16.85,13.93,0,28.54-4.75,43.82-18a8,8,0,0,0,2.76-6V56A8,8,0,0,0,218.76,50c-28,24.23-51.72,12.49-79.21-1.12C111.07,34.76,78.78,18.79,42.76,50ZM216,172.25c-26.79,21.16-49.87,9.74-76.45-3.41-25-12.35-52.81-26.13-83.55-8.4V59.79c26.79-21.16,49.87-9.75,76.45,3.4,25,12.35,52.82,26.13,83.55,8.4Z"></path>
+                    </svg>
+                  </button>
+                  <button className="bg-background flex items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50 hover:bg-gradient-to-tr hover:from-[#42d392] hover:to-[#8B5CF6] duration-300 ease-in-out transition-all">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      fill="#FFFFFF"
+                      viewBox="0 0 256 256"
+                    >
+                      <path d="M117.25,157.92a60,60,0,1,0-66.5,0A95.83,95.83,0,0,0,3.53,195.63a8,8,0,1,0,13.4,8.74,80,80,0,0,1,134.14,0,8,8,0,0,0,13.4-8.74A95.83,95.83,0,0,0,117.25,157.92ZM40,108a44,44,0,1,1,44,44A44.05,44.05,0,0,1,40,108Zm210.14,98.7a8,8,0,0,1-11.07-2.33A79.83,79.83,0,0,0,172,168a8,8,0,0,1,0-16,44,44,0,1,0-16.34-84.87,8,8,0,1,1-5.94-14.85,60,60,0,0,1,55.53,105.64,95.83,95.83,0,0,1,47.22,37.71A8,8,0,0,1,250.14,206.7Z"></path>
+                    </svg>
+                  </button>
+                  <button className="background-gradient ml-auto flex items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50 hover:bg-gradient-to-tr hover:from-[#42d392] hover:to-[#8B5CF6] duration-300 ease-in-out transition-all">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      fill="#FFFFFF"
+                      viewBox="0 0 256 256"
+                    >
+                      <path d="M227.32,28.68a16,16,0,0,0-15.66-4.08l-.15,0L19.57,82.84a16,16,0,0,0-2.49,29.8L102,154l41.3,84.87A15.86,15.86,0,0,0,157.74,248q.69,0,1.38-.06a15.88,15.88,0,0,0,14-11.51l58.2-191.94c0-.05,0-.1,0-.15A16,16,0,0,0,227.32,28.68ZM157.83,231.85l-.05.14,0-.07-40.06-82.3,48-48a8,8,0,0,0-11.31-11.31l-48,48L24.08,98.25l-.07,0,.14,0L216,40Z"></path>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
           <div className="flex bg-background w-full border border-border overflow-hidden rounded-3xl pt-2 flex-col gap-y-1">
             <div className="flex select-none px-4 z-20 items-center gap-x-2">
               <img
@@ -279,39 +350,119 @@ export function FeedModule() {
                 </div>
               </div>
             </div>
-            <div className="p-4 ">
-            <div
-            className="bg-background flex items-center gap-x-4 p-2 bottom-0 inset-x-0"
-          >
-            <GlowingWrapper styles="w-full" border="rounded-3xl" inset="0">
-              <input
-                // onChange={(e) => handleInputChange(e)}
-                // value={newNotification}
-                placeholder="Send a comment"
-                spellCheck="false"
-                className="p-2 px-4  shadow-sm shadow-black/50 resize-none overflow-y-scroll no-scrollbar w-full cursor-text hover:brightness-125 flex items-center gap-x-1 line-clamp-1 rounded-3xl bg-border/50 border border-border outline-none"
-              />
-            </GlowingWrapper>
+            <div className="p-4">
+              <div className="bg-background flex items-center gap-x-4 p-2 bottom-0 inset-x-0">
+                <GlowingWrapper styles="w-full" border="rounded-3xl" inset="0">
+                  <input
+                    // onChange={(e) => handleInputChange(e)}
+                    // value={newNotification}
+                    placeholder="Send a comment"
+                    spellCheck="false"
+                    className="p-2 px-4  shadow-sm shadow-black/50 resize-none overflow-y-scroll no-scrollbar w-full cursor-text hover:brightness-125 flex items-center gap-x-1 line-clamp-1 rounded-3xl bg-border/50 border border-border outline-none"
+                  />
+                </GlowingWrapper>
 
-            <span
-              // onClick={onSend}
-              className="flex hover:brightness-125 active:scale-95 transition-all duration-300 ease-in-out items-center  justify-center text-white p-2 rounded-full w-fit  shadow-sm shadow-black/50 cursor-pointer bg-button"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                fill="#FFFFFF"
-                viewBox="0 0 256 256"
-              >
-                <path d="M227.32,28.68a16,16,0,0,0-15.66-4.08l-.15,0L19.57,82.84a16,16,0,0,0-2.49,29.8L102,154l41.3,84.87A15.86,15.86,0,0,0,157.74,248q.69,0,1.38-.06a15.88,15.88,0,0,0,14-11.51l58.2-191.94c0-.05,0-.1,0-.15A16,16,0,0,0,227.32,28.68ZM157.83,231.85l-.05.14,0-.07-40.06-82.3,48-48a8,8,0,0,0-11.31-11.31l-48,48L24.08,98.25l-.07,0,.14,0L216,40Z"></path>
-              </svg>
-            </span>
-          </div>
+                <span
+                  // onClick={onSend}
+                  className="flex hover:brightness-125 active:scale-95 transition-all duration-300 ease-in-out items-center  justify-center text-white p-2 rounded-full w-fit  shadow-sm shadow-black/50 cursor-pointer bg-button"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    fill="#FFFFFF"
+                    viewBox="0 0 256 256"
+                  >
+                    <path d="M227.32,28.68a16,16,0,0,0-15.66-4.08l-.15,0L19.57,82.84a16,16,0,0,0-2.49,29.8L102,154l41.3,84.87A15.86,15.86,0,0,0,157.74,248q.69,0,1.38-.06a15.88,15.88,0,0,0,14-11.51l58.2-191.94c0-.05,0-.1,0-.15A16,16,0,0,0,227.32,28.68ZM157.83,231.85l-.05.14,0-.07-40.06-82.3,48-48a8,8,0,0,0-11.31-11.31l-48,48L24.08,98.25l-.07,0,.14,0L216,40Z"></path>
+                  </svg>
+                </span>
+              </div>
             </div>
           </div>
         </section>
-        <section className="w-full min-h-screen"></section>
+        <section className="w-full flex flex-col gap-y-8 p-4 min-h-screen">
+          <div>
+            <h2 className="text-3xl pointer-events-none font-bold mb-2">
+              Happening right now
+            </h2>
+            <div className="grid grid-cols-1 w-full gap-4">
+              {[
+                {
+                  image:
+                    "https://cdn.myportfolio.com/01576c1cae45f964574cd467d49a52b8/cb80796e-42ab-43bc-bea0-f12e2907d474_rw_1920.jpg?h=423137e847613be7260e67b60daec37e",
+                  name: "Beyond the Mountains of Madness",
+                },
+                {
+                  image:
+                    "https://mir-s3-cdn-cf.behance.net/project_modules/hd/1e8c1f94180437.5e78948e881c2.jpg",
+                  name: "Masks of Nyarlathotep",
+                },
+              ].map((item, index) => (
+                <div>
+                  {/* <span className="text-2xl font-medium whitespace-nowrap select-none cursor-default pointer-events-none">
+                    {item.name}
+                  </span> */}
+                  <div
+                    key={index}
+                    onClick={() =>
+                      push("/campaign/c84df9de-5834-43ef-a526-d838a77e75dc")
+                    }
+                    className="col-span-1 cursor-pointer relative h-[200px] rounded-3xl bg-ashes"
+                  >
+                    <img
+                      src={item.image}
+                      alt=""
+                      className="object-fill rounded-3xl w-full h-full"
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div>
+            <h2 className="text-3xl pointer-events-none font-bold mb-2">
+              Recently Played
+            </h2>
+            <div className="grid grid-cols-1 w-full gap-4">
+              {[
+                {
+                  image:
+                    "https://assetsio.gnwcdn.com/call-of-cthulhu-rpg-arkham-sourcebook-artwork.png?width=1200&height=1200&fit=bounds&quality=70&format=jpg&auto=webp",
+                  name: "Beyond the Mountains of Madness",
+                },
+                {
+                  image:
+                    "https://assetsio.gnwcdn.com/call-of-cthulhu-masks-of-nyarlathotep-artwork.jpeg?width=1200&height=1200&fit=bounds&quality=70&format=jpg&auto=webp",
+                  name: "Horror on the Orient Express",
+                },
+                {
+                  image:
+                    "https://www.chaosium.com/product_images/uploaded_images/screen-shot-2024-09-26-at-10.09.58-am.png",
+                  name: "Masks of Nyarlathotep",
+                },
+              ].map((item, index) => (
+                <div>
+                  {/* <span className="text-2xl font-medium whitespace-nowrap select-none cursor-default pointer-events-none">
+                    {item.name}
+                  </span> */}
+                  <div
+                    key={index}
+                    onClick={() =>
+                      push("/campaign/c84df9de-5834-43ef-a526-d838a77e75dc")
+                    }
+                    className="col-span-1 cursor-pointer relative h-[200px] rounded-3xl bg-ashes"
+                  >
+                    <img
+                      src={item.image}
+                      alt=""
+                      className="object-fill rounded-3xl w-full h-full"
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
       </div>
       <footer className="w-full bg-ashes border-t border-border py-1">
         <div className="font-bold max-w-7xl w-full mx-auto text-2xl pointer-events-none select-none flex gap-2">
