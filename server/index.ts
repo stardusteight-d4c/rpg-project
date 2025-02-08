@@ -1,5 +1,5 @@
 import Fastify from "fastify"
-import { signIn, signUp } from "./src/routes/auth"
+import { signIn, signUp } from "./src/routes/auth.ts"
 
 const app = Fastify()
 
@@ -9,6 +9,10 @@ const app = Fastify()
 // settar cookies via plugin fastfy/cookies do fastfy
 // signIn => mandar username e password, ver se existe um user com aquele username, comparar senha, e criar sessão do usuário
 // depois criar classe authRoutes 
+
+// configurar cor
+// fazer middleware que recebe acessToken e verifica se está válido
+// node v23 agora tem suporte nativo a typescript
 
 app.post("/auth/signup", signUp)
 app.post("/auth/signin", signIn)

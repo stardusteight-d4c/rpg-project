@@ -7,9 +7,12 @@ export function ProfileModule() {
 
   return (
     <main className="w-screen relative">
-      <nav className=" bg-background z-[100] w-screen border-b py-1 border-border shadow-sm shadow-black/50 ">
+      <nav className=" bg-background fixed inset-x-0 top-0 z-[600] w-screen border-b py-1 border-border shadow-sm shadow-black/50 ">
         <div className="max-w-7xl flex items-center justify-between mx-auto">
-          <h1 className="font-bold text-3xl pointer-events-none select-none flex gap-2">
+          <h1
+            onClick={() => push("/feed")}
+            className="font-bold text-3xl cursor-pointer select-none flex gap-2"
+          >
             <img src="/favicon.png" alt="" className="w-[32px] h-[32px]" />
             Campfire
           </h1>
@@ -48,6 +51,24 @@ export function ProfileModule() {
               </button>
               <span>Create campaign</span>
             </div>
+            <div
+              onClick={() => push("/feed")}
+              className="cursor-pointer w-fit flex items-center group gap-x-2"
+            >
+              <button className="bg-ashes flex items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50 group-hover:bg-gradient-to-tr group-hover:from-[#42d392] group-hover:to-[#8B5CF6] duration-300 ease-in-out transition-all">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  fill="#FFFFFF"
+                  viewBox="0 0 256 256"
+                >
+                  <path d="M168,128a8,8,0,0,1-8,8H96a8,8,0,0,1,0-16h64A8,8,0,0,1,168,128Zm-8,24H96a8,8,0,0,0,0,16h64a8,8,0,0,0,0-16ZM216,40V200a32,32,0,0,1-32,32H72a32,32,0,0,1-32-32V40a8,8,0,0,1,8-8H72V24a8,8,0,0,1,16,0v8h32V24a8,8,0,0,1,16,0v8h32V24a8,8,0,0,1,16,0v8h24A8,8,0,0,1,216,40Zm-16,8H184v8a8,8,0,0,1-16,0V48H136v8a8,8,0,0,1-16,0V48H88v8a8,8,0,0,1-16,0V48H56V200a16,16,0,0,0,16,16H184a16,16,0,0,0,16-16Z"></path>
+                </svg>
+              </button>
+              <span>Feed</span>
+            </div>
+
             <img
               onClick={() => push("/profile/stardusteight")}
               src="https://avatars.githubusercontent.com/u/87643260?v=4"
