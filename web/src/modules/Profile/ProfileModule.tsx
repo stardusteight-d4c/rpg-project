@@ -11,10 +11,13 @@ export function ProfileModule() {
         <div className="max-w-7xl flex items-center justify-between mx-auto">
           <h1
             onClick={() => push("/feed")}
-            className="font-bold text-3xl cursor-pointer select-none flex gap-2"
+            className="font-bold text-3xl cursor-pointer select-none flex gap-y-1"
           >
             <img src="/favicon.png" alt="" className="w-[32px] h-[32px]" />
-            Campfire
+            Camp
+            <span className="background-gradient bg-clip-text text-transparent">
+              fire
+            </span>
           </h1>
           <div className="flex items-center gap-x-4">
             <div
@@ -87,7 +90,7 @@ export function ProfileModule() {
               </button>
               <span>Notifications</span>
             </div>
-            
+
             <img
               onClick={() => push("/profile/stardusteight")}
               src="https://avatars.githubusercontent.com/u/87643260?v=4"

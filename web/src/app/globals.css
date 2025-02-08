@@ -42,7 +42,7 @@ body {
 ::-webkit-scrollbar-thumb {
   cursor: pointer;
   background: #1F1F1F;
-  border-radius: 0px;
+  border-radius: 20px;
 }
 
 .glassmorphism {

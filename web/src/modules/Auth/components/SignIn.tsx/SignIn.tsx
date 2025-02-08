@@ -23,9 +23,14 @@ export const SignIn = () => {
   return (
     <div className="grid grid-cols-10 h-screen overflow-hidden">
       <section className="col-span-7 relative">
-        <h1 className="font-bold text-3xl z-[100] absolute items-center justify-center left-2 top-2 bg-background shadow-sm shadow-black/50 rounded-full py-1 px-4 pointer-events-none select-none flex gap-2">
+        <h1
+          className="font-bold  z-[100] absolute bg-background rounded-full px-2 overflow-hidden py-1 shadow-md shadow-black/50 left-2 top-2 text-3xl cursor-pointer select-none flex gap-y-1"
+        >
           <img src="/favicon.png" alt="" className="w-[32px] h-[32px]" />
-          Campfire
+          Camp
+          <span className="background-gradient bg-clip-text text-transparent">
+            fire
+          </span>
         </h1>
         <span className="absolute z-[100] left-2 bottom-1 text-gray-400 text-xl font-medium">
           Art by Tyler Jacobson
