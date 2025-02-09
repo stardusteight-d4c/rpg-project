@@ -3,6 +3,7 @@ interface IPost {
   user: IUser
   content: string
   createdAt: string
+  image?: string | undefined
   tags: Array<{
     type: "user" | "campaign"
     id: string

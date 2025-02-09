@@ -18,5 +18,5 @@ export function timeago(dateString: string): string {
       return `${count} ${interval.label}${count !== 1 ? "s" : ""} ago`
     }
   }
-  return "just now"
+  return "Just now"
 }

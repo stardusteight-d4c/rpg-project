@@ -3,12 +3,15 @@
 import { GlowingWrapper } from "@/shared/components"
 import { timeago } from "@/shared/utils/timeago"
 import { useState } from "react"
+import ReactMarkdown from "react-markdown"
+import rehypeRaw from "rehype-raw"
 
 interface PostProps {
   id: string
   user: IUser
   content: string
   createdAt: string
+  image?: string | undefined
   tags: Array<{
     type: "user" | "campaign"
     id: string
@@ -26,7 +29,7 @@ export const Post = ({ post }: { post: PostProps }) => {
   const [showComments, setShowComments] = useState<boolean>(false)
 
   return (
-    <div className="flex bg-background w-full border border-border overflow-hidden rounded-3xl pt-2 flex-col gap-y-1">
+    <div className="flex relative z-0 bg-background w-full border border-border overflow-hidden rounded-3xl pt-2 flex-col gap-y-1">
       <div className="flex select-none px-4 z-20 items-center gap-x-2">
         <img
           src={post.user.avatar_url}
@@ -54,7 +57,7 @@ export const Post = ({ post }: { post: PostProps }) => {
           </svg>
         </div>
       </div>
-      <div className="px-4  mt-1 flex items-center gap-1 flex-wrap">
+      <div className="px-4 mt-1 flex items-center gap-1 flex-wrap">
         {post.tags.map((tag) => (
           <span
             key={tag.id}
@@ -64,7 +67,17 @@ export const Post = ({ post }: { post: PostProps }) => {
           </span>
         ))}
       </div>
-      <span className="px-4 block">{post.content}</span>
+      <span className="px-4 block">
+        <ReactMarkdown rehypePlugins={[rehypeRaw]}>
+          {post.content}
+        </ReactMarkdown>
+      </span>
+      {post.image && (
+        <div className="px-4">
+
+        <img src={post.image} alt="" className="w-full rounded-3xl bg-button overflow-hidden object-cover" />
+        </div>
+      )}
       <div className="px-4 py-2 bg-border mt-2 flex flex-col gap-y-2">
         <div className="flex items-center gap-x-2">
           <button
