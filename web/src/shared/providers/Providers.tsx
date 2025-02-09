@@ -8,6 +8,7 @@ import { NotificationsProvider } from "@/shared/contexts/Notifications/Notificat
 import { RollsProvider } from "@/shared/contexts/Rolls/RollsContext"
 import { SessionProvider } from "next-auth/react"
 import { AuthProvider } from "../contexts/Auth/AuthContext"
+import { FeedProvider } from "../contexts/Feed/FeedContext"
 
 export const Providers = ({
   children,
@@ -18,17 +19,19 @@ export const Providers = ({
 }) => (
   <SessionProvider session={session}>
     <AuthProvider>
-      <RollsProvider>
-        <NotificationsProvider>
-          <UsersProvider>
-            <CharactersProvider>
-              <MapsProvider>
-                <ModalProvider>{children}</ModalProvider>
-              </MapsProvider>
-            </CharactersProvider>
-          </UsersProvider>
-        </NotificationsProvider>
-      </RollsProvider>
+      <FeedProvider>
+        <RollsProvider>
+          <NotificationsProvider>
+            <UsersProvider>
+              <CharactersProvider>
+                <MapsProvider>
+                  <ModalProvider>{children}</ModalProvider>
+                </MapsProvider>
+              </CharactersProvider>
+            </UsersProvider>
+          </NotificationsProvider>
+        </RollsProvider>
+      </FeedProvider>
     </AuthProvider>
   </SessionProvider>
 )
