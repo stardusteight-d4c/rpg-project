@@ -53,14 +53,13 @@ export const CreatePostInput = () => {
 
   function handleCheckEdit(data: {
     type: "user" | "campaign"
-    id: string
     value: string
     linkId: string
   }) {
-    const itemExists = postData.tags.some((item) => item.id === data.id)
+    const itemExists = postData.tags.some((item) => item.linkId === data.linkId)
 
     if (itemExists) {
-      const updatedTags = postData.tags.filter((item) => item.id !== data.id)
+      const updatedTags = postData.tags.filter((item) => item.linkId !== data.linkId)
       handlePostData("tags", updatedTags)
     } else {
       const updatedData = [data, ...postData.tags]
@@ -70,11 +69,10 @@ export const CreatePostInput = () => {
 
   function handleCheckbox(data: {
     type: "user" | "campaign"
-    id: string
     value: string
     linkId: string
   }): boolean {
-    return postData.tags.some((item) => item.id === data.id)
+    return postData.tags.some((item) => item.linkId === data.linkId)
   }
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {

@@ -6,7 +6,6 @@ interface IPost {
   image?: string | undefined
   tags: Array<{
     type: "user" | "campaign"
-    id: string
     value: string
     linkId: string
   }>

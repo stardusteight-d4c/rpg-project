@@ -9,19 +9,16 @@ export const posts: IPost[] = [
 🎭📖 Como foi a sessão para vocês? Algum momento favorito? Comentem abaixo! 👇🔥`,
     tags: [
       {
-        id: "a136d71c-c2fb-421a-8cb8-ab2413d64ee7",
         type: "campaign",
         value: "Beyond_the_Mountains_of_Madness",
         linkId: "c84df9de-5834-43ef-a526-d838a77e75dc",
       },
       {
-        id: "bf4100c9-db08-4a63-9b6c-18f6cc71c7f6",
         type: "user",
         value: "stardusteight",
         linkId: "a30e60ac-d957-4280-9d8a-249651a19671",
       },
       {
-        id: "5e081598-5f15-414e-86a6-d20bf3497550",
         type: "user",
         value: "lohvanna",
         linkId: "5e081598-5f15-414e-86a6-d20bf3497550",
@@ -38,19 +35,16 @@ export const posts: IPost[] = [
 Pelo menos Xablau Perreira tem preparo. 🤣`,
     tags: [
       {
-        id: "a136d71c-c2fb-421a-8cb8-ab2413d64ee7",
         type: "campaign",
         value: "Beyond_the_Mountains_of_Madness",
         linkId: "c84df9de-5834-43ef-a526-d838a77e75dc",
       },
       {
-        id: "bf4100c9-db08-4a63-9b6c-18f6cc71c7f6",
         type: "user",
         value: "blackwive",
         linkId: "4d6f7287-2e27-4389-bccb-c5beaf761a7d",
       },
       {
-        id: "5e081598-5f15-414e-86a6-d20bf3497550",
         type: "user",
         value: "lohvanna",
         linkId: "5e081598-5f15-414e-86a6-d20bf3497550",

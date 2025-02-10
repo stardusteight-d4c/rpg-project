@@ -89,14 +89,13 @@ export const Post = ({ post }: { post: IPost }) => {
 
   function handleCheckEdit(data: {
     type: "user" | "campaign"
-    id: string
     value: string
     linkId: string
   }) {
-    const itemExists = postData.tags.some((item) => item.id === data.id)
+    const itemExists = postData.tags.some((item) => item.linkId === data.linkId)
 
     if (itemExists) {
-      const updatedTags = postData.tags.filter((item) => item.id !== data.id)
+      const updatedTags = postData.tags.filter((item) => item.linkId !== data.linkId)
       handlePostData("tags", updatedTags)
     } else {
       const updatedData = [data, ...postData.tags]
@@ -106,11 +105,10 @@ export const Post = ({ post }: { post: IPost }) => {
 
   function handleCheckbox(data: {
     type: "user" | "campaign"
-    id: string
     value: string
     linkId: string
   }): boolean {
-    return postData.tags.some((item) => item.id === data.id)
+    return postData.tags.some((item) => item.linkId === data.linkId)
   }
 
   const handleInputChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
@@ -191,7 +189,7 @@ export const Post = ({ post }: { post: IPost }) => {
       <div className="px-4 mt-1 flex items-center gap-1 flex-wrap">
         {postData.tags.map((tag) => (
           <span
-            key={tag.id}
+            key={tag.linkId}
             className="text-gray-400 bg-ashes px-2 border border-border rounded-full w-fit block cursor-pointer"
           >
             #{tag.value}
