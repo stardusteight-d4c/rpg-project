@@ -135,7 +135,7 @@ export const CreatePostInput = () => {
               className="p-2 bg-background h-[100px]  resize-none overflow-y-scroll no-scrollbar w-full cursor-text hover:brightness-125 flex items-center gap-x-1 line-clamp-1 rounded-3xl rounded-b-none border border-border outline-none"
             />
           </GlowingWrapper>
-          <div className="flex w-full items-center gap-x-2 px-4 py-2 bg-border">
+          <div className="flex rounded-b-3xl w-full items-center gap-x-2 px-4 py-2 bg-border">
             <input
               id="file-input"
               type="file"
