@@ -20,7 +20,7 @@ export const Post = ({ post }: { post: IPost }) => {
   }
 
   return (
-    <div className="flex relative bg-background w-full border border-border rounded-3xl pt-2 flex-col gap-y-1">
+    <div className="flex relative bg-background w-full border border-border rounded-3xl pt-2 flex-col">
       {openEditPost && (
         <PostEdit post={post} setOpenEditPost={setOpenEditPost} />
       )}
@@ -98,7 +98,7 @@ export const Post = ({ post }: { post: IPost }) => {
           <img
             src={post.image}
             alt=""
-            className="w-full mt-2 rounded-3xl bg-button overflow-hidden object-cover"
+            className="w-full my-2 border border-border rounded-3xl bg-button overflow-hidden object-cover"
           />
         </div>
       )}

@@ -2,7 +2,7 @@
 
 import React, { Dispatch, SetStateAction, useRef } from "react"
 import ReactDOM from "react-dom"
-import { Zoom } from "react-awesome-reveal"
+import { Fade, Zoom } from "react-awesome-reveal"
 
 interface ModalWrapperProps {
   status: "open" | "close"
@@ -40,7 +40,12 @@ export const ModalWrapper = ({
       onClick={handleBackgroundClick}
     >
       <div className="relative w-screen h-screen">
-        <div className="transform backdrop-blur-sm fixed z-[600] inset-0 w-screen h-screen" />
+            <Fade
+              duration={500}
+              className="transform backdrop-blur-sm fixed !z-[600] inset-0 w-screen h-screen"
+            >
+              <div className="w-full h-full"/>
+            </Fade>
         <Zoom className="!z-[950] !relative" duration={300}>
           <div className="w-screen h-screen relative z-[950]">
             <div
