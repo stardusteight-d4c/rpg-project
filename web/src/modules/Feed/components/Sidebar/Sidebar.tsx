@@ -8,7 +8,7 @@ export const Sidebar = () => {
   const { push } = useRouter()
 
   return (
-    <section className="w-full flex flex-col gap-y-8 pl-4 mt-4 min-h-screen relative">
+    <section className="w-full pb-[100px] flex flex-col gap-y-8 pl-4 mt-4 min-h-screen relative">
       <div className="p-4 bg-border border border-border rounded-3xl">
         <h2 className="text-2xl tracking-wide pointer-events-none font-bold mb-4">
           Happening right now

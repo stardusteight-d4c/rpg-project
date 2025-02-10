@@ -3,7 +3,7 @@ export const matchUsers: IUser[] = [
     id: "a30e60ac-d957-4280-9d8a-249651a19671",
     name: "Gabriel Sena",
     username: "stardusteight",
-    role: "player",
+    role: "master",
     email: "stardusteight@gmail.com",
     avatar_url: "https://avatars.githubusercontent.com/u/87643260?v=4",
   },
@@ -11,7 +11,7 @@ export const matchUsers: IUser[] = [
     id: "4d6f7287-2e27-4389-bccb-c5beaf761a7d",
     name: "Linus Torvalds",
     username: "blackwive",
-    role: "master",
+    role: "player",
     email: "blackwive@gmail.com",
     avatar_url: "https://avatars.githubusercontent.com/u/1024025?v=4",
   },
@@ -25,4 +25,4 @@ export const matchUsers: IUser[] = [
   },
 ]
 
-export const currentSession = matchUsers[1]
+export const currentSession = matchUsers[0]

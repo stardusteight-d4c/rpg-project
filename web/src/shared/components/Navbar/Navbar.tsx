@@ -1,5 +1,6 @@
 "use client"
 
+import { currentSession } from "@/shared/contexts/Users/mock-data"
 import { useRouter } from "next/navigation"
 
 export const Navbar = () => {
@@ -92,7 +93,7 @@ export const Navbar = () => {
 
           <img
             onClick={() => push("/profile/stardusteight")}
-            src="https://avatars.githubusercontent.com/u/87643260?v=4"
+            src={currentSession.avatar_url}
             alt=""
             className="w-[32px] h-[32px] cursor-pointer rounded-full object-cover"
           />

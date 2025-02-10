@@ -6,7 +6,7 @@ import { posts as postsMock } from "./mock-data"
 interface FeedState {
   posts: IPost[]
   addPost: (post: IPost) => void
-  updatePost: (id: string, content: string) => void
+  updatePost: (id: string, updatedPost: Partial<IPost>) => void
   deletePost: (id: string) => void
 }
 
@@ -28,9 +28,11 @@ export const FeedProvider: React.FC<{ children: ReactNode }> = ({
     setPosts((prevPosts) => [post, ...prevPosts])
   }
 
-  const updatePost = (id: string, content: string) => {
+  const updatePost = (id: string, updatedPost: Partial<IPost>) => {
     setPosts((prevPosts) =>
-      prevPosts.map((post) => (post.id === id ? { ...post, content } : post))
+      prevPosts.map((post) =>
+        post.id === id ? { ...post, ...updatedPost } : post
+      )
     )
   }
 

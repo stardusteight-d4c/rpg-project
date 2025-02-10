@@ -38,7 +38,7 @@ export const posts: IPost[] = [
 Pelo menos Xablau Perreira tem preparo. 🤣`,
     tags: [
       {
-        id: "8674d90d-04e6-4e2d-ad21-1d3614bb1727",
+        id: "a136d71c-c2fb-421a-8cb8-ab2413d64ee7",
         type: "campaign",
         value: "Beyond_the_Mountains_of_Madness",
         linkId: "c84df9de-5834-43ef-a526-d838a77e75dc",

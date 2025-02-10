@@ -109,7 +109,7 @@ export const MapEdit = ({
               </span>
               <button
                 onClick={onDelete}
-                className="p-2 mt-2 w-full hover:brightness-125 font-medium text-center text-lg bg-red-500 text-white rounded"
+                className="p-2 mt-2 w-full hover:brightness-125 font-medium text-center text-lg bg-red-500 text-white rounded-full"
               >
                 Delete
               </button>
