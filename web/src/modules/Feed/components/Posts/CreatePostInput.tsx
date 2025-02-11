@@ -143,7 +143,7 @@ export const CreatePostInput = () => {
             />
             <button
               onClick={() => handleClick()}
-              className="bg-background flex items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50 hover:bg-gradient-to-tr hover:from-[#42d392] hover:to-[#8B5CF6] duration-300 ease-in-out transition-all"
+              className="bg-background flex items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50 hover:bg-button duration-300 ease-in-out transition-all"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -159,7 +159,7 @@ export const CreatePostInput = () => {
             {/*  */}
 
             <div className="group w-fit h-fit z-50 relative">
-              <button className="bg-background flex items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50 hover:bg-gradient-to-tr hover:from-[#42d392] hover:to-[#8B5CF6] duration-300 ease-in-out transition-all">
+              <button className="bg-background flex items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50 group-hover:bg-button duration-300 ease-in-out transition-all">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
@@ -203,7 +203,7 @@ export const CreatePostInput = () => {
 
             {/*  */}
             <div className="group w-fit h-fit z-50 relative">
-              <button className="bg-background flex items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50 hover:bg-gradient-to-tr hover:from-[#42d392] hover:to-[#8B5CF6] duration-300 ease-in-out transition-all">
+              <button className="bg-background flex items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50 group-hover:bg-button duration-300 ease-in-out transition-all">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
@@ -264,7 +264,7 @@ export const CreatePostInput = () => {
             )}
             <button
               onClick={onPost}
-              className="background-gradient ml-auto flex items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50 hover:bg-gradient-to-tr hover:from-[#42d392] hover:to-[#8B5CF6] duration-300 ease-in-out transition-all"
+              className="background-gradient ml-auto flex items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50 group-hover:bg-button duration-300 ease-in-out transition-all"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"

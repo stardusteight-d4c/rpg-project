@@ -4,6 +4,8 @@ interface IPost {
   content: string
   createdAt: string
   image?: string | undefined
+  likesCount?: number,
+  likedByUser?: boolean,
   tags: Array<{
     type: "user" | "campaign"
     value: string

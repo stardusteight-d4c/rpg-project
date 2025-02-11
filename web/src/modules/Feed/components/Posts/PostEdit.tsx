@@ -126,56 +126,61 @@ export const PostEdit = ({ post, setOpenEditPost }: PostEditProps) => {
         <div onClick={() => setOpenEditPost(false)} className="w-full h-full" />
       </Fade>
 
-      <Zoom className="!z-[800]" duration={300}>
-        <div className="flex z-[800] relative shadow-md shadow-black/50 w-[841px] bg-background border border-border rounded-3xl pt-2 flex-col">
+      <Zoom
+        className="!z-[800] border shadow-md shadow-black/50 border-border rounded-3xl p-4 bg-background"
+        duration={300}
+      >
+        <div className="flex z-[800] relative w-[841px] bg-background border border-border rounded-3xl pt-2 flex-col">
           <div className="max-h-[300px] no-scrollbar overflow-y-scroll">
-            <div className="flex select-none px-4 z-20 items-center gap-x-2">
-              <img
-                src={postData.user.avatar_url}
-                alt=""
-                className="w-[48px] aspect-square object-cover select-none pointer-events-none h-[48px] rounded-full"
-              />
-              <div className="flex flex-col">
-                <span className="block whitespace-nowrap text-lg font-bold -tracking-wide">
-                  {postData.user.name}
-                </span>
-                <span className="text-gray-400 -mt-2 block text-sm">
-                  #{postData.user.username}
-                </span>
+            <div>
+              <div className="flex select-none px-4 z-20 items-center gap-x-2">
+                <img
+                  src={postData.user.avatar_url}
+                  alt=""
+                  className="w-[48px] aspect-square object-cover select-none pointer-events-none h-[48px] rounded-full"
+                />
+                <div className="flex flex-col">
+                  <span className="block whitespace-nowrap text-lg font-bold -tracking-wide">
+                    {postData.user.name}
+                  </span>
+                  <span className="text-gray-400 -mt-2 block text-sm">
+                    #{postData.user.username}
+                  </span>
+                </div>
+                <div className="ml-auto text-gray-500/80 select-none flex items-center gap-x-[2px] mt-1 w-full justify-end">
+                  <span className="text-xs block">
+                    {timeago(postData.createdAt)}
+                  </span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="#6b7280"
+                    viewBox="0 0 256 256"
+                  >
+                    <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm64-88a8,8,0,0,1-8,8H128a8,8,0,0,1-8-8V72a8,8,0,0,1,16,0v48h48A8,8,0,0,1,192,128Z"></path>
+                  </svg>
+                </div>
               </div>
-              <div className="ml-auto text-gray-500/80 select-none flex items-center gap-x-[2px] mt-1 w-full justify-end">
-                <span className="text-xs block">
-                  {timeago(postData.createdAt)}
-                </span>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  fill="#6b7280"
-                  viewBox="0 0 256 256"
-                >
-                  <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm64-88a8,8,0,0,1-8,8H128a8,8,0,0,1-8-8V72a8,8,0,0,1,16,0v48h48A8,8,0,0,1,192,128Z"></path>
-                </svg>
+              <div className="px-4 mt-1 flex items-center gap-1 flex-wrap">
+                {postData.tags.map((tag) => (
+                  <span
+                    key={tag.linkId}
+                    className="text-gray-400 bg-ashes px-2 border border-border rounded-full w-fit block cursor-pointer"
+                  >
+                    #{tag.value}
+                  </span>
+                ))}
               </div>
-            </div>
-            <div className="px-4 mt-1 flex items-center gap-1 flex-wrap">
-              {postData.tags.map((tag) => (
-                <span
-                  key={tag.linkId}
-                  className="text-gray-400 bg-ashes px-2 border border-border rounded-full w-fit block cursor-pointer"
-                >
-                  #{tag.value}
-                </span>
-              ))}
             </div>
 
-            <div className="px-4">
+            <div className="p-4">
               <textarea
                 onChange={(e) => handleInputChange(e)}
                 value={postData.content}
                 spellCheck="false"
                 ref={textareaRef}
-                className="block border-blue-500 relative z-[999] antialiased border rounded-md bg-background h-fit resize-none overflow-y-scroll no-scrollbar w-full cursor-text outline-none"
+                className="block border-blue-500 relative z-[999] antialiased border bg-background h-fit resize-none overflow-y-scroll no-scrollbar w-full cursor-text outline-none"
               />
             </div>
 
@@ -206,7 +211,7 @@ export const PostEdit = ({ post, setOpenEditPost }: PostEditProps) => {
                       />
                       <button
                         onClick={() => handleClick()}
-                        className="bg-background flex items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50 hover:bg-gradient-to-tr hover:from-[#42d392] hover:to-[#8B5CF6] duration-300 ease-in-out transition-all"
+                        className="bg-background flex items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50 hover:bg-button duration-300 ease-in-out transition-all"
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -228,7 +233,7 @@ export const PostEdit = ({ post, setOpenEditPost }: PostEditProps) => {
                       }}
                       className="cursor-pointer w-fit flex items-center group gap-x-2"
                     >
-                      <button className="bg-ashes flex items-center justify-center text-white p-1 rounded-full shadow-p group-hover:bg-red-500 duration-300 ease-in-out transition-all">
+                      <button className="bg-red-500 flex items-center justify-center text-white p-1 rounded-full shadow-p duration-300 ease-in-out transition-all">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           width="24"
@@ -243,7 +248,7 @@ export const PostEdit = ({ post, setOpenEditPost }: PostEditProps) => {
                     </div>
                   )}
                   <div className="group w-fit h-fit z-50 relative">
-                    <button className="bg-background flex items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50 hover:bg-gradient-to-tr hover:from-[#42d392] hover:to-[#8B5CF6] duration-300 ease-in-out transition-all">
+                    <button className="bg-background flex items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50 group-hover:bg-button duration-300 ease-in-out transition-all">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="24"
@@ -289,7 +294,7 @@ export const PostEdit = ({ post, setOpenEditPost }: PostEditProps) => {
                     </ul>
                   </div>
                   <div className="group w-fit h-fit z-50 relative">
-                    <button className="bg-background flex items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50 hover:bg-gradient-to-tr hover:from-[#42d392] hover:to-[#8B5CF6] duration-300 ease-in-out transition-all">
+                    <button className="bg-background flex items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50 group-hover:bg-button duration-300 ease-in-out transition-all">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="24"
@@ -335,22 +340,41 @@ export const PostEdit = ({ post, setOpenEditPost }: PostEditProps) => {
                     </ul>
                   </div>
 
-                  <div
-                    onClick={onSave}
-                    className="cursor-pointer ml-auto w-fit flex items-center group gap-x-2"
-                  >
-                    <button className="bg-green-500 flex items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50 group-hover:bg-gradient-to-tr group-hover:from-[#42d392] group-hover:to-[#8B5CF6] duration-300 ease-in-out transition-all">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        fill="#FFFFFF"
-                        viewBox="0 0 256 256"
-                      >
-                        <path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z"></path>
-                      </svg>
-                    </button>
-                    <span>Save Changes</span>
+                  <div className="ml-auto flex items-center gap-x-4">
+                    <div
+                      onClick={() => setOpenEditPost(false)}
+                      className="cursor-pointer w-fit flex items-center group gap-x-2"
+                    >
+                      <button className="bg-background flex items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50 group-hover:bg-button duration-300 ease-in-out transition-all">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          fill="#FFFFFF"
+                          viewBox="0 0 256 256"
+                        >
+                          <path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"></path>
+                        </svg>
+                      </button>
+                      <span>Cancel</span>
+                    </div>
+                    <div
+                      onClick={onSave}
+                      className="cursor-pointer w-fit flex items-center group gap-x-2"
+                    >
+                      <button className="bg-green-500 flex items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50 duration-300 ease-in-out transition-all">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          fill="#FFFFFF"
+                          viewBox="0 0 256 256"
+                        >
+                          <path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z"></path>
+                        </svg>
+                      </button>
+                      <span>Save Changes</span>
+                    </div>
                   </div>
                 </div>
               )}

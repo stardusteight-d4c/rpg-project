@@ -7,6 +7,8 @@ export const posts: IPost[] = [
     content: `Obrigado, aventureiros, por mais uma sessão memorável! Nos vemos na próxima, e lembrem-se: o perigo espreita em cada sombra... 🌙🔮
 
 🎭📖 Como foi a sessão para vocês? Algum momento favorito? Comentem abaixo! 👇🔥`,
+    likedByUser: true,
+    likesCount: 25,
     tags: [
       {
         type: "campaign",
