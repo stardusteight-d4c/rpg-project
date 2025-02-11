@@ -13,6 +13,7 @@ const app = Fastify()
 // configurar cor
 // fazer middleware que recebe acessToken e verifica se está válido
 // node v23 agora tem suporte nativo a typescript
+// explicar como extrair informações de obejetos const {name} = user
 
 app.post("/auth/signup", signUp)
 app.post("/auth/signin", signIn)

@@ -4,6 +4,7 @@ interface IPost {
   content: string
   createdAt: string
   image?: string | undefined
+  commentsCount?: number,
   likesCount?: number,
   likedByUser?: boolean,
   tags: Array<{
@@ -11,10 +12,12 @@ interface IPost {
     value: string
     linkId: string
   }>
-  comments: Array<{
-    id: string
-    user: IUser
-    content: string
-    createdAt: string
-  }>
+  comments: Array<IComment>
+}
+
+interface IComment {
+  id: string
+  user: IUser
+  content: string
+  createdAt: string
 }

@@ -9,6 +9,7 @@ export const posts: IPost[] = [
 🎭📖 Como foi a sessão para vocês? Algum momento favorito? Comentem abaixo! 👇🔥`,
     likedByUser: true,
     likesCount: 25,
+    commentsCount: 0,
     tags: [
       {
         type: "campaign",
@@ -35,6 +36,8 @@ export const posts: IPost[] = [
     content: `Resumo da campanha de hoje: 1 hora vendo items na lojinha de um comerciante local.
 
 Pelo menos Xablau Perreira tem preparo. 🤣`,
+    likesCount: 10,
+    commentsCount: 2,
     tags: [
       {
         type: "campaign",

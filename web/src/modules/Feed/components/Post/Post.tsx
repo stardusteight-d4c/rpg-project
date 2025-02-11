@@ -6,6 +6,8 @@ import { currentSession } from "@/shared/contexts/Users/mock-data"
 import { timeago } from "@/shared/utils/timeago"
 import { useState } from "react"
 import { PostEdit } from "./PostEdit"
+import { Comment } from "./Comment"
+import { CommentInput } from "./CommentInput"
 
 export const Post = ({ post }: { post: IPost }) => {
   const { deletePost, updatePost } = useFeed()
@@ -102,34 +104,47 @@ export const Post = ({ post }: { post: IPost }) => {
           />
         </div>
       )}
+      <div className="px-4 flex items-center gap-x-2">
+        <span className="text-gray-400 flex items-center gap-x-1">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="18"
+            height="18"
+            fill="#9ca3af"
+            viewBox="0 0 256 256"
+          >
+            <path d="M183.89,153.34a57.6,57.6,0,0,1-46.56,46.55A8.75,8.75,0,0,1,136,200a8,8,0,0,1-1.32-15.89c16.57-2.79,30.63-16.85,33.44-33.45a8,8,0,0,1,15.78,2.68ZM216,144a88,88,0,0,1-176,0c0-27.92,11-56.47,32.66-84.85a8,8,0,0,1,11.93-.89l24.12,23.41,22-60.41a8,8,0,0,1,12.63-3.41C165.21,36,216,84.55,216,144Zm-16,0c0-46.09-35.79-85.92-58.21-106.33L119.52,98.74a8,8,0,0,1-13.09,3L80.06,76.16C64.09,99.21,56,122,56,144a72,72,0,0,0,144,0Z"></path>
+          </svg>
+          {post.likesCount ?? 0} Flames
+        </span>
+        <span className="text-gray-400 flex items-center gap-x-1">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="18"
+            height="18"
+            fill="#9ca3af"
+            viewBox="0 0 256 256"
+          >
+            <path d="M140,128a12,12,0,1,1-12-12A12,12,0,0,1,140,128ZM84,116a12,12,0,1,0,12,12A12,12,0,0,0,84,116Zm88,0a12,12,0,1,0,12,12A12,12,0,0,0,172,116Zm60,12A104,104,0,0,1,79.12,219.82L45.07,231.17a16,16,0,0,1-20.24-20.24l11.35-34.05A104,104,0,1,1,232,128Zm-16,0A88,88,0,1,0,51.81,172.06a8,8,0,0,1,.66,6.54L40,216,77.4,203.53a7.85,7.85,0,0,1,2.53-.42,8,8,0,0,1,4,1.08A88,88,0,0,0,216,128Z"></path>
+          </svg>
+          {post.commentsCount ?? 0} Comments
+        </span>
+      </div>
+
       <div
         className={`${
-          showComments ? " rounded-b-none" : " rounded-b-3xl "
-        } px-4 py-2 bg-border mt-2 flex flex-col gap-y-2`}
+          showComments ? " pb-0 " : " pb-2 rounded-b-3xl "
+        } pt-2 rounded-b-3xl bg-border mt-2 flex flex-col gap-y-2`}
       >
-        <div className="flex items-center gap-x-2">
-          <button
-            onClick={() => setShowComments(!showComments)}
-            className={`${
-              showComments
-                ? " bg-gradient-to-tr from-[#42d392] to-[#8B5CF6] "
-                : " bg-background hover:bg-button "
-            }  flex items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50  duration-300 ease-in-out transition-all`}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              fill="#FFFFFF"
-              viewBox="0 0 256 256"
-            >
-              <path d="M140,128a12,12,0,1,1-12-12A12,12,0,0,1,140,128ZM84,116a12,12,0,1,0,12,12A12,12,0,0,0,84,116Zm88,0a12,12,0,1,0,12,12A12,12,0,0,0,172,116Zm60,12A104,104,0,0,1,79.12,219.82L45.07,231.17a16,16,0,0,1-20.24-20.24l11.35-34.05A104,104,0,1,1,232,128Zm-16,0A88,88,0,1,0,51.81,172.06a8,8,0,0,1,.66,6.54L40,216,77.4,203.53a7.85,7.85,0,0,1,2.53-.42,8,8,0,0,1,4,1.08A88,88,0,0,0,216,128Z"></path>
-            </svg>
-          </button>
+        <div className="px-4 flex items-center gap-x-2">
           {post.likedByUser ? (
             <button
               onClick={() =>
-                updatePost(post.id, { ...post, likedByUser: false })
+                updatePost(post.id, {
+                  ...post,
+                  likedByUser: false,
+                  likesCount: post.likesCount && post.likesCount - 1,
+                })
               }
               className="bg-background flex items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50 hover:bg-button duration-300 ease-in-out transition-all"
             >
@@ -153,7 +168,7 @@ export const Post = ({ post }: { post: IPost }) => {
                     y2="28.9998"
                     gradientUnits="userSpaceOnUse"
                   >
-                    <stop stop-color="#42D392" />
+                    <stop stopColor="#42D392" />
                     <stop offset="1" stop-color="#8B5CF6" />
                   </linearGradient>
                 </defs>
@@ -162,7 +177,11 @@ export const Post = ({ post }: { post: IPost }) => {
           ) : (
             <button
               onClick={() =>
-                updatePost(post.id, { ...post, likedByUser: true })
+                updatePost(post.id, {
+                  ...post,
+                  likedByUser: true,
+                  likesCount: post.likesCount ? post.likesCount + 1 : 1,
+                })
               }
               className="bg-background flex items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50 hover:bg-button duration-300 ease-in-out transition-all"
             >
@@ -177,6 +196,25 @@ export const Post = ({ post }: { post: IPost }) => {
               </svg>
             </button>
           )}
+          <button
+            onClick={() => setShowComments(!showComments)}
+            className={`${
+              showComments
+                ? " bg-gradient-to-tr from-[#42d392] to-[#8B5CF6] "
+                : " bg-background hover:bg-button "
+            }  flex items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50  duration-300 ease-in-out transition-all`}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              fill="#FFFFFF"
+              viewBox="0 0 256 256"
+            >
+              <path d="M140,128a12,12,0,1,1-12-12A12,12,0,0,1,140,128ZM84,116a12,12,0,1,0,12,12A12,12,0,0,0,84,116Zm88,0a12,12,0,1,0,12,12A12,12,0,0,0,172,116Zm60,12A104,104,0,0,1,79.12,219.82L45.07,231.17a16,16,0,0,1-20.24-20.24l11.35-34.05A104,104,0,1,1,232,128Zm-16,0A88,88,0,1,0,51.81,172.06a8,8,0,0,1,.66,6.54L40,216,77.4,203.53a7.85,7.85,0,0,1,2.53-.42,8,8,0,0,1,4,1.08A88,88,0,0,0,216,128Z"></path>
+            </svg>
+          </button>
+
           {currentSession.id !== post.user.id && (
             <button className="bg-background flex items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50 hover:bg-button duration-300 ease-in-out transition-all">
               <svg
@@ -226,58 +264,15 @@ export const Post = ({ post }: { post: IPost }) => {
           )}
         </div>
 
-        {/* COMMENTS */}
-
         {showComments && post.comments.length !== 0 && (
-          <div className="mt-2">
+          <div className="px-4 space-y-4 mt-2">
             {post.comments.map((comment) => (
-              <div
-                key={comment.id}
-                className="flex select-none z-20 items-center gap-x-2"
-              >
-                <img
-                  src={comment.user.avatar_url}
-                  alt=""
-                  className="w-[48px] aspect-square object-cover select-none pointer-events-none h-[48px] rounded-full"
-                />
-                <div className="flex flex-col">
-                  <span className="block">{comment.content}</span>
-                </div>
-              </div>
+              <Comment comment={comment} />
             ))}
           </div>
         )}
+        {showComments && <CommentInput postId={post.id}  />}
       </div>
-      {showComments && (
-        <div className="p-4">
-          <div className="bg-background flex items-center gap-x-4 p-2 bottom-0 inset-x-0">
-            <GlowingWrapper styles="w-full" border="rounded-3xl" inset="0">
-              <input
-                // onChange={(e) => handleInputChange(e)}
-                // value={newNotification}
-                placeholder="Send a comment"
-                spellCheck="false"
-                className="p-2 px-4  shadow-sm shadow-black/50 resize-none overflow-y-scroll no-scrollbar w-full cursor-text hover:brightness-125 flex items-center gap-x-1 line-clamp-1 rounded-3xl bg-border/50 border border-border outline-none"
-              />
-            </GlowingWrapper>
-
-            <span
-              // onClick={onSend}
-              className="flex hover:brightness-125 active:scale-95 transition-all duration-300 ease-in-out items-center  justify-center text-white p-2 rounded-full w-fit  shadow-sm shadow-black/50 cursor-pointer bg-button"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                fill="#FFFFFF"
-                viewBox="0 0 256 256"
-              >
-                <path d="M227.32,28.68a16,16,0,0,0-15.66-4.08l-.15,0L19.57,82.84a16,16,0,0,0-2.49,29.8L102,154l41.3,84.87A15.86,15.86,0,0,0,157.74,248q.69,0,1.38-.06a15.88,15.88,0,0,0,14-11.51l58.2-191.94c0-.05,0-.1,0-.15A16,16,0,0,0,227.32,28.68ZM157.83,231.85l-.05.14,0-.07-40.06-82.3,48-48a8,8,0,0,0-11.31-11.31l-48,48L24.08,98.25l-.07,0,.14,0L216,40Z"></path>
-              </svg>
-            </span>
-          </div>
-        </div>
-      )}
     </div>
   )
 }
