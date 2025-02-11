@@ -8,8 +8,10 @@ import { useState } from "react"
 import { PostEdit } from "./PostEdit"
 import { Comment } from "./Comment"
 import { CommentInput } from "./CommentInput"
+import { useRouter } from "next/navigation"
 
 export const Post = ({ post }: { post: IPost }) => {
+  const { push } = useRouter()
   const { deletePost, updatePost } = useFeed()
   const [showComments, setShowComments] = useState<boolean>(false)
   const [openEditPost, setOpenEditPost] = useState<boolean>(false)
@@ -55,19 +57,24 @@ export const Post = ({ post }: { post: IPost }) => {
         </div>
       </ModalWrapper>
 
-      <div className="flex select-none px-4 z-20 items-center gap-x-2">
-        <img
-          src={post.user.avatar_url}
-          alt=""
-          className="w-[48px] aspect-square object-cover select-none pointer-events-none h-[48px] rounded-full"
-        />
-        <div className="flex flex-col">
-          <span className="block whitespace-nowrap text-lg font-bold -tracking-wide">
-            {post.user.name}
-          </span>
-          <span className="text-gray-400 -mt-2 block text-sm">
-            #{post.user.username}
-          </span>
+      <div className="flex px-4 z-20 items-center gap-x-2">
+        <div
+          className="flex items-center gap-x-2 cursor-pointer"
+          onClick={() => push(`/profile/${post.user.username}`)}
+        >
+          <img
+            src={post.user.avatar_url}
+            alt=""
+            className="w-[48px] aspect-square object-cover select-none pointer-events-none h-[48px] rounded-full"
+          />
+          <div className="flex flex-col">
+            <span className="block whitespace-nowrap text-lg font-bold -tracking-wide">
+              {post.user.name}
+            </span>
+            <span className="text-gray-400 -mt-2 block text-sm">
+              #{post.user.username}
+            </span>
+          </div>
         </div>
         <div className="ml-auto text-gray-500/80 select-none flex items-center gap-x-[2px] mt-1 w-full justify-end">
           <span className="text-xs block">{timeago(post.createdAt)}</span>
@@ -129,7 +136,8 @@ export const Post = ({ post }: { post: IPost }) => {
           >
             <path d="M140,128a12,12,0,1,1-12-12A12,12,0,0,1,140,128ZM84,116a12,12,0,1,0,12,12A12,12,0,0,0,84,116Zm88,0a12,12,0,1,0,12,12A12,12,0,0,0,172,116Zm60,12A104,104,0,0,1,79.12,219.82L45.07,231.17a16,16,0,0,1-20.24-20.24l11.35-34.05A104,104,0,1,1,232,128Zm-16,0A88,88,0,1,0,51.81,172.06a8,8,0,0,1,.66,6.54L40,216,77.4,203.53a7.85,7.85,0,0,1,2.53-.42,8,8,0,0,1,4,1.08A88,88,0,0,0,216,128Z"></path>
           </svg>
-          {post.commentsCount ?? 0} Comments
+          {post.commentsCount ?? 0}{" "}
+          {post.commentsCount! === 1 ? "Comment" : "Comments"}
         </span>
       </div>
 
@@ -267,7 +275,7 @@ export const Post = ({ post }: { post: IPost }) => {
         </div>
 
         {showComments && post.comments.length !== 0 && (
-          <div className="px-4 space-y-4 mt-2">
+          <div className="px-4 mt-2">
             {post.comments.map((comment) => (
               <Comment comment={comment} postId={post.id} />
             ))}
