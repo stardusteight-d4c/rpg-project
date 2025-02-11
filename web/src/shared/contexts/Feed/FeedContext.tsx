@@ -11,8 +11,7 @@ interface FeedState {
   addComment: (postId: string, comment: IComment) => void
   updateComment: (
     postId: string,
-    commentId: string,
-    updatedComment: Partial<IComment>
+    updatedComment: IComment
   ) => void
   deleteComment: (postId: string, commentId: string) => void
 }
@@ -66,8 +65,7 @@ export const FeedProvider: React.FC<{ children: ReactNode }> = ({
 
   const updateComment = (
     postId: string,
-    commentId: string,
-    updatedComment: Partial<IComment>
+    updatedComment: IComment
   ) => {
     setPosts((prevPosts) =>
       prevPosts.map((post) =>
@@ -75,7 +73,7 @@ export const FeedProvider: React.FC<{ children: ReactNode }> = ({
           ? {
               ...post,
               comments: post.comments.map((comment) =>
-                comment.id === commentId
+                comment.id === updatedComment.id
                   ? { ...comment, ...updatedComment }
                   : comment
               ),

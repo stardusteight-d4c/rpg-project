@@ -65,10 +65,7 @@ Pelo menos Xablau Perreira tem preparo. 🤣`,
       {
         id: "8beba58a-d5b7-41ff-8418-c1673595d24b",
         user: matchUsers[0],
-        content: `Quando você estiver à beira da morte, vendo seus HP escorrerem
-        diante de seus olhos, o coração acelerado e a insanidade
-        tomando conta... tudo porque ignorou a fome. E então, quando
-        for tarde demais, só restará o arrependimento... 😉`,
+        content: `Quando você estiver à beira da morte, vendo seus HP escorrerem diante de seus olhos, o coração acelerado e a insanidade tomando conta... tudo porque ignorou a fome. E então, quando for tarde demais, só restará o arrependimento... 😉`,
         createdAt: "2025-02-09T14:50:00Z",
       },
     ],

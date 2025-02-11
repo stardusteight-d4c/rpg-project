@@ -93,7 +93,9 @@ export const Post = ({ post }: { post: IPost }) => {
         ))}
       </div>
 
-      <span className="block whitespace-pre-wrap p-4">{post.content}</span>
+      <span className="block whitespace-pre-wrap overflow-hidden p-4">
+        {post.content}
+      </span>
 
       {post.image && (
         <div className="px-4">
@@ -267,11 +269,11 @@ export const Post = ({ post }: { post: IPost }) => {
         {showComments && post.comments.length !== 0 && (
           <div className="px-4 space-y-4 mt-2">
             {post.comments.map((comment) => (
-              <Comment comment={comment} />
+              <Comment comment={comment} postId={post.id} />
             ))}
           </div>
         )}
-        {showComments && <CommentInput postId={post.id}  />}
+        {showComments && <CommentInput postId={post.id} />}
       </div>
     </div>
   )
