@@ -33,7 +33,7 @@ export const ProfileInfoDisplay = ({
             <div className="px-4 py-8 w-[681px] relative">
               <div className="flex flex-col items-center mt-4 gap-y-2 justify-center">
                 <img
-                  src={character.user.avatar_url}
+                  src={character.user.avatarUrl}
                   alt=""
                   referrerPolicy="no-referrer"
                   className="w-[100px] h-[100px] border border-border rounded-full"

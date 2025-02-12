@@ -55,8 +55,8 @@ export const Comment = ({ comment, postId }: CommentProps) => {
     <>
       <div key={comment.id} className="flex mb-4 relative group z-20 gap-x-2">
         {currentSession.id === comment.user.id && (
-          <div>
-            {!isEditComment && (
+          <>
+          {!isEditComment && (
               <button
                 onClick={() => setIsEditComment(true)}
                 className={`${
@@ -74,11 +74,11 @@ export const Comment = ({ comment, postId }: CommentProps) => {
                 </svg>
               </button>
             )}
-          </div>
+          </>
         )}
 
         <img
-          src={comment.user.avatar_url}
+          src={comment.user.avatarUrl}
           alt=""
           onClick={() => push(`/profile/${comment.user.username}`)}
           className="w-[48px] z-10 aspect-square object-cover cursor-pointer h-[48px] rounded-full"

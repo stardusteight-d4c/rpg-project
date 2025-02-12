@@ -46,11 +46,11 @@ export const CharacterRolling = ({
     addRoll({
       id: crypto.randomUUID(),
       character: playerCharacter,
-      character_roll: {
+      characterRoll: {
         name: selectedRoll.name.toLocaleLowerCase(),
         value: selectedRoll.value,
-        half_value: Math.floor(selectedRoll.value / 2),
-        fifth_value: Math.floor(selectedRoll.value / 5),
+        halfValue: Math.floor(selectedRoll.value / 2),
+        fifthValue: Math.floor(selectedRoll.value / 5),
         rolled: Math.floor(Math.random() * 100) + 1,
       },
       createdAt: new Date().toISOString(),

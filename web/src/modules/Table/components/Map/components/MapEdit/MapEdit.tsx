@@ -23,7 +23,7 @@ export const MapEdit = ({
   const { updateCopyMap, copyMaps, deleteMap, updateMap } = useMaps()
   const [editableData, setEditableData] = useState<IMap>({
     ...selectedMap,
-    grid_size: selectedMap.grid_size ?? [20, 20],
+    gridSize: selectedMap.gridSize ?? [20, 20],
     visibility: selectedMap.visibility ?? "default",
     active: selectedMap.active ?? false,
   })
@@ -50,11 +50,11 @@ export const MapEdit = ({
       setFile(file)
       setEditableData((prevData) => ({
         ...prevData,
-        image_url: tempUrl,
+        imageUrl: tempUrl,
       }))
       updateCopyMap(editableData.id ?? randomUUID(), {
         ...editableData,
-        image_url: tempUrl,
+        imageUrl: tempUrl,
       })
     }
   }
@@ -323,15 +323,15 @@ export const MapEdit = ({
                   <GlowingWrapper>
                     <CustomNumericInput
                       value={
-                        editableData.grid_size ? editableData.grid_size[0] : 0
+                        editableData.gridSize ? editableData.gridSize[0] : 0
                       }
                       onChange={(value) =>
                         updateEditableData({
-                          key: "grid_size",
+                          key: "gridSize",
                           value: [
                             value,
-                            editableData.grid_size
-                              ? editableData.grid_size[1]
+                            editableData.gridSize
+                              ? editableData.gridSize[1]
                               : 0,
                           ],
                         })
@@ -342,14 +342,14 @@ export const MapEdit = ({
                   <GlowingWrapper>
                     <CustomNumericInput
                       value={
-                        editableData.grid_size ? editableData.grid_size[1] : 0
+                        editableData.gridSize ? editableData.gridSize[1] : 0
                       }
                       onChange={(value) =>
                         updateEditableData({
-                          key: "grid_size",
+                          key: "gridSize",
                           value: [
-                            editableData.grid_size
-                              ? editableData.grid_size[0]
+                            editableData.gridSize
+                              ? editableData.gridSize[0]
                               : 0,
                             value,
                           ],
@@ -421,10 +421,10 @@ export const MapEdit = ({
                 className="w-full min-h-[100vh] grid "
                 style={{
                   gridTemplateColumns: `repeat(${
-                    editableData.grid_size![0]
+                    editableData.gridSize![0]
                   }, 1fr)`,
                   gridTemplateRows: `repeat(${
-                    editableData.grid_size![1]
+                    editableData.gridSize![1]
                   }, 1fr)`,
                   transformOrigin: "top left",
                   overflow: "hidden",
@@ -436,13 +436,13 @@ export const MapEdit = ({
                   </span>
                 </div>
                 <img
-                  src={editableData.image_url}
+                  src={editableData.imageUrl}
                   alt=""
                   className="absolute z-0 w-full h-full object-fill select-none pointer-events-none"
                 />
-                {Array.from({ length: editableData.grid_size![0] }).map(
+                {Array.from({ length: editableData.gridSize![0] }).map(
                   (_, rowIndex) =>
-                    Array.from({ length: editableData.grid_size![1] }).map(
+                    Array.from({ length: editableData.gridSize![1] }).map(
                       (_, colIndex) => (
                         <div
                           key={`${rowIndex}-${colIndex}`}
@@ -461,7 +461,7 @@ export const MapEdit = ({
                 </span>
               </div>
               <img
-                src={editableData.image_url}
+                src={editableData.imageUrl}
                 alt=""
                 className="aspect-map rounded-3xl h-screen z-0 w-full object-cover select-none pointer-events-none"
               />

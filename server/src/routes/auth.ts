@@ -1,5 +1,5 @@
 import { randomUUID } from "node:crypto"
-import { hash } from "bcrypt"
+import { hash, compare } from "bcrypt"
 import type { FastifyReply, FastifyRequest } from "fastify"
 
 const users: UserDB[] = []
@@ -8,6 +8,10 @@ export async function signUp(
   request: FastifyRequest<{ Body: SignUpDTO }>,
   reply: FastifyReply
 ) {
+  if (!request.body) {
+    throw new Error("request.body is empty")
+  }
+
   const newUser = {
     id: randomUUID(),
     password: await hash(request.body.password, 10),
@@ -30,21 +34,39 @@ export async function signUp(
   }
 
   users.push(newUser)
-  return reply.send(newUser)
+  const newUserCopy = { ...newUser }
+  delete newUserCopy.password
+  return reply.send(newUserCopy)
 }
 
 export async function signIn(
-  request: FastifyRequest<{ Body: SignUpDTO }>,
+  request: FastifyRequest<{ Body: SignInDTO }>,
   reply: FastifyReply
 ) {
-  return reply.send(users)
-  // const newUser: SignUpDTO = {
-  //   id: randomUUID(),
-  //   password: await hash(request.body.password, 10),
-  //   email: request.body.email,
-  //   name: request.body.name,
-  //   username: request.body.username,
-  // }
-  // users.push(newUser)
-  // return reply.send(newUser)
+  if (!request.body) {
+    throw new Error("request.body is empty")
+  }
+
+  const userEmail = request.body.email
+  const userPassword = request.body.password
+
+  if (userEmail) {
+    const userEmailFound = users.find((user) => user.email === userEmail)
+
+    if (!userEmailFound) {
+      throw new Error("Incorrect password or email")
+    }
+
+    const isPasswordCorret = await compare(
+      userPassword,
+      userEmailFound.password
+    )
+
+    if (!isPasswordCorret) {
+      throw new Error("Incorrect password or email")
+    }
+
+    delete userEmailFound.password
+    return reply.send(userEmailFound)
+  }
 }

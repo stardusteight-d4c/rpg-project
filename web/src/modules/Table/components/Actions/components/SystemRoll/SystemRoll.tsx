@@ -1,20 +1,20 @@
 interface SystemRollProps {
-  dice_quantity: number
-  dice_type: number
+  diceQuantity: number
+  diceType: number
   rolled: Array<number>
   total: number
 }
 
 export const SystemRoll = ({
-  dice_quantity,
-  dice_type,
+  diceQuantity,
+  diceType,
   rolled,
   total,
 }: SystemRollProps) => {
   return (
     <div>
       <span className="text-gray-400">
-        Rolling {dice_quantity}d{dice_type}
+        Rolling {diceQuantity}d{diceType}
       </span>
       {rolled.length > 1 && (
         <div className="grid w-full mb-2 grid-cols-4 xl:grid-cols-5 gap-2">

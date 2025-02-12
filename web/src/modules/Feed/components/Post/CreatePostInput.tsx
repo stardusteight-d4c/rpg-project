@@ -114,7 +114,7 @@ export const CreatePostInput = () => {
     <div className="mb-[40px] relative z-[100]">
       <div className="flex items-start gap-x-4 p-2 bottom-0 inset-x-0">
         <img
-          src={currentSession.avatar_url}
+          src={currentSession.avatarUrl}
           alt=""
           className="w-[48px] aspect-square object-cover select-none pointer-events-none h-[48px] rounded-full"
         />

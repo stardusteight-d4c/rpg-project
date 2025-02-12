@@ -5,7 +5,18 @@ export const matchUsers: IUser[] = [
     username: "stardusteight",
     role: "master",
     email: "stardusteight@gmail.com",
-    avatar_url: "https://avatars.githubusercontent.com/u/87643260?v=4",
+    avatarUrl: "https://avatars.githubusercontent.com/u/87643260?v=4",
+    coverImage:
+      "https://theminimalistvegan.com/wp-content/uploads/2024/01/Glacier-Minimalist-Wallpaper-img24.png",
+    exp: {
+      level: 2,
+      current: 400,
+      nextLevel: 1000,
+    },
+    hoursPlayed: 80,
+    koalCampaigns: 0,
+    memberSince: "2025-01-02",
+    playingCampaigns: 2,
   },
   {
     id: "4d6f7287-2e27-4389-bccb-c5beaf761a7d",
@@ -13,7 +24,18 @@ export const matchUsers: IUser[] = [
     username: "blackwive",
     role: "player",
     email: "blackwive@gmail.com",
-    avatar_url: "https://avatars.githubusercontent.com/u/1024025?v=4",
+    avatarUrl: "https://avatars.githubusercontent.com/u/1024025?v=4",
+    coverImage:
+      "https://theminimalistvegan.com/wp-content/uploads/2024/01/Glacier-Minimalist-Wallpaper-img24.png",
+    exp: {
+      level: 2,
+      current: 400,
+      nextLevel: 1000,
+    },
+    hoursPlayed: 80,
+    koalCampaigns: 0,
+    memberSince: "2025-01-02",
+    playingCampaigns: 2,
   },
   {
     id: "5e081598-5f15-414e-86a6-d20bf3497550",
@@ -21,7 +43,18 @@ export const matchUsers: IUser[] = [
     username: "lohvanna",
     role: "player",
     email: "lohvanna@gmail.com",
-    avatar_url: "https://avatars.githubusercontent.com/u/124599?v=4",
+    avatarUrl: "https://avatars.githubusercontent.com/u/124599?v=4",
+    coverImage:
+    "https://theminimalistvegan.com/wp-content/uploads/2024/01/Glacier-Minimalist-Wallpaper-img24.png",
+  exp: {
+    level: 2,
+    current: 400,
+    nextLevel: 1000,
+  },
+  hoursPlayed: 80,
+  koalCampaigns: 0,
+  memberSince: "2025-01-02",
+  playingCampaigns: 2,
   },
 ]
 

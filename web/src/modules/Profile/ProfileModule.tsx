@@ -257,9 +257,6 @@ export function ProfileModule() {
             <h2 className="text-5xl leading-[70px] pointer-events-none -mt-2 font-bold background-gradient text-transparent bg-clip-text">
               #stardusteight
             </h2>
-            <span className="block text-gray-400">
-              I'm just a traveler between worlds, shaped by the fate of dices.
-            </span>
           </div>
         </div>
       </div>

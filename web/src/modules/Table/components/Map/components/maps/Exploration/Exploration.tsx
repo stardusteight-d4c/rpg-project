@@ -131,8 +131,8 @@ export const Exploration: React.FC<{
           {map.name}
         </span>
       </div>
-      {map.grid_size?.length &&
-        map.grid_size?.length > 0 &&
+      {map.gridSize?.length &&
+        map.gridSize?.length > 0 &&
         currentSession.role === "master" && (
           <div className="absolute bottom-4 left-4 z-50">
             <div
@@ -166,7 +166,7 @@ export const Exploration: React.FC<{
           </div>
         )}
 
-      {map.grid_size?.length && map.grid_size?.length > 0 && wallpaper && (
+      {map.gridSize?.length && map.gridSize?.length > 0 && wallpaper && (
         <>
           <img
             src={wallpaper}
@@ -205,8 +205,8 @@ export const Exploration: React.FC<{
         onMouseLeave={handleMouseUp}
         onWheel={handleWheel}
         style={{
-          gridTemplateColumns: `repeat(${map.grid_size![0]}, 1fr)`,
-          gridTemplateRows: `repeat(${map.grid_size![1]}, 1fr)`,
+          gridTemplateColumns: `repeat(${map.gridSize![0]}, 1fr)`,
+          gridTemplateRows: `repeat(${map.gridSize![1]}, 1fr)`,
           transform: `translate(${position.x}px, ${position.y}px) scale(${zoom})`,
           transformOrigin: "top left",
           cursor: isDragging ? "grabbing" : "grab",
@@ -216,13 +216,13 @@ export const Exploration: React.FC<{
       >
         {map.visibility === "low" && <FogOfWar map={map} items={items} />}
         <img
-          src={map.image_url}
+          src={map.imageUrl}
           alt="Mapa"
           className="absolute z-0 w-full h-full object-fill select-none pointer-events-none"
         />
 
-        {Array.from({ length: map.grid_size![1] }).map((_, rowIndex) =>
-          Array.from({ length: map.grid_size![0] }).map((_, colIndex) => (
+        {Array.from({ length: map.gridSize![1] }).map((_, rowIndex) =>
+          Array.from({ length: map.gridSize![0] }).map((_, colIndex) => (
             <div
               key={`${rowIndex}-${colIndex}`}
               onDrop={(e) => handleDrop(e, colIndex, rowIndex)}
@@ -272,8 +272,8 @@ export const FogOfWar: React.FC<{
     ctx.globalCompositeOperation = "destination-out"
 
     items.forEach((item) => {
-      const cellWidth = canvas.width / map.grid_size![0]
-      const cellHeight = canvas.height / map.grid_size![1]
+      const cellWidth = canvas.width / map.gridSize![0]
+      const cellHeight = canvas.height / map.gridSize![1]
 
       const gridX = (item.x + 0.5) * cellWidth // Centraliza no meio do quadrado
       const gridY = (item.y + 0.5) * cellHeight // Centraliza no meio do quadrado

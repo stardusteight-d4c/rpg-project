@@ -403,7 +403,7 @@ export function CampaignModule() {
                   <div key={character.id} className="grid grid-cols-2 gap-x-2">
                     <div className="col-span-1 flex select-none z-20 items-center gap-x-2">
                       <img
-                        src={character.user.avatar_url}
+                        src={character.user.avatarUrl}
                         alt=""
                         className="w-[48px] aspect-square object-cover select-none pointer-events-none h-[48px] border border-border rounded-full"
                       />

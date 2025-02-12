@@ -14,7 +14,7 @@ import Cookies from "js-cookie"
 interface IUser {
   id: string
   name: string
-  avatar_url: string
+  avatarUrl: string
   email: string
   accessToken: string
 }

@@ -2,8 +2,8 @@ interface IMap {
   id: string
   type: "map" | "scenario"
   name: string
-  image_url: string
-  grid_size?: Array<number>
+  imageUrl: string
+  gridSize?: Array<number>
   visibility?: "low" | "default"
   active: boolean
 }

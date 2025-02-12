@@ -63,7 +63,7 @@ export const Post = ({ post }: { post: IPost }) => {
           onClick={() => push(`/profile/${post.user.username}`)}
         >
           <img
-            src={post.user.avatar_url}
+            src={post.user.avatarUrl}
             alt=""
             className="w-[48px] aspect-square object-cover select-none pointer-events-none h-[48px] rounded-full"
           />

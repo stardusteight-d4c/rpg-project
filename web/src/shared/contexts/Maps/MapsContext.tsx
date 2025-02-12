@@ -76,7 +76,7 @@ export const MapsProvider: React.FC<{ children: ReactNode }> = ({
   const updateCopyMap = (id: string, updatedMap: Partial<IMap>) => {
     setCopyMaps((prev) => {
       if (updatedMap.type === "scenario") {
-        delete updatedMap.grid_size
+        delete updatedMap.gridSize
         delete updatedMap.visibility
       }
 
@@ -94,7 +94,7 @@ export const MapsProvider: React.FC<{ children: ReactNode }> = ({
 
   const updateMap = (id: string, updatedMap: IMap) => {
     if (updatedMap.type === "scenario") {
-      delete updatedMap.grid_size
+      delete updatedMap.gridSize
       delete updatedMap.visibility
     }
 

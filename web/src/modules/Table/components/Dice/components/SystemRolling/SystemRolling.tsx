@@ -27,9 +27,9 @@ export const SystemRolling = ({ mode, playerCharacter }: SystemRollingProps) => 
     addRoll({
       id: crypto.randomUUID(),
       character: playerCharacter,
-      system_roll: {
-       dice_quantity: numDice,
-       dice_type: diceType,
+      systemRoll: {
+       diceQuantity: numDice,
+       diceType: diceType,
        rolled: rolls,
        total: rolls.reduce((acc, num) => acc + num, 0)
       },

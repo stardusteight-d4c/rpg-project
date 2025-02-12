@@ -18,10 +18,10 @@ export const MapCreate = ({ onCreateMode }: MapCreateProps) => {
   const [editableData, setEditableData] = useState<IMap>({
     id: crypto.randomUUID(),
     active: false,
-    image_url: "",
+    imageUrl: "",
     name: "",
     type: "scenario",
-    grid_size: [20, 20],
+    gridSize: [20, 20],
     visibility: "default",
   })
   const [file, setFile] = useState<File | null>(null)
@@ -48,11 +48,11 @@ export const MapCreate = ({ onCreateMode }: MapCreateProps) => {
       setFile(file)
       setEditableData((prevData) => ({
         ...prevData,
-        image_url: tempUrl,
+        imageUrl: tempUrl,
       }))
       updateCopyMap(editableData.id ?? randomUUID(), {
         ...editableData,
-        image_url: tempUrl,
+        imageUrl: tempUrl,
       })
     }
   }
@@ -265,15 +265,15 @@ export const MapCreate = ({ onCreateMode }: MapCreateProps) => {
                   <GlowingWrapper>
                     <CustomNumericInput
                       value={
-                        editableData.grid_size ? editableData.grid_size[0] : 0
+                        editableData.gridSize ? editableData.gridSize[0] : 0
                       }
                       onChange={(value) =>
                         updateEditableData({
-                          key: "grid_size",
+                          key: "gridSize",
                           value: [
                             value,
-                            editableData.grid_size
-                              ? editableData.grid_size[1]
+                            editableData.gridSize
+                              ? editableData.gridSize[1]
                               : 0,
                           ],
                         })
@@ -284,14 +284,14 @@ export const MapCreate = ({ onCreateMode }: MapCreateProps) => {
                   <GlowingWrapper>
                     <CustomNumericInput
                       value={
-                        editableData.grid_size ? editableData.grid_size[1] : 0
+                        editableData.gridSize ? editableData.gridSize[1] : 0
                       }
                       onChange={(value) =>
                         updateEditableData({
-                          key: "grid_size",
+                          key: "gridSize",
                           value: [
-                            editableData.grid_size
-                              ? editableData.grid_size[0]
+                            editableData.gridSize
+                              ? editableData.gridSize[0]
                               : 0,
                             value,
                           ],
@@ -357,7 +357,7 @@ export const MapCreate = ({ onCreateMode }: MapCreateProps) => {
           </ul>
         )}
 
-        {editableData.image_url.length <= 0 ? (
+        {editableData.imageUrl.length <= 0 ? (
           <div className="bg-ashes mt-4 aspect-map rounded-3xl h-screen z-0 w-full object-cover select-none pointer-events-none">
             <div className="flex flex-col items-center justify-center w-full h-full">
               <svg
@@ -382,10 +382,10 @@ export const MapCreate = ({ onCreateMode }: MapCreateProps) => {
                   className="w-full min-h-[100vh] grid "
                   style={{
                     gridTemplateColumns: `repeat(${
-                      editableData.grid_size![0]
+                      editableData.gridSize![0]
                     }, 1fr)`,
                     gridTemplateRows: `repeat(${
-                      editableData.grid_size![1]
+                      editableData.gridSize![1]
                     }, 1fr)`,
                     transformOrigin: "top left",
                     overflow: "hidden",
@@ -398,13 +398,13 @@ export const MapCreate = ({ onCreateMode }: MapCreateProps) => {
                   </div>
 
                   <img
-                    src={editableData.image_url}
+                    src={editableData.imageUrl}
                     alt=""
                     className="absolute z-0 w-full h-full object-fill select-none pointer-events-none"
                   />
-                  {Array.from({ length: editableData.grid_size![0] }).map(
+                  {Array.from({ length: editableData.gridSize![0] }).map(
                     (_, rowIndex) =>
-                      Array.from({ length: editableData.grid_size![1] }).map(
+                      Array.from({ length: editableData.gridSize![1] }).map(
                         (_, colIndex) => (
                           <div
                             key={`${rowIndex}-${colIndex}`}
@@ -424,7 +424,7 @@ export const MapCreate = ({ onCreateMode }: MapCreateProps) => {
                 </div>
 
                 <img
-                  src={editableData.image_url}
+                  src={editableData.imageUrl}
                   alt=""
                   className="aspect-map rounded-3xl h-screen z-0 w-full object-cover select-none pointer-events-none"
                 />

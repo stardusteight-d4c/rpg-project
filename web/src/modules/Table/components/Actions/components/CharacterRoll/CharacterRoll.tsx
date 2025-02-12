@@ -1,16 +1,16 @@
 interface CharacterRollProps {
   name: string
   value: number
-  half_value: number
-  fifth_value: number
+  halfValue: number
+  fifthValue: number
   rolled: number
 }
 
 export const CharacterRoll = ({
   name,
   value,
-  half_value,
-  fifth_value,
+  halfValue,
+  fifthValue,
   rolled,
 }: CharacterRollProps) => {
   function getResultMeta() {
@@ -27,12 +27,12 @@ export const CharacterRoll = ({
         label: "Failure",
         bgClass: "bg-gradient-to-tr from-red-600 to-red-500",
       }
-    } else if (rolled <= fifth_value) {
+    } else if (rolled <= fifthValue) {
       return {
         label: "Extreme Success",
         bgClass: "bg-gradient-to-tr from-violet-600 to-pink-500",
       }
-    } else if (rolled <= half_value) {
+    } else if (rolled <= halfValue) {
       return {
         label: "Hard Success",
         bgClass: "bg-gradient-to-tr from-green-600 to-green-500",
@@ -61,11 +61,11 @@ export const CharacterRoll = ({
         </span>
         <span className="col-span-1 block p-2 border-x border-border text-center font-bold text-xl text-green-500">
           {`x>`}
-          {half_value}
+          {halfValue}
           {`>x`}
         </span>
         <span className="col-span-1 block p-2 text-center font-bold text-xl bg-clip-text text-transparent bg-gradient-to-tr from-violet-500 to-pink-500">
-          {fifth_value}
+          {fifthValue}
           {`>x`}
         </span>
       </div>

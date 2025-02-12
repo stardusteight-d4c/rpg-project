@@ -10,7 +10,7 @@ export const Scenario: React.FC<{
       </div>
 
       <img
-        src={map.image_url}
+        src={map.imageUrl}
         className="h-screen object-cover w-full select-none pointer-events-none z-0"
         alt=""
       />

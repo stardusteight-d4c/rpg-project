@@ -11,11 +11,11 @@
   "author": "",
   "license": "ISC",
   "description": "",
-  "devDependencies": {
-    "@fastify/cors": "^10.0.2"
-  },
   "engines": {
     "node": "23.7.0"
+  },
+  "devDependencies": {
+    "@fastify/cors": "^10.0.2"
   },
   "dependencies": {
     "@types/bcrypt": "^5.0.2",

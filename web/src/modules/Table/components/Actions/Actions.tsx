@@ -79,14 +79,14 @@ export const Actions = () => {
 
       {rolls.map((roll) => (
         <div key={roll.id} className="space-y-2">
-          {roll.character_roll && (
+          {roll.characterRoll && (
             <div className="flex flex-col p-2">
               <Sender
                 name={roll.character.infos.name}
                 characterUrl={roll.character.infos.characterUrl}
               />
               <div className="space-y-4">
-                <CharacterRoll {...roll.character_roll} />
+                <CharacterRoll {...roll.characterRoll} />
               </div>
               <div className="text-gray-500/80 select-none flex items-center gap-x-[2px] mt-1 w-full justify-end">
                 <svg
@@ -104,14 +104,14 @@ export const Actions = () => {
               </div>
             </div>
           )}
-          {roll.system_roll && (
+          {roll.systemRoll && (
             <div className="flex flex-col p-2">
               <Sender
                 name={roll.character.infos.name}
                 characterUrl={roll.character.infos.characterUrl}
               />
               <div className="space-y-4">
-                <SystemRoll {...roll.system_roll} />
+                <SystemRoll {...roll.systemRoll} />
               </div>
               <div className="text-gray-500/80 select-none flex items-center gap-x-[2px] mt-1 w-full justify-end">
                 <svg

@@ -62,7 +62,7 @@ export const MapsDisplay = ({
           >
             <div className="flex gap-x-4 items-center">
               <img
-                src={map.image_url}
+                src={map.imageUrl}
                 alt=""
                 className="min-w-[110px] max-w-[110px] min-h-[110px] max-h-[110px] border border-border object-cover rounded-xl"
               />
@@ -80,9 +80,9 @@ export const MapsDisplay = ({
                       Visibility {map.visibility}
                     </span>
                   )}
-                  {map.grid_size?.length === 2 && (
+                  {map.gridSize?.length === 2 && (
                     <span className="text-gray-400 bg-ashes px-2 border border-border rounded-full w-fit block">
-                      {map.grid_size[0]}x{map.grid_size[1]}
+                      {map.gridSize[0]}x{map.gridSize[1]}
                     </span>
                   )}
                 </div>

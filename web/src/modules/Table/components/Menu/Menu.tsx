@@ -145,7 +145,7 @@ export const Menu = ({ active, onActive }: MenuProps) => {
       </div>
       <img
         onClick={logout}
-        src={currentSession.avatar_url}
+        src={currentSession.avatarUrl}
         alt=""
         referrerPolicy="no-referrer"
         className="w-[40px] absolute bottom-4 cursor-pointer object-cover left-1/2 -translate-x-1/2 h-[40px] rounded-full mt-auto"

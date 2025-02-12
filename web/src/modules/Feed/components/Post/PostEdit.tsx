@@ -135,7 +135,7 @@ export const PostEdit = ({ post, setOpenEditPost }: PostEditProps) => {
             <div>
               <div className="flex select-none px-4 z-20 items-center gap-x-2">
                 <img
-                  src={postData.user.avatar_url}
+                  src={postData.user.avatarUrl}
                   alt=""
                   className="w-[48px] aspect-square object-cover select-none pointer-events-none h-[48px] rounded-full"
                 />

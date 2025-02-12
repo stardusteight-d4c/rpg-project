@@ -93,7 +93,7 @@ export const Navbar = () => {
 
           <img
             onClick={() => push("/profile/stardusteight")}
-            src={currentSession.avatar_url}
+            src={currentSession.avatarUrl}
             alt=""
             className="w-[32px] h-[32px] cursor-pointer rounded-full object-cover"
           />

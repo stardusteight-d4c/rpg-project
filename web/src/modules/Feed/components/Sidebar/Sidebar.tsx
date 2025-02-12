@@ -69,7 +69,7 @@ export const Sidebar = () => {
                     className="absolute flex items-center gap-x-1 inset-x-0 w-full top-2 left-2"
                   >
                     <img
-                      src={user.avatar_url}
+                      src={user.avatarUrl}
                       alt=""
                       style={{ marginLeft: `${index * 20}px` }}
                       className="w-[32px] h-[32px] rounded-full"
