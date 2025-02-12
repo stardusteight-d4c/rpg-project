@@ -24,6 +24,7 @@ export const SignIn = () => {
     <div className="grid grid-cols-10 h-screen overflow-hidden">
       <section className="col-span-7 relative">
         <h1
+          onClick={() => push("/")}
           className="font-bold  z-[100] absolute bg-background rounded-full px-2 overflow-hidden py-1 shadow-md shadow-black/50 left-2 top-2 text-3xl cursor-pointer select-none flex gap-y-1"
         >
           <img src="/favicon.png" alt="" className="w-[32px] h-[32px]" />

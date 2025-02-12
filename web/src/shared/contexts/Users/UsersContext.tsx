@@ -6,11 +6,13 @@ import { matchUsers } from "./mock-data"
 interface UsersState {
   users: IUser[]
   addUser: (user: IUser) => void
+  getByUsername: (username: string) => IUser | undefined
 }
 
 const defaultState: UsersState = {
   users: [],
   addUser: () => {},
+  getByUsername: () => undefined,
 }
 
 const UsersContext = createContext<UsersState>(defaultState)
@@ -20,12 +22,16 @@ export const UsersProvider: React.FC<{ children: ReactNode }> = ({
 }) => {
   const [users, setUsers] = useState<IUser[]>(matchUsers)
 
+  const getByUsername = (username: string) => {
+    return users.find((user) => user.username === username)
+  }
+
   const addUser = (user: IUser) => {
     setUsers((prev) => [...prev, user])
   }
 
   return (
-    <UsersContext.Provider value={{ users, addUser }}>
+    <UsersContext.Provider value={{ users, addUser, getByUsername }}>
       {children}
     </UsersContext.Provider>
   )

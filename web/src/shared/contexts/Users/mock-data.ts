@@ -26,7 +26,7 @@ export const matchUsers: IUser[] = [
     email: "blackwive@gmail.com",
     avatarUrl: "https://avatars.githubusercontent.com/u/1024025?v=4",
     coverImage:
-      "https://theminimalistvegan.com/wp-content/uploads/2024/01/Glacier-Minimalist-Wallpaper-img24.png",
+      "https://images.hdqwalls.com/wallpapers/wolf-cave-minimalist-4k-s1.jpg",
     exp: {
       level: 2,
       current: 400,
@@ -44,17 +44,16 @@ export const matchUsers: IUser[] = [
     role: "player",
     email: "lohvanna@gmail.com",
     avatarUrl: "https://avatars.githubusercontent.com/u/124599?v=4",
-    coverImage:
-    "https://theminimalistvegan.com/wp-content/uploads/2024/01/Glacier-Minimalist-Wallpaper-img24.png",
-  exp: {
-    level: 2,
-    current: 400,
-    nextLevel: 1000,
-  },
-  hoursPlayed: 80,
-  koalCampaigns: 0,
-  memberSince: "2025-01-02",
-  playingCampaigns: 2,
+    coverImage: "https://wallpapershome.com/images/pages/ico_h/27093.jpg",
+    exp: {
+      level: 2,
+      current: 400,
+      nextLevel: 1000,
+    },
+    hoursPlayed: 80,
+    koalCampaigns: 0,
+    memberSince: "2025-01-02",
+    playingCampaigns: 2,
   },
 ]
 
