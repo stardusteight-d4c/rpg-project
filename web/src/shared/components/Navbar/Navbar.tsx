@@ -2,12 +2,25 @@
 
 import { currentSession } from "@/shared/contexts/Users/mock-data"
 import { useRouter } from "next/navigation"
+import { useState } from "react"
+import { CreateCampaignModal } from "./components/CreateCampaignModal"
 
 export const Navbar = () => {
+  const [openCreateCampaignModal, setOpenCreateCampaignModal] =
+    useState<boolean>(false)
   const { push } = useRouter()
 
   return (
     <nav className="bg-background fixed inset-x-0 top-0 z-[600] w-screen border-b py-1 border-border shadow-sm shadow-black/50 ">
+      {openCreateCampaignModal && (
+        <CreateCampaignModal
+          onStatusChange={(value: "close" | "open") => {
+            if (value === "close") setOpenCreateCampaignModal(false)
+            if (value === "open") setOpenCreateCampaignModal(true)
+          }}
+          status={openCreateCampaignModal ? "open" : "close"}
+        />
+      )}
       <div className="max-w-7xl flex items-center justify-between mx-auto">
         <h1
           onClick={() => push("/feed")}
@@ -38,7 +51,7 @@ export const Navbar = () => {
             <span>Find a player</span>
           </div>
           <div
-            // onClick={() => setSelectedCharacter && setSelectedCharacter(null)}
+            onClick={() => setOpenCreateCampaignModal(true)}
             className="cursor-pointer w-fit flex items-center group gap-x-2"
           >
             <button className="bg-ashes flex items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50 group-hover:bg-gradient-to-tr group-hover:from-[#42d392] group-hover:to-[#8B5CF6] duration-300 ease-in-out transition-all">
