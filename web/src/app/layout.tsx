@@ -17,7 +17,7 @@ const delius = Delius({
 })
 
 export const metadata: Metadata = {
-  title: "Campfire",
+  title: "Campfire | The RPG Beyond the Table",
   description: "Online Tabletop RPG",
 }
 
