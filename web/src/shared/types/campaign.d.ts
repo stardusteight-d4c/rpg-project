@@ -1,0 +1,23 @@
+type CampaignStatus = "active" | "recent_active" | "inactive"
+// active -> Agora | recent_active -> 24h | inactive > 24h
+
+interface Campaign {
+  id: string
+  name: string
+  description: string
+  image: string
+  duration: string
+  status: CampaignStatus
+  players: IUser[]
+  streaming?: { watchers: IUser[]; startedAt: string }
+  createdBy: IUser
+  createdAt: string
+}
+
+interface CampaignCreate {
+  name: string
+  description: string
+  image: string
+  createdBy: IUser
+  createdAt: string
+}

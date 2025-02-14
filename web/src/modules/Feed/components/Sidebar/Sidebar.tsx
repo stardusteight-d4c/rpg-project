@@ -1,11 +1,14 @@
 "use client"
 
+import { useCampaigns } from "@/shared/contexts/Campaigns/CampaignsContext"
 import { useUsers } from "@/shared/contexts/Users/UsersContext"
 import { useRouter } from "next/navigation"
 
 export const Sidebar = () => {
-  const { users } = useUsers()
+  const { getAllBy } = useCampaigns()
   const { push } = useRouter()
+
+  const activeCampaigns = getAllBy({ key: "status", value: "active" })
 
   return (
     <section className="w-full pb-[100px] flex flex-col gap-y-8 pl-4 mt-4 min-h-screen relative">
@@ -14,26 +17,7 @@ export const Sidebar = () => {
           Happening right now
         </h2>
         <div className="flex flex-col w-full gap-4">
-          {[
-            {
-              image:
-                "https://cdn.myportfolio.com/01576c1cae45f964574cd467d49a52b8/cb80796e-42ab-43bc-bea0-f12e2907d474_rw_1920.jpg?h=423137e847613be7260e67b60daec37e",
-              name: "Beyond the Mountains of Madness",
-              watching: 12,
-            },
-            {
-              image:
-                "https://mir-s3-cdn-cf.behance.net/project_modules/hd/1e8c1f94180437.5e78948e881c2.jpg",
-              name: "Masks of Nyarlathotep",
-              watching: 6,
-            },
-            {
-              image:
-                "https://assetsio.gnwcdn.com/call-of-cthulhu-masks-of-nyarlathotep-artwork.jpeg?width=1200&height=1200&fit=bounds&quality=70&format=jpg&auto=webp",
-              name: "Horror on the Orient Express",
-              watching: 8,
-            },
-          ].map((item, index) => (
+          {activeCampaigns.map((activeCampaign, index) => (
             <div>
               <div
                 key={index}
@@ -60,10 +44,10 @@ export const Sidebar = () => {
                 </span>
                 <span className="absolute bottom-2 right-2 bg-background flex items-center gap-x-2 shadow-sm shadow-black/50 duration-300 ease-in-out transition-all p-2 rounded-full">
                   <span className="text-base font-medium pr-1">
-                    {item.watching} Watching
+                    {activeCampaign.streaming?.watchers.length ?? 0} Watching
                   </span>
                 </span>
-                {users.map((user, index) => (
+                {activeCampaign.players.map((user, index) => (
                   <div
                     key={user.id}
                     className="absolute flex items-center gap-x-1 inset-x-0 w-full top-2 left-2"
@@ -77,16 +61,19 @@ export const Sidebar = () => {
                   </div>
                 ))}
                 <img
-                  src={item.image}
+                  src={activeCampaign.image}
                   alt=""
                   className="object-fill rounded-3xl w-full h-full"
                 />
               </div>
               <span className="text-lg background-gradient bg-clip-text text-transparent font-medium whitespace-nowrap select-none cursor-default pointer-events-none">
-                {item.name}
+                {activeCampaign.name}
               </span>
             </div>
           ))}
+          <span className="text-blue-500 underline mx-auto block cursor-pointer w-fit">
+            See all
+          </span>
         </div>
       </div>
     </section>

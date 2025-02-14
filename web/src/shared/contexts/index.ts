@@ -1,14 +1,16 @@
-import { ModalProvider } from "@/shared/contexts/ModalContext"
-import { UsersProvider } from "@/shared/contexts/Users/UsersContext"
-import { CharactersProvider } from "@/shared/contexts/Characters/CharactersContext"
-import { MapsProvider } from "@/shared/contexts/Maps/MapsContext"
-import { NotificationsProvider } from "@/shared/contexts/Notifications/NotificationsContext"
-import { RollsProvider } from "@/shared/contexts/Rolls/RollsContext"
-import { AuthProvider } from "@/shared/contexts/Auth/AuthContext"
-import { FeedProvider } from "@/shared/contexts/Feed/FeedContext"
+import { ModalProvider } from "./ModalContext"
+import { UsersProvider } from "./Users/UsersContext"
+import { CharactersProvider } from "./Characters/CharactersContext"
+import { MapsProvider } from "./Maps/MapsContext"
+import { NotificationsProvider } from "./Notifications/NotificationsContext"
+import { RollsProvider } from "./Rolls/RollsContext"
+import { AuthProvider } from "./Auth/AuthContext"
+import { FeedProvider } from "./Feed/FeedContext"
+import { CampaignsProvider } from "./Campaigns/CampaignsContext"
 
 export const providers = [
   AuthProvider,
+  CampaignsProvider,
   FeedProvider,
   RollsProvider,
   NotificationsProvider,
