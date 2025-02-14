@@ -4,11 +4,14 @@ import ReactDOM from "react-dom"
 import { ModalWrapper } from "../../ModalWrapper"
 import React, { useState } from "react"
 import { GlowingWrapper } from "../../GlowingWrapper"
+import { useCampaigns } from "@/shared/contexts/Campaigns/CampaignsContext"
+import { currentSession } from "@/shared/contexts/Users/mock-data"
 
 export const CreateCampaignModal: React.FC<{
   status: "open" | "close"
   onStatusChange: (status: "close" | "open") => void
 }> = ({ onStatusChange, status }) => {
+  const { addCampaign } = useCampaigns()
   const [campaignData, setCampaignData] = useState<{
     name: string
     description: string
@@ -51,6 +54,13 @@ export const CreateCampaignModal: React.FC<{
     }
   }
 
+  const onCreate = async () => {
+    addCampaign({
+      ...campaignData,
+      createdBy: currentSession,
+    })
+  }
+
   function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0]
     if (file) {
@@ -58,7 +68,7 @@ export const CreateCampaignModal: React.FC<{
       updateCampaignData({ key: "file", value: file })
       setCampaignData((prevData) => ({
         ...prevData,
-        image: tempUrl,
+        coverUrl: tempUrl,
       }))
     }
   }
@@ -95,9 +105,10 @@ export const CreateCampaignModal: React.FC<{
               className="rounded-xl object-fill cursor-pointer h-[200px] bg-border w-full flex items-center justify-center"
             />
           ) : (
-            <div 
-            onClick={handleClick}
-            className="rounded-xl cursor-pointer h-[200px] bg-border w-full flex items-center justify-center">
+            <div
+              onClick={handleClick}
+              className="rounded-xl cursor-pointer h-[200px] bg-border w-full flex items-center justify-center"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="52"
@@ -117,6 +128,7 @@ export const CreateCampaignModal: React.FC<{
             onChange={handleFileChange}
           />
           <button
+            onClick={onCreate}
             className="p-2 font-medium capitalize w-full text-center text-lg bg-blue-500 text-white rounded-full"
           >
             <span className="text-xl font-bold">Create</span>

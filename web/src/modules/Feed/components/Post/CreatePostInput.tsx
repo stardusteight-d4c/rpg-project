@@ -10,22 +10,22 @@ const userCampaigns = [
     id: "a136d71c-c2fb-421a-8cb8-ab2413d64ee7",
     type: "campaign",
     value: "Beyond_the_Mountains_of_Madness",
-    linkId: "c84df9de-5834-43ef-a526-d838a77e75dc",
+    linkId: "b3dbc321-4330-4966-a20a-2721a818c2c2",
   },
 ]
 
 const userFriends = [
   {
     id: "bf4100c9-db08-4a63-9b6c-18f6cc71c7f6",
-    type: "user",
+    type: "profile",
     value: "blackwive",
-    linkId: "4d6f7287-2e27-4389-bccb-c5beaf761a7d",
+    linkId: "blackwive",
   },
   {
     id: "5e081598-5f15-414e-86a6-d20bf3497550",
-    type: "user",
+    type: "profile",
     value: "lohvanna",
-    linkId: "5e081598-5f15-414e-86a6-d20bf3497550",
+    linkId: "lohvanna",
   },
 ]
 
@@ -52,7 +52,7 @@ export const CreatePostInput = () => {
   }
 
   function handleCheckEdit(data: {
-    type: "user" | "campaign"
+    type: "profile" | "campaign"
     value: string
     linkId: string
   }) {
@@ -68,7 +68,7 @@ export const CreatePostInput = () => {
   }
 
   function handleCheckbox(data: {
-    type: "user" | "campaign"
+    type: "profile" | "campaign"
     value: string
     linkId: string
   }): boolean {

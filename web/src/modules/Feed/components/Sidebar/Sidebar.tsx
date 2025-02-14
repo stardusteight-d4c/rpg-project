@@ -58,8 +58,9 @@ export const Sidebar = () => {
                   </div>
                 ))}
                 <img
-                  src={activeCampaign.image}
+                  src={activeCampaign.coverUrl}
                   alt=""
+                  referrerPolicy="no-referrer"
                   className="object-fill rounded-3xl w-full h-full"
                 />
               </div>

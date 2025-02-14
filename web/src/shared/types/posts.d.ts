@@ -8,7 +8,7 @@ interface IPost {
   likesCount?: number,
   likedByUser?: boolean,
   tags: Array<{
-    type: "user" | "campaign"
+    type: "profile" | "campaign"
     value: string
     linkId: string
   }>

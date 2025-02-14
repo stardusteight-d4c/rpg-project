@@ -5,19 +5,18 @@ import { posts as postsMock } from "./mock-data"
 
 interface FeedState {
   posts: IPost[]
+  getByCampaignId: (campaignId: string) => IPost[]
   addPost: (post: IPost) => void
   updatePost: (id: string, updatedPost: Partial<IPost>) => void
   deletePost: (id: string) => void
   addComment: (postId: string, comment: IComment) => void
-  updateComment: (
-    postId: string,
-    updatedComment: IComment
-  ) => void
+  updateComment: (postId: string, updatedComment: IComment) => void
   deleteComment: (postId: string, commentId: string) => void
 }
 
 const defaultState: FeedState = {
   posts: [],
+  getByCampaignId: () => [],
   addPost: () => {},
   updatePost: () => {},
   deletePost: () => {},
@@ -49,6 +48,14 @@ export const FeedProvider: React.FC<{ children: ReactNode }> = ({
     setPosts((prevPosts) => prevPosts.filter((post) => post.id !== id))
   }
 
+  const getByCampaignId = (campaignId: string) => {
+    return posts.filter((post) =>
+      post.tags.some(
+        (tag) => tag.type === "campaign" && tag.linkId === campaignId
+      )
+    )
+  }
+
   const addComment = (postId: string, comment: IComment) => {
     setPosts((prevPosts) =>
       prevPosts.map((post) =>
@@ -63,10 +70,7 @@ export const FeedProvider: React.FC<{ children: ReactNode }> = ({
     )
   }
 
-  const updateComment = (
-    postId: string,
-    updatedComment: IComment
-  ) => {
+  const updateComment = (postId: string, updatedComment: IComment) => {
     setPosts((prevPosts) =>
       prevPosts.map((post) =>
         post.id === postId
@@ -104,6 +108,7 @@ export const FeedProvider: React.FC<{ children: ReactNode }> = ({
       value={{
         posts,
         addPost,
+        getByCampaignId,
         updatePost,
         deletePost,
         addComment,

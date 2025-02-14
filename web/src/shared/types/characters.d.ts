@@ -93,9 +93,10 @@ type Skill = {
   checked: boolean
 }
 
+
 interface ICharacter {
   id: string
-  user: IUser
+  user: MatchUser
   infos: Infos
   attributes: Attributes
   combat: CombatItem[]

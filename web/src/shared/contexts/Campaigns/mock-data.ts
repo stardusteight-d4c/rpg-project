@@ -6,9 +6,10 @@ const oneMonthAgo = new Date(
   new Date().setMonth(new Date().getMonth() - 1)
 ).toISOString()
 
-export const campaigns: Array<Campaign> = [
+export const campaigns: Array<ICampaign> = [
   {
     id: "3e501429-2c65-44c0-97c8-0d32906f0921",
+    tableId: "b3dbc321-4330-4966-a20a-2721a818c2c2",
     name: "Beyond the Mountains of Madness",
     description:
       "Uma jornada épica para explorar ruínas ancestrais no coração da Antártica, onde o terror e o desconhecido se entrelaçam.",
@@ -23,6 +24,7 @@ export const campaigns: Array<Campaign> = [
   },
   {
     id: "a7c8b213-3f2d-4d4b-92e4-9a1d8726a71e",
+    tableId: "581d86de-a1f6-4f27-b638-bafbea0448bb",
     name: "The Lost City of Zorath",
     description:
       "Um grupo de aventureiros parte em busca da lendária cidade perdida, enfrentando perigos místicos e civilizações esquecidas.",
@@ -37,6 +39,7 @@ export const campaigns: Array<Campaign> = [
   },
   {
     id: "d9b2c411-5a48-4f6b-8a02-b6f9bfc8e37d",
+    tableId: "b213dff9-144d-4d10-aa27-5ed9e56a4970",
     name: "Shadows Over Eldoria",
     description:
       "Sombras espreitam a cidade de Eldoria enquanto um grupo de heróis luta contra forças sombrias para salvar seu povo.",
@@ -51,6 +54,7 @@ export const campaigns: Array<Campaign> = [
   },
   {
     id: "4d0216ab-afa6-4bd6-af19-633fb02ec082",
+    tableId: "93263572-79e6-472a-b010-1b31b2307963",
     name: "Horror on the Orient Express",
     description:
       "Uma viagem luxuosa pelo lendário Expresso do Oriente se transforma em um pesadelo quando eventos sobrenaturais e conspirações mortais emergem. Os passageiros devem desvendar segredos antigos e enfrentar horrores indescritíveis antes que o trem alcance seu destino final.",

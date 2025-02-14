@@ -93,6 +93,7 @@ export const Post = ({ post }: { post: IPost }) => {
         {post.tags.map((tag) => (
           <span
             key={tag.linkId}
+            onClick={() => push(`/${tag.type}/${tag.linkId}`)}
             className="text-gray-400 bg-ashes px-2 border border-border rounded-full w-fit block cursor-pointer"
           >
             #{tag.value}

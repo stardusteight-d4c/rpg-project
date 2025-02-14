@@ -1,19 +1,26 @@
 "use client"
 
 import React, { createContext, useContext, useState, ReactNode } from "react"
-import {  campaigns as campaignsMock } from "./mock-data"
+import { campaigns as campaignsMock } from "./mock-data"
+import { MockAPI } from "@/api/MockAPI"
 
 interface CampaignsState {
-  campaigns: Campaign[]
-  addCampaign: (campaign: Campaign) => void
+  campaigns: ICampaign[]
+  addCampaign: (campaign: CampaignCreate) => void
   getBy: ({
     key,
     value,
   }: {
-    key: keyof Campaign
+    key: keyof ICampaign
     value: any
-  }) => Campaign | undefined
-  getAllBy: ({ key, value }: { key: keyof Campaign; value: any }) => Campaign[]
+  }) => ICampaign | undefined
+  getAllBy: ({
+    key,
+    value,
+  }: {
+    key: keyof ICampaign
+    value: any
+  }) => ICampaign[]
 }
 
 const defaultState: CampaignsState = {
@@ -28,28 +35,21 @@ const CampaignsContext = createContext<CampaignsState>(defaultState)
 export const CampaignsProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [campaigns, setCamapaigns] = useState<Campaign[]>(campaignsMock)
+  const api = new MockAPI()
+  const [campaigns, setCamapaigns] = useState<ICampaign[]>(campaignsMock)
 
-  const getBy = ({ key, value }: { key: keyof Campaign; value: any }) => {
+  const getBy = ({ key, value }: { key: keyof ICampaign; value: any }) => {
     return campaigns.find((campaign) => campaign[key] === value)
   }
 
-  const getAllBy = ({ key, value }: { key: keyof Campaign; value: any }) => {
+  const getAllBy = ({ key, value }: { key: keyof ICampaign; value: any }) => {
     return campaigns.filter((campaign) => campaign[key] === value)
   }
 
-  const addCampaign = (campaign: CampaignCreate) => {
-    setCamapaigns((prevCampaign) => [
-      {
-        ...campaign,
-        id: crypto.randomUUID(),
-        duration: "0",
-        status: "inactive",
-        players: [],
-        createdAt: new Date().toISOString(),
-      },
-      ...prevCampaign,
-    ])
+  const addCampaign = async (campaign: CampaignCreate) => {
+    await api.campaign
+      .create(campaign)
+      .then((res) => setCamapaigns((prev) => [res, ...prev]))
   }
 
   return (
@@ -58,7 +58,7 @@ export const CampaignsProvider: React.FC<{ children: ReactNode }> = ({
         campaigns,
         addCampaign,
         getBy,
-        getAllBy
+        getAllBy,
       }}
     >
       {children}

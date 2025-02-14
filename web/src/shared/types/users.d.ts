@@ -5,16 +5,19 @@ interface IUser {
   name: string
   username: string
   email: string
-  avatarUrl: string
-  role: UserRole
+  avatarUrl?: string
   coverImage?: string
-  exp?: {
+  exp: {
     level: number
     current: number
     nextLevel: number
   }
-  memberSince?: string
-  hoursPlayed?: number
-  koalCampaigns?: number
-  playingCampaigns?: number
+  memberSince: string
+  hoursPlayed: number
+  koalCampaigns: number
+  playingCampaigns: number
+}
+
+interface MatchUser extends IUser {
+  role: UserRole
 }

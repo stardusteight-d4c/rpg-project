@@ -1,4 +1,4 @@
-export const matchUsers: IUser[] = [
+export const matchUsers: MatchUser[] = [
   {
     id: "a30e60ac-d957-4280-9d8a-249651a19671",
     name: "Gabriel Sena",
