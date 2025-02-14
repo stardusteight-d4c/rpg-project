@@ -1,7 +1,6 @@
 "use client"
 
 import { useCampaigns } from "@/shared/contexts/Campaigns/CampaignsContext"
-import { useUsers } from "@/shared/contexts/Users/UsersContext"
 import { useRouter } from "next/navigation"
 
 export const Sidebar = () => {
@@ -21,9 +20,7 @@ export const Sidebar = () => {
             <div>
               <div
                 key={index}
-                onClick={() =>
-                  push("/campaign/c84df9de-5834-43ef-a526-d838a77e75dc")
-                }
+                onClick={() => push(`/campaign/${activeCampaign.id}`)}
                 className="cursor-pointer relative h-[200px] rounded-3xl bg-ashes"
               >
                 <div className="rounded-full h-[12px] w-[12px] bg-green-500 absolute right-[20px] top-[20px] aspect-square" />

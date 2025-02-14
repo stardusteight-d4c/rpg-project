@@ -12,7 +12,7 @@ export const campaigns: Array<Campaign> = [
     name: "Beyond the Mountains of Madness",
     description:
       "Uma jornada épica para explorar ruínas ancestrais no coração da Antártica, onde o terror e o desconhecido se entrelaçam.",
-    image:
+    coverUrl:
       "https://assetsio.gnwcdn.com/call-of-cthulhu-rpg-arkham-sourcebook-artwork.png?width=1200&height=1200&fit=bounds&quality=70&format=jpg&auto=webp",
     duration: "42",
     status: "active",
@@ -26,7 +26,7 @@ export const campaigns: Array<Campaign> = [
     name: "The Lost City of Zorath",
     description:
       "Um grupo de aventureiros parte em busca da lendária cidade perdida, enfrentando perigos místicos e civilizações esquecidas.",
-    image:
+    coverUrl:
       "https://cdn.myportfolio.com/01576c1cae45f964574cd467d49a52b8/cb80796e-42ab-43bc-bea0-f12e2907d474_rw_1920.jpg?h=423137e847613be7260e67b60daec37e",
     duration: "127",
     status: "inactive",
@@ -40,7 +40,7 @@ export const campaigns: Array<Campaign> = [
     name: "Shadows Over Eldoria",
     description:
       "Sombras espreitam a cidade de Eldoria enquanto um grupo de heróis luta contra forças sombrias para salvar seu povo.",
-    image:
+    coverUrl:
       "https://mir-s3-cdn-cf.behance.net/project_modules/hd/1e8c1f94180437.5e78948e881c2.jpg",
     duration: "120",
     status: "active",
@@ -54,7 +54,7 @@ export const campaigns: Array<Campaign> = [
     name: "Horror on the Orient Express",
     description:
       "Uma viagem luxuosa pelo lendário Expresso do Oriente se transforma em um pesadelo quando eventos sobrenaturais e conspirações mortais emergem. Os passageiros devem desvendar segredos antigos e enfrentar horrores indescritíveis antes que o trem alcance seu destino final.",
-    image:
+    coverUrl:
       "https://assetsio.gnwcdn.com/call-of-cthulhu-masks-of-nyarlathotep-artwork.jpeg?width=1200&height=1200&fit=bounds&quality=70&format=jpg&auto=webp",
     duration: "80",
     status: "active",

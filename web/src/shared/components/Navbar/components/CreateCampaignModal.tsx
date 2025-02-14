@@ -12,12 +12,12 @@ export const CreateCampaignModal: React.FC<{
   const [campaignData, setCampaignData] = useState<{
     name: string
     description: string
-    image: string | undefined
+    coverUrl: string | undefined
     file: File | undefined
   }>({
     name: "",
     description: "",
-    image: undefined,
+    coverUrl: undefined,
     file: undefined,
   })
 
@@ -31,7 +31,7 @@ export const CreateCampaignModal: React.FC<{
     key: keyof {
       name: string
       description: string
-      image: string | undefined
+      coverUrl: string | undefined
       file: File | undefined
     }
     value: any
@@ -88,9 +88,9 @@ export const CreateCampaignModal: React.FC<{
               className="py-1 px-2 w-full cursor-text h-[100px] hover:brightness-125 flex items-center gap-x-1 line-clamp-1 rounded-xl resize-none bg-ashes border border-border outline-none"
             />
           </GlowingWrapper>
-          {campaignData.image ? (
+          {campaignData.coverUrl ? (
             <img
-              src={campaignData.image}
+              src={campaignData.coverUrl}
               alt=""
               className="rounded-xl object-fill cursor-pointer h-[200px] bg-border w-full flex items-center justify-center"
             />

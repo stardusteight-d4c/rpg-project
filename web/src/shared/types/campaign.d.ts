@@ -5,7 +5,7 @@ interface Campaign {
   id: string
   name: string
   description: string
-  image: string
+  coverUrl: string
   duration: string
   status: CampaignStatus
   players: IUser[]
@@ -17,7 +17,7 @@ interface Campaign {
 interface CampaignCreate {
   name: string
   description: string
-  image: string
+  coverUrl: string
   createdBy: IUser
   createdAt: string
 }
