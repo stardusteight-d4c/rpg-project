@@ -4,9 +4,9 @@ import React, { createContext, useContext, useState, ReactNode } from "react"
 import { matchUsers } from "./mock-data"
 
 interface UsersState {
-  users: IUser[]
-  addUser: (user: IUser) => void
-  getByUsername: (username: string) => IUser | undefined
+  users: User[]
+  addUser: (user: User) => void
+  getByUsername: (username: string) => User | undefined
 }
 
 const defaultState: UsersState = {
@@ -20,13 +20,13 @@ const UsersContext = createContext<UsersState>(defaultState)
 export const UsersProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [users, setUsers] = useState<IUser[]>(matchUsers)
+  const [users, setUsers] = useState<User[]>(matchUsers)
 
   const getByUsername = (username: string) => {
     return users.find((user) => user.username === username)
   }
 
-  const addUser = (user: IUser) => {
+  const addUser = (user: User) => {
     setUsers((prev) => [...prev, user])
   }
 

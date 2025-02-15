@@ -1,10 +1,8 @@
-import { campaigns } from "@/shared/contexts/Campaigns/mock-data"
-
 export class MockCampaignRoute implements ICampaignRoute {
   #campaigns: Array<ICampaign>
 
   constructor() {
-    this.#campaigns = campaigns
+    this.#campaigns = []
   }
 
   public async create(campaign: CampaignCreate): Promise<ICampaign> {

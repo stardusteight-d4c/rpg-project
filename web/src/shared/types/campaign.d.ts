@@ -9,9 +9,9 @@ interface ICampaign {
   coverUrl: string
   duration: string
   status: CampaignStatus
-  players: IUser[]
-  streaming?: { watchers: IUser[]; startedAt: string }
-  createdBy: IUser
+  players: User[]
+  streaming?: { watchers: User[]; startedAt: string }
+  createdBy: User
   createdAt: string
 }
 
@@ -19,5 +19,5 @@ interface CampaignCreate {
   name: string
   description: string
   coverUrl?: string
-  createdBy: IUser
+  createdBy: User
 }

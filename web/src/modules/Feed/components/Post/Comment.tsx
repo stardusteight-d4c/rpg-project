@@ -9,7 +9,7 @@ interface CommentProps {
   postId: string
   comment: {
     id: string
-    user: IUser
+    user: User
     content: string
     createdAt: string
   }

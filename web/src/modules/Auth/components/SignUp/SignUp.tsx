@@ -5,13 +5,15 @@ import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { Fade } from "react-awesome-reveal"
 import { useAuth } from "@/shared/contexts/Auth/AuthContext"
+import { toast } from "react-toastify"
 
 export const SignUp = () => {
-  const { signUpWithGoogle, signUp } = useAuth()
+  const { signUp } = useAuth()
   const { push } = useRouter()
   const [formData, setFormData] = useState({
     name: "",
     email: "",
+    username: "",
     password: "",
     confirmPassword: "",
   })
@@ -22,6 +24,30 @@ export const SignUp = () => {
 
   const onClickSignIn = () => {
     push("/auth/signin")
+  }
+
+  const onSignUp = () => {
+    const { username, email, password, confirmPassword } = formData
+
+    const usernameRegex = /^[a-zA-Z0-9-.]{4,}$/
+    if (!usernameRegex.test(username)) {
+      return toast.error(
+        "Username must be at least 4 characters and contain only letters, numbers, hyphen or dot."
+      )
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!emailRegex.test(email)) {
+      return toast.error("Invalid email address.")
+    }
+
+    if (password.length < 8) {
+      return toast.error("Password must be at least 8 characters long.")
+    }
+
+    if (password !== confirmPassword) {
+      return toast.error("Passwords do not match.")
+    }
   }
 
   return (
@@ -50,7 +76,7 @@ export const SignUp = () => {
       <section className="col-span-3 flex flex-col items-center justify-center">
         <div className="w-[350px] flex flex-col gap-y-2">
           <button
-            onClick={signUpWithGoogle}
+            // onClick={signUpWithGoogle}
             className="w-full rounded-full active:scale-95 text-center flex items-center justify-center gap-x-4 p-2 bg-white transition-all duration-300 ease-in-out"
           >
             <svg
@@ -91,7 +117,19 @@ export const SignUp = () => {
               name="name"
               placeholder="Name"
               spellCheck="false"
+              type="text"
               value={formData.name}
+              onChange={handleChange}
+              className="py-1 px-2 w-full cursor-text hover:brightness-125 flex items-center gap-x-1 line-clamp-1 rounded-full bg-ashes border border-border outline-none"
+            />
+          </GlowingWrapper>
+          <GlowingWrapper inset="0" border="rounded-full">
+            <input
+              name="username"
+              placeholder="Username"
+              spellCheck="false"
+              type="text"
+              value={formData.username}
               onChange={handleChange}
               className="py-1 px-2 w-full cursor-text hover:brightness-125 flex items-center gap-x-1 line-clamp-1 rounded-full bg-ashes border border-border outline-none"
             />
@@ -101,6 +139,7 @@ export const SignUp = () => {
               name="email"
               placeholder="Email"
               spellCheck="false"
+              type="email"
               value={formData.email}
               onChange={handleChange}
               className="py-1 px-2 w-full cursor-text hover:brightness-125 flex items-center gap-x-1 line-clamp-1 rounded-full bg-ashes border border-border outline-none"
@@ -111,6 +150,7 @@ export const SignUp = () => {
               name="password"
               placeholder="Password"
               spellCheck="false"
+              type="password"
               value={formData.password}
               onChange={handleChange}
               className="py-1 px-2 w-full cursor-text hover:brightness-125 flex items-center gap-x-1 line-clamp-1 rounded-full bg-ashes border border-border outline-none"
@@ -121,13 +161,14 @@ export const SignUp = () => {
               name="confirmPassword"
               placeholder="Confirm Password"
               spellCheck="false"
+              type="password"
               value={formData.confirmPassword}
               onChange={handleChange}
               className="py-1 px-2 w-full cursor-text hover:brightness-125 flex items-center gap-x-1 line-clamp-1 rounded-full bg-ashes border border-border outline-none"
             />
           </GlowingWrapper>
           <button
-            onClick={() => signUp(formData)}
+            onClick={onSignUp}
             className="p-2 font-medium capitalize w-full text-center text-lg bg-button text-white rounded-full"
           >
             <span className="text-xl font-bold">Sign up</span>

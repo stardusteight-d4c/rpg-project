@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useState, ReactNode } from "react"
 import { campaigns as campaignsMock } from "./mock-data"
-import { MockAPI } from "@/api/MockAPI"
+import { MockAPI } from "@/shared/requests/MockAPI"
 
 interface CampaignsState {
   campaigns: ICampaign[]

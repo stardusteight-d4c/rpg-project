@@ -1,12 +1,12 @@
-type UserRole = "master" | "player"
+type UserTableRole = "master" | "player"
 
-interface IUser {
+interface User {
   id: string
   name: string
   username: string
   email: string
-  avatarUrl?: string
-  coverImage?: string
+  avatarUrl: string | undefined
+  coverImage: string | undefined
   exp: {
     level: number
     current: number
@@ -16,8 +16,9 @@ interface IUser {
   hoursPlayed: number
   koalCampaigns: number
   playingCampaigns: number
+  createdAt: string
 }
 
-interface MatchUser extends IUser {
-  role: UserRole
+interface TableUser extends User {
+  role: UserTableRole
 }

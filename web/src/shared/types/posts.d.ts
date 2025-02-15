@@ -1,6 +1,6 @@
 interface IPost {
   id: string
-  user: IUser
+  user: User
   content: string
   createdAt: string
   image?: string | undefined
@@ -17,7 +17,7 @@ interface IPost {
 
 interface IComment {
   id: string
-  user: IUser
+  user: User
   content: string
   createdAt: string
 }

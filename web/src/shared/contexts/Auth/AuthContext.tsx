@@ -10,36 +10,24 @@ import React, {
   useEffect,
 } from "react"
 import Cookies from "js-cookie"
-
-interface IUser {
-  id: string
-  name: string
-  avatarUrl: string
-  email: string
-  accessToken: string
-}
+import { MockAPI } from "@/shared/requests/MockAPI"
 
 interface AuthState {
-  currentSession: IUser | undefined
-  addSession: (user: IUser, accessToken: string, refreshToken: string) => void
-  getToken: () => string | null
-  signUpWithGoogle: () => Promise<void>
-  signUp: (formData: {
-    name: string
-    email: string
-    password: string
-    confirmPassword: string
-  }) => Promise<void>
-  logout: () => Promise<void>
+  currentSession: User | undefined
+  signUp: (data: AuthRegisterRequest) => Promise<void>
+  // addSession: (user: User, accessToken: string, refreshToken: string) => void
+  // getToken: () => string | null
+  // signUpWithGoogle: () => Promise<void>
+  // logout: () => Promise<void>
 }
 
 const defaultState: AuthState = {
   currentSession: undefined,
-  addSession: () => {},
-  getToken: () => null,
-  signUpWithGoogle: async () => {},
   signUp: async () => {},
-  logout: async () => {},
+  // addSession: () => {},
+  // getToken: () => null,
+  // signUpWithGoogle: async () => {},
+  // logout: async () => {},
 }
 
 const AuthContext = createContext<AuthState>(defaultState)
@@ -47,94 +35,88 @@ const AuthContext = createContext<AuthState>(defaultState)
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
+  const api = new MockAPI()
   const { push } = useRouter()
-  const { data: session } = useSession()
-  const [currentSession, setCurrentSession] = useState<IUser | undefined>(
+  const [currentSession, setCurrentSession] = useState<User | undefined>(
     undefined
   )
 
-  useEffect(() => {
-    const token = getToken()
-    const userData = Cookies.get("user_data")
-
-    if (token && userData) {
-      setCurrentSession({
-        ...JSON.parse(userData),
-        accessToken: token,
-      })
-    }
-  }, [])
-
-  const getToken = (): string | null => {
-    return Cookies.get("access_token") || null
+   const getToken = (): string | null => {
+    return Cookies.get("accessToken") || null
   }
 
+
+  // useEffect(() => {
+  //   const token = getToken()
+  //   const userData = Cookies.get("user_data")
+
+  //   if (token && userData) {
+  //     setCurrentSession({
+  //       ...JSON.parse(userData),
+  //       accessToken: token,
+  //     })
+  //   }
+  // }, [])
+
+ 
   const addSession = (
-    user: IUser,
+    user: User,
     accessToken: string,
     refreshToken: string
   ) => {
     setCurrentSession(user)
 
-    Cookies.set("access_token", accessToken, { expires: 7 }) 
-    Cookies.set("refresh_token", refreshToken, { expires: 30 }) 
-    Cookies.set("user_data", JSON.stringify(user), { expires: 7 })
+    Cookies.set("accessToken", accessToken, { expires: 7 })
+    Cookies.set("refreshToken", refreshToken, { expires: 30 })
+    Cookies.set("currentSession", JSON.stringify(user), { expires: 7 })
   }
 
-  const signUpWithGoogle = async () => {
-    await signIn("google")
+  // const signUpWithGoogle = async () => {
+  //   await signIn("google")
 
-    const res = await fetch(`${process.env.SERVER_URL}/auth/signup/google`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ...session?.user }),
-    })
+  //   const res = await fetch(`${process.env.SERVER_URL}/auth/signup/google`, {
+  //     method: "POST",
+  //     headers: { "Content-Type": "application/json" },
+  //     body: JSON.stringify({ ...session?.user }),
+  //   })
 
-    if (!res.ok) {
-      throw new Error(`Erro: ${res.status}`)
-    }
+  //   if (!res.ok) {
+  //     throw new Error(`Erro: ${res.status}`)
+  //   }
 
-    const data = await res.json()
+  //   const data = await res.json()
 
-    addSession(data.user, data.access_token, data.refresh_token)
-    push(`/user/${data.user.username}`)
-  }
+  //   addSession(data.user, data.access_token, data.refresh_token)
+  //   push(`/user/${data.user.username}`)
+  // }
 
-  const signUp = async (formData: {
-    name: string
-    email: string
-    password: string
-    confirmPassword: string
-  }) => {
-    const res = await fetch(`${process.env.SERVER_URL}/auth/signup`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formData),
-    })
+  const signUp = async (data: AuthRegisterRequest) => {
+    const res = await api.auth.register(data)
 
-    if (!res.ok) {
-      throw new Error(`Erro: ${res.status}`)
-    }
-
-    const data = await res.json()
-
-    addSession(data.user, data.access_token, data.refresh_token)
-    push(`/user/${data.user.username}`)
+    addSession(res.user, res.accessToken, res.refreshToken)
+    push(`/profile/${res.user.username}`)
   }
 
   const logout = async () => {
     setCurrentSession(undefined)
 
-    Cookies.remove("access_token")
-    Cookies.remove("refresh_token")
-    Cookies.remove("user_data")
+    Cookies.remove("accessToken")
+    Cookies.remove("refreshToken")
+    Cookies.remove("currentSession")
 
     await signOut()
   }
 
   return (
     <AuthContext.Provider
-      value={{ currentSession,getToken, signUpWithGoogle, signUp, addSession, logout }}
+      value={{
+        currentSession,
+        signUp,
+        // getToken,
+        // signUpWithGoogle,
+        // addSession,
+        // logout,
+      }}
     >
       {children}
     </AuthContext.Provider>

@@ -96,7 +96,7 @@ type Skill = {
 
 interface ICharacter {
   id: string
-  user: MatchUser
+  user: TableUser
   infos: Infos
   attributes: Attributes
   combat: CombatItem[]

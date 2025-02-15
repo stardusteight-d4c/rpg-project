@@ -1,7 +1,7 @@
 interface INotification {
   id: string
   by?: Partial<ICharacter>
-  owner?: IUser
+  owner?: User
   content: string
   createdAt: string
 }
