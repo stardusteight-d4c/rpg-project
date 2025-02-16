@@ -7,25 +7,11 @@ export const Campaigns = () => {
 
   return (
     <div>
-      <h2 className="text-3xl pointer-events-none font-bold mb-2">Campaigns</h2>
+      <h2 className="text-4xl w-fit pointer-events-none font-bold mb-2 background-gradient text-transparent bg-clip-text">
+        Campaigns
+      </h2>
       <div className="grid grid-cols-3 w-full gap-4">
-        {[
-          {
-            image:
-              "https://assetsio.gnwcdn.com/call-of-cthulhu-rpg-arkham-sourcebook-artwork.png?width=1200&height=1200&fit=bounds&quality=70&format=jpg&auto=webp",
-            name: "Beyond the Mountains of Madness",
-          },
-          {
-            image:
-              "https://assetsio.gnwcdn.com/call-of-cthulhu-masks-of-nyarlathotep-artwork.jpeg?width=1200&height=1200&fit=bounds&quality=70&format=jpg&auto=webp",
-            name: "Horror on the Orient Express",
-          },
-          {
-            image:
-              "https://www.chaosium.com/product_images/uploaded_images/screen-shot-2024-09-26-at-10.09.58-am.png",
-            name: "Masks of Nyarlathotep",
-          },
-        ].map((item, index) => (
+        {[].map((item: any, index) => (
           <div
             key={index}
             onClick={() =>
