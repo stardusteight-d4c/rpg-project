@@ -1,33 +1,28 @@
 "use client"
 
-import { useSession, signIn, signOut } from "next-auth/react"
 import { useRouter } from "next/navigation"
-import React, {
-  createContext,
-  useContext,
-  useState,
-  ReactNode,
-  useEffect,
-} from "react"
+import React, { createContext, useContext, useState, ReactNode } from "react"
 import Cookies from "js-cookie"
 import { MockAPI } from "@/shared/requests/MockAPI"
 
 interface AuthState {
-  currentSession: User | undefined
-  signUp: (data: AuthRegisterRequest) => Promise<void>
+  currentSession: IUser | undefined
+  signUp: (data: SignUpDTO) => Promise<void>
+  signIn: (data: SignInDTO) => Promise<void>
+  logout: () => void
   // addSession: (user: User, accessToken: string, refreshToken: string) => void
   // getToken: () => string | null
   // signUpWithGoogle: () => Promise<void>
-  // logout: () => Promise<void>
 }
 
 const defaultState: AuthState = {
   currentSession: undefined,
   signUp: async () => {},
+  signIn: async () => {},
+  logout: () => {},
   // addSession: () => {},
   // getToken: () => null,
   // signUpWithGoogle: async () => {},
-  // logout: async () => {},
 }
 
 const AuthContext = createContext<AuthState>(defaultState)
@@ -36,15 +31,14 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const api = new MockAPI()
-  const { push } = useRouter()
-  const [currentSession, setCurrentSession] = useState<User | undefined>(
+  const { replace } = useRouter()
+  const [currentSession, setCurrentSession] = useState<IUser | undefined>(
     undefined
   )
 
-   const getToken = (): string | null => {
+  const getToken = (): string | null => {
     return Cookies.get("accessToken") || null
   }
-
 
   // useEffect(() => {
   //   const token = getToken()
@@ -58,9 +52,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   //   }
   // }, [])
 
- 
   const addSession = (
-    user: User,
+    user: IUser,
     accessToken: string,
     refreshToken: string
   ) => {
@@ -90,11 +83,28 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   //   push(`/user/${data.user.username}`)
   // }
 
-  const signUp = async (data: AuthRegisterRequest) => {
-    const res = await api.auth.register(data)
+  const signUp = async (data: SignUpDTO) => {
+    return api.auth
+      .signUp(data)
+      .then((res) => {
+        addSession(res.user, res.accessToken, res.refreshToken)
+        replace(`/profile/${res.user.username}`)
+      })
+      .catch((error) => {
+        throw new Error(error.message)
+      })
+  }
 
-    addSession(res.user, res.accessToken, res.refreshToken)
-    push(`/profile/${res.user.username}`)
+  const signIn = async (data: SignInDTO) => {
+    return api.auth
+      .signIn(data)
+      .then((res) => {
+        addSession(res.user, res.accessToken, res.refreshToken)
+        replace(`/profile/${res.user.username}`)
+      })
+      .catch((error) => {
+        throw new Error(error.message)
+      })
   }
 
   const logout = async () => {
@@ -103,8 +113,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     Cookies.remove("accessToken")
     Cookies.remove("refreshToken")
     Cookies.remove("currentSession")
-
-    await signOut()
+    replace("/auth/signin")
   }
 
   return (
@@ -112,6 +121,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
       value={{
         currentSession,
         signUp,
+        signIn,
+        logout,
         // getToken,
         // signUpWithGoogle,
         // addSession,

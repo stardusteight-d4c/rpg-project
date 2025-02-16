@@ -1,8 +1,20 @@
 export class MockCampaignRoute implements ICampaignRoute {
+  static #instance: MockCampaignRoute | null = null
   #campaigns: Array<ICampaign>
 
-  constructor() {
+  private constructor() {
     this.#campaigns = []
+  }
+
+  public static getInstance(): MockCampaignRoute {
+    if (!this.#instance) {
+      this.#instance = new MockCampaignRoute()
+    }
+    return this.#instance
+  }
+
+  public getCampaigns(): Array<ICampaign> {
+    return this.#campaigns
   }
 
   public async create(campaign: CampaignCreate): Promise<ICampaign> {
@@ -10,7 +22,7 @@ export class MockCampaignRoute implements ICampaignRoute {
       ...campaign,
       id: crypto.randomUUID(),
       duration: "0",
-      coverUrl: campaign.coverUrl ?? '',
+      coverUrl: campaign.coverUrl ?? "",
       status: "inactive" as "inactive",
       players: [],
       tableId: crypto.randomUUID(),

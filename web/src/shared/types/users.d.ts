@@ -1,9 +1,10 @@
 type UserTableRole = "master" | "player"
 
-interface User {
+interface IUser {
   id: string
   name: string
   username: string
+  password?: string
   email: string
   avatarUrl: string | undefined
   coverImage: string | undefined
@@ -22,3 +23,4 @@ interface User {
 interface TableUser extends User {
   role: UserTableRole
 }
+

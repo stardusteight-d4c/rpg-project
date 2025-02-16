@@ -4,11 +4,16 @@ import { currentSession } from "@/shared/contexts/Users/mock-data"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { CreateCampaignModal } from "./components/CreateCampaignModal"
+import { useAuth } from "@/shared/contexts/Auth/AuthContext"
+import { getNameInitials } from "@/shared/utils/getNameInitials"
 
 export const Navbar = () => {
   const [openCreateCampaignModal, setOpenCreateCampaignModal] =
     useState<boolean>(false)
+  const { currentSession, logout } = useAuth()
   const { push } = useRouter()
+
+  if (!currentSession) return null
 
   return (
     <nav className="bg-background fixed inset-x-0 top-0 z-[600] w-screen border-b py-1 border-border shadow-sm shadow-black/50 ">
@@ -103,13 +108,40 @@ export const Navbar = () => {
             </button>
             <span>Notifications</span>
           </div>
+          <div
+            onClick={logout}
+            className="cursor-pointer w-fit flex items-center group gap-x-2"
+          >
+            <button className="bg-ashes group-hover:bg-red-500 relative flex items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50 duration-300 ease-in-out transition-all">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                fill="#FFFFFF"
+                viewBox="0 0 256 256"
+              >
+                <path d="M120,216a8,8,0,0,1-8,8H48a8,8,0,0,1-8-8V40a8,8,0,0,1,8-8h64a8,8,0,0,1,0,16H56V208h56A8,8,0,0,1,120,216Zm109.66-93.66-40-40a8,8,0,0,0-11.32,11.32L204.69,120H112a8,8,0,0,0,0,16h92.69l-26.35,26.34a8,8,0,0,0,11.32,11.32l40-40A8,8,0,0,0,229.66,122.34Z"></path>
+              </svg>
+            </button>
+          </div>
 
-          <img
-            onClick={() => push("/profile/stardusteight")}
-            src={currentSession.avatarUrl}
-            alt=""
-            className="w-[32px] h-[32px] cursor-pointer rounded-full object-cover"
-          />
+          {currentSession.avatarUrl ? (
+            <img
+              onClick={() => push(`/profile/${currentSession.username}`)}
+              src={currentSession.avatarUrl}
+              alt=""
+              className="w-[32px] h-[32px] cursor-pointer rounded-full object-cover"
+            />
+          ) : (
+            <div
+              onClick={() => push(`/profile/${currentSession.username}`)}
+              className="bg-button w-[32px] flex items-center text-center justify-center h-[32px] rounded-full select-none cursor-pointer"
+            >
+              <span className="text-base font-bold">
+                {getNameInitials(currentSession.name)}
+              </span>
+            </div>
+          )}
         </div>
       </div>
     </nav>

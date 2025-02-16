@@ -1,7 +1,15 @@
 interface ICampaignRoute {
   create(campaign: CampaignCreate): Promise<ICampaign>
+  getCampaigns(): Array<ICampaign>
 }
 
 interface IAuthRoute {
-  register(data: AuthRegisterRequest): Promise<AuthRegisterResponse>
+  signUp(data: SignUpDTO): Promise<AuthResponse>
+  signIn(data: SignInDTO): Promise<AuthResponse>
+}
+
+interface IUserRoute {
+  add(user: CreateUserDTO): Promise<IUser>
+  getUsers(): Promise<Array<IUser>>
+  getByUsername(username: string): Promise<IUser | undefined>
 }

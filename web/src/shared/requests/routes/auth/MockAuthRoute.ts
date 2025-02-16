@@ -1,47 +1,74 @@
-export class MockAuthRoute implements IAuthRoute {
-  #users: Array<
-    User & {
-      password: string
-    }
-  >
+import { MockUserRoute } from "../user/MockUserRoute"
 
-  constructor() {
-    this.#users = []
+export class MockAuthRoute implements IAuthRoute {
+  static #instance: MockAuthRoute | null = null
+  inMemoryUserRoute: MockUserRoute
+
+  private constructor() {
+    this.inMemoryUserRoute = MockUserRoute.getInstance()
   }
 
-  public async register(
-    data: AuthRegisterRequest
-  ): Promise<AuthRegisterResponse> {
-    const newUser: User & { password: string } = {
-      id: crypto.randomUUID(),
-      name: data.name,
-      email: data.email,
-      username: data.username,
-      password: data.password,
-      createdAt: new Date().toISOString(),
-      hoursPlayed: 0,
-      avatarUrl: undefined,
-      coverImage: undefined,
-      exp: {
-        current: 0,
-        level: 0,
-        nextLevel: 500,
-      },
-      koalCampaigns: 0,
-      memberSince: new Date().toISOString(),
-      playingCampaigns: 0,
+  public static getInstance(): MockAuthRoute {
+    if (!this.#instance) {
+      this.#instance = new MockAuthRoute()
     }
+    return this.#instance
+  }
 
-    this.#users.push(newUser)
+  public async signUp(data: SignUpDTO): Promise<AuthResponse> {
+    return this.inMemoryUserRoute
+      .add(data)
+      .then((newUser) => {
+        const accessToken = crypto.randomUUID()
+        const refreshToken = crypto.randomUUID()
+        return {
+          user: newUser,
+          accessToken: accessToken,
+          refreshToken: refreshToken,
+        }
+      })
+      .catch((error) => {
+        throw new Error(error.message)
+      })
+  }
 
-    const accessToken = crypto.randomUUID()
+  public async signIn(data: SignInDTO): Promise<AuthResponse> {
+    return this.inMemoryUserRoute
+      .getUsers()
+      .then((users) => {
+        const accessToken = crypto.randomUUID()
+        const refreshToken = crypto.randomUUID()
 
-    const refreshToken = crypto.randomUUID()
+        if (data.email) {
+          const foundUser = users.find((user) => user.email === data.email)
+          if (!foundUser) {
+            throw new Error("User not found.")
+          }
+          if (foundUser.password !== data.password) {
+            throw new Error("Email or password incorret.")
+          }
+          return {
+            user: foundUser,
+            accessToken: accessToken,
+            refreshToken: refreshToken,
+          }
+        }
 
-    return {
-      user: newUser,
-      accessToken: accessToken,
-      refreshToken: refreshToken,
-    }
+        const foundUser = users.find((user) => user.username === data.username)
+        if (!foundUser) {
+          throw new Error("User not found.")
+        }
+        if (foundUser.password !== data.password) {
+          throw new Error("Username or password incorret.")
+        }
+        return {
+          user: foundUser,
+          accessToken: accessToken,
+          refreshToken: refreshToken,
+        }
+      })
+      .catch((error) => {
+        throw new Error(error.message)
+      })
   }
 }

@@ -1,18 +1,14 @@
 "use client"
 
-import React, { createContext, useContext, useState, ReactNode } from "react"
-import { matchUsers } from "./mock-data"
+import React, { createContext, useContext, ReactNode } from "react"
+import { MockAPI } from "@/shared/requests/MockAPI"
 
 interface UsersState {
-  users: User[]
-  addUser: (user: User) => void
-  getByUsername: (username: string) => User | undefined
+  getByUsername: (username: string) => Promise<IUser | undefined>
 }
 
 const defaultState: UsersState = {
-  users: [],
-  addUser: () => {},
-  getByUsername: () => undefined,
+  getByUsername: async () => undefined,
 }
 
 const UsersContext = createContext<UsersState>(defaultState)
@@ -20,18 +16,14 @@ const UsersContext = createContext<UsersState>(defaultState)
 export const UsersProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [users, setUsers] = useState<User[]>(matchUsers)
+  const api = new MockAPI()
 
-  const getByUsername = (username: string) => {
-    return users.find((user) => user.username === username)
-  }
-
-  const addUser = (user: User) => {
-    setUsers((prev) => [...prev, user])
+  const getByUsername = async (username: string) => {
+    return await api.user.getByUsername(username)
   }
 
   return (
-    <UsersContext.Provider value={{ users, addUser, getByUsername }}>
+    <UsersContext.Provider value={{ getByUsername }}>
       {children}
     </UsersContext.Provider>
   )

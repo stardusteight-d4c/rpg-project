@@ -2,11 +2,14 @@
 
 import { GlowingWrapper } from "@/shared/components"
 import { useState } from "react"
-import { useRouter } from "next/navigation"
+import { redirect } from "next/navigation"
 import { Fade } from "react-awesome-reveal"
+import { useAuth } from "@/shared/contexts/Auth/AuthContext"
+import { useToast } from "@/shared/contexts/Toaster/ToasterContext"
 
 export const SignIn = () => {
-  const { push } = useRouter()
+  const { signIn } = useAuth()
+  const { addToast } = useToast()
   const [formData, setFormData] = useState({
     usernameOrEmail: "",
     password: "",
@@ -17,14 +20,39 @@ export const SignIn = () => {
   }
 
   const onClickSignUp = () => {
-    push("/auth/signup")
+    redirect("/auth/signup")
+  }
+
+  const onSignIn = async () => {
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+    const isEmail = emailRegex.test(formData.usernameOrEmail)
+
+    if (formData.usernameOrEmail.length < 1) {
+      return addToast("The Username or Email field cannot be empty.", "error")
+    }
+
+    if (formData.password.length < 1) {
+      return addToast("The Password field cannot be empty.", "error")
+    }
+
+    if (isEmail) {
+      signIn({
+        email: formData.usernameOrEmail,
+        password: formData.password,
+      }).catch((error) => addToast(error.message, "error"))
+    } else {
+      signIn({
+        username: formData.usernameOrEmail,
+        password: formData.password,
+      }).catch((error) => addToast(error.message, "error"))
+    }
   }
 
   return (
     <div className="grid grid-cols-10 h-screen overflow-hidden">
       <section className="col-span-7 relative">
         <h1
-          onClick={() => push("/")}
+          onClick={() => redirect("/")}
           className="font-bold  z-[100] absolute bg-background rounded-full px-2 overflow-hidden py-1 shadow-md shadow-black/50 left-2 top-2 text-3xl cursor-pointer select-none flex gap-y-1"
         >
           <img src="/favicon.png" alt="" className="w-[32px] h-[32px]" />
@@ -84,6 +112,7 @@ export const SignIn = () => {
               name="usernameOrEmail"
               placeholder="Username or Email"
               spellCheck="false"
+              type="text"
               value={formData.usernameOrEmail}
               onChange={handleChange}
               className="py-1 px-2 w-full cursor-text hover:brightness-125 flex items-center gap-x-1 line-clamp-1 rounded-full bg-ashes border border-border outline-none"
@@ -95,12 +124,16 @@ export const SignIn = () => {
               name="password"
               placeholder="Password"
               spellCheck="false"
+              type="password"
               value={formData.password}
               onChange={handleChange}
               className="py-1 px-2 w-full cursor-text hover:brightness-125 flex items-center gap-x-1 line-clamp-1 rounded-full bg-ashes border border-border outline-none"
             />
           </GlowingWrapper>
-          <button className="p-2 font-medium capitalize w-full text-center text-lg bg-button text-white rounded-full">
+          <button
+            onClick={onSignIn}
+            className="p-2 font-medium capitalize w-full text-center text-lg bg-button text-white rounded-full"
+          >
             <span className="text-xl font-bold">Sign in</span>
           </button>
           <span className="text-gray-400">

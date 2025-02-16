@@ -2,15 +2,23 @@
 
 import { Navbar } from "@/shared/components"
 import { useUsers } from "@/shared/contexts/Users/UsersContext"
+import { getNameInitials } from "@/shared/utils/getNameInitials"
 import { useParams, useRouter } from "next/navigation"
+import { useEffect, useState } from "react"
 
 export function ProfileModule() {
+  const [user, setUser] = useState<IUser | undefined>(undefined)
   const params = useParams()
   const username = params.username as string
   const { push } = useRouter()
   const { getByUsername } = useUsers()
 
-  const user = getByUsername(username)
+  useEffect(() => {
+    ;(async () => {
+      const foundUser = await getByUsername(username)
+      setUser(foundUser)
+    })()
+  }, [username])
 
   if (!user) return null
 
@@ -18,15 +26,19 @@ export function ProfileModule() {
     <main className="w-screen relative">
       <Navbar />
 
-      <img
-        src={user.coverImage}
-        alt=""
-        className="pointer-events-none h-[372px] select-none w-screen overflow-hidden object-fill"
-      />
+      {user.coverImage ? (
+        <img
+          src={user.coverImage}
+          alt=""
+          className="pointer-events-none h-[372px] select-none w-screen overflow-hidden object-fill"
+        />
+      ) : (
+        <div className="w-full h-[372px] bg-button"></div>
+      )}
 
       <div className="max-w-7xl h-[150px] z-[500] mx-auto relative">
-        <div className="absolute -top-[55px] left-[200px] flex items-center cursor-pointer gap-x-2">
-          <span className="bg-background shadow-sm shadow-black/50 hover:bg-gradient-to-tr hover:from-[#42d392] hover:to-[#8B5CF6] duration-300 ease-in-out transition-all p-2 rounded-full">
+        <div className="absolute -top-[55px] left-[200px] flex items-center gap-x-2">
+          <span className="bg-background cursor-pointer shadow-sm shadow-black/50 hover:bg-gradient-to-tr hover:from-[#42d392] hover:to-[#8B5CF6] duration-300 ease-in-out transition-all p-2 rounded-full">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="32"
@@ -37,7 +49,7 @@ export function ProfileModule() {
               <path d="M168,56a8,8,0,0,1,8-8h16V32a8,8,0,0,1,16,0V48h16a8,8,0,0,1,0,16H208V80a8,8,0,0,1-16,0V64H176A8,8,0,0,1,168,56Zm62.56,54.68a103.92,103.92,0,1,1-85.24-85.24,8,8,0,0,1-2.64,15.78A88.07,88.07,0,0,0,40,128a87.62,87.62,0,0,0,22.24,58.41A79.66,79.66,0,0,1,98.3,157.66a48,48,0,1,1,59.4,0,79.66,79.66,0,0,1,36.06,28.75A87.62,87.62,0,0,0,216,128a88.85,88.85,0,0,0-1.22-14.68,8,8,0,1,1,15.78-2.64ZM128,152a32,32,0,1,0-32-32A32,32,0,0,0,128,152Zm0,64a87.57,87.57,0,0,0,53.92-18.5,64,64,0,0,0-107.84,0A87.57,87.57,0,0,0,128,216Z"></path>
             </svg>
           </span>
-          <span className="bg-background flex items-center gap-x-2 shadow-sm shadow-black/50 hover:bg-gradient-to-tr hover:from-[#42d392] hover:to-[#8B5CF6] duration-300 ease-in-out transition-all p-2 rounded-full">
+          <span className="bg-background cursor-pointer flex items-center gap-x-2 shadow-sm shadow-black/50 hover:bg-gradient-to-tr hover:from-[#42d392] hover:to-[#8B5CF6] duration-300 ease-in-out transition-all p-2 rounded-full">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="32"
@@ -49,10 +61,12 @@ export function ProfileModule() {
             </svg>
             <span className="text-xl font-medium pr-1">Friends</span>
           </span>
-          <div className="w-[688px] rounded-full shadow-sm shadow-black/50 mx-auto relative bg-background h-[15px]">
+          <div className="w-[688px] pointer-events-none select-none rounded-full shadow-sm shadow-black/50 mx-auto relative bg-background h-[15px]">
             <div
               className="h-full rounded-full background-gradient"
-              style={{ width: `${(user.exp!.current / user.exp!.nextLevel) * 100}%` }}
+              style={{
+                width: `${(user.exp!.current / user.exp!.nextLevel) * 100}%`,
+              }}
             ></div>
             <span className="absolute z-[150] text-sm top-[-2px] left-1/2 -translate-x-1/2">
               {user.exp?.current}/{user.exp?.nextLevel} to Next Level
@@ -96,11 +110,19 @@ export function ProfileModule() {
         </div>
         <div className="w-full z-50 relative">
           <div className="w-[150px] h-[150px] rounded-full object-cover absolute left-[40px] top-[-75px]">
-            <img
-              src={user.avatarUrl}
-              alt=""
-              className="w-[150px] pointer-events-none select-none h-[150px] rounded-full object-cover"
-            />
+            {user.avatarUrl ? (
+              <img
+                src={user.avatarUrl}
+                alt=""
+                className="w-[150px] pointer-events-none select-none h-[150px] rounded-full object-cover"
+              />
+            ) : (
+              <div className="bg-button w-[150px] flex items-center text-center justify-center h-[150px] rounded-full select-none pointer-events-none">
+                <span className="text-5xl font-bold">
+                  {getNameInitials(user.name)}
+                </span>
+              </div>
+            )}
             <div className="bg-background pointer-events-none select-none text-lg font-bold shadow-sm shadow-black/50 absolute bottom-[10px] right-[0px] w-[32px] h-[32px] rounded-full flex items-center justify-center">
               {user.exp?.level}
             </div>
@@ -165,7 +187,7 @@ export function ProfileModule() {
           </div>
 
           <div className="absolute left-[200px]">
-            <h2 className="text-5xl leading-[70px] pointer-events-none -mt-2 font-bold background-gradient text-transparent bg-clip-text">
+            <h2 className="text-5xl lowercase leading-[70px] pointer-events-none -mt-2 font-bold background-gradient text-transparent bg-clip-text">
               #{user.username}
             </h2>
           </div>

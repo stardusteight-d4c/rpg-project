@@ -2,7 +2,7 @@
 
 import { GlowingWrapper } from "@/shared/components"
 import { useState } from "react"
-import { useRouter } from "next/navigation"
+import { redirect, useRouter } from "next/navigation"
 import { Fade } from "react-awesome-reveal"
 import { useAuth } from "@/shared/contexts/Auth/AuthContext"
 import { useToast } from "@/shared/contexts/Toaster/ToasterContext"
@@ -10,7 +10,6 @@ import { useToast } from "@/shared/contexts/Toaster/ToasterContext"
 export const SignUp = () => {
   const { addToast } = useToast()
   const { signUp } = useAuth()
-  const { push } = useRouter()
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -24,16 +23,32 @@ export const SignUp = () => {
   }
 
   const onClickSignIn = () => {
-    push("/auth/signin")
+    redirect("/auth/signin")
   }
 
-  const onSignUp = () => {
-    const { username, email, password, confirmPassword } = formData
+  const onSignUp = async () => {
+    const { name, username, email, password, confirmPassword } = formData
 
-    const usernameRegex = /^[a-zA-Z0-9-.]{4,}$/
+    const nameRegex = /^[A-Za-zÀ-ÖØ-öø-ÿ]+ [A-Za-zÀ-ÖØ-öø-ÿ]+$/
+    const usernameRegex = /^[a-z0-9]+$/
+
+    if (!nameRegex.test(name)) {
+      return addToast(
+        "The name must follow the format: [Name] [Surname]",
+        "error"
+      )
+    }
+
     if (!usernameRegex.test(username)) {
       return addToast(
-        "Username must be at least 4 characters and contain only letters, numbers, hyphen or dot.",
+        "Username must be at least 4 characters and contain only letters and numbers.",
+        "error"
+      )
+    }
+
+    if (!usernameRegex.test(username)) {
+      return addToast(
+        "The username must be in lowercase, have at least 4 characters and contain only letters and numbers.",
         "error"
       )
     }
@@ -50,13 +65,15 @@ export const SignUp = () => {
     if (password !== confirmPassword) {
       return addToast("Passwords do not match.", "error")
     }
+
+    signUp(formData).catch((error) => addToast(error.message, "error"))
   }
 
   return (
     <div className="grid grid-cols-10 h-screen overflow-hidden">
       <section className="col-span-7 relative">
         <h1
-          onClick={() => push("/")}
+          onClick={() => redirect("/")}
           className="font-bold  z-[100] absolute bg-background rounded-full px-2 overflow-hidden py-1 shadow-md shadow-black/50 left-2 top-2 text-3xl cursor-pointer select-none flex gap-y-1"
         >
           <img src="/favicon.png" alt="" className="w-[32px] h-[32px]" />

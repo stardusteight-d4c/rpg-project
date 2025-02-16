@@ -1,11 +1,9 @@
 "use client"
 
-import { useRouter } from "next/navigation"
-import { CampaignModule } from "../Campaign"
 import { Footer } from "@/shared/components"
+import { redirect } from "next/navigation"
 
 export function HomeModule() {
-  const { push } = useRouter()
 
   return (
     <main>
@@ -20,7 +18,7 @@ export function HomeModule() {
           </h1>
           <div className="flex items-center gap-x-4">
             <div
-              onClick={() => push("/auth/signin")}
+              onClick={() => redirect("/auth/signin")}
               className="cursor-pointer w-fit flex items-center group gap-x-2"
             >
               <button className="bg-ashes flex items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50 group-hover:bg-gradient-to-tr group-hover:from-[#42d392] group-hover:to-[#8B5CF6] duration-300 ease-in-out transition-all">
@@ -37,7 +35,7 @@ export function HomeModule() {
               <span>Sign in</span>
             </div>
             <div
-              onClick={() => push("/auth/signup")}
+              onClick={() => redirect("/auth/signup")}
               className="cursor-pointer w-fit flex items-center group gap-x-2"
             >
               <button className="bg-ashes flex items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50 group-hover:bg-gradient-to-tr group-hover:from-[#42d392] group-hover:to-[#8B5CF6] duration-300 ease-in-out transition-all">
@@ -75,7 +73,7 @@ export function HomeModule() {
               Create campaigns, customize sheets and connect with your friends.
             </span>
             <button
-            onClick={() => push("/auth/signup")}
+            onClick={() => redirect("/auth/signup")}
             className="p-2 font-medium capitalize w-[150px] mt-2 text-center text-lg background-gradient text-white rounded-full">
               <span className="text-xl font-bold">Sign up</span>
             </button>
