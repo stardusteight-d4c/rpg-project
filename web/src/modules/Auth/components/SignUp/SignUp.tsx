@@ -5,9 +5,10 @@ import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { Fade } from "react-awesome-reveal"
 import { useAuth } from "@/shared/contexts/Auth/AuthContext"
-import { toast } from "react-toastify"
+import { useToast } from "@/shared/contexts/Toaster/ToasterContext"
 
 export const SignUp = () => {
+  const { addToast } = useToast()
   const { signUp } = useAuth()
   const { push } = useRouter()
   const [formData, setFormData] = useState({
@@ -31,22 +32,23 @@ export const SignUp = () => {
 
     const usernameRegex = /^[a-zA-Z0-9-.]{4,}$/
     if (!usernameRegex.test(username)) {
-      return toast.error(
-        "Username must be at least 4 characters and contain only letters, numbers, hyphen or dot."
+      return addToast(
+        "Username must be at least 4 characters and contain only letters, numbers, hyphen or dot.",
+        "error"
       )
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     if (!emailRegex.test(email)) {
-      return toast.error("Invalid email address.")
+      return addToast("Invalid email address.", "error")
     }
 
     if (password.length < 8) {
-      return toast.error("Password must be at least 8 characters long.")
+      return addToast("Password must be at least 8 characters long.", "error")
     }
 
     if (password !== confirmPassword) {
-      return toast.error("Passwords do not match.")
+      return addToast("Passwords do not match.", "error")
     }
   }
 

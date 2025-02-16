@@ -7,9 +7,11 @@ import { RollsProvider } from "./Rolls/RollsContext"
 import { AuthProvider } from "./Auth/AuthContext"
 import { FeedProvider } from "./Feed/FeedContext"
 import { CampaignsProvider } from "./Campaigns/CampaignsContext"
+import { ToastProvider } from "./Toaster/ToasterContext"
 
 export const providers = [
   AuthProvider,
+  ToastProvider,
   CampaignsProvider,
   FeedProvider,
   RollsProvider,
