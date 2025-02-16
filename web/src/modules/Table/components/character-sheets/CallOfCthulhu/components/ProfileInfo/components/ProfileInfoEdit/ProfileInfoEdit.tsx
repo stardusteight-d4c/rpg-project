@@ -9,7 +9,7 @@ import {
 import { currentSession } from "@/shared/contexts/Users/mock-data"
 import { handleCharacterTooltipText } from "@/shared/utils/handleCharacterTooltipText"
 import { handleCharacterVisibilityTooltipText } from "@/shared/utils/handleCharacterVisibilityTooltipText"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useCharacters } from "@/shared/contexts/Characters/CharactersContext"
 import { randomUUID } from "node:crypto"
 
@@ -27,6 +27,18 @@ export const ProfileInfoEdit: React.FC<{ character: ICharacter }> = ({
       : "player",
     characterFile: null,
   })
+
+  useEffect(() => {
+    setEditableData({
+      ...character.infos,
+      type: character.infos.type
+        ? character.infos.type
+        : currentSession.role === "master"
+        ? "npc"
+        : "player",
+      characterFile: null,
+    })
+  }, [character])
 
   const handleEdit = (field: string, value: any) => {
     setEditableData((prev) => ({ ...prev, [field]: value }))
@@ -347,7 +359,11 @@ export const ProfileInfoEdit: React.FC<{ character: ICharacter }> = ({
               <div className="w-full bg-gray-600/10 overflow-hidden h-3 rounded-full">
                 <div
                   className="h-full rounded-full bg-gradient-to-tr from-red-600 to-red-400"
-                  style={{ width: `${editableData.hitPoints}%` }}
+                  style={{
+                    width: `${
+                      (editableData.hitPoints / editableData.maxHitPoints) * 100
+                    }%`,
+                  }}
                 ></div>
               </div>
             </div>
@@ -364,7 +380,12 @@ export const ProfileInfoEdit: React.FC<{ character: ICharacter }> = ({
               <div className="w-full bg-gray-600/10 overflow-hidden h-3 rounded-full">
                 <div
                   className="h-full rounded-full bg-gradient-to-tr from-blue-600 to-blue-400"
-                  style={{ width: `${editableData.magicPoints}%` }}
+                  style={{
+                    width: `${
+                      (editableData.magicPoints / editableData.maxMagicPoints) *
+                      100
+                    }%`,
+                  }}
                 ></div>
               </div>
             </div>
@@ -401,7 +422,9 @@ export const ProfileInfoEdit: React.FC<{ character: ICharacter }> = ({
                 </defs>
               </svg>
               <DonutChart
-                percentage={editableData.sanity}
+                percentage={
+                  (editableData.sanity / editableData.maxSanity) * 100
+                }
                 size={80}
                 strokeWidth={10}
               />

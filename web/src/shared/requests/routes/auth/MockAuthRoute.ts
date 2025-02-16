@@ -42,7 +42,7 @@ export class MockAuthRoute implements IAuthRoute {
         if (data.email) {
           const foundUser = users.find((user) => user.email === data.email)
           if (!foundUser) {
-            throw new Error("User not found.")
+            throw new Error("There is no user with this email.")
           }
           if (foundUser.password !== data.password) {
             throw new Error("Email or password incorret.")
@@ -56,7 +56,7 @@ export class MockAuthRoute implements IAuthRoute {
 
         const foundUser = users.find((user) => user.username === data.username)
         if (!foundUser) {
-          throw new Error("User not found.")
+          throw new Error("There is no user with this username.")
         }
         if (foundUser.password !== data.password) {
           throw new Error("Username or password incorret.")

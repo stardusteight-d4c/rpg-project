@@ -3,7 +3,7 @@
 import { useCharacters } from "@/shared/contexts/Characters/CharactersContext"
 import { CustomNumericInput, GlowingWrapper } from "@/shared/components"
 import { randomUUID } from "crypto"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 interface SkillsEditProps {
   activeItems: (
@@ -27,6 +27,10 @@ export const SkillsEdit = ({
 }: SkillsEditProps) => {
   const { updateCopyCharacter } = useCharacters()
   const [editableData, setEditableData] = useState(character.skills)
+
+  useEffect(() => {
+    setEditableData(character.skills)
+  }, [character])
 
   const handleEdit = (name: string, field: string, value: any) => {
     const updatedSkills = editableData.map((skill) =>

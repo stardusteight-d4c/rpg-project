@@ -1,7 +1,7 @@
 import { useCharacters } from "@/shared/contexts/Characters/CharactersContext"
 import { CustomNumericInput, GlowingWrapper } from "@/shared/components"
 import { randomUUID } from "node:crypto"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 interface AttributesEditProps {
   activeItems: (
@@ -24,9 +24,11 @@ export const AttributesEdit = ({
   toggleItem,
 }: AttributesEditProps) => {
   const { updateCopyCharacter } = useCharacters()
-  const [editableData, setEditableData] = useState({
-    ...character.attributes,
-  })
+  const [editableData, setEditableData] = useState(character.attributes)
+
+  useEffect(() => {
+    setEditableData(character.attributes)
+  }, [character])
 
   const handleEdit = (field: string, value: any) => {
     setEditableData((prev) => ({ ...prev, [field]: value }))

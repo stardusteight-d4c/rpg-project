@@ -10,6 +10,7 @@ import { useToast } from "@/shared/contexts/Toaster/ToasterContext"
 export const SignUp = () => {
   const { addToast } = useToast()
   const { signUp } = useAuth()
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -27,26 +28,24 @@ export const SignUp = () => {
   }
 
   const onSignUp = async () => {
+    if (isLoading) return
+    setIsLoading(true)
+
     const { name, username, email, password, confirmPassword } = formData
 
     const nameRegex = /^[A-Za-zÀ-ÖØ-öø-ÿ]+ [A-Za-zÀ-ÖØ-öø-ÿ]+$/
     const usernameRegex = /^[a-z0-9]+$/
 
     if (!nameRegex.test(name)) {
+      setIsLoading(false)
       return addToast(
-        "The name must follow the format: [Name] [Surname]",
+        `The name must follow the format "Name Surname"`,
         "error"
       )
     }
 
     if (!usernameRegex.test(username)) {
-      return addToast(
-        "Username must be at least 4 characters and contain only letters and numbers.",
-        "error"
-      )
-    }
-
-    if (!usernameRegex.test(username)) {
+      setIsLoading(false)
       return addToast(
         "The username must be in lowercase, have at least 4 characters and contain only letters and numbers.",
         "error"
@@ -55,18 +54,25 @@ export const SignUp = () => {
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     if (!emailRegex.test(email)) {
+      setIsLoading(false)
       return addToast("Invalid email address.", "error")
     }
 
     if (password.length < 8) {
+      setIsLoading(false)
       return addToast("Password must be at least 8 characters long.", "error")
     }
 
     if (password !== confirmPassword) {
+      setIsLoading(false)
       return addToast("Passwords do not match.", "error")
     }
-
-    signUp(formData).catch((error) => addToast(error.message, "error"))
+    signUp(formData)
+      .then(() => setIsLoading(false))
+      .catch((error) => {
+        setIsLoading(false)
+        addToast(error.message, "error")
+      })
   }
 
   return (
@@ -188,9 +194,28 @@ export const SignUp = () => {
           </GlowingWrapper>
           <button
             onClick={onSignUp}
-            className="p-2 font-medium capitalize w-full text-center text-lg bg-button text-white rounded-full"
+            className={`${
+              isLoading && " cursor-not-allowed select-none brightness-90 "
+            } p-2 font-medium capitalize w-full text-center text-lg bg-button text-white rounded-full`}
           >
-            <span className="text-xl font-bold">Sign up</span>
+            <span className="text-xl font-bold">
+              {isLoading ? (
+                <div className="w-fit mx-auto">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="32"
+                    height="32"
+                    fill="#6b7280"
+                    className="animate-spin"
+                    viewBox="0 0 256 256"
+                  >
+                    <path d="M232,128a104,104,0,0,1-208,0c0-41,23.81-78.36,60.66-95.27a8,8,0,0,1,6.68,14.54C60.15,61.59,40,93.27,40,128a88,88,0,0,0,176,0c0-34.73-20.15-66.41-51.34-80.73a8,8,0,0,1,6.68-14.54C208.19,49.64,232,87,232,128Z"></path>
+                  </svg>
+                </div>
+              ) : (
+                "Sign up"
+              )}
+            </span>
           </button>
           <span className="text-gray-400">
             Already have an account?{" "}

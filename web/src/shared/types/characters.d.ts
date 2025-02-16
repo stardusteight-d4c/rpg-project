@@ -9,8 +9,11 @@ type Infos = {
   characterUrl: string
   occupation: string
   hitPoints: number
+  maxHitPoints: number
   magicPoints: number
+  maxMagicPoints: number
   sanity: number
+  maxSanity: number
   inspiration: boolean
 }
 
@@ -86,7 +89,6 @@ type InventoryItem = {
 }
 
 type Skill = {
-  id: string
   name: string
   baseValue: number | "half DEX" | "EDU"
   currentValue: number

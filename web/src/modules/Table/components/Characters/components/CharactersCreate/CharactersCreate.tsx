@@ -15,12 +15,16 @@ import { useUsers } from "@/shared/contexts/Users/UsersContext"
 import { currentSession } from "@/shared/contexts/Users/mock-data"
 
 interface CharactersCreateProps {
-  setCreateMode: (value: boolean) => void
+  setCreateMode?: (value: boolean) => void
+  isModal?: boolean
 }
-export const CharactersCreate = ({ setCreateMode }: CharactersCreateProps) => {
+export const CharactersCreate = ({
+  setCreateMode,
+  isModal = false,
+}: CharactersCreateProps) => {
   const { addCharacter, updateCopyCharacter, copyCharacters, characters } =
     useCharacters()
-  const [initialData, setInitialData] = useState({
+  const [initialData, setInitialData] = useState<any>({
     ...mockInitialData,
     id: crypto.randomUUID(),
   })
@@ -45,7 +49,91 @@ export const CharactersCreate = ({ setCreateMode }: CharactersCreateProps) => {
     )
     if (!createdCharacter) return null
     addCharacter(createdCharacter)
-    setCreateMode(false)
+    setCreateMode && setCreateMode(false)
+  }
+
+  function rollDice(sides: number, rolls: number): number {
+    return Array.from(
+      { length: rolls },
+      () => Math.floor(Math.random() * sides) + 1
+    ).reduce((a, b) => a + b, 0)
+  }
+
+  function distributePointsRandomly(skills: any[], totalPoints: number) {
+    let remainingPoints = totalPoints
+
+    while (remainingPoints > 0) {
+      const skillIndex = Math.floor(Math.random() * skills.length)
+      const pointsToAdd = Math.min(
+        5 + Math.floor(Math.random() * 10),
+        remainingPoints
+      ) 
+      skills[skillIndex].currentValue += pointsToAdd
+      remainingPoints -= pointsToAdd
+    }
+
+    return skills
+  }
+
+  function initializeSkills(
+    attributes: any,
+    occupationalPoints: number,
+    freePoints: number
+  ) {
+    let updatedSkills = initialData.skills!.map((skill: any) => ({
+      ...skill,
+      currentValue:
+        skill.baseValue === "half DEX"
+          ? Math.floor(attributes.dexterity / 2)
+          : skill.baseValue === "EDU"
+          ? attributes.education
+          : skill.baseValue,
+    }))
+
+    updatedSkills = distributePointsRandomly(updatedSkills, occupationalPoints)
+    updatedSkills = distributePointsRandomly(updatedSkills, freePoints)
+
+    return updatedSkills
+  }
+
+  function autoGenerate() {
+    const attributes = {
+      strength: rollDice(6, 3) * 5,
+      dexterity: rollDice(6, 3) * 5,
+      intelligence: (rollDice(6, 2) + 6) * 5,
+      power: rollDice(6, 3) * 5,
+      constitution: rollDice(6, 3) * 5,
+      appearance: rollDice(6, 3) * 5,
+      size: (rollDice(6, 2) + 6) * 5,
+      education: (rollDice(6, 2) + 6) * 5,
+      luck: rollDice(6, 3) * 5,
+    }
+
+    const hitPoints = Math.floor(
+      (attributes.constitution + attributes.size) / 10
+    )
+    const magicPoints = Math.floor(attributes.power / 5)
+    const sanity = attributes.power
+
+    const occupationalPoints = attributes.education * 4
+    const freePoints = attributes.intelligence * 2
+
+    const skills = initializeSkills(attributes, occupationalPoints, freePoints)
+
+    setInitialData({
+      ...initialData,
+      infos: {
+        ...initialData.infos,
+        maxHitPoints: hitPoints,
+        maxMagicPoints: magicPoints,
+        maxSanity: sanity,
+        hitPoints,
+        magicPoints,
+        sanity,
+      },
+      attributes: attributes,
+      skills: skills,
+    })
   }
 
   function toggleItem(
@@ -64,11 +152,47 @@ export const CharactersCreate = ({ setCreateMode }: CharactersCreateProps) => {
     <section className="relative w-full h-screen overflow-y-scroll no-scrollbar">
       <div className="sticky z-[200] border-b border-border shadow-sm shadow-black/50 top-0 p-2 w-full inset-x-0 bg-background">
         <div className="flex items-center gap-x-4">
+          {!isModal && (
+            <div
+              onClick={() => setCreateMode && setCreateMode(false)}
+              className="cursor-pointer w-fit flex items-center group gap-x-2"
+            >
+              <button className="bg-ashes flex items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50 group-hover:bg-gradient-to-tr group-hover:from-[#42d392] group-hover:to-[#8B5CF6] duration-300 ease-in-out transition-all">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  fill="#FFFFFF"
+                  viewBox="0 0 256 256"
+                >
+                  <path d="M224,128a8,8,0,0,1-8,8H59.31l58.35,58.34a8,8,0,0,1-11.32,11.32l-72-72a8,8,0,0,1,0-11.32l72-72a8,8,0,0,1,11.32,11.32L59.31,120H216A8,8,0,0,1,224,128Z"></path>
+                </svg>
+              </button>
+              <span>Back</span>
+            </div>
+          )}
+          {!isModal && (
+            <div className="flex cursor-pointer items-center group w-fit gap-x-2">
+              <button className="flex items-center justify-center text-gray-500 p-1 rounded-full  shadow-md shadow-black/50 bg-gradient-to-tr from-[#42d392] to-[#8B5CF6] duration-300 ease-in-out transition-all">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  fill="#FFFFFF"
+                  viewBox="0 0 256 256"
+                >
+                  <path d="M227.32,73.37,182.63,28.69a16,16,0,0,0-22.63,0L36.69,152A15.86,15.86,0,0,0,32,163.31V208a16,16,0,0,0,16,16H216a8,8,0,0,0,0-16H115.32l112-112A16,16,0,0,0,227.32,73.37ZM92.69,208H48V163.31l88-88L180.69,120ZM192,108.69,147.32,64l24-24L216,84.69Z"></path>
+                </svg>
+              </button>
+              <span>Create Character</span>
+            </div>
+          )}
+
           <div
-            onClick={() => setCreateMode(false)}
             className="cursor-pointer w-fit flex items-center group gap-x-2"
+            onClick={autoGenerate}
           >
-            <button className="bg-ashes flex items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50 group-hover:bg-gradient-to-tr group-hover:from-[#42d392] group-hover:to-[#8B5CF6] duration-300 ease-in-out transition-all">
+            <button className="bg-ashes flex items-center justify-center text-white p-1 rounded-full shadow-p group-hover:bg-gradient-to-tr group-hover:from-violet-600 group-hover:to-pink-500 duration-300 ease-in-out transition-all">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -76,24 +200,10 @@ export const CharactersCreate = ({ setCreateMode }: CharactersCreateProps) => {
                 fill="#FFFFFF"
                 viewBox="0 0 256 256"
               >
-                <path d="M224,128a8,8,0,0,1-8,8H59.31l58.35,58.34a8,8,0,0,1-11.32,11.32l-72-72a8,8,0,0,1,0-11.32l72-72a8,8,0,0,1,11.32,11.32L59.31,120H216A8,8,0,0,1,224,128Z"></path>
+                <path d="M200,48H136V16a8,8,0,0,0-16,0V48H56A32,32,0,0,0,24,80V192a32,32,0,0,0,32,32H200a32,32,0,0,0,32-32V80A32,32,0,0,0,200,48Zm16,144a16,16,0,0,1-16,16H56a16,16,0,0,1-16-16V80A16,16,0,0,1,56,64H200a16,16,0,0,1,16,16Zm-52-56H92a28,28,0,0,0,0,56h72a28,28,0,0,0,0-56Zm-24,16v24H116V152ZM80,164a12,12,0,0,1,12-12h8v24H92A12,12,0,0,1,80,164Zm84,12h-8V152h8a12,12,0,0,1,0,24ZM72,108a12,12,0,1,1,12,12A12,12,0,0,1,72,108Zm88,0a12,12,0,1,1,12,12A12,12,0,0,1,160,108Z"></path>
               </svg>
             </button>
-            <span>Back</span>
-          </div>
-          <div className="flex cursor-pointer items-center group w-fit gap-x-2">
-            <button className="flex items-center justify-center text-gray-500 p-1 rounded-full  shadow-md shadow-black/50 bg-gradient-to-tr from-[#42d392] to-[#8B5CF6] duration-300 ease-in-out transition-all">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                fill="#FFFFFF"
-                viewBox="0 0 256 256"
-              >
-                <path d="M227.32,73.37,182.63,28.69a16,16,0,0,0-22.63,0L36.69,152A15.86,15.86,0,0,0,32,163.31V208a16,16,0,0,0,16,16H216a8,8,0,0,0,0-16H115.32l112-112A16,16,0,0,0,227.32,73.37ZM92.69,208H48V163.31l88-88L180.69,120ZM192,108.69,147.32,64l24-24L216,84.69Z"></path>
-              </svg>
-            </button>
-            <span>Create Character</span>
+            <span>Auto Generate</span>
           </div>
           <div
             onClick={onCreate}
@@ -114,6 +224,7 @@ export const CharactersCreate = ({ setCreateMode }: CharactersCreateProps) => {
           </div>
         </div>
       </div>
+
       <div className="p-2">
         <ProfileInfo character={initialData} isEditMode />
         <Attributes character={initialData} {...actions} isEditMode />
