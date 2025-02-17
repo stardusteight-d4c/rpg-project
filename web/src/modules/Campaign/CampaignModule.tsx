@@ -4,11 +4,11 @@ import { Navbar, Tooltip } from "@/shared/components"
 import { useCampaigns } from "@/shared/contexts/Campaigns/CampaignsContext"
 import { useCharacters } from "@/shared/contexts/Characters/CharactersContext"
 import { useParams, useRouter } from "next/navigation"
-import { convertTimestamp } from "../Table/utils/convertTimestamp"
 import { countTimeago } from "@/shared/utils/countTimeago"
 import { useEffect, useState } from "react"
 import { useFeed } from "@/shared/contexts/Feed/FeedContext"
 import { Post } from "../Feed/components/Post/Post"
+import { convertTimestamp } from "@/shared/utils/convertTimestamp"
 
 export function CampaignModule() {
   const params = useParams()

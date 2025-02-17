@@ -20,7 +20,7 @@ interface IUser {
   createdAt: string
 }
 
-interface TableUser extends User {
+interface TableUser extends IUser {
   role: UserTableRole
 }
 

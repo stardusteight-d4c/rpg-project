@@ -1,4 +1,4 @@
-import { convertTimestamp } from "@/modules/Table/utils/convertTimestamp"
+import { convertTimestamp } from "@/shared/utils/convertTimestamp"
 import React from "react"
 
 export const PlayerNotification: React.FC<{ notification: INotification }> = ({

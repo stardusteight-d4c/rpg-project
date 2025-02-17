@@ -5,7 +5,7 @@ import { CharacterRoll, Sender, SystemRoll } from "./components"
 import { ModalWrapper } from "@/shared/components/ModalWrapper/ModalWrapper"
 import { Dice } from "../Dice"
 import { useRolls } from "../../../../shared/contexts/Rolls/RollsContext"
-import { convertTimestamp } from "../../utils/convertTimestamp"
+import { convertTimestamp } from "../../../../shared/utils/convertTimestamp"
 
 export const Actions = () => {
   const { rolls, openDiceModal, setOpenDiceModal } = useRolls()

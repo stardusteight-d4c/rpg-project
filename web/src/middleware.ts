@@ -1,22 +1,27 @@
 import { NextRequest, NextResponse } from "next/server"
 
 export async function middleware(req: NextRequest) {
-  // const { getToken } = useAuth()
-  // const token = getToken()
+  // const currentSession = req.cookies.get("currentSession")?.value
+  // // ver se tokens são válidos etc...
 
-  // if (!token && !req.nextUrl.pathname.startsWith("/auth")) {
+  // if (currentSession && req.nextUrl.pathname.startsWith("/auth")) {
+  //   return NextResponse.redirect(new URL("/feed", req.url))
+  // }
+
+  // if (currentSession && req.nextUrl.pathname === "/") {
+  //   return NextResponse.redirect(new URL("/feed", req.url))
+  // }
+
+
+  // if (!currentSession && !req.nextUrl.pathname.startsWith("/auth")) {
   //   return NextResponse.redirect(new URL("/auth/signin", req.url))
   // }
 
-  // if (token && req.nextUrl.pathname.startsWith("/auth")) {
-  //   return NextResponse.redirect(
-  //     new URL("/table/118c3962-fbbc-4dc0-8381-0f0d0a1afa38", req.url)
-  //   )
-  // }
 
   return NextResponse.next()
 }
 
 export const config = {
-  matcher: ["/auth/:path*"],
+  matcher: ["/auth/:path*", "/feed/:path*", "/"],
 }
+

@@ -1,11 +1,15 @@
 import { GlowingWrapper, ModalWrapper } from "@/shared/components"
 import { useAuth } from "@/shared/contexts/Auth/AuthContext"
+import { useUsers } from "@/shared/contexts/Users/UsersContext"
+import { convertTimestamp } from "@/shared/utils/convertTimestamp"
 import { getNameInitials } from "@/shared/utils/getNameInitials"
 import { useState } from "react"
 
 export const Header: React.FC<{ user: IUser }> = ({ user }) => {
   const { currentSession } = useAuth()
+  const { update } = useUsers()
   const [editableData, setEditableData] = useState({
+    id: user.id,
     name: user.name,
     username: user.username,
     avatarUrl: user.avatarUrl,
@@ -59,9 +63,17 @@ export const Header: React.FC<{ user: IUser }> = ({ user }) => {
     }
   }
 
+  const onSave = async () => {
+    const { coverImageFile, avatarUrlFile, ...data } = editableData
+    const updatedUser = await update(data)
+    if (updatedUser) {
+      setIsOpenEditModal("close")
+    }
+  }
+
   return (
     <>
-      {/* {isOpenEditModal === "open" && (
+      {isOpenEditModal === "open" && (
         <ModalWrapper
           showCloseIcon={false}
           onStatusChange={setIsOpenEditModal}
@@ -81,7 +93,7 @@ export const Header: React.FC<{ user: IUser }> = ({ user }) => {
             className="hidden"
             onChange={handleAvatarFileChange}
           />
-          <div className="w-[700px] p-1 h-[487px]">
+          <div className="w-[700px] p-1 h-fit">
             <div className="relative h-fit">
               {editableData.coverImage ? (
                 <img
@@ -159,10 +171,16 @@ export const Header: React.FC<{ user: IUser }> = ({ user }) => {
                   />
                 </GlowingWrapper>
               </div>
+              <button
+                onClick={onSave}
+                className="p-2 font-medium col-span-1 capitalize w-full text-center text-lg bg-green-500 text-white rounded-full"
+              >
+                <span className="text-xl font-bold">Update</span>
+              </button>
             </div>
           </div>
         </ModalWrapper>
-      )} */}
+      )}
       {user.coverImage ? (
         <img
           src={user.coverImage}
@@ -200,7 +218,7 @@ export const Header: React.FC<{ user: IUser }> = ({ user }) => {
             </svg>
             <span className="text-xl font-medium pr-1">Friends</span>
           </span>
-          <div className="w-[688px] pointer-events-none select-none rounded-full shadow-sm shadow-black/50 mx-auto relative bg-background h-[15px]">
+          {/* <div className="w-[688px] pointer-events-none select-none rounded-full shadow-sm shadow-black/50 mx-auto relative bg-background h-[15px]">
             <div
               className="h-full rounded-full background-gradient"
               style={{
@@ -210,43 +228,8 @@ export const Header: React.FC<{ user: IUser }> = ({ user }) => {
             <span className="absolute z-[150] text-sm top-[-2px] left-1/2 -translate-x-1/2">
               {user.exp?.current}/{user.exp?.nextLevel} to Next Level
             </span>
-          </div>
+          </div> */}
         </div>
-        {/* <div className="absolute -top-[55px] right-[40px] flex items-center gap-x-2">
-          <span className="bg-background cursor-pointer shadow-sm shadow-black/50 hover:bg-gradient-to-tr hover:from-[#42d392] hover:to-[#8B5CF6] duration-300 ease-in-out transition-all p-2 rounded-full">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="32"
-              height="32"
-              fill="#FFFFFF"
-              viewBox="0 0 256 256"
-            >
-              <path d="M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160ZM176,24H80A56.06,56.06,0,0,0,24,80v96a56.06,56.06,0,0,0,56,56h96a56.06,56.06,0,0,0,56-56V80A56.06,56.06,0,0,0,176,24Zm40,152a40,40,0,0,1-40,40H80a40,40,0,0,1-40-40V80A40,40,0,0,1,80,40h96a40,40,0,0,1,40,40ZM192,76a12,12,0,1,1-12-12A12,12,0,0,1,192,76Z"></path>
-            </svg>
-          </span>
-          <span className="bg-background cursor-pointer shadow-sm shadow-black/50 hover:bg-gradient-to-tr hover:from-[#42d392] hover:to-[#8B5CF6] duration-300 ease-in-out transition-all p-2 rounded-full">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="32"
-              height="32"
-              fill="#FFFFFF"
-              viewBox="0 0 256 256"
-            >
-              <path d="M214.75,211.71l-62.6-98.38,61.77-67.95a8,8,0,0,0-11.84-10.76L143.24,99.34,102.75,35.71A8,8,0,0,0,96,32H48a8,8,0,0,0-6.75,12.3l62.6,98.37-61.77,68a8,8,0,1,0,11.84,10.76l58.84-64.72,40.49,63.63A8,8,0,0,0,160,224h48a8,8,0,0,0,6.75-12.29ZM164.39,208,62.57,48h29L193.43,208Z"></path>
-            </svg>
-          </span>
-          <span className="bg-background cursor-pointer shadow-sm shadow-black/50 hover:bg-gradient-to-tr hover:from-[#42d392] hover:to-[#8B5CF6] duration-300 ease-in-out transition-all p-2 rounded-full">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="32"
-              height="32"
-              fill="#FFFFFF"
-              viewBox="0 0 256 256"
-            >
-              <path d="M104,140a12,12,0,1,1-12-12A12,12,0,0,1,104,140Zm60-12a12,12,0,1,0,12,12A12,12,0,0,0,164,128Zm74.45,64.9-67,29.71a16.17,16.17,0,0,1-21.71-9.1l-8.11-22q-6.72.45-13.63.46t-13.63-.46l-8.11,22a16.18,16.18,0,0,1-21.71,9.1l-67-29.71a15.93,15.93,0,0,1-9.06-18.51L38,58A16.07,16.07,0,0,1,51,46.14l36.06-5.93a16.22,16.22,0,0,1,18.26,11.88l3.26,12.84Q118.11,64,128,64t19.4.93l3.26-12.84a16.21,16.21,0,0,1,18.26-11.88L205,46.14A16.07,16.07,0,0,1,218,58l29.53,116.38A15.93,15.93,0,0,1,238.45,192.9ZM232,178.28,202.47,62s0,0-.08,0L166.33,56a.17.17,0,0,0-.17,0l-2.83,11.14c5,.94,10,2.06,14.83,3.42A8,8,0,0,1,176,86.31a8.09,8.09,0,0,1-2.16-.3A172.25,172.25,0,0,0,128,80a172.25,172.25,0,0,0-45.84,6,8,8,0,1,1-4.32-15.4c4.82-1.36,9.78-2.48,14.82-3.42L89.83,56s0,0-.12,0h0L53.61,61.93a.17.17,0,0,0-.09,0L24,178.33,91,208a.23.23,0,0,0,.22,0L98,189.72a173.2,173.2,0,0,1-20.14-4.32A8,8,0,0,1,82.16,170,171.85,171.85,0,0,0,128,176a171.85,171.85,0,0,0,45.84-6,8,8,0,0,1,4.32,15.41A173.2,173.2,0,0,1,158,189.72L164.75,208a.22.22,0,0,0,.21,0Z"></path>
-            </svg>
-          </span>
-        </div> */}
         <div className="w-full z-50 relative">
           <div className="w-[150px] h-[150px] rounded-full object-cover absolute left-[40px] top-[-75px]">
             {user.avatarUrl ? (
@@ -262,7 +245,7 @@ export const Header: React.FC<{ user: IUser }> = ({ user }) => {
                 </span>
               </div>
             )}
-            {/* <svg
+            <svg
               onClick={() => setIsOpenEditModal("open")}
               xmlns="http://www.w3.org/2000/svg"
               width="32"
@@ -272,7 +255,7 @@ export const Header: React.FC<{ user: IUser }> = ({ user }) => {
               className="absolute top-[10px] z-50 right-0 bg-background cursor-pointer shadow-sm shadow-black/50 hover:bg-gradient-to-tr hover:from-[#42d392] hover:to-[#8B5CF6] duration-300 ease-in-out transition-all p-1 rounded-full"
             >
               <path d="M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160Zm88-29.84q.06-2.16,0-4.32l14.92-18.64a8,8,0,0,0,1.48-7.06,107.21,107.21,0,0,0-10.88-26.25,8,8,0,0,0-6-3.93l-23.72-2.64q-1.48-1.56-3-3L186,40.54a8,8,0,0,0-3.94-6,107.71,107.71,0,0,0-26.25-10.87,8,8,0,0,0-7.06,1.49L130.16,40Q128,40,125.84,40L107.2,25.11a8,8,0,0,0-7.06-1.48A107.6,107.6,0,0,0,73.89,34.51a8,8,0,0,0-3.93,6L67.32,64.27q-1.56,1.49-3,3L40.54,70a8,8,0,0,0-6,3.94,107.71,107.71,0,0,0-10.87,26.25,8,8,0,0,0,1.49,7.06L40,125.84Q40,128,40,130.16L25.11,148.8a8,8,0,0,0-1.48,7.06,107.21,107.21,0,0,0,10.88,26.25,8,8,0,0,0,6,3.93l23.72,2.64q1.49,1.56,3,3L70,215.46a8,8,0,0,0,3.94,6,107.71,107.71,0,0,0,26.25,10.87,8,8,0,0,0,7.06-1.49L125.84,216q2.16.06,4.32,0l18.64,14.92a8,8,0,0,0,7.06,1.48,107.21,107.21,0,0,0,26.25-10.88,8,8,0,0,0,3.93-6l2.64-23.72q1.56-1.48,3-3L215.46,186a8,8,0,0,0,6-3.94,107.71,107.71,0,0,0,10.87-26.25,8,8,0,0,0-1.49-7.06Zm-16.1-6.5a73.93,73.93,0,0,1,0,8.68,8,8,0,0,0,1.74,5.48l14.19,17.73a91.57,91.57,0,0,1-6.23,15L187,173.11a8,8,0,0,0-5.1,2.64,74.11,74.11,0,0,1-6.14,6.14,8,8,0,0,0-2.64,5.1l-2.51,22.58a91.32,91.32,0,0,1-15,6.23l-17.74-14.19a8,8,0,0,0-5-1.75h-.48a73.93,73.93,0,0,1-8.68,0,8,8,0,0,0-5.48,1.74L100.45,215.8a91.57,91.57,0,0,1-15-6.23L82.89,187a8,8,0,0,0-2.64-5.1,74.11,74.11,0,0,1-6.14-6.14,8,8,0,0,0-5.1-2.64L46.43,170.6a91.32,91.32,0,0,1-6.23-15l14.19-17.74a8,8,0,0,0,1.74-5.48,73.93,73.93,0,0,1,0-8.68,8,8,0,0,0-1.74-5.48L40.2,100.45a91.57,91.57,0,0,1,6.23-15L69,82.89a8,8,0,0,0,5.1-2.64,74.11,74.11,0,0,1,6.14-6.14A8,8,0,0,0,82.89,69L85.4,46.43a91.32,91.32,0,0,1,15-6.23l17.74,14.19a8,8,0,0,0,5.48,1.74,73.93,73.93,0,0,1,8.68,0,8,8,0,0,0,5.48-1.74L155.55,40.2a91.57,91.57,0,0,1,15,6.23L173.11,69a8,8,0,0,0,2.64,5.1,74.11,74.11,0,0,1,6.14,6.14,8,8,0,0,0,5.1,2.64l22.58,2.51a91.32,91.32,0,0,1,6.23,15l-14.19,17.74A8,8,0,0,0,199.87,123.66Z"></path>
-            </svg> */}
+            </svg>
             <div className="bg-background pointer-events-none select-none text-lg font-bold shadow-sm shadow-black/50 absolute bottom-[10px] right-[0px] w-[32px] h-[32px] rounded-full flex items-center justify-center">
               {user.exp?.level}
             </div>
@@ -280,7 +263,7 @@ export const Header: React.FC<{ user: IUser }> = ({ user }) => {
           <div className="absolute text-sm right-[40px] top-[4px]">
             <div className="text-gray-500/80 select-none flex items-center gap-x-[2px] mt-1 w-full justify-end">
               <span className="text-xs block">
-                Member since {user.memberSince}
+                Member since {convertTimestamp(user.memberSince)}
               </span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"

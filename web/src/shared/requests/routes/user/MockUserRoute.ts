@@ -65,4 +65,17 @@ export class MockUserRoute implements IUserRoute {
     this.#users.push(newUser)
     return newUser
   }
+
+  public async update(user: Partial<IUser>): Promise<IUser> {
+    const existingUserIndex = this.#users.findIndex((u) => u.id === user.id)
+    if (existingUserIndex === -1) {
+      throw new Error("User not found.")
+    }
+
+    const existingUser = this.#users[existingUserIndex]
+    const updatedUser = { ...existingUser, ...user }
+
+    this.#users[existingUserIndex] = updatedUser as IUser & { password: string }
+    return updatedUser
+  }
 }

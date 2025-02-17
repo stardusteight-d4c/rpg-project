@@ -10,6 +10,7 @@ interface IAuthRoute {
 
 interface IUserRoute {
   add(user: CreateUserDTO): Promise<IUser>
+  update(user: Partial<IUser>): Promise<IUser>
   getUsers(): Promise<Array<IUser>>
   getByUsername(username: string): Promise<IUser | undefined>
 }

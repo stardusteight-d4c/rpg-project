@@ -5,10 +5,12 @@ import { MockAPI } from "@/shared/requests/MockAPI"
 
 interface UsersState {
   getByUsername: (username: string) => Promise<IUser | undefined>
+  update: (updatedUser: Partial<IUser>) => Promise<IUser | undefined>
 }
 
 const defaultState: UsersState = {
   getByUsername: async () => undefined,
+  update: async () => undefined,
 }
 
 const UsersContext = createContext<UsersState>(defaultState)
@@ -22,8 +24,12 @@ export const UsersProvider: React.FC<{ children: ReactNode }> = ({
     return await api.user.getByUsername(username)
   }
 
+  const update = async (updatedUser: Partial<IUser>) => {
+    return await api.user.update(updatedUser)
+  }
+
   return (
-    <UsersContext.Provider value={{ getByUsername }}>
+    <UsersContext.Provider value={{ getByUsername, update }}>
       {children}
     </UsersContext.Provider>
   )
