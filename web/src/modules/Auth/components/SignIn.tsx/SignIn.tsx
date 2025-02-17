@@ -8,6 +8,7 @@ import { useAuth } from "@/shared/contexts/Auth/AuthContext"
 import { useToast } from "@/shared/contexts/Toaster/ToasterContext"
 
 export const SignIn = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   const { signIn } = useAuth()
   const { addToast } = useToast()
   const [formData, setFormData] = useState({
@@ -24,14 +25,17 @@ export const SignIn = () => {
   }
 
   const onSignIn = async () => {
+    setIsLoading(true)
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
     const isEmail = emailRegex.test(formData.usernameOrEmail)
 
     if (formData.usernameOrEmail.length < 1) {
+      setIsLoading(false)
       return addToast("The Username or Email field cannot be empty.", "error")
     }
 
     if (formData.password.length < 1) {
+      setIsLoading(false)
       return addToast("The Password field cannot be empty.", "error")
     }
 
@@ -39,12 +43,16 @@ export const SignIn = () => {
       signIn({
         email: formData.usernameOrEmail,
         password: formData.password,
-      }).catch((error) => addToast(error.message, "error"))
+      })
+        .catch((error) => addToast(error.message, "error"))
+        .finally(() => setIsLoading(false))
     } else {
       signIn({
         username: formData.usernameOrEmail,
         password: formData.password,
-      }).catch((error) => addToast(error.message, "error"))
+      })
+        .catch((error) => addToast(error.message, "error"))
+        .finally(() => setIsLoading(false))
     }
   }
 
@@ -132,9 +140,28 @@ export const SignIn = () => {
           </GlowingWrapper>
           <button
             onClick={onSignIn}
-            className="p-2 font-medium capitalize w-full text-center text-lg bg-button text-white rounded-full"
+            className={`${
+              isLoading && " cursor-not-allowed select-none brightness-90 "
+            } p-2 font-medium capitalize w-full text-center text-lg bg-button text-white rounded-full`}
           >
-            <span className="text-xl font-bold">Sign in</span>
+            <span className="text-xl font-bold">
+              {isLoading ? (
+                <div className="w-fit mx-auto">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="32"
+                    height="32"
+                    fill="#6b7280"
+                    className="animate-spin"
+                    viewBox="0 0 256 256"
+                  >
+                    <path d="M232,128a104,104,0,0,1-208,0c0-41,23.81-78.36,60.66-95.27a8,8,0,0,1,6.68,14.54C60.15,61.59,40,93.27,40,128a88,88,0,0,0,176,0c0-34.73-20.15-66.41-51.34-80.73a8,8,0,0,1,6.68-14.54C208.19,49.64,232,87,232,128Z"></path>
+                  </svg>
+                </div>
+              ) : (
+                "Sign In"
+              )}
+            </span>
           </button>
           <span className="text-gray-400">
             Don't have an account?{" "}

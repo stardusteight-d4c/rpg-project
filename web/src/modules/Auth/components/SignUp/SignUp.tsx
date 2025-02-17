@@ -23,6 +23,8 @@ export const SignUp = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
   }
 
+  console.log(isLoading)
+
   const onClickSignIn = () => {
     redirect("/auth/signin")
   }
@@ -38,10 +40,7 @@ export const SignUp = () => {
 
     if (!nameRegex.test(name)) {
       setIsLoading(false)
-      return addToast(
-        `The name must follow the format "Name Surname"`,
-        "error"
-      )
+      return addToast(`The name must follow the format "Name Surname"`, "error")
     }
 
     if (!usernameRegex.test(username)) {
@@ -67,12 +66,12 @@ export const SignUp = () => {
       setIsLoading(false)
       return addToast("Passwords do not match.", "error")
     }
+
     signUp(formData)
-      .then(() => setIsLoading(false))
       .catch((error) => {
-        setIsLoading(false)
         addToast(error.message, "error")
       })
+      .finally(() => setIsLoading(false))
   }
 
   return (

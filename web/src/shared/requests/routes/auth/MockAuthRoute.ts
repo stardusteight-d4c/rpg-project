@@ -1,3 +1,4 @@
+import { error } from "node:console"
 import { MockUserRoute } from "../user/MockUserRoute"
 
 export class MockAuthRoute implements IAuthRoute {
@@ -16,15 +17,18 @@ export class MockAuthRoute implements IAuthRoute {
   }
 
   public async signUp(data: SignUpDTO): Promise<AuthResponse> {
+    await new Promise((resolve) => setTimeout(resolve, 5000))
+
     return this.inMemoryUserRoute
       .add(data)
       .then((newUser) => {
         const accessToken = crypto.randomUUID()
         const refreshToken = crypto.randomUUID()
+
         return {
           user: newUser,
-          accessToken: accessToken,
-          refreshToken: refreshToken,
+          accessToken,
+          refreshToken,
         }
       })
       .catch((error) => {
@@ -33,6 +37,8 @@ export class MockAuthRoute implements IAuthRoute {
   }
 
   public async signIn(data: SignInDTO): Promise<AuthResponse> {
+    await new Promise((resolve) => setTimeout(resolve, 5000))
+
     return this.inMemoryUserRoute
       .getUsers()
       .then((users) => {

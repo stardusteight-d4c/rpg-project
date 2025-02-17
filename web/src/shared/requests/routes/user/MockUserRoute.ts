@@ -30,9 +30,6 @@ export class MockUserRoute implements IUserRoute {
       (user) => user.email === data.email
     )
 
-    console.log(this.#users);
-    
-
     const isUsernameAlreadyExists = this.#users.find(
       (user) => user.username === data.username
     )

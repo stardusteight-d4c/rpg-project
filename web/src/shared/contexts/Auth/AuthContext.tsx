@@ -84,7 +84,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   // }
 
   const signUp = async (data: SignUpDTO) => {
-    return api.auth
+    return await api.auth
       .signUp(data)
       .then((res) => {
         addSession(res.user, res.accessToken, res.refreshToken)
@@ -96,7 +96,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   }
 
   const signIn = async (data: SignInDTO) => {
-    return api.auth
+    return await api.auth
       .signIn(data)
       .then((res) => {
         addSession(res.user, res.accessToken, res.refreshToken)
