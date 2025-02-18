@@ -62,11 +62,13 @@ export const SelectedCharacterDisplay = ({
 
   return (
     <section
-      className={`${
-        isModal ? " max-h-[500px] " : " h-screen "
-      } relative w-full overflow-y-scroll no-scrollbar`}
+      className={`${isModal ? "  " : " min-h-screen "}  w-full no-scrollbar`}
     >
-      <div className="sticky z-[200] border-b border-border  shadow-sm shadow-black/50 top-0 p-2 w-full inset-x-0 bg-background">
+      <div
+        className={`${
+          isModal ? " px-4 py-2 " : " p-2 "
+        } sticky z-[200] border-b border-border  shadow-sm shadow-black/50 top-0 w-full inset-x-0 bg-background`}
+      >
         <div className="flex items-center gap-x-4">
           {!isModal && (
             <div
@@ -107,7 +109,7 @@ export const SelectedCharacterDisplay = ({
               <span>Edit Character</span>
             </div>
           )}
-          {isModal && (
+          {/* {isModal && (
             <div
               onClick={() => hideModal(selectedCharacter?.id)}
               className="flex cursor-pointer items-center group w-fit gap-x-2"
@@ -125,12 +127,12 @@ export const SelectedCharacterDisplay = ({
               </button>
               <span>Close</span>
             </div>
-          )}
-          {isModal && (
+          )} */}
+          {/* {isModal && (
             <div className="font-medium absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2">
               {selectedCharacter?.infos.name}
             </div>
-          )}
+          )} */}
         </div>
       </div>
       <div className="p-2">

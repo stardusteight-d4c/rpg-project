@@ -36,23 +36,33 @@ export const Sheets: React.FC<{ user: IUser }> = ({ user }) => {
     <div>
       {selectedCharacter && (
         <ModalWrapper
-          showCloseIcon={false}
           status={"open"}
           onStatusChange={handleSelectedCharacterDisplayModal}
         >
           <div className="w-[700px]">
             {editMode ? (
-              <CharactersEdit
-                setEditMode={setEditMode}
-                playerCharacter={selectedCharacter!}
-                setSelectedCharacter={setSelectedCharacter}
-              />
+              <div>
+                <h3 className="block text-3xl font-bold p-4">
+                  Editing {selectedCharacter.infos.name}'s Sheet
+                </h3>
+                <CharactersEdit
+                  isModal={true}
+                  setEditMode={setEditMode}
+                  playerCharacter={selectedCharacter!}
+                  setSelectedCharacter={setSelectedCharacter}
+                />
+              </div>
             ) : (
-              <SelectedCharacterDisplay
-                setEditMode={setEditMode}
-                selectedCharacter={selectedCharacter}
-                isModal={true}
-              />
+              <div>
+                <h3 className="block text-3xl font-bold p-4">
+                  {selectedCharacter.infos.name}'s Sheet
+                </h3>
+                <SelectedCharacterDisplay
+                  setEditMode={setEditMode}
+                  selectedCharacter={selectedCharacter}
+                  isModal={true}
+                />
+              </div>
             )}
           </div>
         </ModalWrapper>

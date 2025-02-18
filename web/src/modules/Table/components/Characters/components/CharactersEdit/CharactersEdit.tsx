@@ -17,12 +17,14 @@ interface CharactersEditProps {
   playerCharacter: ISheet
   setEditMode: (value: boolean) => void
   setSelectedCharacter: (value: ISheet | null) => void
+  isModal?: boolean
 }
 
 export const CharactersEdit = ({
   playerCharacter,
   setEditMode,
   setSelectedCharacter,
+  isModal = false,
 }: CharactersEditProps) => {
   const { update } = useSheets()
   const { updateCharacter, copyCharacters, removeCharacter } = useCharacters()
@@ -62,6 +64,7 @@ export const CharactersEdit = ({
     )
     update(updatedCharacter!)
     updateCharacter(playerCharacter.id, updatedCharacter!)
+    setSelectedCharacter(null)
     setEditMode(false)
   }
 
@@ -72,7 +75,8 @@ export const CharactersEdit = ({
   }
 
   return (
-    <section className="relative w-full h-screen overflow-y-scroll no-scrollbar">
+    // relative h-screen overflow-y-scroll no-scrollbar
+    <section className="w-full">
       {openDeleteModal === "open" && (
         <ModalWrapper
           status={openDeleteModal}
@@ -105,7 +109,11 @@ export const CharactersEdit = ({
           </div>
         </ModalWrapper>
       )}
-      <div className="sticky flex items-center border-b border-border shadow-sm shadow-black/50 z-[200] top-0 p-2 w-full inset-x-0 bg-background">
+      <div
+        className={`${
+          isModal ? " px-4 py-2 " : " p-2 "
+        } sticky flex items-center border-b border-border shadow-sm shadow-black/50 z-[200] top-0 w-full inset-x-0 bg-background`}
+      >
         <div className="flex items-center gap-x-4">
           <div
             onClick={() => setEditMode(false)}
@@ -124,7 +132,7 @@ export const CharactersEdit = ({
             </button>
             <span>Back</span>
           </div>
-          <div className="flex cursor-pointer items-center group w-fit gap-x-2">
+          {/* <div className="flex cursor-pointer items-center group w-fit gap-x-2">
             <button className="flex items-center justify-center text-gray-500 p-1 rounded-full  shadow-md shadow-black/50 bg-gradient-to-tr from-[#42d392] to-[#8B5CF6] duration-300 ease-in-out transition-all">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -137,7 +145,7 @@ export const CharactersEdit = ({
               </svg>
             </button>
             <span>Edit Character</span>
-          </div>
+          </div> */}
           <div
             onClick={() => setOpenDeleteModal("open")}
             className="cursor-pointer w-fit flex items-center group gap-x-2"
