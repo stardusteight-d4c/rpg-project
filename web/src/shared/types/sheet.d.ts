@@ -95,9 +95,9 @@ type Skill = {
   checked: boolean
 }
 
-
-interface ICharacter {
+interface ISheet {
   id: string
+  tableId?: string
   user: TableUser
   infos: Infos
   attributes: Attributes

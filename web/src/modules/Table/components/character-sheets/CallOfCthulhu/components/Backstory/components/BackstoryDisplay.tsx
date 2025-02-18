@@ -4,7 +4,7 @@ import ReactMarkdown from "react-markdown"
 import rehypeRaw from "rehype-raw"
 
 interface BackstoryDisplayProps {
-  character: ICharacter
+  character: ISheet
   activeItems: (
     | "attributes"
     | "skills"

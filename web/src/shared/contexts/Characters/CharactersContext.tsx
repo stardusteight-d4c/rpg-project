@@ -4,19 +4,19 @@ import React, { createContext, useContext, useState, ReactNode } from "react"
 import { characters as mockCharacters } from "./mock-data"
 
 interface CharactersState {
-  characters: ICharacter[]
-  copyCharacters: ICharacter[]
-  getCharacterById: (id: string) => ICharacter | undefined
+  characters: ISheet[]
+  copyCharacters: ISheet[]
+  getCharacterById: (id: string) => ISheet | undefined
   getCharactersByType: () => {
-    players: ICharacter[]
-    npcs: ICharacter[]
-    enemies: ICharacter[]
+    players: ISheet[]
+    npcs: ISheet[]
+    enemies: ISheet[]
   }
-  addCharacter: (user: ICharacter) => void
-  updateCharacter: (id: string, updatedCharacter: Partial<ICharacter>) => void
+  addCharacter: (user: ISheet) => void
+  updateCharacter: (id: string, updatedCharacter: Partial<ISheet>) => void
   updateCopyCharacter: (
     id: string,
-    updatedCharacter: Partial<ICharacter>
+    updatedCharacter: Partial<ISheet>
   ) => void
   removeCharacter: (id: string) => void
 }
@@ -41,14 +41,14 @@ const CharactersContext = createContext<CharactersState>(defaultState)
 export const CharactersProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [characters, setCharacters] = useState<ICharacter[]>(mockCharacters)
+  const [characters, setCharacters] = useState<ISheet[]>(mockCharacters)
   const [copyCharacters, setCopyCharacters] =
-    useState<ICharacter[]>(mockCharacters)
+    useState<ISheet[]>(mockCharacters)
 
   const getCharactersByType = (): {
-    players: ICharacter[]
-    npcs: ICharacter[]
-    enemies: ICharacter[]
+    players: ISheet[]
+    npcs: ISheet[]
+    enemies: ISheet[]
   } => {
     const players = characters.filter(
       (character) => character.infos.type === "player"
@@ -63,13 +63,13 @@ export const CharactersProvider: React.FC<{ children: ReactNode }> = ({
     return { players, npcs, enemies }
   }
 
-  const addCharacter = (user: ICharacter) => {
+  const addCharacter = (user: ISheet) => {
     setCharacters((prev) => [...prev, user])
   }
 
   const updateCopyCharacter = (
     id: string,
-    updatedCharacter: Partial<ICharacter>
+    updatedCharacter: Partial<ISheet>
   ) => {
     setCopyCharacters((prev) => {
       const existingCharacter = prev.find((character) => character.id === id)
@@ -81,14 +81,14 @@ export const CharactersProvider: React.FC<{ children: ReactNode }> = ({
             : character
         )
       } else {
-        return [...prev, { id, ...updatedCharacter } as ICharacter]
+        return [...prev, { id, ...updatedCharacter } as ISheet]
       }
     })
   }
 
   const updateCharacter = (
     id: string,
-    updatedCharacter: Partial<ICharacter>
+    updatedCharacter: Partial<ISheet>
   ) => {
     setCharacters((prev) =>
       prev.map((character) =>
@@ -102,7 +102,7 @@ export const CharactersProvider: React.FC<{ children: ReactNode }> = ({
     setCopyCharacters((prev) => prev.filter((character) => character.id !== id))
   }
 
-  const getCharacterById = (id: string): ICharacter | undefined => {
+  const getCharacterById = (id: string): ISheet | undefined => {
     return characters.find((character) => character.id === id)
   }
 

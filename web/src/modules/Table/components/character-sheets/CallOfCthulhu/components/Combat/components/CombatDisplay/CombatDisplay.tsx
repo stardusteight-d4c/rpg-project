@@ -5,7 +5,7 @@ import { ModalWrapper } from "@/shared/components"
 import { CombatModalDisplay } from "./components"
 
 interface CombatDisplayProps {
-  character: ICharacter
+  character: ISheet
   activeItems: (
     | "attributes"
     | "skills"
@@ -93,8 +93,7 @@ export const CombatDisplay = ({
         <div>
           {character.combat && character.combat.length > 1 ? (
             <div
-              className="grid gap-2"
-              style={{ gridTemplateColumns: "repeat(15, minmax(0, 1fr))" }}
+              className="flex flex-wrap gap-2"
             >
               {character.combat.map((weapon, index) => (
                 <div key={index} className="col-span-1">
@@ -102,7 +101,7 @@ export const CombatDisplay = ({
                     <div
                       key={index}
                       onClick={() => setSelectedWeapon(weapon)}
-                      className="col-span-1 cursor-pointer hover:brightness-150 flex items-center justify-center bg-border/50 border border-border rounded w-full h-full aspect-square"
+                      className="w-[60px] h-[60px] cursor-pointer hover:brightness-150 flex items-center justify-center bg-border/50 border border-border rounded aspect-square"
                     >
                       <img src={weapon.iconUrl} className="w-full" />
                     </div>
@@ -110,7 +109,7 @@ export const CombatDisplay = ({
                     <div
                       key={index}
                       onClick={() => setSelectedWeapon(weapon)}
-                      className="col-span-1 cursor-pointer p-1 hover:brightness-150 flex items-center justify-center bg-border/50 border border-border rounded w-full h-full aspect-square"
+                      className="w-[60px] h-[60px] cursor-pointer p-1 hover:brightness-150 flex items-center justify-center bg-border/50 border border-border rounded aspect-square"
                     >
                       <img src={weapon.iconUrl} className="w-full" />
                     </div>

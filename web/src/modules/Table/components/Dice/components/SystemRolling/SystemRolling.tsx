@@ -3,7 +3,7 @@ import { useState } from "react"
 
 interface SystemRollingProps {
   mode: "system" | "character" | null
-  playerCharacter: ICharacter
+  playerCharacter: ISheet
 }
 
 export const SystemRolling = ({ mode, playerCharacter }: SystemRollingProps) => {

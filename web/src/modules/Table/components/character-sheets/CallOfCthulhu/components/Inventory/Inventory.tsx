@@ -2,7 +2,7 @@ import { InventoryDisplay } from "./components/InventoryDisplay"
 import { InventoryEdit } from "./components/InventoryEdit"
 
 interface InventoryProps {
-  character: ICharacter
+  character: ISheet
   activeItems: (
     | "attributes"
     | "skills"

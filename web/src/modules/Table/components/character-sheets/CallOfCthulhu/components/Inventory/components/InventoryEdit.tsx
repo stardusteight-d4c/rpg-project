@@ -5,7 +5,7 @@ import { GlowingWrapper } from "@/shared/components"
 import { useState } from "react"
 
 interface InventoryEditProps {
-  character: ICharacter
+  character: ISheet
 
   activeItems: (
     | "attributes"

@@ -6,7 +6,7 @@ interface CharacterRollingProps {
     value: "attributes" | "status" | "skills" | "combat" | null
   ) => void
   selectedType: "attributes" | "status" | "skills" | "combat" | null
-  playerCharacter: ICharacter
+  playerCharacter: ISheet
   mode: "system" | "character" | null
 }
 

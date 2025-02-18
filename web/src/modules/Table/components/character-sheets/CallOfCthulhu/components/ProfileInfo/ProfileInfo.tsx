@@ -3,7 +3,7 @@
 import { ProfileInfoDisplay, ProfileInfoEdit } from "./components"
 
 interface ProfileInfoProps {
-  character: ICharacter
+  character: ISheet
   isEditMode?: boolean
   showPlayerInfo?: boolean
 }

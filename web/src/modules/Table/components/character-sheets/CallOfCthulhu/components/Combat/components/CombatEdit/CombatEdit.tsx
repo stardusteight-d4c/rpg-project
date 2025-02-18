@@ -1,13 +1,13 @@
 "use client"
 
-import {  useState } from "react"
+import { useState } from "react"
 import { GlowingWrapper, ModalWrapper } from "@/shared/components"
 import { explosives, guns, weapons } from "../../mock-data"
 import { CombatEditModal } from "./CombatEditModal"
 import { useCharacters } from "@/shared/contexts/Characters/CharactersContext"
 
 interface CombatEditProps {
-  character: ICharacter
+  character: ISheet
   activeItems: (
     | "attributes"
     | "skills"
@@ -142,10 +142,7 @@ export const CombatEdit = ({
       </div>
       {activeItems.includes("combat") && (
         <div>
-          <div
-            className="grid gap-2"
-            style={{ gridTemplateColumns: "repeat(15, minmax(0, 1fr))" }}
-          >
+          <div className="flex flex-wrap gap-2">
             {editableData.map((weapon, index) => (
               <div>
                 {weapon.name === "Unarmed" ? (
@@ -153,7 +150,7 @@ export const CombatEdit = ({
                     <div
                       key={index}
                       onClick={() => setSelectedWeapon(weapon)}
-                      className="col-span-1 cursor-pointer hover:brightness-150 flex items-center justify-center bg-border/50 border border-border rounded w-full h-full aspect-square"
+                      className="w-[60px] h-[60px] cursor-pointer hover:brightness-150 flex items-center justify-center bg-border/50 border border-border rounded aspect-square"
                     >
                       <img src={weapon.iconUrl} className="w-full" />
                     </div>
@@ -163,7 +160,7 @@ export const CombatEdit = ({
                     <div
                       key={index}
                       onClick={() => setSelectedWeapon(weapon)}
-                      className="col-span-1 cursor-pointer p-1 hover:brightness-150 flex items-center justify-center bg-border/50 border border-border rounded w-full h-full aspect-square"
+                      className="w-[60px] h-[60px] cursor-pointer p-1 hover:brightness-150 flex items-center justify-center bg-border/50 border border-border rounded aspect-square"
                     >
                       <img src={weapon.iconUrl} className="w-full" />
                     </div>
@@ -174,7 +171,7 @@ export const CombatEdit = ({
             <GlowingWrapper>
               <div
                 onClick={() => setSelectionMode(true)}
-                className="col-span-1 cursor-pointer p-1 hover:brightness-125 flex items-center justify-center  background-gradient rounded w-full h-full aspect-square"
+                className="w-[60px] h-[60px] cursor-pointer p-1 hover:brightness-125 flex items-center justify-center  background-gradient rounded aspect-square"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -240,7 +237,7 @@ const SelectionMode = ({
       status={selectionMode ? "open" : "close"}
     >
       {selectedWeapon ? (
-        <div className="p-4 w-[681px] relative">
+        <div onClick={(e) => e.stopPropagation()} className="p-4 w-[681px] relative">
           <div
             onClick={() => setSelectedWeapon(null)}
             className="flex items-center gap-x-2"
@@ -383,7 +380,7 @@ const SelectionMode = ({
           </button>
         </div>
       ) : (
-        <div className="p-4 w-[681px]">
+        <div onClick={(e) => e.stopPropagation()} className="p-4 w-[681px]">
           <h3 className="block text-3xl font-bold background-gradient bg-clip-text text-transparent">
             Choose a weapon
           </h3>

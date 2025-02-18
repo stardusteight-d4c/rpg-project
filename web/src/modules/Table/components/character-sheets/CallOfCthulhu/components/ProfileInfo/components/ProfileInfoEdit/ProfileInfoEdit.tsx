@@ -13,7 +13,7 @@ import { useEffect, useState } from "react"
 import { useCharacters } from "@/shared/contexts/Characters/CharactersContext"
 import { randomUUID } from "node:crypto"
 
-export const ProfileInfoEdit: React.FC<{ character: ICharacter }> = ({
+export const ProfileInfoEdit: React.FC<{ character: ISheet }> = ({
   character,
 }) => {
   const { updateCopyCharacter } = useCharacters()

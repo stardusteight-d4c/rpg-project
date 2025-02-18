@@ -8,7 +8,7 @@ interface DraggableItemProps {
   type: string
   setIsItemDragging?: (isDragging: boolean) => void
   player?: boolean
-  character?: ICharacter
+  character?: ISheet
 }
 
 export const DraggableItem: React.FC<DraggableItemProps> = ({

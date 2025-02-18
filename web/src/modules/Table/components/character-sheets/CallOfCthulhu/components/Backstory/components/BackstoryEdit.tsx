@@ -8,7 +8,7 @@ import { tutorial } from "./data"
 import { useCharacters } from "@/shared/contexts/Characters/CharactersContext"
 
 interface BackstoryEditProps {
-  character: ICharacter
+  character: ISheet
   activeItems: (
     | "attributes"
     | "skills"

@@ -7,7 +7,7 @@ import { handleCharacterVisibilityTooltipText } from "@/shared/utils/handleChara
 import { useState } from "react"
 
 interface ProfileInfoDisplayProps {
-  character: ICharacter
+  character: ISheet
   isEditMode?: boolean
   showPlayerInfo?: boolean
 }

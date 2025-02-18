@@ -6,7 +6,7 @@ import { useCharacters } from "@/shared/contexts/Characters/CharactersContext"
 import { useState } from "react"
 
 interface InventoryDisplayProps {
-  character: ICharacter
+  character: ISheet
 
   activeItems: (
     | "attributes"

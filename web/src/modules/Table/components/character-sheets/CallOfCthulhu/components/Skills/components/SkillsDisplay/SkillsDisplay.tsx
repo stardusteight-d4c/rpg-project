@@ -10,7 +10,7 @@ interface SkillsDisplayProps {
   toggleItem: (
     item: "attributes" | "skills" | "inventory" | "combat" | "backstory"
   ) => void
-  character: ICharacter
+  character: ISheet
 }
 
 export const SkillsDisplay = ({

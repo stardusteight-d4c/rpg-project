@@ -11,7 +11,7 @@ import { useCharacters } from "@/shared/contexts/Characters/CharactersContext"
 
 export const Characters = () => {
   const characters = useCharacters().characters
-  const [selectedCharacter, setSelectedCharacter] = useState<ICharacter | null>(null)
+  const [selectedCharacter, setSelectedCharacter] = useState<ISheet | null>(null)
   const [editMode, setEditMode] = useState<boolean>(false)
   const [createMode, setCreateMode] = useState<boolean>(false)
   const selectedCharacterState = { selectedCharacter, setSelectedCharacter }

@@ -1,4 +1,4 @@
-export const initialData: Partial<ICharacter> = {
+export const initialData: Partial<ISheet> = {
   id: "",
   infos: {
     name: "",

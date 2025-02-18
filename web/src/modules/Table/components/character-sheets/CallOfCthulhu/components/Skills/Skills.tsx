@@ -12,7 +12,7 @@ interface SkillsProps {
   toggleItem: (
     item: "attributes" | "skills" | "inventory" | "combat" | "backstory"
   ) => void
-  character:  ICharacter
+  character:  ISheet
   isEditMode?: boolean
 }
 

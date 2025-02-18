@@ -1,6 +1,6 @@
 interface IRoll {
   id: string
-  character: ICharacter
+  character: ISheet
   characterRoll?: {
     name: string
     value: number

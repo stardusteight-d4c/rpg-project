@@ -13,9 +13,9 @@ import { useCharacters } from "@/shared/contexts/Characters/CharactersContext"
 import { ModalWrapper } from "@/shared/components"
 
 interface CharactersEditProps {
-  playerCharacter: ICharacter
+  playerCharacter: ISheet
   setEditMode: (value: boolean) => void
-  setSelectedCharacter: (value: ICharacter | null) => void
+  setSelectedCharacter: (value: ISheet | null) => void
 }
 
 export const CharactersEdit = ({

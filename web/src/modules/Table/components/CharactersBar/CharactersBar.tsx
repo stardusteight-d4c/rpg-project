@@ -23,7 +23,7 @@ export const CharactersBar = () => {
             />
           </svg>
         </button>
-        {players.map((character: ICharacter, index: any) => (
+        {players.map((character: ISheet, index: any) => (
           <div
             key={index}
             className="rounded-full w-[48px] h-[48px] overflow-hidden aspect-square"
@@ -54,7 +54,7 @@ export const CharactersBar = () => {
             />
           </svg>
         </button>
-        {npcs.map((character: ICharacter, index: any) => (
+        {npcs.map((character: ISheet, index: any) => (
           <div
             key={index}
             className={`${
@@ -89,7 +89,7 @@ export const CharactersBar = () => {
             />
           </svg>
         </button>
-        {enemies.map((character: ICharacter, index: any) => (
+        {enemies.map((character: ISheet, index: any) => (
           <div
             key={index}
             className={`${

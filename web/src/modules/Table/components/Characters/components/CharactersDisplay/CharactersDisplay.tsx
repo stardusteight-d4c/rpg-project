@@ -6,10 +6,10 @@ import { currentSession } from "@/shared/contexts/Users/mock-data"
 import { useCharacters } from "@/shared/contexts/Characters/CharactersContext"
 
 interface CharactersDisplayProps {
-  characters: Array<ICharacter>
+  characters: Array<ISheet>
   setEditMode: (value: boolean) => void
   setCreateMode: (value: boolean) => void
-  setSelectedCharacter: (value: ICharacter | null) => void
+  setSelectedCharacter: (value: ISheet | null) => void
 }
 
 export const CharactersDisplay = ({
@@ -22,7 +22,7 @@ export const CharactersDisplay = ({
     "Players" | "NPCs" | "Enemies"
   >("Players")
 
-  const countVisibility = (characters: ICharacter[], type: CharacterType) => {
+  const countVisibility = (characters: ISheet[], type: CharacterType) => {
     return characters.reduce(
       (acc, character) => {
         if (character.infos.type === type) {

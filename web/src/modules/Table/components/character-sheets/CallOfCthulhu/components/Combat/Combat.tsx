@@ -3,7 +3,7 @@
 import { CombatDisplay, CombatEdit } from "./components"
 
 interface CombatProps {
-  character: ICharacter
+  character: ISheet
   activeItems: (
     | "attributes"
     | "skills"

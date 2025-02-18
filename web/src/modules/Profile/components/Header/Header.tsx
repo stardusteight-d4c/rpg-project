@@ -21,6 +21,22 @@ export const Header: React.FC<{ user: IUser }> = ({ user }) => {
     "close"
   )
 
+  const handleModal = (value: "open" | "close") => {
+    if (value === "open") return setIsOpenEditModal("open")
+    if (value === "close") {
+      setEditableData({
+        id: user.id,
+        name: user.name,
+        username: user.username,
+        avatarUrl: user.avatarUrl,
+        coverImage: user.coverImage,
+        coverImageFile: undefined,
+        avatarUrlFile: undefined,
+      })
+      return setIsOpenEditModal("close")
+    }
+  }
+
   const handleEdit = (field: string, value: any) => {
     setEditableData((prev) => ({ ...prev, [field]: value }))
   }
@@ -74,11 +90,7 @@ export const Header: React.FC<{ user: IUser }> = ({ user }) => {
   return (
     <>
       {isOpenEditModal === "open" && (
-        <ModalWrapper
-          showCloseIcon={false}
-          onStatusChange={setIsOpenEditModal}
-          status={isOpenEditModal}
-        >
+        <ModalWrapper onStatusChange={handleModal} status={isOpenEditModal}>
           <input
             id="file-input-cover"
             type="file"
@@ -171,12 +183,20 @@ export const Header: React.FC<{ user: IUser }> = ({ user }) => {
                   />
                 </GlowingWrapper>
               </div>
-              <button
-                onClick={onSave}
-                className="p-2 font-medium col-span-1 capitalize w-full text-center text-lg bg-green-500 text-white rounded-full"
-              >
-                <span className="text-xl font-bold">Update</span>
-              </button>
+              <div className="w-full col-span-2 flex gap-x-4">
+                <button
+                  onClick={() => handleModal("close")}
+                  className="p-2 font-medium mt-8 mb-4 capitalize w-[100px] ml-auto text-center text-lg bg-button text-white rounded-full"
+                >
+                  <span className="text-xl font-bold">Cancel</span>
+                </button>
+                <button
+                  onClick={onSave}
+                  className="p-2 font-medium mt-8 mb-4 capitalize w-[100px] text-center text-lg bg-green-500 text-white rounded-full"
+                >
+                  <span className="text-xl font-bold">Update</span>
+                </button>
+              </div>
             </div>
           </div>
         </ModalWrapper>

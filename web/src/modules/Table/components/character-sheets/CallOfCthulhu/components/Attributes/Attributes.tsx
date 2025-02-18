@@ -13,7 +13,7 @@ interface AttributesProps {
     item: "attributes" | "skills" | "inventory" | "combat" | "backstory"
   ) => void
   isEditMode?: boolean
-  character: ICharacter
+  character: ISheet
 }
 
 export const Attributes = ({ isEditMode, ...props }: AttributesProps) => {

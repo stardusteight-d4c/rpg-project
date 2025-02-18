@@ -2,7 +2,7 @@ import { BackstoryDisplay } from "./components/BackstoryDisplay"
 import { BackstoryEdit } from "./components/BackstoryEdit"
 
 interface BackstoryProps {
-  character: ICharacter
+  character: ISheet
   isEditMode?: boolean
   activeItems: (
     | "attributes"

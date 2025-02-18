@@ -22,7 +22,7 @@ export const CharactersCreate = ({
   setCreateMode,
   isModal = false,
 }: CharactersCreateProps) => {
-  const { addCharacter, updateCopyCharacter, copyCharacters, characters } =
+  const { addCharacter, updateCopyCharacter, copyCharacters } =
     useCharacters()
   const [initialData, setInitialData] = useState<any>({
     ...mockInitialData,
@@ -120,10 +120,14 @@ export const CharactersCreate = ({
 
     const skills = initializeSkills(attributes, occupationalPoints, freePoints)
 
+    const createdCharacter = copyCharacters.find(
+      (character) => character.id === initialData.id
+    )
+
     setInitialData({
-      ...initialData,
+      ...createdCharacter,
       infos: {
-        ...initialData.infos,
+        ...createdCharacter?.infos ?? initialData,
         maxHitPoints: hitPoints,
         maxMagicPoints: magicPoints,
         maxSanity: sanity,
