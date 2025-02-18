@@ -23,12 +23,12 @@ export const Navbar = () => {
   return (
     <nav className="bg-background fixed inset-x-0 top-0 z-[600] w-screen border-b py-1 border-border shadow-sm shadow-black/50 ">
       <ModalWrapper
-        showCloseIcon={false}
         status={createSheetModal}
         onStatusChange={setCreateSheetModal}
       >
         <div className="w-[700px]">
-          <CharactersCreate isModal />
+          <h3 className="block text-3xl font-bold p-4">Create Sheet</h3>
+          <CharactersCreate isModal setCreateSheetModal={setCreateSheetModal} />
         </div>
       </ModalWrapper>
       {openCreateCampaignModal && (
@@ -67,7 +67,7 @@ export const Navbar = () => {
                 <path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"></path>
               </svg>
             </button>
-            <span>Find a player</span>
+            <span>Search</span>
           </div>
 
           <div
@@ -85,7 +85,7 @@ export const Navbar = () => {
                 <path d="M83.19,174.4a8,8,0,0,0,11.21-1.6,52,52,0,0,1,83.2,0,8,8,0,1,0,12.8-9.6A67.88,67.88,0,0,0,163,141.51a40,40,0,1,0-53.94,0A67.88,67.88,0,0,0,81.6,163.2,8,8,0,0,0,83.19,174.4ZM112,112a24,24,0,1,1,24,24A24,24,0,0,1,112,112Zm96-88H64A16,16,0,0,0,48,40V64H32a8,8,0,0,0,0,16H48v40H32a8,8,0,0,0,0,16H48v40H32a8,8,0,0,0,0,16H48v24a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V40A16,16,0,0,0,208,24Zm0,192H64V40H208Z"></path>
               </svg>
             </button>
-            <span>Create sheet</span>
+            <span>Create Sheet</span>
           </div>
           <div
             onClick={() => setOpenCreateCampaignModal(true)}
@@ -102,7 +102,7 @@ export const Navbar = () => {
                 <path d="M42.76,50A8,8,0,0,0,40,56V224a8,8,0,0,0,16,0V179.77c26.79-21.16,49.87-9.75,76.45,3.41,16.4,8.11,34.06,16.85,53,16.85,13.93,0,28.54-4.75,43.82-18a8,8,0,0,0,2.76-6V56A8,8,0,0,0,218.76,50c-28,24.23-51.72,12.49-79.21-1.12C111.07,34.76,78.78,18.79,42.76,50ZM216,172.25c-26.79,21.16-49.87,9.74-76.45-3.41-25-12.35-52.81-26.13-83.55-8.4V59.79c26.79-21.16,49.87-9.75,76.45,3.4,25,12.35,52.82,26.13,83.55,8.4Z"></path>
               </svg>
             </button>
-            <span>Create campaign</span>
+            <span>Create Campaign</span>
           </div>
           <div
             onClick={() => push("/feed")}

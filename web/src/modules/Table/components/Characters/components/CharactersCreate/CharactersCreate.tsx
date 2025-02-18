@@ -18,10 +18,12 @@ import { useAuth } from "@/shared/contexts/Auth/AuthContext"
 interface CharactersCreateProps {
   setCreateMode?: (value: boolean) => void
   isModal?: boolean
+  setCreateSheetModal?: (value: "open" | "close") => void
 }
 export const CharactersCreate = ({
   setCreateMode,
   isModal = false,
+  setCreateSheetModal,
 }: CharactersCreateProps) => {
   const { add } = useSheets()
   const { currentSession } = useAuth()
@@ -54,6 +56,7 @@ export const CharactersCreate = ({
     await add(findCharacter)
       .then(() => {
         !isModal && setCreateMode && setCreateMode(false)
+        setCreateSheetModal && setCreateSheetModal("close")
       })
       .catch((error) => error)
   }
@@ -159,8 +162,12 @@ export const CharactersCreate = ({
   }
 
   return (
-    <section className="relative w-full h-screen overflow-y-scroll no-scrollbar">
-      <div className="sticky z-[200] border-b border-border shadow-sm shadow-black/50 top-0 p-2 w-full inset-x-0 bg-background">
+    <section className=" w-full no-scrollbar">
+      <div
+        className={`${
+          isModal ? " py-2 px-4 " : " p-2 "
+        } sticky z-[200] border-b border-border shadow-sm shadow-black/50 top-0 w-full inset-x-0 bg-background`}
+      >
         <div className="flex items-center gap-x-4">
           {!isModal && (
             <div
@@ -181,20 +188,22 @@ export const CharactersCreate = ({
               <span>Back</span>
             </div>
           )}
-          <div className="flex cursor-pointer items-center group w-fit gap-x-2">
-            <button className="flex items-center justify-center text-gray-500 p-1 rounded-full  shadow-md shadow-black/50 bg-gradient-to-tr from-[#42d392] to-[#8B5CF6] duration-300 ease-in-out transition-all">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                fill="#FFFFFF"
-                viewBox="0 0 256 256"
-              >
-                <path d="M227.32,73.37,182.63,28.69a16,16,0,0,0-22.63,0L36.69,152A15.86,15.86,0,0,0,32,163.31V208a16,16,0,0,0,16,16H216a8,8,0,0,0,0-16H115.32l112-112A16,16,0,0,0,227.32,73.37ZM92.69,208H48V163.31l88-88L180.69,120ZM192,108.69,147.32,64l24-24L216,84.69Z"></path>
-              </svg>
-            </button>
-            <span>Create Character</span>
-          </div>
+          {!isModal && (
+            <div className="flex cursor-pointer items-center group w-fit gap-x-2">
+              <button className="flex items-center justify-center text-gray-500 p-1 rounded-full  shadow-md shadow-black/50 bg-gradient-to-tr from-[#42d392] to-[#8B5CF6] duration-300 ease-in-out transition-all">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  fill="#FFFFFF"
+                  viewBox="0 0 256 256"
+                >
+                  <path d="M227.32,73.37,182.63,28.69a16,16,0,0,0-22.63,0L36.69,152A15.86,15.86,0,0,0,32,163.31V208a16,16,0,0,0,16,16H216a8,8,0,0,0,0-16H115.32l112-112A16,16,0,0,0,227.32,73.37ZM92.69,208H48V163.31l88-88L180.69,120ZM192,108.69,147.32,64l24-24L216,84.69Z"></path>
+                </svg>
+              </button>
+              <span>Create Character</span>
+            </div>
+          )}
 
           <div
             className="cursor-pointer w-fit flex items-center group gap-x-2"

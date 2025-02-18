@@ -284,7 +284,7 @@ export const ProfileInfoEdit: React.FC<{ character: ISheet }> = ({
         </div>
       </div>
       <div className="w-full pl-4">
-        <div className="flex items-center gap-x-2">
+        <div className="flex justify-between items-center gap-x-2">
           <GlowingWrapper inset="0">
             <input
               value={editableData.name}
