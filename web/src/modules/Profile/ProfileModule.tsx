@@ -9,14 +9,14 @@ export function ProfileModule() {
   const [user, setUser] = useState<IUser | undefined>(undefined)
   const params = useParams()
   const username = params.username as string
-  const { getByUsername } = useUsers()
+  const { getByUsername, users } = useUsers()
 
   useEffect(() => {
     ;(async () => {
       const foundUser = await getByUsername(username)
       setUser(foundUser)
     })()
-  }, [username])
+  }, [username, users])
 
   if (!user) return null
 
