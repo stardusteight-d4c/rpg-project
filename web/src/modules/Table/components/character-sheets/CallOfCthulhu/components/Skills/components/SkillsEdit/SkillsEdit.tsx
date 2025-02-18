@@ -30,6 +30,9 @@ export const SkillsEdit = ({
 
   useEffect(() => {
     setEditableData(character.skills)
+    updateCopyCharacter(character.id ?? randomUUID(), {
+      skills: character.skills,
+    })
   }, [character])
 
   const handleEdit = (name: string, field: string, value: any) => {

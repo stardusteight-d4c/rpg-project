@@ -28,13 +28,16 @@ export const SelectedCharacterDisplay = ({
   isModal,
 }: SelectedCharacterDisplayProps) => {
   if (!selectedCharacter) return null
-  const { getCharacterById } = useCharacters()
-  selectedCharacter = getCharacterById(selectedCharacter.id)!
+  // const { getCharacterById } = useCharacters()
+  // selectedCharacter = getCharacterById(selectedCharacter.id)!
   const { showModal, hideModal } = useModal()
 
   const [activeItems, setActiveItems] = useState<
     Array<"attributes" | "skills" | "inventory" | "combat" | "backstory" | null>
   >([null])
+
+  console.log(' selectedCharacter',  selectedCharacter);
+  
 
   const props = {
     actions: {

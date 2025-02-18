@@ -1,10 +1,26 @@
+"use client"
+
+import { SelectedCharacterDisplay } from "@/modules/Table/components/Characters/components"
 import { CharactersCreate } from "@/modules/Table/components/Characters/components/CharactersCreate"
 import { ModalWrapper } from "@/shared/components"
-import { useState } from "react"
+import { useAuth } from "@/shared/contexts/Auth/AuthContext"
+import { useModal } from "@/shared/contexts/ModalContext"
+import { useSheets } from "@/shared/contexts/Sheets/SheetsContext"
+import React, { useEffect, useState } from "react"
 
-export const Sheets = () => {
+export const Sheets: React.FC<{ user: IUser }> = ({ user }) => {
+  const { showModal, hideModal } = useModal()
+  const { userSheets, getUserSheets } = useSheets()
   const [openModal, setOpenModal] = useState<"open" | "close">("close")
-  const [createMode, setCreateMode] = useState<boolean>(false)
+
+  useEffect(() => {
+    ;(async () => {
+      await getUserSheets(user.id)
+    })()
+  }, [])
+
+  console.log(userSheets);
+  
 
   return (
     <div className="mt-10">
@@ -13,16 +29,25 @@ export const Sheets = () => {
         status={openModal}
         onStatusChange={setOpenModal}
       >
-        <CharactersCreate  setCreateMode={setCreateMode} />
+        <CharactersCreate isModal />
       </ModalWrapper>
       <h2 className="text-4xl w-fit pointer-events-none font-bold mb-2 background-gradient text-transparent bg-clip-text">
         Sheets
       </h2>
       <div className="grid grid-cols-12 w-full gap-2">
-        {[].map((item, index) => (
+        {userSheets.map((sheet, index) => (
           <div key={index} className="col-span-1">
             <img
-              src={item}
+              onClick={() =>
+                showModal(
+                  sheet.id,
+                  <SelectedCharacterDisplay
+                    selectedCharacter={sheet}
+                    isModal={true}
+                  />
+                )
+              }
+              src={sheet.infos.characterUrl}
               alt=""
               className="rounded-full w-full h-[99px] cursor-pointer overflow-hidden aspect-square"
             />

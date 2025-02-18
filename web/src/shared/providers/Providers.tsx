@@ -2,8 +2,6 @@
 
 import { SessionProvider } from "next-auth/react"
 import { providers } from "../contexts"
-import { ToastContainer } from "react-toastify"
-import { ToastProvider, useToast } from "../contexts/Toaster/ToasterContext"
 
 export const Providers = ({
   children,

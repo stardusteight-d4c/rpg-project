@@ -38,6 +38,9 @@ export const ProfileInfoEdit: React.FC<{ character: ISheet }> = ({
         : "player",
       characterFile: null,
     })
+    updateCopyCharacter(character.id ?? randomUUID(), {
+      infos: character.infos,
+    })
   }, [character])
 
   const handleEdit = (field: string, value: any) => {

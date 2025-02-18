@@ -14,7 +14,7 @@ export function ProfileModule() {
   useEffect(() => {
     ;(async () => {
       const foundUser = await getByUsername(username)
-      setUser(foundUser)
+      setUser(foundUser!)
     })()
   }, [username, users])
 
@@ -25,7 +25,7 @@ export function ProfileModule() {
       <Profile.Navbar />
       <Profile.Header user={user} />
       <div className="z-[500] max-w-7xl mb-[200px] -mt-4 flex flex-col gap-y-[100px] w-full mx-auto">
-        <Profile.Sheets />
+        <Profile.Sheets user={user} />
         <Profile.Campaigns />
         <Profile.LatestPosts />
       </div>

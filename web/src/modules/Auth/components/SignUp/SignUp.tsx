@@ -12,11 +12,11 @@ export const SignUp = () => {
   const { signUp } = useAuth()
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    username: "",
-    password: "",
-    confirmPassword: "",
+    name: "Gabriel Sena",
+    email: "sena@example.com",
+    username: "blackwive",
+    password: "secretpassword",
+    confirmPassword: "secretpassword",
   })
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

@@ -15,7 +15,7 @@ interface IUserRoute {
   getByUsername(username: string): Promise<IUser | undefined>
 }
 
-
 interface ISheetRoute {
   add(sheet: ISheet): Promise<ISheet>
+  getUserSheets(userId: string): Promise<Array<ISheet>>
 }

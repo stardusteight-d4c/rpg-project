@@ -28,6 +28,9 @@ export const AttributesEdit = ({
 
   useEffect(() => {
     setEditableData(character.attributes)
+    updateCopyCharacter(character.id ?? randomUUID(), {
+      attributes: character.attributes,
+    })
   }, [character])
 
   const handleEdit = (field: string, value: any) => {
