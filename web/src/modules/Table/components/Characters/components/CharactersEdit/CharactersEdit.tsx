@@ -11,6 +11,7 @@ import {
 } from "../../../character-sheets/CallOfCthulhu/components"
 import { useCharacters } from "@/shared/contexts/Characters/CharactersContext"
 import { ModalWrapper } from "@/shared/components"
+import { useSheets } from "@/shared/contexts/Sheets/SheetsContext"
 
 interface CharactersEditProps {
   playerCharacter: ISheet
@@ -23,6 +24,7 @@ export const CharactersEdit = ({
   setEditMode,
   setSelectedCharacter,
 }: CharactersEditProps) => {
+  const { update } = useSheets()
   const { updateCharacter, copyCharacters, removeCharacter } = useCharacters()
   const [activeItems, setActiveItems] = useState<
     Array<"attributes" | "skills" | "inventory" | "combat" | "backstory" | null>
@@ -58,6 +60,7 @@ export const CharactersEdit = ({
     const updatedCharacter = copyCharacters.find(
       (character) => character.id === playerCharacter.id
     )
+    update(updatedCharacter!)
     updateCharacter(playerCharacter.id, updatedCharacter!)
     setEditMode(false)
   }

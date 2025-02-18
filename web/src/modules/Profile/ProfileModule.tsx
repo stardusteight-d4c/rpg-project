@@ -24,7 +24,7 @@ export function ProfileModule() {
     <main className="w-screen relative">
       <Profile.Navbar />
       <Profile.Header user={user} />
-      <div className="z-[500] max-w-7xl mb-[200px] -mt-4 flex flex-col gap-y-[100px] w-full mx-auto">
+      <div className="z-[500] max-w-7xl mb-[200px] mt-[80px] flex flex-col gap-y-[100px] w-full mx-auto">
         <Profile.Sheets user={user} />
         <Profile.Campaigns />
         <Profile.LatestPosts />

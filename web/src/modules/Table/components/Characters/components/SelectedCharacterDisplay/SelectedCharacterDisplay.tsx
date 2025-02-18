@@ -10,8 +10,8 @@ import {
   Skills,
 } from "../../../character-sheets/CallOfCthulhu/components"
 import { useModal } from "@/shared/contexts/ModalContext"
-import { currentSession } from "@/shared/contexts/Users/mock-data"
 import { useCharacters } from "@/shared/contexts/Characters/CharactersContext"
+import { useAuth } from "@/shared/contexts/Auth/AuthContext"
 
 interface SelectedCharacterDisplayProps {
   selectedCharacter: ISheet | null
@@ -27,6 +27,7 @@ export const SelectedCharacterDisplay = ({
   setEditMode,
   isModal,
 }: SelectedCharacterDisplayProps) => {
+  const { currentSession } = useAuth()
   if (!selectedCharacter) return null
   // const { getCharacterById } = useCharacters()
   // selectedCharacter = getCharacterById(selectedCharacter.id)!
@@ -35,9 +36,6 @@ export const SelectedCharacterDisplay = ({
   const [activeItems, setActiveItems] = useState<
     Array<"attributes" | "skills" | "inventory" | "combat" | "backstory" | null>
   >([null])
-
-  console.log(' selectedCharacter',  selectedCharacter);
-  
 
   const props = {
     actions: {
@@ -89,8 +87,8 @@ export const SelectedCharacterDisplay = ({
               <span>Back</span>
             </div>
           )}
-        
-          {!isModal && selectedCharacter?.user?.id === currentSession.id && (
+
+          {selectedCharacter?.user?.id === currentSession?.id && (
             <div
               onClick={() => setEditMode && setEditMode(true)}
               className="flex cursor-pointer items-center group w-fit gap-x-2"

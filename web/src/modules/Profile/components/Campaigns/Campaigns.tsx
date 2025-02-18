@@ -7,7 +7,7 @@ export const Campaigns = () => {
 
   return (
     <div>
-      <h2 className="text-4xl w-fit pointer-events-none font-bold mb-2 background-gradient text-transparent bg-clip-text">
+        <h2 className="text-3xl pointer-events-none font-bold mb-2">
         Campaigns
       </h2>
       <div className="grid grid-cols-3 w-full gap-4">

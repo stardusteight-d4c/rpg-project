@@ -17,5 +17,6 @@ interface IUserRoute {
 
 interface ISheetRoute {
   add(sheet: ISheet): Promise<ISheet>
+  update(sheet: Partial<ISheet>): Promise<ISheet>
   getUserSheets(userId: string): Promise<Array<ISheet>>
 }

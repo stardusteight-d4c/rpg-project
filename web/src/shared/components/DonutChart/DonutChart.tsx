@@ -1,17 +1,19 @@
 interface DonutChartProps {
-  percentage: number // Porcentagem do progresso
-  size?: number // Tamanho do gráfico (largura e altura)
-  strokeWidth?: number // Largura do traço
+  percentage: number 
+  size?: number 
+  strokeWidth?: number 
+  backgroundColor?: string
 }
 
 export const DonutChart: React.FC<DonutChartProps> = ({
   percentage,
   size = 100,
+  backgroundColor = '#4b55631a',
   strokeWidth = 10,
 }) => {
-  const radius = (size - strokeWidth) / 2 // Raio interno
-  const circumference = 2 * Math.PI * radius // Circunferência do círculo
-  const progress = (percentage / 100) * circumference // Progresso baseado na porcentagem
+  const radius = (size - strokeWidth) / 2 
+  const circumference = 2 * Math.PI * radius 
+  const progress = (percentage / 100) * circumference
 
   return (
     <div className="flex flex-col items-center justify-center">
@@ -27,7 +29,7 @@ export const DonutChart: React.FC<DonutChartProps> = ({
           cy={size / 2}
           r={radius}
           fill="none"
-          stroke="#4b55631a"
+          stroke={backgroundColor}
           strokeWidth={strokeWidth}
         />
         {/* Progresso */}

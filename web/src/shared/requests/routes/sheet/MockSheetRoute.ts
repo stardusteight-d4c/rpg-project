@@ -23,13 +23,22 @@ export class MockSheetRoute implements ISheetRoute {
     return newSheet
   }
 
-  public async getUserSheets(userId: string): Promise<ISheet[]> {
-    console.log("userId", userId)
-    console.log("this.#sheets", this.#sheets)
+  public async update(sheet: Partial<ISheet>): Promise<ISheet> {
+    const existingSheetIndex = this.#sheets.findIndex((s) => s.id === sheet.id)
 
-    const userSheets = this.#sheets.filter(
-      (sheet) => sheet.user.id === userId
-    )
+    if (existingSheetIndex === -1) {
+      throw new Error("Sheet not found.")
+    }
+
+    const existingSheet = this.#sheets[existingSheetIndex]
+    const updatedSheet = { ...existingSheet, ...sheet }
+    this.#sheets[existingSheetIndex] = updatedSheet
+
+    return updatedSheet
+  }
+
+  public async getUserSheets(userId: string): Promise<ISheet[]> {
+    const userSheets = this.#sheets.filter((sheet) => sheet.user.id === userId)
 
     return userSheets
   }

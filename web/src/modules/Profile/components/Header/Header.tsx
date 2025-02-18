@@ -1,4 +1,4 @@
-import { GlowingWrapper, ModalWrapper } from "@/shared/components"
+import { DonutChart, GlowingWrapper, ModalWrapper } from "@/shared/components"
 import { useAuth } from "@/shared/contexts/Auth/AuthContext"
 import { useUsers } from "@/shared/contexts/Users/UsersContext"
 import { convertTimestamp } from "@/shared/utils/convertTimestamp"
@@ -112,7 +112,7 @@ export const Header: React.FC<{ user: IUser }> = ({ user }) => {
                   onClick={handleCoverClick}
                   src={editableData.coverImage}
                   alt=""
-                  className="cursor-pointer w-full h-[180px] rounded-t-3xl select-none overflow-hidden object-fill"
+                  className="cursor-pointer w-full h-[180px] rounded-t-3xl select-none overflow-hidden object-cover"
                 />
               ) : (
                 <div
@@ -205,14 +205,13 @@ export const Header: React.FC<{ user: IUser }> = ({ user }) => {
         <img
           src={user.coverImage}
           alt=""
-          className="pointer-events-none h-[372px] select-none w-screen overflow-hidden object-fill"
+          className="pointer-events-none h-[372px] select-none w-screen overflow-hidden object-cover"
         />
       ) : (
         <div className="w-full h-[372px] bg-button"></div>
       )}
-
       <div className="max-w-7xl h-[150px] z-[500] mx-auto relative">
-        <div className="absolute -top-[55px] left-[200px] flex items-center gap-x-2">
+        <div className="absolute -top-[55px] left-[0px] flex items-center gap-x-2">
           {user.id !== currentSession?.id && (
             <span className="bg-background cursor-pointer shadow-sm shadow-black/50 hover:bg-gradient-to-tr hover:from-[#42d392] hover:to-[#8B5CF6] duration-300 ease-in-out transition-all p-2 rounded-full">
               <svg
@@ -236,22 +235,44 @@ export const Header: React.FC<{ user: IUser }> = ({ user }) => {
             >
               <path d="M244.8,150.4a8,8,0,0,1-11.2-1.6A51.6,51.6,0,0,0,192,128a8,8,0,0,1-7.37-4.89,8,8,0,0,1,0-6.22A8,8,0,0,1,192,112a24,24,0,1,0-23.24-30,8,8,0,1,1-15.5-4A40,40,0,1,1,219,117.51a67.94,67.94,0,0,1,27.43,21.68A8,8,0,0,1,244.8,150.4ZM190.92,212a8,8,0,1,1-13.84,8,57,57,0,0,0-98.16,0,8,8,0,1,1-13.84-8,72.06,72.06,0,0,1,33.74-29.92,48,48,0,1,1,58.36,0A72.06,72.06,0,0,1,190.92,212ZM128,176a32,32,0,1,0-32-32A32,32,0,0,0,128,176ZM72,120a8,8,0,0,0-8-8A24,24,0,1,1,87.24,82a8,8,0,1,0,15.5-4A40,40,0,1,0,37,117.51,67.94,67.94,0,0,0,9.6,139.19a8,8,0,1,0,12.8,9.61A51.6,51.6,0,0,1,64,128,8,8,0,0,0,72,120Z"></path>
             </svg>
-            <span className="text-xl font-medium pr-1">Friends</span>
           </span>
-          {/* <div className="w-[688px] pointer-events-none select-none rounded-full shadow-sm shadow-black/50 mx-auto relative bg-background h-[15px]">
-            <div
-              className="h-full rounded-full background-gradient"
-              style={{
-                width: `${(user.exp!.current / user.exp!.nextLevel) * 100}%`,
-              }}
-            ></div>
-            <span className="absolute z-[150] text-sm top-[-2px] left-1/2 -translate-x-1/2">
-              {user.exp?.current}/{user.exp?.nextLevel} to Next Level
+          {currentSession?.id === user.id && (
+            <span
+              onClick={() => setIsOpenEditModal("open")}
+              className="bg-background cursor-pointer flex items-center gap-x-2 shadow-sm shadow-black/50 hover:bg-gradient-to-tr hover:from-[#42d392] hover:to-[#8B5CF6] duration-300 ease-in-out transition-all p-2 rounded-full"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="32"
+                height="32"
+                fill="#FFFFFF"
+                viewBox="0 0 256 256"
+              >
+                <path d="M227.32,73.37,182.63,28.69a16,16,0,0,0-22.63,0L36.69,152A15.86,15.86,0,0,0,32,163.31V208a16,16,0,0,0,16,16H216a8,8,0,0,0,0-16H115.32l112-112A16,16,0,0,0,227.32,73.37ZM92.69,208H48V163.31l88-88L180.69,120ZM192,108.69,147.32,64l24-24L216,84.69Z"></path>
+              </svg>
             </span>
-          </div> */}
+          )}
         </div>
         <div className="w-full z-50 relative">
-          <div className="w-[150px] h-[150px] rounded-full object-cover absolute left-[40px] top-[-75px]">
+          {" "}
+          <div className="absolute rounded-full shadow-md shadow-black/50  left-1/2 -translate-x-1/2  top-[-90px]">
+            <DonutChart
+              percentage={(user.exp!.current / user.exp!.nextLevel) * 100}
+              // percentage={100}
+              strokeWidth={15}
+              size={180}
+              backgroundColor="#090909"
+            />
+          </div>
+          <div className="absolute left-1/2 -translate-x-1/2 -bottom-[175px]">
+            <h2 className="text-5xl capitalize leading-[70px] text-transparent bg-clip-text background-gradient pointer-events-none -mt-2 font-bold ">
+              {user.name}
+            </h2>
+            <span className="block text-center text-3xl lowercase -mt-[15px] text-gray-500/80">
+              #{user.username}
+            </span>
+          </div>
+          <div className="w-[150px] h-[150px] rounded-full object-cover absolute left-1/2 -translate-x-1/2 top-[-75px]">
             {user.avatarUrl ? (
               <img
                 src={user.avatarUrl}
@@ -266,26 +287,12 @@ export const Header: React.FC<{ user: IUser }> = ({ user }) => {
               </div>
             )}
 
-            <svg
-              onClick={() => setIsOpenEditModal("open")}
-              xmlns="http://www.w3.org/2000/svg"
-              width="32"
-              height="32"
-              fill="#FFFFFF"
-              viewBox="0 0 256 256"
-              className="absolute top-[10px] z-50 right-0 bg-background cursor-pointer shadow-sm shadow-black/50 hover:bg-gradient-to-tr hover:from-[#42d392] hover:to-[#8B5CF6] duration-300 ease-in-out transition-all p-1 rounded-full"
-            >
-              <path d="M227.32,73.37,182.63,28.69a16,16,0,0,0-22.63,0L36.69,152A15.86,15.86,0,0,0,32,163.31V208a16,16,0,0,0,16,16H216a8,8,0,0,0,0-16H115.32l112-112A16,16,0,0,0,227.32,73.37ZM92.69,208H48V163.31l88-88L180.69,120ZM192,108.69,147.32,64l24-24L216,84.69Z"></path>
-            </svg>
-            <div className="bg-background pointer-events-none select-none text-lg font-bold shadow-sm shadow-black/50 absolute bottom-[10px] right-[0px] w-[32px] h-[32px] rounded-full flex items-center justify-center">
+            <div className="bg-background pointer-events-none select-none text-lg font-bold shadow-sm shadow-black/50 absolute bottom-[0px] right-[0px] w-[32px] h-[32px] rounded-full flex items-center justify-center">
               {user.exp?.level}
             </div>
           </div>
-          <div className="absolute text-sm right-[40px] top-[4px]">
-            <div className="text-gray-500/80 select-none flex items-center gap-x-[2px] mt-1 w-full justify-end">
-              <span className="text-xs block">
-                Member since {convertTimestamp(user.memberSince)}
-              </span>
+          <div className="absolute text-sm flex flex-col items-start justify-start left-[0px] top-[4px]">
+            <div className="text-gray-500/80 select-none flex items-center gap-x-[2px] mt-1 w-full">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
@@ -295,58 +302,58 @@ export const Header: React.FC<{ user: IUser }> = ({ user }) => {
               >
                 <path d="M208,32H184V24a8,8,0,0,0-16,0v8H88V24a8,8,0,0,0-16,0v8H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM72,48v8a8,8,0,0,0,16,0V48h80v8a8,8,0,0,0,16,0V48h24V80H48V48ZM208,208H48V96H208V208Zm-68-76a12,12,0,1,1-12-12A12,12,0,0,1,140,132Zm44,0a12,12,0,1,1-12-12A12,12,0,0,1,184,132ZM96,172a12,12,0,1,1-12-12A12,12,0,0,1,96,172Zm44,0a12,12,0,1,1-12-12A12,12,0,0,1,140,172Zm44,0a12,12,0,1,1-12-12A12,12,0,0,1,184,172Z"></path>
               </svg>
-            </div>
-            <div className="text-gray-500/80 select-none flex items-center gap-x-[2px] mt-1 w-full justify-end">
               <span className="text-xs block">
-                {user.hoursPlayed} hours played
+                Member since {convertTimestamp(user.memberSince)}
               </span>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                fill="#6b7280"
-                viewBox="0 0 256 256"
-              >
-                <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm64-88a8,8,0,0,1-8,8H128a8,8,0,0,1-8-8V72a8,8,0,0,1,16,0v48h48A8,8,0,0,1,192,128Z"></path>
-              </svg>
             </div>
-            <div className="text-gray-500/80 select-none flex items-center gap-x-[2px] mt-1 w-full justify-end">
-              <span className="text-xs block">
-                Keeper of Arcane Lore of {user.koalCampaigns} campaigns
-              </span>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                fill="#6b7280"
-                viewBox="0 0 256 256"
-              >
-                <path d="M230.9,73.6A15.85,15.85,0,0,0,212,77.39l-33.67,36.29-35.8-80.29a1,1,0,0,1,0-.1,16,16,0,0,0-29.06,0,1,1,0,0,1,0,.1l-35.8,80.29L44,77.39A16,16,0,0,0,16.25,90.81c0,.11,0,.21.07.32L39,195a16,16,0,0,0,15.72,13H201.29A16,16,0,0,0,217,195L239.68,91.13c0-.11,0-.21.07-.32A15.85,15.85,0,0,0,230.9,73.6ZM201.35,191.68l-.06.32H54.71l-.06-.32L32,88l.14.16,42,45.24a8,8,0,0,0,13.18-2.18L128,40l40.69,91.25a8,8,0,0,0,13.18,2.18l42-45.24L224,88Z"></path>
-              </svg>
-            </div>
-            <div className="text-gray-500/80 select-none flex items-center gap-x-[2px] mt-1 w-full justify-end">
-              <span className="text-xs block">
-                Playing in {user.playingCampaigns} campaigns
-              </span>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                fill="#6b7280"
-                viewBox="0 0 256 256"
-              >
-                <path d="M42.76,50A8,8,0,0,0,40,56V224a8,8,0,0,0,16,0V179.77c26.79-21.16,49.87-9.75,76.45,3.41,16.4,8.11,34.06,16.85,53,16.85,13.93,0,28.54-4.75,43.82-18a8,8,0,0,0,2.76-6V56A8,8,0,0,0,218.76,50c-28,24.23-51.72,12.49-79.21-1.12C111.07,34.76,78.78,18.79,42.76,50ZM216,172.25c-26.79,21.16-49.87,9.74-76.45-3.41-25-12.35-52.81-26.13-83.55-8.4V59.79c26.79-21.16,49.87-9.75,76.45,3.4,25,12.35,52.82,26.13,83.55,8.4Z"></path>
-              </svg>
-            </div>
-          </div>
-
-          <div className="absolute left-[200px]">
-            <h2 className="text-5xl capitalize leading-[70px] pointer-events-none -mt-2 font-bold background-gradient text-transparent bg-clip-text">
-              {user.name}
-            </h2>
-            <span className="block text-3xl lowercase font-medium -mt-[15px] text-gray-400/80">
-              #{user.username}
-            </span>
+            {user.hoursPlayed !== 0 && (
+              <div className="text-gray-500/80 select-none flex items-center gap-x-[2px] mt-1 w-full">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="#6b7280"
+                  viewBox="0 0 256 256"
+                >
+                  <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm64-88a8,8,0,0,1-8,8H128a8,8,0,0,1-8-8V72a8,8,0,0,1,16,0v48h48A8,8,0,0,1,192,128Z"></path>
+                </svg>
+                <span className="text-xs block">
+                  {user.hoursPlayed} hours played
+                </span>
+              </div>
+            )}
+            {user.koalCampaigns !== 0 && (
+              <div className="text-gray-500/80 select-none flex items-center gap-x-[2px] mt-1 w-full">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="#6b7280"
+                  viewBox="0 0 256 256"
+                >
+                  <path d="M230.9,73.6A15.85,15.85,0,0,0,212,77.39l-33.67,36.29-35.8-80.29a1,1,0,0,1,0-.1,16,16,0,0,0-29.06,0,1,1,0,0,1,0,.1l-35.8,80.29L44,77.39A16,16,0,0,0,16.25,90.81c0,.11,0,.21.07.32L39,195a16,16,0,0,0,15.72,13H201.29A16,16,0,0,0,217,195L239.68,91.13c0-.11,0-.21.07-.32A15.85,15.85,0,0,0,230.9,73.6ZM201.35,191.68l-.06.32H54.71l-.06-.32L32,88l.14.16,42,45.24a8,8,0,0,0,13.18-2.18L128,40l40.69,91.25a8,8,0,0,0,13.18,2.18l42-45.24L224,88Z"></path>
+                </svg>
+                <span className="text-xs block">
+                  Keeper of Arcane Lore of {user.koalCampaigns} campaigns
+                </span>
+              </div>
+            )}
+            {user.playingCampaigns !== 0 && (
+              <div className="text-gray-500/80 select-none flex items-center gap-x-[2px] mt-1 w-full">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="#6b7280"
+                  viewBox="0 0 256 256"
+                >
+                  <path d="M42.76,50A8,8,0,0,0,40,56V224a8,8,0,0,0,16,0V179.77c26.79-21.16,49.87-9.75,76.45,3.41,16.4,8.11,34.06,16.85,53,16.85,13.93,0,28.54-4.75,43.82-18a8,8,0,0,0,2.76-6V56A8,8,0,0,0,218.76,50c-28,24.23-51.72,12.49-79.21-1.12C111.07,34.76,78.78,18.79,42.76,50ZM216,172.25c-26.79,21.16-49.87,9.74-76.45-3.41-25-12.35-52.81-26.13-83.55-8.4V59.79c26.79-21.16,49.87-9.75,76.45,3.4,25,12.35,52.82,26.13,83.55,8.4Z"></path>
+                </svg>
+                <span className="text-xs block">
+                  Playing in {user.playingCampaigns} campaigns
+                </span>
+              </div>
+            )}
           </div>
         </div>
       </div>

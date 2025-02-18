@@ -6,8 +6,13 @@ import { useState } from "react"
 import { CreateCampaignModal } from "./components/CreateCampaignModal"
 import { useAuth } from "@/shared/contexts/Auth/AuthContext"
 import { getNameInitials } from "@/shared/utils/getNameInitials"
+import { ModalWrapper } from "../ModalWrapper"
+import { CharactersCreate } from "@/modules/Table/components/Characters/components/CharactersCreate"
 
 export const Navbar = () => {
+  const [createSheetModal, setCreateSheetModal] = useState<"open" | "close">(
+    "close"
+  )
   const [openCreateCampaignModal, setOpenCreateCampaignModal] =
     useState<boolean>(false)
   const { currentSession, logout } = useAuth()
@@ -17,6 +22,15 @@ export const Navbar = () => {
 
   return (
     <nav className="bg-background fixed inset-x-0 top-0 z-[600] w-screen border-b py-1 border-border shadow-sm shadow-black/50 ">
+      <ModalWrapper
+        showCloseIcon={false}
+        status={createSheetModal}
+        onStatusChange={setCreateSheetModal}
+      >
+        <div className="w-[700px]">
+          <CharactersCreate isModal />
+        </div>
+      </ModalWrapper>
       {openCreateCampaignModal && (
         <CreateCampaignModal
           onStatusChange={(value: "close" | "open") => {
@@ -54,6 +68,24 @@ export const Navbar = () => {
               </svg>
             </button>
             <span>Find a player</span>
+          </div>
+
+          <div
+            onClick={() => setCreateSheetModal("open")}
+            className="cursor-pointer w-fit flex items-center group gap-x-2"
+          >
+            <button className="bg-ashes flex items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50 group-hover:bg-gradient-to-tr group-hover:from-[#42d392] group-hover:to-[#8B5CF6] duration-300 ease-in-out transition-all">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                fill="#FFFFFF"
+                viewBox="0 0 256 256"
+              >
+                <path d="M83.19,174.4a8,8,0,0,0,11.21-1.6,52,52,0,0,1,83.2,0,8,8,0,1,0,12.8-9.6A67.88,67.88,0,0,0,163,141.51a40,40,0,1,0-53.94,0A67.88,67.88,0,0,0,81.6,163.2,8,8,0,0,0,83.19,174.4ZM112,112a24,24,0,1,1,24,24A24,24,0,0,1,112,112Zm96-88H64A16,16,0,0,0,48,40V64H32a8,8,0,0,0,0,16H48v40H32a8,8,0,0,0,0,16H48v40H32a8,8,0,0,0,0,16H48v24a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V40A16,16,0,0,0,208,24Zm0,192H64V40H208Z"></path>
+              </svg>
+            </button>
+            <span>Create sheet</span>
           </div>
           <div
             onClick={() => setOpenCreateCampaignModal(true)}
