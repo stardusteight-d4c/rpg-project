@@ -13,18 +13,24 @@ export class MockCampaignRoute implements ICampaignRoute {
     return this.#instance
   }
 
-  public getCampaigns(): Array<ICampaign> {
-    return this.#campaigns
+  public async getUserCampaigns(userId: string): Promise<Array<ICampaign>> {
+    return this.#campaigns.filter(
+      (campaign) => campaign.createdBy.id === userId
+    )
+  }
+
+  public async getById(campaignId: string): Promise<ICampaign | undefined> {
+    return this.#campaigns.find((campaign) => campaign.id === campaignId)
   }
 
   public async create(campaign: CampaignCreate): Promise<ICampaign> {
-    const newCampaign = {
+    const newCampaign: ICampaign = {
       ...campaign,
       id: crypto.randomUUID(),
       duration: "0",
-      coverUrl: campaign.coverUrl ?? "",
+      coverUrl: campaign.coverUrl ?? undefined,
       status: "inactive" as "inactive",
-      players: [],
+      players: [campaign.createdBy],
       tableId: crypto.randomUUID(),
       createdAt: new Date().toISOString(),
     }

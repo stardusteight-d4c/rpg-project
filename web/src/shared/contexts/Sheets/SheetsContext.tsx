@@ -20,7 +20,7 @@ const defaultState: SheetsState = {
   userSheets: [],
   add: async (sheet: ISheet) => {},
   update: async (sheet: Partial<ISheet>) => {},
-  getUserSheets: async (userId: string) => {},
+  getUserSheets: async (userId: string) => [],
 }
 
 const SheetsContext = createContext<SheetsState>(defaultState)
@@ -29,7 +29,6 @@ export const SheetsProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const api = new MockAPI()
-
   const [userSheets, setUserSheets] = useState<ISheet[]>([])
 
   const getUserSheets = async (userId: string) => {

@@ -1,6 +1,6 @@
 "use client"
 
-import { Navbar, Tooltip } from "@/shared/components"
+import { Footer, Navbar, Tooltip } from "@/shared/components"
 import { useCampaigns } from "@/shared/contexts/Campaigns/CampaignsContext"
 import { useCharacters } from "@/shared/contexts/Characters/CharactersContext"
 import { useParams, useRouter } from "next/navigation"
@@ -9,40 +9,63 @@ import { useEffect, useState } from "react"
 import { useFeed } from "@/shared/contexts/Feed/FeedContext"
 import { Post } from "../Feed/components/Post/Post"
 import { convertTimestamp } from "@/shared/utils/convertTimestamp"
+import { getNameInitials } from "@/shared/utils/getNameInitials"
+import { useAuth } from "@/shared/contexts/Auth/AuthContext"
 
 export function CampaignModule() {
+  const { push } = useRouter()
+  const { currentSession } = useAuth()
+  const [campaign, setCampaign] = useState<ICampaign | undefined>(undefined)
   const params = useParams()
   const campaignId = params.id as string
-  const { push } = useRouter()
-  const { getByCampaignId } = useFeed()
-  const { getBy } = useCampaigns()
-  const { getCharactersByType } = useCharacters()
+  const { getById } = useCampaigns()
   const [timeAgo, setTimeAgo] = useState<string>("")
 
-  const campaign = getBy({ key: "id", value: campaignId })
-  if (!campaign) return
-  const posts = getByCampaignId(campaignId)
-
   useEffect(() => {
-    if (campaign.streaming && campaign.streaming.startedAt) {
-      const interval = setInterval(() => {
-        setTimeAgo(countTimeago(campaign.streaming!.startedAt))
-      }, 1000)
+    ;(async () => {
+      const foundCampaign = await getById(campaignId)
+      setCampaign(foundCampaign)
+    })()
+  }, [campaignId])
 
-      return () => clearInterval(interval)
-    }
-  }, [campaign])
+  //  if (!user) return null
+
+  if (!campaign) return
+
+  console.log(campaign)
+  // getTablePlayerCharacters
+  // getCampaignPosts
+  // Na rota Table e rota Post
+
+  // const posts = getByCampaignId(campaignId)
+
+  // useEffect(() => {
+  //   if (campaign.streaming && campaign.streaming.startedAt) {
+  //     const interval = setInterval(() => {
+  //       setTimeAgo(countTimeago(campaign.streaming!.startedAt))
+  //     }, 1000)
+
+  //     return () => clearInterval(interval)
+  //   }
+  // }, [campaign])
 
   return (
     <main className="w-screen">
       <Navbar />
-      <div className="max-w-7xl w-full mx-auto mt-[45px] pt-4">
+      <div className="max-w-7xl min-h-screen w-full mx-auto mt-[45px] pt-4">
         <div className="flex pb-2 select-none bg-background z-20 items-center gap-x-2">
-          <img
-            src={campaign.createdBy.avatarUrl}
-            alt=""
-            className="w-[48px] aspect-square object-cover select-none pointer-events-none h-[48px] border border-border rounded-full"
-          />
+          {campaign.createdBy.avatarUrl ? (
+            <img
+              src={campaign.createdBy.avatarUrl}
+              alt=""
+              referrerPolicy="no-referrer"
+              className="w-[48px] aspect-square object-cover select-none pointer-events-none h-[48px] border border-border rounded-full"
+            />
+          ) : (
+            <div className="w-[48px] text-2xl font-bold text-white flex items-center justify-center aspect-square object-cover select-none pointer-events-none h-[48px] border border-border rounded-full">
+              {getNameInitials(campaign.createdBy.name)}
+            </div>
+          )}
           <div className="flex flex-col">
             <span className="block text-lg font-bold -tracking-wide">
               {campaign.createdBy.name}
@@ -59,7 +82,7 @@ export function CampaignModule() {
                 src={campaign.coverUrl}
                 alt=""
                 referrerPolicy="no-referrer"
-                className="w-full object-fill rounded-3xl h-[350px]"
+                className="w-full object-fill rounded-xl h-[350px]"
               />
               {campaign.status === "active" && (
                 <div className="absolute top-4 left-4 flex items-center gap-x-2">
@@ -151,29 +174,31 @@ export function CampaignModule() {
               {campaign.name}
             </h2>
             <span className="block text-gray-400">{campaign.description}</span>
-            <span
-              onClick={() =>
-                push("/table/118c3962-fbbc-4dc0-8381-0f0d0a1afa38")
-              }
-              className="bg-background border border-border cursor-pointer w-fit flex items-center gap-x-2 shadow-sm shadow-black/50 hover:bg-border duration-300 ease-in-out transition-all px-4 py-2 rounded-full"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="28"
-                height="28"
-                fill="#22c55e"
-                viewBox="0 0 256 256"
+            {campaign.players.find(
+              (player) => player.id === currentSession?.id
+            ) && (
+              <span
+                onClick={() => push(`/table/${campaign.tableId}`)}
+                className="bg-background border border-border cursor-pointer w-fit flex items-center gap-x-2 shadow-sm shadow-black/50 hover:bg-border duration-300 ease-in-out transition-all px-4 py-2 rounded-full"
               >
-                <path d="M168,96v48a8,8,0,0,1-16,0V115.31l-50.34,50.35a8,8,0,0,1-11.32-11.32L140.69,104H112a8,8,0,0,1,0-16h48A8,8,0,0,1,168,96Zm64,32A104,104,0,1,1,128,24,104.11,104.11,0,0,1,232,128Zm-16,0a88,88,0,1,0-88,88A88.1,88.1,0,0,0,216,128Z"></path>
-              </svg>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="28"
+                  height="28"
+                  fill="#22c55e"
+                  viewBox="0 0 256 256"
+                >
+                  <path d="M168,96v48a8,8,0,0,1-16,0V115.31l-50.34,50.35a8,8,0,0,1-11.32-11.32L140.69,104H112a8,8,0,0,1,0-16h48A8,8,0,0,1,168,96Zm64,32A104,104,0,1,1,128,24,104.11,104.11,0,0,1,232,128Zm-16,0a88,88,0,1,0-88,88A88.1,88.1,0,0,0,216,128Z"></path>
+                </svg>
 
-              <span className="text-xl font-medium text-green-500 pr-1">
-                Join the table
+                <span className="text-xl font-medium text-green-500 pr-1">
+                  Join the table
+                </span>
               </span>
-            </span>
+            )}
           </div>
           <div className="col-span-1 mt-4">
-            <div className="flex flex-col gap-y-4 rounded-3xl w-full">
+            {/* <div className="flex flex-col gap-y-4 rounded-3xl w-full">
               {posts.map((post) => (
                 <Post post={post} />
               ))}
@@ -182,9 +207,10 @@ export function CampaignModule() {
               <span className="text-blue-500 underline mx-auto block mt-2 cursor-pointer w-fit">
                 See more
               </span>
-            )}
+            )} */}
           </div>
-          <div className="col-span-1 mt-4 w-full  rounded-3xl">
+
+          {/* <div className="col-span-1 mt-4 w-full  rounded-3xl">
             <div>
               <div className="flex border bg-border border-border rounded-3xl p-4 flex-col gap-2 flex-wrap">
                 {getCharactersByType().players.map((character) => (
@@ -260,18 +286,10 @@ export function CampaignModule() {
                 ))}
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
-      <footer className="mt-[100px] w-full bg-ashes border-t border-border py-1">
-        <div className="font-bold max-w-7xl w-full mx-auto text-2xl pointer-events-none select-none flex gap-2">
-          <img
-            src="/logo.svg"
-            alt=""
-            className="w-[42px] h-[42px] p-1 rounded-full shadow-sm shadow-black/50 mx-auto border border-border"
-          />
-        </div>
-      </footer>
+      <Footer />
     </main>
   )
 }

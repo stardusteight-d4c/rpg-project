@@ -10,6 +10,7 @@ interface AuthState {
   signUp: (data: SignUpDTO) => Promise<void>
   signIn: (data: SignInDTO) => Promise<void>
   logout: () => void
+  updateSession: (updatedUser: IUser) => void
   // addSession: (user: User, accessToken: string, refreshToken: string) => void
   // getToken: () => string | null
   // signUpWithGoogle: () => Promise<void>
@@ -20,6 +21,7 @@ const defaultState: AuthState = {
   signUp: async () => {},
   signIn: async () => {},
   logout: () => {},
+  updateSession: (updatedUser: IUser) => {}
   // addSession: () => {},
   // getToken: () => null,
   // signUpWithGoogle: async () => {},
@@ -83,6 +85,15 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   //   push(`/user/${data.user.username}`)
   // }
 
+  const updateSession = (updatedUser: IUser) => {
+    setCurrentSession((prev) => {
+      if (!prev) return undefined
+      const newSession = { ...prev, ...updatedUser }
+      Cookies.set("currentSession", JSON.stringify(newSession), { expires: 7 })
+      return newSession
+    })
+  }
+
   const signUp = async (data: SignUpDTO) => {
     return await api.auth
       .signUp(data)
@@ -123,6 +134,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         signUp,
         signIn,
         logout,
+        updateSession
         // getToken,
         // signUpWithGoogle,
         // addSession,

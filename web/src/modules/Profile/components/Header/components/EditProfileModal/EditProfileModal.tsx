@@ -1,4 +1,5 @@
 import { GlowingWrapper, ModalWrapper } from "@/shared/components"
+import { useAuth } from "@/shared/contexts/Auth/AuthContext"
 import { useToast } from "@/shared/contexts/Toaster/ToasterContext"
 import { useUsers } from "@/shared/contexts/Users/UsersContext"
 import { getNameInitials } from "@/shared/utils/getNameInitials"
@@ -13,6 +14,7 @@ export const EditProfileModal: React.FC<{
   const { replace } = useRouter()
   const { addToast } = useToast()
   const { update } = useUsers()
+  const { updateSession } = useAuth()
   const [editableData, setEditableData] = useState({
     id: user.id,
     name: user.name,
@@ -121,6 +123,7 @@ export const EditProfileModal: React.FC<{
     await update(data)
       .then((updatedUser) => {
         setIsOpenEditModal(false)
+        updatedUser && updateSession(updatedUser)
         updatedUser && replace(`/profile/${updatedUser.username}`)
       })
       .catch((error) => addToast(error.message, "error"))
@@ -211,21 +214,23 @@ export const EditProfileModal: React.FC<{
                 alt=""
                 className="rounded-md w-full h-[198px] select-none overflow-hidden object-cover"
               />
-              <button className="absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 hidden group-hover:block hover:bg-red-500 bg-background rounded-full p-1 cursor-pointer duration-300 ease-in-out transition-all shadow-md shadow-black/50 ">
+              <button
+                onClick={onRemoveCoverImage}
+                className="absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 hidden group-hover:block hover:bg-red-500 bg-background rounded-full p-1 cursor-pointer duration-300 ease-in-out transition-all shadow-md shadow-black/50 "
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
                   height="24"
                   fill="#FFFFFF"
                   viewBox="0 0 256 256"
-                  onClick={onRemoveCoverImage}
                 >
                   <path d="M213.66,82.34l-56-56A8,8,0,0,0,152,24H56A16,16,0,0,0,40,40V216a16,16,0,0,0,16,16H200a16,16,0,0,0,16-16V88A8,8,0,0,0,213.66,82.34ZM160,51.31,188.69,80H160ZM200,216H56V40h88V88a8,8,0,0,0,8,8h48V216Zm-42.34-82.34L139.31,152l18.35,18.34a8,8,0,0,1-11.32,11.32L128,163.31l-18.34,18.35a8,8,0,0,1-11.32-11.32L116.69,152,98.34,133.66a8,8,0,0,1,11.32-11.32L128,140.69l18.34-18.35a8,8,0,0,1,11.32,11.32Z"></path>
                 </svg>
               </button>
             </div>
           ) : (
-            <div className="group rounded-md w-full h-[198px] flex items-center justify-center  bg-button" />
+            <div className="group rounded-md w-full h-[198px] flex items-center justify-center bg-ashes border border-border" />
           )}
           {editableData.avatarUrl ? (
             <div className="relative group">
@@ -234,21 +239,23 @@ export const EditProfileModal: React.FC<{
                 alt=""
                 className="w-[100px] absolute left-1/2 -translate-x-1/2 -bottom-[50px] select-none h-[100px] rounded-full object-cover"
               />
-              <button className="hidden absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 group-hover:block hover:bg-red-500 bg-background rounded-full p-1 cursor-pointer duration-300 ease-in-out transition-all shadow-md shadow-black/50 ">
+              <button
+                onClick={onRemoveProfileImage}
+                className="hidden absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 group-hover:block hover:bg-red-500 bg-background rounded-full p-1 cursor-pointer duration-300 ease-in-out transition-all shadow-md shadow-black/50 "
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
                   height="24"
                   fill="#FFFFFF"
                   viewBox="0 0 256 256"
-                  onClick={onRemoveProfileImage}
                 >
                   <path d="M213.66,82.34l-56-56A8,8,0,0,0,152,24H56A16,16,0,0,0,40,40V216a16,16,0,0,0,16,16H200a16,16,0,0,0,16-16V88A8,8,0,0,0,213.66,82.34ZM160,51.31,188.69,80H160ZM200,216H56V40h88V88a8,8,0,0,0,8,8h48V216Zm-42.34-82.34L139.31,152l18.35,18.34a8,8,0,0,1-11.32,11.32L128,163.31l-18.34,18.35a8,8,0,0,1-11.32-11.32L116.69,152,98.34,133.66a8,8,0,0,1,11.32-11.32L128,140.69l18.34-18.35a8,8,0,0,1,11.32,11.32Z"></path>
                 </svg>
               </button>
             </div>
           ) : (
-            <div className="bg-button group w-[100px] absolute left-1/2 -translate-x-1/2 -bottom-[50px] flex items-center text-center justify-center h-[100px] rounded-full select-none">
+            <div className="bg-ashes border border-border group w-[100px] absolute left-1/2 -translate-x-1/2 -bottom-[50px] flex items-center text-center justify-center h-[100px] rounded-full select-none">
               <span className="text-4xl font-bold">
                 {getNameInitials(user.name)}
               </span>

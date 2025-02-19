@@ -4,13 +4,13 @@ import React, { createContext, useContext, ReactNode, useState } from "react"
 import { MockAPI } from "@/shared/requests/MockAPI"
 
 interface UsersState {
-  users: IUser[]
+  cachedUsers: IUser[]
   getByUsername: (username: string) => Promise<IUser | void>
   update: (updatedUser: Partial<IUser>) => Promise<IUser | void>
 }
 
 const defaultState: UsersState = {
-  users: [],
+  cachedUsers: [],
   getByUsername: async () => {},
   update: async () => {},
 }
@@ -21,16 +21,18 @@ export const UsersProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const api = new MockAPI()
-  
-  const [users, setUsers] = useState<IUser[]>([])
+
+  const [cachedUsers, setCachedUsers] = useState<IUser[]>([])
 
   const getByUsername = async (username: string) => {
-    const findCachedUser = users.find((user) => user.username === username)
+    const findCachedUser = cachedUsers.find(
+      (user) => user.username === username
+    )
     if (findCachedUser) return findCachedUser
     return await api.user
       .getByUsername(username)
       .then((user) => {
-        user && setUsers((prev) => [...prev, user])
+        user && setCachedUsers((prev) => [...prev, user])
         return user
       })
       .catch((error) => {
@@ -42,7 +44,7 @@ export const UsersProvider: React.FC<{ children: ReactNode }> = ({
     return await api.user
       .update(updatedUser)
       .then((user) => {
-        setUsers((prev) =>
+        setCachedUsers((prev) =>
           prev.map((u) => (u.id === updatedUser.id ? user : u))
         )
         return user
@@ -53,7 +55,7 @@ export const UsersProvider: React.FC<{ children: ReactNode }> = ({
   }
 
   return (
-    <UsersContext.Provider value={{ users, getByUsername, update }}>
+    <UsersContext.Provider value={{ cachedUsers, getByUsername, update }}>
       {children}
     </UsersContext.Provider>
   )

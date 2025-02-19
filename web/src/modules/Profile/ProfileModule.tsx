@@ -1,7 +1,7 @@
 "use client"
 
 import { useUsers } from "@/shared/contexts/Users/UsersContext"
-import { useParams, useRouter } from "next/navigation"
+import { useParams } from "next/navigation"
 import { useEffect, useState } from "react"
 import { Profile } from "./components"
 
@@ -9,14 +9,14 @@ export function ProfileModule() {
   const [user, setUser] = useState<IUser | undefined>(undefined)
   const params = useParams()
   const username = params.username as string
-  const { getByUsername, users } = useUsers()
+  const { getByUsername, cachedUsers } = useUsers()
 
   useEffect(() => {
     ;(async () => {
       const foundUser = await getByUsername(username)
       setUser(foundUser!)
     })()
-  }, [username, users])
+  }, [username, cachedUsers])
 
   if (!user) return null
 
@@ -26,7 +26,7 @@ export function ProfileModule() {
       <Profile.Header user={user} />
       <div className="z-[500] max-w-7xl mb-[200px] mt-[80px] flex flex-col gap-y-[100px] w-full mx-auto">
         <Profile.Sheets user={user} />
-        <Profile.Campaigns />
+        <Profile.Campaigns user={user} />
         <Profile.LatestPosts />
       </div>
       <Profile.Footer />

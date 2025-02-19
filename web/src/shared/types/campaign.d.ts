@@ -6,7 +6,7 @@ interface ICampaign {
   tableId: string
   name: string
   description: string
-  coverUrl: string
+  coverUrl: string | undefined
   duration: string
   status: CampaignStatus
   players: IUser[]
