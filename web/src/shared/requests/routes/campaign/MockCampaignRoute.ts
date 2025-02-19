@@ -23,6 +23,22 @@ export class MockCampaignRoute implements ICampaignRoute {
     return this.#campaigns.find((campaign) => campaign.id === campaignId)
   }
 
+  public async update(campaign: Partial<ICampaign>): Promise<ICampaign> {
+    const existingCampaignIndex = this.#campaigns.findIndex(
+      (c) => c.id === campaign.id
+    )
+
+    if (existingCampaignIndex === -1) {
+      throw new Error("Campaign not found.")
+    }
+
+    const existingCampaign = this.#campaigns[existingCampaignIndex]
+    const updatedCampaign = { ...existingCampaign, ...campaign }
+    this.#campaigns[existingCampaignIndex] = updatedCampaign
+
+    return updatedCampaign
+  }
+
   public async create(campaign: CampaignCreate): Promise<ICampaign> {
     const newCampaign: ICampaign = {
       ...campaign,
@@ -34,6 +50,7 @@ export class MockCampaignRoute implements ICampaignRoute {
       tableId: crypto.randomUUID(),
       createdAt: new Date().toISOString(),
     }
+    this.#campaigns.push(newCampaign)
     return newCampaign
   }
 }

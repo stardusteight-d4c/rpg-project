@@ -12,6 +12,7 @@ import {
 import { useCharacters } from "@/shared/contexts/Characters/CharactersContext"
 import { ModalWrapper } from "@/shared/components"
 import { useSheets } from "@/shared/contexts/Sheets/SheetsContext"
+import { useToast } from "@/shared/contexts/Toaster/ToasterContext"
 
 interface CharactersEditProps {
   playerCharacter: ISheet
@@ -26,6 +27,7 @@ export const CharactersEdit = ({
   setSelectedCharacter,
   isModal = false,
 }: CharactersEditProps) => {
+  const { addToast } = useToast()
   const { update } = useSheets()
   const { updateCharacter, copyCharacters, removeCharacter } = useCharacters()
   const [activeItems, setActiveItems] = useState<
@@ -61,9 +63,15 @@ export const CharactersEdit = ({
       (character) => character.id === playerCharacter.id
     )
     update(updatedCharacter!)
-    updateCharacter(playerCharacter.id, updatedCharacter!)
-    setSelectedCharacter(null)
-    setEditMode(false)
+      .then(() => {
+        addToast("The sheet has been updated!", "success", 45)
+        setSelectedCharacter(null)
+        updateCharacter(playerCharacter.id, updatedCharacter!)
+        setEditMode(false)
+      })
+      .catch((error) => {
+        addToast(error.message, "error", 45)
+      })
   }
 
   function onDelete() {

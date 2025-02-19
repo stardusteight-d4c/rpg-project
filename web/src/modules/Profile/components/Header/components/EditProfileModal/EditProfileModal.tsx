@@ -123,10 +123,14 @@ export const EditProfileModal: React.FC<{
     await update(data)
       .then((updatedUser) => {
         setIsOpenEditModal(false)
+        addToast("The profile has been updated!", "success", 45)
         updatedUser && updateSession(updatedUser)
         updatedUser && replace(`/profile/${updatedUser.username}`)
       })
-      .catch((error) => addToast(error.message, "error"))
+      .catch((error) => {
+        setIsOpenEditModal(false)
+        addToast(error.message, "error")
+      })
   }
 
   return (

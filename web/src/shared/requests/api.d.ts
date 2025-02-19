@@ -2,6 +2,7 @@ interface ICampaignRoute {
   create(campaign: CampaignCreate): Promise<ICampaign>
   getUserCampaigns(userId: string): Promise<Array<ICampaign>>
   getById(campaignId: string): Promise<ICampaign | undefined>
+  update(campaign: Partial<ICampaign>): Promise<ICampaign>
 }
 
 interface IAuthRoute {

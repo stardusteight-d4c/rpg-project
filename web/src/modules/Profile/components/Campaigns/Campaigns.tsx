@@ -17,8 +17,6 @@ export const Campaigns: React.FC<{ user: IUser }> = ({ user }) => {
     })()
   }, [])
 
-  console.log(userCampaigns)
-
   return (
     <div>
       <h2 className="text-3xl pointer-events-none font-bold mb-2">Campaigns</h2>
@@ -52,7 +50,7 @@ export const Campaigns: React.FC<{ user: IUser }> = ({ user }) => {
                 ) : (
                   <div
                     style={{ marginRight: `${index * 20}px` }}
-                    className="w-[42px] h-[42px] text-2xl font-bold text-white flex items-center justify-center aspect-square object-cover select-none pointer-events-none border border-border rounded-full"
+                    className="w-[42px] h-[42px] text-2xl font-bold bg-background text-white flex items-center justify-center aspect-square object-cover select-none pointer-events-none border border-border rounded-full"
                   >
                     {getNameInitials(campaign.createdBy.name)}
                   </div>

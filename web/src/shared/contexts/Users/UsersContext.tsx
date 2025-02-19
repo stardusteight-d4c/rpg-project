@@ -45,7 +45,7 @@ export const UsersProvider: React.FC<{ children: ReactNode }> = ({
       .update(updatedUser)
       .then((user) => {
         setCachedUsers((prev) =>
-          prev.map((u) => (u.id === updatedUser.id ? user : u))
+          prev.map((u) => (u.id === user.id ? user : u))
         )
         return user
       })

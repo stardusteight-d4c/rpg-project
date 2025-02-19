@@ -14,6 +14,7 @@ import { useCharacters } from "@/shared/contexts/Characters/CharactersContext"
 import { currentSession } from "@/shared/contexts/Users/mock-data"
 import { useSheets } from "@/shared/contexts/Sheets/SheetsContext"
 import { useAuth } from "@/shared/contexts/Auth/AuthContext"
+import { useToast } from "@/shared/contexts/Toaster/ToasterContext"
 
 interface CharactersCreateProps {
   setCreateMode?: (value: boolean) => void
@@ -26,6 +27,7 @@ export const CharactersCreate = ({
   setCreateSheetModal,
 }: CharactersCreateProps) => {
   const { add } = useSheets()
+  const {addToast} = useToast()
   const { currentSession } = useAuth()
   const { addCharacter, updateCopyCharacter, copyCharacters } = useCharacters()
   const [initialData, setInitialData] = useState<any>({
@@ -57,8 +59,13 @@ export const CharactersCreate = ({
       .then(() => {
         !isModal && setCreateMode && setCreateMode(false)
         setCreateSheetModal && setCreateSheetModal(false)
+        addToast("The sheet has been created!", "success", 45)
       })
-      .catch((error) => error)
+      .catch((error) => {
+        !isModal && setCreateMode && setCreateMode(false)
+        setCreateSheetModal && setCreateSheetModal(false)
+        addToast(error.message, 'error')
+      })
   }
 
   function rollDice(sides: number, rolls: number): number {

@@ -1,11 +1,6 @@
 "use client"
 
-import {
-  createContext,
-  useContext,
-  useState,
-  ReactNode,
-} from "react"
+import { createContext, useContext, useState, ReactNode } from "react"
 
 type ToastType = "success" | "error" | "info"
 
@@ -17,22 +12,29 @@ interface Toast {
 }
 
 interface ToastContextType {
-  addToast: (message: string, type?: ToastType, duration?: number) => void
+  addToast: (
+    message: string,
+    type?: ToastType,
+    position?: number,
+    duration?: number
+  ) => void
 }
 
 const ToastContext = createContext<ToastContextType | undefined>(undefined)
 
 export const ToastProvider = ({ children }: { children: ReactNode }) => {
   const [toasts, setToasts] = useState<Toast[]>([])
+  const [position, setPosition] = useState<number>(0)
 
   const addToast = (
     message: string,
     type: ToastType = "info",
+    position: number = 0,
     duration: number = 5000
   ) => {
     const id = Date.now()
+    setPosition(position)
     setToasts((prev) => [...prev, { id, message, type, duration }])
-
     setTimeout(() => removeToast(id), duration)
   }
 
@@ -43,7 +45,9 @@ export const ToastProvider = ({ children }: { children: ReactNode }) => {
   return (
     <ToastContext.Provider value={{ addToast }}>
       {children}
-      <div className="fixed top-0 right-4 flex flex-col gap-2 z-[9999]">
+      <div
+        className={`top-[${position}px] fixed right-4 flex flex-col gap-2 z-[9999]`}
+      >
         {toasts.map((toast) => (
           <div
             key={toast.id}

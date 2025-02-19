@@ -1,29 +1,28 @@
 "use client"
 
 import ReactDOM from "react-dom"
-import { ModalWrapper } from "../../ModalWrapper"
 import React, { useState } from "react"
-import { GlowingWrapper } from "../../GlowingWrapper"
 import { useCampaigns } from "@/shared/contexts/Campaigns/CampaignsContext"
 import { useAuth } from "@/shared/contexts/Auth/AuthContext"
+import { GlowingWrapper, ModalWrapper } from "@/shared/components"
 import { useToast } from "@/shared/contexts/Toaster/ToasterContext"
 
-export const CreateCampaignModal: React.FC<{
+export const EditCampaignModal: React.FC<{
   status: boolean
   onStatusChange: (status: boolean) => void
-}> = ({ onStatusChange, status }) => {
-  const { currentSession } = useAuth()
+  campaign: ICampaign
+}> = ({ onStatusChange, status, campaign }) => {
+  const { update } = useCampaigns()
   const { addToast } = useToast()
-  const { add } = useCampaigns()
   const [campaignData, setCampaignData] = useState<{
     name: string
     description: string
     coverUrl: string | undefined
     file: File | undefined
   }>({
-    name: "",
-    description: "",
-    coverUrl: undefined,
+    name: campaign.name,
+    description: campaign.description,
+    coverUrl: campaign.coverUrl,
     file: undefined,
   })
 
@@ -65,13 +64,13 @@ export const CreateCampaignModal: React.FC<{
     })
   }
 
-  const onCreate = async () => {
-    add({
+  const onEdit = async () => {
+    update({
       ...campaignData,
-      createdBy: currentSession!,
+      id: campaign.id,
     })
       .then(() => {
-        addToast("The campaign has been created!", "success", 45)
+        addToast("The campaign has been updated!", "success", 45)
         onStatusChange(false)
       })
       .catch((error) => {
@@ -94,7 +93,7 @@ export const CreateCampaignModal: React.FC<{
 
   return ReactDOM.createPortal(
     <ModalWrapper
-      title="Create Campaign"
+      title="Editing Campaign"
       onStatusChange={onStatusChange}
       status={status}
     >
@@ -115,10 +114,10 @@ export const CreateCampaignModal: React.FC<{
                 <path d="M241.75,51.32a15.88,15.88,0,0,0-13.86-2.77l-3.48.94C205.61,54.56,170.61,64,128,64S50.39,54.56,31.59,49.49l-3.48-.94A16,16,0,0,0,8,64V192a16,16,0,0,0,16,16,16.22,16.22,0,0,0,4.18-.55l3.18-.86C50.13,201.49,85.17,192,128,192s77.87,9.49,96.69,14.59l3.18.86A16,16,0,0,0,248,192V64A15.9,15.9,0,0,0,241.75,51.32ZM27.42,64.93C46.94,70.2,83.27,80,128,80s81.06-9.8,100.58-15.07L232,64V182.76l-58.07-58.07a16,16,0,0,0-22.63,0l-20,20-44-44a16,16,0,0,0-22.62,0L24,141.37V64ZM213.84,187.21a391.22,391.22,0,0,0-49-9L142.63,156l20-20ZM27.13,191.14,24,192V164l52-52,64.25,64.25q-6-.24-12.25-.25C83,176,45.28,186.23,27.13,191.14ZM192,108a12,12,0,1,1,12,12A12,12,0,0,1,192,108Z"></path>
               </svg>
             </button>
-            <span>Upload Cover Image</span>
+            <span>Change Cover Image</span>
           </div>
           <div
-            onClick={onCreate}
+            onClick={onEdit}
             className="cursor-pointer w-fit flex items-center group gap-x-2"
           >
             <button className="bg-ashes flex items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50 group-hover:bg-green-500 duration-300 ease-in-out transition-all">
@@ -132,7 +131,7 @@ export const CreateCampaignModal: React.FC<{
                 <path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z"></path>
               </svg>
             </button>
-            <span>Create Campaign</span>
+            <span>Save Changes</span>
           </div>
         </div>
       </div>
