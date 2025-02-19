@@ -128,7 +128,7 @@ export const EditProfileModal: React.FC<{
 
   return (
     <ModalWrapper
-      title="Edit Profile"
+      title="Editing Profile"
       onStatusChange={handleModal}
       status={isOpenEditModal}
     >
