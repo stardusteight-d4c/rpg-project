@@ -24,11 +24,8 @@ export const ProfileInfoDisplay = ({
       <div className="flex w-full">
         {isShowPlayerInfo && (
           <ModalWrapper
-            onStatusChange={(value: "open" | "close") => {
-              if (value === "close") return setIsShowPlayerInfo(false)
-              setIsShowPlayerInfo(true)
-            }}
-            status={isShowPlayerInfo ? "open" : "close"}
+            onStatusChange={setIsShowPlayerInfo}
+            status={isShowPlayerInfo}
           >
             <div className="px-4 py-8 w-[681px] relative">
               <div className="flex flex-col items-center mt-4 gap-y-2 justify-center">

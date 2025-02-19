@@ -1,14 +1,15 @@
 "use client"
 
-import React, { Dispatch, SetStateAction, useRef } from "react"
+import React, { Dispatch, SetStateAction, useEffect, useRef } from "react"
 import ReactDOM from "react-dom"
 import { Fade, Zoom } from "react-awesome-reveal"
 
 interface ModalWrapperProps {
-  status: "open" | "close"
-  onStatusChange: (status: "close" | "open") => void
+  status: boolean
+  onStatusChange: (status: boolean) => void
   children: React.ReactNode
   showCloseIcon?: boolean
+  title?: string
 }
 
 export const ModalWrapper = ({
@@ -16,28 +17,38 @@ export const ModalWrapper = ({
   children,
   onStatusChange,
   showCloseIcon = true,
+  title,
 }: ModalWrapperProps) => {
-  if (status === "close") return null
-
+  if (status === false) return null
   const modalContentRef = useRef<HTMLDivElement | null>(null)
 
-  // Função que fecha o modal apenas se o clique for fora do conteúdo
   const handleBackgroundClick = (e: React.MouseEvent) => {
-    // Se o clique for dentro do conteúdo do modal, não faz nada
     if (
       modalContentRef.current &&
       modalContentRef.current.contains(e.target as Node)
     ) {
       return
     }
-    // Caso contrário, fecha o modal
-    onStatusChange("close")
+    onStatusChange(false)
   }
+
+  useEffect(() => {
+    if (status) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+
+    return () => {
+      document.body.style.overflow = ""; 
+    };
+  }, [status]);
 
   return ReactDOM.createPortal(
     <div
       className="w-screen h-screen inset-0 !z-[1000] fixed"
       onClick={(e) => {
+        document.body.style.overflow = "";
         handleBackgroundClick(e)
         e.stopPropagation()
       }}
@@ -52,7 +63,7 @@ export const ModalWrapper = ({
         <Zoom className="!z-[950] !relative" duration={300}>
           <div className="w-screen h-screen relative z-[950]">
             <div
-              ref={modalContentRef} // Referência ao conteúdo do modal
+              ref={modalContentRef}
               className="z-[900] max-h-[500px] w-fit overflow-y-scroll no-scrollbar  md:bg-background shadow-md shadow-black/50 md:border md:border-border rounded-xl absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2"
             >
               {showCloseIcon && (
@@ -63,13 +74,17 @@ export const ModalWrapper = ({
                   fill="#cccccc80"
                   viewBox="0 0 256 256"
                   onClick={(e) => {
-                    onStatusChange("close")
+                    document.body.style.overflow = "";
+                    onStatusChange(false)
                     e.stopPropagation()
                   }}
                   className="absolute z-[951] right-4 top-4 rounded-full cursor-pointer"
                 >
                   <path d="M165.66,101.66,139.31,128l26.35,26.34a8,8,0,0,1-11.32,11.32L128,139.31l-26.34,26.35a8,8,0,0,1-11.32-11.32L116.69,128,90.34,101.66a8,8,0,0,1,11.32-11.32L128,116.69l26.34-26.35a8,8,0,0,1,11.32,11.32ZM232,128A104,104,0,1,1,128,24,104.11,104.11,0,0,1,232,128Zm-16,0a88,88,0,1,0-88,88A88.1,88.1,0,0,0,216,128Z"></path>
                 </svg>
+              )}
+              {title && (
+                <h3 className="block text-3xl font-bold p-4">{title}</h3>
               )}
               {children}
             </div>

@@ -31,9 +31,7 @@ export const CharactersEdit = ({
   const [activeItems, setActiveItems] = useState<
     Array<"attributes" | "skills" | "inventory" | "combat" | "backstory" | null>
   >([null])
-  const [openDeleteModal, setOpenDeleteModal] = useState<"open" | "close">(
-    "close"
-  )
+  const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false)
 
   const props = {
     actions: {
@@ -77,7 +75,7 @@ export const CharactersEdit = ({
   return (
     // relative h-screen overflow-y-scroll no-scrollbar
     <section className="w-full">
-      {openDeleteModal === "open" && (
+      {openDeleteModal === true && (
         <ModalWrapper
           status={openDeleteModal}
           onStatusChange={setOpenDeleteModal}
@@ -147,7 +145,7 @@ export const CharactersEdit = ({
             <span>Edit Character</span>
           </div> */}
           <div
-            onClick={() => setOpenDeleteModal("open")}
+            onClick={() => setOpenDeleteModal(true)}
             className="cursor-pointer w-fit flex items-center group gap-x-2"
           >
             <button className="bg-ashes flex items-center justify-center text-white p-1 rounded-full shadow-p group-hover:bg-red-500 duration-300 ease-in-out transition-all">

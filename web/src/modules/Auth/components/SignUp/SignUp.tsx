@@ -138,6 +138,7 @@ export const SignUp = () => {
           </div>
           <GlowingWrapper inset="0" border="rounded-full">
             <input
+              id="name"
               name="name"
               placeholder="Name"
               spellCheck="false"

@@ -8,8 +8,8 @@ import { useCampaigns } from "@/shared/contexts/Campaigns/CampaignsContext"
 import { currentSession } from "@/shared/contexts/Users/mock-data"
 
 export const CreateCampaignModal: React.FC<{
-  status: "open" | "close"
-  onStatusChange: (status: "close" | "open") => void
+  status: boolean
+  onStatusChange: (status: boolean) => void
 }> = ({ onStatusChange, status }) => {
   const { addCampaign } = useCampaigns()
   const [campaignData, setCampaignData] = useState<{
@@ -74,9 +74,12 @@ export const CreateCampaignModal: React.FC<{
   }
 
   return ReactDOM.createPortal(
-    <ModalWrapper onStatusChange={onStatusChange} status={status}>
+    <ModalWrapper
+      title="Create Campaign"
+      onStatusChange={onStatusChange}
+      status={status}
+    >
       <div className="w-[700px] p-4">
-        <h3 className="block text-3xl font-bold">Create Campaign</h3>
         <div className="mt-4 space-y-2">
           <GlowingWrapper inset="0" border="rounded-xl">
             <input

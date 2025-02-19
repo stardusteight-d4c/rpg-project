@@ -1,8 +1,8 @@
 import { ModalWrapper } from "@/shared/components"
 
 interface CombatModalDisplayProps {
-  handleOnStatusChange: (status: "open" | "close") => void
-  selectedWeapon: IWeapon | IGun | IExplosive
+  handleOnStatusChange: (status: boolean) => void
+  selectedWeapon: Weapon | Gun | Explosive
 }
 
 export const CombatModalDisplay = ({
@@ -12,7 +12,7 @@ export const CombatModalDisplay = ({
   return (
     <ModalWrapper
       onStatusChange={handleOnStatusChange}
-      status={selectedWeapon ? "open" : "close"}
+      status={selectedWeapon ? true : false}
     >
       <div className="p-4 w-[681px]">
         <div className="flex items-center gap-x-2">

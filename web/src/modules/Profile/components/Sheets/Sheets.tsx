@@ -19,8 +19,8 @@ export const Sheets: React.FC<{ user: IUser }> = ({ user }) => {
     null
   )
 
-  const handleSelectedCharacterDisplayModal = (value: "open" | "close") => {
-    if (value === "close") {
+  const handleSelectedCharacterDisplayModal = (value: boolean) => {
+    if (value === false) {
       setSelectedCharacter(null)
     }
     return
@@ -36,7 +36,7 @@ export const Sheets: React.FC<{ user: IUser }> = ({ user }) => {
     <div>
       {selectedCharacter && (
         <ModalWrapper
-          status={"open"}
+          status={true}
           onStatusChange={handleSelectedCharacterDisplayModal}
         >
           <div className="w-[700px]">

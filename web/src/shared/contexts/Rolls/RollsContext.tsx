@@ -5,14 +5,14 @@ import { rolls as mockRolls } from "./mock-data"
 
 interface RollsState {
   rolls: IRoll[]
-  openDiceModal: "open" | "close"
-  setOpenDiceModal: (value: "open" | "close") => void
+  openDiceModal: boolean
+  setOpenDiceModal: (value: boolean) => void
   addRoll: (roll: IRoll) => void
 }
 
 const defaultState: RollsState = {
   rolls: [],
-  openDiceModal: "close",
+  openDiceModal: false,
   setOpenDiceModal: () => {},
   addRoll: () => {},
 }
@@ -23,7 +23,7 @@ export const RollsProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const [rolls, setRolls] = useState<IRoll[]>(mockRolls)
-  const [openDiceModal, setOpenDiceModal] = useState<"open" | "close">("close")
+  const [openDiceModal, setOpenDiceModal] = useState<boolean>(false)
 
   const addRoll = (roll: IRoll) => {
     setRolls((prev) => [...prev, roll])

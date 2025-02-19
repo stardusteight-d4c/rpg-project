@@ -10,8 +10,8 @@ import { ModalWrapper } from "../ModalWrapper"
 import { CharactersCreate } from "@/modules/Table/components/Characters/components/CharactersCreate"
 
 export const Navbar = () => {
-  const [createSheetModal, setCreateSheetModal] = useState<"open" | "close">(
-    "close"
+  const [createSheetModal, setCreateSheetModal] = useState<boolean>(
+   false
   )
   const [openCreateCampaignModal, setOpenCreateCampaignModal] =
     useState<boolean>(false)
@@ -24,20 +24,17 @@ export const Navbar = () => {
     <nav className="bg-background fixed inset-x-0 top-0 z-[600] w-screen border-b py-1 border-border shadow-sm shadow-black/50 ">
       <ModalWrapper
         status={createSheetModal}
+        title="Create Sheet"
         onStatusChange={setCreateSheetModal}
       >
         <div className="w-[700px]">
-          <h3 className="block text-3xl font-bold p-4">Create Sheet</h3>
           <CharactersCreate isModal setCreateSheetModal={setCreateSheetModal} />
         </div>
       </ModalWrapper>
       {openCreateCampaignModal && (
         <CreateCampaignModal
-          onStatusChange={(value: "close" | "open") => {
-            if (value === "close") setOpenCreateCampaignModal(false)
-            if (value === "open") setOpenCreateCampaignModal(true)
-          }}
-          status={openCreateCampaignModal ? "open" : "close"}
+          onStatusChange={setOpenCreateCampaignModal}
+          status={openCreateCampaignModal}
         />
       )}
       <div className="max-w-7xl flex items-center justify-between mx-auto">
@@ -71,7 +68,7 @@ export const Navbar = () => {
           </div>
 
           <div
-            onClick={() => setCreateSheetModal("open")}
+            onClick={() => setCreateSheetModal(true)}
             className="cursor-pointer w-fit flex items-center group gap-x-2"
           >
             <button className="bg-ashes flex items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50 group-hover:bg-gradient-to-tr group-hover:from-[#42d392] group-hover:to-[#8B5CF6] duration-300 ease-in-out transition-all">

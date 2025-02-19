@@ -1,7 +1,6 @@
 "use client"
 
 import { useState } from "react"
-import { ModalWrapper } from "@/shared/components"
 import { CombatModalDisplay } from "./components"
 
 interface CombatDisplayProps {
@@ -26,9 +25,9 @@ export const CombatDisplay = ({
 }: CombatDisplayProps) => {
   const [selectedWeapon, setSelectedWeapon] = useState<CombatItem | null>(null)
 
-  function handleOnStatusChange(status: "open" | "close") {
-    if (status === "open") return
-    if (status === "close") setSelectedWeapon(null)
+  function handleOnStatusChange(status: boolean) {
+    if (status === true) return
+    if (status === false) setSelectedWeapon(null)
     return
   }
 

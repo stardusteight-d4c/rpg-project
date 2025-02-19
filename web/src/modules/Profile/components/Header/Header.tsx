@@ -17,13 +17,11 @@ export const Header: React.FC<{ user: IUser }> = ({ user }) => {
     coverImageFile: undefined,
     avatarUrlFile: undefined,
   })
-  const [isOpenEditModal, setIsOpenEditModal] = useState<"close" | "open">(
-    "close"
-  )
+  const [isOpenEditModal, setIsOpenEditModal] = useState<boolean>(false)
 
-  const handleModal = (value: "open" | "close") => {
-    if (value === "open") return setIsOpenEditModal("open")
-    if (value === "close") {
+  const handleModal = (value: boolean) => {
+    if (value === true) return setIsOpenEditModal(true)
+    if (value === false) {
       setEditableData({
         id: user.id,
         name: user.name,
@@ -33,7 +31,7 @@ export const Header: React.FC<{ user: IUser }> = ({ user }) => {
         coverImageFile: undefined,
         avatarUrlFile: undefined,
       })
-      return setIsOpenEditModal("close")
+      return setIsOpenEditModal(false)
     }
   }
 
@@ -70,6 +68,10 @@ export const Header: React.FC<{ user: IUser }> = ({ user }) => {
     }
   }
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEditableData({ ...editableData, [e.target.name]: e.target.value })
+  }
+
   const handleProfileClick = () => {
     const fileInput = document.getElementById(
       "file-input-profile"
@@ -83,14 +85,39 @@ export const Header: React.FC<{ user: IUser }> = ({ user }) => {
     const { coverImageFile, avatarUrlFile, ...data } = editableData
     const updatedUser = await update(data)
     if (updatedUser) {
-      setIsOpenEditModal("close")
+      setIsOpenEditModal(false)
     }
   }
 
   return (
     <>
-      {isOpenEditModal === "open" && (
-        <ModalWrapper onStatusChange={handleModal} status={isOpenEditModal}>
+      {isOpenEditModal === true && (
+        <ModalWrapper
+          title="Edit Profile"
+          onStatusChange={handleModal}
+          status={isOpenEditModal}
+        >
+          <div className="py-2 px-4 sticky z-[200] border-b border-border shadow-sm shadow-black/50 top-0 w-full inset-x-0 bg-background">
+            <div className="flex items-center gap-x-4">
+              <div
+                onClick={onSave}
+                className="cursor-pointer w-fit flex items-center group gap-x-2"
+              >
+                <button className="bg-ashes flex items-center justify-center text-white p-1 rounded-full shadow-p group-hover:bg-green-500 duration-300 ease-in-out transition-all">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    fill="#FFFFFF"
+                    viewBox="0 0 256 256"
+                  >
+                    <path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z"></path>
+                  </svg>
+                </button>
+                <span>Save Changes</span>
+              </div>
+            </div>
+          </div>
           <input
             id="file-input-cover"
             type="file"
@@ -105,19 +132,19 @@ export const Header: React.FC<{ user: IUser }> = ({ user }) => {
             className="hidden"
             onChange={handleAvatarFileChange}
           />
-          <div className="w-[700px] p-1 h-fit">
+          <div className="w-[700px] p-2 h-fit">
             <div className="relative h-fit">
               {editableData.coverImage ? (
                 <img
                   onClick={handleCoverClick}
                   src={editableData.coverImage}
                   alt=""
-                  className="cursor-pointer w-full h-[180px] rounded-t-3xl select-none overflow-hidden object-cover"
+                  className="cursor-pointer rounded-md w-full h-[198px] select-none overflow-hidden object-cover"
                 />
               ) : (
                 <div
                   onClick={handleCoverClick}
-                  className="group cursor-pointer w-full h-[180px] flex items-center justify-center  rounded-t-3xl bg-button"
+                  className="group cursor-pointer rounded-md w-full h-[198px] flex items-center justify-center  bg-button"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -136,12 +163,12 @@ export const Header: React.FC<{ user: IUser }> = ({ user }) => {
                   src={editableData.avatarUrl}
                   alt=""
                   onClick={handleProfileClick}
-                  className="w-[100px] absolute cursor-pointer left-10 -bottom-[50px] select-none h-[100px] rounded-full object-cover"
+                  className="w-[100px] absolute cursor-pointer left-1/2 -translate-x-1/2 -bottom-[50px] select-none h-[100px] rounded-full object-cover"
                 />
               ) : (
                 <div
                   onClick={handleProfileClick}
-                  className="group bg-button cursor-pointer w-[100px] absolute left-10 -bottom-[50px] flex items-center text-center justify-center h-[100px] rounded-full select-none"
+                  className="group bg-button cursor-pointer w-[100px] absolute left-1/2 -translate-x-1/2 -bottom-[50px] flex items-center text-center justify-center h-[100px] rounded-full select-none"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -156,46 +183,46 @@ export const Header: React.FC<{ user: IUser }> = ({ user }) => {
                 </div>
               )}
             </div>
-            <div className="grid grid-cols-2 gap-2 mt-[65px] w-full px-4">
+            <div className="grid grid-cols-2 gap-2 mt-[65px] w-full">
               <div className="col-span-1">
-                <GlowingWrapper inset="0" border="rounded-full">
+                <label
+                  htmlFor="name"
+                  className="text-gray-400 text-sm w-full block cursor-pointer"
+                >
+                  Name
+                </label>
+                <GlowingWrapper inset="0" border="rounded-md">
                   <input
+                    id="name"
                     name="name"
-                    placeholder="Name"
+                    placeholder="John Doe"
                     spellCheck="false"
                     type="text"
-                    // value={formData.password}
-                    // onChange={handleChange}
-                    className="py-1 px-2 w-full cursor-text hover:brightness-125 flex items-center gap-x-1 line-clamp-1 rounded-full bg-ashes border border-border outline-none"
+                    value={editableData.name}
+                    onChange={handleChange}
+                    className="py-1 px-2 w-full cursor-text hover:brightness-125 flex items-center gap-x-1 line-clamp-1 rounded-md bg-ashes border border-border outline-none"
                   />
                 </GlowingWrapper>
               </div>
               <div className="col-span-1">
-                <GlowingWrapper inset="0" border="rounded-full">
+                <label
+                  htmlFor="username"
+                  className="text-gray-400 text-sm w-full block cursor-pointer"
+                >
+                  Username
+                </label>
+                <GlowingWrapper inset="0" border="rounded-md">
                   <input
+                    id="username"
                     name="username"
-                    placeholder="Username"
+                    placeholder="johnnybgoode"
                     spellCheck="false"
                     type="text"
-                    // value={formData.password}
-                    // onChange={handleChange}
-                    className="py-1 px-2 w-full cursor-text hover:brightness-125 flex items-center gap-x-1 line-clamp-1 rounded-full bg-ashes border border-border outline-none"
+                    value={editableData.username}
+                    onChange={handleChange}
+                    className="py-1 px-2 w-full cursor-text hover:brightness-125 flex items-center gap-x-1 line-clamp-1 rounded-md bg-ashes border border-border outline-none"
                   />
                 </GlowingWrapper>
-              </div>
-              <div className="w-full col-span-2 flex gap-x-4">
-                <button
-                  onClick={() => handleModal("close")}
-                  className="p-2 font-medium mt-8 mb-4 capitalize w-[100px] ml-auto text-center text-lg bg-button text-white rounded-full"
-                >
-                  <span className="text-xl font-bold">Cancel</span>
-                </button>
-                <button
-                  onClick={onSave}
-                  className="p-2 font-medium mt-8 mb-4 capitalize w-[100px] text-center text-lg bg-green-500 text-white rounded-full"
-                >
-                  <span className="text-xl font-bold">Update</span>
-                </button>
               </div>
             </div>
           </div>
@@ -238,7 +265,7 @@ export const Header: React.FC<{ user: IUser }> = ({ user }) => {
           </span>
           {currentSession?.id === user.id && (
             <span
-              onClick={() => setIsOpenEditModal("open")}
+              onClick={() => setIsOpenEditModal(true)}
               className="bg-background cursor-pointer flex items-center gap-x-2 shadow-sm shadow-black/50 hover:bg-gradient-to-tr hover:from-[#42d392] hover:to-[#8B5CF6] duration-300 ease-in-out transition-all p-2 rounded-full"
             >
               <svg
@@ -281,7 +308,7 @@ export const Header: React.FC<{ user: IUser }> = ({ user }) => {
               />
             ) : (
               <div className="bg-button w-[150px] flex items-center text-center justify-center h-[150px] rounded-full select-none pointer-events-none">
-                <span className="text-5xl font-bold">
+                <span className="text-6xl font-bold">
                   {getNameInitials(user.name)}
                 </span>
               </div>

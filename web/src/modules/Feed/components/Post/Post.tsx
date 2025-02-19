@@ -15,9 +15,7 @@ export const Post = ({ post }: { post: IPost }) => {
   const { deletePost, updatePost } = useFeed()
   const [showComments, setShowComments] = useState<boolean>(false)
   const [openEditPost, setOpenEditPost] = useState<boolean>(false)
-  const [openDeleteModal, setOpenDeleteModal] = useState<"open" | "close">(
-    "close"
-  )
+  const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false)
 
   const onDelete = () => {
     deletePost(post.id)
@@ -258,7 +256,7 @@ export const Post = ({ post }: { post: IPost }) => {
                 </svg>
               </button>
               <button
-                onClick={() => setOpenDeleteModal("open")}
+                onClick={() => setOpenDeleteModal(true)}
                 className="bg-background flex items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50 hover:bg-button duration-300 ease-in-out transition-all"
               >
                 <svg

@@ -18,7 +18,7 @@ import { useAuth } from "@/shared/contexts/Auth/AuthContext"
 interface CharactersCreateProps {
   setCreateMode?: (value: boolean) => void
   isModal?: boolean
-  setCreateSheetModal?: (value: "open" | "close") => void
+  setCreateSheetModal?: (value: boolean) => void
 }
 export const CharactersCreate = ({
   setCreateMode,
@@ -56,7 +56,7 @@ export const CharactersCreate = ({
     await add(findCharacter)
       .then(() => {
         !isModal && setCreateMode && setCreateMode(false)
-        setCreateSheetModal && setCreateSheetModal("close")
+        setCreateSheetModal && setCreateSheetModal(false)
       })
       .catch((error) => error)
   }

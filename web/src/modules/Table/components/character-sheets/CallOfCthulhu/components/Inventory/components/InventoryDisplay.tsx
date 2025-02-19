@@ -33,11 +33,11 @@ export const InventoryDisplay = ({
     <div className="mb-4">
       {showHandout && (
         <HandoutModalWrapper
-          onStatusChange={(value: "open" | "close") =>
-            value === "close" && setShowHandout(null)
+          onStatusChange={(value: boolean) =>
+            value === false && setShowHandout(null)
           }
           showCloseIcon={false}
-          status={showHandout ? "open" : "close"}
+          status={showHandout ? true : false}
         >
           <HandoutDisplay {...showHandout} />
         </HandoutModalWrapper>

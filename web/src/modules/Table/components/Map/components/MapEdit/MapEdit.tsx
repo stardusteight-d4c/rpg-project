@@ -27,8 +27,8 @@ export const MapEdit = ({
     visibility: selectedMap.visibility ?? "default",
     active: selectedMap.active ?? false,
   })
-  const [openDeleteModal, setOpenDeleteModal] = useState<"open" | "close">(
-    "close"
+  const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(
+    false
   )
   const [file, setFile] = useState<File | null>(null)
 
@@ -85,7 +85,7 @@ export const MapEdit = ({
 
   return (
     <section className="relative w-full h-screen overflow-y-scroll no-scrollbar">
-      {openDeleteModal === "open" && (
+      {openDeleteModal === true && (
         <ModalWrapper
           status={openDeleteModal}
           onStatusChange={setOpenDeleteModal}
@@ -161,7 +161,7 @@ export const MapEdit = ({
             />
           </div>
           <div
-            onClick={() => setOpenDeleteModal("open")}
+            onClick={() => setOpenDeleteModal(true)}
             className="cursor-pointer w-fit flex items-center group gap-x-2"
           >
             <button className="bg-ashes flex items-center justify-center text-white p-1 rounded-full shadow-p group-hover:bg-red-500 duration-300 ease-in-out transition-all">

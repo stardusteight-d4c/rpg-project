@@ -4,7 +4,7 @@ import { GlowingWrapper, ModalWrapper } from "@/shared/components"
 import { useState } from "react"
 
 interface CombatEditModalProps {
-  handleOnStatusChange: (status: "open" | "close") => void
+  handleOnStatusChange: (status: boolean) => void
   selectedWeapon: CombatItem
   onRemoveItem: (removedWeapon: CombatItem) => void
   onUpdateWeapon: (updatedWeapon: CombatItem) => void
@@ -26,7 +26,7 @@ export const CombatEditModal = ({
   return (
     <ModalWrapper
       onStatusChange={handleOnStatusChange}
-      status={selectedWeapon ? "open" : "close"}
+      status={selectedWeapon ? true : false}
     >
       <div className="p-4 w-[681px]">
         <div className="flex items-center gap-x-2">
@@ -144,7 +144,7 @@ export const CombatEditModal = ({
         <button
           onClick={() => {
             onUpdateWeapon(editableWeapon)
-            handleOnStatusChange("close")
+            handleOnStatusChange(false)
           }}
           className="p-2 mt-4 w-full hover:brightness-125 font-medium text-center text-lg background-gradient text-white rounded"
         >
@@ -154,7 +154,7 @@ export const CombatEditModal = ({
           <button
             onClick={() => {
               onRemoveItem(editableWeapon)
-              handleOnStatusChange("close")
+              handleOnStatusChange(false)
             }}
             className="p-2 mt-2 w-full hover:brightness-125 font-medium text-center text-lg bg-red-500 text-white rounded"
           >

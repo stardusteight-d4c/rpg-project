@@ -34,9 +34,9 @@ export const CombatEdit = ({
   const [selectionMode, setSelectionMode] = useState<boolean>(false)
   const [selectedWeapon, setSelectedWeapon] = useState<CombatItem | null>(null)
 
-  function handleOnStatusChange(status: "open" | "close") {
-    if (status === "open") return
-    if (status === "close") setSelectedWeapon(null)
+  function handleOnStatusChange(status: boolean) {
+    if (status === true) return
+    if (status === false) setSelectedWeapon(null)
     return
   }
 
@@ -230,11 +230,11 @@ const SelectionMode = ({
 
   return (
     <ModalWrapper
-      onStatusChange={(value: "open" | "close") => {
-        if (value === "close") return setSelectionMode(false)
+      onStatusChange={(value: boolean) => {
+        if (value === false) return setSelectionMode(false)
         setSelectionMode(true)
       }}
-      status={selectionMode ? "open" : "close"}
+      status={selectionMode ? true : false}
     >
       {selectedWeapon ? (
         <div onClick={(e) => e.stopPropagation()} className="p-4 w-[681px] relative">
