@@ -23,8 +23,6 @@ export const SignUp = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
   }
 
-  console.log(isLoading)
-
   const onClickSignIn = () => {
     redirect("/auth/signin")
   }

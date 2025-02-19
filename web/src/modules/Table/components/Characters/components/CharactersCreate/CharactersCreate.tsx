@@ -226,7 +226,7 @@ export const CharactersCreate = ({
             onClick={onCreate}
             className="cursor-pointer w-fit flex items-center group gap-x-2"
           >
-            <button className="bg-ashes flex items-center justify-center text-white p-1 rounded-full shadow-p group-hover:bg-blue-500 duration-300 ease-in-out transition-all">
+            <button className="bg-ashes flex items-center justify-center text-white p-1 rounded-full shadow-p group-hover:bg-green-500 duration-300 ease-in-out transition-all">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
