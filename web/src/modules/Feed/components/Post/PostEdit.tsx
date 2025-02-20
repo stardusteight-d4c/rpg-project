@@ -135,16 +135,16 @@ export const PostEdit = ({ post, setOpenEditPost }: PostEditProps) => {
             <div>
               <div className="flex select-none px-4 z-20 items-center gap-x-2">
                 <img
-                  src={postData.user.avatarUrl}
+                  src={postData.owner.avatarUrl}
                   alt=""
                   className="w-[48px] aspect-square object-cover select-none pointer-events-none h-[48px] rounded-full"
                 />
                 <div className="flex flex-col">
                   <span className="block whitespace-nowrap text-lg font-bold -tracking-wide">
-                    {postData.user.name}
+                    {postData.owner.name}
                   </span>
                   <span className="text-gray-400 -mt-2 block text-sm">
-                    #{postData.user.username}
+                    #{postData.owner.username}
                   </span>
                 </div>
                 <div className="ml-auto text-gray-500/80 select-none flex items-center gap-x-[2px] mt-1 w-full justify-end">
@@ -198,7 +198,7 @@ export const PostEdit = ({ post, setOpenEditPost }: PostEditProps) => {
             className={`rounded-b-3xl px-4 py-2 bg-border flex flex-col gap-y-2`}
           >
             <div className="flex items-center gap-x-2">
-              {currentSession.id === postData.user.id && (
+              {currentSession.id === postData.owner.id && (
                 <div className="flex items-center gap-x-2 w-full">
                   {!postData.image && (
                     <>

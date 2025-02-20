@@ -1,4 +1,4 @@
-export const matchUsers: MatchUser[] = [
+export const matchUsers: TableUser[] = [
   {
     id: "a30e60ac-d957-4280-9d8a-249651a19671",
     name: "Gabriel Sena",
@@ -6,8 +6,7 @@ export const matchUsers: MatchUser[] = [
     role: "master",
     email: "stardusteight@gmail.com",
     avatarUrl: "https://avatars.githubusercontent.com/u/87643260?v=4",
-    coverImage:
-      "https://theminimalistvegan.com/wp-content/uploads/2024/01/Glacier-Minimalist-Wallpaper-img24.png",
+    coverImage: "https://theminimalistvegan.com/wp-content/uploads/2024/01/Glacier-Minimalist-Wallpaper-img24.png",
     exp: {
       level: 2,
       current: 400,
@@ -17,6 +16,7 @@ export const matchUsers: MatchUser[] = [
     koalCampaigns: 0,
     memberSince: "2025-01-02",
     playingCampaigns: 2,
+    createdAt: ""
   },
   {
     id: "4d6f7287-2e27-4389-bccb-c5beaf761a7d",
@@ -25,8 +25,7 @@ export const matchUsers: MatchUser[] = [
     role: "player",
     email: "blackwive@gmail.com",
     avatarUrl: "https://avatars.githubusercontent.com/u/1024025?v=4",
-    coverImage:
-      "https://images.hdqwalls.com/wallpapers/wolf-cave-minimalist-4k-s1.jpg",
+    coverImage: "https://images.hdqwalls.com/wallpapers/wolf-cave-minimalist-4k-s1.jpg",
     exp: {
       level: 2,
       current: 400,
@@ -36,6 +35,7 @@ export const matchUsers: MatchUser[] = [
     koalCampaigns: 0,
     memberSince: "2025-01-02",
     playingCampaigns: 2,
+    createdAt: ""
   },
   {
     id: "5e081598-5f15-414e-86a6-d20bf3497550",
@@ -54,6 +54,7 @@ export const matchUsers: MatchUser[] = [
     koalCampaigns: 0,
     memberSince: "2025-01-02",
     playingCampaigns: 2,
+    createdAt: ""
   },
 ]
 

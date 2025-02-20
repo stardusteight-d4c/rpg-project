@@ -24,3 +24,7 @@ interface TableUser extends IUser {
   role: UserTableRole
 }
 
+interface ListUsersDTO {
+  username?: string 
+  userId?: string
+}

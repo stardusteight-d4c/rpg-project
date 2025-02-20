@@ -11,7 +11,7 @@ interface ICampaign {
   status: CampaignStatus
   players: IUser[]
   streaming?: { watchers: IUser[]; startedAt: string }
-  createdBy: IUser
+  owner: IUser
   createdAt: string
 }
 
@@ -19,5 +19,11 @@ interface CampaignCreate {
   name: string
   description: string
   coverUrl?: string
-  createdBy: IUser
+  owner: IUser
+}
+
+interface ListCampaignsDTO {
+  campaignId?: string 
+  ownerId?: string
+  status?: CampaignStatus
 }

@@ -1,23 +1,26 @@
 interface IPost {
   id: string
-  user: User
+  owner: User
+  campaignId?: string
   content: string
-  createdAt: string
   image?: string | undefined
-  commentsCount?: number,
-  likesCount?: number,
-  likedByUser?: boolean,
-  tags: Array<{
-    type: "profile" | "campaign"
-    value: string
-    linkId: string
-  }>
+  commentsCount?: number
+  likesCount?: number
+  likedByUser?: boolean
   comments: Array<IComment>
+  createdAt: string
 }
 
 interface IComment {
   id: string
-  user: User
+  owner: User
   content: string
   createdAt: string
+}
+
+interface ListPostsDTO {
+  campaignId?: string
+  ownerId?: string
+  currentPage?: string
+  pageSize?: string
 }

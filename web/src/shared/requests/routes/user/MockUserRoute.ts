@@ -17,15 +17,7 @@ export class MockUserRoute implements IUserRoute {
     return this.#instance
   }
 
-  public async getUsers(): Promise<Array<IUser>> {
-    return this.#users
-  }
-
-  public async getByUsername(username: string): Promise<IUser | undefined> {
-    return this.#users.find((user) => user.username === username)
-  }
-
-  public async add(data: SignUpDTO): Promise<IUser> {
+  public async create(data: SignUpDTO): Promise<IUser> {
     const isEmailAlreadyExists = this.#users.find(
       (user) => user.email === data.email
     )
@@ -77,5 +69,15 @@ export class MockUserRoute implements IUserRoute {
 
     this.#users[existingUserIndex] = updatedUser as IUser & { password: string }
     return updatedUser
+  }
+
+  public async list(queryParams?: ListUsersDTO): Promise<Array<IUser>> {
+    if (!queryParams) return this.#users
+    return this.#users.filter((user) => {
+      const isMatchingId = !queryParams.userId || user.id === queryParams.userId
+      const isMatchingUsername =
+        !queryParams.username || user.username === queryParams.username
+      return isMatchingId && isMatchingUsername
+    })
   }
 }

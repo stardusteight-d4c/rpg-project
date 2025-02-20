@@ -9,7 +9,7 @@ interface CommentProps {
   postId: string
   comment: {
     id: string
-    user: User
+    owner: IUser
     content: string
     createdAt: string
   }
@@ -54,7 +54,7 @@ export const Comment = ({ comment, postId }: CommentProps) => {
   return (
     <>
       <div key={comment.id} className="flex mb-4 relative group z-20 gap-x-2">
-        {currentSession.id === comment.user.id && (
+        {currentSession.id === comment.owner.id && (
           <>
           {!isEditComment && (
               <button
@@ -78,9 +78,9 @@ export const Comment = ({ comment, postId }: CommentProps) => {
         )}
 
         <img
-          src={comment.user.avatarUrl}
+          src={comment.owner.avatarUrl}
           alt=""
-          onClick={() => push(`/profile/${comment.user.username}`)}
+          onClick={() => push(`/profile/${comment.owner.username}`)}
           className="w-[48px] z-10 aspect-square object-cover cursor-pointer h-[48px] rounded-full"
         />
 

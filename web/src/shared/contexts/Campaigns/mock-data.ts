@@ -19,7 +19,7 @@ export const campaigns: Array<ICampaign> = [
     status: "active",
     streaming: { watchers: [], startedAt: thirtyMinAgo },
     players: [matchUsers[1], matchUsers[2]],
-    createdBy: matchUsers[0],
+    owner: matchUsers[0],
     createdAt: oneMonthAgo,
   },
   {
@@ -34,7 +34,7 @@ export const campaigns: Array<ICampaign> = [
     status: "inactive",
     streaming: { watchers: [], startedAt: oneHourAgo },
     players: [matchUsers[0], matchUsers[2]],
-    createdBy: matchUsers[1],
+    owner: matchUsers[1],
     createdAt: oneMonthAgo,
   },
   {
@@ -49,7 +49,7 @@ export const campaigns: Array<ICampaign> = [
     status: "active",
     streaming: { watchers: [], startedAt: thirtyMinAgo },
     players: [matchUsers[1], matchUsers[0]],
-    createdBy: matchUsers[2],
+    owner: matchUsers[2],
     createdAt: oneMonthAgo,
   },
   {
@@ -64,7 +64,7 @@ export const campaigns: Array<ICampaign> = [
     status: "active",
     streaming: { watchers: [], startedAt: thirtyMinAgo },
     players: [matchUsers[0], matchUsers[2]],
-    createdBy: matchUsers[1],
+    owner: matchUsers[1],
     createdAt: oneMonthAgo,
   },
 ]

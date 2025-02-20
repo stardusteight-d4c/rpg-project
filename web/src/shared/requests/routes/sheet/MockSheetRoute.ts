@@ -13,7 +13,7 @@ export class MockSheetRoute implements ISheetRoute {
     return this.#instance
   }
 
-  public async add(sheet: ISheet): Promise<ISheet> {
+  public async create(sheet: ISheet): Promise<ISheet> {
     const newSheet: ISheet = {
       ...sheet,
       tableId: sheet.tableId ?? undefined,
@@ -42,9 +42,14 @@ export class MockSheetRoute implements ISheetRoute {
     this.#sheets = newArray
   }
 
-  public async getUserSheets(userId: string): Promise<ISheet[]> {
-    const userSheets = this.#sheets.filter((sheet) => sheet.user.id === userId)
-
-    return userSheets
+  public async list(queryParams?: ListSheetsDTO): Promise<Array<ISheet>> {
+    if (!queryParams) return this.#sheets
+    return this.#sheets.filter((sheet) => {
+      const isMatchingId =
+        !queryParams.sheetId || sheet.id === queryParams.sheetId
+      const isMatchingOwner =
+        !queryParams.ownerId || sheet.owner.id === queryParams.ownerId
+      return isMatchingId && isMatchingOwner
+    })
   }
 }

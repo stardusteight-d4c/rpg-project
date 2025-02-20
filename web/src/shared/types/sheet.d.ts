@@ -98,11 +98,17 @@ type Skill = {
 interface ISheet {
   id: string
   tableId?: string
-  user: TableUser
+  owner: TableUser
   infos: Infos
   attributes: Attributes
   combat: CombatItem[]
   inventory: InventoryItem[]
   backstory: string
   skills: Skill[]
+  createdAt: string
+}
+
+interface ListSheetsDTO {
+  sheetId?: string
+  ownerId: string
 }

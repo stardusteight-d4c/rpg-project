@@ -35,7 +35,7 @@ export const SheetsProvider: React.FC<{ children: ReactNode }> = ({
 
   const getUserSheets = async (userId: string) => {
     return await api.sheet
-      .getUserSheets(userId)
+      .list({ ownerId: userId })
       .then((sheets) => {
         setUserSheets(sheets)
         return sheets
@@ -47,7 +47,7 @@ export const SheetsProvider: React.FC<{ children: ReactNode }> = ({
 
   const add = async (sheet: ISheet) => {
     return await api.sheet
-      .add(sheet)
+      .create(sheet)
       .then((createdSheet) => {
         setUserSheets((prev) => [...prev, createdSheet])
         return createdSheet

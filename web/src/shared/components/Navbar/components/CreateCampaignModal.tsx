@@ -68,7 +68,7 @@ export const CreateCampaignModal: React.FC<{
   const onCreate = async () => {
     add({
       ...campaignData,
-      createdBy: currentSession!,
+      owner: currentSession!,
     })
       .then(() => {
         addToast("The campaign has been created!", "success", 45)

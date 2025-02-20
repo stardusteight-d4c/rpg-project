@@ -52,7 +52,7 @@ export const ToastProvider = ({ children }: { children: ReactNode }) => {
         {toasts.map((toast) => (
           <div
             key={toast.id}
-            className="relative w-[300px] mt-4 min-w-[300px] max-w-[300px] bg-ashes p-4 overflow-hidden rounded-2xl shadow-md shadow-black/50 text-white transition-all duration-500 translate-x-10 opacity-0 animate-slide-in"
+            className="relative w-[300px] mt-4 min-w-[300px] max-w-[300px] bg-ashes p-4 overflow-hidden rounded-xl shadow-md shadow-black/50 text-white transition-all duration-500 translate-x-10 opacity-0 animate-slide-in"
           >
             <div
               onClick={() => removeToast(toast.id)}

@@ -1,4 +1,3 @@
-import { error } from "node:console"
 import { MockUserRoute } from "../user/MockUserRoute"
 
 export class MockAuthRoute implements IAuthRoute {
@@ -20,7 +19,7 @@ export class MockAuthRoute implements IAuthRoute {
     await new Promise((resolve) => setTimeout(resolve, 5000))
 
     return this.inMemoryUserRoute
-      .add(data)
+      .create(data)
       .then((newUser) => {
         const accessToken = crypto.randomUUID()
         const refreshToken = crypto.randomUUID()
@@ -40,7 +39,7 @@ export class MockAuthRoute implements IAuthRoute {
     await new Promise((resolve) => setTimeout(resolve, 5000))
 
     return this.inMemoryUserRoute
-      .getUsers()
+      .list()
       .then((users) => {
         const accessToken = crypto.randomUUID()
         const refreshToken = crypto.randomUUID()

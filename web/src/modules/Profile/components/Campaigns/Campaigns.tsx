@@ -73,7 +73,7 @@ export const Campaigns: React.FC<{ user: IUser }> = ({ user }) => {
                       style={{ marginRight: `${index * 20}px` }}
                       className="w-[42px] h-[42px] text-2xl font-bold bg-background text-white flex items-center justify-center aspect-square object-cover select-none pointer-events-none border border-border rounded-full"
                     >
-                      {getNameInitials(campaign.createdBy.name)}
+                      {getNameInitials(campaign.owner.name)}
                     </div>
                   )}
                 </div>

@@ -13,11 +13,15 @@ import rehypeRaw from "rehype-raw"
 import { countTimeago } from "@/shared/utils/countTimeago"
 import { EditCampaignModal } from "./components/EditCampaignModal"
 import { useToast } from "@/shared/contexts/Toaster/ToasterContext"
+import { useFeed } from "@/shared/contexts/Feed/FeedContext"
+import { Post } from "../Feed/components/Post/Post"
+import { CreatePostInput } from "../Feed/components/Post/CreatePostInput"
 
 export function CampaignModule() {
   const { push } = useRouter()
   const { currentSession } = useAuth()
   const [campaign, setCampaign] = useState<ICampaign | undefined>(undefined)
+  const { posts } = useFeed()
   const params = useParams()
   const campaignId = params.id as string
   const { getById, deleteById } = useCampaigns()
@@ -56,6 +60,8 @@ export function CampaignModule() {
   }, [campaign])
 
   if (!campaign) return
+
+  const campaignPosts = []
 
   const onDelete = async () => {
     deleteById(campaign.id)
@@ -118,27 +124,27 @@ export function CampaignModule() {
       <Navbar />
       <div className="max-w-7xl mb-[200px] min-h-screen w-full mx-auto mt-[45px] pt-4">
         <div className="flex pb-2 select-none bg-background z-20 items-center gap-x-2">
-          {campaign.createdBy.avatarUrl ? (
+          {campaign.owner.avatarUrl ? (
             <img
-              src={campaign.createdBy.avatarUrl}
+              src={campaign.owner.avatarUrl}
               alt=""
               referrerPolicy="no-referrer"
               className="w-[48px] aspect-square object-cover select-none pointer-events-none h-[48px] border border-border rounded-full"
             />
           ) : (
             <div className="w-[48px] text-2xl font-bold text-white flex items-center justify-center aspect-square object-cover select-none pointer-events-none h-[48px] border border-border rounded-full">
-              {getNameInitials(campaign.createdBy.name)}
+              {getNameInitials(campaign.owner.name)}
             </div>
           )}
           <div className="flex flex-col">
             <span className="block text-lg font-bold -tracking-wide">
-              {campaign.createdBy.name}
+              {campaign.owner.name}
             </span>
             <span className="text-gray-400 -mt-2 block text-sm">
-              #{campaign.createdBy.username}
+              #{campaign.owner.username}
             </span>
           </div>
-          {currentSession?.id === campaign.createdBy.id && (
+          {currentSession?.id === campaign.owner.id && (
             <div
               onClick={() => setOpenEditCampaignModal(true)}
               className="cursor-pointer ml-auto w-fit flex items-center group gap-x-2"
@@ -299,42 +305,29 @@ export function CampaignModule() {
             </div>
           </div>
           <div className="col-span-1 w-full">
-            <div className="">
-              {/* <div className="flex flex-col gap-y-4 rounded-3xl w-full">
-              {posts.map((post) => (
-                <Post post={post} />
-              ))}
-            </div>
-            {posts.length === 3 && (
-              <span className="text-blue-500 underline mx-auto block mt-2 cursor-pointer w-fit">
-                See more
-              </span>
-            )} */}
-            </div>
-
-            <div className=" w-full">
-              <div>
+            <div className="w-full">
+              <div className="flex flex-col gap-y-4 ">
                 <div className="flex border bg-ashes border-border rounded-xl p-4 flex-col gap-2 flex-wrap">
                   <div className="grid grid-cols-2 gap-x-2">
                     <div className="col-span-1 flex select-none z-20 items-center gap-x-2">
-                      {campaign.createdBy.avatarUrl ? (
+                      {campaign.owner.avatarUrl ? (
                         <img
-                          src={campaign.createdBy.avatarUrl}
+                          src={campaign.owner.avatarUrl}
                           alt=""
                           referrerPolicy="no-referrer"
                           className="w-[48px] aspect-square object-cover select-none pointer-events-none h-[48px] border border-border rounded-full"
                         />
                       ) : (
                         <div className="w-[48px] text-2xl font-bold text-white flex items-center justify-center aspect-square object-cover select-none pointer-events-none h-[48px] border border-border rounded-full">
-                          {getNameInitials(campaign.createdBy.name)}
+                          {getNameInitials(campaign.owner.name)}
                         </div>
                       )}
                       <div className="flex flex-col">
                         <span className="block text-lg font-bold -tracking-wide">
-                          {campaign.createdBy.name}
+                          {campaign.owner.name}
                         </span>
                         <span className="text-gray-400 -mt-2 block text-sm">
-                          #{campaign.createdBy.username}
+                          #{campaign.owner.username}
                         </span>
                       </div>
                     </div>
@@ -376,20 +369,20 @@ export function CampaignModule() {
                   <div key={character.id} className="grid grid-cols-2 gap-x-2">
                   <div className="col-span-1 flex select-none z-20 items-center gap-x-2">
                   <img
-                  src={character.user.avatarUrl}
+                  src={character.owner.avatarUrl}
                         alt=""
                         className="w-[48px] aspect-square object-cover select-none pointer-events-none h-[48px] border border-border rounded-full"
                       />
                       <div className="flex flex-col">
                         <span className="block text-lg font-bold -tracking-wide">
-                          {character.user.name}
+                          {character.owner.name}
                         </span>
                         <span className="text-gray-400 -mt-2 block text-sm">
-                          #{character.user.username}
+                          #{character.owner.username}
                         </span>
                       </div>
                     </div>
-                    {character.user.role === "master" ? (
+                    {character.owner.role === "master" ? (
                       <></>
                     ) : (
                       <div className="col-span-1 flex select-none z-20 items-center gap-x-2">
@@ -411,6 +404,41 @@ export function CampaignModule() {
                   </div>
                 ))} */}
                 </div>
+                <CreatePostInput />
+                {campaignPosts.length === 0 ? (
+                  <div className="w-full flex items-center justify-center">
+                    <div className="p-8 w-full h-[230px] border-2  border-dashed border-border rounded-xl flex flex-col items-center justify-center">
+                      <div className="col-span-1 w-[50px] h-[50px] flex items-center justify-center bg-border/50 border border-border rounded aspect-square">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="32"
+                          height="32"
+                          fill="#9ca3af"
+                          viewBox="0 0 256 256"
+                        >
+                          <path d="M168,128a8,8,0,0,1-8,8H96a8,8,0,0,1,0-16h64A8,8,0,0,1,168,128Zm-8,24H96a8,8,0,0,0,0,16h64a8,8,0,0,0,0-16ZM216,40V200a32,32,0,0,1-32,32H72a32,32,0,0,1-32-32V40a8,8,0,0,1,8-8H72V24a8,8,0,0,1,16,0v8h32V24a8,8,0,0,1,16,0v8h32V24a8,8,0,0,1,16,0v8h24A8,8,0,0,1,216,40Zm-16,8H184v8a8,8,0,0,1-16,0V48H136v8a8,8,0,0,1-16,0V48H88v8a8,8,0,0,1-16,0V48H56V200a16,16,0,0,0,16,16H184a16,16,0,0,0,16-16Z"></path>
+                        </svg>
+                      </div>
+                      <span className="text-gray-400 block mt-2 w-[400px] text-center">
+                        The cosmic void awaits... but so far, no echoes of
+                        sanity or madness have been recorded.
+                      </span>
+                    </div>
+                  </div>
+                ) : (
+                  <div>
+                    <div className="flex flex-col gap-y-4 rounded-3xl w-full">
+                      {posts.map((post) => (
+                        <Post post={post} />
+                      ))}
+                    </div>
+                    {posts.length === 3 && (
+                      <span className="text-blue-500 underline mx-auto block mt-2 cursor-pointer w-fit">
+                        See more
+                      </span>
+                    )}
+                  </div>
+                )}
               </div>
             </div>
           </div>

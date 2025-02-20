@@ -13,14 +13,26 @@ export class MockCampaignRoute implements ICampaignRoute {
     return this.#instance
   }
 
-  public async getUserCampaigns(userId: string): Promise<Array<ICampaign>> {
-    return this.#campaigns.filter(
-      (campaign) => campaign.createdBy.id === userId
-    )
+  public async create(campaign: CampaignCreate): Promise<ICampaign> {
+    const newCampaign: ICampaign = {
+      ...campaign,
+      id: crypto.randomUUID(),
+      duration: "0",
+      coverUrl: campaign.coverUrl ?? undefined,
+      status: "inactive" as "inactive",
+      players: [campaign.owner],
+      tableId: crypto.randomUUID(),
+      createdAt: new Date().toISOString(),
+    }
+    this.#campaigns.push(newCampaign)
+    return newCampaign
   }
 
-  public async getById(campaignId: string): Promise<ICampaign | undefined> {
-    return this.#campaigns.find((campaign) => campaign.id === campaignId)
+  public async delete(campaignId: string): Promise<void> {
+    const newArray = this.#campaigns.filter(
+      (campaign) => campaign.id !== campaignId
+    )
+    this.#campaigns = newArray
   }
 
   public async update(campaign: Partial<ICampaign>): Promise<ICampaign> {
@@ -39,25 +51,16 @@ export class MockCampaignRoute implements ICampaignRoute {
     return updatedCampaign
   }
 
-  public async create(campaign: CampaignCreate): Promise<ICampaign> {
-    const newCampaign: ICampaign = {
-      ...campaign,
-      id: crypto.randomUUID(),
-      duration: "0",
-      coverUrl: campaign.coverUrl ?? undefined,
-      status: "inactive" as "inactive",
-      players: [campaign.createdBy],
-      tableId: crypto.randomUUID(),
-      createdAt: new Date().toISOString(),
-    }
-    this.#campaigns.push(newCampaign)
-    return newCampaign
-  }
-
-  public async delete(campaignId: string): Promise<void> {
-    const newArray = this.#campaigns.filter(
-      (campaign) => campaign.id !== campaignId
-    )
-    this.#campaigns = newArray
+  public async list(queryParams?: ListCampaignsDTO): Promise<Array<ICampaign>> {
+    if (!queryParams) return this.#campaigns
+    return this.#campaigns.filter((campaign) => {
+      const isMatchingId =
+        !queryParams.campaignId || campaign.id === queryParams.campaignId
+      const isMatchingOwner =
+        !queryParams.ownerId || campaign.owner.id === queryParams.ownerId
+      const isMatchingStatus =
+        !queryParams.status || campaign.status === queryParams.status
+      return isMatchingId && isMatchingOwner && isMatchingStatus
+    })
   }
 }

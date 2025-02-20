@@ -30,17 +30,17 @@ export const ProfileInfoDisplay = ({
             <div className="px-4 py-8 w-[681px] relative">
               <div className="flex flex-col items-center mt-4 gap-y-2 justify-center">
                 <img
-                  src={character.user.avatarUrl}
+                  src={character.owner.avatarUrl}
                   alt=""
                   referrerPolicy="no-referrer"
                   className="w-[100px] h-[100px] border border-border rounded-full"
                 />
                 <div className="flex flex-col items-center justify-center">
                   <span className="text-3xl background-gradient text-transparent bg-clip-text w-fit font-bold">
-                    {character.user.name}
+                    {character.owner.name}
                   </span>
                   <span className="text-gray-400 -mt-1">
-                    {character.user.username}
+                    {character.owner.username}
                   </span>
                 </div>
                 <div className="mt-4 flex items-center cursor-pointer group justify-center gap-x-2">

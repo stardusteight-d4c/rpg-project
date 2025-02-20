@@ -34,7 +34,7 @@ export const CampaignsProvider: React.FC<{ children: ReactNode }> = ({
   const getUserCampaigns = async (userId: string) => {
     return userCampaigns.length === 0
       ? await api.campaign
-          .getUserCampaigns(userId)
+          .list({ ownerId: userId })
           .then((campaigns) => {
             setUserCampaigns(campaigns)
             return campaigns
@@ -53,10 +53,10 @@ export const CampaignsProvider: React.FC<{ children: ReactNode }> = ({
     return findCachedCampaign
       ? findCachedCampaign
       : await api.campaign
-          .getById(campaingId)
+          .list({ campaignId: campaingId })
           .then((campaing) => {
-            campaing && setCachedCampaigns((prev) => [...prev, campaing])
-            return campaing
+            campaing && setCachedCampaigns((prev) => [...prev, campaing[0]])
+            return campaing[0]
           })
           .catch((error) => {
             throw new Error(error.message)

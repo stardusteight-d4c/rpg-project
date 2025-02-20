@@ -30,10 +30,10 @@ export const UsersProvider: React.FC<{ children: ReactNode }> = ({
     )
     if (findCachedUser) return findCachedUser
     return await api.user
-      .getByUsername(username)
+      .list({ username })
       .then((user) => {
-        user && setCachedUsers((prev) => [...prev, user])
-        return user
+        user && setCachedUsers((prev) => [...prev, user[0]])
+        return user[0]
       })
       .catch((error) => {
         throw new Error(error.message)
@@ -44,9 +44,7 @@ export const UsersProvider: React.FC<{ children: ReactNode }> = ({
     return await api.user
       .update(updatedUser)
       .then((user) => {
-        setCachedUsers((prev) =>
-          prev.map((u) => (u.id === user.id ? user : u))
-        )
+        setCachedUsers((prev) => prev.map((u) => (u.id === user.id ? user : u)))
         return user
       })
       .catch((error) => {

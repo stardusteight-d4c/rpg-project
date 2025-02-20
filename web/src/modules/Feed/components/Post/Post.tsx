@@ -22,7 +22,7 @@ export const Post = ({ post }: { post: IPost }) => {
   }
 
   return (
-    <div className="flex relative bg-background w-full border border-border rounded-3xl pt-2 flex-col">
+    <div className="flex relative bg-background w-full border border-border rounded-xl pt-2 flex-col">
       {openEditPost && (
         <PostEdit post={post} setOpenEditPost={setOpenEditPost} />
       )}
@@ -58,19 +58,20 @@ export const Post = ({ post }: { post: IPost }) => {
       <div className="flex px-4 z-20 items-center gap-x-2">
         <div
           className="flex items-center gap-x-2 cursor-pointer"
-          onClick={() => push(`/profile/${post.user.username}`)}
+          onClick={() => push(`/profile/${post.owner.username}`)}
         >
           <img
-            src={post.user.avatarUrl}
+            src={post.owner.avatarUrl}
             alt=""
+            referrerPolicy="no-referrer"
             className="w-[48px] aspect-square object-cover select-none pointer-events-none h-[48px] rounded-full"
           />
           <div className="flex flex-col">
             <span className="block whitespace-nowrap text-lg font-bold -tracking-wide">
-              {post.user.name}
+              {post.owner.name}
             </span>
             <span className="text-gray-400 -mt-2 block text-sm">
-              #{post.user.username}
+              #{post.owner.username}
             </span>
           </div>
         </div>
@@ -87,17 +88,7 @@ export const Post = ({ post }: { post: IPost }) => {
           </svg>
         </div>
       </div>
-      <div className="px-4 mt-1 flex items-center gap-1 flex-wrap">
-        {post.tags.map((tag) => (
-          <span
-            key={tag.linkId}
-            onClick={() => push(`/${tag.type}/${tag.linkId}`)}
-            className="text-gray-400 bg-ashes px-2 border border-border rounded-full w-fit block cursor-pointer"
-          >
-            #{tag.value}
-          </span>
-        ))}
-      </div>
+    
 
       <span className="block whitespace-pre-wrap overflow-hidden p-4">
         {post.content}
@@ -142,8 +133,8 @@ export const Post = ({ post }: { post: IPost }) => {
 
       <div
         className={`${
-          showComments ? " pb-0 " : " pb-2 rounded-b-3xl "
-        } pt-2 rounded-b-3xl bg-border mt-2 flex flex-col gap-y-2`}
+          showComments ? " pb-0 " : " pb-2 rounded-b-xl "
+        } pt-2 rounded-b-xl bg-border mt-2 flex flex-col gap-y-2`}
       >
         <div className="px-4 flex items-center gap-x-2">
           {post.likedByUser ? (
@@ -224,7 +215,7 @@ export const Post = ({ post }: { post: IPost }) => {
             </svg>
           </button>
 
-          {currentSession.id !== post.user.id && (
+          {currentSession.id !== post.owner.id && (
             <button className="bg-background flex items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50 hover:bg-button duration-300 ease-in-out transition-all">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -237,7 +228,7 @@ export const Post = ({ post }: { post: IPost }) => {
               </svg>
             </button>
           )}
-          {currentSession.id === post.user.id && (
+          {currentSession.id === post.owner.id && (
             <div className="flex items-center gap-x-2 ml-auto">
               <button
                 onClick={() => setOpenEditPost(true)}
