@@ -9,18 +9,18 @@ interface IUserRoute {
   list(queryParams?: ListUsersDTO): Promise<Array<IUser>>
 }
 
-interface ICampaignRoute {
-  create(campaign: CampaignCreate): Promise<ICampaign>
-  update(campaign: Partial<ICampaign>): Promise<ICampaign>
-  delete(campaignId: string): Promise<void>
-  list(queryParams?: ListCampaignsDTO): Promise<Array<ICampaign>>
-}
-
 interface ISheetRoute {
   create(sheet: ISheet): Promise<ISheet>
   update(sheet: Partial<ISheet>): Promise<ISheet>
   delete(sheetId: string): Promise<void>
   list(queryParams?: ListSheetsDTO): Promise<Array<ISheet>>
+}
+
+interface ICampaignRoute {
+  create(campaign: CampaignCreate): Promise<ICampaign>
+  update(campaign: Partial<ICampaign>): Promise<ICampaign>
+  delete(campaignId: string): Promise<void>
+  list(queryParams?: ListCampaignsDTO): Promise<Array<ICampaign>>
 }
 
 interface IPostRoute {

@@ -16,15 +16,15 @@ import { useToast } from "@/shared/contexts/Toaster/ToasterContext"
 import { useFeed } from "@/shared/contexts/Feed/FeedContext"
 import { Post } from "../Feed/components/Post/Post"
 import { CreatePostInput } from "../Feed/components/Post/CreatePostInput"
+import { usePosts } from "@/shared/contexts/Posts/PostsContext"
 
 export function CampaignModule() {
   const { push } = useRouter()
+  const { getByCampaign, campaignPosts } = usePosts()
   const { currentSession } = useAuth()
-  const [campaign, setCampaign] = useState<ICampaign | undefined>(undefined)
   const { posts } = useFeed()
-  const params = useParams()
-  const campaignId = params.id as string
-  const { getById, deleteById } = useCampaigns()
+  const campaignId = useParams().id as string
+  const { getById, deleteById, campaign } = useCampaigns()
   const { addToast } = useToast()
   const [timeAgo, setTimeAgo] = useState<string>("")
   const [isClamped, setIsClamped] = useState(false)
@@ -36,8 +36,7 @@ export function CampaignModule() {
 
   useEffect(() => {
     ;(async () => {
-      const foundCampaign = await getById(campaignId)
-      setCampaign(foundCampaign)
+      await getById(campaignId)
     })()
   }, [campaignId])
 
@@ -61,8 +60,6 @@ export function CampaignModule() {
 
   if (!campaign) return
 
-  const campaignPosts = []
-
   const onDelete = async () => {
     deleteById(campaign.id)
       .then(() => {
@@ -77,12 +74,6 @@ export function CampaignModule() {
         setOpenEditCampaignModal(false)
       })
   }
-
-  // getTablePlayerCharacters
-  // getCampaignPosts
-  // Na rota Table e rota Post
-
-  // const posts = getByCampaignId(campaignId)
 
   return (
     <main className="w-screen">
@@ -428,11 +419,11 @@ export function CampaignModule() {
                 ) : (
                   <div>
                     <div className="flex flex-col gap-y-4 rounded-3xl w-full">
-                      {posts.map((post) => (
+                      {campaignPosts.map((post) => (
                         <Post post={post} />
                       ))}
                     </div>
-                    {posts.length === 3 && (
+                    {campaignPosts.length === 3 && (
                       <span className="text-blue-500 underline mx-auto block mt-2 cursor-pointer w-fit">
                         See more
                       </span>

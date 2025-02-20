@@ -13,7 +13,7 @@ interface SheetsState {
   userSheets: ISheet[]
   add: (sheet: ISheet) => Promise<ISheet | void>
   update: (sheet: Partial<ISheet>) => Promise<ISheet | void>
-  getUserSheets: (userId: string) => Promise<ISheet[] | void>
+  getUserSheets: (userId: string) => Promise<ISheet[]>
   deleteById: (sheetId: string) => Promise<void>
 }
 

@@ -1,43 +1,22 @@
 "use client"
 
 import { GlowingWrapper } from "@/shared/components"
-import { useFeed } from "@/shared/contexts/Feed/FeedContext"
+import { usePosts } from "@/shared/contexts/Posts/PostsContext"
 import { currentSession } from "@/shared/contexts/Users/mock-data"
 import { ChangeEvent, useState } from "react"
-
-const userCampaigns = [
-  {
-    id: "a136d71c-c2fb-421a-8cb8-ab2413d64ee7",
-    type: "campaign",
-    value: "Beyond_the_Mountains_of_Madness",
-    linkId: "b3dbc321-4330-4966-a20a-2721a818c2c2",
-  },
-]
-
-const userFriends = [
-  {
-    id: "bf4100c9-db08-4a63-9b6c-18f6cc71c7f6",
-    type: "profile",
-    value: "blackwive",
-    linkId: "blackwive",
-  },
-  {
-    id: "5e081598-5f15-414e-86a6-d20bf3497550",
-    type: "profile",
-    value: "lohvanna",
-    linkId: "lohvanna",
-  },
-]
+import { useParams } from "next/navigation"
+import { useToast } from "@/shared/contexts/Toaster/ToasterContext"
 
 export const CreatePostInput = () => {
-  const { addPost } = useFeed()
+  const { add } = usePosts()
+  const { addToast } = useToast()
+  const campaignId = useParams().id as string
   const [postData, setPostData] = useState<IPost>({
     id: "",
     content: "",
     comments: [],
     createdAt: "",
     image: undefined,
-    tags: [],
     owner: currentSession,
   })
   const [imageFile, setImageFile] = useState<File | undefined>(undefined)
@@ -49,32 +28,6 @@ export const CreatePostInput = () => {
 
   const handlePostData = (field: string, value: any) => {
     setPostData((prev) => ({ ...prev, [field]: value }))
-  }
-
-  function handleCheckEdit(data: {
-    type: "profile" | "campaign"
-    value: string
-    linkId: string
-  }) {
-    const itemExists = postData.tags.some((item) => item.linkId === data.linkId)
-
-    if (itemExists) {
-      const updatedTags = postData.tags.filter(
-        (item) => item.linkId !== data.linkId
-      )
-      handlePostData("tags", updatedTags)
-    } else {
-      const updatedData = [data, ...postData.tags]
-      handlePostData("tags", updatedData)
-    }
-  }
-
-  function handleCheckbox(data: {
-    type: "profile" | "campaign"
-    value: string
-    linkId: string
-  }): boolean {
-    return postData.tags.some((item) => item.linkId === data.linkId)
   }
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -94,22 +47,23 @@ export const CreatePostInput = () => {
     }
   }
 
-  const onPost = () => {
-    addPost({
-      ...postData,
-      id: crypto.randomUUID(),
-      createdAt: new Date().toISOString(),
-    })
-    setPostData({
-      id: "",
-      content: "",
-      comments: [],
-      createdAt: "",
-      image: undefined,
-      tags: [],
-      owner: currentSession,
-    })
-    setImageFile(undefined)
+  const onPost = async () => {
+    add({ ...postData, campaignId })
+      .then(() => addToast("The post has been created!", "success", 45))
+      .catch((error) => {
+        addToast(error.message, "error", 45)
+      })
+      .finally(() => {
+        setPostData({
+          id: "",
+          content: "",
+          comments: [],
+          createdAt: "",
+          image: undefined,
+          owner: currentSession,
+        })
+        setImageFile(undefined)
+      })
   }
 
   return (

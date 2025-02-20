@@ -6,15 +6,17 @@ import { MockAPI } from "@/shared/requests/MockAPI"
 
 interface CampaignsState {
   userCampaigns: ICampaign[]
+  campaign: ICampaign | undefined
   add: (campaign: CampaignCreate) => Promise<ICampaign | void>
   getUserCampaigns: (userId: string) => Promise<Array<ICampaign> | void>
-  getById: (campaingId: string) => Promise<ICampaign | undefined>
+  getById: (campaignId: string) => Promise<ICampaign | undefined>
   update: (campaign: Partial<ICampaign>) => Promise<ICampaign | void>
   deleteById: (campaignId: string) => Promise<void>
 }
 
 const defaultState: CampaignsState = {
   userCampaigns: [],
+  campaign: undefined,
   add: async () => {},
   getUserCampaigns: async (userId: string) => [],
   getById: async (campaignId: string) => undefined,
@@ -28,6 +30,7 @@ export const CampaignsProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const api = new MockAPI()
+  const [campaign, setCampaign] = useState<ICampaign | undefined>(undefined)
   const [cachedCampaigns, setCachedCampaigns] = useState<ICampaign[]>([])
   const [userCampaigns, setUserCampaigns] = useState<ICampaign[]>([])
 
@@ -45,18 +48,22 @@ export const CampaignsProvider: React.FC<{ children: ReactNode }> = ({
       : userCampaigns
   }
 
-  const getById = async (campaingId: string) => {
+  const getById = async (campaignId: string) => {
     const findCachedCampaign = cachedCampaigns.find(
-      (cachedCampaign) => cachedCampaign.id === campaingId
+      (cachedCampaign) => cachedCampaign.id === campaignId
     )
+
+    findCachedCampaign && setCampaign(findCachedCampaign)
 
     return findCachedCampaign
       ? findCachedCampaign
       : await api.campaign
-          .list({ campaignId: campaingId })
-          .then((campaing) => {
-            campaing && setCachedCampaigns((prev) => [...prev, campaing[0]])
-            return campaing[0]
+          .list({ campaignId: campaignId })
+          .then((campaign) => {
+            campaign && setCachedCampaigns((prev) => [...prev, campaign[0]]),
+              setCampaign(campaign[0])
+
+            return campaign[0]
           })
           .catch((error) => {
             throw new Error(error.message)
@@ -86,6 +93,7 @@ export const CampaignsProvider: React.FC<{ children: ReactNode }> = ({
         setCachedCampaigns((prev) =>
           prev.map((c) => (c.id === updatedCampaign.id ? updatedCampaign : c))
         )
+        setCampaign(updatedCampaign)
         setUserCampaigns((prev) =>
           prev.map((c) => (c.id === updatedCampaign.id ? updatedCampaign : c))
         )
@@ -112,6 +120,7 @@ export const CampaignsProvider: React.FC<{ children: ReactNode }> = ({
   return (
     <CampaignsContext.Provider
       value={{
+        campaign,
         userCampaigns,
         add,
         deleteById,
