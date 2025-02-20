@@ -87,7 +87,7 @@ export const Header: React.FC<{ user: IUser }> = ({ user }) => {
             <h2 className="text-5xl capitalize leading-[70px] text-transparent bg-clip-text background-gradient pointer-events-none -mt-2 font-bold ">
               {user.name}
             </h2>
-            <span className="block text-center text-3xl lowercase -mt-[15px] text-gray-500/80">
+            <span className="block text-center text-3xl lowercase -mt-[15px] text-gray-400">
               #{user.username}
             </span>
           </div>
@@ -111,12 +111,12 @@ export const Header: React.FC<{ user: IUser }> = ({ user }) => {
             </div>
           </div>
           <div className="absolute text-sm flex flex-col items-start justify-start left-[0px] top-[4px]">
-            <div className="text-gray-500/80 select-none flex items-center gap-x-[2px] mt-1 w-full">
+            <div className="text-gray-400 select-none flex items-center gap-x-[2px] mt-1 w-full">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
                 height="16"
-                fill="#6b7280"
+                fill="#9ca3af"
                 viewBox="0 0 256 256"
               >
                 <path d="M208,32H184V24a8,8,0,0,0-16,0v8H88V24a8,8,0,0,0-16,0v8H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM72,48v8a8,8,0,0,0,16,0V48h80v8a8,8,0,0,0,16,0V48h24V80H48V48ZM208,208H48V96H208V208Zm-68-76a12,12,0,1,1-12-12A12,12,0,0,1,140,132Zm44,0a12,12,0,1,1-12-12A12,12,0,0,1,184,132ZM96,172a12,12,0,1,1-12-12A12,12,0,0,1,96,172Zm44,0a12,12,0,1,1-12-12A12,12,0,0,1,140,172Zm44,0a12,12,0,1,1-12-12A12,12,0,0,1,184,172Z"></path>
@@ -126,7 +126,7 @@ export const Header: React.FC<{ user: IUser }> = ({ user }) => {
               </span>
             </div>
             {user.hoursPlayed !== 0 && (
-              <div className="text-gray-500/80 select-none flex items-center gap-x-[2px] mt-1 w-full">
+              <div className="text-gray-400 select-none flex items-center gap-x-[2px] mt-1 w-full">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="16"
@@ -142,7 +142,7 @@ export const Header: React.FC<{ user: IUser }> = ({ user }) => {
               </div>
             )}
             {user.koalCampaigns !== 0 && (
-              <div className="text-gray-500/80 select-none flex items-center gap-x-[2px] mt-1 w-full">
+              <div className="text-gray-400 select-none flex items-center gap-x-[2px] mt-1 w-full">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="16"
@@ -158,7 +158,7 @@ export const Header: React.FC<{ user: IUser }> = ({ user }) => {
               </div>
             )}
             {user.playingCampaigns !== 0 && (
-              <div className="text-gray-500/80 select-none flex items-center gap-x-[2px] mt-1 w-full">
+              <div className="text-gray-400 select-none flex items-center gap-x-[2px] mt-1 w-full">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="16"
