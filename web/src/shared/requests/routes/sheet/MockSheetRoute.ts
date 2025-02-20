@@ -37,6 +37,11 @@ export class MockSheetRoute implements ISheetRoute {
     return updatedSheet
   }
 
+  public async delete(sheetId: string): Promise<void> {
+    const newArray = this.#sheets.filter((sheet) => sheet.id !== sheetId)
+    this.#sheets = newArray
+  }
+
   public async getUserSheets(userId: string): Promise<ISheet[]> {
     const userSheets = this.#sheets.filter((sheet) => sheet.user.id === userId)
 

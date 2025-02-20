@@ -19,7 +19,15 @@ export const ModalWrapper = ({
   showCloseIcon = true,
   title,
 }: ModalWrapperProps) => {
-  if (status === false) return null
+  if (status === false) {
+    document.body.style.overflow = ""
+    return null
+  }
+
+  useEffect(() => {
+    document.body.style.overflow = "hidden"
+  }, [])
+
   const modalContentRef = useRef<HTMLDivElement | null>(null)
 
   const handleBackgroundClick = (e: React.MouseEvent) => {
@@ -32,23 +40,11 @@ export const ModalWrapper = ({
     onStatusChange(false)
   }
 
-  useEffect(() => {
-    if (status) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-
-    return () => {
-      document.body.style.overflow = ""; 
-    };
-  }, [status]);
-
   return ReactDOM.createPortal(
     <div
       className="w-screen h-screen inset-0 !z-[1000] fixed"
       onClick={(e) => {
-        document.body.style.overflow = "";
+        document.body.style.overflow = ""
         handleBackgroundClick(e)
         e.stopPropagation()
       }}
@@ -74,7 +70,7 @@ export const ModalWrapper = ({
                   fill="#cccccc80"
                   viewBox="0 0 256 256"
                   onClick={(e) => {
-                    document.body.style.overflow = "";
+                    document.body.style.overflow = ""
                     onStatusChange(false)
                     e.stopPropagation()
                   }}

@@ -10,9 +10,7 @@ import { ModalWrapper } from "../ModalWrapper"
 import { CharactersCreate } from "@/modules/Table/components/Characters/components/CharactersCreate"
 
 export const Navbar = () => {
-  const [createSheetModal, setCreateSheetModal] = useState<boolean>(
-   false
-  )
+  const [createSheetModal, setCreateSheetModal] = useState<boolean>(false)
   const [openCreateCampaignModal, setOpenCreateCampaignModal] =
     useState<boolean>(false)
   const { currentSession, logout } = useAuth()
@@ -31,12 +29,10 @@ export const Navbar = () => {
           <CharactersCreate isModal setCreateSheetModal={setCreateSheetModal} />
         </div>
       </ModalWrapper>
-      {openCreateCampaignModal && (
-        <CreateCampaignModal
-          onStatusChange={setOpenCreateCampaignModal}
-          status={openCreateCampaignModal}
-        />
-      )}
+      <CreateCampaignModal
+        onStatusChange={setOpenCreateCampaignModal}
+        status={openCreateCampaignModal}
+      />
       <div className="max-w-7xl flex items-center justify-between mx-auto">
         <h1
           onClick={() => push("/feed")}

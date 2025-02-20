@@ -3,15 +3,15 @@
 import ReactDOM from "react-dom"
 import React, { useState } from "react"
 import { useCampaigns } from "@/shared/contexts/Campaigns/CampaignsContext"
-import { useAuth } from "@/shared/contexts/Auth/AuthContext"
 import { GlowingWrapper, ModalWrapper } from "@/shared/components"
 import { useToast } from "@/shared/contexts/Toaster/ToasterContext"
 
 export const EditCampaignModal: React.FC<{
   status: boolean
   onStatusChange: (status: boolean) => void
+  onOpenDeleteModal: (status: boolean) => void
   campaign: ICampaign
-}> = ({ onStatusChange, status, campaign }) => {
+}> = ({ onStatusChange, status, campaign, onOpenDeleteModal }) => {
   const { update } = useCampaigns()
   const { addToast } = useToast()
   const [campaignData, setCampaignData] = useState<{
@@ -115,6 +115,23 @@ export const EditCampaignModal: React.FC<{
               </svg>
             </button>
             <span>Change Cover Image</span>
+          </div>
+          <div
+            onClick={() => onOpenDeleteModal(true)}
+            className="cursor-pointer w-fit flex items-center group gap-x-2"
+          >
+            <button className="bg-ashes flex items-center justify-center text-white p-1 rounded-full shadow-p group-hover:bg-red-500 duration-300 ease-in-out transition-all">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                fill="#FFFFFF"
+                viewBox="0 0 256 256"
+              >
+                <path d="M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V208a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16ZM96,40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8v8H96Zm96,168H64V64H192ZM112,104v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Z"></path>
+              </svg>
+            </button>
+            <span className="capitalize">Delete Campaign</span>
           </div>
           <div
             onClick={onEdit}

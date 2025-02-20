@@ -46,7 +46,8 @@ export const ToastProvider = ({ children }: { children: ReactNode }) => {
     <ToastContext.Provider value={{ addToast }}>
       {children}
       <div
-        className={`top-[${position}px] fixed right-4 flex flex-col gap-2 z-[9999]`}
+        className="fixed right-4 flex flex-col gap-2 z-[9999]"
+        style={{top: position}}
       >
         {toasts.map((toast) => (
           <div

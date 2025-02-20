@@ -53,4 +53,11 @@ export class MockCampaignRoute implements ICampaignRoute {
     this.#campaigns.push(newCampaign)
     return newCampaign
   }
+
+  public async delete(campaignId: string): Promise<void> {
+    const newArray = this.#campaigns.filter(
+      (campaign) => campaign.id !== campaignId
+    )
+    this.#campaigns = newArray
+  }
 }

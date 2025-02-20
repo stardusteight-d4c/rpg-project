@@ -3,6 +3,7 @@ interface ICampaignRoute {
   getUserCampaigns(userId: string): Promise<Array<ICampaign>>
   getById(campaignId: string): Promise<ICampaign | undefined>
   update(campaign: Partial<ICampaign>): Promise<ICampaign>
+  delete(campaignId: string): Promise<void>
 }
 
 interface IAuthRoute {
@@ -21,4 +22,5 @@ interface ISheetRoute {
   add(sheet: ISheet): Promise<ISheet>
   update(sheet: Partial<ISheet>): Promise<ISheet>
   getUserSheets(userId: string): Promise<Array<ISheet>>
+  delete(sheetId: string): Promise<void>
 }

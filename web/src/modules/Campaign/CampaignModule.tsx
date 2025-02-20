@@ -1,6 +1,6 @@
 "use client"
 
-import { Footer, Navbar, Tooltip } from "@/shared/components"
+import { Footer, ModalWrapper, Navbar, Tooltip } from "@/shared/components"
 import { useCampaigns } from "@/shared/contexts/Campaigns/CampaignsContext"
 import { useCharacters } from "@/shared/contexts/Characters/CharactersContext"
 import { useParams, useRouter } from "next/navigation"
@@ -12,6 +12,7 @@ import ReactMarkdown from "react-markdown"
 import rehypeRaw from "rehype-raw"
 import { countTimeago } from "@/shared/utils/countTimeago"
 import { EditCampaignModal } from "./components/EditCampaignModal"
+import { useToast } from "@/shared/contexts/Toaster/ToasterContext"
 
 export function CampaignModule() {
   const { push } = useRouter()
@@ -19,11 +20,13 @@ export function CampaignModule() {
   const [campaign, setCampaign] = useState<ICampaign | undefined>(undefined)
   const params = useParams()
   const campaignId = params.id as string
-  const { getById } = useCampaigns()
+  const { getById, deleteById } = useCampaigns()
+  const { addToast } = useToast()
   const [timeAgo, setTimeAgo] = useState<string>("")
   const [isClamped, setIsClamped] = useState(false)
   const [expanded, setExpanded] = useState(false)
   const contentRef = useRef<HTMLDivElement>(null)
+  const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false)
   const [openEditCampaignModal, setOpenEditCampaignModal] =
     useState<boolean>(false)
 
@@ -54,6 +57,21 @@ export function CampaignModule() {
 
   if (!campaign) return
 
+  const onDelete = async () => {
+    deleteById(campaign.id)
+      .then(() => {
+        addToast("The campaign has been deleted!", "success", 45)
+      })
+      .catch((error) => {
+        addToast(error.message, "error", 45)
+      })
+      .finally(() => {
+        push(`/profile/${currentSession?.username}`)
+        setOpenDeleteModal(false)
+        setOpenEditCampaignModal(false)
+      })
+  }
+
   // getTablePlayerCharacters
   // getCampaignPosts
   // Na rota Table e rota Post
@@ -62,13 +80,41 @@ export function CampaignModule() {
 
   return (
     <main className="w-screen">
-      {openEditCampaignModal && (
-        <EditCampaignModal
-          onStatusChange={setOpenEditCampaignModal}
-          status={openEditCampaignModal}
-          campaign={campaign}
-        />
-      )}
+      <ModalWrapper
+        status={openDeleteModal}
+        onStatusChange={setOpenDeleteModal}
+      >
+        <div className="w-[500px] p-4">
+          <h3 className="block text-3xl font-bold text-red-500">Warning!</h3>
+          <div className="flex flex-col mt-4 gap-2 items-center justify-center">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="58"
+              height="58"
+              fill="#ef4444"
+              viewBox="0 0 256 256"
+            >
+              <path d="M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V208a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16ZM96,40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8v8H96Zm96,168H64V64H192ZM112,104v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Z"></path>
+            </svg>
+            <span className="block w-[300px] text-center text-gray-400">
+              You are about to delete your campaign: "{campaign.name}". This
+              action cannot be undone!
+            </span>
+            <button
+              onClick={onDelete}
+              className="p-2 mt-2 w-full hover:brightness-125 font-medium text-center text-lg bg-red-500 text-white rounded-full"
+            >
+              Delete
+            </button>
+          </div>
+        </div>
+      </ModalWrapper>
+      <EditCampaignModal
+        onOpenDeleteModal={setOpenDeleteModal}
+        onStatusChange={setOpenEditCampaignModal}
+        status={openEditCampaignModal}
+        campaign={campaign}
+      />
       <Navbar />
       <div className="max-w-7xl mb-[200px] min-h-screen w-full mx-auto mt-[45px] pt-4">
         <div className="flex pb-2 select-none bg-background z-20 items-center gap-x-2">
