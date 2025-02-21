@@ -22,7 +22,7 @@ export function CampaignModule() {
   const { getByCampaign, campaignPosts } = usePosts()
   const { currentSession } = useAuth()
   const campaignId = useParams().id as string
-  const { getById, deleteById, campaign } = useCampaigns()
+  const { getById, remove, campaign } = useCampaigns()
   const { addToast } = useToast()
   const [timeAgo, setTimeAgo] = useState<string>("")
   const [isClamped, setIsClamped] = useState(false)
@@ -79,7 +79,7 @@ export function CampaignModule() {
   if (!campaign) return
 
   const onDelete = async () => {
-    deleteById(campaign.id)
+    remove(campaign.id)
       .then(() => {
         addToast("The campaign has been deleted!", "success", 45)
       })

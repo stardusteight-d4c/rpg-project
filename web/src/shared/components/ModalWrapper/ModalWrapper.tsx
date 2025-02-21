@@ -26,7 +26,7 @@ export const ModalWrapper = ({
 
   useEffect(() => {
     document.body.style.overflow = "hidden"
-  }, [])
+  })
 
   const modalContentRef = useRef<HTMLDivElement | null>(null)
 

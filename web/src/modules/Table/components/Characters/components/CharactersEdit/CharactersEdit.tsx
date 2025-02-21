@@ -28,7 +28,7 @@ export const CharactersEdit = ({
   isModal = false,
 }: CharactersEditProps) => {
   const { addToast } = useToast()
-  const { update, deleteById } = useSheets()
+  const { update, remove } = useSheets()
   const { updateCharacter, copyCharacters, removeCharacter } = useCharacters()
   const [activeItems, setActiveItems] = useState<
     Array<"attributes" | "skills" | "inventory" | "combat" | "backstory" | null>
@@ -77,7 +77,7 @@ export const CharactersEdit = ({
   }
 
   function onDelete() {
-    deleteById(playerCharacter.id)
+    remove(playerCharacter.id)
       .then(() => {
         addToast("The sheet has been deleted!", "success", 45)
       })

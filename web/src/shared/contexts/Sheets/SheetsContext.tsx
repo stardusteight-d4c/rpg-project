@@ -14,7 +14,7 @@ interface SheetsState {
   add: (sheet: ISheet) => Promise<ISheet | void>
   update: (sheet: Partial<ISheet>) => Promise<ISheet | void>
   getUserSheets: (userId: string) => Promise<ISheet[]>
-  deleteById: (sheetId: string) => Promise<void>
+  remove: (sheetId: string) => Promise<void>
 }
 
 const defaultState: SheetsState = {
@@ -22,7 +22,7 @@ const defaultState: SheetsState = {
   add: async (sheet: ISheet) => {},
   update: async (sheet: Partial<ISheet>) => {},
   getUserSheets: async (userId: string) => [],
-  deleteById: async (sheetId: string) => {},
+  remove: async (sheetId: string) => {},
 }
 
 const SheetsContext = createContext<SheetsState>(defaultState)
@@ -57,7 +57,7 @@ export const SheetsProvider: React.FC<{ children: ReactNode }> = ({
       })
   }
 
-  const deleteById = async (sheetId: string) => {
+  const remove = async (sheetId: string) => {
     return api.sheet
       .delete(sheetId)
       .then(() => {
@@ -84,7 +84,7 @@ export const SheetsProvider: React.FC<{ children: ReactNode }> = ({
 
   return (
     <SheetsContext.Provider
-      value={{ userSheets, getUserSheets, add, update, deleteById }}
+      value={{ userSheets, getUserSheets, add, update, remove }}
     >
       {children}
     </SheetsContext.Provider>

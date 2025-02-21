@@ -12,15 +12,25 @@ import { MockAPI } from "@/shared/requests/MockAPI"
 interface PostsState {
   campaignPosts: IPost[]
   add: (post: IPost) => Promise<IPost | void>
+  update: (post: Partial<IPost>) => Promise<IPost | void>
+  remove: (postId: string) => Promise<void>
   getByCampaign: (
     queryParams: ListPostsDTO
   ) => Promise<ListPostsResponseDTO<IPost>>
+  getByUser: (queryParams: ListPostsDTO) => Promise<ListPostsResponseDTO<IPost>>
 }
 
 const defaultState: PostsState = {
   campaignPosts: [],
   add: async (post: IPost) => {},
+  update: async (post: Partial<IPost>) => {},
+  remove: async (postId: string) => {},
   getByCampaign: async (queryParams: ListPostsDTO) => ({
+    items: [],
+    totalItems: 0,
+    totalPages: 0,
+  }),
+  getByUser: async (queryParams: ListPostsDTO) => ({
     items: [],
     totalItems: 0,
     totalPages: 0,
@@ -44,6 +54,35 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
       })
   }
 
+  const update = async (post: Partial<IPost>) => {
+    return await api.post
+      .update(post)
+      .then((post) => {
+        setCampaignPosts((prev) =>
+          prev.map((p) => (p.id === post.id ? post : p))
+        )
+        return post
+      })
+      .catch((error) => {
+        throw new Error(error.message)
+      })
+  }
+
+  const remove = async (postId: string) => {
+    return await api.post.delete(postId).catch((error) => {
+      throw new Error(error.message)
+    })
+  }
+
+  const getByUser = async (queryParams: ListPostsDTO) => {
+    return await api.post
+      .list(queryParams)
+      .then((postsPagination) => postsPagination)
+      .catch((error) => {
+        throw new Error(error.message)
+      })
+  }
+
   const getByCampaign = async (queryParams: ListPostsDTO) => {
     return await api.post
       .list(queryParams)
@@ -57,7 +96,9 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
   }
 
   return (
-    <PostsContext.Provider value={{ campaignPosts, add, getByCampaign }}>
+    <PostsContext.Provider
+      value={{ campaignPosts, update, remove, add, getByCampaign, getByUser }}
+    >
       {children}
     </PostsContext.Provider>
   )

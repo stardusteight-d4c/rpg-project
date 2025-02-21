@@ -20,7 +20,7 @@ export const CreatePostInput: React.FC<{
     comments: [],
     createdAt: "",
     image: undefined,
-    owner: currentSession,
+    owner: currentSession!,
   })
   const [imageFile, setImageFile] = useState<File | undefined>(undefined)
 
@@ -66,7 +66,7 @@ export const CreatePostInput: React.FC<{
           comments: [],
           createdAt: "",
           image: undefined,
-          owner: currentSession,
+          owner: currentSession!,
         })
         setImageFile(undefined)
       })
@@ -105,7 +105,7 @@ export const CreatePostInput: React.FC<{
             />
 
             <div
-              onClick={() => handleClick()}
+              onClick={handleClick}
               className="cursor-pointer w-fit flex items-center group gap-x-2"
             >
               <button className="bg-ashes flex items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50 group-hover:bg-blue-500 duration-300 ease-in-out transition-all">

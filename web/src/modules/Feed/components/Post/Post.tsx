@@ -25,9 +25,13 @@ export const Post = ({ post }: { post: IPost }) => {
 
   return (
     <div className="flex relative bg-background w-full border border-border rounded-xl pt-2 flex-col">
-      {openEditPost && (
+      <ModalWrapper
+        title="Editing Post"
+        onStatusChange={setOpenEditPost}
+        status={openEditPost}
+      >
         <PostEdit post={post} setOpenEditPost={setOpenEditPost} />
-      )}
+      </ModalWrapper>
       <ModalWrapper
         status={openDeleteModal}
         onStatusChange={setOpenDeleteModal}

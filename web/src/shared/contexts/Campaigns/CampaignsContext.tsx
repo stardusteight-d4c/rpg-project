@@ -11,7 +11,7 @@ interface CampaignsState {
   getUserCampaigns: (userId: string) => Promise<Array<ICampaign> | void>
   getById: (campaignId: string) => Promise<ICampaign | undefined>
   update: (campaign: Partial<ICampaign>) => Promise<ICampaign | void>
-  deleteById: (campaignId: string) => Promise<void>
+  remove: (campaignId: string) => Promise<void>
 }
 
 const defaultState: CampaignsState = {
@@ -21,7 +21,7 @@ const defaultState: CampaignsState = {
   getUserCampaigns: async (userId: string) => [],
   getById: async (campaignId: string) => undefined,
   update: async (campaign: Partial<ICampaign>) => {},
-  deleteById: async (campaignId: string) => {},
+  remove: async (campaignId: string) => {},
 }
 
 const CampaignsContext = createContext<CampaignsState>(defaultState)
@@ -70,7 +70,7 @@ export const CampaignsProvider: React.FC<{ children: ReactNode }> = ({
           })
   }
 
-  const deleteById = async (campaignId: string) => {
+  const remove = async (campaignId: string) => {
     return api.campaign
       .delete(campaignId)
       .then(() => {
@@ -123,7 +123,7 @@ export const CampaignsProvider: React.FC<{ children: ReactNode }> = ({
         campaign,
         userCampaigns,
         add,
-        deleteById,
+        remove,
         getUserCampaigns,
         getById,
         update,
