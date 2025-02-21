@@ -3,11 +3,13 @@
 import { GlowingWrapper } from "@/shared/components"
 import { usePosts } from "@/shared/contexts/Posts/PostsContext"
 import { currentSession } from "@/shared/contexts/Users/mock-data"
-import { ChangeEvent, useState } from "react"
+import React, { ChangeEvent, useState } from "react"
 import { useParams } from "next/navigation"
 import { useToast } from "@/shared/contexts/Toaster/ToasterContext"
 
-export const CreatePostInput = () => {
+export const CreatePostInput: React.FC<{
+  onPostCreated?: () => void
+}> = ({ onPostCreated }) => {
   const { add } = usePosts()
   const { addToast } = useToast()
   const campaignId = useParams().id as string
@@ -49,7 +51,10 @@ export const CreatePostInput = () => {
 
   const onPost = async () => {
     add({ ...postData, campaignId })
-      .then(() => addToast("The post has been created!", "success", 45))
+      .then(() => {
+        onPostCreated && onPostCreated()
+        addToast("The post has been created!", "success", 45)
+      })
       .catch((error) => {
         addToast(error.message, "error", 45)
       })

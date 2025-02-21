@@ -27,5 +27,5 @@ interface IPostRoute {
   create(post: IPost): Promise<IPost>
   update(post: Partial<IPost>): Promise<IPost>
   delete(postId): Promise<void>
-  list(queryParams?: ListPostsDTO): Promise<Array<IPost>>
+  list(queryParams?: ListPostsDTO): Promise<ListPostsResponseDTO<IPost>>
 }

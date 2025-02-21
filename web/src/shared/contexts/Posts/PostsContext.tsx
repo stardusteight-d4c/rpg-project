@@ -12,13 +12,19 @@ import { MockAPI } from "@/shared/requests/MockAPI"
 interface PostsState {
   campaignPosts: IPost[]
   add: (post: IPost) => Promise<IPost | void>
-  getByCampaign: (queryParams: ListPostsDTO) => Promise<IPost[]>
+  getByCampaign: (
+    queryParams: ListPostsDTO
+  ) => Promise<ListPostsResponseDTO<IPost>>
 }
 
 const defaultState: PostsState = {
   campaignPosts: [],
   add: async (post: IPost) => {},
-  getByCampaign: async (queryParams: ListPostsDTO) => [],
+  getByCampaign: async (queryParams: ListPostsDTO) => ({
+    items: [],
+    totalItems: 0,
+    totalPages: 0,
+  }),
 }
 
 const PostsContext = createContext<PostsState>(defaultState)
@@ -32,10 +38,7 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
   const add = async (post: IPost) => {
     return await api.post
       .create(post)
-      .then((createdPost) => {
-        setCampaignPosts((prev) => [createdPost, ...prev])
-        return createdPost
-      })
+      .then((createdPost) => createdPost)
       .catch((error) => {
         throw new Error(error.message)
       })
@@ -44,7 +47,10 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
   const getByCampaign = async (queryParams: ListPostsDTO) => {
     return await api.post
       .list(queryParams)
-      .then((posts) => posts)
+      .then((postsPagination) => {
+        setCampaignPosts(postsPagination.items)
+        return postsPagination
+      })
       .catch((error) => {
         throw new Error(error.message)
       })

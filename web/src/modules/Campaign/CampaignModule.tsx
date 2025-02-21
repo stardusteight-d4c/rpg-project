@@ -17,12 +17,12 @@ import { useFeed } from "@/shared/contexts/Feed/FeedContext"
 import { Post } from "../Feed/components/Post/Post"
 import { CreatePostInput } from "../Feed/components/Post/CreatePostInput"
 import { usePosts } from "@/shared/contexts/Posts/PostsContext"
+import { Pagination } from "./components/Pagination"
 
 export function CampaignModule() {
   const { push } = useRouter()
   const { getByCampaign, campaignPosts } = usePosts()
   const { currentSession } = useAuth()
-  const { posts } = useFeed()
   const campaignId = useParams().id as string
   const { getById, deleteById, campaign } = useCampaigns()
   const { addToast } = useToast()
@@ -31,14 +31,34 @@ export function CampaignModule() {
   const [expanded, setExpanded] = useState(false)
   const contentRef = useRef<HTMLDivElement>(null)
   const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false)
+  const [currentPage, setCurrentPage] = useState(1)
+  const [totalPages, setTotalPages] = useState(0)
   const [openEditCampaignModal, setOpenEditCampaignModal] =
     useState<boolean>(false)
+  const [isPostCreated, setIsPostCreated] = useState<boolean>(false)
+
+
+  const onPostCreated = () => {
+    setIsPostCreated(!isPostCreated)
+  }
 
   useEffect(() => {
     ;(async () => {
       await getById(campaignId)
     })()
   }, [campaignId])
+
+  useEffect(() => {
+    ;(async () => {
+      getByCampaign({ campaignId, currentPage, pageSize: 3 }).then(
+        (postsPagination) => {
+          setTotalPages(postsPagination.totalPages)
+        }
+      )
+      
+    })()
+  }, [campaignId, currentPage, isPostCreated])
+
 
   useEffect(() => {
     if (contentRef.current) {
@@ -395,7 +415,7 @@ export function CampaignModule() {
                   </div>
                 ))} */}
                 </div>
-                <CreatePostInput />
+                <CreatePostInput onPostCreated={onPostCreated} />
                 {campaignPosts.length === 0 ? (
                   <div className="w-full flex items-center justify-center">
                     <div className="p-8 w-full h-[230px] border-2  border-dashed border-border rounded-xl flex flex-col items-center justify-center">
@@ -423,11 +443,11 @@ export function CampaignModule() {
                         <Post post={post} />
                       ))}
                     </div>
-                    {campaignPosts.length === 3 && (
-                      <span className="text-blue-500 underline mx-auto block mt-2 cursor-pointer w-fit">
-                        See more
-                      </span>
-                    )}
+                    <Pagination
+                      totalPages={totalPages}
+                      currentPage={currentPage}
+                      onPageChange={setCurrentPage}
+                    />
                   </div>
                 )}
               </div>

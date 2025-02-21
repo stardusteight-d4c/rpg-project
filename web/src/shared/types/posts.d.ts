@@ -21,6 +21,13 @@ interface IComment {
 interface ListPostsDTO {
   campaignId?: string
   ownerId?: string
-  currentPage?: string
-  pageSize?: string
+  currentPage?: number
+  pageSize?: number
 }
+
+interface ListPostsResponseDTO<T> {
+  items: Array<T>
+  totalItems: number
+  totalPages: number
+}
+
