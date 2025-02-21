@@ -2,15 +2,16 @@
 
 import { GlowingWrapper } from "@/shared/components"
 import { usePosts } from "@/shared/contexts/Posts/PostsContext"
-import { currentSession } from "@/shared/contexts/Users/mock-data"
 import React, { ChangeEvent, useState } from "react"
 import { useParams } from "next/navigation"
 import { useToast } from "@/shared/contexts/Toaster/ToasterContext"
+import { useAuth } from "@/shared/contexts/Auth/AuthContext"
 
 export const CreatePostInput: React.FC<{
   onPostCreated?: () => void
 }> = ({ onPostCreated }) => {
   const { add } = usePosts()
+  const { currentSession } = useAuth()
   const { addToast } = useToast()
   const campaignId = useParams().id as string
   const [postData, setPostData] = useState<IPost>({

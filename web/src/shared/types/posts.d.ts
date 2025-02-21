@@ -1,6 +1,6 @@
 interface IPost {
   id: string
-  owner: User
+  owner: IUser
   campaignId?: string
   content: string
   image?: string | undefined

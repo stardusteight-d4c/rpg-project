@@ -1,9 +1,13 @@
+import { MockUserRoute } from "../user/MockUserRoute"
+
 export class MockPostRoute implements IPostRoute {
   static #instance: MockPostRoute | null = null
   #posts: Array<IPost>
+  #inMemoryUserRoute: IUserRoute
 
   private constructor() {
     this.#posts = []
+    this.#inMemoryUserRoute = MockUserRoute.getInstance()
   }
 
   public static getInstance(): MockPostRoute {
@@ -50,7 +54,7 @@ export class MockPostRoute implements IPostRoute {
     queryParams?: ListPostsDTO
   ): Promise<ListPostsResponseDTO<IPost>> {
     let filteredPosts = this.#posts
-  
+
     if (queryParams?.campaignId) {
       filteredPosts = filteredPosts.filter(
         (post) => post.campaignId === queryParams.campaignId
@@ -61,24 +65,33 @@ export class MockPostRoute implements IPostRoute {
         (post) => post.owner.id === queryParams.ownerId
       )
     }
-  
-    // Ordena do mais recente para o mais antigo
-    filteredPosts.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
-  
+
+    filteredPosts.sort(
+      (a, b) =>
+        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    )
+
     const totalItems = filteredPosts.length
-    const page = queryParams?.currentPage ? queryParams.currentPage || 1 : 1
-    const pageSize = queryParams?.pageSize ? queryParams.pageSize || 10 : 10
+    const page = queryParams?.currentPage ?? 1
+    const pageSize = queryParams?.pageSize ?? 10
     const totalPages = Math.ceil(totalItems / pageSize)
-  
+
     const startIndex = (page - 1) * pageSize
     const endIndex = startIndex + pageSize
     const paginatedPosts = filteredPosts.slice(startIndex, endIndex)
-  
+
+    const users = await this.#inMemoryUserRoute.list()
+    const usersMap = new Map(users.map((user) => [user.id, user]))
+
+    const updatedPosts = paginatedPosts.map((post) => ({
+      ...post,
+      owner: usersMap.get(post.owner.id) ?? post.owner, 
+    }))
+
     return {
-      items: paginatedPosts,
+      items: updatedPosts,
       totalItems,
       totalPages,
     }
   }
-  
 }

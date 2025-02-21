@@ -1,9 +1,13 @@
+import { MockUserRoute } from "../user/MockUserRoute"
+
 export class MockCampaignRoute implements ICampaignRoute {
   static #instance: MockCampaignRoute | null = null
   #campaigns: Array<ICampaign>
+  #inMemoryUserRoute: IUserRoute
 
   private constructor() {
     this.#campaigns = []
+    this.#inMemoryUserRoute = MockUserRoute.getInstance()
   }
 
   public static getInstance(): MockCampaignRoute {
@@ -52,15 +56,24 @@ export class MockCampaignRoute implements ICampaignRoute {
   }
 
   public async list(queryParams?: ListCampaignsDTO): Promise<Array<ICampaign>> {
-    if (!queryParams) return this.#campaigns
-    return this.#campaigns.filter((campaign) => {
+    const users = await this.#inMemoryUserRoute.list()
+    const usersMap = new Map(users.map((user) => [user.id, user]))
+
+    let filteredCampaigns = this.#campaigns.filter((campaign) => {
       const isMatchingId =
-        !queryParams.campaignId || campaign.id === queryParams.campaignId
+        !queryParams?.campaignId || campaign.id === queryParams.campaignId
       const isMatchingOwner =
-        !queryParams.ownerId || campaign.owner.id === queryParams.ownerId
+        !queryParams?.ownerId || campaign.owner.id === queryParams.ownerId
       const isMatchingStatus =
-        !queryParams.status || campaign.status === queryParams.status
+        !queryParams?.status || campaign.status === queryParams.status
       return isMatchingId && isMatchingOwner && isMatchingStatus
     })
+
+    filteredCampaigns = filteredCampaigns.map((campaign) => {
+      const updatedOwner = usersMap.get(campaign.owner.id) ?? campaign.owner
+      return { ...campaign, owner: updatedOwner }
+    })
+
+    return filteredCampaigns
   }
 }

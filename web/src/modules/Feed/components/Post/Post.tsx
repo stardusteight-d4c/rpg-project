@@ -2,16 +2,18 @@
 
 import { GlowingWrapper, ModalWrapper } from "@/shared/components"
 import { useFeed } from "@/shared/contexts/Feed/FeedContext"
-import { currentSession } from "@/shared/contexts/Users/mock-data"
 import { timeago } from "@/shared/utils/timeago"
 import { useState } from "react"
 import { PostEdit } from "./PostEdit"
 import { Comment } from "./Comment"
 import { CommentInput } from "./CommentInput"
 import { useRouter } from "next/navigation"
+import { useAuth } from "@/shared/contexts/Auth/AuthContext"
+import { getNameInitials } from "@/shared/utils/getNameInitials"
 
 export const Post = ({ post }: { post: IPost }) => {
   const { push } = useRouter()
+  const { currentSession } = useAuth()
   const { deletePost, updatePost } = useFeed()
   const [showComments, setShowComments] = useState<boolean>(false)
   const [openEditPost, setOpenEditPost] = useState<boolean>(false)
@@ -60,12 +62,18 @@ export const Post = ({ post }: { post: IPost }) => {
           className="flex items-center gap-x-2 cursor-pointer"
           onClick={() => push(`/profile/${post.owner.username}`)}
         >
-          <img
-            src={post.owner.avatarUrl}
-            alt=""
-            referrerPolicy="no-referrer"
-            className="w-[48px] aspect-square object-cover select-none pointer-events-none h-[48px] rounded-full"
-          />
+          {post.owner.avatarUrl ? (
+            <img
+              src={post.owner.avatarUrl}
+              alt=""
+              referrerPolicy="no-referrer"
+              className="w-[48px] aspect-square object-cover select-none pointer-events-none h-[48px] rounded-full"
+            />
+          ) : (
+            <div className="w-[48px] text-2xl font-bold text-white flex items-center justify-center aspect-square object-cover select-none pointer-events-none h-[48px] border border-border rounded-full">
+              {getNameInitials(post.owner.name)}
+            </div>
+          )}
           <div className="flex flex-col">
             <span className="block whitespace-nowrap text-lg font-bold -tracking-wide">
               {post.owner.name}
@@ -88,7 +96,6 @@ export const Post = ({ post }: { post: IPost }) => {
           </svg>
         </div>
       </div>
-    
 
       <span className="block whitespace-pre-wrap overflow-hidden p-4">
         {post.content}
@@ -215,7 +222,7 @@ export const Post = ({ post }: { post: IPost }) => {
             </svg>
           </button>
 
-          {currentSession.id !== post.owner.id && (
+          {currentSession?.id !== post.owner.id && (
             <button className="bg-background flex items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50 hover:bg-button duration-300 ease-in-out transition-all">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -228,7 +235,7 @@ export const Post = ({ post }: { post: IPost }) => {
               </svg>
             </button>
           )}
-          {currentSession.id === post.owner.id && (
+          {currentSession?.id === post.owner.id && (
             <div className="flex items-center gap-x-2 ml-auto">
               <button
                 onClick={() => setOpenEditPost(true)}
