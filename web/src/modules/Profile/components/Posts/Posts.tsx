@@ -1,21 +1,71 @@
 import { usePosts } from "@/shared/contexts/Posts/PostsContext"
-import React, { useEffect, useRef, useState } from "react"
-import { motion } from "framer-motion"
+import React, { useEffect, useState, useCallback } from "react"
 import { Post } from "@/modules/Feed/components/Post/Post"
-import { div } from "framer-motion/client"
+import { useToast } from "@/shared/contexts/Toaster/ToasterContext"
 
 export const Posts: React.FC<{ user: IUser }> = ({ user }) => {
   const { getByUser } = usePosts()
-  const [userPosts, setUserPosts] = useState<IPost[]>([])
-  const sliderRef = useRef<HTMLDivElement>(null)
+  const { addToast } = useToast()
+
+  const [userPostsI, setUserPostsI] = useState<IPost[]>([])
+  const [userPostsII, setUserPostsII] = useState<IPost[]>([])
+  const [currentPage, setCurrentPage] = useState<number>(1)
+  const [loading, setLoading] = useState<boolean>(false)
+  const [lastPage, setLastPage] = useState<number>(10)
+  const [request, setRequest] = useState(false)
 
   useEffect(() => {
     ;(async () => {
-      getByUser({ ownerId: user.id }).then((posts) => {
-        setUserPosts(posts.items)
+      if (loading) return
+      if (currentPage > lastPage) return
+      setLoading(true)
+
+      await getByUser({
+        ownerId: user.id,
+        currentPage,
+        pageSize: 4,
       })
+        .then((posts) => {
+          setUserPostsI((prev) => {
+            const uniquePosts = new Map(
+              [
+                ...prev,
+                ...posts.items.filter((_, index) => index % 2 === 0),
+              ].map((post) => [post.id, post])
+            )
+            return Array.from(uniquePosts.values())
+          })
+
+          setUserPostsII((prev) => {
+            const uniquePosts = new Map(
+              [
+                ...prev,
+                ...posts.items.filter((_, index) => index % 2 !== 0),
+              ].map((post) => [post.id, post])
+            )
+            return Array.from(uniquePosts.values())
+          })
+
+          setLastPage(posts.totalPages)
+        })
+        .catch((error) => addToast(error.message, "error"))
+        .finally(() => {
+          setLoading(false)
+        })
     })()
-  }, [])
+  }, [request])
+
+  window.onscroll = () => {
+    if (
+      Math.ceil(window.innerHeight + window.scrollY) >=
+      Math.ceil(document.body.offsetHeight)
+    ) {
+      if (!loading) {
+        setCurrentPage((prev) => prev + 1)
+        setRequest((prev) => !prev)
+      }
+    }
+  }
 
   return (
     <div>
@@ -51,7 +101,7 @@ export const Posts: React.FC<{ user: IUser }> = ({ user }) => {
           Posts
         </span>
       </h3>
-      {userPosts.length === 0 ? (
+      {userPostsI.length === 0 ? (
         <div className="w-full flex items-center justify-center">
           <div className="p-8 w-full border-2 h-[230px] border-dashed border-border rounded-xl flex flex-col items-center justify-center">
             <div className="col-span-1 w-[50px] h-[50px] flex items-center justify-center bg-border/50 border border-border rounded aspect-square">
@@ -74,10 +124,9 @@ export const Posts: React.FC<{ user: IUser }> = ({ user }) => {
       ) : (
         <div className="flex items-start justify-start rounded-xl w-full gap-4">
           <div className="flex flex-col gap-4">
-            {userPosts.slice(0, 2).map((post) => (
+            {userPostsI.map((post) => (
               <div
                 key={post.id}
-                //  open post modal
                 className="max-w-[632px] h-fit min-w-[632px] w-full relative rounded-xl"
               >
                 <Post post={post} />
@@ -85,10 +134,9 @@ export const Posts: React.FC<{ user: IUser }> = ({ user }) => {
             ))}
           </div>
           <div className="flex flex-col gap-4">
-            {userPosts.slice(2, 4).map((post) => (
+            {userPostsII.map((post) => (
               <div
                 key={post.id}
-                //  open post modal
                 className="max-w-[632px] h-fit min-w-[632px] w-full relative rounded-xl"
               >
                 <Post post={post} />
