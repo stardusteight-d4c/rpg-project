@@ -27,7 +27,7 @@ export function ProfileModule() {
       <div className="z-[500] max-w-7xl mb-[200px] mt-[80px] flex flex-col gap-y-[100px] w-full mx-auto">
         <Profile.Sheets user={user} />
         <Profile.Campaigns user={user} />
-        <Profile.LatestPosts user={user} />
+        <Profile.Posts user={user} />
       </div>
       <Profile.Footer />
     </main>

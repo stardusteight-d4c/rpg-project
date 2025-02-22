@@ -1,13 +1,51 @@
 import type { Metadata } from "next"
-import { Roboto_Condensed, Delius } from "next/font/google"
+import { Delius } from "next/font/google"
+import localFont from "next/font/local"
 import { getServerSession } from "next-auth"
 import { Providers } from "@/shared/providers/Providers"
 import "./globals.css"
 import { authOptions } from "@/shared/libs/next_auth"
 
-const robotoCondensed = Roboto_Condensed({
-  subsets: ["latin"],
-  weight: ["100", "300", "400", "500", "700", "900"],
+const robotoCondensed = localFont({
+  src: [
+    {
+      path: "../../public/fonts/Roboto_Condensed/static/RobotoCondensed-Thin.ttf",
+      weight: "100",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/Roboto_Condensed/static/RobotoCondensed-Light.ttf",
+      weight: "300",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/Roboto_Condensed/static/RobotoCondensed-Regular.ttf",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/Roboto_Condensed/static/RobotoCondensed-Medium.ttf",
+      weight: "500",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/Roboto_Condensed/static/RobotoCondensed-SemiBold.ttf",
+      weight: "600",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/Roboto_Condensed/static/RobotoCondensed-Bold.ttf",
+      weight: "700",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/Roboto_Condensed/static/RobotoCondensed-Black.ttf",
+      weight: "900",
+      style: "normal",
+    },
+  ],
+  variable: "--font-roboto-condensed",
+  display: "swap",
 })
 
 const delius = Delius({

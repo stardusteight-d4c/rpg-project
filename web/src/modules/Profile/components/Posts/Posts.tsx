@@ -1,0 +1,102 @@
+import { usePosts } from "@/shared/contexts/Posts/PostsContext"
+import React, { useEffect, useRef, useState } from "react"
+import { motion } from "framer-motion"
+import { Post } from "@/modules/Feed/components/Post/Post"
+import { div } from "framer-motion/client"
+
+export const Posts: React.FC<{ user: IUser }> = ({ user }) => {
+  const { getByUser } = usePosts()
+  const [userPosts, setUserPosts] = useState<IPost[]>([])
+  const sliderRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    ;(async () => {
+      getByUser({ ownerId: user.id }).then((posts) => {
+        setUserPosts(posts.items)
+      })
+    })()
+  }, [])
+
+  return (
+    <div>
+      <h3 className="text-2xl mb-2 flex items-center gap-x-2 font-semibold">
+        <span>
+          <svg
+            width="32"
+            height="32"
+            viewBox="0 0 32 32"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M21 16C21 16.2652 20.8946 16.5196 20.7071 16.7071C20.5196 16.8946 20.2652 17 20 17H12C11.7348 17 11.4804 16.8946 11.2929 16.7071C11.1054 16.5196 11 16.2652 11 16C11 15.7348 11.1054 15.4804 11.2929 15.2929C11.4804 15.1054 11.7348 15 12 15H20C20.2652 15 20.5196 15.1054 20.7071 15.2929C20.8946 15.4804 21 15.7348 21 16ZM20 19H12C11.7348 19 11.4804 19.1054 11.2929 19.2929C11.1054 19.4804 11 19.7348 11 20C11 20.2652 11.1054 20.5196 11.2929 20.7071C11.4804 20.8946 11.7348 21 12 21H20C20.2652 21 20.5196 20.8946 20.7071 20.7071C20.8946 20.5196 21 20.2652 21 20C21 19.7348 20.8946 19.4804 20.7071 19.2929C20.5196 19.1054 20.2652 19 20 19ZM27 5V25C27 26.0609 26.5786 27.0783 25.8284 27.8284C25.0783 28.5786 24.0609 29 23 29H9C7.93913 29 6.92172 28.5786 6.17157 27.8284C5.42143 27.0783 5 26.0609 5 25V5C5 4.73478 5.10536 4.48043 5.29289 4.29289C5.48043 4.10536 5.73478 4 6 4H9V3C9 2.73478 9.10536 2.48043 9.29289 2.29289C9.48043 2.10536 9.73478 2 10 2C10.2652 2 10.5196 2.10536 10.7071 2.29289C10.8946 2.48043 11 2.73478 11 3V4H15V3C15 2.73478 15.1054 2.48043 15.2929 2.29289C15.4804 2.10536 15.7348 2 16 2C16.2652 2 16.5196 2.10536 16.7071 2.29289C16.8946 2.48043 17 2.73478 17 3V4H21V3C21 2.73478 21.1054 2.48043 21.2929 2.29289C21.4804 2.10536 21.7348 2 22 2C22.2652 2 22.5196 2.10536 22.7071 2.29289C22.8946 2.48043 23 2.73478 23 3V4H26C26.2652 4 26.5196 4.10536 26.7071 4.29289C26.8946 4.48043 27 4.73478 27 5ZM25 6H23V7C23 7.26522 22.8946 7.51957 22.7071 7.70711C22.5196 7.89464 22.2652 8 22 8C21.7348 8 21.4804 7.89464 21.2929 7.70711C21.1054 7.51957 21 7.26522 21 7V6H17V7C17 7.26522 16.8946 7.51957 16.7071 7.70711C16.5196 7.89464 16.2652 8 16 8C15.7348 8 15.4804 7.89464 15.2929 7.70711C15.1054 7.51957 15 7.26522 15 7V6H11V7C11 7.26522 10.8946 7.51957 10.7071 7.70711C10.5196 7.89464 10.2652 8 10 8C9.73478 8 9.48043 7.89464 9.29289 7.70711C9.10536 7.51957 9 7.26522 9 7V6H7V25C7 25.5304 7.21071 26.0391 7.58579 26.4142C7.96086 26.7893 8.46957 27 9 27H23C23.5304 27 24.0391 26.7893 24.4142 26.4142C24.7893 26.0391 25 25.5304 25 25V6Z"
+              fill="url(#paint0_linear_218_18)"
+            />
+            <defs>
+              <linearGradient
+                id="paint0_linear_218_18"
+                x1="16"
+                y1="2"
+                x2="16"
+                y2="29"
+                gradientUnits="userSpaceOnUse"
+              >
+                <stop stop-color="#42D392" />
+                <stop offset="1" stop-color="#8B5CF6" />
+              </linearGradient>
+            </defs>
+          </svg>
+        </span>
+        <span className="background-gradient bg-clip-text text-transparent">
+          Posts
+        </span>
+      </h3>
+      {userPosts.length === 0 ? (
+        <div className="w-full flex items-center justify-center">
+          <div className="p-8 w-full border-2 h-[230px] border-dashed border-border rounded-xl flex flex-col items-center justify-center">
+            <div className="col-span-1 w-[50px] h-[50px] flex items-center justify-center bg-border/50 border border-border rounded aspect-square">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="32"
+                height="32"
+                fill="#9ca3af"
+                viewBox="0 0 256 256"
+              >
+                <path d="M168,128a8,8,0,0,1-8,8H96a8,8,0,0,1,0-16h64A8,8,0,0,1,168,128Zm-8,24H96a8,8,0,0,0,0,16h64a8,8,0,0,0,0-16ZM216,40V200a32,32,0,0,1-32,32H72a32,32,0,0,1-32-32V40a8,8,0,0,1,8-8H72V24a8,8,0,0,1,16,0v8h32V24a8,8,0,0,1,16,0v8h32V24a8,8,0,0,1,16,0v8h24A8,8,0,0,1,216,40Zm-16,8H184v8a8,8,0,0,1-16,0V48H136v8a8,8,0,0,1-16,0V48H88v8a8,8,0,0,1-16,0V48H56V200a16,16,0,0,0,16,16H184a16,16,0,0,0,16-16Z"></path>
+              </svg>
+            </div>
+            <span className="text-gray-400 block mt-2 w-[400px] text-center">
+              In the beginning, there was chaos. Now there's just this blank
+              space.
+            </span>
+          </div>
+        </div>
+      ) : (
+        <div className="flex items-start justify-start rounded-xl w-full gap-4">
+          <div className="flex flex-col gap-4">
+            {userPosts.slice(0, 2).map((post) => (
+              <div
+                key={post.id}
+                //  open post modal
+                className="max-w-[632px] h-fit min-w-[632px] w-full relative rounded-xl"
+              >
+                <Post post={post} />
+              </div>
+            ))}
+          </div>
+          <div className="flex flex-col gap-4">
+            {userPosts.slice(2, 4).map((post) => (
+              <div
+                key={post.id}
+                //  open post modal
+                className="max-w-[632px] h-fit min-w-[632px] w-full relative rounded-xl"
+              >
+                <Post post={post} />
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}

@@ -9,6 +9,7 @@ export default {
   theme: {
     fontFamily: {
       delius: ["var(--font-delius)"],
+      roboto: ['var(--font-roboto-condensed)'],
     },
     screens: {
       // => @media (min-width: 640px) { ... }
