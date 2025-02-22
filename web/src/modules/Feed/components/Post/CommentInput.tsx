@@ -11,7 +11,7 @@ export const CommentInput = ({ postId }: { postId: string }) => {
     id: "",
     content: "",
     createdAt: "",
-    user: currentSession,
+    owner: currentSession,
   })
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -29,7 +29,7 @@ export const CommentInput = ({ postId }: { postId: string }) => {
       id: "",
       content: "",
       createdAt: "",
-      user: currentSession,
+      owner: currentSession,
     })
   }
 

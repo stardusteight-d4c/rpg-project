@@ -18,6 +18,8 @@ export class MockPostRoute implements IPostRoute {
   }
 
   public async create(post: IPost): Promise<IPost> {
+    await new Promise((resolve) => setTimeout(resolve, 5000))
+
     const newPost: IPost = {
       ...post,
       id: crypto.randomUUID(),
@@ -29,6 +31,8 @@ export class MockPostRoute implements IPostRoute {
   }
 
   public async update(post: Partial<IPost>): Promise<IPost> {
+    await new Promise((resolve) => setTimeout(resolve, 5000))
+
     const existingPostIndex = this.#posts.findIndex((p) => p.id === post.id)
 
     if (existingPostIndex === -1) {
@@ -43,6 +47,8 @@ export class MockPostRoute implements IPostRoute {
   }
 
   public async delete(postId: string): Promise<void> {
+    await new Promise((resolve) => setTimeout(resolve, 5000))
+
     const postIndex = this.#posts.findIndex((post) => post.id === postId)
     if (postIndex === -1) {
       throw new Error("Post not found.")
@@ -53,6 +59,8 @@ export class MockPostRoute implements IPostRoute {
   public async list(
     queryParams?: ListPostsDTO
   ): Promise<ListPostsResponseDTO<IPost>> {
+    await new Promise((resolve) => setTimeout(resolve, 5000))
+
     let filteredPosts = this.#posts
 
     if (queryParams?.campaignId) {
@@ -85,7 +93,7 @@ export class MockPostRoute implements IPostRoute {
 
     const updatedPosts = paginatedPosts.map((post) => ({
       ...post,
-      owner: usersMap.get(post.owner.id) ?? post.owner, 
+      owner: usersMap.get(post.owner.id) ?? post.owner,
     }))
 
     return {

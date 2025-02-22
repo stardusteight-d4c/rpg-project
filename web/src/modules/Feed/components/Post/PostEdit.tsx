@@ -264,7 +264,7 @@ export const PostEdit = ({ post, setOpenEditPost }: PostEditProps) => {
               <img
                 src={postData.image}
                 alt=""
-                className="w-full rounded-xl border border-border bg-button overflow-hidden object-cover"
+                className="w-full max-h-[300px] h-fit rounded-xl border border-border bg-button overflow-hidden object-cover"
               />
             </div>
           )}

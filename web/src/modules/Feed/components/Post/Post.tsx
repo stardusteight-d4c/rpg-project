@@ -110,7 +110,7 @@ export const Post = ({ post }: { post: IPost }) => {
           <img
             src={post.image}
             alt=""
-            className="w-full mb-2 border border-border rounded-xl bg-button overflow-hidden object-cover"
+            className="w-full max-h-[300px] h-fit mb-2 border border-border rounded-xl bg-button overflow-hidden object-cover"
           />
         </div>
       )}

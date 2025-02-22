@@ -2,6 +2,7 @@ import { usePosts } from "@/shared/contexts/Posts/PostsContext"
 import React, { useEffect, useState, useCallback } from "react"
 import { Post } from "@/modules/Feed/components/Post/Post"
 import { useToast } from "@/shared/contexts/Toaster/ToasterContext"
+import { div } from "framer-motion/client"
 
 export const Posts: React.FC<{ user: IUser }> = ({ user }) => {
   const { getByUser } = usePosts()
@@ -20,7 +21,7 @@ export const Posts: React.FC<{ user: IUser }> = ({ user }) => {
       if (currentPage > lastPage) return
       setLoading(true)
 
-      await getByUser({
+       getByUser({
         ownerId: user.id,
         currentPage,
         pageSize: 4,
@@ -122,27 +123,43 @@ export const Posts: React.FC<{ user: IUser }> = ({ user }) => {
           </div>
         </div>
       ) : (
-        <div className="flex items-start justify-start rounded-xl w-full gap-4">
-          <div className="flex flex-col gap-4">
-            {userPostsI.map((post) => (
-              <div
-                key={post.id}
-                className="max-w-[632px] h-fit min-w-[632px] w-full relative rounded-xl"
-              >
-                <Post post={post} />
-              </div>
-            ))}
+        <div>
+          <div className="flex items-start justify-start rounded-xl w-full gap-4">
+            <div className="flex flex-col gap-4">
+              {userPostsI.map((post) => (
+                <div
+                  key={post.id}
+                  className="max-w-[632px] h-fit min-w-[632px] w-full relative rounded-xl"
+                >
+                  <Post post={post} />
+                </div>
+              ))}
+            </div>
+            <div className="flex flex-col gap-4">
+              {userPostsII.map((post) => (
+                <div
+                  key={post.id}
+                  className="max-w-[632px] h-fit min-w-[632px] w-full relative rounded-xl"
+                >
+                  <Post post={post} />
+                </div>
+              ))}
+            </div>
           </div>
-          <div className="flex flex-col gap-4">
-            {userPostsII.map((post) => (
-              <div
-                key={post.id}
-                className="max-w-[632px] h-fit min-w-[632px] w-full relative rounded-xl"
+          {loading && (
+            <div className="w-fit mx-auto">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="80"
+                height="80"
+                fill="#6b7280"
+                className="animate-spin"
+                viewBox="0 0 256 256"
               >
-                <Post post={post} />
-              </div>
-            ))}
-          </div>
+                <path d="M232,128a104,104,0,0,1-208,0c0-41,23.81-78.36,60.66-95.27a8,8,0,0,1,6.68,14.54C60.15,61.59,40,93.27,40,128a88,88,0,0,0,176,0c0-34.73-20.15-66.41-51.34-80.73a8,8,0,0,1,6.68-14.54C208.19,49.64,232,87,232,128Z"></path>
+              </svg>
+            </div>
+          )}
         </div>
       )}
     </div>

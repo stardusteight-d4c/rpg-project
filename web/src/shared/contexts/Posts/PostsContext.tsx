@@ -11,7 +11,7 @@ import { MockAPI } from "@/shared/requests/MockAPI"
 
 interface PostsState {
   campaignPosts: IPost[]
-  add: (post: IPost) => Promise<IPost | void>
+  add: (post: IPost, currentPage?: number) => Promise<IPost | void>
   update: (post: Partial<IPost>) => Promise<IPost | void>
   remove: (postId: string) => Promise<void>
   getByCampaign: (
@@ -22,7 +22,7 @@ interface PostsState {
 
 const defaultState: PostsState = {
   campaignPosts: [],
-  add: async (post: IPost) => {},
+  add: async (post: IPost, currentPage?: number) => {},
   update: async (post: Partial<IPost>) => {},
   remove: async (postId: string) => {},
   getByCampaign: async (queryParams: ListPostsDTO) => ({
@@ -45,10 +45,15 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
   const [campaignPosts, setCampaignPosts] = useState<IPost[]>([])
   const api = new MockAPI()
 
-  const add = async (post: IPost) => {
+  const add = async (post: IPost, currentPage?: number) => {
     return await api.post
       .create(post)
-      .then((createdPost) => createdPost)
+      .then((createdPost) => {
+        if (currentPage === 1) {
+          setCampaignPosts((prev) => [createdPost, ...prev.slice(1, 2)])
+        }
+        return createdPost
+      })
       .catch((error) => {
         throw new Error(error.message)
       })
