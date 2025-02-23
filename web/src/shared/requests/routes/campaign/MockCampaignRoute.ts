@@ -18,6 +18,8 @@ export class MockCampaignRoute implements ICampaignRoute {
   }
 
   public async create(campaign: CampaignCreate): Promise<ICampaign> {
+    await new Promise((resolve) => setTimeout(resolve, 5000))
+
     const newCampaign: ICampaign = {
       ...campaign,
       id: crypto.randomUUID(),
@@ -33,6 +35,8 @@ export class MockCampaignRoute implements ICampaignRoute {
   }
 
   public async delete(campaignId: string): Promise<void> {
+    await new Promise((resolve) => setTimeout(resolve, 5000))
+
     const newArray = this.#campaigns.filter(
       (campaign) => campaign.id !== campaignId
     )
@@ -40,6 +44,8 @@ export class MockCampaignRoute implements ICampaignRoute {
   }
 
   public async update(campaign: Partial<ICampaign>): Promise<ICampaign> {
+    await new Promise((resolve) => setTimeout(resolve, 5000))
+
     const existingCampaignIndex = this.#campaigns.findIndex(
       (c) => c.id === campaign.id
     )
@@ -56,6 +62,8 @@ export class MockCampaignRoute implements ICampaignRoute {
   }
 
   public async list(queryParams?: ListCampaignsDTO): Promise<Array<ICampaign>> {
+    await new Promise((resolve) => setTimeout(resolve, 5000))
+
     const users = await this.#inMemoryUserRoute.list()
     const usersMap = new Map(users.map((user) => [user.id, user]))
 

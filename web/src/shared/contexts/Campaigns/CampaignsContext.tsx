@@ -1,12 +1,21 @@
 "use client"
 
 import React, { createContext, useContext, useState, ReactNode } from "react"
-import { campaigns as campaignsMock } from "./mock-data"
 import { MockAPI } from "@/shared/requests/MockAPI"
+
+interface ICampaignEvents {
+  deletingCampaign: boolean
+  campaignDeleted: boolean
+  creatingCampaign: boolean
+  gettingCampaigns: boolean
+  updatingCampaign: boolean
+  campaignUpdated: boolean
+}
 
 interface CampaignsState {
   userCampaigns: ICampaign[]
   campaign: ICampaign | undefined
+  campaignEvents: ICampaignEvents
   add: (campaign: CampaignCreate) => Promise<ICampaign | void>
   getUserCampaigns: (userId: string) => Promise<Array<ICampaign> | void>
   getById: (campaignId: string) => Promise<ICampaign | undefined>
@@ -17,6 +26,14 @@ interface CampaignsState {
 const defaultState: CampaignsState = {
   userCampaigns: [],
   campaign: undefined,
+  campaignEvents: {
+    deletingCampaign: false,
+    campaignDeleted: false,
+    creatingCampaign: false,
+    gettingCampaigns: false,
+    updatingCampaign: false,
+    campaignUpdated: false,
+  },
   add: async () => {},
   getUserCampaigns: async (userId: string) => [],
   getById: async (campaignId: string) => undefined,
@@ -33,8 +50,17 @@ export const CampaignsProvider: React.FC<{ children: ReactNode }> = ({
   const [campaign, setCampaign] = useState<ICampaign | undefined>(undefined)
   const [cachedCampaigns, setCachedCampaigns] = useState<ICampaign[]>([])
   const [userCampaigns, setUserCampaigns] = useState<ICampaign[]>([])
+  const [campaignEvents, setCampaignEvents] = useState<ICampaignEvents>({
+    deletingCampaign: false,
+    campaignDeleted: false,
+    creatingCampaign: false,
+    gettingCampaigns: false,
+    updatingCampaign: false,
+    campaignUpdated: false,
+  })
 
   const getUserCampaigns = async (userId: string) => {
+    setCampaignEvents((prev) => ({ ...prev, gettingCampaigns: true }))
     return userCampaigns.length === 0
       ? await api.campaign
           .list({ ownerId: userId })
@@ -45,16 +71,18 @@ export const CampaignsProvider: React.FC<{ children: ReactNode }> = ({
           .catch((error) => {
             throw new Error(error.message)
           })
+          .finally(() => {
+            setCampaignEvents((prev) => ({ ...prev, gettingCampaigns: false }))
+          })
       : userCampaigns
   }
 
   const getById = async (campaignId: string) => {
+    setCampaignEvents((prev) => ({ ...prev, gettingCampaigns: true }))
     const findCachedCampaign = cachedCampaigns.find(
       (cachedCampaign) => cachedCampaign.id === campaignId
     )
-
     findCachedCampaign && setCampaign(findCachedCampaign)
-
     return findCachedCampaign
       ? findCachedCampaign
       : await api.campaign
@@ -68,9 +96,13 @@ export const CampaignsProvider: React.FC<{ children: ReactNode }> = ({
           .catch((error) => {
             throw new Error(error.message)
           })
+          .finally(() => {
+            setCampaignEvents((prev) => ({ ...prev, gettingCampaigns: false }))
+          })
   }
 
   const remove = async (campaignId: string) => {
+    setCampaignEvents((prev) => ({ ...prev, deletingCampaign: true }))
     return api.campaign
       .delete(campaignId)
       .then(() => {
@@ -84,9 +116,13 @@ export const CampaignsProvider: React.FC<{ children: ReactNode }> = ({
       .catch((error) => {
         throw new Error(error.message)
       })
+      .finally(() => {
+        setCampaignEvents((prev) => ({ ...prev, deletingCampaign: false }))
+      })
   }
 
   const update = async (campaign: Partial<ICampaign>) => {
+    setCampaignEvents((prev) => ({ ...prev, updatingCampaign: true }))
     return await api.campaign
       .update(campaign)
       .then((updatedCampaign) => {
@@ -102,9 +138,13 @@ export const CampaignsProvider: React.FC<{ children: ReactNode }> = ({
       .catch((error) => {
         throw new Error(error.message)
       })
+      .finally(() => {
+        setCampaignEvents((prev) => ({ ...prev, updatingCampaign: false }))
+      })
   }
 
   const add = async (campaign: CampaignCreate) => {
+    setCampaignEvents((prev) => ({ ...prev, creatingCampaign: true }))
     return await api.campaign
       .create(campaign)
       .then((createdCampaign) => {
@@ -115,6 +155,9 @@ export const CampaignsProvider: React.FC<{ children: ReactNode }> = ({
       .catch((error) => {
         throw new Error(error.message)
       })
+      .finally(() => {
+        setCampaignEvents((prev) => ({ ...prev, creatingCampaign: false }))
+      })
   }
 
   return (
@@ -122,6 +165,7 @@ export const CampaignsProvider: React.FC<{ children: ReactNode }> = ({
       value={{
         campaign,
         userCampaigns,
+        campaignEvents,
         add,
         remove,
         getUserCampaigns,

@@ -1,19 +1,15 @@
 "use client"
 
-import React, {
-  createContext,
-  useContext,
-  ReactNode,
-  useState,
-  useEffect,
-} from "react"
+import React, { createContext, useContext, ReactNode, useState } from "react"
 import { MockAPI } from "@/shared/requests/MockAPI"
 
 interface IPostEvents {
   deletingPost: boolean
-  creatingPosts: boolean
+  postDeleted: boolean
+  creatingPost: boolean
   gettingPosts: boolean
   updatingPost: boolean
+  postUpdated: boolean
 }
 
 interface PostsState {
@@ -32,7 +28,9 @@ const defaultState: PostsState = {
   campaignPosts: [],
   postEvents: {
     deletingPost: false,
-    creatingPosts: false,
+    postDeleted: false,
+    postUpdated: false,
+    creatingPost: false,
     gettingPosts: false,
     updatingPost: false,
   },
@@ -58,21 +56,27 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
 }) => {
   const [campaignPosts, setCampaignPosts] = useState<IPost[]>([])
   const [postEvents, setPostEvents] = useState<IPostEvents>({
-    creatingPosts: false,
+    creatingPost: false,
     deletingPost: false,
+    postDeleted: false,
     gettingPosts: false,
     updatingPost: false,
+    postUpdated: false,
   })
 
   const api = new MockAPI()
 
   const add = async (post: IPost, currentPage?: number) => {
-    setPostEvents((prev) => ({ ...prev, creatingPosts: true }))
+    setPostEvents((prev) => ({ ...prev, creatingPost: true }))
     return await api.post
       .create(post)
       .then((createdPost) => {
         if (currentPage === 1) {
-          setCampaignPosts((prev) => [createdPost, ...prev.slice(1, 3)])
+          if (campaignPosts.length === 3) {
+            setCampaignPosts((prev) => [createdPost, ...prev.slice(0, 2)])
+          } else {
+            setCampaignPosts((prev) => [createdPost, ...prev])
+          }
         }
         return createdPost
       })
@@ -80,7 +84,7 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
         throw new Error(error.message)
       })
       .finally(() => {
-        setPostEvents((prev) => ({ ...prev, creatingPosts: false }))
+        setPostEvents((prev) => ({ ...prev, creatingPost: false }))
       })
   }
 
@@ -92,13 +96,24 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
         setCampaignPosts((prev) =>
           prev.map((p) => (p.id === post.id ? post : p))
         )
+        setPostEvents((prev) => ({
+          ...prev,
+          updatingPost: false,
+          postUpdated: true,
+        }))
         return post
       })
       .catch((error) => {
         throw new Error(error.message)
       })
       .finally(() => {
-        setPostEvents((prev) => ({ ...prev, updatingPost: false }))
+        setTimeout(() => {
+          setPostEvents((prev) => ({
+            ...prev,
+            updatingPost: false,
+            postUpdated: false,
+          }))
+        }, 1000)
       })
   }
 
@@ -108,12 +123,23 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
       .delete(postId)
       .then(() => {
         setCampaignPosts((prev) => prev.filter((post) => post.id !== postId))
+        setPostEvents((prev) => ({
+          ...prev,
+          deletingPost: false,
+          postDeleted: true,
+        }))
       })
       .catch((error) => {
         throw new Error(error.message)
       })
       .finally(() => {
-        setPostEvents((prev) => ({ ...prev, deletingPost: false }))
+        setTimeout(() => {
+          setPostEvents((prev) => ({
+            ...prev,
+            deletingPost: false,
+            postDeleted: false,
+          }))
+        }, 1000)
       })
   }
 

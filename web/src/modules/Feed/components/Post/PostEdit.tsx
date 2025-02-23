@@ -210,8 +210,8 @@ export const PostEdit = ({ post, setOpenEditPost }: PostEditProps) => {
           <div
             onClick={onSave}
             className={`${
-              postEvents.updatingPost ? " cursor-not-allowed " : " cursor-pointer "
-            }  w-fit flex justify-center items-center group gap-x-2`}
+              postEvents.updatingPost ? " cursor-not-allowed " : " group cursor-pointer "
+            }  w-fit flex justify-center items-center gap-x-2`}
           >
             {postEvents.updatingPost ? (
               <button className="bg-background flex items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50 duration-300 ease-in-out transition-all">

@@ -85,7 +85,7 @@ export const Campaigns: React.FC<{ user: IUser }> = ({ user }) => {
             <motion.div
               key={campaign.id}
               onDoubleClick={() => push(`/campaign/${campaign.id}`)}
-              className="max-w-[636px] w-full relative h-[229px] rounded-xl bg-ashes"
+              className="max-w-[636px] min-w-[636px] w-full relative h-[229px] rounded-xl bg-ashes"
             >
               {campaign.players.map((user, index) => (
                 <div

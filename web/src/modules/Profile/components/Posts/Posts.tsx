@@ -2,66 +2,87 @@ import { usePosts } from "@/shared/contexts/Posts/PostsContext"
 import React, { useEffect, useState, useCallback } from "react"
 import { Post } from "@/modules/Feed/components/Post/Post"
 import { useToast } from "@/shared/contexts/Toaster/ToasterContext"
-import { div } from "framer-motion/client"
+import { PostSkeleton } from "@/modules/Feed/components/Post/PostSkeleton"
 
 export const Posts: React.FC<{ user: IUser }> = ({ user }) => {
-  const { getByUser } = usePosts()
+  const { getByUser, postEvents } = usePosts()
   const { addToast } = useToast()
 
   const [userPostsI, setUserPostsI] = useState<IPost[]>([])
   const [userPostsII, setUserPostsII] = useState<IPost[]>([])
   const [currentPage, setCurrentPage] = useState<number>(1)
-  const [loading, setLoading] = useState<boolean>(false)
   const [lastPage, setLastPage] = useState<number>(10)
   const [request, setRequest] = useState(false)
 
   useEffect(() => {
     ;(async () => {
-      if (loading) return
-      if (currentPage > lastPage) return
-      setLoading(true)
-
-       getByUser({
-        ownerId: user.id,
-        currentPage,
-        pageSize: 4,
-      })
-        .then((posts) => {
-          setUserPostsI((prev) => {
-            const uniquePosts = new Map(
-              [
-                ...prev,
-                ...posts.items.filter((_, index) => index % 2 === 0),
-              ].map((post) => [post.id, post])
-            )
-            return Array.from(uniquePosts.values())
-          })
-
-          setUserPostsII((prev) => {
-            const uniquePosts = new Map(
-              [
-                ...prev,
-                ...posts.items.filter((_, index) => index % 2 !== 0),
-              ].map((post) => [post.id, post])
-            )
-            return Array.from(uniquePosts.values())
-          })
-
-          setLastPage(posts.totalPages)
+      if (postEvents.gettingPosts) return
+      if (postEvents.postUpdated || postEvents.postDeleted) {
+        getByUser({
+          ownerId: user.id,
+          currentPage: 1,
+          pageSize: 4 * currentPage,
         })
-        .catch((error) => addToast(error.message, "error"))
-        .finally(() => {
-          setLoading(false)
+          .then((posts) => {
+            setUserPostsI((prev) => {
+              const uniquePosts = new Map(
+                [...posts.items.filter((_, index) => index % 2 === 0)].map(
+                  (post) => [post.id, post]
+                )
+              )
+              return Array.from(uniquePosts.values())
+            })
+
+            setUserPostsII((prev) => {
+              const uniquePosts = new Map(
+                [...posts.items.filter((_, index) => index % 2 !== 0)].map(
+                  (post) => [post.id, post]
+                )
+              )
+              return Array.from(uniquePosts.values())
+            })
+          })
+          .catch((error) => addToast(error.message, "error"))
+      } else {
+        getByUser({
+          ownerId: user.id,
+          currentPage,
+          pageSize: 4,
         })
+          .then((posts) => {
+            setUserPostsI((prev) => {
+              const uniquePosts = new Map(
+                [
+                  ...prev,
+                  ...posts.items.filter((_, index) => index % 2 === 0),
+                ].map((post) => [post.id, post])
+              )
+              return Array.from(uniquePosts.values())
+            })
+
+            setUserPostsII((prev) => {
+              const uniquePosts = new Map(
+                [
+                  ...prev,
+                  ...posts.items.filter((_, index) => index % 2 !== 0),
+                ].map((post) => [post.id, post])
+              )
+              return Array.from(uniquePosts.values())
+            })
+
+            setLastPage(posts.totalPages)
+          })
+          .catch((error) => addToast(error.message, "error"))
+      }
     })()
-  }, [request])
+  }, [request, postEvents.postDeleted, postEvents.postUpdated])
 
   window.onscroll = () => {
     if (
       Math.ceil(window.innerHeight + window.scrollY) >=
       Math.ceil(document.body.offsetHeight)
     ) {
-      if (!loading) {
+      if (!postEvents.gettingPosts && currentPage <= lastPage) {
         setCurrentPage((prev) => prev + 1)
         setRequest((prev) => !prev)
       }
@@ -102,7 +123,7 @@ export const Posts: React.FC<{ user: IUser }> = ({ user }) => {
           Posts
         </span>
       </h3>
-      {userPostsI.length === 0 ? (
+      {userPostsI.length === 0 && !postEvents.gettingPosts ? (
         <div className="w-full flex items-center justify-center">
           <div className="p-8 w-full border-2 h-[230px] border-dashed border-border rounded-xl flex flex-col items-center justify-center">
             <div className="col-span-1 w-[50px] h-[50px] flex items-center justify-center bg-border/50 border border-border rounded aspect-square">
@@ -126,40 +147,45 @@ export const Posts: React.FC<{ user: IUser }> = ({ user }) => {
         <div>
           <div className="flex items-start justify-start rounded-xl w-full gap-4">
             <div className="flex flex-col gap-4">
-              {userPostsI.map((post) => (
-                <div
-                  key={post.id}
-                  className="max-w-[632px] h-fit min-w-[632px] w-full relative rounded-xl"
-                >
-                  <Post post={post} />
-                </div>
-              ))}
+              <>
+                {userPostsI.map((post) => (
+                  <div
+                    key={post.id}
+                    className="max-w-[632px] h-fit min-w-[632px] w-full relative rounded-xl"
+                  >
+                    <Post post={post} />
+                  </div>
+                ))}
+                {postEvents.gettingPosts && (
+                  <div className="max-w-[632px] min-w-[632px] space-y-4 w-full">
+                    {Array.from({ length: 2 }).map((_, index) => (
+                      <PostSkeleton key={index} />
+                    ))}
+                  </div>
+                )}
+              </>
             </div>
+
             <div className="flex flex-col gap-4">
-              {userPostsII.map((post) => (
-                <div
-                  key={post.id}
-                  className="max-w-[632px] h-fit min-w-[632px] w-full relative rounded-xl"
-                >
-                  <Post post={post} />
-                </div>
-              ))}
+              <>
+                {userPostsII.map((post) => (
+                  <div
+                    key={post.id}
+                    className="max-w-[632px] h-fit min-w-[632px] w-full relative rounded-xl"
+                  >
+                    <Post post={post} />
+                  </div>
+                ))}
+                {postEvents.gettingPosts && (
+                  <div className="max-w-[632px] min-w-[632px] space-y-4 w-full">
+                    {Array.from({ length: 2 }).map((_, index) => (
+                      <PostSkeleton key={index} />
+                    ))}
+                  </div>
+                )}
+              </>
             </div>
           </div>
-          {loading && (
-            <div className="w-fit mx-auto">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="80"
-                height="80"
-                fill="#6b7280"
-                className="animate-spin"
-                viewBox="0 0 256 256"
-              >
-                <path d="M232,128a104,104,0,0,1-208,0c0-41,23.81-78.36,60.66-95.27a8,8,0,0,1,6.68,14.54C60.15,61.59,40,93.27,40,128a88,88,0,0,0,176,0c0-34.73-20.15-66.41-51.34-80.73a8,8,0,0,1,6.68-14.54C208.19,49.64,232,87,232,128Z"></path>
-              </svg>
-            </div>
-          )}
         </div>
       )}
     </div>

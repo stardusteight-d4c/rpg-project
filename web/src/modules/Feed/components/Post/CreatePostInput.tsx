@@ -10,11 +10,10 @@ import { useAuth } from "@/shared/contexts/Auth/AuthContext"
 export const CreatePostInput: React.FC<{
   currentPage?: number
 }> = ({ currentPage }) => {
-  const { add } = usePosts()
+  const { add, postEvents } = usePosts()
   const { currentSession } = useAuth()
   const { addToast } = useToast()
   const campaignId = useParams().id as string
-  const [loading, setLoading] = useState<boolean>(false)
   const [postData, setPostData] = useState<IPost>({
     id: "",
     content: "",
@@ -52,7 +51,6 @@ export const CreatePostInput: React.FC<{
   }
 
   const onPost = async () => {
-    setLoading(true)
     add({ ...postData, campaignId }, currentPage)
       .then(() => {
         addToast("The post has been created!", "success", 45)
@@ -69,7 +67,6 @@ export const CreatePostInput: React.FC<{
           image: undefined,
           owner: currentSession!,
         })
-        setLoading(false)
         setImageFile(undefined)
       })
   }
@@ -77,12 +74,6 @@ export const CreatePostInput: React.FC<{
   return (
     <div className="relative z-[100]">
       <div className="flex items-start gap-x-4 bottom-0 inset-x-0">
-        {/* <img
-          src={currentSession.avatarUrl}
-          alt=""
-          className="w-[48px] aspect-square object-cover select-none pointer-events-none h-[48px] rounded-full"
-        /> */}
-
         <div className="rounded-xl w-full">
           <GlowingWrapper
             styles="w-full"
@@ -140,7 +131,7 @@ export const CreatePostInput: React.FC<{
                 </span>
               </div>
             )}
-            {loading ? (
+            {postEvents.creatingPost ? (
               <button className="bg-background cursor-not-allowed ml-auto flex items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50 duration-300 ease-in-out transition-all">
                 <div className="w-fit mx-auto">
                   <svg
