@@ -142,7 +142,7 @@ export const SignIn = () => {
             onClick={onSignIn}
             className={`${
               isLoading && " cursor-not-allowed select-none brightness-90 "
-            } p-2 font-medium capitalize w-full text-center text-lg bg-button text-white rounded-full`}
+            } p-2 font-medium capitalize w-full max-h-[45px] text-center text-lg bg-button text-white rounded-full`}
           >
             <span className="text-xl font-bold">
               {isLoading ? (
@@ -151,11 +151,11 @@ export const SignIn = () => {
                     xmlns="http://www.w3.org/2000/svg"
                     width="32"
                     height="32"
-                    fill="#6b7280"
+                    fill="#FFFFFF"
                     className="animate-spin"
                     viewBox="0 0 256 256"
                   >
-                    <path d="M232,128a104,104,0,0,1-208,0c0-41,23.81-78.36,60.66-95.27a8,8,0,0,1,6.68,14.54C60.15,61.59,40,93.27,40,128a88,88,0,0,0,176,0c0-34.73-20.15-66.41-51.34-80.73a8,8,0,0,1,6.68-14.54C208.19,49.64,232,87,232,128Z"></path>
+                    <path d="M136,32V64a8,8,0,0,1-16,0V32a8,8,0,0,1,16,0Zm88,88H192a8,8,0,0,0,0,16h32a8,8,0,0,0,0-16Zm-45.09,47.6a8,8,0,0,0-11.31,11.31l22.62,22.63a8,8,0,0,0,11.32-11.32ZM128,184a8,8,0,0,0-8,8v32a8,8,0,0,0,16,0V192A8,8,0,0,0,128,184ZM77.09,167.6,54.46,190.22a8,8,0,0,0,11.32,11.32L88.4,178.91A8,8,0,0,0,77.09,167.6ZM72,128a8,8,0,0,0-8-8H32a8,8,0,0,0,0,16H64A8,8,0,0,0,72,128ZM65.78,54.46A8,8,0,0,0,54.46,65.78L77.09,88.4A8,8,0,0,0,88.4,77.09Z"></path>
                   </svg>
                 </div>
               ) : (

@@ -15,8 +15,7 @@ interface PostEditProps {
 }
 
 export const PostEdit = ({ post, setOpenEditPost }: PostEditProps) => {
-  const { currentSession } = useAuth()
-  const { update, remove } = usePosts()
+  const { update, remove,  postEvents } = usePosts()
   const { addToast } = useToast()
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   const [postData, setPostData] = useState<IPost>(post)
@@ -56,6 +55,7 @@ export const PostEdit = ({ post, setOpenEditPost }: PostEditProps) => {
   }
 
   const onSave = () => {
+    if (postEvents.updatingPost) return
     update(postData)
       .then(() => {
         addToast("The post has been updated!", "success", 45)
@@ -70,6 +70,7 @@ export const PostEdit = ({ post, setOpenEditPost }: PostEditProps) => {
   }
 
   const onDelete = () => {
+    if (postEvents.deletingPost) return
     remove(postData.id)
       .then(() => {
         addToast("The post has been deleted!", "success", 45)
@@ -116,9 +117,26 @@ export const PostEdit = ({ post, setOpenEditPost }: PostEditProps) => {
             </span>
             <button
               onClick={onDelete}
-              className="p-2 mt-2 w-full hover:brightness-125 font-medium text-center text-lg bg-red-500 text-white rounded-full"
+              className={`${
+                postEvents.deletingPost
+                  ? " cursor-not-allowed brightness-90 "
+                  : " cursor-pointer hover:brightness-125 "
+              } p-2 mt-2 w-full flex items-center justify-center max-h-[45px] font-medium text-center text-lg bg-red-500 text-white rounded-full`}
             >
-              Delete
+              {postEvents.deletingPost ? (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="32"
+                  height="32"
+                  fill="#FFFFFF"
+                  className="animate-spin"
+                  viewBox="0 0 256 256"
+                >
+                  <path d="M136,32V64a8,8,0,0,1-16,0V32a8,8,0,0,1,16,0Zm88,88H192a8,8,0,0,0,0,16h32a8,8,0,0,0,0-16Zm-45.09,47.6a8,8,0,0,0-11.31,11.31l22.62,22.63a8,8,0,0,0,11.32-11.32ZM128,184a8,8,0,0,0-8,8v32a8,8,0,0,0,16,0V192A8,8,0,0,0,128,184ZM77.09,167.6,54.46,190.22a8,8,0,0,0,11.32,11.32L88.4,178.91A8,8,0,0,0,77.09,167.6ZM72,128a8,8,0,0,0-8-8H32a8,8,0,0,0,0,16H64A8,8,0,0,0,72,128ZM65.78,54.46A8,8,0,0,0,54.46,65.78L77.09,88.4A8,8,0,0,0,88.4,77.09Z"></path>
+                </svg>
+              ) : (
+                "Delete"
+              )}
             </button>
           </div>
         </div>
@@ -191,19 +209,38 @@ export const PostEdit = ({ post, setOpenEditPost }: PostEditProps) => {
           </div>
           <div
             onClick={onSave}
-            className="cursor-pointer w-fit flex items-center group gap-x-2"
+            className={`${
+              postEvents.updatingPost ? " cursor-not-allowed " : " cursor-pointer "
+            }  w-fit flex justify-center items-center group gap-x-2`}
           >
-            <button className="bg-ashes flex items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50 group-hover:bg-green-500 duration-300 ease-in-out transition-all">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                fill="#FFFFFF"
-                viewBox="0 0 256 256"
-              >
-                <path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z"></path>
-              </svg>
-            </button>
+            {postEvents.updatingPost ? (
+              <button className="bg-background flex items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50 duration-300 ease-in-out transition-all">
+                <div className="w-fit mx-auto">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    fill="#FFFFFF"
+                    className="animate-spin"
+                    viewBox="0 0 256 256"
+                  >
+                    <path d="M136,32V64a8,8,0,0,1-16,0V32a8,8,0,0,1,16,0Zm88,88H192a8,8,0,0,0,0,16h32a8,8,0,0,0,0-16Zm-45.09,47.6a8,8,0,0,0-11.31,11.31l22.62,22.63a8,8,0,0,0,11.32-11.32ZM128,184a8,8,0,0,0-8,8v32a8,8,0,0,0,16,0V192A8,8,0,0,0,128,184ZM77.09,167.6,54.46,190.22a8,8,0,0,0,11.32,11.32L88.4,178.91A8,8,0,0,0,77.09,167.6ZM72,128a8,8,0,0,0-8-8H32a8,8,0,0,0,0,16H64A8,8,0,0,0,72,128ZM65.78,54.46A8,8,0,0,0,54.46,65.78L77.09,88.4A8,8,0,0,0,88.4,77.09Z"></path>
+                  </svg>
+                </div>
+              </button>
+            ) : (
+              <button className="bg-ashes flex items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50 group-hover:bg-green-500 duration-300 ease-in-out transition-all">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  fill="#FFFFFF"
+                  viewBox="0 0 256 256"
+                >
+                  <path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z"></path>
+                </svg>
+              </button>
+            )}
             <span>Save Changes</span>
           </div>
         </div>

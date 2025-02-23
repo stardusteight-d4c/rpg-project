@@ -9,8 +9,16 @@ import React, {
 } from "react"
 import { MockAPI } from "@/shared/requests/MockAPI"
 
+interface IPostEvents {
+  deletingPost: boolean
+  creatingPosts: boolean
+  gettingPosts: boolean
+  updatingPost: boolean
+}
+
 interface PostsState {
   campaignPosts: IPost[]
+  postEvents: IPostEvents
   add: (post: IPost, currentPage?: number) => Promise<IPost | void>
   update: (post: Partial<IPost>) => Promise<IPost | void>
   remove: (postId: string) => Promise<void>
@@ -22,6 +30,12 @@ interface PostsState {
 
 const defaultState: PostsState = {
   campaignPosts: [],
+  postEvents: {
+    deletingPost: false,
+    creatingPosts: false,
+    gettingPosts: false,
+    updatingPost: false,
+  },
   add: async (post: IPost, currentPage?: number) => {},
   update: async (post: Partial<IPost>) => {},
   remove: async (postId: string) => {},
@@ -43,23 +57,35 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const [campaignPosts, setCampaignPosts] = useState<IPost[]>([])
+  const [postEvents, setPostEvents] = useState<IPostEvents>({
+    creatingPosts: false,
+    deletingPost: false,
+    gettingPosts: false,
+    updatingPost: false,
+  })
+
   const api = new MockAPI()
 
   const add = async (post: IPost, currentPage?: number) => {
+    setPostEvents((prev) => ({ ...prev, creatingPosts: true }))
     return await api.post
       .create(post)
       .then((createdPost) => {
         if (currentPage === 1) {
-          setCampaignPosts((prev) => [createdPost, ...prev.slice(1, 2)])
+          setCampaignPosts((prev) => [createdPost, ...prev.slice(1, 3)])
         }
         return createdPost
       })
       .catch((error) => {
         throw new Error(error.message)
       })
+      .finally(() => {
+        setPostEvents((prev) => ({ ...prev, creatingPosts: false }))
+      })
   }
 
   const update = async (post: Partial<IPost>) => {
+    setPostEvents((prev) => ({ ...prev, updatingPost: true }))
     return await api.post
       .update(post)
       .then((post) => {
@@ -71,24 +97,41 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
       .catch((error) => {
         throw new Error(error.message)
       })
+      .finally(() => {
+        setPostEvents((prev) => ({ ...prev, updatingPost: false }))
+      })
   }
 
   const remove = async (postId: string) => {
-    return await api.post.delete(postId).catch((error) => {
-      throw new Error(error.message)
-    })
+    setPostEvents((prev) => ({ ...prev, deletingPost: true }))
+    return await api.post
+      .delete(postId)
+      .then(() => {
+        setCampaignPosts((prev) => prev.filter((post) => post.id !== postId))
+      })
+      .catch((error) => {
+        throw new Error(error.message)
+      })
+      .finally(() => {
+        setPostEvents((prev) => ({ ...prev, deletingPost: false }))
+      })
   }
 
   const getByUser = async (queryParams: ListPostsDTO) => {
+    setPostEvents((prev) => ({ ...prev, gettingPosts: true }))
     return await api.post
       .list(queryParams)
       .then((postsPagination) => postsPagination)
       .catch((error) => {
         throw new Error(error.message)
       })
+      .finally(() => {
+        setPostEvents((prev) => ({ ...prev, gettingPosts: false }))
+      })
   }
 
   const getByCampaign = async (queryParams: ListPostsDTO) => {
+    setPostEvents((prev) => ({ ...prev, gettingPosts: true }))
     return await api.post
       .list(queryParams)
       .then((postsPagination) => {
@@ -98,11 +141,22 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
       .catch((error) => {
         throw new Error(error.message)
       })
+      .finally(() => {
+        setPostEvents((prev) => ({ ...prev, gettingPosts: false }))
+      })
   }
 
   return (
     <PostsContext.Provider
-      value={{ campaignPosts, update, remove, add, getByCampaign, getByUser }}
+      value={{
+        postEvents,
+        campaignPosts,
+        update,
+        remove,
+        add,
+        getByCampaign,
+        getByUser,
+      }}
     >
       {children}
     </PostsContext.Provider>

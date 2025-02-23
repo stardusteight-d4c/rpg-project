@@ -16,10 +16,11 @@ import { Post } from "../Feed/components/Post/Post"
 import { CreatePostInput } from "../Feed/components/Post/CreatePostInput"
 import { usePosts } from "@/shared/contexts/Posts/PostsContext"
 import { Pagination } from "./components/Pagination"
+import { PostSkeleton } from "../Feed/components/Post/PostSkeleton"
 
 export function CampaignModule() {
   const { push } = useRouter()
-  const { getByCampaign, campaignPosts } = usePosts()
+  const { getByCampaign, campaignPosts, postEvents } = usePosts()
   const { currentSession } = useAuth()
   const campaignId = useParams().id as string
   const { getById, remove, campaign } = useCampaigns()
@@ -33,12 +34,6 @@ export function CampaignModule() {
   const [totalPages, setTotalPages] = useState(0)
   const [openEditCampaignModal, setOpenEditCampaignModal] =
     useState<boolean>(false)
-  const [isPostCreated, setIsPostCreated] = useState<boolean>(false)
-
-
-  const onPostCreated = () => {
-    setIsPostCreated(!isPostCreated)
-  }
 
   useEffect(() => {
     ;(async () => {
@@ -53,10 +48,8 @@ export function CampaignModule() {
           setTotalPages(postsPagination.totalPages)
         }
       )
-      
     })()
-  }, [campaignId, currentPage, isPostCreated])
-
+  }, [campaignId, currentPage])
 
   useEffect(() => {
     if (contentRef.current) {
@@ -413,7 +406,7 @@ export function CampaignModule() {
                   </div>
                 ))} */}
                 </div>
-                <CreatePostInput onPostCreated={onPostCreated} />
+                <CreatePostInput currentPage={currentPage} />
                 {campaignPosts.length === 0 ? (
                   <div className="w-full flex items-center justify-center">
                     <div className="p-8 w-full h-[230px] border-2  border-dashed border-border rounded-xl flex flex-col items-center justify-center">
@@ -436,11 +429,19 @@ export function CampaignModule() {
                   </div>
                 ) : (
                   <div>
-                    <div className="flex flex-col gap-y-4 rounded-3xl w-full">
-                      {campaignPosts.map((post) => (
-                        <Post post={post} />
-                      ))}
-                    </div>
+                    {postEvents.gettingPosts ? (
+                      <div className="flex flex-col gap-y-4 rounded-3xl w-full">
+                        {Array.from({ length: 3 }).map((_, index) => (
+                          <PostSkeleton key={index} />
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="flex flex-col gap-y-4 rounded-3xl w-full">
+                        {campaignPosts.map((post) => (
+                          <Post post={post} />
+                        ))}
+                      </div>
+                    )}
                     <Pagination
                       totalPages={totalPages}
                       currentPage={currentPage}
