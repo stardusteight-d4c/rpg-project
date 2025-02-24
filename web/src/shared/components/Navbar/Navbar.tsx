@@ -8,13 +8,17 @@ import { useAuth } from "@/shared/contexts/Auth/AuthContext"
 import { getNameInitials } from "@/shared/utils/getNameInitials"
 import { ModalWrapper } from "../ModalWrapper"
 import { CharactersCreate } from "@/modules/Table/components/Characters/components/CharactersCreate"
+import { GlowingWrapper } from "../GlowingWrapper"
+import { SearchModal } from "./components/SearchModal"
 
 export const Navbar = () => {
+  const { push } = useRouter()
+  const { currentSession, logout } = useAuth()
+
   const [createSheetModal, setCreateSheetModal] = useState<boolean>(false)
+  const [searchModal, setSearchModal] = useState<boolean>(false)
   const [openCreateCampaignModal, setOpenCreateCampaignModal] =
     useState<boolean>(false)
-  const { currentSession, logout } = useAuth()
-  const { push } = useRouter()
 
   if (!currentSession) return null
 
@@ -33,6 +37,7 @@ export const Navbar = () => {
         onStatusChange={setOpenCreateCampaignModal}
         status={openCreateCampaignModal}
       />
+      <SearchModal status={searchModal} onStatusChange={setSearchModal} />
       <div className="max-w-7xl flex items-center justify-between mx-auto">
         <h1
           onClick={() => push("/feed")}
@@ -46,7 +51,7 @@ export const Navbar = () => {
         </h1>
         <div className="flex items-center gap-x-4">
           <div
-            // onClick={() => setSelectedCharacter && setSelectedCharacter(null)}
+            onClick={() => setSearchModal(true)}
             className="cursor-pointer w-fit flex items-center group gap-x-2"
           >
             <button className="bg-ashes flex items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50 group-hover:bg-gradient-to-tr group-hover:from-[#42d392] group-hover:to-[#8B5CF6] duration-300 ease-in-out transition-all">
