@@ -6,10 +6,12 @@ import React, { ChangeEvent, useState } from "react"
 import { useParams } from "next/navigation"
 import { useToast } from "@/shared/contexts/Toaster/ToasterContext"
 import { useAuth } from "@/shared/contexts/Auth/AuthContext"
+import { getNameInitials } from "@/shared/utils/getNameInitials"
 
 export const CreatePostInput: React.FC<{
   currentPage?: number
-}> = ({ currentPage }) => {
+  isFeed?: boolean
+}> = ({ currentPage, isFeed }) => {
   const { add, postEvents } = usePosts()
   const { currentSession } = useAuth()
   const { addToast } = useToast()
@@ -73,7 +75,31 @@ export const CreatePostInput: React.FC<{
 
   return (
     <div className="relative z-[100]">
-      <div className="flex items-start gap-x-4 bottom-0 inset-x-0">
+      <div className="flex flex-col items-start gap-x-4">
+        {isFeed && (
+          <div className="flex pb-2 select-none bg-background z-20 items-center gap-x-2">
+            {currentSession?.avatarUrl ? (
+              <img
+                src={currentSession?.avatarUrl}
+                alt=""
+                referrerPolicy="no-referrer"
+                className="w-[48px] aspect-square object-cover select-none pointer-events-none h-[48px] border border-border rounded-full"
+              />
+            ) : (
+              <div className="w-[48px] text-2xl font-bold text-white flex items-center justify-center aspect-square object-cover select-none pointer-events-none h-[48px] border border-border rounded-full">
+                {getNameInitials(currentSession?.name ?? '')}
+              </div>
+            )}
+            <div className="flex flex-col">
+              <span className="block text-lg font-bold -tracking-wide">
+                {currentSession?.name}
+              </span>
+              <span className="text-gray-400 -mt-2 block text-sm">
+                #{currentSession?.username}
+              </span>
+            </div>
+          </div>
+        )}
         <div className="rounded-xl w-full">
           <GlowingWrapper
             styles="w-full"
@@ -83,7 +109,11 @@ export const CreatePostInput: React.FC<{
             <textarea
               onChange={(e) => handleInputChange(e)}
               value={postData.content}
-              placeholder="Say something about this campaign..."
+              placeholder={
+                isFeed
+                  ? "Write it down... but don't read it out loud."
+                  : "Say something about this campaign..."
+              }
               spellCheck="false"
               className="p-2 bg-background h-[100px]  resize-none overflow-y-scroll no-scrollbar w-full cursor-text hover:brightness-125 flex items-center gap-x-1 line-clamp-1 rounded-xl rounded-b-none border border-border outline-none"
             />

@@ -96,6 +96,7 @@ export const Campaigns: React.FC<{ user: IUser }> = ({ user }) => {
                     <img
                       src={user.avatarUrl}
                       alt=""
+                      referrerPolicy="no-referrer"
                       style={{ marginRight: `${index * 20}px` }}
                       className="w-[42px] h-[42px] rounded-full"
                     />

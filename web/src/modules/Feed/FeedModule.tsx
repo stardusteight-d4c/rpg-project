@@ -5,7 +5,7 @@ export function FeedModule() {
     <FeedModuleWrapper>
       <Feed.Navbar />
       <div className="max-w-7xl mt-[45px] w-full mx-auto flex">
-        <Feed.Posts />
+        <Feed.Posts  />
         <Feed.Sidebar />
       </div>
       <Feed.Footer />

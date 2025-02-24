@@ -1,6 +1,12 @@
 "use client"
 
-import React, { createContext, useContext, ReactNode, useState } from "react"
+import React, {
+  createContext,
+  useContext,
+  ReactNode,
+  useState,
+  useEffect,
+} from "react"
 import { MockAPI } from "@/shared/requests/MockAPI"
 
 interface IPostEvents {
@@ -14,6 +20,7 @@ interface IPostEvents {
 
 interface PostsState {
   campaignPosts: IPost[]
+  posts: IPost[]
   postEvents: IPostEvents
   add: (post: IPost, currentPage?: number) => Promise<IPost | void>
   update: (post: Partial<IPost>) => Promise<IPost | void>
@@ -26,6 +33,7 @@ interface PostsState {
 
 const defaultState: PostsState = {
   campaignPosts: [],
+  posts: [],
   postEvents: {
     deletingPost: false,
     postDeleted: false,
@@ -55,6 +63,7 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const [campaignPosts, setCampaignPosts] = useState<IPost[]>([])
+  const [posts, setPosts] = useState<IPost[]>([])
   const [postEvents, setPostEvents] = useState<IPostEvents>({
     creatingPost: false,
     deletingPost: false,
@@ -65,6 +74,23 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
   })
 
   const api = new MockAPI()
+
+  useEffect(() => {
+    ;(async () => {
+      await api.post
+        .list()
+        .then((postsPagination) => {
+          setPosts(postsPagination.items)
+          return postsPagination
+        })
+        .catch((error) => {
+          throw new Error(error.message)
+        })
+        .finally(() => {
+          setPostEvents((prev) => ({ ...prev, gettingPosts: false }))
+        })
+    })()
+  }, [campaignPosts])
 
   const add = async (post: IPost, currentPage?: number) => {
     setPostEvents((prev) => ({ ...prev, creatingPost: true }))
@@ -147,7 +173,9 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
     setPostEvents((prev) => ({ ...prev, gettingPosts: true }))
     return await api.post
       .list(queryParams)
-      .then((postsPagination) => postsPagination)
+      .then((postsPagination) => {
+        return postsPagination
+      })
       .catch((error) => {
         throw new Error(error.message)
       })
@@ -175,6 +203,7 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
   return (
     <PostsContext.Provider
       value={{
+        posts,
         postEvents,
         campaignPosts,
         update,

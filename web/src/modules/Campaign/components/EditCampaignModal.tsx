@@ -15,11 +15,13 @@ export const EditCampaignModal: React.FC<{
   const { update, campaignEvents } = useCampaigns()
   const { addToast } = useToast()
   const [campaignData, setCampaignData] = useState<{
+    id: string
     name: string
     description: string
     coverUrl: string | undefined
     file: File | undefined
   }>({
+    id: campaign.id,
     name: campaign.name,
     description: campaign.description,
     coverUrl: campaign.coverUrl,
