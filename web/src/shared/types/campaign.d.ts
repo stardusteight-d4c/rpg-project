@@ -23,7 +23,9 @@ interface CampaignCreate {
 }
 
 interface ListCampaignsDTO {
-  campaignId?: string 
+  search?: boolean
+  name?: string
+  campaignId?: string
   ownerId?: string
   status?: CampaignStatus
 }

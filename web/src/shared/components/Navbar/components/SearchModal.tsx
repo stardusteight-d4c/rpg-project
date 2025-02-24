@@ -1,13 +1,43 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { GlowingWrapper } from "../../GlowingWrapper"
 import { ModalWrapper } from "../../ModalWrapper"
+import { useUsers } from "@/shared/contexts/Users/UsersContext"
+import { getNameInitials } from "@/shared/utils/getNameInitials"
+import { useRouter } from "next/navigation"
+import { useCampaigns } from "@/shared/contexts/Campaigns/CampaignsContext"
 
 export const SearchModal: React.FC<{
   onStatusChange: (value: boolean) => void
   status: boolean
 }> = ({ onStatusChange, status }) => {
+  const { searchByUsername } = useUsers()
+  const { searchByName } = useCampaigns()
+  const { push } = useRouter()
+  const [usersFound, setUsersFound] = useState<IUser[]>([])
+  const [campaignsFound, setCampaignsFound] = useState<ICampaign[]>([])
   const [searchType, setSearchType] = useState<"campaign" | "player">("player")
   const [searchTerm, setSearchTerm] = useState<string>("")
+
+  useEffect(() => {
+    ;(async () => {
+      if (searchTerm.length === 0) {
+        setUsersFound([])
+        setCampaignsFound([])
+      }
+
+      if (searchTerm.length >= 4 && searchType === "player") {
+        searchByUsername(searchTerm).then((users) => {
+          setUsersFound(users)
+        })
+      }
+
+      if (searchTerm.length >= 4 && searchType === "campaign") {
+        searchByName(searchTerm).then((campaigns) => {
+          setCampaignsFound(campaigns)
+        })
+      }
+    })()
+  }, [searchTerm, searchType])
 
   return (
     <ModalWrapper
@@ -19,7 +49,10 @@ export const SearchModal: React.FC<{
         <div className="py-2 px-4 sticky z-[200] border-b border-border shadow-md shadow-black/50 top-0 w-full inset-x-0 bg-background">
           <div className="flex items-center gap-x-4">
             <button
-              onClick={() => setSearchType("player")}
+              onClick={() => {
+                setSearchTerm("")
+                setSearchType("player")
+              }}
               className="cursor-pointer w-fit flex items-center group gap-x-2"
             >
               <div
@@ -44,7 +77,10 @@ export const SearchModal: React.FC<{
               <span>Player</span>
             </button>
             <button
-              onClick={() => setSearchType("campaign")}
+              onClick={() => {
+                setSearchTerm("")
+                setSearchType("campaign")
+              }}
               className="cursor-pointer w-fit flex items-center group gap-x-2"
             >
               <div
@@ -77,9 +113,7 @@ export const SearchModal: React.FC<{
             id="name"
             name="name"
             placeholder={
-              searchType === "campaign"
-                ? "Enter a campaign name"
-                : "Enter a username"
+              searchType === "campaign" ? "Enter a name" : "Enter a username"
             }
             spellCheck="false"
             value={searchTerm}
@@ -87,9 +121,63 @@ export const SearchModal: React.FC<{
             className="py-1 px-2 w-full cursor-text hover:brightness-125 flex items-center gap-x-1 line-clamp-1 rounded-md bg-ashes border border-border outline-none"
           />
         </GlowingWrapper>
-        <div>
-          
-        </div>
+        {searchType === "player" && usersFound.length !== 0 && (
+          <div className="mt-2 space-y-2">
+            {usersFound.map((user) => (
+              <div
+                onClick={() => push(`/profile/${user.username}`)}
+                className="flex p-2 cursor-pointer select-none bg-ashes rounded-lg z-20 items-center gap-x-2"
+              >
+                {user.avatarUrl ? (
+                  <img
+                    src={user.avatarUrl}
+                    alt=""
+                    referrerPolicy="no-referrer"
+                    className="w-[48px] aspect-square object-cover select-none pointer-events-none h-[48px] border border-border rounded-full"
+                  />
+                ) : (
+                  <div className="w-[48px] text-2xl font-bold text-white flex items-center justify-center aspect-square object-cover select-none pointer-events-none h-[48px] border border-border rounded-full">
+                    {getNameInitials(user.name)}
+                  </div>
+                )}
+                <div className="flex flex-col">
+                  <span className="block text-lg font-bold -tracking-wide">
+                    {user.name}
+                  </span>
+                  <span className="text-gray-400 -mt-2 block text-sm">
+                    #{user.username}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+        {searchType === "campaign" && campaignsFound.length !== 0 && (
+          <div className="mt-2 space-y-2">
+            {campaignsFound.map((campaign) => (
+              <div
+                onClick={() => push(`/campaign/${campaign.id}`)}
+                className="flex p-2 cursor-pointer select-none bg-ashes rounded-lg z-20 items-center gap-x-2"
+              >
+                <img
+                  src={campaign.coverUrl}
+                  alt=""
+                  referrerPolicy="no-referrer"
+                  className="w-[48px] aspect-square object-cover select-none pointer-events-none h-[48px] border border-border rounded-full"
+                />
+
+                <div className="flex flex-col">
+                  <span className="block text-lg font-bold -tracking-wide">
+                    {campaign.name}
+                  </span>
+                  <span className="text-gray-400 -mt-2 block text-sm">
+                    {campaign.owner.name}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </ModalWrapper>
   )

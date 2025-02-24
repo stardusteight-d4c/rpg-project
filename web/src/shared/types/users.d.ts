@@ -25,6 +25,7 @@ interface TableUser extends IUser {
 }
 
 interface ListUsersDTO {
+  search?: boolean
   username?: string 
   userId?: string
 }

@@ -73,6 +73,15 @@ export class MockUserRoute implements IUserRoute {
 
   public async list(queryParams?: ListUsersDTO): Promise<Array<IUser>> {
     if (!queryParams) return this.#users
+
+    if (queryParams.search) {
+      return this.#users.filter((user) =>
+        user.username
+          .toLocaleLowerCase()
+          .includes(queryParams.username?.toLocaleLowerCase()!)
+      )
+    }
+
     return this.#users.filter((user) => {
       const isMatchingId = !queryParams.userId || user.id === queryParams.userId
       const isMatchingUsername =

@@ -6,12 +6,14 @@ import { MockAPI } from "@/shared/requests/MockAPI"
 interface UsersState {
   cachedUsers: IUser[]
   getByUsername: (username: string) => Promise<IUser | void>
+  searchByUsername: (username: string) => Promise<IUser[]>
   update: (updatedUser: Partial<IUser>) => Promise<IUser | void>
 }
 
 const defaultState: UsersState = {
   cachedUsers: [],
   getByUsername: async () => {},
+  searchByUsername: async () => [],
   update: async () => {},
 }
 
@@ -40,6 +42,18 @@ export const UsersProvider: React.FC<{ children: ReactNode }> = ({
       })
   }
 
+  const searchByUsername = async (username: string) => {
+    return await api.user
+      .list({ username, search: true })
+      .then((usersFound) => {
+        usersFound && setCachedUsers((prev) => [...prev, ...usersFound])
+        return usersFound
+      })
+      .catch((error) => {
+        throw new Error(error.message)
+      })
+  }
+
   const update = async (updatedUser: Partial<IUser>) => {
     return await api.user
       .update(updatedUser)
@@ -53,7 +67,9 @@ export const UsersProvider: React.FC<{ children: ReactNode }> = ({
   }
 
   return (
-    <UsersContext.Provider value={{ cachedUsers, getByUsername, update }}>
+    <UsersContext.Provider
+      value={{ cachedUsers, getByUsername, searchByUsername, update }}
+    >
       {children}
     </UsersContext.Provider>
   )

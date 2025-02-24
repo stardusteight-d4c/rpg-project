@@ -3,6 +3,15 @@
 import React, { createContext, useContext, useState, ReactNode } from "react"
 import { MockAPI } from "@/shared/requests/MockAPI"
 
+const initialEvents = {
+  deletingCampaign: false,
+  campaignDeleted: false,
+  creatingCampaign: false,
+  gettingCampaigns: false,
+  updatingCampaign: false,
+  campaignUpdated: false,
+}
+
 interface ICampaignEvents {
   deletingCampaign: boolean
   campaignDeleted: boolean
@@ -14,8 +23,9 @@ interface ICampaignEvents {
 
 interface CampaignsState {
   userCampaigns: ICampaign[]
-  campaign: ICampaign | undefined
   campaignEvents: ICampaignEvents
+  campaign: ICampaign | undefined
+  searchByName: (name: string) => Promise<ICampaign[]>
   add: (campaign: CampaignCreate) => Promise<ICampaign | void>
   getUserCampaigns: (userId: string) => Promise<Array<ICampaign> | void>
   getById: (campaignId: string) => Promise<ICampaign | undefined>
@@ -26,15 +36,9 @@ interface CampaignsState {
 const defaultState: CampaignsState = {
   userCampaigns: [],
   campaign: undefined,
-  campaignEvents: {
-    deletingCampaign: false,
-    campaignDeleted: false,
-    creatingCampaign: false,
-    gettingCampaigns: false,
-    updatingCampaign: false,
-    campaignUpdated: false,
-  },
+  campaignEvents: initialEvents,
   add: async () => {},
+  searchByName: async (name: string) => [],
   getUserCampaigns: async (userId: string) => [],
   getById: async (campaignId: string) => undefined,
   update: async (campaign: Partial<ICampaign>) => {},
@@ -50,14 +54,8 @@ export const CampaignsProvider: React.FC<{ children: ReactNode }> = ({
   const [campaign, setCampaign] = useState<ICampaign | undefined>(undefined)
   const [cachedCampaigns, setCachedCampaigns] = useState<ICampaign[]>([])
   const [userCampaigns, setUserCampaigns] = useState<ICampaign[]>([])
-  const [campaignEvents, setCampaignEvents] = useState<ICampaignEvents>({
-    deletingCampaign: false,
-    campaignDeleted: false,
-    creatingCampaign: false,
-    gettingCampaigns: false,
-    updatingCampaign: false,
-    campaignUpdated: false,
-  })
+  const [campaignEvents, setCampaignEvents] =
+    useState<ICampaignEvents>(initialEvents)
 
   const getUserCampaigns = async (userId: string) => {
     setCampaignEvents((prev) => ({ ...prev, gettingCampaigns: true }))
@@ -75,6 +73,19 @@ export const CampaignsProvider: React.FC<{ children: ReactNode }> = ({
             setCampaignEvents((prev) => ({ ...prev, gettingCampaigns: false }))
           })
       : userCampaigns
+  }
+
+  const searchByName = async (name: string) => {
+    return await api.campaign
+      .list({ name, search: true })
+      .then((campaignsFound) => {
+        campaignsFound &&
+          setCachedCampaigns((prev) => [...prev, ...campaignsFound])
+        return campaignsFound
+      })
+      .catch((error) => {
+        throw new Error(error.message)
+      })
   }
 
   const getById = async (campaignId: string) => {
@@ -164,6 +175,7 @@ export const CampaignsProvider: React.FC<{ children: ReactNode }> = ({
     <CampaignsContext.Provider
       value={{
         campaign,
+        searchByName,
         userCampaigns,
         campaignEvents,
         add,
