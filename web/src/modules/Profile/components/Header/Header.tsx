@@ -1,10 +1,11 @@
-import { DonutChart, GlowingWrapper, ModalWrapper } from "@/shared/components"
+import { DonutChart, ModalWrapper } from "@/shared/components"
 import { useAuth } from "@/shared/contexts/Auth/AuthContext"
-import { useUsers } from "@/shared/contexts/Users/UsersContext"
 import { convertTimestamp } from "@/shared/utils/convertTimestamp"
 import { getNameInitials } from "@/shared/utils/getNameInitials"
 import { useState } from "react"
-import { EditProfileModal } from "./components/EditProfileModal/EditProfileModal"
+import { EditProfileModal } from "./components/EditProfileModal"
+import { FollowingModal } from "./components/FollowingModal"
+import { FollowersModal } from "./components/FollowersModal"
 
 export const Header: React.FC<{ user: IUser }> = ({ user }) => {
   const { currentSession } = useAuth()
@@ -15,98 +16,25 @@ export const Header: React.FC<{ user: IUser }> = ({ user }) => {
   const [isOpenFollowersModal, setIsOpenFollowersModal] =
     useState<boolean>(false)
 
+  const following = true
+
   return (
     <>
-      {isOpenEditModal === true && (
-        <EditProfileModal
-          isOpenEditModal
-          setIsOpenEditModal={setIsOpenEditModal}
-          user={user}
-        />
-      )}
-      <ModalWrapper
-        title="Following"
+      <EditProfileModal
+        status={isOpenEditModal}
+        onStatusChange={setIsOpenEditModal}
+        user={user}
+      />
+      <FollowingModal
         status={isOpenFollowingModal}
         onStatusChange={setIsOpenFollowingModal}
-      >
-        <div className="w-[700px] p-2">
-          <div className="space-y-2">
-            <div
-              //  onClick={() => push(`/profile/${user.username}`)}
-              className="flex p-2 cursor-pointer select-none border border-border rounded-lg z-20 items-center gap-x-2"
-            >
-              {user.avatarUrl ? (
-                <img
-                  src={user.avatarUrl}
-                  alt=""
-                  referrerPolicy="no-referrer"
-                  className="w-[48px] aspect-square object-cover select-none pointer-events-none h-[48px] border border-border rounded-full"
-                />
-              ) : (
-                <div className="w-[48px] text-2xl font-bold text-white flex items-center justify-center aspect-square object-cover select-none pointer-events-none h-[48px] border border-border rounded-full">
-                  {getNameInitials(user.name)}
-                </div>
-              )}
-              <div className="flex flex-col">
-                <span className="block  whitespace-nowrap text-lg font-bold -tracking-wide">
-                  {user.name}
-                </span>
-                <span className="text-gray-400 whitespace-nowrap -mt-2 block text-sm">
-                  #{user.username}
-                </span>
-              </div>
-              <div className="w-full">
-                <span className="ml-auto w-fit bg-red-500 flex items-center gap-x-2 cursor-pointer duration-300 ease-in-out transition-all p-1 rounded-full">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="28"
-                    height="28"
-                    fill="#FFFFFF"
-                    viewBox="0 0 256 256"
-                  >
-                    <path d="M168,56a8,8,0,0,1,8-8h48a8,8,0,0,1,0,16H176A8,8,0,0,1,168,56Zm58.08,37.33a103.93,103.93,0,1,1-80.76-67.89,8,8,0,0,1-2.64,15.78A88.07,88.07,0,0,0,40,128a87.62,87.62,0,0,0,22.24,58.41A79.66,79.66,0,0,1,98.3,157.66a48,48,0,1,1,59.4,0,79.66,79.66,0,0,1,36.06,28.75A88,88,0,0,0,211,98.67a8,8,0,0,1,15.09-5.34ZM128,152a32,32,0,1,0-32-32A32,32,0,0,0,128,152Zm0,64a87.57,87.57,0,0,0,53.92-18.5,64,64,0,0,0-107.84,0A87.57,87.57,0,0,0,128,216Z"></path>
-                  </svg>
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </ModalWrapper>
-      <ModalWrapper
-        title="Followers"
+        user={user}
+      />
+      <FollowersModal
         status={isOpenFollowersModal}
         onStatusChange={setIsOpenFollowersModal}
-      >
-        <div className="w-[700px] p-2">
-          <div className="space-y-2">
-            <div
-              //  onClick={() => push(`/profile/${user.username}`)}
-              className="flex p-2 cursor-pointer select-none border border-border rounded-lg z-20 items-center gap-x-2"
-            >
-              {user.avatarUrl ? (
-                <img
-                  src={user.avatarUrl}
-                  alt=""
-                  referrerPolicy="no-referrer"
-                  className="w-[48px] aspect-square object-cover select-none pointer-events-none h-[48px] border border-border rounded-full"
-                />
-              ) : (
-                <div className="w-[48px] text-2xl font-bold text-white flex items-center justify-center aspect-square object-cover select-none pointer-events-none h-[48px] border border-border rounded-full">
-                  {getNameInitials(user.name)}
-                </div>
-              )}
-              <div className="flex flex-col">
-                <span className="block  whitespace-nowrap text-lg font-bold -tracking-wide">
-                  {user.name}
-                </span>
-                <span className="text-gray-400 whitespace-nowrap -mt-2 block text-sm">
-                  #{user.username}
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </ModalWrapper>
+        user={user}
+      />
       {user.coverImage ? (
         <img
           src={user.coverImage}
@@ -119,18 +47,35 @@ export const Header: React.FC<{ user: IUser }> = ({ user }) => {
       <div className="max-w-7xl h-[150px] z-[500] mx-auto relative">
         <div className="absolute w-full  -top-[55px] left-[0px] flex items-center gap-x-2">
           {user.id !== currentSession?.id && (
-            <span className="bg-background flex items-center pr-3 gap-x-2 cursor-pointer shadow-sm shadow-black/50 hover:bg-gradient-to-tr hover:from-[#42d392] hover:to-[#8B5CF6] duration-300 ease-in-out transition-all p-2 rounded-full">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="32"
-                height="32"
-                fill="#FFFFFF"
-                viewBox="0 0 256 256"
-              >
-                <path d="M168,56a8,8,0,0,1,8-8h16V32a8,8,0,0,1,16,0V48h16a8,8,0,0,1,0,16H208V80a8,8,0,0,1-16,0V64H176A8,8,0,0,1,168,56Zm62.56,54.68a103.92,103.92,0,1,1-85.24-85.24,8,8,0,0,1-2.64,15.78A88.07,88.07,0,0,0,40,128a87.62,87.62,0,0,0,22.24,58.41A79.66,79.66,0,0,1,98.3,157.66a48,48,0,1,1,59.4,0,79.66,79.66,0,0,1,36.06,28.75A87.62,87.62,0,0,0,216,128a88.85,88.85,0,0,0-1.22-14.68,8,8,0,1,1,15.78-2.64ZM128,152a32,32,0,1,0-32-32A32,32,0,0,0,128,152Zm0,64a87.57,87.57,0,0,0,53.92-18.5,64,64,0,0,0-107.84,0A87.57,87.57,0,0,0,128,216Z"></path>
-              </svg>
-              <span className="font-medium">Follow</span>
-            </span>
+            <>
+              {following ? (
+                <span className="bg-background hover:bg-red-500 flex items-center pr-3 gap-x-2 cursor-pointer shadow-sm shadow-black/50 duration-300 ease-in-out transition-all p-2 rounded-full">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="32"
+                    height="32"
+                    fill="#FFFFFF"
+                    viewBox="0 0 256 256"
+                  >
+                    <path d="M168,56a8,8,0,0,1,8-8h48a8,8,0,0,1,0,16H176A8,8,0,0,1,168,56Zm58.08,37.33a103.93,103.93,0,1,1-80.76-67.89,8,8,0,0,1-2.64,15.78A88.07,88.07,0,0,0,40,128a87.62,87.62,0,0,0,22.24,58.41A79.66,79.66,0,0,1,98.3,157.66a48,48,0,1,1,59.4,0,79.66,79.66,0,0,1,36.06,28.75A88,88,0,0,0,211,98.67a8,8,0,0,1,15.09-5.34ZM128,152a32,32,0,1,0-32-32A32,32,0,0,0,128,152Zm0,64a87.57,87.57,0,0,0,53.92-18.5,64,64,0,0,0-107.84,0A87.57,87.57,0,0,0,128,216Z"></path>
+                  </svg>
+                  <span className="font-medium">Unfollow</span>
+                </span>
+              ) : (
+                <span className="bg-background flex items-center pr-3 gap-x-2 cursor-pointer shadow-sm shadow-black/50 hover:bg-gradient-to-tr hover:from-[#42d392] hover:to-[#8B5CF6] duration-300 ease-in-out transition-all p-2 rounded-full">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="32"
+                    height="32"
+                    fill="#FFFFFF"
+                    viewBox="0 0 256 256"
+                  >
+                    <path d="M168,56a8,8,0,0,1,8-8h16V32a8,8,0,0,1,16,0V48h16a8,8,0,0,1,0,16H208V80a8,8,0,0,1-16,0V64H176A8,8,0,0,1,168,56Zm62.56,54.68a103.92,103.92,0,1,1-85.24-85.24,8,8,0,0,1-2.64,15.78A88.07,88.07,0,0,0,40,128a87.62,87.62,0,0,0,22.24,58.41A79.66,79.66,0,0,1,98.3,157.66a48,48,0,1,1,59.4,0,79.66,79.66,0,0,1,36.06,28.75A87.62,87.62,0,0,0,216,128a88.85,88.85,0,0,0-1.22-14.68,8,8,0,1,1,15.78-2.64ZM128,152a32,32,0,1,0-32-32A32,32,0,0,0,128,152Zm0,64a87.57,87.57,0,0,0,53.92-18.5,64,64,0,0,0-107.84,0A87.57,87.57,0,0,0,128,216Z"></path>
+                  </svg>
+                  <span className="font-medium">Follow</span>
+                </span>
+              )}
+            </>
           )}
           <span
             onClick={() => setIsOpenFollowingModal(true)}
@@ -185,7 +130,6 @@ export const Header: React.FC<{ user: IUser }> = ({ user }) => {
           <div className="absolute rounded-full shadow-md shadow-black/50  left-1/2 -translate-x-1/2  top-[-90px]">
             <DonutChart
               percentage={(user.exp!.current / user.exp!.nextLevel) * 100}
-              // percentage={100}
               strokeWidth={15}
               size={180}
               backgroundColor="#090909"

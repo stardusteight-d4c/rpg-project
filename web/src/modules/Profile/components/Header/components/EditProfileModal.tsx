@@ -7,10 +7,10 @@ import { useRouter } from "next/navigation"
 import React, { useState } from "react"
 
 export const EditProfileModal: React.FC<{
+  status: boolean
+  onStatusChange: (value: boolean) => void
   user: IUser
-  isOpenEditModal: boolean
-  setIsOpenEditModal: (value: boolean) => void
-}> = ({ user, isOpenEditModal, setIsOpenEditModal }) => {
+}> = ({ user, status, onStatusChange }) => {
   const { replace } = useRouter()
   const { addToast } = useToast()
   const { update } = useUsers()
@@ -26,7 +26,7 @@ export const EditProfileModal: React.FC<{
   })
 
   const handleModal = (value: boolean) => {
-    if (value === true) return setIsOpenEditModal(true)
+    if (value === true) return onStatusChange(true)
     if (value === false) {
       setEditableData({
         id: user.id,
@@ -37,7 +37,7 @@ export const EditProfileModal: React.FC<{
         coverImageFile: undefined,
         avatarUrlFile: undefined,
       })
-      return setIsOpenEditModal(false)
+      return onStatusChange(false)
     }
   }
 
@@ -122,13 +122,13 @@ export const EditProfileModal: React.FC<{
 
     await update(data)
       .then((updatedUser) => {
-        setIsOpenEditModal(false)
+        onStatusChange(false)
         addToast("The profile has been updated!", "success", 45)
         updatedUser && updateSession(updatedUser)
         updatedUser && replace(`/profile/${updatedUser.username}`)
       })
       .catch((error) => {
-        setIsOpenEditModal(false)
+        onStatusChange(false)
         addToast(error.message, "error")
       })
   }
@@ -137,7 +137,7 @@ export const EditProfileModal: React.FC<{
     <ModalWrapper
       title="Editing Profile"
       onStatusChange={handleModal}
-      status={isOpenEditModal}
+      status={status}
     >
       <div className="py-2 px-4 sticky z-[200] border-b border-border shadow-md shadow-black/50 top-0 w-full inset-x-0 bg-background">
         <div className="flex items-center gap-x-4">

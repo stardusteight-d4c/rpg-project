@@ -126,7 +126,7 @@ export const SearchModal: React.FC<{
             {usersFound.map((user) => (
               <div
                 onClick={() => push(`/profile/${user.username}`)}
-                className="flex p-2 cursor-pointer select-none bg-ashes rounded-lg z-20 items-center gap-x-2"
+                className="flex p-2 cursor-pointer select-none border border-border bg-ashes rounded-lg z-20 items-center gap-x-2"
               >
                 {user.avatarUrl ? (
                   <img
