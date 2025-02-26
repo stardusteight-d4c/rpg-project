@@ -53,7 +53,7 @@ export const Campaigns: React.FC<{ user: IUser }> = ({ user }) => {
       </h3>
       {userCampaigns.length === 0 ? (
         <div className="w-full flex items-center justify-center">
-          <div className="p-8 w-full border-2 h-[230px] border-dashed border-border rounded-xl flex flex-col items-center justify-center">
+          <div className="p-8 w-full h-[230px] bg-ashes rounded-xl flex flex-col items-center justify-center">
             <div className="col-span-1 w-[50px] h-[50px] flex items-center justify-center bg-border/50 border border-border rounded aspect-square">
               <svg
                 xmlns="http://www.w3.org/2000/svg"

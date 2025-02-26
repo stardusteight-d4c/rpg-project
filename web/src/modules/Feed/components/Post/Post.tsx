@@ -1,7 +1,6 @@
 "use client"
 
 import { GlowingWrapper, ModalWrapper } from "@/shared/components"
-import { useFeed } from "@/shared/contexts/Feed/FeedContext"
 import { timeago } from "@/shared/utils/timeago"
 import { useState } from "react"
 import { PostEdit } from "./PostEdit"
@@ -14,7 +13,6 @@ import { getNameInitials } from "@/shared/utils/getNameInitials"
 export const Post = ({ post }: { post: IPost }) => {
   const { push } = useRouter()
   const { currentSession } = useAuth()
-  const { updatePost } = useFeed()
   const [showComments, setShowComments] = useState<boolean>(false)
   const [openEditPost, setOpenEditPost] = useState<boolean>(false)
 
@@ -116,13 +114,13 @@ export const Post = ({ post }: { post: IPost }) => {
         <div className="px-4 flex items-center gap-x-2">
           {post.likedByUser ? (
             <button
-              onClick={() =>
-                updatePost(post.id, {
-                  ...post,
-                  likedByUser: false,
-                  likesCount: post.likesCount && post.likesCount - 1,
-                })
-              }
+              // onClick={() =>
+              //   updatePost(post.id, {
+              //     ...post,
+              //     likedByUser: false,
+              //     likesCount: post.likesCount && post.likesCount - 1,
+              //   })
+              // }
               className="bg-background flex items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50 hover:bg-button duration-300 ease-in-out transition-all"
             >
               <svg
@@ -153,13 +151,13 @@ export const Post = ({ post }: { post: IPost }) => {
             </button>
           ) : (
             <button
-              onClick={() =>
-                updatePost(post.id, {
-                  ...post,
-                  likedByUser: true,
-                  likesCount: post.likesCount ? post.likesCount + 1 : 1,
-                })
-              }
+              // onClick={() =>
+              //   updatePost(post.id, {
+              //     ...post,
+              //     likedByUser: true,
+              //     likesCount: post.likesCount ? post.likesCount + 1 : 1,
+              //   })
+              // }
               className="bg-background flex items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50 hover:bg-button duration-300 ease-in-out transition-all"
             >
               <svg

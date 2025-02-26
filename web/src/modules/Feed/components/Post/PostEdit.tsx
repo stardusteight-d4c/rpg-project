@@ -1,8 +1,6 @@
 "use client"
 
 import { ModalWrapper } from "@/shared/components"
-import { useAuth } from "@/shared/contexts/Auth/AuthContext"
-import { useFeed } from "@/shared/contexts/Feed/FeedContext"
 import { usePosts } from "@/shared/contexts/Posts/PostsContext"
 import { useToast } from "@/shared/contexts/Toaster/ToasterContext"
 import { getNameInitials } from "@/shared/utils/getNameInitials"

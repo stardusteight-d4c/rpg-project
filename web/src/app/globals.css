@@ -41,7 +41,7 @@ body {
 }
 ::-webkit-scrollbar-thumb {
   cursor: pointer;
-  background: #1F1F1F;
+  background: #1f1f1f;
   border-radius: 20px;
 }
 
@@ -58,9 +58,9 @@ body {
 }
 
 .shadow-p {
- -webkit-box-shadow: 4px 4px 4px 4px rgba(0,0,0,0.10);
--moz-box-shadow: 4px 4px 4px 4px rgba(0,0,0,0.10);
-box-shadow: 4px 4px 4px 4px rgba(0,0,0,0.10);
+  -webkit-box-shadow: 4px 4px 4px 4px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 4px 4px 4px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 4px 4px 4px 4px rgba(0, 0, 0, 0.1);
 }
 .shadow-p-2 {
   box-shadow: 2px 28px 28px 2px #00000080;
@@ -243,7 +243,7 @@ box-shadow: 4px 4px 4px 4px rgba(0,0,0,0.10);
   background: radial-gradient(
     ellipse at center,
     #09090900 0%,
-    #090909e1 2.0%,
+    #090909e1 2%,
     #090909 2.8%,
     #090909 100%
   );
@@ -256,13 +256,11 @@ box-shadow: 4px 4px 4px 4px rgba(0,0,0,0.10);
   background-color: #18181b;
 }
 
-
 .aspect-scenario {
   aspect-ratio: 1.59 / 1;
 }
 
 /*  */
-
 
 .rangeSlider {
   -webkit-appearance: none;
@@ -280,7 +278,7 @@ box-shadow: 4px 4px 4px 4px rgba(0,0,0,0.10);
   appearance: none;
   width: 15px;
   height: 15px;
- background-image: -moz-linear-gradient(
+  background-image: -moz-linear-gradient(
     to top right,
     #42d392 0%,
     #8b5cf6 100%
@@ -307,7 +305,7 @@ box-shadow: 4px 4px 4px 4px rgba(0,0,0,0.10);
   border: none;
   border-radius: 10px;
   outline-offset: 2px;
- background-image: -moz-linear-gradient(
+  background-image: -moz-linear-gradient(
     to top right,
     #42d392 0%,
     #8b5cf6 100%
@@ -343,4 +341,20 @@ box-shadow: 4px 4px 4px 4px rgba(0,0,0,0.10);
   100% {
     width: 0%;
   }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.01);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.pulsing {
+  animation: pulse 700ms infinite linear;
 }

@@ -97,6 +97,7 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
     return await api.post
       .create(post)
       .then((createdPost) => {
+        setPosts((prev) => [createdPost, ...prev])
         if (currentPage === 1) {
           if (campaignPosts.length === 3) {
             setCampaignPosts((prev) => [createdPost, ...prev.slice(0, 2)])

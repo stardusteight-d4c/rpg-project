@@ -1,6 +1,5 @@
 "use client"
 
-import { useFeed } from "@/shared/contexts/Feed/FeedContext"
 import { currentSession } from "@/shared/contexts/Users/mock-data"
 import { useRouter } from "next/navigation"
 import { ChangeEvent, useEffect, useRef, useState } from "react"
@@ -17,7 +16,6 @@ interface CommentProps {
 
 export const Comment = ({ comment, postId }: CommentProps) => {
   const { push } = useRouter()
-  const { updateComment, deleteComment } = useFeed()
   const [isEditComment, setIsEditComment] = useState<boolean>(false)
   const commentRef = useRef<HTMLTextAreaElement>(null)
   const spanRef = useRef<HTMLSpanElement | null>(null)
@@ -43,13 +41,13 @@ export const Comment = ({ comment, postId }: CommentProps) => {
     }
   }, [])
 
-  const onUpdate = () => {
-    updateComment(postId, {
-      ...editableComment,
-      content: editableComment.content.trim(),
-    })
-    setIsEditComment(false)
-  }
+  // const onUpdate = () => {
+  //   updateComment(postId, {
+  //     ...editableComment,
+  //     content: editableComment.content.trim(),
+  //   })
+  //   setIsEditComment(false)
+  // }
 
   return (
     <>
@@ -106,13 +104,13 @@ export const Comment = ({ comment, postId }: CommentProps) => {
                 Cancel
               </span>
               <span
-                onClick={() => deleteComment(postId, comment.id)}
+                // onClick={() => deleteComment(postId, comment.id)}
                 className="underline text-gray-400/70 text-sm cursor-pointer hover:text-red-500"
               >
                 Delete
               </span>
               <span
-                onClick={onUpdate}
+                // onClick={onUpdate}
                 className="underline text-green-500 text-sm cursor-pointer"
               >
                 Update

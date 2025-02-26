@@ -1,12 +1,10 @@
 "use client"
 
 import { GlowingWrapper } from "@/shared/components"
-import { useFeed } from "@/shared/contexts/Feed/FeedContext"
 import { currentSession } from "@/shared/contexts/Users/mock-data"
 import { ChangeEvent, useState } from "react"
 
 export const CommentInput = ({ postId }: { postId: string }) => {
-  const { addComment } = useFeed()
   const [comment, setComment] = useState<IComment>({
     id: "",
     content: "",
@@ -19,19 +17,19 @@ export const CommentInput = ({ postId }: { postId: string }) => {
     setComment((prev) => ({ ...prev, content: e.target.value }))
   }
 
-  const onSend = () => {
-    addComment(postId, {
-      ...comment,
-      id: crypto.randomUUID(),
-      createdAt: new Date().toISOString(),
-    })
-    setComment({
-      id: "",
-      content: "",
-      createdAt: "",
-      owner: currentSession,
-    })
-  }
+  // const onSend = () => {
+  //   addComment(postId, {
+  //     ...comment,
+  //     id: crypto.randomUUID(),
+  //     createdAt: new Date().toISOString(),
+  //   })
+  //   setComment({
+  //     id: "",
+  //     content: "",
+  //     createdAt: "",
+  //     owner: currentSession,
+  //   })
+  // }
 
   return (
     <div className="p-4 bg-background rounded-b-xl">
@@ -47,7 +45,7 @@ export const CommentInput = ({ postId }: { postId: string }) => {
         </GlowingWrapper>
 
         <span
-          onClick={onSend}
+          // onClick={onSend}
           className="flex hover:brightness-125 active:scale-95 transition-all duration-300 ease-in-out items-center  justify-center text-white p-2 rounded-full w-fit  shadow-sm shadow-black/50 cursor-pointer bg-button"
         >
           <svg
