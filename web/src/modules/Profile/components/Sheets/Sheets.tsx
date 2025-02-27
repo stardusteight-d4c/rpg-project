@@ -100,7 +100,7 @@ export const Sheets: React.FC<{ user: IUser }> = ({ user }) => {
         </span>
       </h3>
 
-      {userSheets.length === 0 ? (
+      {userSheets.size === 0 ? (
         <div className="w-full flex items-center justify-center">
           <div className="p-8 w-full h-[230px] bg-ashes rounded-xl flex flex-col items-center justify-center">
             <div className="col-span-1 w-[50px] h-[50px] flex items-center justify-center bg-border/50 border border-border rounded aspect-square">
@@ -125,9 +125,9 @@ export const Sheets: React.FC<{ user: IUser }> = ({ user }) => {
           ref={sliderRef}
           className="flex w-full gap-4 cursor-grab"
           drag="x"
-          dragConstraints={{ right: 0, left: -((userSheets.length - 1) * 640) }}
+          dragConstraints={{ right: 0, left: -((userSheets.size - 1) * 640) }}
         >
-          {userSheets.map((sheet) => (
+          {Array.from(userSheets.values()).map((sheet) => (
             <motion.div
               key={sheet.id}
               onDoubleClick={() => setSelectedCharacter(sheet)}

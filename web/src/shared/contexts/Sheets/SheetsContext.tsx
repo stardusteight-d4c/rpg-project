@@ -1,16 +1,10 @@
 "use client"
 
-import React, {
-  createContext,
-  useContext,
-  ReactNode,
-  useState,
-  useEffect,
-} from "react"
+import React, { createContext, useContext, ReactNode, useState } from "react"
 import { MockAPI } from "@/shared/requests/MockAPI"
 
 interface SheetsState {
-  userSheets: ISheet[]
+  userSheets: Map<string, ISheet>
   add: (sheet: ISheet) => Promise<ISheet | void>
   update: (sheet: Partial<ISheet>) => Promise<ISheet | void>
   getUserSheets: (userId: string) => Promise<ISheet[]>
@@ -18,7 +12,7 @@ interface SheetsState {
 }
 
 const defaultState: SheetsState = {
-  userSheets: [],
+  userSheets: new Map(),
   add: async () => {},
   update: async () => {},
   getUserSheets: async () => [],
@@ -31,13 +25,21 @@ export const SheetsProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const api = new MockAPI()
-  const [userSheets, setUserSheets] = useState<ISheet[]>([])
+  const [userSheets, setUserSheets] = useState<Map<string, ISheet>>(new Map())
+
+  const updateCache = (sheets: ISheet[]) => {
+    setUserSheets((prev) => {
+      const newCache = new Map(prev)
+      sheets.forEach((sheet) => newCache.set(sheet.id, sheet))
+      return newCache
+    })
+  }
 
   const getUserSheets = async (userId: string) => {
     return await api.sheet
       .list({ ownerId: userId })
       .then((sheets) => {
-        setUserSheets(sheets)
+        updateCache(sheets)
         return sheets
       })
       .catch((error) => {
@@ -49,7 +51,7 @@ export const SheetsProvider: React.FC<{ children: ReactNode }> = ({
     return await api.sheet
       .create(sheet)
       .then((createdSheet) => {
-        setUserSheets((prev) => [...prev, createdSheet])
+        updateCache([createdSheet])
         return createdSheet
       })
       .catch((error) => {
@@ -61,7 +63,11 @@ export const SheetsProvider: React.FC<{ children: ReactNode }> = ({
     return api.sheet
       .delete(sheetId)
       .then(() => {
-        setUserSheets((prev) => prev.filter((sheet) => sheet.id !== sheetId))
+        setUserSheets((prev) => {
+          const newCache = new Map(prev)
+          newCache.delete(sheetId)
+          return newCache
+        })
       })
       .catch((error) => {
         throw new Error(error.message)
@@ -72,9 +78,7 @@ export const SheetsProvider: React.FC<{ children: ReactNode }> = ({
     return await api.sheet
       .update(sheet)
       .then((updatedSheet) => {
-        setUserSheets((prev) =>
-          prev.map((s) => (s.id === updatedSheet.id ? updatedSheet : s))
-        )
+        updateCache([updatedSheet])
         return updatedSheet
       })
       .catch((error) => {
