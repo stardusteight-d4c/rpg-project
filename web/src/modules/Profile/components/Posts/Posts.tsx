@@ -156,7 +156,7 @@ export const Posts: React.FC<{ user: IUser }> = ({ user }) => {
                     <Post post={post} />
                   </div>
                 ))}
-                {!postEvents.gettingPosts && (
+                {postEvents.gettingPosts && (
                   <div className="max-w-[632px] min-w-[632px] space-y-4 w-full">
                     {Array.from({ length: 2 }).map((_, index) => (
                       <PostSkeleton key={index} />
@@ -176,7 +176,7 @@ export const Posts: React.FC<{ user: IUser }> = ({ user }) => {
                     <Post post={post} />
                   </div>
                 ))}
-                {!postEvents.gettingPosts && (
+                {postEvents.gettingPosts && (
                   <div className="max-w-[632px] min-w-[632px] space-y-4 w-full">
                     {Array.from({ length: 2 }).map((_, index) => (
                       <PostSkeleton key={index} />

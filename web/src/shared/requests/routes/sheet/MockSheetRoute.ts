@@ -1,9 +1,9 @@
 export class MockSheetRoute implements ISheetRoute {
   static #instance: MockSheetRoute | null = null
-  #sheets: Array<ISheet>
+  #sheets: Map<string, ISheet>
 
   private constructor() {
-    this.#sheets = []
+    this.#sheets = new Map()
   }
 
   public static getInstance(): MockSheetRoute {
@@ -19,32 +19,31 @@ export class MockSheetRoute implements ISheetRoute {
       tableId: sheet.tableId ?? undefined,
       id: crypto.randomUUID(),
     }
-    this.#sheets.push(newSheet)
+    this.#sheets.set(newSheet.id, newSheet)
     return newSheet
   }
 
   public async update(sheet: Partial<ISheet>): Promise<ISheet> {
-    const existingSheetIndex = this.#sheets.findIndex((s) => s.id === sheet.id)
-
-    if (existingSheetIndex === -1) {
+    if (!sheet.id || !this.#sheets.has(sheet.id)) {
       throw new Error("Sheet not found.")
     }
 
-    const existingSheet = this.#sheets[existingSheetIndex]
+    const existingSheet = this.#sheets.get(sheet.id)!
     const updatedSheet = { ...existingSheet, ...sheet }
-    this.#sheets[existingSheetIndex] = updatedSheet
+    this.#sheets.set(sheet.id, updatedSheet)
 
     return updatedSheet
   }
 
   public async delete(sheetId: string): Promise<void> {
-    const newArray = this.#sheets.filter((sheet) => sheet.id !== sheetId)
-    this.#sheets = newArray
+    this.#sheets.delete(sheetId)
   }
 
   public async list(queryParams?: ListSheetsDTO): Promise<Array<ISheet>> {
-    if (!queryParams) return this.#sheets
-    return this.#sheets.filter((sheet) => {
+    const sheetsArray = [...this.#sheets.values()]
+    if (!queryParams) return sheetsArray
+
+    return sheetsArray.filter((sheet) => {
       const isMatchingId =
         !queryParams.sheetId || sheet.id === queryParams.sheetId
       const isMatchingOwner =

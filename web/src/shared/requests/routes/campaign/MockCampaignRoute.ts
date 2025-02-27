@@ -2,11 +2,11 @@ import { MockUserRoute } from "../user/MockUserRoute"
 
 export class MockCampaignRoute implements ICampaignRoute {
   static #instance: MockCampaignRoute | null = null
-  #campaigns: Array<ICampaign>
+  #campaigns: Map<string, ICampaign>
   #inMemoryUserRoute: IUserRoute
 
   private constructor() {
-    this.#campaigns = []
+    this.#campaigns = new Map()
     this.#inMemoryUserRoute = MockUserRoute.getInstance()
   }
 
@@ -30,33 +30,26 @@ export class MockCampaignRoute implements ICampaignRoute {
       tableId: crypto.randomUUID(),
       createdAt: new Date().toISOString(),
     }
-    this.#campaigns.push(newCampaign)
+    this.#campaigns.set(newCampaign.id, newCampaign)
     return newCampaign
   }
 
   public async delete(campaignId: string): Promise<void> {
     await new Promise((resolve) => setTimeout(resolve, 5000))
 
-    const newArray = this.#campaigns.filter(
-      (campaign) => campaign.id !== campaignId
-    )
-    this.#campaigns = newArray
+    this.#campaigns.delete(campaignId)
   }
 
   public async update(campaign: Partial<ICampaign>): Promise<ICampaign> {
     await new Promise((resolve) => setTimeout(resolve, 5000))
 
-    const existingCampaignIndex = this.#campaigns.findIndex(
-      (c) => c.id === campaign.id
-    )
-
-    if (existingCampaignIndex === -1) {
+    if (!campaign.id || !this.#campaigns.has(campaign.id)) {
       throw new Error("Campaign not found.")
     }
 
-    const existingCampaign = this.#campaigns[existingCampaignIndex]
+    const existingCampaign = this.#campaigns.get(campaign.id)!
     const updatedCampaign = { ...existingCampaign, ...campaign }
-    this.#campaigns[existingCampaignIndex] = updatedCampaign
+    this.#campaigns.set(campaign.id, updatedCampaign)
 
     return updatedCampaign
   }
@@ -64,8 +57,10 @@ export class MockCampaignRoute implements ICampaignRoute {
   public async list(queryParams?: ListCampaignsDTO): Promise<Array<ICampaign>> {
     await new Promise((resolve) => setTimeout(resolve, 5000))
 
+    let filteredCampaigns = Array.from(this.#campaigns.values())
+
     if (queryParams?.search) {
-      return this.#campaigns.filter((campaign) =>
+      filteredCampaigns = filteredCampaigns.filter((campaign) =>
         campaign.name
           .toLocaleLowerCase()
           .includes(queryParams.name?.toLocaleLowerCase()!)
@@ -75,7 +70,7 @@ export class MockCampaignRoute implements ICampaignRoute {
     const users = await this.#inMemoryUserRoute.list()
     const usersMap = new Map(users.map((user) => [user.id, user]))
 
-    let filteredCampaigns = this.#campaigns.filter((campaign) => {
+    filteredCampaigns = filteredCampaigns.filter((campaign) => {
       const isMatchingId =
         !queryParams?.campaignId || campaign.id === queryParams.campaignId
       const isMatchingOwner =
@@ -85,11 +80,9 @@ export class MockCampaignRoute implements ICampaignRoute {
       return isMatchingId && isMatchingOwner && isMatchingStatus
     })
 
-    filteredCampaigns = filteredCampaigns.map((campaign) => {
+    return filteredCampaigns.map((campaign) => {
       const updatedOwner = usersMap.get(campaign.owner.id) ?? campaign.owner
       return { ...campaign, owner: updatedOwner }
     })
-
-    return filteredCampaigns
   }
 }

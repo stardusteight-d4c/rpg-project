@@ -2,11 +2,11 @@ import { MockUserRoute } from "../user/MockUserRoute"
 
 export class MockPostRoute implements IPostRoute {
   static #instance: MockPostRoute | null = null
-  #posts: Array<IPost>
+  #posts: Map<string, IPost>
   #inMemoryUserRoute: IUserRoute
 
   private constructor() {
-    this.#posts = []
+    this.#posts = new Map()
     this.#inMemoryUserRoute = MockUserRoute.getInstance()
   }
 
@@ -26,22 +26,20 @@ export class MockPostRoute implements IPostRoute {
       createdAt: new Date().toISOString(),
     }
 
-    this.#posts.push(newPost)
+    this.#posts.set(newPost.id, newPost)
     return newPost
   }
 
   public async update(post: Partial<IPost>): Promise<IPost> {
     await new Promise((resolve) => setTimeout(resolve, 5000))
 
-    const existingPostIndex = this.#posts.findIndex((p) => p.id === post.id)
-
-    if (existingPostIndex === -1) {
+    if (!post.id || !this.#posts.has(post.id)) {
       throw new Error("Post not found.")
     }
 
-    const existingPost = this.#posts[existingPostIndex]
+    const existingPost = this.#posts.get(post.id)!
     const updatedPost = { ...existingPost, ...post }
-    this.#posts[existingPostIndex] = updatedPost
+    this.#posts.set(post.id, updatedPost)
 
     return updatedPost
   }
@@ -49,11 +47,9 @@ export class MockPostRoute implements IPostRoute {
   public async delete(postId: string): Promise<void> {
     await new Promise((resolve) => setTimeout(resolve, 5000))
 
-    const postIndex = this.#posts.findIndex((post) => post.id === postId)
-    if (postIndex === -1) {
+    if (!this.#posts.delete(postId)) {
       throw new Error("Post not found.")
     }
-    this.#posts.splice(postIndex, 1)
   }
 
   public async list(
@@ -61,7 +57,7 @@ export class MockPostRoute implements IPostRoute {
   ): Promise<ListPostsResponseDTO<IPost>> {
     await new Promise((resolve) => setTimeout(resolve, 5000))
 
-    let filteredPosts = this.#posts
+    let filteredPosts = Array.from(this.#posts.values())
 
     if (queryParams?.campaignId) {
       filteredPosts = filteredPosts.filter(

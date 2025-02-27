@@ -7,6 +7,11 @@ interface IUserRoute {
   create(user: CreateUserDTO): Promise<IUser>
   update(user: Partial<IUser>): Promise<IUser>
   list(queryParams?: ListUsersDTO): Promise<Array<IUser>>
+  follow(userFollowId: string, userSessionId: string): Promise<void>
+  // Na requisição real mandar apenas o userId, e pegar a sessão via cookies
+  unfollow(userFollowId: string, userSessionId: string): Promise<void>
+  followers(userId: string): Promise<Array<IUser>>
+  following(userId: string): Promise<Array<IUser>>
 }
 
 interface ISheetRoute {
