@@ -18,6 +18,8 @@ interface IUser {
   koalCampaigns: number
   playingCampaigns: number
   createdAt: string
+  following: string[]
+  followers: string[]
 }
 
 interface TableUser extends IUser {

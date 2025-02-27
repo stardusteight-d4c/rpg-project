@@ -42,15 +42,15 @@ const defaultState: PostsState = {
     gettingPosts: false,
     updatingPost: false,
   },
-  add: async (post: IPost, currentPage?: number) => {},
-  update: async (post: Partial<IPost>) => {},
-  remove: async (postId: string) => {},
-  getByCampaign: async (queryParams: ListPostsDTO) => ({
+  add: async () => {},
+  update: async () => {},
+  remove: async () => {},
+  getByCampaign: async () => ({
     items: [],
     totalItems: 0,
     totalPages: 0,
   }),
-  getByUser: async (queryParams: ListPostsDTO) => ({
+  getByUser: async () => ({
     items: [],
     totalItems: 0,
     totalPages: 0,

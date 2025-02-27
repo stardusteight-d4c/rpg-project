@@ -19,10 +19,10 @@ interface SheetsState {
 
 const defaultState: SheetsState = {
   userSheets: [],
-  add: async (sheet: ISheet) => {},
-  update: async (sheet: Partial<ISheet>) => {},
-  getUserSheets: async (userId: string) => [],
-  remove: async (sheetId: string) => {},
+  add: async () => {},
+  update: async () => {},
+  getUserSheets: async () => [],
+  remove: async () => {},
 }
 
 const SheetsContext = createContext<SheetsState>(defaultState)

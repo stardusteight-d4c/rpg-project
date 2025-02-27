@@ -1,11 +1,9 @@
 export class MockUserRoute implements IUserRoute {
   static #instance: MockUserRoute | null = null
   #users: Map<string, IUser & { password: string }>
-  #follows: Map<string, Set<string>>
 
   private constructor() {
     this.#users = new Map()
-    this.#follows = new Map()
   }
 
   public static getInstance(): MockUserRoute {
@@ -36,6 +34,8 @@ export class MockUserRoute implements IUserRoute {
       hoursPlayed: 0,
       avatarUrl: undefined,
       coverImage: undefined,
+      following: [],
+      followers: [],
       exp: {
         current: 0,
         level: 0,
@@ -47,7 +47,6 @@ export class MockUserRoute implements IUserRoute {
     }
 
     this.#users.set(newUser.id, newUser)
-    this.#follows.set(newUser.id, new Set())
     return newUser
   }
 
@@ -83,52 +82,105 @@ export class MockUserRoute implements IUserRoute {
   }
 
   public async follow(
-    userFollowId: string,
-    userSessionId: string
-  ): Promise<void> {
-    if (userFollowId === userSessionId) {
+    userFollowed: string,
+    userFollowing: string
+  ): Promise<{ updatedFollowedUser: IUser; updatedFollowingUser: IUser }> {
+    if (userFollowing === userFollowed) {
       throw new Error("You cannot follow yourself.")
     }
 
-    const followerSet = this.#follows.get(userSessionId)
-    if (!followerSet) {
-      throw new Error("User session not found.")
+    const followedFound = this.#users.get(userFollowed)
+    if (!followedFound) {
+      throw new Error("Followed user not found")
     }
 
-    followerSet.add(userFollowId)
+    const followingFound = this.#users.get(userFollowing)
+    if (!followingFound) {
+      throw new Error("Following user not found")
+    }
+
+    const updatedFollowedUser = {
+      ...followedFound,
+      followers: [...followedFound.followers, userFollowing],
+    }
+    const updatedFollowingUser = {
+      ...followingFound,
+      following: [...followingFound.following, userFollowed],
+    }
+
+    this.#users.set(
+      userFollowed,
+      updatedFollowedUser as IUser & { password: string }
+    )
+    this.#users.set(
+      userFollowing,
+      updatedFollowingUser as IUser & { password: string }
+    )
+    return { updatedFollowedUser, updatedFollowingUser }
   }
 
   public async unfollow(
-    userFollowId: string,
-    userSessionId: string
-  ): Promise<void> {
-    const followerSet = this.#follows.get(userSessionId)
-    if (!followerSet) {
-      throw new Error("User session not found.")
+    userFollowed: string,
+    userFollowing: string
+  ): Promise<{ updatedFollowedUser: IUser; updatedFollowingUser: IUser }> {
+    const followedFound = this.#users.get(userFollowed)
+    if (!followedFound) {
+      throw new Error("Followed user not found")
     }
 
-    followerSet.delete(userFollowId)
+    const followingFound = this.#users.get(userFollowing)
+    if (!followingFound) {
+      throw new Error("Following user not found")
+    }
+
+    const updatedFollowedUser = {
+      ...followedFound,
+      followers: followedFound.followers.filter(
+        (follow) => follow !== userFollowing
+      ),
+    }
+    const updatedFollowingUser = {
+      ...followingFound,
+      following: followingFound.following.filter(
+        (follow) => follow !== userFollowed
+      ),
+    }
+
+    this.#users.set(
+      userFollowed,
+      updatedFollowedUser as IUser & { password: string }
+    )
+    this.#users.set(
+      userFollowing,
+      updatedFollowingUser as IUser & { password: string }
+    )
+
+    return { updatedFollowedUser, updatedFollowingUser }
   }
 
   public async followers(userId: string): Promise<Array<IUser>> {
-    const followers: IUser[] = []
-
-    this.#follows.forEach((followedUsers, followerId) => {
-      if (followedUsers.has(userId)) {
-        const user = this.#users.get(followerId)
-        if (user) {
-          followers.push(user)
-        }
-      }
-    })
+    const user = this.#users.get(userId)
+    if (!user) {
+      throw new Error("User not found")
+    }
+    const followersIds = user.followers || []
+    const followers = followersIds
+      .map((id) => this.#users.get(id))
+      .filter((user) => user !== undefined) as IUser[]
 
     return followers
   }
 
   public async following(userId: string): Promise<Array<IUser>> {
-    const followedUserIds = this.#follows.get(userId) || new Set()
-    return [...this.#users.values()].filter((user) =>
-      followedUserIds.has(user.id)
-    )
+    const user = this.#users.get(userId)
+    if (!user) {
+      throw new Error("User not found")
+    }
+    const followingIds = user.following || []
+    const following = followingIds
+      .map((id) => this.#users.get(id))
+      .filter((user) => user !== undefined) as IUser[]
+
+    return following
   }
 }

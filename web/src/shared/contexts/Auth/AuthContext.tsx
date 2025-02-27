@@ -21,7 +21,7 @@ const defaultState: AuthState = {
   signUp: async () => {},
   signIn: async () => {},
   logout: () => {},
-  updateSession: (updatedUser: IUser) => {}
+  updateSession: () => {},
   // addSession: () => {},
   // getToken: () => null,
   // signUpWithGoogle: async () => {},
@@ -134,7 +134,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         signUp,
         signIn,
         logout,
-        updateSession
+        updateSession,
         // getToken,
         // signUpWithGoogle,
         // addSession,

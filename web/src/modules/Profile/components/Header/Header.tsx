@@ -6,17 +6,40 @@ import { useState } from "react"
 import { EditProfileModal } from "./components/EditProfileModal"
 import { FollowingModal } from "./components/FollowingModal"
 import { FollowersModal } from "./components/FollowersModal"
+import { useUsers } from "@/shared/contexts/Users/UsersContext"
+import { useToast } from "@/shared/contexts/Toaster/ToasterContext"
 
 export const Header: React.FC<{ user: IUser }> = ({ user }) => {
-  const { currentSession } = useAuth()
-
+  const { currentSession, updateSession } = useAuth()
+  const { follow, unfollow } = useUsers()
+  const { addToast } = useToast()
   const [isOpenEditModal, setIsOpenEditModal] = useState<boolean>(false)
   const [isOpenFollowingModal, setIsOpenFollowingModal] =
     useState<boolean>(false)
   const [isOpenFollowersModal, setIsOpenFollowersModal] =
     useState<boolean>(false)
 
-  const following = true
+    const onFollow = async () => {
+    await follow(user.id, currentSession!.id)
+      .then((updatedUser) => {
+        updatedUser && updateSession(updatedUser)
+      })
+      .catch((error) => {
+        addToast(error.message, "error", 45)
+      })
+  }
+
+  const onUnfollow = async () => {
+    await unfollow(user.id, currentSession!.id)
+      .then((updatedUser) => {
+        updatedUser && updateSession(updatedUser)
+      })
+      .catch((error) => {
+        addToast(error.message, "error", 45)
+      })
+  }
+
+  if (!currentSession) return null
 
   return (
     <>
@@ -46,10 +69,13 @@ export const Header: React.FC<{ user: IUser }> = ({ user }) => {
       )}
       <div className="max-w-7xl h-[150px] z-[500] mx-auto relative">
         <div className="absolute w-full  -top-[55px] left-[0px] flex items-center gap-x-2">
-          {user.id !== currentSession?.id && (
+          {user.id !== currentSession.id && (
             <>
-              {following ? (
-                <span className="bg-background hover:bg-red-500 flex items-center pr-3 gap-x-2 cursor-pointer shadow-sm shadow-black/50 duration-300 ease-in-out transition-all p-2 rounded-full">
+              {user.followers.includes(currentSession.id) ? (
+                <span
+                  onClick={onUnfollow}
+                  className="bg-background hover:bg-red-500 flex items-center pr-3 gap-x-2 cursor-pointer shadow-sm shadow-black/50 duration-300 ease-in-out transition-all p-2 rounded-full"
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="32"
@@ -62,7 +88,10 @@ export const Header: React.FC<{ user: IUser }> = ({ user }) => {
                   <span className="font-medium">Unfollow</span>
                 </span>
               ) : (
-                <span className="bg-background flex items-center pr-3 gap-x-2 cursor-pointer shadow-sm shadow-black/50 hover:bg-gradient-to-tr hover:from-[#42d392] hover:to-[#8B5CF6] duration-300 ease-in-out transition-all p-2 rounded-full">
+                <span
+                  onClick={onFollow}
+                  className="bg-background flex items-center pr-3 gap-x-2 cursor-pointer shadow-sm shadow-black/50 hover:bg-gradient-to-tr hover:from-[#42d392] hover:to-[#8B5CF6] duration-300 ease-in-out transition-all p-2 rounded-full"
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="32"

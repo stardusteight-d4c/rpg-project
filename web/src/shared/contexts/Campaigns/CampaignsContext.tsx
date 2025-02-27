@@ -38,11 +38,11 @@ const defaultState: CampaignsState = {
   campaign: undefined,
   campaignEvents: initialEvents,
   add: async () => {},
-  searchByName: async (name: string) => [],
-  getUserCampaigns: async (userId: string) => [],
-  getById: async (campaignId: string) => undefined,
-  update: async (campaign: Partial<ICampaign>) => {},
-  remove: async (campaignId: string) => {},
+  searchByName: async () => [],
+  getUserCampaigns: async () => [],
+  getById: async () => undefined,
+  update: async () => {},
+  remove: async () => {},
 }
 
 const CampaignsContext = createContext<CampaignsState>(defaultState)
