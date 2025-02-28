@@ -25,6 +25,7 @@ interface PostsState {
   add: (post: IPost, currentPage?: number) => Promise<IPost | void>
   update: (post: Partial<IPost>) => Promise<IPost | void>
   remove: (postId: string) => Promise<void>
+  
   getByCampaign: (
     queryParams: ListPostsDTO
   ) => Promise<ListPostsResponseDTO<IPost>>

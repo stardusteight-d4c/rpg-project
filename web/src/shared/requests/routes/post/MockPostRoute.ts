@@ -23,6 +23,7 @@ export class MockPostRoute implements IPostRoute {
     const newPost: IPost = {
       ...post,
       id: crypto.randomUUID(),
+      likes: [],
       createdAt: new Date().toISOString(),
     }
 
@@ -49,6 +50,81 @@ export class MockPostRoute implements IPostRoute {
 
     if (!this.#posts.delete(postId)) {
       throw new Error("Post not found.")
+    }
+  }
+
+  public async comment(postId: string, comment: IComment): Promise<IComment> {
+    const post = this.#posts.get(postId)
+    if (!post) {
+      throw new Error("Post not found")
+    }
+
+    const newComment: IComment = {
+      ...comment,
+      id: crypto.randomUUID(),
+      createdAt: new Date().toISOString(),
+    }
+
+    post.comments.push(newComment)
+    post.commentsCount = (post.commentsCount || 0) + 1
+
+    this.#posts.set(postId, post)
+    return newComment
+  }
+
+  public async updatedComment(comment: Partial<IComment>): Promise<IComment> {
+    if (!comment.id) {
+      throw new Error("Comment ID is required")
+    }
+
+    for (const post of this.#posts.values()) {
+      const index = post.comments.findIndex((c) => c.id === comment.id)
+      if (index !== -1) {
+        post.comments[index] = { ...post.comments[index], ...comment }
+        this.#posts.set(post.id, post)
+        return post.comments[index]
+      }
+    }
+    throw new Error("Comment not found")
+  }
+
+  public async deleteComment(commentId: string): Promise<void> {
+    for (const post of this.#posts.values()) {
+      const index = post.comments.findIndex((c) => c.id === commentId)
+      if (index !== -1) {
+        post.comments.splice(index, 1)
+        post.commentsCount = Math.max((post.commentsCount || 1) - 1, 0)
+        this.#posts.set(post.id, post)
+        return
+      }
+    }
+    throw new Error("Comment not found")
+  }
+
+  public async like(postId: string, userId: string): Promise<void> {
+    const post = this.#posts.get(postId)
+    if (!post) {
+      throw new Error("Post not found")
+    }
+
+    if (!post.likes.includes(userId)) {
+      post.likes.push(userId)
+      post.likesCount = post.likes.length
+      this.#posts.set(postId, post)
+    }
+  }
+
+  public async unlike(postId: string, userId: string): Promise<void> {
+    const post = this.#posts.get(postId)
+    if (!post) {
+      throw new Error("Post not found")
+    }
+
+    const index = post.likes.indexOf(userId)
+    if (index !== -1) {
+      post.likes.splice(index, 1)
+      post.likesCount = post.likes.length
+      this.#posts.set(postId, post)
     }
   }
 

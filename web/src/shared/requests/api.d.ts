@@ -11,7 +11,6 @@ interface IUserRoute {
     userFollowed: string,
     userFollowing: string
   ): Promise<{ updatedFollowedUser: IUser; updatedFollowingUser: IUser }>
-  // Na requisição real mandar apenas o userId, e pegar a sessão via cookies
   unfollow(
     userFollowed: string,
     userFollowing: string
@@ -38,5 +37,10 @@ interface IPostRoute {
   create(post: IPost): Promise<IPost>
   update(post: Partial<IPost>): Promise<IPost>
   delete(postId): Promise<void>
+  comment(postId: string, comment: IComment): Promise<IComment>
+  updatedComment(comment: Partial<IComment>): Promise<IComment>
+  deleteComment(commentId: string): Promise<void>
+  like(postId: string, userId: string): Promise<void>
+  unlike(postId: string, userId: string): Promise<void>
   list(queryParams?: ListPostsDTO): Promise<ListPostsResponseDTO<IPost>>
 }

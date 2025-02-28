@@ -5,6 +5,7 @@ interface IPost {
   content: string
   image?: string | undefined
   commentsCount?: number
+  likes: Array<string>
   likesCount?: number
   likedByUser?: boolean
   comments: Array<IComment>
@@ -30,4 +31,3 @@ interface ListPostsResponseDTO<T> {
   totalItems: number
   totalPages: number
 }
-
