@@ -2,7 +2,7 @@ import { usePosts } from "@/shared/contexts/Posts/PostsContext"
 import React, { useEffect, useState, useCallback } from "react"
 import { Post } from "@/modules/Feed/components/Post/Post"
 import { useToast } from "@/shared/contexts/Toaster/ToasterContext"
-import { PostSkeleton } from "@/modules/Feed/components/Post/PostSkeleton"
+import { Loader } from "@/modules/Feed/components/Post/Loader"
 
 export const Posts: React.FC<{ user: IUser }> = ({ user }) => {
   const { getByUser, postEvents } = usePosts()
@@ -147,45 +147,33 @@ export const Posts: React.FC<{ user: IUser }> = ({ user }) => {
         <div>
           <div className="flex items-start justify-start rounded-xl w-full gap-4">
             <div className="flex flex-col gap-4">
-              <>
-                {userPostsI.map((post) => (
-                  <div
-                    key={post.id}
-                    className="max-w-[632px] h-fit min-w-[632px] w-full relative rounded-xl"
-                  >
-                    <Post post={post} />
-                  </div>
-                ))}
-                {postEvents.gettingPosts && (
-                  <div className="max-w-[632px] min-w-[632px] space-y-4 w-full">
-                    {Array.from({ length: 2 }).map((_, index) => (
-                      <PostSkeleton key={index} />
-                    ))}
-                  </div>
-                )}
-              </>
+              {userPostsI.map((post) => (
+                <div
+                  key={post.id}
+                  className="max-w-[632px] h-fit min-w-[632px] w-full relative rounded-xl"
+                >
+                  <Post post={post} />
+                </div>
+              ))}
             </div>
 
             <div className="flex flex-col gap-4">
-              <>
-                {userPostsII.map((post) => (
-                  <div
-                    key={post.id}
-                    className="max-w-[632px] h-fit min-w-[632px] w-full relative rounded-xl"
-                  >
-                    <Post post={post} />
-                  </div>
-                ))}
-                {postEvents.gettingPosts && (
-                  <div className="max-w-[632px] min-w-[632px] space-y-4 w-full">
-                    {Array.from({ length: 2 }).map((_, index) => (
-                      <PostSkeleton key={index} />
-                    ))}
-                  </div>
-                )}
-              </>
+              {userPostsII.map((post) => (
+                <div
+                  key={post.id}
+                  className="max-w-[632px] h-fit min-w-[632px] w-full relative rounded-xl"
+                >
+                  <Post post={post} />
+                </div>
+              ))}
             </div>
           </div>
+          {postEvents.gettingPosts && (
+
+            <div className="flex mt-44 items-center justify-center w-full">
+            <Loader />
+          </div>
+          )}
         </div>
       )}
     </div>

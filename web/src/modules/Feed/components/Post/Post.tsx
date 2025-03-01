@@ -64,7 +64,7 @@ export const Post = ({ post }: { post: IPost }) => {
   }
 
   return (
-    <div className="flex relative bg-background w-full border border-border rounded-xl pt-2 flex-col">
+    <div className="flex relative bg-background w-full border border-border rounded-xl pt-4 flex-col">
       <ModalWrapper
         title="Editing Post"
         onStatusChange={setOpenEditPost}

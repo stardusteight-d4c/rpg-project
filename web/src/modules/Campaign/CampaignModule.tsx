@@ -16,7 +16,7 @@ import { Post } from "../Feed/components/Post/Post"
 import { CreatePostInput } from "../Feed/components/Post/CreatePostInput"
 import { usePosts } from "@/shared/contexts/Posts/PostsContext"
 import { Pagination } from "./components/Pagination"
-import { PostSkeleton } from "../Feed/components/Post/PostSkeleton"
+import { PostSkeleton } from "../Feed/components/Post/Loader"
 
 export function CampaignModule() {
   const { push } = useRouter()
