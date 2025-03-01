@@ -9,12 +9,59 @@ import { CommentInput } from "./CommentInput"
 import { useRouter } from "next/navigation"
 import { useAuth } from "@/shared/contexts/Auth/AuthContext"
 import { getNameInitials } from "@/shared/utils/getNameInitials"
+import { usePosts } from "@/shared/contexts/Posts/PostsContext"
+import { useToast } from "@/shared/contexts/Toaster/ToasterContext"
 
 export const Post = ({ post }: { post: IPost }) => {
   const { push } = useRouter()
+  const [postState, setPostState] = useState<IPost>({
+    ...post,
+    likesCount: post.likesCount ?? 0,
+  })
+  const { like, unlike } = usePosts()
+  const { addToast } = useToast()
   const { currentSession } = useAuth()
+  const [loading, setLoading] = useState<boolean>(false)
   const [showComments, setShowComments] = useState<boolean>(false)
   const [openEditPost, setOpenEditPost] = useState<boolean>(false)
+
+  const onLike = () => {
+    if (loading) return
+    setLoading(true)
+    like(post.id, currentSession!.id)
+      .then(() => {
+        setPostState((prev) => ({
+          ...prev,
+          likedByUser: true,
+          likesCount: prev.likesCount!++,
+        }))
+      })
+      .catch((error) => {
+        addToast(error.message, "error", 45)
+      })
+      .finally(() => {
+        setLoading(false)
+      })
+  }
+
+  const onUnlike = () => {
+    if (loading) return
+    setLoading(true)
+    unlike(post.id, currentSession!.id)
+      .then(() => {
+        setPostState((prev) => ({
+          ...prev,
+          likedByUser: false,
+          likesCount: prev.likesCount === 0 ? 0 : prev.likesCount!--,
+        }))
+      })
+      .catch((error) => {
+        addToast(error.message, "error", 45)
+      })
+      .finally(() => {
+        setLoading(false)
+      })
+  }
 
   return (
     <div className="flex relative bg-background w-full border border-border rounded-xl pt-2 flex-col">
@@ -112,15 +159,9 @@ export const Post = ({ post }: { post: IPost }) => {
         } pt-2 rounded-b-xl bg-border mt-2 flex flex-col gap-y-2`}
       >
         <div className="px-4 flex items-center gap-x-2">
-          {post.likedByUser ? (
+          {post.likes.includes(currentSession!.id) ? (
             <button
-              // onClick={() =>
-              //   updatePost(post.id, {
-              //     ...post,
-              //     likedByUser: false,
-              //     likesCount: post.likesCount && post.likesCount - 1,
-              //   })
-              // }
+              onClick={onUnlike}
               className="bg-background flex items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50 hover:bg-button duration-300 ease-in-out transition-all"
             >
               <svg
@@ -151,13 +192,7 @@ export const Post = ({ post }: { post: IPost }) => {
             </button>
           ) : (
             <button
-              // onClick={() =>
-              //   updatePost(post.id, {
-              //     ...post,
-              //     likedByUser: true,
-              //     likesCount: post.likesCount ? post.likesCount + 1 : 1,
-              //   })
-              // }
+              onClick={onLike}
               className="bg-background flex items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50 hover:bg-button duration-300 ease-in-out transition-all"
             >
               <svg

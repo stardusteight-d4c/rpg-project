@@ -25,7 +25,11 @@ interface PostsState {
   add: (post: IPost, currentPage?: number) => Promise<IPost | void>
   update: (post: Partial<IPost>) => Promise<IPost | void>
   remove: (postId: string) => Promise<void>
-  
+  comment(postId: string, comment: IComment): Promise<IComment | void>
+  updatedComment(comment: Partial<IComment>): Promise<IComment | void>
+  deleteComment(commentId: string): Promise<void>
+  like(postId: string, userId: string): Promise<void>
+  unlike(postId: string, userId: string): Promise<void>
   getByCampaign: (
     queryParams: ListPostsDTO
   ) => Promise<ListPostsResponseDTO<IPost>>
@@ -46,6 +50,11 @@ const defaultState: PostsState = {
   add: async () => {},
   update: async () => {},
   remove: async () => {},
+  comment: async () => {},
+  updatedComment: async () => {},
+  deleteComment: async () => {},
+  like: async () => {},
+  unlike: async () => {},
   getByCampaign: async () => ({
     items: [],
     totalItems: 0,
@@ -202,6 +211,36 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
       })
   }
 
+  const comment = async (postId: string, comment: IComment) => {
+    return await api.post.comment(postId, comment).catch((error) => {
+      throw new Error(error.message)
+    })
+  }
+
+  const updatedComment = async (comment: Partial<IComment>) => {
+    return await api.post.updatedComment(comment).catch((error) => {
+      throw new Error(error.message)
+    })
+  }
+
+  const deleteComment = async (commentId: string) => {
+    return await api.post.deleteComment(commentId).catch((error) => {
+      throw new Error(error.message)
+    })
+  }
+
+  const like = async (postId: string, userId: string) => {
+    return await api.post.like(postId, userId).catch((error) => {
+      throw new Error(error.message)
+    })
+  }
+
+  const unlike = async (postId: string, userId: string) => {
+    return await api.post.unlike(postId, userId).catch((error) => {
+      throw new Error(error.message)
+    })
+  }
+
   return (
     <PostsContext.Provider
       value={{
@@ -211,6 +250,11 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
         update,
         remove,
         add,
+        comment,
+        updatedComment,
+        deleteComment,
+        like,
+        unlike,
         getByCampaign,
         getByUser,
       }}
