@@ -380,8 +380,8 @@ body {
   z-index: 1;
 }
 .eye {
-  display: flex;
   margin-top: -118px;
+  display: flex;
   position: absolute;
   width: 3rem;
   height: 3rem;
@@ -511,33 +511,25 @@ body {
   }
 }
 
+
 @keyframes blink {
   20% {
     transform: translate(0, 0);
-    height: 2rem;
   }
-
-  30% {
-    height: 0;
-  }
-
   40% {
     transform: translate(5px, 10px);
-    height: 0;
   }
-
-  50% {
-    height: 2rem;
+  60% {
+    transform: translate(-10px, -10px); /* Olha para a esquerda */
   }
-
-  70% {
-    transform: translate(-10px, -10px);
+  75% {
+    transform: translate(8px, -5px); /* Olha rapidamente para a direita */
   }
-
   90% {
-    transform: translate(0, 0);
+    transform: translate(0, 0); /* Volta ao centro */
   }
 }
+
 
 @keyframes pulse {
   0% {

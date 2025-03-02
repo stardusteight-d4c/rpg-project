@@ -16,7 +16,7 @@ import { Post } from "../Feed/components/Post/Post"
 import { CreatePostInput } from "../Feed/components/Post/CreatePostInput"
 import { usePosts } from "@/shared/contexts/Posts/PostsContext"
 import { Pagination } from "./components/Pagination"
-import { PostSkeleton } from "../Feed/components/Post/Loader"
+import { Loader } from "../Feed/components/Post/Loader"
 
 export function CampaignModule() {
   const { push } = useRouter()
@@ -448,10 +448,8 @@ export function CampaignModule() {
                 ) : (
                   <div>
                     {postEvents.gettingPosts ? (
-                      <div className="flex flex-col gap-y-4 rounded-3xl w-full">
-                        {Array.from({ length: 3 }).map((_, index) => (
-                          <PostSkeleton key={index} />
-                        ))}
+                      <div className="flex flex-col items-center justify-center mt-[150px] py-8">
+                          <Loader  />
                       </div>
                     ) : (
                       <div className="flex flex-col gap-y-4 rounded-3xl w-full">

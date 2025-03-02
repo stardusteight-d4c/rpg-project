@@ -70,9 +70,9 @@ export const Notifications = () => {
       <div>
         {notifications.map((notification) =>
           notification.owner ? (
-            <MasterNotification notification={notification} />
+            <MasterNotification key={notification.id} notification={notification} />
           ) : (
-            <PlayerNotification notification={notification} />
+            <PlayerNotification key={notification.id} notification={notification} />
           )
         )}
       </div>

@@ -1,11 +1,16 @@
 "use client"
 
 import { GlowingWrapper } from "@/shared/components"
-import { currentSession } from "@/shared/contexts/Users/mock-data"
+import { useAuth } from "@/shared/contexts/Auth/AuthContext"
+import { usePosts } from "@/shared/contexts/Posts/PostsContext"
+import { useToast } from "@/shared/contexts/Toaster/ToasterContext"
 import { ChangeEvent, useState } from "react"
 
 export const CommentInput = ({ postId }: { postId: string }) => {
-  const [comment, setComment] = useState<IComment>({
+  const { currentSession } = useAuth()
+  const { comment } = usePosts()
+  const { addToast } = useToast()
+  const [commentData, setCommentData] = useState<IComment>({
     id: "",
     content: "",
     createdAt: "",
@@ -14,22 +19,27 @@ export const CommentInput = ({ postId }: { postId: string }) => {
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault()
-    setComment((prev) => ({ ...prev, content: e.target.value }))
+    setCommentData((prev) => ({ ...prev, content: e.target.value }))
   }
 
-  // const onSend = () => {
-  //   addComment(postId, {
-  //     ...comment,
-  //     id: crypto.randomUUID(),
-  //     createdAt: new Date().toISOString(),
-  //   })
-  //   setComment({
-  //     id: "",
-  //     content: "",
-  //     createdAt: "",
-  //     owner: currentSession,
-  //   })
-  // }
+  const onSend = () => {
+    comment(postId, {
+      ...commentData,
+      id: crypto.randomUUID(),
+      createdAt: new Date().toISOString(),
+    })
+      .catch((error) => {
+        addToast(error.message, "error", 45)
+      })
+      .finally(() => {
+        setCommentData({
+          id: "",
+          content: "",
+          createdAt: "",
+          owner: currentSession,
+        })
+      })
+  }
 
   return (
     <div className="p-4 bg-background rounded-b-xl">
@@ -37,7 +47,7 @@ export const CommentInput = ({ postId }: { postId: string }) => {
         <GlowingWrapper styles="w-full" border="rounded-3xl" inset="0">
           <input
             onChange={(e) => handleInputChange(e)}
-            value={comment.content}
+            value={commentData.content}
             placeholder="Send a comment"
             spellCheck="false"
             className="p-2 px-4  shadow-sm shadow-black/50 resize-none overflow-y-scroll no-scrollbar w-full cursor-text hover:brightness-125 flex items-center gap-x-1 line-clamp-1 rounded-3xl bg-border/50 border border-border outline-none"
@@ -45,7 +55,7 @@ export const CommentInput = ({ postId }: { postId: string }) => {
         </GlowingWrapper>
 
         <span
-          // onClick={onSend}
+          onClick={onSend}
           className="flex hover:brightness-125 active:scale-95 transition-all duration-300 ease-in-out items-center  justify-center text-white p-2 rounded-full w-fit  shadow-sm shadow-black/50 cursor-pointer bg-button"
         >
           <svg

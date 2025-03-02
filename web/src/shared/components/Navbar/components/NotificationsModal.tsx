@@ -25,27 +25,15 @@ export const NotificationsModal: React.FC<{
             'Invited you to the campaign "The Haunting", your key is: KKLPO-0258',
             "Started following you.",
           ].map((item, index) => (
-            <div className="p-2 border rounded-lg border-border bg-background z-20 ">
+            <div
+              key={index}
+              className="p-2 border rounded-lg border-border bg-background z-20 "
+            >
               <div
                 key={index}
                 className="flex cursor-pointer items-center gap-x-2"
               >
-                <img
-                  src="https://cdn.leonardo.ai/users/f59187cd-91ad-4718-a31d-e9b6e52d8864/generations/1fbb8579-1782-4e30-a161-8898fcb46776/Leonardo_Phoenix_10_A_stylish_animestyle_raccoon_like_the_Rock_2.jpg"
-                  alt=""
-                  referrerPolicy="no-referrer"
-                  className="w-[48px] aspect-square object-cover select-none pointer-events-none h-[48px] border border-border rounded-full"
-                />
-
-                <div className="flex flex-col">
-                  <span className="block whitespace-nowrap text-lg font-bold -tracking-wide">
-                    John Doe
-                  </span>
-                  <span className="text-gray-400 -mt-2 block text-sm">
-                    #Starnine
-                  </span>
-                </div>
-
+                <span className="text-gray-400 block text-sm">#Starnine</span>
                 <div className="text-gray-500/80 select-none flex items-center gap-x-[2px] mt-1 w-full justify-end">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -61,7 +49,7 @@ export const NotificationsModal: React.FC<{
                   </span>
                 </div>
               </div>
-              <span className="text-base text-gray-400 pt-1 block">{item}</span>
+              <span className="text-base text-gray-400 block">{item}</span>
             </div>
           ))}
         </div>

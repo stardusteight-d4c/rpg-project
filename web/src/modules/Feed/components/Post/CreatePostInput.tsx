@@ -23,6 +23,7 @@ export const CreatePostInput: React.FC<{
     createdAt: "",
     image: undefined,
     owner: currentSession!,
+    likes: [],
   })
   const [imageFile, setImageFile] = useState<File | undefined>(undefined)
 
@@ -68,6 +69,7 @@ export const CreatePostInput: React.FC<{
           createdAt: "",
           image: undefined,
           owner: currentSession!,
+          likes: [],
         })
         setImageFile(undefined)
       })

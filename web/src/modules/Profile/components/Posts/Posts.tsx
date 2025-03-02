@@ -169,10 +169,9 @@ export const Posts: React.FC<{ user: IUser }> = ({ user }) => {
             </div>
           </div>
           {postEvents.gettingPosts && (
-
             <div className="flex mt-44 items-center justify-center w-full">
-            <Loader />
-          </div>
+              <Loader />
+            </div>
           )}
         </div>
       )}
