@@ -7,12 +7,7 @@ import { ChangeEvent, useEffect, useRef, useState } from "react"
 
 interface CommentProps {
   postId: string
-  comment: {
-    id: string
-    owner: IUser
-    content: string
-    createdAt: string
-  }
+  comment: IComment
 }
 
 export const Comment = ({ comment, postId }: CommentProps) => {

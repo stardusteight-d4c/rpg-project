@@ -4,16 +4,17 @@ interface IPost {
   campaignId?: string
   content: string
   image?: string | undefined
-  commentsCount?: number
+  commentsCount: number
   likes: Array<string>
-  likesCount?: number
-  likedByUser?: boolean
+  likesCount: number
+  likedByUser: boolean
   comments: Array<IComment>
   createdAt: string
 }
 
 interface IComment {
   id: string
+  postId: string
   owner: User
   content: string
   createdAt: string

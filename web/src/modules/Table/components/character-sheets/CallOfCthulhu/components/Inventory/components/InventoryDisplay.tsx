@@ -68,8 +68,8 @@ export const InventoryDisplay = ({
                   y2="26"
                   gradientUnits="userSpaceOnUse"
                 >
-                  <stop stop-color="#42D392" />
-                  <stop offset="1" stop-color="#8B5CF6" />
+                  <stop stopColor="#42D392" />
+                  <stop offset="1" stopColor="#8B5CF6" />
                 </linearGradient>
               </defs>
             </svg>

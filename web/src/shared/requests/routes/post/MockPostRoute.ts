@@ -22,8 +22,11 @@ export class MockPostRoute implements IPostRoute {
 
     const newPost: IPost = {
       ...post,
+      commentsCount: 0,
+      likesCount: 0,
       id: crypto.randomUUID(),
       likes: [],
+      comments: [],
       createdAt: new Date().toISOString(),
     }
 

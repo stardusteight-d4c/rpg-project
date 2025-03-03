@@ -12,11 +12,12 @@ export const CreatePostInput: React.FC<{
   currentPage?: number
   isFeed?: boolean
 }> = ({ currentPage, isFeed }) => {
-  const { add, postEvents } = usePosts()
+  const { add } = usePosts()
   const { currentSession } = useAuth()
   const { addToast } = useToast()
   const campaignId = useParams().id as string
-  const [postData, setPostData] = useState<IPost>({
+  const [loading, setLoading] = useState<boolean>(false)
+  const [postData, setPostData] = useState<Partial<IPost>>({
     id: "",
     content: "",
     comments: [],
@@ -47,14 +48,18 @@ export const CreatePostInput: React.FC<{
   }
 
   const handleClick = () => {
-    const fileInput = document.getElementById("file-input-post") as HTMLInputElement
+    const fileInput = document.getElementById(
+      "file-input-post"
+    ) as HTMLInputElement
     if (fileInput) {
       fileInput.click()
     }
   }
 
   const onPost = async () => {
-    add({ ...postData, campaignId }, currentPage)
+    if (loading) return null
+    setLoading(true)
+    add({ ...(postData as IPost), campaignId }, currentPage)
       .then(() => {
         addToast("The post has been created!", "success", 45)
       })
@@ -72,6 +77,7 @@ export const CreatePostInput: React.FC<{
           likes: [],
         })
         setImageFile(undefined)
+        setLoading(false)
       })
   }
 
@@ -169,7 +175,7 @@ export const CreatePostInput: React.FC<{
                 </span>
               </div>
             )}
-            {postEvents.creatingPost ? (
+            {loading ? (
               <button className="bg-background cursor-not-allowed ml-auto flex items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50 duration-300 ease-in-out transition-all">
                 <div className="w-fit mx-auto">
                   <svg

@@ -5,7 +5,7 @@ import { useToast } from "@/shared/contexts/Toaster/ToasterContext"
 import { Loader } from "@/modules/Feed/components/Post/Loader"
 
 export const Posts: React.FC<{ user: IUser }> = ({ user }) => {
-  const { getByUser, postEvents } = usePosts()
+  const { getByUser } = usePosts()
   const { addToast } = useToast()
 
   const [userPostsI, setUserPostsI] = useState<IPost[]>([])
@@ -13,76 +13,47 @@ export const Posts: React.FC<{ user: IUser }> = ({ user }) => {
   const [currentPage, setCurrentPage] = useState<number>(1)
   const [lastPage, setLastPage] = useState<number>(10)
   const [request, setRequest] = useState(false)
+  const [loading, setLoading] = useState<boolean>(false)
 
   useEffect(() => {
     ;(async () => {
-      if (postEvents.gettingPosts) return
-      if (postEvents.postUpdated || postEvents.postDeleted) {
-        getByUser({
-          ownerId: user.id,
-          currentPage: 1,
-          pageSize: 4 * currentPage,
-        })
-          .then((posts) => {
-            setUserPostsI((prev) => {
-              const uniquePosts = new Map(
-                [...posts.items.filter((_, index) => index % 2 === 0)].map(
-                  (post) => [post.id, post]
-                )
+      if (loading) return null
+      setLoading(true)
+      getByUser({
+        ownerId: user.id,
+        currentPage: 1,
+        pageSize: 4 * currentPage,
+      })
+        .then((posts) => {
+          setUserPostsI(() => {
+            const uniquePosts = new Map(
+              [...posts.items.filter((_, index) => index % 2 === 0)].map(
+                (post) => [post.id, post]
               )
-              return Array.from(uniquePosts.values())
-            })
-
-            setUserPostsII((prev) => {
-              const uniquePosts = new Map(
-                [...posts.items.filter((_, index) => index % 2 !== 0)].map(
-                  (post) => [post.id, post]
-                )
-              )
-              return Array.from(uniquePosts.values())
-            })
+            )
+            return Array.from(uniquePosts.values())
           })
-          .catch((error) => addToast(error.message, "error"))
-      } else {
-        getByUser({
-          ownerId: user.id,
-          currentPage,
-          pageSize: 4,
-        })
-          .then((posts) => {
-            setUserPostsI((prev) => {
-              const uniquePosts = new Map(
-                [
-                  ...prev,
-                  ...posts.items.filter((_, index) => index % 2 === 0),
-                ].map((post) => [post.id, post])
-              )
-              return Array.from(uniquePosts.values())
-            })
 
-            setUserPostsII((prev) => {
-              const uniquePosts = new Map(
-                [
-                  ...prev,
-                  ...posts.items.filter((_, index) => index % 2 !== 0),
-                ].map((post) => [post.id, post])
+          setUserPostsII(() => {
+            const uniquePosts = new Map(
+              [...posts.items.filter((_, index) => index % 2 !== 0)].map(
+                (post) => [post.id, post]
               )
-              return Array.from(uniquePosts.values())
-            })
-
-            setLastPage(posts.totalPages)
+            )
+            return Array.from(uniquePosts.values())
           })
-          .catch((error) => addToast(error.message, "error"))
-      }
+        })
+        .catch((error) => addToast(error.message, "error"))
+        .finally(() => setLoading(false))
     })()
-  }, [request, postEvents.postDeleted, postEvents.postUpdated])
+  }, [request])
 
   window.onscroll = () => {
     if (
       Math.ceil(window.innerHeight + window.scrollY) >=
       Math.ceil(document.body.offsetHeight)
     ) {
-      if (!postEvents.gettingPosts && currentPage <= lastPage) {
+      if (!loading && currentPage <= lastPage) {
         setCurrentPage((prev) => prev + 1)
         setRequest((prev) => !prev)
       }
@@ -113,8 +84,8 @@ export const Posts: React.FC<{ user: IUser }> = ({ user }) => {
                 y2="29"
                 gradientUnits="userSpaceOnUse"
               >
-                <stop stop-color="#42D392" />
-                <stop offset="1" stop-color="#8B5CF6" />
+                <stop stopColor="#42D392" />
+                <stop offset="1" stopColor="#8B5CF6" />
               </linearGradient>
             </defs>
           </svg>
@@ -123,7 +94,7 @@ export const Posts: React.FC<{ user: IUser }> = ({ user }) => {
           Posts
         </span>
       </h3>
-      {userPostsI.length === 0 && !postEvents.gettingPosts ? (
+      {userPostsI.length === 0 && !loading ? (
         <div className="w-full flex items-center justify-center">
           <div className="p-8 w-full h-[230px] bg-ashes rounded-xl flex flex-col items-center justify-center">
             <div className="col-span-1 w-[50px] h-[50px] flex items-center justify-center bg-border/50 border border-border rounded aspect-square">
@@ -168,7 +139,7 @@ export const Posts: React.FC<{ user: IUser }> = ({ user }) => {
               ))}
             </div>
           </div>
-          {postEvents.gettingPosts && (
+          {loading && (
             <div className="flex mt-44 items-center justify-center w-full">
               <Loader />
             </div>

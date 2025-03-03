@@ -1,6 +1,6 @@
 "use client"
 
-import { GlowingWrapper, ModalWrapper } from "@/shared/components"
+import { ModalWrapper } from "@/shared/components"
 import { timeago } from "@/shared/utils/timeago"
 import { useState } from "react"
 import { PostEdit } from "./PostEdit"
@@ -14,10 +14,6 @@ import { useToast } from "@/shared/contexts/Toaster/ToasterContext"
 
 export const Post = ({ post }: { post: IPost }) => {
   const { push } = useRouter()
-  const [postState, setPostState] = useState<IPost>({
-    ...post,
-    likesCount: post.likesCount ?? 0,
-  })
   const { like, unlike } = usePosts()
   const { addToast } = useToast()
   const { currentSession } = useAuth()
@@ -29,13 +25,6 @@ export const Post = ({ post }: { post: IPost }) => {
     if (loading) return
     setLoading(true)
     like(post.id, currentSession!.id)
-      .then(() => {
-        setPostState((prev) => ({
-          ...prev,
-          likedByUser: true,
-          likesCount: prev.likesCount!++,
-        }))
-      })
       .catch((error) => {
         addToast(error.message, "error", 45)
       })
@@ -48,13 +37,6 @@ export const Post = ({ post }: { post: IPost }) => {
     if (loading) return
     setLoading(true)
     unlike(post.id, currentSession!.id)
-      .then(() => {
-        setPostState((prev) => ({
-          ...prev,
-          likedByUser: false,
-          likesCount: prev.likesCount === 0 ? 0 : prev.likesCount!--,
-        }))
-      })
       .catch((error) => {
         addToast(error.message, "error", 45)
       })
@@ -149,7 +131,7 @@ export const Post = ({ post }: { post: IPost }) => {
             <path d="M140,128a12,12,0,1,1-12-12A12,12,0,0,1,140,128ZM84,116a12,12,0,1,0,12,12A12,12,0,0,0,84,116Zm88,0a12,12,0,1,0,12,12A12,12,0,0,0,172,116Zm60,12A104,104,0,0,1,79.12,219.82L45.07,231.17a16,16,0,0,1-20.24-20.24l11.35-34.05A104,104,0,1,1,232,128Zm-16,0A88,88,0,1,0,51.81,172.06a8,8,0,0,1,.66,6.54L40,216,77.4,203.53a7.85,7.85,0,0,1,2.53-.42,8,8,0,0,1,4,1.08A88,88,0,0,0,216,128Z"></path>
           </svg>
           {post.commentsCount ?? 0}{" "}
-          {post.commentsCount! === 1 ? "Comment" : "Comments"}
+          {post.commentsCount === 1 ? "Comment" : "Comments"}
         </span>
       </div>
 
@@ -185,7 +167,7 @@ export const Post = ({ post }: { post: IPost }) => {
                     gradientUnits="userSpaceOnUse"
                   >
                     <stop stopColor="#42D392" />
-                    <stop offset="1" stop-color="#8B5CF6" />
+                    <stop offset="1" stopColor="#8B5CF6" />
                   </linearGradient>
                 </defs>
               </svg>

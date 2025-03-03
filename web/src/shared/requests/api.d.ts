@@ -1,3 +1,11 @@
+interface API {
+  auth: IAuthRoute
+  user: IUserRoute
+  sheet: ISheetRoute
+  campaign: ICampaignRoute
+  post: IPostRoute
+}
+
 interface IAuthRoute {
   signUp(data: SignUpDTO): Promise<AuthResponse>
   signIn(data: SignInDTO): Promise<AuthResponse>
