@@ -1,22 +1,27 @@
 export class PostsContextHandlers {
-  private posts: IPost[]
+  private posts: Map<string, IPost>
   private updatePostState: (updatedPost: IPost) => void
 
-  constructor(posts: IPost[], updatePostState: (updatedPost: IPost) => void) {
+  constructor(posts: Map<string, IPost>, updatePostState: (updatedPost: IPost) => void) {
     this.posts = posts
     this.updatePostState = updatePostState
   }
 
   updatePostLikes(postId: string, userId: string, isLiking: boolean) {
-    const updatingPost = this.posts.find((p) => p.id === postId)
+    const updatingPost = this.posts.get(postId)
     if (!updatingPost) throw new Error("[updatePostLikes]: Post not found")
+
+    const updatedLikes = new Set(updatingPost.likes)
+    if (isLiking) {
+      updatedLikes.add(userId)
+    } else {
+      updatedLikes.delete(userId)
+    }
 
     const updatedPost: IPost = {
       ...updatingPost,
-      likes: isLiking
-        ? [...updatingPost.likes, userId]
-        : updatingPost.likes.filter((id) => id !== userId),
-      likesCount: updatingPost.likesCount + (isLiking ? 1 : -1),
+      likes: Array.from(updatedLikes),
+      likesCount: updatedLikes.size,
       likedByUser: isLiking,
     }
 
@@ -28,7 +33,7 @@ export class PostsContextHandlers {
     comment: IComment,
     action: "add" | "edit" | "delete"
   ) {
-    const updatingPost = this.posts.find((p) => p.id === postId)
+    const updatingPost = this.posts.get(postId)
     if (!updatingPost) throw new Error("[updatePostComments]: Post not found")
 
     let updatedComments = updatingPost.comments
@@ -36,8 +41,10 @@ export class PostsContextHandlers {
 
     switch (action) {
       case "add":
-        updatedComments = [comment, ...updatedComments]
-        updatedCommentsCount += 1
+        if (!updatedComments.some((c) => c.id === comment.id)) {
+          updatedComments = [comment, ...updatedComments]
+          updatedCommentsCount += 1
+        }
         break
       case "edit":
         updatedComments = updatedComments.map((c) =>

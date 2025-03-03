@@ -10,11 +10,11 @@ export const Posts = () => {
   return (
     <section className="min-w-[860px] pb-[200px] space-y-4 pr-4 pt-4 border-r border-border w-full min-h-screen">
       <CreatePostInput isFeed />
-      {posts.map((post) => (
+      {Array.from(posts.values()).map((post) => (
         <Post key={post.id} post={post} />
       ))}
 
-      {posts.length === 0 && (
+      {posts.size === 0 && (
         <div className="w-full flex items-center justify-center">
           <div className="p-8 w-full h-[230px] bg-ashes rounded-xl flex flex-col items-center justify-center">
             <div className="col-span-1 w-[50px] h-[50px] flex items-center justify-center bg-border/50 border border-border rounded aspect-square">

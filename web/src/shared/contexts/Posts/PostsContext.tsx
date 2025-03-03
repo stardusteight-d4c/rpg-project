@@ -6,13 +6,14 @@ import React, {
   ReactNode,
   useState,
   useEffect,
+  useMemo,
 } from "react"
 import { MockAPI } from "@/shared/requests/MockAPI"
 import { PostsContextHandlers } from "./PostsContextHandlers"
 
 interface PostsState {
-  campaignPosts: IPost[]
-  posts: IPost[]
+  campaignPosts: Map<string, IPost>
+  posts: Map<string, IPost>
   add: (post: IPost, currentPage?: number) => Promise<IPost | void>
   update: (post: Partial<IPost>) => Promise<IPost | void>
   remove: (postId: string) => Promise<void>
@@ -28,8 +29,8 @@ interface PostsState {
 }
 
 const defaultState: PostsState = {
-  campaignPosts: [],
-  posts: [],
+  campaignPosts: new Map(),
+  posts: new Map(),
   add: async () => {},
   update: async () => {},
   remove: async () => {},
@@ -55,33 +56,28 @@ const PostsContext = createContext<PostsState>(defaultState)
 export const PostsProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [campaignPosts, setCampaignPosts] = useState<IPost[]>([])
-  const [posts, setPosts] = useState<IPost[]>([])
+  const [campaignPosts, setCampaignPosts] = useState<Map<string, IPost>>(new Map())
+  const [posts, setPosts] = useState<Map<string, IPost>>(new Map())
 
   const api = new MockAPI()
 
   const updatePostState = (updatedPost: IPost) => {
-    setPosts((prev) =>
-      prev.map((p) => (p.id === updatedPost.id ? updatedPost : p))
-    )
-    setCampaignPosts((prev) =>
-      prev.map((p) => (p.id === updatedPost.id ? updatedPost : p))
-    )
+    setPosts((prev) => new Map(prev).set(updatedPost.id, updatedPost))
+    setCampaignPosts((prev) => new Map(prev).set(updatedPost.id, updatedPost))
   }
 
-  const handlers = new PostsContextHandlers(posts, updatePostState)
+  const handlers = useMemo(
+    () => new PostsContextHandlers(posts, updatePostState),
+    [posts]
+  )
 
   const add = async (post: IPost, currentPage?: number) => {
     return api.post
       .create(post)
       .then((createdPost) => {
-        setPosts((prev) => [createdPost, ...prev])
+        setPosts((prev) => new Map(prev).set(createdPost.id, createdPost))
         if (currentPage === 1) {
-          if (campaignPosts.length === 3) {
-            setCampaignPosts((prev) => [createdPost, ...prev.slice(0, 2)])
-          } else {
-            setCampaignPosts((prev) => [createdPost, ...prev])
-          }
+          setCampaignPosts((prev) => new Map(prev).set(createdPost.id, createdPost))
         }
         return createdPost
       })
@@ -94,9 +90,8 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
     return api.post
       .update(post)
       .then((post) => {
-        setCampaignPosts((prev) =>
-          prev.map((p) => (p.id === post.id ? post : p))
-        )
+        setPosts((prev) => new Map(prev).set(post.id, post))
+        setCampaignPosts((prev) => new Map(prev).set(post.id, post))
         return post
       })
       .catch((error) => {
@@ -108,7 +103,16 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
     return api.post
       .delete(postId)
       .then(() => {
-        setCampaignPosts((prev) => prev.filter((post) => post.id !== postId))
+        setPosts((prev) => {
+          const newPosts = new Map(prev)
+          newPosts.delete(postId)
+          return newPosts
+        })
+        setCampaignPosts((prev) => {
+          const newCampaignPosts = new Map(prev)
+          newCampaignPosts.delete(postId)
+          return newCampaignPosts
+        })
       })
       .catch((error) => {
         throw new Error(error.message)
@@ -130,13 +134,17 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
     return api.post
       .list(queryParams)
       .then((postsPagination) => {
-        setCampaignPosts(postsPagination.items)
+        const postsMap = new Map(
+          postsPagination.items.map((post) => [post.id, post])
+        )
+        setCampaignPosts(postsMap)
         return postsPagination
       })
       .catch((error) => {
         throw new Error(error.message)
       })
   }
+  
 
   const comment = async (postId: string, comment: IComment) => {
     return api.post

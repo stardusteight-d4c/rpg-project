@@ -48,8 +48,7 @@ export const Comment = ({ comment, postId }: CommentProps) => {
   if (!currentSession) return null
 
   return (
-    <>
-      <div key={comment.id} className="flex relative group z-20 gap-x-2">
+      <div className="flex relative group z-20 gap-x-2">
         {currentSession.id === comment.owner.id && (
           <>
             {!isEditComment && (
@@ -81,7 +80,7 @@ export const Comment = ({ comment, postId }: CommentProps) => {
             className="w-[48px] z-10 aspect-square object-cover cursor-pointer h-[48px] rounded-full"
           />
         ) : (
-          <div className="w-[48px] text-2xl font-bold text-white flex items-center justify-center aspect-square object-cover select-none pointer-events-none h-[48px] border border-border rounded-full">
+          <div className="w-[48px] text-2xl font-bold bg-background text-white flex items-center justify-center aspect-square object-cover select-none pointer-events-none h-[48px] border border-border rounded-full">
             {getNameInitials(comment.owner.name)}
           </div>
         )}
@@ -132,6 +131,5 @@ export const Comment = ({ comment, postId }: CommentProps) => {
           </span>
         </div>
       </div>
-    </>
   )
 }

@@ -13,7 +13,7 @@ export const Sidebar = () => {
   return (
     <section className="w-full mb-4 flex flex-col gap-y-8 pl-4 mt-4 ">
       <div className="pt-4 sticky top-[66px] h-fit border border-border rounded-xl">
-        <h2 className="text-2xl shadow-sm shadow-black/50 border-b border-border px-4 pb-4 pointer-events-none">
+        <div className="text-2xl shadow-sm shadow-black/50 border-b border-border px-4 pb-4 pointer-events-none">
           <h3 className="text-2xl flex items-center gap-x-2 font-semibold">
             <span>
               <svg
@@ -46,7 +46,7 @@ export const Sidebar = () => {
               Investigators on the field!
             </span>
           </h3>
-        </h2>
+        </div>
         <div className="flex max-h-[450px] no-scrollbar overflow-y-scroll pb-4 px-4 pt-4 flex-col w-full gap-y-4">
           {userCampaigns.length === 0 && (
             <div className="w-full flex items-center justify-center">

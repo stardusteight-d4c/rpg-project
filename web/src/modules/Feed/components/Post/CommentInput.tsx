@@ -25,7 +25,7 @@ export const CommentInput = ({ postId }: { postId: string }) => {
   }
 
   const onSend = () => {
-    if (isSending) return
+    if (isSending) return null
     setIsSending(true)
     comment(postId, commentData)
       .catch((error) => {
@@ -44,7 +44,7 @@ export const CommentInput = ({ postId }: { postId: string }) => {
   }
 
   return (
-    <div className="p-4 bg-background rounded-b-xl">
+    <div className="p-4 sticky top-[45px] inset-x-0 z-[100] bg-background border border-border shadow-sm shadow-black/50 rounded-b-xl">
       <div className="flex items-center gap-x-4 p-2 bottom-0 inset-x-0">
         <GlowingWrapper styles="w-full" border="rounded-3xl" inset="0">
           <input

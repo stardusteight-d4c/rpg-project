@@ -45,8 +45,14 @@ export const Post = ({ post }: { post: IPost }) => {
       })
   }
 
+  console.log({post});
+  
+
   return (
-    <div className="flex relative bg-background w-full border border-border rounded-xl pt-4 flex-col">
+    <div
+      key={String(post)}
+      className="flex relative bg-background w-full border border-border rounded-xl pt-4 flex-col"
+    >
       <ModalWrapper
         title="Editing Post"
         onStatusChange={setOpenEditPost}
@@ -138,7 +144,7 @@ export const Post = ({ post }: { post: IPost }) => {
       <div
         className={`${
           showComments ? " pb-0 " : " pb-2 rounded-b-xl "
-        } pt-2 rounded-b-xl bg-border mt-2 flex flex-col gap-y-2`}
+        } pt-2 relative border-t border-border  rounded-b-xl bg-background mt-2 flex flex-col gap-y-2`}
       >
         <div className="px-4 flex items-center gap-x-2">
           {post.likes.includes(currentSession!.id) ? (
@@ -241,15 +247,15 @@ export const Post = ({ post }: { post: IPost }) => {
             </div>
           )}
         </div>
+        {showComments && <CommentInput postId={post.id} />}
 
         {showComments && post.comments.length !== 0 && (
-          <div className="px-4 mt-2 space-y-2">
+          <div className="px-4 mt-2 mb-4 space-y-2">
             {post.comments.map((comment) => (
-              <Comment comment={comment} postId={post.id} />
+              <Comment key={comment.id} comment={comment} postId={post.id} />
             ))}
           </div>
         )}
-        {showComments && <CommentInput postId={post.id} />}
       </div>
     </div>
   )
