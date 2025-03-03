@@ -1,6 +1,7 @@
 "use client"
 
-import { currentSession } from "@/shared/contexts/Users/mock-data"
+import { useAuth } from "@/shared/contexts/Auth/AuthContext"
+import { getNameInitials } from "@/shared/utils/getNameInitials"
 import { useRouter } from "next/navigation"
 import { ChangeEvent, useEffect, useRef, useState } from "react"
 
@@ -15,6 +16,7 @@ interface CommentProps {
 }
 
 export const Comment = ({ comment, postId }: CommentProps) => {
+  const { currentSession } = useAuth()
   const { push } = useRouter()
   const [isEditComment, setIsEditComment] = useState<boolean>(false)
   const commentRef = useRef<HTMLTextAreaElement>(null)
@@ -48,13 +50,14 @@ export const Comment = ({ comment, postId }: CommentProps) => {
   //   })
   //   setIsEditComment(false)
   // }
+  if (!currentSession) return null
 
   return (
     <>
-      <div key={comment.id} className="flex mb-4 relative group z-20 gap-x-2">
+      <div key={comment.id} className="flex relative group z-20 gap-x-2">
         {currentSession.id === comment.owner.id && (
           <>
-          {!isEditComment && (
+            {!isEditComment && (
               <button
                 onClick={() => setIsEditComment(true)}
                 className={`${
@@ -75,12 +78,18 @@ export const Comment = ({ comment, postId }: CommentProps) => {
           </>
         )}
 
-        <img
-          src={comment.owner.avatarUrl}
-          alt=""
-          onClick={() => push(`/profile/${comment.owner.username}`)}
-          className="w-[48px] z-10 aspect-square object-cover cursor-pointer h-[48px] rounded-full"
-        />
+        {comment.owner.avatarUrl ? (
+          <img
+            src={comment.owner.avatarUrl}
+            alt=""
+            onClick={() => push(`/profile/${comment.owner.username}`)}
+            className="w-[48px] z-10 aspect-square object-cover cursor-pointer h-[48px] rounded-full"
+          />
+        ) : (
+          <div className="w-[48px] text-2xl font-bold text-white flex items-center justify-center aspect-square object-cover select-none pointer-events-none h-[48px] border border-border rounded-full">
+            {getNameInitials(comment.owner.name)}
+          </div>
+        )}
 
         <div className="flex flex-col gap-y-1 my-auto h-full w-full">
           <textarea

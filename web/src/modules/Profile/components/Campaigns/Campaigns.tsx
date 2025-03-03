@@ -98,7 +98,7 @@ export const Campaigns: React.FC<{ user: IUser }> = ({ user }) => {
                       alt=""
                       referrerPolicy="no-referrer"
                       style={{ marginRight: `${index * 20}px` }}
-                      className="w-[42px] h-[42px] rounded-full"
+                      className="w-[42px] object-cover h-[42px] rounded-full"
                     />
                   ) : (
                     <div

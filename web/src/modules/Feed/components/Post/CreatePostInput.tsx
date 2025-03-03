@@ -47,7 +47,7 @@ export const CreatePostInput: React.FC<{
   }
 
   const handleClick = () => {
-    const fileInput = document.getElementById("file-input") as HTMLInputElement
+    const fileInput = document.getElementById("file-input-post") as HTMLInputElement
     if (fileInput) {
       fileInput.click()
     }
@@ -89,7 +89,7 @@ export const CreatePostInput: React.FC<{
               />
             ) : (
               <div className="w-[48px] text-2xl font-bold text-white flex items-center justify-center aspect-square object-cover select-none pointer-events-none h-[48px] border border-border rounded-full">
-                {getNameInitials(currentSession?.name ?? '')}
+                {getNameInitials(currentSession?.name ?? "")}
               </div>
             )}
             <div className="flex flex-col">
@@ -117,12 +117,18 @@ export const CreatePostInput: React.FC<{
                   : "Say something about this campaign..."
               }
               spellCheck="false"
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && !e.shiftKey) {
+                  e.preventDefault()
+                  onPost()
+                }
+              }}
               className="p-2 bg-background h-[100px]  resize-none overflow-y-scroll no-scrollbar w-full cursor-text hover:brightness-125 flex items-center gap-x-1 line-clamp-1 rounded-xl rounded-b-none border border-border outline-none"
             />
           </GlowingWrapper>
           <div className="flex rounded-b-xl w-full items-center gap-x-2 px-4 py-2 bg-border">
             <input
-              id="file-input"
+              id="file-input-post"
               type="file"
               accept="image/*"
               className="hidden"

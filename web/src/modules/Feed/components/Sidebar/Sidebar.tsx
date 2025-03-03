@@ -109,7 +109,7 @@ export const Sidebar = () => {
                         alt=""
                         referrerPolicy="no-referrer"
                         style={{ marginRight: `${index * 20}px` }}
-                        className="w-[32px] h-[32px] rounded-full"
+                        className="w-[32px] h-[32px] object-cover rounded-full"
                       />
                     ) : (
                       <div
