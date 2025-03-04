@@ -250,7 +250,7 @@ export const Post = ({ post }: { post: IPost }) => {
         {showComments && <CommentInput postId={post.id} />}
 
         {showComments && post.comments.length !== 0 && (
-          <div className="px-4 mt-2 mb-4 space-y-2">
+          <div className="px-4 mt-2 mb-4 space-y-[20px]">
             {post.comments.map((comment) => (
               <Comment key={comment.id} comment={comment} postId={post.id} />
             ))}

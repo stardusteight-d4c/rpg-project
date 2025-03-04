@@ -17,8 +17,8 @@ interface PostsState {
   add: (post: IPost, currentPage?: number) => Promise<IPost | void>
   update: (post: Partial<IPost>) => Promise<IPost | void>
   remove: (postId: string) => Promise<void>
-  comment(postId: string, comment: IComment): Promise<IComment | void>
-  updatedComment(comment: Partial<IComment>): Promise<IComment | void>
+  comment(comment: IComment): Promise<IComment | void>
+  updateComment(comment: Partial<IComment>): Promise<IComment | void>
   deleteComment(commentId: string): Promise<void>
   like(postId: string, userId: string): Promise<void>
   unlike(postId: string, userId: string): Promise<void>
@@ -35,7 +35,7 @@ const defaultState: PostsState = {
   update: async () => {},
   remove: async () => {},
   comment: async () => {},
-  updatedComment: async () => {},
+  updateComment: async () => {},
   deleteComment: async () => {},
   like: async () => {},
   unlike: async () => {},
@@ -167,21 +167,30 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
       })
   }
 
-  const comment = async (postId: string, comment: IComment) => {
+  const comment = async (comment: IComment) => {
     return api.post
-      .comment(postId, comment)
+      .comment(comment.postId, comment)
       .then((createdComment) =>
-        handlers.updatePostComments(postId, createdComment, "add")
+        handlers.updatePostComments(comment.postId, createdComment, "add")
       )
       .catch((error) => {
         throw new Error(error.message)
       })
   }
 
-  const updatedComment = async (comment: Partial<IComment>) => {
-    return api.post.updatedComment(comment).catch((error) => {
-      throw new Error(error.message)
-    })
+  const updateComment = async (comment: Partial<IComment>) => {
+    return api.post
+      .updateComment(comment)
+      .then((updatedComment) => {
+        handlers.updatePostComments(
+          updatedComment.postId,
+          updatedComment,
+          "edit"
+        )
+      })
+      .catch((error) => {
+        throw new Error(error.message)
+      })
   }
 
   const deleteComment = async (commentId: string) => {
@@ -217,7 +226,7 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
         remove,
         add,
         comment,
-        updatedComment,
+        updateComment,
         deleteComment,
         like,
         unlike,

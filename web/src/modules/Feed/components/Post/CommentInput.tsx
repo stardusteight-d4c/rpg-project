@@ -27,7 +27,7 @@ export const CommentInput = ({ postId }: { postId: string }) => {
   const onSend = () => {
     if (isSending) return null
     setIsSending(true)
-    comment(postId, commentData)
+    comment(commentData)
       .catch((error) => {
         addToast(error.message, "error", 45)
       })

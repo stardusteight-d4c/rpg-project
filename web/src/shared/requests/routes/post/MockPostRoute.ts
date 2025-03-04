@@ -75,7 +75,7 @@ export class MockPostRoute implements IPostRoute {
     return newComment
   }
 
-  public async updatedComment(comment: Partial<IComment>): Promise<IComment> {
+  public async updateComment(comment: Partial<IComment>): Promise<IComment> {
     if (!comment.id) {
       throw new Error("Comment ID is required")
     }
