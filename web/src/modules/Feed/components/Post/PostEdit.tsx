@@ -13,7 +13,8 @@ interface PostEditProps {
 }
 
 export const PostEdit = ({ post, setOpenEditPost }: PostEditProps) => {
-  const { update, remove,  postEvents } = usePosts()
+  const { update, remove } = usePosts()
+  const [loading, setLoading] = useState<boolean>(false)
   const { addToast } = useToast()
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   const [postData, setPostData] = useState<IPost>(post)
@@ -53,7 +54,8 @@ export const PostEdit = ({ post, setOpenEditPost }: PostEditProps) => {
   }
 
   const onSave = () => {
-    if (postEvents.updatingPost) return
+    if (loading) return null
+    setLoading(true)
     update(postData)
       .then(() => {
         addToast("The post has been updated!", "success", 45)
@@ -64,11 +66,13 @@ export const PostEdit = ({ post, setOpenEditPost }: PostEditProps) => {
       .finally(() => {
         setPostData(postData)
         setOpenEditPost(false)
+        setLoading(false)
       })
   }
 
   const onDelete = () => {
-    if (postEvents.deletingPost) return
+    if (loading) return null
+    setLoading(true)
     remove(postData.id)
       .then(() => {
         addToast("The post has been deleted!", "success", 45)
@@ -79,6 +83,7 @@ export const PostEdit = ({ post, setOpenEditPost }: PostEditProps) => {
       .finally(() => {
         setPostData(postData)
         setOpenEditPost(false)
+        setLoading(false)
       })
   }
 
@@ -116,12 +121,12 @@ export const PostEdit = ({ post, setOpenEditPost }: PostEditProps) => {
             <button
               onClick={onDelete}
               className={`${
-                postEvents.deletingPost
+                loading
                   ? " cursor-not-allowed brightness-90 "
                   : " cursor-pointer hover:brightness-125 "
               } p-2 mt-2 w-full flex items-center justify-center max-h-[45px] font-medium text-center text-lg bg-red-500 text-white rounded-full`}
             >
-              {postEvents.deletingPost ? (
+              {loading ? (
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="32"
@@ -208,10 +213,10 @@ export const PostEdit = ({ post, setOpenEditPost }: PostEditProps) => {
           <div
             onClick={onSave}
             className={`${
-              postEvents.updatingPost ? " cursor-not-allowed " : " group cursor-pointer "
+              loading ? " cursor-not-allowed " : " group cursor-pointer "
             }  w-fit flex justify-center items-center gap-x-2`}
           >
-            {postEvents.updatingPost ? (
+            {loading ? (
               <button className="bg-background flex items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50 duration-300 ease-in-out transition-all">
                 <div className="w-fit mx-auto">
                   <svg

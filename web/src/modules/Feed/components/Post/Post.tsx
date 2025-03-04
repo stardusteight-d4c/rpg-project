@@ -50,7 +50,7 @@ export const Post = ({ post }: { post: IPost }) => {
 
   return (
     <div
-      key={String(post)}
+      key={String(post.comments)}
       className="flex relative bg-background w-full border border-border rounded-xl pt-4 flex-col"
     >
       <ModalWrapper

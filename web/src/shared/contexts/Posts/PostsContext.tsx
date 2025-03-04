@@ -56,7 +56,9 @@ const PostsContext = createContext<PostsState>(defaultState)
 export const PostsProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [campaignPosts, setCampaignPosts] = useState<Map<string, IPost>>(new Map())
+  const [campaignPosts, setCampaignPosts] = useState<Map<string, IPost>>(
+    new Map()
+  )
   const [posts, setPosts] = useState<Map<string, IPost>>(new Map())
 
   const api = new MockAPI()
@@ -77,7 +79,9 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
       .then((createdPost) => {
         setPosts((prev) => new Map(prev).set(createdPost.id, createdPost))
         if (currentPage === 1) {
-          setCampaignPosts((prev) => new Map(prev).set(createdPost.id, createdPost))
+          setCampaignPosts((prev) =>
+            new Map(prev).set(createdPost.id, createdPost)
+          )
         }
         return createdPost
       })
@@ -144,7 +148,6 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
         throw new Error(error.message)
       })
   }
-  
 
   const comment = async (postId: string, comment: IComment) => {
     return api.post

@@ -69,7 +69,7 @@ export class MockPostRoute implements IPostRoute {
     }
 
     post.comments.push(newComment)
-    post.commentsCount = (post.commentsCount || 0) + 1
+    post.commentsCount = post.commentsCount += 1
 
     this.#posts.set(postId, post)
     return newComment
