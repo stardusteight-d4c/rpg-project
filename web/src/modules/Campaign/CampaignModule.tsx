@@ -20,7 +20,7 @@ import { Loader } from "../Feed/components/Post/Loader"
 
 export function CampaignModule() {
   const { push } = useRouter()
-  const { getByCampaign, campaignPosts, postEvents } = usePosts()
+  const { getByCampaign, campaignPosts } = usePosts()
   const { currentSession } = useAuth()
   const campaignId = useParams().id as string
   const { getById, remove, campaign, campaignEvents } = useCampaigns()
@@ -34,6 +34,8 @@ export function CampaignModule() {
   const [totalPages, setTotalPages] = useState(0)
   const [openEditCampaignModal, setOpenEditCampaignModal] =
     useState<boolean>(false)
+  const [loading, setLoading] = useState<boolean>(false)
+
 
   useEffect(() => {
     ;(async () => {
@@ -425,7 +427,7 @@ export function CampaignModule() {
                 ))} */}
                 </div>
                 <CreatePostInput currentPage={currentPage} />
-                {campaignPosts.length === 0 ? (
+                {campaignPosts.size === 0 ? (
                   <div className="w-full flex items-center justify-center">
                     <div className="p-8 w-full h-[230px] border-2  border-dashed border-border rounded-xl flex flex-col items-center justify-center">
                       <div className="col-span-1 w-[50px] h-[50px] flex items-center justify-center bg-border/50 border border-border rounded aspect-square">
@@ -447,13 +449,13 @@ export function CampaignModule() {
                   </div>
                 ) : (
                   <div>
-                    {postEvents.gettingPosts ? (
+                    {loading ? (
                       <div className="flex flex-col items-center justify-center mt-[150px] py-8">
-                          <Loader  />
+                        <Loader />
                       </div>
                     ) : (
                       <div className="flex flex-col gap-y-4 rounded-3xl w-full">
-                        {campaignPosts.map((post) => (
+                        {Array.from(campaignPosts.values()).map((post) => (
                           <Post post={post} />
                         ))}
                       </div>

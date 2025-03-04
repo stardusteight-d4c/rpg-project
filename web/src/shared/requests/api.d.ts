@@ -47,7 +47,7 @@ interface IPostRoute {
   delete(postId): Promise<void>
   comment(postId: string, comment: IComment): Promise<IComment>
   updateComment(comment: Partial<IComment>): Promise<IComment>
-  deleteComment(commentId: string): Promise<void>
+  deleteComment(comment: IComment): Promise<void>
   like(postId: string, userId: string): Promise<void>
   unlike(postId: string, userId: string): Promise<void>
   list(queryParams?: ListPostsDTO): Promise<ListPostsResponseDTO<IPost>>

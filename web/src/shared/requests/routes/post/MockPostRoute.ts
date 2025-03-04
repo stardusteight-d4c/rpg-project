@@ -91,18 +91,22 @@ export class MockPostRoute implements IPostRoute {
     throw new Error("Comment not found")
   }
 
-  public async deleteComment(commentId: string): Promise<void> {
-    for (const post of this.#posts.values()) {
-      const index = post.comments.findIndex((c) => c.id === commentId)
-      if (index !== -1) {
-        post.comments.splice(index, 1)
-        post.commentsCount = Math.max((post.commentsCount || 1) - 1, 0)
-        this.#posts.set(post.id, post)
-        return
-      }
+  public async deleteComment(comment: IComment): Promise<void> {
+    if (!comment.id) {
+      throw new Error("Comment ID is required")
     }
-    throw new Error("Comment not found")
-  }
+    
+    const post = this.#posts.get(comment.postId);
+    if (!post) throw new Error("Post not found");
+    
+    const index = post.comments.findIndex((c) => c.id === comment.id);
+    if (index === -1) throw new Error("Comment not found");
+    
+    post.comments.splice(index, 1);
+    post.commentsCount = Math.max((post.commentsCount || 1) - 1, 0);
+    this.#posts.set(post.id, post);
+}
+
 
   public async like(postId: string, userId: string): Promise<void> {
     const post = this.#posts.get(postId)

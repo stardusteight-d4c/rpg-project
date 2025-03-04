@@ -19,7 +19,7 @@ interface PostsState {
   remove: (postId: string) => Promise<void>
   comment(comment: IComment): Promise<IComment | void>
   updateComment(comment: Partial<IComment>): Promise<IComment | void>
-  deleteComment(commentId: string): Promise<void>
+  deleteComment(comment: IComment): Promise<void>
   like(postId: string, userId: string): Promise<void>
   unlike(postId: string, userId: string): Promise<void>
   getByCampaign: (
@@ -193,10 +193,15 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
       })
   }
 
-  const deleteComment = async (commentId: string) => {
-    return api.post.deleteComment(commentId).catch((error) => {
-      throw new Error(error.message)
-    })
+  const deleteComment = async (comment: IComment) => {
+    return api.post
+      .deleteComment(comment)
+      .then(() => {
+        handlers.updatePostComments(comment.postId, comment, "delete")
+      })
+      .catch((error) => {
+        throw new Error(error.message)
+      })
   }
 
   const like = async (postId: string, userId: string) => {

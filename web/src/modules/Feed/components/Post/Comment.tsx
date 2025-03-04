@@ -12,10 +12,10 @@ interface CommentProps {
   comment: IComment
 }
 
-export const Comment = ({ comment, postId }: CommentProps) => {
+export const Comment = ({ comment }: CommentProps) => {
   const { currentSession } = useAuth()
   const { push } = useRouter()
-  const { updateComment } = usePosts()
+  const { updateComment, deleteComment } = usePosts()
   const { addToast } = useToast()
   const [isEditComment, setIsEditComment] = useState<boolean>(false)
   const commentRef = useRef<HTMLInputElement>(null)
@@ -26,14 +26,33 @@ export const Comment = ({ comment, postId }: CommentProps) => {
     setEditableComment((prev) => ({ ...prev, content: e.target.value }))
   }
 
-  const onUpdate = () => {
+  const onDelete = async () => {
+    deleteComment(comment)
+      .then(() => {
+        addToast("Comment has been deleted!", "success", 45)
+      })
+      .catch((error) => {
+        addToast(error.message, "error", 45)
+      })
+      .finally(() => {
+        setIsEditComment(false)
+      })
+  }
+
+  const onUpdate = async () => {
     updateComment({
       ...editableComment,
       content: editableComment.content.trim(),
-    }).catch((error) => {
-      addToast(error.message, "error", 45)
     })
-    setIsEditComment(false)
+      .then(() => {
+        addToast("Comment has been updated!", "success", 45)
+      })
+      .catch((error) => {
+        addToast(error.message, "error", 45)
+      })
+      .finally(() => {
+        setIsEditComment(false)
+      })
   }
   if (!currentSession) return null
 
@@ -97,7 +116,7 @@ export const Comment = ({ comment, postId }: CommentProps) => {
               Cancel
             </span>
             <span
-              // onClick={() => deleteComment(postId, comment.id)}
+              onClick={onDelete}
               className="underline text-gray-400/70 text-sm cursor-pointer hover:text-red-500"
             >
               Delete
