@@ -36,37 +36,36 @@ export class PostsContextHandlers {
     comment: IComment,
     action: "add" | "edit" | "delete"
   ) {
-    const updatingPost = this.posts.get(postId);
-    if (!updatingPost) throw new Error("[updatePostComments]: Post not found");
-  
-    let updatedComments = [...updatingPost.comments]; 
-    let updatedCommentsCount = updatingPost.commentsCount; 
-  
+    const updatingPost = this.posts.get(postId)
+    if (!updatingPost) return
+
+    let updatedComments = [...updatingPost.comments]
+    let updatedCommentsCount = updatingPost.commentsCount
+
     switch (action) {
       case "add":
         if (!updatedComments.some((c) => c.id === comment.id)) {
-          updatedComments = [comment, ...updatedComments];
-          updatedCommentsCount += 1;
+          updatedComments = [comment, ...updatedComments]
+          updatedCommentsCount += 1
         }
-        break;
+        break
       case "edit":
         updatedComments = updatedComments.map((c) =>
           c.id === comment.id ? comment : c
-        );
-        break;
+        )
+        break
       case "delete":
-        updatedComments = updatedComments.filter((c) => c.id !== comment.id);
-        updatedCommentsCount = Math.max(0, updatedCommentsCount - 1);
-        break;
+        updatedComments = updatedComments.filter((c) => c.id !== comment.id)
+        updatedCommentsCount = Math.max(0, updatedCommentsCount - 1)
+        break
     }
-  
+
     const updatedPost: IPost = {
       ...updatingPost,
       comments: updatedComments,
       commentsCount: updatedCommentsCount,
-    };
-  
-    this.updatePostState(updatedPost);
+    }
+
+    this.updatePostState(updatedPost)
   }
-  
 }

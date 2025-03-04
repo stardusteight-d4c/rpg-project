@@ -1,6 +1,6 @@
 "use client"
 
-import { ModalWrapper } from "@/shared/components"
+import { GlowingWrapper, ModalWrapper } from "@/shared/components"
 import { usePosts } from "@/shared/contexts/Posts/PostsContext"
 import { useToast } from "@/shared/contexts/Toaster/ToasterContext"
 import { getNameInitials } from "@/shared/utils/getNameInitials"
@@ -290,13 +290,15 @@ export const PostEdit = ({ post, setOpenEditPost }: PostEditProps) => {
           </div>
 
           <div className="py-4">
-            <textarea
-              onChange={(e) => handleInputChange(e)}
-              value={postData.content}
-              spellCheck="false"
-              ref={textareaRef}
-              className="block border-border rounded-md p-2 relative z-[50] antialiased border bg-background h-fit resize-none overflow-y-hidden no-scrollbar w-full cursor-text outline-none"
-            />
+            <GlowingWrapper inset="0">
+              <textarea
+                onChange={(e) => handleInputChange(e)}
+                value={postData.content}
+                spellCheck="false"
+                ref={textareaRef}
+                className="block border-border rounded-md p-2 relative z-[50] antialiased border bg-background h-fit resize-none overflow-y-hidden no-scrollbar w-full cursor-text outline-none"
+              />
+            </GlowingWrapper>
           </div>
 
           {postData.image && (

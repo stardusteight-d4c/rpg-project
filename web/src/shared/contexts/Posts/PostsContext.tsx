@@ -63,9 +63,23 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
 
   const api = new MockAPI()
 
+  const sortPostsMap = (postsMap: Map<string, IPost>) => {
+    return new Map(
+      Array.from(postsMap.entries()).sort(
+        (a, b) =>
+          new Date(b[1].createdAt).getTime() -
+          new Date(a[1].createdAt).getTime()
+      )
+    )
+  }
+
   const updatePostState = (updatedPost: IPost) => {
-    setPosts((prev) => new Map(prev).set(updatedPost.id, updatedPost))
-    setCampaignPosts((prev) => new Map(prev).set(updatedPost.id, updatedPost))
+    setPosts((prev) =>
+      sortPostsMap(new Map(prev).set(updatedPost.id, updatedPost))
+    )
+    setCampaignPosts((prev) =>
+      sortPostsMap(new Map(prev).set(updatedPost.id, updatedPost))
+    )
   }
 
   const handlers = useMemo(
@@ -77,10 +91,12 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
     return api.post
       .create(post)
       .then((createdPost) => {
-        setPosts((prev) => new Map(prev).set(createdPost.id, createdPost))
+        setPosts((prev) =>
+          sortPostsMap(new Map(prev).set(createdPost.id, createdPost))
+        )
         if (currentPage === 1) {
           setCampaignPosts((prev) =>
-            new Map(prev).set(createdPost.id, createdPost)
+            sortPostsMap(new Map(prev).set(createdPost.id, createdPost))
           )
         }
         return createdPost
@@ -94,8 +110,10 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
     return api.post
       .update(post)
       .then((post) => {
-        setPosts((prev) => new Map(prev).set(post.id, post))
-        setCampaignPosts((prev) => new Map(prev).set(post.id, post))
+        setPosts((prev) => sortPostsMap(new Map(prev).set(post.id, post)))
+        setCampaignPosts((prev) =>
+          sortPostsMap(new Map(prev).set(post.id, post))
+        )
         return post
       })
       .catch((error) => {
@@ -141,7 +159,7 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
         const postsMap = new Map(
           postsPagination.items.map((post) => [post.id, post])
         )
-        setCampaignPosts(postsMap)
+        setCampaignPosts(sortPostsMap(postsMap))
         return postsPagination
       })
       .catch((error) => {

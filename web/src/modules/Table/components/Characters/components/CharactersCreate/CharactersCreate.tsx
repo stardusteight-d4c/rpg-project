@@ -15,6 +15,8 @@ import { currentSession } from "@/shared/contexts/Users/mock-data"
 import { useSheets } from "@/shared/contexts/Sheets/SheetsContext"
 import { useAuth } from "@/shared/contexts/Auth/AuthContext"
 import { useToast } from "@/shared/contexts/Toaster/ToasterContext"
+import { generateRandomName } from "@/shared/utils/generateRandomName"
+import { generateRandomOccupation } from "@/shared/utils/generateRandomOcupation"
 
 interface CharactersCreateProps {
   setCreateMode?: (value: boolean) => void
@@ -27,7 +29,7 @@ export const CharactersCreate = ({
   setCreateSheetModal,
 }: CharactersCreateProps) => {
   const { add } = useSheets()
-  const {addToast} = useToast()
+  const { addToast } = useToast()
   const { currentSession } = useAuth()
   const { addCharacter, updateCopyCharacter, copyCharacters } = useCharacters()
   const [initialData, setInitialData] = useState<any>({
@@ -64,7 +66,7 @@ export const CharactersCreate = ({
       .catch((error) => {
         !isModal && setCreateMode && setCreateMode(false)
         setCreateSheetModal && setCreateSheetModal(false)
-        addToast(error.message, 'error')
+        addToast(error.message, "error")
       })
   }
 
@@ -140,10 +142,15 @@ export const CharactersCreate = ({
       (character) => character.id === initialData.id
     )
 
+    const randomCharacter = generateRandomName()
+
     setInitialData({
       ...createdCharacter,
       infos: {
         ...(createdCharacter?.infos ?? initialData),
+        name: randomCharacter.name,
+        sex: randomCharacter.sex,
+        occupation: generateRandomOccupation(),
         maxHitPoints: hitPoints,
         maxMagicPoints: magicPoints,
         maxSanity: sanity,

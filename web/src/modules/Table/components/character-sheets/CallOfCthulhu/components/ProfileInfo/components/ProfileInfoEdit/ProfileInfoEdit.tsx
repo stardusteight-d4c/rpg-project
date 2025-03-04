@@ -73,7 +73,7 @@ export const ProfileInfoEdit: React.FC<{ character: ISheet }> = ({
     <div className="flex">
       <div className="relative rounded w-fit">
         <div className="w-fit h-fit relative">
-          <GlowingWrapper>
+          <GlowingWrapper border="rounded-xl">
             {editableData.characterUrl.length > 0 ? (
               <img
                 onClick={() => handleClick()}
@@ -270,7 +270,7 @@ export const ProfileInfoEdit: React.FC<{ character: ISheet }> = ({
       </div>
       <div className="w-full pl-4">
         <div className="flex justify-between items-center gap-x-2">
-          <GlowingWrapper inset="0">
+          <GlowingWrapper>
             <input
               value={editableData.name}
               placeholder="Name"
@@ -320,8 +320,8 @@ export const ProfileInfoEdit: React.FC<{ character: ISheet }> = ({
             )}
           </GlowingWrapper>
         </div>
-        <span className="flex w-full items-center text-sm text-gray-400">
-          <GlowingWrapper inset="0">
+        <span className="flex w-full mt-2 items-center text-sm text-gray-400">
+          <GlowingWrapper>
             <input
               value={editableData.occupation}
               placeholder="Occupation"

@@ -169,6 +169,10 @@ export class MockPostRoute implements IPostRoute {
     const updatedPosts = paginatedPosts.map((post) => ({
       ...post,
       owner: usersMap.get(post.owner.id) ?? post.owner,
+      comments: post.comments.map((comment) => ({
+        ...comment,
+        owner: usersMap.get(comment.owner.id) ?? comment.owner, 
+      })),
     }))
 
     return {
