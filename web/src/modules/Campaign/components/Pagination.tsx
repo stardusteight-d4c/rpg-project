@@ -12,24 +12,22 @@ export const Pagination: React.FC<PaginationProps> = ({
   currentPage,
   onPageChange,
 }) => {
-  const { postEvents } = usePosts()
-
   const handlePrev = () => {
-    if (currentPage > 1 && !postEvents.gettingPosts)
+    if (currentPage > 1)
       onPageChange(currentPage - 1)
   }
 
   const handleNext = () => {
-    if (currentPage < totalPages && !postEvents.gettingPosts)
+    if (currentPage < totalPages)
       onPageChange(currentPage + 1)
   }
 
   return (
     <div className="flex items-center space-x-2 mt-4">
       <button
-        className="px-3 py-1 border border-border disabled:cursor-not-allowed shadow-md shadow-black/50 rounded-full disabled:opacity-50 disabled:cursor-not-allowed"
+        className="px-3 py-1 border border-border shadow-md shadow-black/50 rounded-full disabled:opacity-50 disabled:cursor-not-allowed"
         onClick={handlePrev}
-        disabled={currentPage === 1 || postEvents.gettingPosts}
+        disabled={currentPage === 1}
       >
         {"<"}
       </button>
@@ -38,7 +36,6 @@ export const Pagination: React.FC<PaginationProps> = ({
         <button
           className="px-3 py-1 border border-border disabled:cursor-not-allowed shadow-md shadow-black/50 rounded-full"
           onClick={() => onPageChange(1)}
-          disabled={postEvents.gettingPosts}
         >
           {1}
         </button>
@@ -49,7 +46,6 @@ export const Pagination: React.FC<PaginationProps> = ({
         <button
           className="px-3 py-1 border border-border disabled:cursor-not-allowed shadow-md shadow-black/50 rounded-full"
           onClick={() => onPageChange(currentPage - 1)}
-          disabled={postEvents.gettingPosts}
         >
           {currentPage - 1}
         </button>
@@ -64,7 +60,6 @@ export const Pagination: React.FC<PaginationProps> = ({
         <button
           className="px-3 py-1 border border-border disabled:cursor-not-allowed shadow-md shadow-black/50 rounded-full"
           onClick={() => onPageChange(currentPage + 1)}
-          disabled={postEvents.gettingPosts}
         >
           {currentPage + 1}
         </button>
@@ -80,7 +75,6 @@ export const Pagination: React.FC<PaginationProps> = ({
         <button
           className="px-3 py-1 border border-border disabled:cursor-not-allowed shadow-md shadow-black/50 rounded-full cursor-pointer"
           onClick={() => onPageChange(totalPages)}
-          disabled={postEvents.gettingPosts}
         >
           {totalPages}
         </button>
@@ -90,7 +84,7 @@ export const Pagination: React.FC<PaginationProps> = ({
       <button
         className="px-3 py-1 border border-border shadow-md shadow-black/50 rounded-full disabled:opacity-50 disabled:cursor-not-allowed"
         onClick={handleNext}
-        disabled={currentPage === totalPages || postEvents.gettingPosts}
+        disabled={currentPage === totalPages}
       >
         {">"}
       </button>

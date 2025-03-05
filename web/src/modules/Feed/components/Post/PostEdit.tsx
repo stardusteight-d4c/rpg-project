@@ -153,11 +153,11 @@ export const PostEdit = ({ post, setOpenEditPost }: PostEditProps) => {
       />
       <div className="py-2 px-4 sticky z-[200] border-b border-border shadow-md shadow-black/50 top-0 w-full inset-x-0 bg-background">
         <div className="flex items-center gap-x-4">
-          <div
+          <button
             onClick={handleClick}
             className="cursor-pointer w-fit flex items-center group gap-x-2"
           >
-            <button className="bg-ashes flex items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50 group-hover:bg-blue-500 duration-300 ease-in-out transition-all">
+            <div className="bg-ashes flex items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50 group-hover:bg-blue-500 duration-300 ease-in-out transition-all">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -167,9 +167,9 @@ export const PostEdit = ({ post, setOpenEditPost }: PostEditProps) => {
               >
                 <path d="M216,40H40A16,16,0,0,0,24,56V200a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A16,16,0,0,0,216,40Zm0,16V158.75l-26.07-26.06a16,16,0,0,0-22.63,0l-20,20-44-44a16,16,0,0,0-22.62,0L40,149.37V56ZM40,172l52-52,80,80H40Zm176,28H194.63l-36-36,20-20L216,181.38V200ZM144,100a12,12,0,1,1,12,12A12,12,0,0,1,144,100Z"></path>
               </svg>
-            </button>
+            </div>
             <span>Upload a Image</span>
-          </div>
+          </button>
           {postData.image && (
             <div
               onClick={() => {
@@ -193,11 +193,11 @@ export const PostEdit = ({ post, setOpenEditPost }: PostEditProps) => {
             </div>
           )}
 
-          <div
+          <button
             onClick={() => setOpenDeleteModal(true)}
             className="cursor-pointer w-fit flex items-center group gap-x-2"
           >
-            <button className="bg-ashes flex items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50 group-hover:bg-red-500 duration-300 ease-in-out transition-all">
+            <div className="bg-ashes flex items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50 group-hover:bg-red-500 duration-300 ease-in-out transition-all">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -207,17 +207,17 @@ export const PostEdit = ({ post, setOpenEditPost }: PostEditProps) => {
               >
                 <path d="M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V208a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16ZM96,40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8v8H96Zm96,168H64V64H192ZM112,104v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Z"></path>
               </svg>
-            </button>
+            </div>
             <span className="capitalize">Delete Post</span>
-          </div>
-          <div
+          </button>
+          <button
             onClick={onSave}
             className={`${
               loading ? " cursor-not-allowed " : " group cursor-pointer "
             }  w-fit flex justify-center items-center gap-x-2`}
           >
             {loading ? (
-              <button className="bg-background flex items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50 duration-300 ease-in-out transition-all">
+              <div className="bg-background flex items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50 duration-300 ease-in-out transition-all">
                 <div className="w-fit mx-auto">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -230,9 +230,9 @@ export const PostEdit = ({ post, setOpenEditPost }: PostEditProps) => {
                     <path d="M136,32V64a8,8,0,0,1-16,0V32a8,8,0,0,1,16,0Zm88,88H192a8,8,0,0,0,0,16h32a8,8,0,0,0,0-16Zm-45.09,47.6a8,8,0,0,0-11.31,11.31l22.62,22.63a8,8,0,0,0,11.32-11.32ZM128,184a8,8,0,0,0-8,8v32a8,8,0,0,0,16,0V192A8,8,0,0,0,128,184ZM77.09,167.6,54.46,190.22a8,8,0,0,0,11.32,11.32L88.4,178.91A8,8,0,0,0,77.09,167.6ZM72,128a8,8,0,0,0-8-8H32a8,8,0,0,0,0,16H64A8,8,0,0,0,72,128ZM65.78,54.46A8,8,0,0,0,54.46,65.78L77.09,88.4A8,8,0,0,0,88.4,77.09Z"></path>
                   </svg>
                 </div>
-              </button>
+              </div>
             ) : (
-              <button className="bg-ashes flex items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50 group-hover:bg-green-500 duration-300 ease-in-out transition-all">
+              <div className="bg-ashes flex items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50 group-hover:bg-green-500 duration-300 ease-in-out transition-all">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
@@ -242,10 +242,10 @@ export const PostEdit = ({ post, setOpenEditPost }: PostEditProps) => {
                 >
                   <path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z"></path>
                 </svg>
-              </button>
+              </div>
             )}
             <span>Save Changes</span>
-          </div>
+          </button>
         </div>
       </div>
       <div className="w-[700px] p-2">
