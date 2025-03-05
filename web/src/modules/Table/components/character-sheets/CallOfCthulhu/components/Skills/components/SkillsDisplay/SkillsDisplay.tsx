@@ -1,3 +1,7 @@
+"use client"
+
+import { motion } from "framer-motion"
+
 interface SkillsDisplayProps {
   activeItems: (
     | "attributes"
@@ -104,10 +108,14 @@ export const SkillsDisplay = ({
               <div className="flex items-center gap-x-2">
                 {typeof skill.currentValue === "number" && (
                   <div className="w-full relative bg-gray-600/10 overflow-hidden rounded-full">
-                    <div
+                    <motion.div
+                      initial={{ width: 0 }}
+                      animate={{
+                        width: `${skill.currentValue}%`,
+                      }}
+                      transition={{ duration: 1, ease: "easeInOut" }}
                       className="h-2 font-medium background-gradient rounded-full"
-                      style={{ width: `${skill.currentValue}%` }}
-                    ></div>
+                    />
                   </div>
                 )}
                 <span className="w-[35px] h-[35px] rounded-full flex items-center justify-center aspect-square text-center font-medium z-10 relative bg-gray-600/10 outline-none caret-white">

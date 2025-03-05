@@ -12,6 +12,7 @@ import { handleCharacterVisibilityTooltipText } from "@/shared/utils/handleChara
 import { useEffect, useState } from "react"
 import { useCharacters } from "@/shared/contexts/Characters/CharactersContext"
 import { randomUUID } from "node:crypto"
+import { motion } from "framer-motion"
 
 export const ProfileInfoEdit: React.FC<{ character: ISheet }> = ({
   character,
@@ -345,14 +346,17 @@ export const ProfileInfoEdit: React.FC<{ character: ISheet }> = ({
                 </GlowingWrapper>
               </div>
               <div className="w-full bg-gray-600/10 overflow-hidden h-3 rounded-full">
-                <div
-                  className="h-full rounded-full bg-gradient-to-tr from-red-600 to-red-400"
-                  style={{
+                <motion.div
+                  key={editableData.magicPoints}
+                  initial={{ width: 0 }}
+                  animate={{
                     width: `${
                       (editableData.hitPoints / editableData.maxHitPoints) * 100
                     }%`,
                   }}
-                ></div>
+                  transition={{ duration: 1, ease: "easeInOut" }}
+                  className="h-full rounded-full bg-gradient-to-tr from-red-600 to-red-400"
+                />
               </div>
             </div>
             <div className="w-full space-y-1">
@@ -366,15 +370,18 @@ export const ProfileInfoEdit: React.FC<{ character: ISheet }> = ({
                 </GlowingWrapper>
               </div>
               <div className="w-full bg-gray-600/10 overflow-hidden h-3 rounded-full">
-                <div
-                  className="h-full rounded-full bg-gradient-to-tr from-blue-600 to-blue-400"
-                  style={{
+                <motion.div
+                  key={editableData.magicPoints}
+                  initial={{ width: 0 }}
+                  animate={{
                     width: `${
                       (editableData.magicPoints / editableData.maxMagicPoints) *
                       100
                     }%`,
                   }}
-                ></div>
+                  transition={{ duration: 1, ease: "easeInOut" }}
+                  className="h-full rounded-full bg-gradient-to-tr from-blue-600 to-blue-400"
+                />
               </div>
             </div>
           </div>
@@ -411,10 +418,14 @@ export const ProfileInfoEdit: React.FC<{ character: ISheet }> = ({
               </svg>
               <DonutChart
                 percentage={
-                  (editableData.sanity / editableData.maxSanity) * 100
+                  editableData.maxSanity === 0
+                    ? 0
+                    : (editableData.sanity / editableData.maxSanity) * 100
                 }
                 size={80}
                 strokeWidth={10}
+                maxSanity={character.infos.maxSanity}
+                sanity={character.infos.sanity}
               />
             </div>
             <span className="font-medium absolute top-1/2 -translate-y-1/2 -right-[50px]">

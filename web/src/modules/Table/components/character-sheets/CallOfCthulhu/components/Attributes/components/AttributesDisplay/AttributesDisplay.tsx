@@ -1,3 +1,5 @@
+import { motion } from "framer-motion"
+
 interface AttributesDisplayProps {
   activeItems: (
     | "attributes"
@@ -86,8 +88,10 @@ export const AttributesDisplay = ({
               </div>
 
               <div className="w-full bg-gray-600/10">
-                <div
-                  style={{ width: `${value}%` }}
+                <motion.div
+                  initial={{ width: 0 }}
+                  animate={{ width: `${value}%` }}
+                  transition={{ duration: 1, ease: "easeInOut" }}
                   className="w-full background-gradient h-[4px] mt-2"
                 />
               </div>

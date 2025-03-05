@@ -5,6 +5,7 @@ import { currentSession } from "@/shared/contexts/Users/mock-data"
 import { handleCharacterTooltipText } from "@/shared/utils/handleCharacterTooltipText"
 import { handleCharacterVisibilityTooltipText } from "@/shared/utils/handleCharacterVisibilityTooltipText"
 import { useState } from "react"
+import { motion } from "framer-motion"
 
 interface ProfileInfoDisplayProps {
   character: ISheet
@@ -295,16 +296,19 @@ export const ProfileInfoDisplay = ({
                   </span>
                 </div>
                 <div className="w-full bg-gray-600/10 overflow-hidden h-3 rounded-full">
-                  <div
-                    className="h-full rounded-full bg-gradient-to-tr from-red-600 to-red-500"
-                    style={{
+                  <motion.div
+                    key={character.id}
+                    initial={{ width: 0 }}
+                    animate={{
                       width: `${
                         (character.infos.hitPoints /
                           character.infos.maxHitPoints) *
                         100
                       }%`,
                     }}
-                  ></div>
+                    transition={{ duration: 1, ease: "easeInOut" }}
+                    className="h-full rounded-full bg-gradient-to-tr from-red-600 to-red-500"
+                  />
                 </div>
               </div>
               <div className="w-full space-y-1">
@@ -315,16 +319,19 @@ export const ProfileInfoDisplay = ({
                   </span>{" "}
                 </div>
                 <div className="w-full bg-gray-600/10 overflow-hidden h-3 rounded-full">
-                  <div
-                    className="h-full rounded-full bg-gradient-to-tr from-blue-600 to-blue-500"
-                    style={{
+                  <motion.div
+                    key={character.id}
+                    initial={{ width: 0 }}
+                    animate={{
                       width: `${
                         (character.infos.magicPoints /
                           character.infos.maxMagicPoints) *
                         100
                       }%`,
                     }}
-                  ></div>
+                    transition={{ duration: 1, ease: "easeInOut" }}
+                    className="h-full rounded-full bg-gradient-to-tr from-blue-600 to-blue-500"
+                  />
                 </div>
               </div>
             </div>

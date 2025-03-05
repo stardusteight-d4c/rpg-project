@@ -1,19 +1,26 @@
+"use client"
+
+import { motion } from "framer-motion"
+
 interface DonutChartProps {
-  percentage: number 
-  size?: number 
-  strokeWidth?: number 
+  percentage: number
+  size?: number
+  strokeWidth?: number
   backgroundColor?: string
+  maxSanity?: number
+  sanity?: number
 }
 
 export const DonutChart: React.FC<DonutChartProps> = ({
   percentage,
   size = 100,
-  backgroundColor = '#4b55631a',
+  backgroundColor = "#4b55631a",
   strokeWidth = 10,
+  maxSanity,
+  sanity,
 }) => {
-  const radius = (size - strokeWidth) / 2 
-  const circumference = 2 * Math.PI * radius 
-  const progress = (percentage / 100) * circumference
+  const radius = (size - strokeWidth) / 2
+  const circumference = 2 * Math.PI * radius
 
   return (
     <div className="flex flex-col items-center justify-center">
@@ -23,7 +30,6 @@ export const DonutChart: React.FC<DonutChartProps> = ({
         className="transform -rotate-90"
         style={{ overflow: "visible" }}
       >
-        {/* Fundo do círculo */}
         <circle
           cx={size / 2}
           cy={size / 2}
@@ -32,15 +38,21 @@ export const DonutChart: React.FC<DonutChartProps> = ({
           stroke={backgroundColor}
           strokeWidth={strokeWidth}
         />
-        {/* Progresso */}
-        <circle
+        <motion.circle
+          key={`${sanity}-${maxSanity}`}
           cx={size / 2}
           cy={size / 2}
           r={radius}
           fill="none"
-          stroke="url(#gradient)" // Usando gradiente para a cor
+          stroke="url(#gradient)"
           strokeWidth={strokeWidth}
-          strokeDasharray={`${progress} ${circumference}`}
+          strokeDasharray={circumference}
+          initial={{ strokeDashoffset: circumference }}
+          animate={{
+            strokeDashoffset:
+              circumference - (percentage / 100) * circumference,
+          }}
+          transition={{ duration: 1, ease: "easeInOut" }}
           strokeLinecap="round"
         />
         <defs>

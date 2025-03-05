@@ -4,6 +4,7 @@ import { useCharacters } from "@/shared/contexts/Characters/CharactersContext"
 import { CustomNumericInput, GlowingWrapper } from "@/shared/components"
 import { randomUUID } from "crypto"
 import { useEffect, useState } from "react"
+import { motion } from "framer-motion"
 
 interface SkillsEditProps {
   activeItems: (
@@ -136,10 +137,14 @@ export const SkillsEdit = ({
               <div className="flex items-center gap-x-2">
                 {typeof skill.currentValue === "number" && (
                   <div className="w-full relative bg-gray-600/10 overflow-hidden rounded-full">
-                    <div
+                    <motion.div
                       className="h-2 font-medium background-gradient rounded-full"
-                      style={{ width: `${skill.currentValue}%` }}
-                    ></div>
+                      initial={{ width: 0 }}
+                      animate={{
+                        width: `${skill.currentValue}%`,
+                      }}
+                      transition={{ duration: 1, ease: "easeInOut" }}
+                    />
                   </div>
                 )}
                 <GlowingWrapper>

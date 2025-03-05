@@ -2,6 +2,7 @@ import { useCharacters } from "@/shared/contexts/Characters/CharactersContext"
 import { CustomNumericInput, GlowingWrapper } from "@/shared/components"
 import { randomUUID } from "node:crypto"
 import { useEffect, useState } from "react"
+import { motion } from "framer-motion"
 
 interface AttributesEditProps {
   activeItems: (
@@ -110,8 +111,10 @@ export const AttributesEdit = ({
                 </GlowingWrapper>
               </div>
               <div className="w-full bg-gray-600/10">
-                <div
-                  style={{ width: `${value}%` }}
+                <motion.div
+                  initial={{ width: 0 }}
+                  animate={{ width: `${value}%` }}
+                  transition={{ duration: 1, ease: "easeInOut" }}
                   className="w-full background-gradient h-[4px] mt-2"
                 />
               </div>
