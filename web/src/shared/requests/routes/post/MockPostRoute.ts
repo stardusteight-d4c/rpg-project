@@ -95,18 +95,17 @@ export class MockPostRoute implements IPostRoute {
     if (!comment.id) {
       throw new Error("Comment ID is required")
     }
-    
-    const post = this.#posts.get(comment.postId);
-    if (!post) throw new Error("Post not found");
-    
-    const index = post.comments.findIndex((c) => c.id === comment.id);
-    if (index === -1) throw new Error("Comment not found");
-    
-    post.comments.splice(index, 1);
-    post.commentsCount = Math.max((post.commentsCount || 1) - 1, 0);
-    this.#posts.set(post.id, post);
-}
 
+    const post = this.#posts.get(comment.postId)
+    if (!post) throw new Error("Post not found")
+
+    const index = post.comments.findIndex((c) => c.id === comment.id)
+    if (index === -1) throw new Error("Comment not found")
+
+    post.comments.splice(index, 1)
+    post.commentsCount = Math.max((post.commentsCount || 1) - 1, 0)
+    this.#posts.set(post.id, post)
+  }
 
   public async like(postId: string, userId: string): Promise<void> {
     const post = this.#posts.get(postId)
@@ -135,64 +134,99 @@ export class MockPostRoute implements IPostRoute {
     }
   }
 
+  public async listComments(
+    postId: string,
+    currentPage: number = 1,
+    pageSize: number = 10
+  ): Promise<ListCommentsResponseDTO> {
+    await new Promise((resolve) => setTimeout(resolve, 5000))
+
+    const post = this.#posts.get(postId)
+    if (!post) {
+      throw new Error("Post not found")
+    }
+
+    const totalItems = post.comments.length
+    const totalPages = Math.ceil(totalItems / pageSize)
+    const startIndex = (currentPage - 1) * pageSize
+    const endIndex = startIndex + pageSize
+    const paginatedComments = post.comments.slice(startIndex, endIndex)
+
+    const users = await this.#inMemoryUserRoute.list()
+    const usersMap = new Map(users.map((user) => [user.id, user]))
+
+    const updatedComments = paginatedComments.map((comment) => ({
+      ...comment,
+      owner: usersMap.get(comment.owner.id) ?? comment.owner,
+    }))
+
+    return {
+      items: updatedComments,
+      totalItems,
+      totalPages,
+    }
+  }
+
   public async list(
     queryParams?: ListPostsDTO
   ): Promise<ListPostsResponseDTO<IPost>> {
-    await new Promise((resolve) => setTimeout(resolve, 5000));
-  
-    let filteredPosts = Array.from(this.#posts.values());
-  
+    await new Promise((resolve) => setTimeout(resolve, 5000))
+
+    let filteredPosts = Array.from(this.#posts.values())
+
     if (queryParams?.campaignId) {
       filteredPosts = filteredPosts.filter(
         (post) => post.campaignId === queryParams.campaignId
-      );
+      )
     }
     if (queryParams?.ownerId) {
       filteredPosts = filteredPosts.filter(
         (post) => post.owner.id === queryParams.ownerId
-      );
+      )
     }
-  
+
     if (queryParams?.feed && queryParams?.userId) {
-      const user = await this.#inMemoryUserRoute.list({ userId: queryParams.userId });
+      const user = await this.#inMemoryUserRoute.list({
+        userId: queryParams.userId,
+      })
       if (user.length === 0) {
-        return { items: [], totalItems: 0, totalPages: 0 };
+        return { items: [], totalItems: 0, totalPages: 0 }
       }
-      const followingIds = user[0].following;
+      const followingIds = user[0].following
       filteredPosts = filteredPosts.filter(
-        (post) => post.owner.id === queryParams.userId || followingIds.includes(post.owner.id)
-      );
+        (post) =>
+          post.owner.id === queryParams.userId ||
+          followingIds.includes(post.owner.id)
+      )
     }
-  
+
     filteredPosts.sort(
-      (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-    );
-  
-    const totalItems = filteredPosts.length;
-    const page = queryParams?.currentPage ?? 1;
-    const pageSize = queryParams?.pageSize ?? 10;
-    const totalPages = Math.ceil(totalItems / pageSize);
-  
-    const startIndex = (page - 1) * pageSize;
-    const endIndex = startIndex + pageSize;
-    const paginatedPosts = filteredPosts.slice(startIndex, endIndex);
-  
-    const users = await this.#inMemoryUserRoute.list();
-    const usersMap = new Map(users.map((user) => [user.id, user]));
-  
+      (a, b) =>
+        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    )
+
+    const totalItems = filteredPosts.length
+    const page = queryParams?.currentPage ?? 1
+    const pageSize = queryParams?.pageSize ?? 10
+    const totalPages = Math.ceil(totalItems / pageSize)
+
+    const startIndex = (page - 1) * pageSize
+    const endIndex = startIndex + pageSize
+    const paginatedPosts = filteredPosts.slice(startIndex, endIndex)
+
+    const users = await this.#inMemoryUserRoute.list()
+    const usersMap = new Map(users.map((user) => [user.id, user]))
+
     const updatedPosts = paginatedPosts.map((post) => ({
       ...post,
       owner: usersMap.get(post.owner.id) ?? post.owner,
-      comments: post.comments.map((comment) => ({
-        ...comment,
-        owner: usersMap.get(comment.owner.id) ?? comment.owner,
-      })),
-    }));
-  
+      comments: [],
+    }))
+
     return {
       items: updatedPosts,
       totalItems,
       totalPages,
-    };
+    }
   }
 }

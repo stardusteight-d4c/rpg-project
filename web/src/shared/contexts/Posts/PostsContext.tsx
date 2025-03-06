@@ -27,6 +27,9 @@ interface PostsState {
   ) => Promise<ListPostsResponseDTO<IPost>>
   getByUser: (queryParams: ListPostsDTO) => Promise<ListPostsResponseDTO<IPost>>
   getFeed: (queryParams: ListPostsDTO) => Promise<ListPostsResponseDTO<IPost>>
+  getCommentsByPost: (
+    queryParams: ListCommentsDTO
+  ) => Promise<ListCommentsResponseDTO>
 }
 
 const defaultState: PostsState = {
@@ -52,6 +55,11 @@ const defaultState: PostsState = {
     totalPages: 0,
   }),
   getFeed: async () => ({
+    items: [],
+    totalItems: 0,
+    totalPages: 0,
+  }),
+  getCommentsByPost: async () => ({
     items: [],
     totalItems: 0,
     totalPages: 0,
@@ -207,6 +215,28 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
       })
   }
 
+  const getCommentsByPost = async (
+    queryParams: ListCommentsDTO
+  ): Promise<ListCommentsResponseDTO> => {
+    return api.post
+      .listComments(
+        queryParams.postId,
+        queryParams.currentPage,
+        queryParams.pageSize
+      )
+      .then((commentsPagination) => {
+        const post = posts.get(queryParams.postId)
+        if (post) {
+          post.comments = [...commentsPagination.items, ...post.comments]
+          updatePostState(post)
+        }
+        return commentsPagination
+      })
+      .catch((error) => {
+        throw new Error(error.message)
+      })
+  }
+
   const updateComment = async (comment: Partial<IComment>) => {
     return api.post
       .updateComment(comment)
@@ -265,6 +295,7 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
         deleteComment,
         like,
         unlike,
+        getCommentsByPost,
         getByCampaign,
         getByUser,
         getFeed,

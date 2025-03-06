@@ -2,7 +2,7 @@
 
 import { ModalWrapper } from "@/shared/components"
 import { timeago } from "@/shared/utils/timeago"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { PostEdit } from "./PostEdit"
 import { Comment } from "./Comment"
 import { CommentInput } from "./CommentInput"
@@ -14,12 +14,42 @@ import { useToast } from "@/shared/contexts/Toaster/ToasterContext"
 
 export const Post = ({ post }: { post: IPost }) => {
   const { push } = useRouter()
-  const { like, unlike } = usePosts()
+  const { like, unlike, getCommentsByPost } = usePosts()
   const { addToast } = useToast()
   const { currentSession } = useAuth()
   const [loading, setLoading] = useState<boolean>(false)
   const [showComments, setShowComments] = useState<boolean>(false)
   const [openEditPost, setOpenEditPost] = useState<boolean>(false)
+  const [currentPage, setCurrentPage] = useState<number>(1)
+  const [hasMoreComments, setHasMoreComments] = useState<boolean>(true)
+  const pageSize = 5
+
+  const loadMoreComments = async () => {
+    if (loading || !hasMoreComments) return
+    setLoading(true)
+
+    getCommentsByPost({
+      currentPage,
+      pageSize,
+      postId: post.id,
+    })
+      .then((commentsList) => {
+        setCurrentPage((prev) => (prev += 1))
+        setHasMoreComments(commentsList.totalPages >= currentPage)
+      })
+      .catch((error) => {
+        addToast(error.message, "error", 45)
+      })
+      .finally(() => {
+        setLoading(false)
+      })
+  }
+
+  useEffect(() => {
+    if (showComments && post.comments.length === 0) {
+      loadMoreComments()
+    }
+  }, [showComments])
 
   const onLike = () => {
     if (loading) return
@@ -45,14 +75,10 @@ export const Post = ({ post }: { post: IPost }) => {
       })
   }
 
-  console.log({post});
-  
+  console.log({ post })
 
   return (
-    <div
-      key={String(post.comments)}
-      className="flex relative bg-background w-full border border-border rounded-xl pt-4 flex-col"
-    >
+    <div className="flex relative bg-background w-full border border-border rounded-xl pt-4 flex-col">
       <ModalWrapper
         title="Editing Post"
         onStatusChange={setOpenEditPost}
@@ -255,6 +281,16 @@ export const Post = ({ post }: { post: IPost }) => {
               <Comment key={comment.id} comment={comment} postId={post.id} />
             ))}
           </div>
+        )}
+
+        {showComments && hasMoreComments && (
+          <button
+            onClick={loadMoreComments}
+            disabled={loading}
+            className="px-4 py-2 text-sm text-primary hover:bg-secondary rounded-md mb-4"
+          >
+            {loading ? "Carregando..." : "Carregar mais comentários"}
+          </button>
         )}
       </div>
     </div>

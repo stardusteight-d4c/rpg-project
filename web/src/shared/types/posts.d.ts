@@ -29,8 +29,20 @@ interface ListPostsDTO {
   pageSize?: number
 }
 
+interface ListCommentsDTO {
+  postId: string; 
+  currentPage?: number;
+  pageSize?: number; 
+}
+
 interface ListPostsResponseDTO<T> {
   items: Array<T>
   totalItems: number
   totalPages: number
+}
+
+interface ListCommentsResponseDTO {
+  items: IComment[];
+  totalItems: number;
+  totalPages: number;
 }
