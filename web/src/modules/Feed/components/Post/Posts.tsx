@@ -3,12 +3,33 @@
 import { Post } from "./Post"
 import { CreatePostInput } from "./CreatePostInput"
 import { usePosts } from "@/shared/contexts/Posts/PostsContext"
+import { useAuth } from "@/shared/contexts/Auth/AuthContext"
+import { useEffect, useState } from "react"
 
 export const Posts = () => {
-  const { posts } = usePosts()
+  const { currentSession } = useAuth()
+  const { feedPosts: posts, getFeed } = usePosts()
+  const [currentPage, setCurrentPage] = useState<number>(1)
+  const [lastPage, setLastPage] = useState<number>(10)
+  const pageSize = 10
+
+  useEffect(() => {
+    if (currentSession?.id) {
+      getFeed({ userId: currentSession?.id, currentPage, pageSize }).then(
+        (response) => {
+          setLastPage(response.totalPages)
+        }
+      )
+    }
+  }, [currentSession?.id, currentPage])
+
+  if (!currentSession) return null
 
   return (
-    <section key={String(posts)} className="min-w-[860px] pb-[200px] space-y-4 pr-4 pt-4 border-r border-border w-full min-h-screen">
+    <section
+      key={String(posts)}
+      className="min-w-[860px] pb-[200px] space-y-4 pr-4 pt-4 border-r border-border w-full min-h-screen"
+    >
       <CreatePostInput isFeed />
       {Array.from(posts.values()).map((post) => (
         <Post key={post.id} post={post} />

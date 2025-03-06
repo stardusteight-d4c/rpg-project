@@ -5,7 +5,6 @@ import React, {
   useContext,
   ReactNode,
   useState,
-  useEffect,
   useMemo,
 } from "react"
 import { MockAPI } from "@/shared/requests/MockAPI"
@@ -14,6 +13,7 @@ import { PostsContextHandlers } from "./PostsContextHandlers"
 interface PostsState {
   campaignPosts: Map<string, IPost>
   posts: Map<string, IPost>
+  feedPosts: Map<string, IPost>
   add: (post: IPost, currentPage?: number) => Promise<IPost | void>
   update: (post: Partial<IPost>) => Promise<IPost | void>
   remove: (postId: string) => Promise<void>
@@ -26,11 +26,13 @@ interface PostsState {
     queryParams: ListPostsDTO
   ) => Promise<ListPostsResponseDTO<IPost>>
   getByUser: (queryParams: ListPostsDTO) => Promise<ListPostsResponseDTO<IPost>>
+  getFeed: (queryParams: ListPostsDTO) => Promise<ListPostsResponseDTO<IPost>>
 }
 
 const defaultState: PostsState = {
   campaignPosts: new Map(),
   posts: new Map(),
+  feedPosts: new Map(),
   add: async () => {},
   update: async () => {},
   remove: async () => {},
@@ -49,6 +51,11 @@ const defaultState: PostsState = {
     totalItems: 0,
     totalPages: 0,
   }),
+  getFeed: async () => ({
+    items: [],
+    totalItems: 0,
+    totalPages: 0,
+  }),
 }
 
 const PostsContext = createContext<PostsState>(defaultState)
@@ -60,6 +67,7 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
     new Map()
   )
   const [posts, setPosts] = useState<Map<string, IPost>>(new Map())
+  const [feedPosts, setFeedPosts] = useState<Map<string, IPost>>(new Map())
 
   const api = new MockAPI()
 
@@ -80,8 +88,10 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
     setCampaignPosts((prev) =>
       sortPostsMap(new Map(prev).set(updatedPost.id, updatedPost))
     )
+    setFeedPosts((prev) =>
+      sortPostsMap(new Map(prev).set(updatedPost.id, updatedPost))
+    )
   }
-
   const handlers = useMemo(
     () => new PostsContextHandlers(posts, updatePostState),
     [posts]
@@ -92,6 +102,9 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
       .create(post)
       .then((createdPost) => {
         setPosts((prev) =>
+          sortPostsMap(new Map(prev).set(createdPost.id, createdPost))
+        )
+        setFeedPosts((prev) =>
           sortPostsMap(new Map(prev).set(createdPost.id, createdPost))
         )
         if (currentPage === 1) {
@@ -111,6 +124,7 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
       .update(post)
       .then((post) => {
         setPosts((prev) => sortPostsMap(new Map(prev).set(post.id, post)))
+        setFeedPosts((prev) => sortPostsMap(new Map(prev).set(post.id, post)))
         setCampaignPosts((prev) =>
           sortPostsMap(new Map(prev).set(post.id, post))
         )
@@ -160,6 +174,21 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
           postsPagination.items.map((post) => [post.id, post])
         )
         setCampaignPosts(sortPostsMap(postsMap))
+        return postsPagination
+      })
+      .catch((error) => {
+        throw new Error(error.message)
+      })
+  }
+
+  const getFeed = async (queryParams: ListPostsDTO) => {
+    return api.post
+      .list({ ...queryParams, feed: true })
+      .then((postsPagination) => {
+        const postsMap = new Map(
+          postsPagination.items.map((post) => [post.id, post])
+        )
+        setFeedPosts(sortPostsMap(postsMap))
         return postsPagination
       })
       .catch((error) => {
@@ -226,6 +255,7 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
     <PostsContext.Provider
       value={{
         posts,
+        feedPosts,
         campaignPosts,
         update,
         remove,
@@ -237,6 +267,7 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
         unlike,
         getByCampaign,
         getByUser,
+        getFeed,
       }}
     >
       {children}

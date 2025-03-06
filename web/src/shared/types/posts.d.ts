@@ -21,6 +21,8 @@ interface IComment {
 }
 
 interface ListPostsDTO {
+  feed?: boolean
+  userId?: string
   campaignId?: string
   ownerId?: string
   currentPage?: number
