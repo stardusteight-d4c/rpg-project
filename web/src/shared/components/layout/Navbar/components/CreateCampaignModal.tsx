@@ -1,9 +1,9 @@
 "use client"
 
 import ReactDOM from "react-dom"
-import { ModalWrapper } from "../../ModalWrapper"
+import { ModalWrapper } from "../../../ui/ModalWrapper"
 import React, { useState } from "react"
-import { GlowingWrapper } from "../../GlowingWrapper"
+import { GlowingWrapper } from "../../../ui/GlowingWrapper"
 import { useCampaigns } from "@/shared/contexts/Campaigns/CampaignsContext"
 import { useAuth } from "@/shared/contexts/Auth/AuthContext"
 import { useToast } from "@/shared/contexts/Toaster/ToasterContext"

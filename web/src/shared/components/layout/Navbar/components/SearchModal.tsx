@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
-import { GlowingWrapper } from "../../GlowingWrapper"
-import { ModalWrapper } from "../../ModalWrapper"
+import { GlowingWrapper } from "../../../ui/GlowingWrapper"
+import { ModalWrapper } from "../../../ui/ModalWrapper"
 import { useUsers } from "@/shared/contexts/Users/UsersContext"
 import { getNameInitials } from "@/shared/utils/getNameInitials"
 import { useRouter } from "next/navigation"

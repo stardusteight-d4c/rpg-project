@@ -1,4 +1,4 @@
-import { Footer, Navbar } from "@/shared/components"
+import { Footer, Navbar } from "@/shared/components/layout"
 import { Posts } from "./Post"
 import { Sidebar } from "./Sidebar"
 

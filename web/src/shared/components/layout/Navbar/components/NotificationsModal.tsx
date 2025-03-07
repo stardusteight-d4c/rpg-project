@@ -1,5 +1,5 @@
 import React from "react"
-import { ModalWrapper } from "../../ModalWrapper"
+import { ModalWrapper } from "../../../ui/ModalWrapper"
 import { convertTimestamp } from "@/shared/utils/convertTimestamp"
 import { useNotifications } from "@/shared/contexts/Notifications/NotificationsContext"
 import { MasterNotification } from "@/modules/Table/components/Notifications/components/MasterNotification"

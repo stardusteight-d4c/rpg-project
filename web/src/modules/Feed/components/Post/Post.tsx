@@ -27,14 +27,13 @@ export const Post = ({ post }: { post: IPost }) => {
   const loadMoreComments = async () => {
     if (loading || !hasMoreComments) return
     setLoading(true)
-
+    setCurrentPage((prev) => (prev += 1))
     getCommentsByPost({
       currentPage,
       pageSize,
       postId: post.id,
     })
       .then((commentsList) => {
-        setCurrentPage((prev) => (prev += 1))
         setHasMoreComments(commentsList.totalPages >= currentPage)
       })
       .catch((error) => {

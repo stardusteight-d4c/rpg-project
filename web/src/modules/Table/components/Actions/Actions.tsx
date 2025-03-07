@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react"
 import { CharacterRoll, Sender, SystemRoll } from "./components"
-import { ModalWrapper } from "@/shared/components/ModalWrapper/ModalWrapper"
+import { ModalWrapper } from "@/shared/components/ui/ModalWrapper/ModalWrapper"
 import { Dice } from "../Dice"
 import { useRolls } from "../../../../shared/contexts/Rolls/RollsContext"
 import { convertTimestamp } from "../../../../shared/utils/convertTimestamp"

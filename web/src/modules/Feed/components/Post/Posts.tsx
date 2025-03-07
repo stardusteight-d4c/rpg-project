@@ -10,18 +10,36 @@ export const Posts = () => {
   const { currentSession } = useAuth()
   const { feedPosts: posts, getFeed } = usePosts()
   const [currentPage, setCurrentPage] = useState<number>(1)
+  const [loading, setLoading] = useState<boolean>(false)
   const [lastPage, setLastPage] = useState<number>(10)
+  const [hasMorePost, setHasMorePosts] = useState<boolean>(true)
+
   const pageSize = 10
 
   useEffect(() => {
-    if (currentSession?.id) {
-      getFeed({ userId: currentSession?.id, currentPage, pageSize }).then(
-        (response) => {
-          setLastPage(response.totalPages)
-        }
-      )
+    if (currentSession?.id && !loading && hasMorePost) {
+      setLoading(true)
+      getFeed({ userId: currentSession?.id, currentPage, pageSize })
+        .then((postList) => {
+          setHasMorePosts(postList.totalPages >= currentPage)
+          setLastPage(postList.totalPages)
+        })
+        .finally(() => {
+          setLoading(false)
+        })
     }
   }, [currentSession?.id, currentPage])
+
+  window.onscroll = () => {
+    if (
+      Math.ceil(window.innerHeight + window.scrollY) >=
+      Math.ceil(document.body.offsetHeight)
+    ) {
+      if (!loading && currentPage <= lastPage) {
+        setCurrentPage((prev) => prev + 1)
+      }
+    }
+  }
 
   if (!currentSession) return null
 

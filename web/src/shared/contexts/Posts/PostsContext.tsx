@@ -193,10 +193,15 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
     return api.post
       .list({ ...queryParams, feed: true })
       .then((postsPagination) => {
-        const postsMap = new Map(
-          postsPagination.items.map((post) => [post.id, post])
-        )
-        setFeedPosts(sortPostsMap(postsMap))
+        setFeedPosts((prev) => {
+          const updatedPosts = new Map(prev) 
+          postsPagination.items.forEach((post) =>
+            updatedPosts.set(post.id, post)
+          ) 
+
+          return sortPostsMap(updatedPosts) 
+        })
+
         return postsPagination
       })
       .catch((error) => {
