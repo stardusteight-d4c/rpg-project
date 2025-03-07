@@ -1,0 +1,1 @@
+export { DeleteContentModal } from "./DeleteContentModal"

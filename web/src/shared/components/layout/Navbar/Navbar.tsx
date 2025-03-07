@@ -1,24 +1,23 @@
 "use client"
 
-import { currentSession } from "@/shared/contexts/Users/mock-data"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
-import { CreateCampaignModal } from "./components/CreateCampaignModal"
+import {
+  CreateSheetModal,
+  CreateCampaignModal,
+  NotificationsModal,
+  SearchModal,
+} from "@/shared/components/content/modals"
 import { useAuth } from "@/shared/contexts/Auth/AuthContext"
-import { getNameInitials } from "@/shared/utils/getNameInitials"
-import { ModalWrapper } from "../../ui/ModalWrapper"
-import { CharactersCreate } from "@/modules/Table/components/Characters/components/CharactersCreate"
-import { GlowingWrapper } from "../../ui/GlowingWrapper"
-import { SearchModal } from "./components/SearchModal"
-import { NotificationsModal } from "./components/NotificationsModal"
+import { getNameInitials } from "@/shared/utils"
 
 export const Navbar = () => {
   const { push } = useRouter()
   const { currentSession, logout } = useAuth()
 
-  const [createSheetModal, setCreateSheetModal] = useState<boolean>(false)
-  const [searchModal, setSearchModal] = useState<boolean>(false)
-  const [notificationsModal, setNotificationsModal] = useState<boolean>(false)
+  const [openSearchModal, setOpenSearchModal] = useState<boolean>(false)
+  const [openNotificationsModal, setOpenNotificationsModal] = useState<boolean>(false)
+  const [openCreateSheetModal, setOpenCreateSheetModal] = useState<boolean>(false)
   const [openCreateCampaignModal, setOpenCreateCampaignModal] =
     useState<boolean>(false)
 
@@ -26,23 +25,18 @@ export const Navbar = () => {
 
   return (
     <nav className="bg-background fixed inset-x-0 top-0 z-[600] w-screen border-b py-1 border-border shadow-md shadow-black/50 ">
-      <ModalWrapper
-        status={createSheetModal}
-        title="Create Sheet"
-        onStatusChange={setCreateSheetModal}
-      >
-        <div className="w-[700px]">
-          <CharactersCreate isModal setCreateSheetModal={setCreateSheetModal} />
-        </div>
-      </ModalWrapper>
-      <CreateCampaignModal
-        onStatusChange={setOpenCreateCampaignModal}
-        status={openCreateCampaignModal}
+      <CreateSheetModal  
+        status={openCreateSheetModal}
+        onStatusChange={setOpenCreateSheetModal}
       />
-      <SearchModal status={searchModal} onStatusChange={setSearchModal} />
+      <CreateCampaignModal
+        status={openCreateCampaignModal}
+        onStatusChange={setOpenCreateCampaignModal}
+      />
+      <SearchModal status={openSearchModal} onStatusChange={setOpenSearchModal} />
       <NotificationsModal
-        status={notificationsModal}
-        onStatusChange={setNotificationsModal}
+        status={openNotificationsModal}
+        onStatusChange={setOpenNotificationsModal}
       />
       <div className="max-w-7xl flex items-center justify-between mx-auto">
         <h1
@@ -57,7 +51,7 @@ export const Navbar = () => {
         </h1>
         <div className="flex items-center gap-x-4">
           <div
-            onClick={() => setSearchModal(true)}
+            onClick={() => setOpenSearchModal(true)}
             className="cursor-pointer w-fit flex items-center group gap-x-2"
           >
             <button className="bg-ashes flex items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50 group-hover:bg-gradient-to-tr group-hover:from-[#42d392] group-hover:to-[#8B5CF6] duration-300 ease-in-out transition-all">
@@ -75,7 +69,7 @@ export const Navbar = () => {
           </div>
 
           <div
-            onClick={() => setCreateSheetModal(true)}
+            onClick={() => setOpenCreateSheetModal(true)}
             className="cursor-pointer w-fit flex items-center group gap-x-2"
           >
             <button className="bg-ashes flex items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50 group-hover:bg-gradient-to-tr group-hover:from-[#42d392] group-hover:to-[#8B5CF6] duration-300 ease-in-out transition-all">
@@ -126,7 +120,7 @@ export const Navbar = () => {
             <span>Feed</span>
           </div>
           <div
-            onClick={() => setNotificationsModal(true)}
+            onClick={() => setOpenNotificationsModal(true)}
             className="cursor-pointer w-fit flex items-center group gap-x-2"
           >
             <button className="bg-ashes relative flex items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50 group-hover:bg-gradient-to-tr group-hover:from-[#42d392] group-hover:to-[#8B5CF6] duration-300 ease-in-out transition-all">

@@ -1,6 +1,0 @@
-export { ProfileInfo } from "./ProfileInfo"
-export { Attributes } from "./Attributes"
-export { Skills } from "./Skills"
-export { Combat } from "./Combat"
-export { Inventory } from "./Inventory"
-export { Backstory } from "./Backstory"

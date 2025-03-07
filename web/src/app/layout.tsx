@@ -2,9 +2,9 @@ import type { Metadata } from "next"
 import { Delius } from "next/font/google"
 import localFont from "next/font/local"
 import { getServerSession } from "next-auth"
-import { Providers } from "@/shared/providers/Providers"
-import "./globals.css"
+import { Providers } from "@/shared/contexts/providers"
 import { authOptions } from "@/shared/libs/next_auth"
+import "./globals.css"
 
 const robotoCondensed = localFont({
   src: [

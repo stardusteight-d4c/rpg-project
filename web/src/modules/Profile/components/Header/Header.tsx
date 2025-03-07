@@ -1,13 +1,12 @@
-import { DonutChart, ModalWrapper } from "@/shared/components"
-import { useAuth } from "@/shared/contexts/Auth/AuthContext"
-import { convertTimestamp } from "@/shared/utils/convertTimestamp"
-import { getNameInitials } from "@/shared/utils/getNameInitials"
 import { useState } from "react"
-import { EditProfileModal } from "./components/EditProfileModal"
-import { FollowingModal } from "./components/FollowingModal"
-import { FollowersModal } from "./components/FollowersModal"
-import { useUsers } from "@/shared/contexts/Users/UsersContext"
-import { useToast } from "@/shared/contexts/Toaster/ToasterContext"
+import { convertTimestamp, getNameInitials } from "@/shared/utils"
+import { useUsers, useAuth, useToast } from "@/shared/contexts"
+import {
+  EditProfileModal,
+  FollowersModal,
+  FollowingModal,
+} from "@/shared/components/content/modals"
+import { DonutChart } from "@/shared/components/ui"
 
 export const Header: React.FC<{ user: IUser }> = ({ user }) => {
   const { currentSession, updateSession } = useAuth()
@@ -19,7 +18,7 @@ export const Header: React.FC<{ user: IUser }> = ({ user }) => {
   const [isOpenFollowersModal, setIsOpenFollowersModal] =
     useState<boolean>(false)
 
-    const onFollow = async () => {
+  const onFollow = async () => {
     await follow(user.id, currentSession!.id)
       .then((updatedUser) => {
         updatedUser && updateSession(updatedUser)

@@ -1,25 +1,11 @@
-import { ModalProvider } from "./ModalContext"
-import { UsersProvider } from "./Users/UsersContext"
-import { CharactersProvider } from "./Characters/CharactersContext"
-import { MapsProvider } from "./Maps/MapsContext"
-import { NotificationsProvider } from "./Notifications/NotificationsContext"
-import { RollsProvider } from "./Rolls/RollsContext"
-import { AuthProvider } from "./Auth/AuthContext"
-import { CampaignsProvider } from "./Campaigns/CampaignsContext"
-import { ToastProvider } from "./Toaster/ToasterContext"
-import { SheetsProvider } from "./Sheets/SheetsContext"
-import { PostsProvider } from "./Posts/PostsContext"
-
-export const providers = [
-  AuthProvider,
-  ToastProvider,
-  CampaignsProvider,
-  PostsProvider,
-  RollsProvider,
-  NotificationsProvider,
-  UsersProvider,
-  SheetsProvider,
-  CharactersProvider,
-  MapsProvider,
-  ModalProvider,
-]
+export { useAuth } from "./Auth/AuthContext"
+export { useModal } from "./Modal/ModalContext"
+export { useUsers } from "./Users/UsersContext"
+export { useCharacters } from "./Characters/CharactersContext"
+export { useMaps } from "./Maps/MapsContext"
+export { useNotifications } from "./Notifications/NotificationsContext"
+export { useRolls } from "./Rolls/RollsContext"
+export { useCampaigns } from "./Campaigns/CampaignsContext"
+export { useToast } from "./Toaster/ToasterContext"
+export { useSheets } from "./Sheets/SheetsContext"
+export { usePosts } from "./Posts/PostsContext"

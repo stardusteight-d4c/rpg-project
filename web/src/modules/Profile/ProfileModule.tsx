@@ -1,8 +1,8 @@
 "use client"
 
-import { useUsers } from "@/shared/contexts/Users/UsersContext"
 import { useParams } from "next/navigation"
 import { useEffect, useState } from "react"
+import { useUsers } from "@/shared/contexts/Users/UsersContext"
 import { Profile } from "./components"
 
 export function ProfileModule() {

@@ -1,11 +1,10 @@
 "use client"
 
-import { GlowingWrapper } from "@/shared/components"
 import { useState } from "react"
-import { redirect, useRouter } from "next/navigation"
 import { Fade } from "react-awesome-reveal"
-import { useAuth } from "@/shared/contexts/Auth/AuthContext"
-import { useToast } from "@/shared/contexts/Toaster/ToasterContext"
+import { redirect } from "next/navigation"
+import { useAuth, useToast } from "@/shared/contexts"
+import { GlowingWrapper } from "@/shared/components/ui"
 
 export const SignUp = () => {
   const { addToast } = useToast()

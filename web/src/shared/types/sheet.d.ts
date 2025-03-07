@@ -112,3 +112,10 @@ interface ListSheetsDTO {
   sheetId?: string
   ownerId: string
 }
+
+type SheetItems = "attributes" | "skills" | "inventory" | "combat" | "backstory"
+
+interface SheetActions {
+  activeItems: SheetItems[]
+  toggleItem: (item: SheetItems) => void
+}

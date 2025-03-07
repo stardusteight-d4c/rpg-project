@@ -1,4 +1,4 @@
-import { useModal } from "@/shared/contexts/ModalContext"
+import { useModal } from "@/shared/contexts/Modal/ModalContext"
 import { SelectedCharacterDisplay } from "../../../Characters/components"
 import { DragEvent } from "react"
 

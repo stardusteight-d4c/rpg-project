@@ -1,7 +1,7 @@
 import { Footer } from "@/shared/components/layout/Footer"
-import { About } from "./about"
-import { Hero } from "./hero"
-import { Nav } from "./nav"
+import { About } from "./About"
+import { Hero } from "./Hero"
+import { Nav } from "./Nav"
 
 export const Home = {
   Nav,

@@ -1,29 +1,20 @@
 "use client"
 
-import { ProfileInfo } from "@/modules/Table/components/character-sheets/CallOfCthulhu/components"
-import {
-  CharactersEdit,
-  SelectedCharacterDisplay,
-} from "@/modules/Table/components/Characters/components"
-import { ModalWrapper } from "@/shared/components"
-import { useSheets } from "@/shared/contexts/Sheets/SheetsContext"
 import { motion } from "framer-motion"
+import { useSheets } from "@/shared/contexts"
 import React, { useEffect, useState, useRef } from "react"
+import { ProfileInfo } from "@/shared/components/content/Sheet/components/ProfileInfo"
+import { SheetModal } from "@/shared/components/content/modals"
 
 export const Sheets: React.FC<{ user: IUser }> = ({ user }) => {
   const { userSheets, getUserSheets } = useSheets()
-  const [editMode, setEditMode] = useState<boolean>(false)
   const sliderRef = useRef<HTMLDivElement>(null)
+  const [selectedSheet, setSelectedSheet] = useState<ISheet | null>(null)
+  const [openSheetModal, setOpenSheetModal] = useState<boolean>(false)
 
-  const [selectedCharacter, setSelectedCharacter] = useState<ISheet | null>(
-    null
-  )
-
-  const handleSelectedCharacterDisplayModal = (value: boolean) => {
-    if (value === false) {
-      setSelectedCharacter(null)
-    }
-    return
+  const onSelectedSheet = (sheet: ISheet) => {
+    setSelectedSheet(sheet)
+    setOpenSheetModal(true)
   }
 
   useEffect(() => {
@@ -34,39 +25,11 @@ export const Sheets: React.FC<{ user: IUser }> = ({ user }) => {
 
   return (
     <div>
-      {selectedCharacter && (
-        <ModalWrapper
-          status={true}
-          onStatusChange={handleSelectedCharacterDisplayModal}
-        >
-          <div className="w-[700px]">
-            {editMode ? (
-              <div>
-                <h3 className="block text-3xl font-bold p-4">
-                  Editing {selectedCharacter.infos.name}'s Sheet
-                </h3>
-                <CharactersEdit
-                  isModal={true}
-                  setEditMode={setEditMode}
-                  playerCharacter={selectedCharacter!}
-                  setSelectedCharacter={setSelectedCharacter}
-                />
-              </div>
-            ) : (
-              <div>
-                <h3 className="block text-3xl font-bold p-4">
-                  {selectedCharacter.infos.name}'s Sheet
-                </h3>
-                <SelectedCharacterDisplay
-                  setEditMode={setEditMode}
-                  selectedCharacter={selectedCharacter}
-                  isModal={true}
-                />
-              </div>
-            )}
-          </div>
-        </ModalWrapper>
-      )}
+      <SheetModal
+        status={openSheetModal}
+        onStatusChange={setOpenSheetModal}
+        sheet={selectedSheet!}
+      />
       <h3 className="text-2xl mb-2 flex items-center gap-x-2 font-semibold">
         <span>
           <svg
@@ -130,7 +93,7 @@ export const Sheets: React.FC<{ user: IUser }> = ({ user }) => {
           {Array.from(userSheets.values()).map((sheet) => (
             <motion.div
               key={sheet.id}
-              onDoubleClick={() => setSelectedCharacter(sheet)}
+              onDoubleClick={() => onSelectedSheet(sheet)}
               className="max-w-[636px] select-none min-w-[636px] border border-border hover:bg-border hover:brightness-105 p-2 rounded-xl"
             >
               <ProfileInfo character={sheet} />

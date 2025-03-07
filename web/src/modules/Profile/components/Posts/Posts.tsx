@@ -1,8 +1,7 @@
-import { usePosts } from "@/shared/contexts/Posts/PostsContext"
 import React, { useEffect, useState, useCallback } from "react"
-import { Post } from "@/modules/Feed/components/Post/Post"
-import { useToast } from "@/shared/contexts/Toaster/ToasterContext"
-import { Loader } from "@/modules/Feed/components/Post/Loader"
+import { Post } from "@/shared/components/content/Post/Post"
+import { Loader } from "@/shared/components/ui/Loader/Loader"
+import { usePosts, useToast } from "@/shared/contexts"
 
 export const Posts: React.FC<{ user: IUser }> = ({ user }) => {
   const { getByUser } = usePosts()

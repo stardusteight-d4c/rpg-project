@@ -6,7 +6,6 @@ import {
   CharactersEdit,
   SelectedCharacterDisplay,
 } from "./components"
-import { CharactersCreate } from "./components/CharactersCreate"
 import { useCharacters } from "@/shared/contexts/Characters/CharactersContext"
 
 export const Characters = () => {
@@ -16,14 +15,12 @@ export const Characters = () => {
   const [createMode, setCreateMode] = useState<boolean>(false)
   const selectedCharacterState = { selectedCharacter, setSelectedCharacter }
 
-  if (createMode) return <CharactersCreate setCreateMode={setCreateMode} />
 
   if (editMode)
     return (
       <CharactersEdit
         setEditMode={setEditMode}
         playerCharacter={selectedCharacter!}
-        setSelectedCharacter={setSelectedCharacter}
       />
     )
 

@@ -1,9 +1,9 @@
 "use client"
 
 import { useState } from "react"
-import { ProfileInfo } from "../../../character-sheets/CallOfCthulhu/components"
 import { currentSession } from "@/shared/contexts/Users/mock-data"
 import { useCharacters } from "@/shared/contexts/Characters/CharactersContext"
+import { ProfileInfo } from "@/shared/components/content/Sheet/components/ProfileInfo"
 
 interface CharactersDisplayProps {
   characters: Array<ISheet>
@@ -42,8 +42,6 @@ export const CharactersDisplay = ({
   const players = countVisibility(characters, "player")
   const npcs = countVisibility(characters, "npc")
   const enemies = countVisibility(characters, "enemy")
-
-  console.log(players, npcs, enemies)
 
   const typesObj = {
     player: "Players",

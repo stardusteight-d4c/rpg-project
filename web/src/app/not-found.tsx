@@ -1,4 +1,4 @@
-import { Loader } from "@/modules/Feed/components/Post/Loader"
+import { Loader } from "@/shared/components/ui/Loader/Loader"
 import Link from "next/link"
 
 export default function NotFound() {

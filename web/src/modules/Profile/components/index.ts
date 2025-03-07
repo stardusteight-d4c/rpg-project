@@ -1,4 +1,4 @@
-import { Footer, Navbar } from "@/shared/components"
+import { Footer, Navbar } from "@/shared/components/layout"
 import { Header } from "./Header"
 import { Sheets } from "./Sheets"
 import { Campaigns } from "./Campaigns"

@@ -1,10 +1,10 @@
 "use client"
 
-import { useCampaigns } from "@/shared/contexts/Campaigns/CampaignsContext"
+import React, { useEffect, useState, useRef } from "react"
 import { useRouter } from "next/navigation"
 import { motion } from "framer-motion"
-import React, { useEffect, useState, useRef } from "react"
-import { getNameInitials } from "@/shared/utils/getNameInitials"
+import { getNameInitials } from "@/shared/utils"
+import { useCampaigns } from "@/shared/contexts"
 
 export const Campaigns: React.FC<{ user: IUser }> = ({ user }) => {
   const { push } = useRouter()
@@ -95,7 +95,7 @@ export const Campaigns: React.FC<{ user: IUser }> = ({ user }) => {
                   {user.avatarUrl ? (
                     <img
                       src={user.avatarUrl}
-                      alt=""
+                      alt={`${user.name}/${user.username}/avatarUrl`}
                       referrerPolicy="no-referrer"
                       style={{ marginRight: `${index * 20}px` }}
                       className="w-[42px] object-cover h-[42px] rounded-full"
@@ -112,7 +112,7 @@ export const Campaigns: React.FC<{ user: IUser }> = ({ user }) => {
               ))}
               <img
                 src={campaign.coverUrl}
-                alt=""
+                alt={`${campaign.name}/coverUrl`}
                 className="object-fill  pointer-events-none select-none rounded-xl w-full h-full"
               />
               <div className="px-2 border border-border bg-background w-fit z-50 shadow-sm shadow-black/50 rounded-full font-medium text-2xl absolute top-2 left-2">
