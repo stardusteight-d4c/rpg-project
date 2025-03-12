@@ -1,10 +1,9 @@
 "use client"
 
 import { useRef, useState } from "react"
-import { useRouter } from "next/navigation"
-import { getNameInitials } from "@/shared/utils"
 import { useAuth } from "@/shared/contexts"
 import { EditCommentModal } from "@/shared/components/content/modals"
+import { UserAvatar } from "@/shared/components/content"
 
 interface CommentProps {
   comment: IComment
@@ -12,7 +11,6 @@ interface CommentProps {
 
 export const Comment = ({ comment }: CommentProps) => {
   const { currentSession } = useAuth()
-  const { push } = useRouter()
   const spanRef = useRef<HTMLSpanElement | null>(null)
   const [editComment, setEditComment] = useState<boolean>(false)
 
@@ -46,18 +44,11 @@ export const Comment = ({ comment }: CommentProps) => {
         </button>
       )}
 
-      {comment.owner.avatarUrl ? (
-        <img
-          src={comment.owner.avatarUrl}
-          alt=""
-          onClick={() => push(`/profile/${comment.owner.username}`)}
-          className="w-[48px] z-10 aspect-square object-cover cursor-pointer h-[48px] rounded-full"
-        />
-      ) : (
-        <div className="w-[48px] text-2xl font-bold bg-background text-white flex items-center justify-center aspect-square object-cover select-none pointer-events-none h-[48px] border border-border rounded-full">
-          {getNameInitials(comment.owner.name)}
-        </div>
-      )}
+      <UserAvatar
+        name={comment.owner.name}
+        username={comment.owner.username}
+        avatarUrl={comment.owner.avatarUrl}
+      />
 
       <div className="flex flex-col gap-y-1 my-auto h-full w-full">
         <span ref={spanRef} className="my-auto h-fit overflow-hidden">

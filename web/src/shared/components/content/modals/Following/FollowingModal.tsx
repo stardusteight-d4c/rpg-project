@@ -6,6 +6,7 @@ import { useUsers } from "@/shared/contexts/Users/UsersContext"
 import { getNameInitials } from "@/shared/utils/getNameInitials"
 import { useRouter } from "next/navigation"
 import React, { use, useEffect, useState } from "react"
+import { UserAvatar } from "../../UserAvatar"
 
 export const FollowingModal: React.FC<{
   status: boolean
@@ -66,18 +67,11 @@ export const FollowingModal: React.FC<{
               onClick={() => push(`/profile/${userFollowing.username}`)}
               className="flex w-full p-2 bg-ashes cursor-pointer select-none border border-border rounded-lg z-20 items-center gap-x-2"
             >
-              {userFollowing.avatarUrl ? (
-                <img
-                  src={userFollowing.avatarUrl}
-                  alt=""
-                  referrerPolicy="no-referrer"
-                  className="w-[48px] aspect-square object-cover select-none pointer-events-none h-[48px] border border-border rounded-full"
-                />
-              ) : (
-                <div className="w-[48px] text-2xl font-bold text-white flex items-center justify-center aspect-square object-cover select-none pointer-events-none h-[48px] border border-border rounded-full">
-                  {getNameInitials(userFollowing.name)}
-                </div>
-              )}
+              <UserAvatar
+                name={userFollowing.name}
+                username={userFollowing.username}
+                avatarUrl={userFollowing.avatarUrl}
+              />
               <div className="flex flex-col">
                 <span className="block  whitespace-nowrap text-lg font-bold -tracking-wide">
                   {userFollowing.name}

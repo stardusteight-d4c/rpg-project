@@ -2,9 +2,10 @@
 
 import { ChangeEvent, useEffect, useRef, useState } from "react"
 import { usePosts, useToast } from "@/shared/contexts"
-import { getNameInitials, timeago } from "@/shared/utils"
+import { timeago } from "@/shared/utils"
 import { GlowingWrapper, ModalWrapper } from "@/shared/components/ui"
 import { DeleteContentModal } from "@/shared/components/content/modals"
+import { UserAvatar } from "@/shared/components/content"
 
 export const EditPostModal: React.FC<{
   onStatusChange: (value: boolean) => void
@@ -216,18 +217,11 @@ export const EditPostModal: React.FC<{
         <div className="p-4 border-border border rounded-xl">
           <div>
             <div className="flex select-none z-20 items-center gap-x-2">
-              {post.owner.avatarUrl ? (
-                <img
-                  src={post.owner.avatarUrl}
-                  alt=""
-                  referrerPolicy="no-referrer"
-                  className="w-[48px] aspect-square object-cover select-none pointer-events-none h-[48px] rounded-full"
-                />
-              ) : (
-                <div className="w-[48px] text-2xl font-bold text-white flex items-center justify-center aspect-square object-cover select-none pointer-events-none h-[48px] border border-border rounded-full">
-                  {getNameInitials(post.owner.name)}
-                </div>
-              )}
+              <UserAvatar
+                name={post.owner.name}
+                username={post.owner.username}
+                avatarUrl={post.owner.avatarUrl}
+              />
               <div className="flex flex-col">
                 <span className="block whitespace-nowrap text-lg font-bold -tracking-wide">
                   {postData.owner.name}

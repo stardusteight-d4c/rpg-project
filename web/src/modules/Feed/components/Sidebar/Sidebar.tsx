@@ -1,5 +1,6 @@
 "use client"
 
+import { UserAvatar } from "@/shared/components/content"
 import { useCampaigns } from "@/shared/contexts/Campaigns/CampaignsContext"
 import { getNameInitials } from "@/shared/utils/getNameInitials"
 import { useRouter } from "next/navigation"
@@ -103,22 +104,13 @@ export const Sidebar = () => {
                     key={user.id}
                     className="absolute flex items-center gap-x-1 inset-x-0 w-full top-2 left-2"
                   >
-                    {user.avatarUrl ? (
-                      <img
-                        src={user.avatarUrl}
-                        alt=""
-                        referrerPolicy="no-referrer"
-                        style={{ marginRight: `${index * 20}px` }}
-                        className="w-[32px] h-[32px] object-cover rounded-full"
-                      />
-                    ) : (
-                      <div
-                        style={{ marginRight: `${index * 20}px` }}
-                        className="w-[32px] h-[32px] text-lg font-bold bg-background text-white flex items-center justify-center aspect-square object-cover select-none pointer-events-none border border-border rounded-full"
-                      >
-                        {getNameInitials(campaign.owner.name)}
-                      </div>
-                    )}
+                    <UserAvatar
+                      name={campaign.owner.name}
+                      username={campaign.owner.username}
+                      avatarUrl={campaign.owner.avatarUrl}
+                      size={32}
+                      fontSize={18}
+                    />
                   </div>
                 ))}
                 <img

@@ -5,6 +5,7 @@ import { useUsers } from "@/shared/contexts/Users/UsersContext"
 import { getNameInitials } from "@/shared/utils/getNameInitials"
 import { useRouter } from "next/navigation"
 import React, { useState } from "react"
+import { UserAvatar } from "../../UserAvatar"
 
 export const EditProfileModal: React.FC<{
   status: boolean
@@ -235,16 +236,19 @@ export const EditProfileModal: React.FC<{
           ) : (
             <div className="group rounded-md w-full h-[198px] flex items-center justify-center bg-ashes border border-border" />
           )}
-          {editableData.avatarUrl ? (
-            <div className="relative group">
-              <img
-                src={editableData.avatarUrl}
-                alt=""
-                className="w-[100px] absolute left-1/2 -translate-x-1/2 -bottom-[50px] select-none h-[100px] rounded-full object-cover"
-              />
+          <div className="w-[100px] group absolute left-1/2 -translate-x-1/2 -bottom-[50px] select-none h-[100px] rounded-full object-cover">
+            <UserAvatar
+              name={editableData.name}
+              username={editableData.username}
+              avatarUrl={editableData.avatarUrl}
+              size={100}
+              fontSize={36}
+              cursor="default"
+            />
+            {editableData.avatarUrl && (
               <button
                 onClick={onRemoveProfileImage}
-                className="hidden absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 group-hover:block hover:bg-red-500 bg-background rounded-full p-1 cursor-pointer duration-300 ease-in-out transition-all shadow-md shadow-black/50 "
+                className="hidden z-50 absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 group-hover:block hover:bg-red-500 bg-background rounded-full p-1 cursor-pointer duration-300 ease-in-out transition-all shadow-md shadow-black/50 "
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -256,14 +260,8 @@ export const EditProfileModal: React.FC<{
                   <path d="M213.66,82.34l-56-56A8,8,0,0,0,152,24H56A16,16,0,0,0,40,40V216a16,16,0,0,0,16,16H200a16,16,0,0,0,16-16V88A8,8,0,0,0,213.66,82.34ZM160,51.31,188.69,80H160ZM200,216H56V40h88V88a8,8,0,0,0,8,8h48V216Zm-42.34-82.34L139.31,152l18.35,18.34a8,8,0,0,1-11.32,11.32L128,163.31l-18.34,18.35a8,8,0,0,1-11.32-11.32L116.69,152,98.34,133.66a8,8,0,0,1,11.32-11.32L128,140.69l18.34-18.35a8,8,0,0,1,11.32,11.32Z"></path>
                 </svg>
               </button>
-            </div>
-          ) : (
-            <div className="bg-ashes border border-border group w-[100px] absolute left-1/2 -translate-x-1/2 -bottom-[50px] flex items-center text-center justify-center h-[100px] rounded-full select-none">
-              <span className="text-4xl font-bold">
-                {getNameInitials(user.name)}
-              </span>
-            </div>
-          )}
+            )}
+          </div>
         </div>
         <div className="grid grid-cols-2 gap-2 mt-[65px] w-full">
           <div className="col-span-1">

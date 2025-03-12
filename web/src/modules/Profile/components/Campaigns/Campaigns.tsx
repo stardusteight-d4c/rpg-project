@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation"
 import { motion } from "framer-motion"
 import { getNameInitials } from "@/shared/utils"
 import { useCampaigns } from "@/shared/contexts"
+import { UserAvatar } from "@/shared/components/content"
 
 export const Campaigns: React.FC<{ user: IUser }> = ({ user }) => {
   const { push } = useRouter()
@@ -92,22 +93,13 @@ export const Campaigns: React.FC<{ user: IUser }> = ({ user }) => {
                   key={user.id}
                   className="absolute flex z-50 items-center gap-x-1 w-fit top-2 right-2"
                 >
-                  {user.avatarUrl ? (
-                    <img
-                      src={user.avatarUrl}
-                      alt={`${user.name}/${user.username}/avatarUrl`}
-                      referrerPolicy="no-referrer"
-                      style={{ marginRight: `${index * 20}px` }}
-                      className="w-[42px] object-cover h-[42px] rounded-full"
+                  <div style={{ marginRight: `${index * 20}px` }}>
+                    <UserAvatar
+                      name={user.name}
+                      username={user.username}
+                      avatarUrl={user.avatarUrl}
                     />
-                  ) : (
-                    <div
-                      style={{ marginRight: `${index * 20}px` }}
-                      className="w-[42px] h-[42px] text-2xl font-bold bg-background text-white flex items-center justify-center aspect-square object-cover select-none pointer-events-none border border-border rounded-full"
-                    >
-                      {getNameInitials(campaign.owner.name)}
-                    </div>
-                  )}
+                  </div>
                 </div>
               ))}
               <img

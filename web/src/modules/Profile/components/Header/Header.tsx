@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { convertTimestamp, getNameInitials } from "@/shared/utils"
+import { convertTimestamp } from "@/shared/utils"
 import { useUsers, useAuth, useToast } from "@/shared/contexts"
 import {
   EditProfileModal,
@@ -7,6 +7,7 @@ import {
   FollowingModal,
 } from "@/shared/components/content/modals"
 import { DonutChart } from "@/shared/components/ui"
+import { UserAvatar } from "@/shared/components/content"
 
 export const Header: React.FC<{ user: IUser }> = ({ user }) => {
   const { currentSession, updateSession } = useAuth()
@@ -172,20 +173,14 @@ export const Header: React.FC<{ user: IUser }> = ({ user }) => {
             </span>
           </div>
           <div className="w-[150px] h-[150px] rounded-full object-cover absolute left-1/2 -translate-x-1/2 top-[-75px]">
-            {user.avatarUrl ? (
-              <img
-                src={user.avatarUrl}
-                alt=""
-                className="w-[150px] pointer-events-none select-none h-[150px] rounded-full object-cover"
-              />
-            ) : (
-              <div className="bg-button relative w-[150px] flex items-center text-center justify-center h-[150px] rounded-full select-none pointer-events-none">
-                <span className="text-6xl font-bold">
-                  {getNameInitials(user.name)}
-                </span>
-              </div>
-            )}
-
+            <UserAvatar
+              name={user.name}
+              username={user.username}
+              avatarUrl={user.avatarUrl}
+              size={150}
+              fontSize={60}
+              bgColor="button"
+            />
             <div className="bg-background pointer-events-none select-none text-lg font-bold shadow-sm shadow-black/50 absolute bottom-[0px] right-[0px] w-[32px] h-[32px] rounded-full flex items-center justify-center">
               {user.exp?.level}
             </div>

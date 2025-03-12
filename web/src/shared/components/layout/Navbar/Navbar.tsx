@@ -10,14 +10,17 @@ import {
 } from "@/shared/components/content/modals"
 import { useAuth } from "@/shared/contexts/Auth/AuthContext"
 import { getNameInitials } from "@/shared/utils"
+import { UserAvatar } from "../../content"
 
 export const Navbar = () => {
   const { push } = useRouter()
   const { currentSession, logout } = useAuth()
 
   const [openSearchModal, setOpenSearchModal] = useState<boolean>(false)
-  const [openNotificationsModal, setOpenNotificationsModal] = useState<boolean>(false)
-  const [openCreateSheetModal, setOpenCreateSheetModal] = useState<boolean>(false)
+  const [openNotificationsModal, setOpenNotificationsModal] =
+    useState<boolean>(false)
+  const [openCreateSheetModal, setOpenCreateSheetModal] =
+    useState<boolean>(false)
   const [openCreateCampaignModal, setOpenCreateCampaignModal] =
     useState<boolean>(false)
 
@@ -25,7 +28,7 @@ export const Navbar = () => {
 
   return (
     <nav className="bg-background fixed inset-x-0 top-0 z-[600] w-screen border-b py-1 border-border shadow-md shadow-black/50 ">
-      <CreateSheetModal  
+      <CreateSheetModal
         status={openCreateSheetModal}
         onStatusChange={setOpenCreateSheetModal}
       />
@@ -33,7 +36,10 @@ export const Navbar = () => {
         status={openCreateCampaignModal}
         onStatusChange={setOpenCreateCampaignModal}
       />
-      <SearchModal status={openSearchModal} onStatusChange={setOpenSearchModal} />
+      <SearchModal
+        status={openSearchModal}
+        onStatusChange={setOpenSearchModal}
+      />
       <NotificationsModal
         status={openNotificationsModal}
         onStatusChange={setOpenNotificationsModal}
@@ -154,24 +160,13 @@ export const Navbar = () => {
               </svg>
             </button>
           </div>
-
-          {currentSession.avatarUrl ? (
-            <img
-              onClick={() => push(`/profile/${currentSession.username}`)}
-              src={currentSession.avatarUrl}
-              alt=""
-              className="w-[32px] h-[32px] cursor-pointer rounded-full object-cover"
-            />
-          ) : (
-            <div
-              onClick={() => push(`/profile/${currentSession.username}`)}
-              className="bg-button w-[32px] flex items-center text-center justify-center h-[32px] rounded-full select-none cursor-pointer"
-            >
-              <span className="text-base font-bold">
-                {getNameInitials(currentSession.name)}
-              </span>
-            </div>
-          )}
+          <UserAvatar
+            name={currentSession.name}
+            username={currentSession.username}
+            avatarUrl={currentSession.avatarUrl}
+            size={32}
+            fontSize={16}
+          />
         </div>
       </div>
     </nav>

@@ -6,6 +6,7 @@ import { useUsers } from "@/shared/contexts/Users/UsersContext"
 import { getNameInitials } from "@/shared/utils/getNameInitials"
 import { useRouter } from "next/navigation"
 import React, { useEffect, useState } from "react"
+import { UserAvatar } from "../../UserAvatar"
 
 export const FollowersModal: React.FC<{
   status: boolean
@@ -65,18 +66,11 @@ export const FollowersModal: React.FC<{
               onClick={() => push(`/profile/${follower.username}`)}
               className="flex bg-ashes p-2 cursor-pointer select-none border border-border rounded-lg z-20 items-center gap-x-2"
             >
-              {follower.avatarUrl ? (
-                <img
-                  src={follower.avatarUrl}
-                  alt=""
-                  referrerPolicy="no-referrer"
-                  className="w-[48px] aspect-square object-cover select-none pointer-events-none h-[48px] border border-border rounded-full"
-                />
-              ) : (
-                <div className="w-[48px] text-2xl font-bold text-white flex items-center justify-center aspect-square object-cover select-none pointer-events-none h-[48px] border border-border rounded-full">
-                  {getNameInitials(follower.name)}
-                </div>
-              )}
+              <UserAvatar
+                name={follower.name}
+                username={follower.username}
+                avatarUrl={follower.avatarUrl}
+              />
               <div className="flex flex-col">
                 <span className="block  whitespace-nowrap text-lg font-bold -tracking-wide">
                   {follower.name}

@@ -7,6 +7,7 @@ import { CommentInput } from "./components/Comment/CommentInput"
 import { timeago, getNameInitials } from "@/shared/utils"
 import { usePosts, useAuth, useToast } from "@/shared/contexts"
 import { EditPostModal } from "../modals"
+import { UserAvatar } from "../UserAvatar"
 
 export const Post = ({ post }: { post: IPost }) => {
   const { push } = useRouter()
@@ -78,22 +79,12 @@ export const Post = ({ post }: { post: IPost }) => {
         post={post}
       />
       <div className="flex px-4 z-20 items-center gap-x-2">
-        <div
-          className="flex items-center gap-x-2 cursor-pointer"
-          onClick={() => push(`/profile/${post.owner.username}`)}
-        >
-          {post.owner.avatarUrl ? (
-            <img
-              src={post.owner.avatarUrl}
-              alt=""
-              referrerPolicy="no-referrer"
-              className="w-[48px] aspect-square object-cover select-none pointer-events-none h-[48px] rounded-full"
-            />
-          ) : (
-            <div className="w-[48px] text-2xl font-bold text-white flex items-center justify-center aspect-square object-cover select-none pointer-events-none h-[48px] border border-border rounded-full">
-              {getNameInitials(post.owner.name)}
-            </div>
-          )}
+        <div className="flex items-center gap-x-2">
+          <UserAvatar
+            name={post.owner.name}
+            username={post.owner.username}
+            avatarUrl={post.owner.avatarUrl}
+          />
           <div className="flex flex-col">
             <span className="block whitespace-nowrap text-lg font-bold -tracking-wide">
               {post.owner.name}
@@ -280,7 +271,24 @@ export const Post = ({ post }: { post: IPost }) => {
             disabled={loading}
             className="px-4 py-2 text-sm text-primary hover:bg-secondary rounded-md mb-4"
           >
-            {loading ? "Carregando..." : "Carregar mais comentários"}
+            {loading ? (
+              <div className="w-fit mx-auto">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  fill="#FFFFFF"
+                  className="animate-spin"
+                  viewBox="0 0 256 256"
+                >
+                  <path d="M136,32V64a8,8,0,0,1-16,0V32a8,8,0,0,1,16,0Zm88,88H192a8,8,0,0,0,0,16h32a8,8,0,0,0,0-16Zm-45.09,47.6a8,8,0,0,0-11.31,11.31l22.62,22.63a8,8,0,0,0,11.32-11.32ZM128,184a8,8,0,0,0-8,8v32a8,8,0,0,0,16,0V192A8,8,0,0,0,128,184ZM77.09,167.6,54.46,190.22a8,8,0,0,0,11.32,11.32L88.4,178.91A8,8,0,0,0,77.09,167.6ZM72,128a8,8,0,0,0-8-8H32a8,8,0,0,0,0,16H64A8,8,0,0,0,72,128ZM65.78,54.46A8,8,0,0,0,54.46,65.78L77.09,88.4A8,8,0,0,0,88.4,77.09Z"></path>
+                </svg>
+              </div>
+            ) : (
+              <span className="mx-auto block text-blue-500 hover:underline">
+                Carregar mais comentários
+              </span>
+            )}
           </button>
         )}
       </div>

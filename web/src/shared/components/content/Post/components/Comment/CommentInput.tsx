@@ -1,10 +1,8 @@
 "use client"
 
-import { GlowingWrapper } from "@/shared/components/ui"
-import { useAuth } from "@/shared/contexts/Auth/AuthContext"
-import { usePosts } from "@/shared/contexts/Posts/PostsContext"
-import { useToast } from "@/shared/contexts/Toaster/ToasterContext"
 import { ChangeEvent, useState } from "react"
+import { GlowingWrapper } from "@/shared/components/ui"
+import { usePosts, useToast, useAuth } from "@/shared/contexts"
 
 export const CommentInput = ({ postId }: { postId: string }) => {
   const { currentSession } = useAuth()
@@ -50,6 +48,12 @@ export const CommentInput = ({ postId }: { postId: string }) => {
           <input
             onChange={(e) => handleInputChange(e)}
             value={commentData.content}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" && !e.shiftKey) {
+                e.preventDefault()
+                onSend()
+              }
+            }}
             placeholder="Send a comment"
             spellCheck="false"
             className="p-2 px-4 w-full cursor-text hover:brightness-125 flex items-center gap-x-1 rounded-full bg-border/50 border border-border outline-none"

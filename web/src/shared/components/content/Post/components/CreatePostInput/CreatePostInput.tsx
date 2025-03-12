@@ -5,6 +5,7 @@ import React, { ChangeEvent, useState } from "react"
 import { GlowingWrapper } from "@/shared/components/ui"
 import { usePosts, useAuth, useToast } from "@/shared/contexts"
 import { getNameInitials } from "@/shared/utils"
+import { UserAvatar } from "../../../UserAvatar"
 
 export const CreatePostInput: React.FC<{
   currentPage?: number
@@ -79,23 +80,18 @@ export const CreatePostInput: React.FC<{
       })
   }
 
+  if (!currentSession) return null
+
   return (
     <div className="relative z-[100]">
       <div className="flex flex-col items-start gap-x-4">
         {isFeed && (
           <div className="flex pb-2 select-none bg-background z-20 items-center gap-x-2">
-            {currentSession?.avatarUrl ? (
-              <img
-                src={currentSession?.avatarUrl}
-                alt=""
-                referrerPolicy="no-referrer"
-                className="w-[48px] aspect-square object-cover select-none pointer-events-none h-[48px] border border-border rounded-full"
-              />
-            ) : (
-              <div className="w-[48px] text-2xl font-bold text-white flex items-center justify-center aspect-square object-cover select-none pointer-events-none h-[48px] border border-border rounded-full">
-                {getNameInitials(currentSession?.name ?? "")}
-              </div>
-            )}
+            <UserAvatar
+              name={currentSession.name}
+              username={currentSession.username}
+              avatarUrl={currentSession.avatarUrl}
+            />
             <div className="flex flex-col">
               <span className="block text-lg font-bold -tracking-wide">
                 {currentSession?.name}

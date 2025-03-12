@@ -1,23 +1,17 @@
 "use client"
 
-import { Footer, Navbar } from "@/shared/components/layout"
-import { Tooltip } from "@/shared/components/ui"
-import { useCampaigns } from "@/shared/contexts/Campaigns/CampaignsContext"
 import { useParams, useRouter } from "next/navigation"
 import { useEffect, useRef, useState } from "react"
-import { convertTimestamp } from "@/shared/utils/convertTimestamp"
-import { getNameInitials } from "@/shared/utils/getNameInitials"
-import { useAuth } from "@/shared/contexts/Auth/AuthContext"
 import ReactMarkdown from "react-markdown"
 import rehypeRaw from "rehype-raw"
-import { countTimeago } from "@/shared/utils/countTimeago"
-import { EditCampaignModal } from "../../shared/components/content/modals/EditCampaign/EditCampaignModal"
-import { useToast } from "@/shared/contexts/Toaster/ToasterContext"
-import { Post } from "../../shared/components/content/Post/Post"
-import { CreatePostInput } from "../../shared/components/content/Post/components/CreatePostInput/CreatePostInput"
-import { usePosts } from "@/shared/contexts/Posts/PostsContext"
+import { Footer, Navbar } from "@/shared/components/layout"
+import { countTimeago, convertTimestamp, getNameInitials } from "@/shared/utils"
+import { EditCampaignModal } from "@/shared/components/content/modals"
+import { CreatePostInput } from "@/shared/components/content/Post/components/CreatePostInput/CreatePostInput"
+import { usePosts, useToast, useAuth, useCampaigns } from "@/shared/contexts"
+import { Loader, Tooltip } from "@/shared/components/ui"
+import { Post, UserAvatar } from "@/shared/components/content"
 import { Pagination } from "./components/Pagination"
-import { Loader } from "../../shared/components/ui/Loader/Loader"
 
 export function CampaignModule() {
   const { push } = useRouter()
@@ -98,18 +92,11 @@ export function CampaignModule() {
       <Navbar />
       <div className="max-w-7xl mb-[200px] min-h-screen w-full mx-auto mt-[45px] pt-4">
         <div className="flex pb-2 select-none bg-background z-20 items-center gap-x-2">
-          {campaign.owner.avatarUrl ? (
-            <img
-              src={campaign.owner.avatarUrl}
-              alt=""
-              referrerPolicy="no-referrer"
-              className="w-[48px] aspect-square object-cover select-none pointer-events-none h-[48px] border border-border rounded-full"
-            />
-          ) : (
-            <div className="w-[48px] text-2xl font-bold text-white flex items-center justify-center aspect-square object-cover select-none pointer-events-none h-[48px] border border-border rounded-full">
-              {getNameInitials(campaign.owner.name)}
-            </div>
-          )}
+          <UserAvatar
+            name={campaign.owner.name}
+            username={campaign.owner.username}
+            avatarUrl={campaign.owner.avatarUrl}
+          />
           <div className="flex flex-col">
             <span className="block text-lg font-bold -tracking-wide">
               {campaign.owner.name}
@@ -284,18 +271,11 @@ export function CampaignModule() {
                 <div className="flex border bg-ashes border-border rounded-xl p-4 flex-col gap-2 flex-wrap">
                   <div className="grid grid-cols-2 gap-x-2">
                     <div className="col-span-1 flex select-none z-20 items-center gap-x-2">
-                      {campaign.owner.avatarUrl ? (
-                        <img
-                          src={campaign.owner.avatarUrl}
-                          alt=""
-                          referrerPolicy="no-referrer"
-                          className="w-[48px] aspect-square object-cover select-none pointer-events-none h-[48px] border border-border rounded-full"
-                        />
-                      ) : (
-                        <div className="w-[48px] text-2xl font-bold text-white flex items-center justify-center aspect-square object-cover select-none pointer-events-none h-[48px] border border-border rounded-full">
-                          {getNameInitials(campaign.owner.name)}
-                        </div>
-                      )}
+                      <UserAvatar
+                        name={campaign.owner.name}
+                        username={campaign.owner.username}
+                        avatarUrl={campaign.owner.avatarUrl}
+                      />
                       <div className="flex flex-col">
                         <span className="block text-lg font-bold -tracking-wide">
                           {campaign.owner.name}

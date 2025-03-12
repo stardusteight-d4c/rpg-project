@@ -5,6 +5,7 @@ import { ModalWrapper } from "@/shared/components/ui"
 import { timeago, getNameInitials } from "@/shared/utils"
 import { useAuth, usePosts, useToast } from "@/shared/contexts"
 import { DeleteContentModal } from "@/shared/components/content/modals"
+import { UserAvatar } from "../../UserAvatar"
 
 export const EditCommentModal: React.FC<{
   status: boolean
@@ -111,18 +112,11 @@ export const EditCommentModal: React.FC<{
         <div className="p-4 border-border border rounded-xl">
           <div>
             <div className="flex select-none z-20 items-center gap-x-2">
-              {comment.owner.avatarUrl ? (
-                <img
-                  src={comment.owner.avatarUrl}
-                  alt=""
-                  referrerPolicy="no-referrer"
-                  className="w-[48px] aspect-square object-cover select-none pointer-events-none h-[48px] rounded-full"
-                />
-              ) : (
-                <div className="w-[48px] text-2xl font-bold text-white flex items-center justify-center aspect-square object-cover select-none pointer-events-none h-[48px] border border-border rounded-full">
-                  {getNameInitials(comment.owner.name)}
-                </div>
-              )}
+              <UserAvatar
+                name={comment.owner.name}
+                username={comment.owner.username}
+                avatarUrl={comment.owner.avatarUrl}
+              />
               <div className="flex flex-col">
                 <span className="block whitespace-nowrap text-lg font-bold -tracking-wide">
                   {comment.owner.name}

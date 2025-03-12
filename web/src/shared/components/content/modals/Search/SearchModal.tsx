@@ -5,6 +5,7 @@ import { useUsers } from "@/shared/contexts/Users/UsersContext"
 import { getNameInitials } from "@/shared/utils/getNameInitials"
 import { useRouter } from "next/navigation"
 import { useCampaigns } from "@/shared/contexts/Campaigns/CampaignsContext"
+import { UserAvatar } from "../../UserAvatar"
 
 export const SearchModal: React.FC<{
   onStatusChange: (value: boolean) => void
@@ -128,18 +129,11 @@ export const SearchModal: React.FC<{
                 onClick={() => push(`/profile/${user.username}`)}
                 className="flex p-2 cursor-pointer select-none border border-border bg-ashes rounded-lg z-20 items-center gap-x-2"
               >
-                {user.avatarUrl ? (
-                  <img
-                    src={user.avatarUrl}
-                    alt=""
-                    referrerPolicy="no-referrer"
-                    className="w-[48px] aspect-square object-cover select-none pointer-events-none h-[48px] border border-border rounded-full"
-                  />
-                ) : (
-                  <div className="w-[48px] text-2xl font-bold text-white flex items-center justify-center aspect-square object-cover select-none pointer-events-none h-[48px] border border-border rounded-full">
-                    {getNameInitials(user.name)}
-                  </div>
-                )}
+                <UserAvatar
+                  name={user.name}
+                  username={user.username}
+                  avatarUrl={user.avatarUrl}
+                />
                 <div className="flex flex-col">
                   <span className="block text-lg font-bold -tracking-wide">
                     {user.name}
