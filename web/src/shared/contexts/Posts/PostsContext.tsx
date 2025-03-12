@@ -194,12 +194,12 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
       .list({ ...queryParams, feed: true })
       .then((postsPagination) => {
         setFeedPosts((prev) => {
-          const updatedPosts = new Map(prev) 
+          const updatedPosts = new Map(prev)
           postsPagination.items.forEach((post) =>
             updatedPosts.set(post.id, post)
-          ) 
+          )
 
-          return sortPostsMap(updatedPosts) 
+          return sortPostsMap(updatedPosts)
         })
 
         return postsPagination
@@ -232,7 +232,11 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
       .then((commentsPagination) => {
         const post = posts.get(queryParams.postId)
         if (post) {
-          post.comments = [...commentsPagination.items, ...post.comments]
+          const existingCommentIds = new Set(post.comments.map((c) => c.id))
+          const newComments = commentsPagination.items.filter(
+            (c) => !existingCommentIds.has(c.id)
+          )
+          post.comments = [...newComments, ...post.comments]
           updatePostState(post)
         }
         return commentsPagination

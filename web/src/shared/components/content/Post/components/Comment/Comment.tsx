@@ -21,8 +21,8 @@ export const Comment = ({ comment }: CommentProps) => {
   return (
     <div className="flex relative group z-20 gap-x-2">
       <EditCommentModal
-        onStatusChange={setEditComment}
         status={editComment}
+        onStatusChange={setEditComment}
         comment={comment}
       />
       {currentSession.id === comment.owner.id && (
