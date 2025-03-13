@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react"
 import { Post } from "@/shared/components/content/Post/Post"
-import { Loader } from "@/shared/components/ui/Loader/Loader"
+import { DataFetcher } from "@/shared/components/ui"
 import { usePosts, useToast } from "@/shared/contexts"
 
 export const Posts: React.FC<{ user: IUser }> = ({ user }) => {
@@ -140,7 +140,7 @@ export const Posts: React.FC<{ user: IUser }> = ({ user }) => {
           </div>
           {loading && (
             <div className="flex mt-44 items-center justify-center w-full">
-              <Loader />
+              <DataFetcher />
             </div>
           )}
         </div>

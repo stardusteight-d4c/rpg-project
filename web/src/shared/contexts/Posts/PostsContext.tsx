@@ -100,6 +100,25 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
       sortPostsMap(new Map(prev).set(updatedPost.id, updatedPost))
     )
   }
+
+  const deletePostFromLocalState = (postId: string) => {
+    setPosts((prev) => {
+      const newPosts = new Map(prev)
+      newPosts.delete(postId)
+      return newPosts
+    })
+    setCampaignPosts((prev) => {
+      const newCampaignPosts = new Map(prev)
+      newCampaignPosts.delete(postId)
+      return newCampaignPosts
+    })
+    setFeedPosts((prev) => {
+      const newFeedPosts = new Map(prev)
+      newFeedPosts.delete(postId)
+      return newFeedPosts
+    })
+  }
+
   const handlers = useMemo(
     () => new PostsContextHandlers(posts, updatePostState),
     [posts]
@@ -147,16 +166,7 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
     return api.post
       .delete(postId)
       .then(() => {
-        setPosts((prev) => {
-          const newPosts = new Map(prev)
-          newPosts.delete(postId)
-          return newPosts
-        })
-        setCampaignPosts((prev) => {
-          const newCampaignPosts = new Map(prev)
-          newCampaignPosts.delete(postId)
-          return newCampaignPosts
-        })
+        deletePostFromLocalState(postId)
       })
       .catch((error) => {
         throw new Error(error.message)

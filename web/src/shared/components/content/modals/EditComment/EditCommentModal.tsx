@@ -1,11 +1,12 @@
 "use client"
 
 import { ChangeEvent, useRef, useState } from "react"
-import { ModalWrapper } from "@/shared/components/ui"
-import { timeago, getNameInitials } from "@/shared/utils"
+import { timeago } from "@/shared/utils"
 import { useAuth, usePosts, useToast } from "@/shared/contexts"
 import { DeleteContentModal } from "@/shared/components/content/modals"
-import { UserAvatar } from "../../UserAvatar"
+import { UserAvatar } from "@/shared/components/content"
+import { Button, ModalWrapper } from "@/shared/components/ui"
+import { Check, Trash } from "@/shared/components/ui/icons"
 
 export const EditCommentModal: React.FC<{
   status: boolean
@@ -24,10 +25,10 @@ export const EditCommentModal: React.FC<{
     setEditableComment((prev) => ({ ...prev, content: e.target.value }))
   }
 
-  const onDelete = async () => {
+  async function onDelete() {
     if (isLoadingDelete) return null
     setIsLoadingDelete(true)
-    deleteComment(comment)
+    await deleteComment(comment)
       .then(() => {
         addToast("Comment has been deleted!", "success", 45)
       })
@@ -40,8 +41,8 @@ export const EditCommentModal: React.FC<{
       })
   }
 
-  const onUpdate = async () => {
-    updateComment({
+  async function onEdit() {
+    await updateComment({
       ...editableComment,
       content: editableComment.content.trim(),
     })
@@ -71,40 +72,22 @@ export const EditCommentModal: React.FC<{
       />
       <div className="py-2 px-4 sticky z-[200] border-b border-border shadow-md shadow-black/50 top-0 w-full inset-x-0 bg-background">
         <div className="flex items-center gap-x-4">
-          <button
-            onClick={() => setOpenDeleteModal(true)}
-            className="cursor-pointer w-fit flex items-center group gap-x-2"
+          <Button
+            action={() => setOpenDeleteModal(true)}
+            title="Delete Comment"
+            bgColor="red"
+            variant="modal"
           >
-            <div className="bg-ashes flex items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50 group-hover:bg-red-500 duration-300 ease-in-out transition-all">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                fill="#FFFFFF"
-                viewBox="0 0 256 256"
-              >
-                <path d="M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V208a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16ZM96,40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8v8H96Zm96,168H64V64H192ZM112,104v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Z"></path>
-              </svg>
-            </div>
-            <span className="capitalize">Delete Comment</span>
-          </button>
-          <button
-            onClick={onUpdate}
-            className="cursor-pointer w-fit flex items-center group gap-x-2"
+            <Trash />
+          </Button>
+          <Button
+            action={onEdit}
+            title="Save Changes"
+            bgColor="green"
+            variant="modal"
           >
-            <div className="bg-ashes flex items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50 group-hover:bg-green-500 duration-300 ease-in-out transition-all">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                fill="#FFFFFF"
-                viewBox="0 0 256 256"
-              >
-                <path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z"></path>
-              </svg>
-            </div>
-            <span>Save Changes</span>
-          </button>
+            <Check />
+          </Button>
         </div>
       </div>
       <div className="w-[700px] p-2">
@@ -145,7 +128,7 @@ export const EditCommentModal: React.FC<{
                 value={editableComment.content}
                 spellCheck="false"
                 ref={commentRef}
-                className={`p-2 px-4 w-full cursor-text hover:brightness-125 flex items-center gap-x-1 rounded-full bg-border/50 border border-border outline-none`}
+                className="p-2 px-4 w-full cursor-text hover:brightness-125 flex items-center gap-x-1 rounded-full bg-border/50 border border-border outline-none"
               />
             </div>
           </div>

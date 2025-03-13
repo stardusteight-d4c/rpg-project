@@ -9,7 +9,7 @@ import { countTimeago, convertTimestamp, getNameInitials } from "@/shared/utils"
 import { EditCampaignModal } from "@/shared/components/content/modals"
 import { CreatePostInput } from "@/shared/components/content/Post/components/CreatePostInput/CreatePostInput"
 import { usePosts, useToast, useAuth, useCampaigns } from "@/shared/contexts"
-import { Loader, Tooltip } from "@/shared/components/ui"
+import { DataFetcher, Tooltip } from "@/shared/components/ui"
 import { Post, UserAvatar } from "@/shared/components/content"
 import { Pagination } from "./components/Pagination"
 
@@ -383,7 +383,7 @@ export function CampaignModule() {
                   <div>
                     {loading ? (
                       <div className="flex flex-col items-center justify-center mt-[150px] py-8">
-                        <Loader />
+                        <DataFetcher />
                       </div>
                     ) : (
                       <div className="flex flex-col gap-y-4 rounded-3xl w-full">

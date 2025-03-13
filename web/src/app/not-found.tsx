@@ -1,4 +1,4 @@
-import { Loader } from "@/shared/components/ui/Loader/Loader"
+import { DataFetcher } from "@/shared/components/ui"
 import Link from "next/link"
 
 export default function NotFound() {
@@ -8,7 +8,7 @@ export default function NotFound() {
         <div className="absolute text-[80px] floating-p font-bold w-fit z-50 left-[55px] -top-[110px]">
           4
         </div>
-        <Loader />
+        <DataFetcher />
         <div className="absolute text-[80px] floating-p font-bold w-fit z-50 right-[55px] -top-[110px]">
           4
         </div>

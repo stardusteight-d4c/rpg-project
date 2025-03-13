@@ -4,10 +4,11 @@ import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import { Comment } from "./components/Comment/Comment"
 import { CommentInput } from "./components/Comment/CommentInput"
-import { timeago, getNameInitials } from "@/shared/utils"
+import { timeago } from "@/shared/utils"
 import { usePosts, useAuth, useToast } from "@/shared/contexts"
 import { EditPostModal } from "../modals"
 import { UserAvatar } from "../UserAvatar"
+import { Fire } from "../../ui/icons"
 
 export const Post = ({ post }: { post: IPost }) => {
   const { push } = useRouter()
@@ -47,10 +48,10 @@ export const Post = ({ post }: { post: IPost }) => {
     }
   }, [showComments])
 
-  const onLike = () => {
+  const onLike = async () => {
     if (loading) return
     setLoading(true)
-    like(post.id, currentSession!.id)
+    await like(post.id, currentSession!.id)
       .catch((error) => {
         addToast(error.message, "error", 45)
       })
@@ -59,10 +60,10 @@ export const Post = ({ post }: { post: IPost }) => {
       })
   }
 
-  const onUnlike = () => {
+  const onUnlike = async () => {
     if (loading) return
     setLoading(true)
-    unlike(post.id, currentSession!.id)
+    await unlike(post.id, currentSession!.id)
       .catch((error) => {
         addToast(error.message, "error", 45)
       })
@@ -191,15 +192,7 @@ export const Post = ({ post }: { post: IPost }) => {
               onClick={onLike}
               className="bg-background flex items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50 hover:bg-button duration-300 ease-in-out transition-all"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                fill="#FFFFFF"
-                viewBox="0 0 256 256"
-              >
-                <path d="M183.89,153.34a57.6,57.6,0,0,1-46.56,46.55A8.75,8.75,0,0,1,136,200a8,8,0,0,1-1.32-15.89c16.57-2.79,30.63-16.85,33.44-33.45a8,8,0,0,1,15.78,2.68ZM216,144a88,88,0,0,1-176,0c0-27.92,11-56.47,32.66-84.85a8,8,0,0,1,11.93-.89l24.12,23.41,22-60.41a8,8,0,0,1,12.63-3.41C165.21,36,216,84.55,216,144Zm-16,0c0-46.09-35.79-85.92-58.21-106.33L119.52,98.74a8,8,0,0,1-13.09,3L80.06,76.16C64.09,99.21,56,122,56,144a72,72,0,0,0,144,0Z"></path>
-              </svg>
+              <Fire />
             </button>
           )}
           <button

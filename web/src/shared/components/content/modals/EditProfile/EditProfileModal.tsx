@@ -3,7 +3,12 @@ import { useRouter } from "next/navigation"
 import { Button, GlowingWrapper, ModalWrapper } from "@/shared/components/ui"
 import { useToast, useUsers, useAuth } from "@/shared/contexts"
 import { UserAvatar } from "@/shared/components/content"
-import { Check, Panorama, UserSquare } from "@/shared/components/ui/icons"
+import {
+  Check,
+  FileX,
+  Panorama,
+  UserSquare,
+} from "@/shared/components/ui/icons"
 import { EditProfileHandler } from "./EditProfileHandler"
 
 export const EditProfileModal: React.FC<{
@@ -115,15 +120,7 @@ export const EditProfileModal: React.FC<{
                 onClick={() => handleRemoveImage("cover")}
                 className="absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 hidden group-hover:block hover:bg-red-500 bg-background rounded-full p-1 cursor-pointer duration-300 ease-in-out transition-all shadow-md shadow-black/50 "
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  fill="#FFFFFF"
-                  viewBox="0 0 256 256"
-                >
-                  <path d="M213.66,82.34l-56-56A8,8,0,0,0,152,24H56A16,16,0,0,0,40,40V216a16,16,0,0,0,16,16H200a16,16,0,0,0,16-16V88A8,8,0,0,0,213.66,82.34ZM160,51.31,188.69,80H160ZM200,216H56V40h88V88a8,8,0,0,0,8,8h48V216Zm-42.34-82.34L139.31,152l18.35,18.34a8,8,0,0,1-11.32,11.32L128,163.31l-18.34,18.35a8,8,0,0,1-11.32-11.32L116.69,152,98.34,133.66a8,8,0,0,1,11.32-11.32L128,140.69l18.34-18.35a8,8,0,0,1,11.32,11.32Z"></path>
-                </svg>
+                <FileX />
               </button>
             </div>
           ) : (
@@ -143,15 +140,7 @@ export const EditProfileModal: React.FC<{
                 onClick={() => handleRemoveImage("avatar")}
                 className="hidden z-50 absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 group-hover:block hover:bg-red-500 bg-background rounded-full p-1 cursor-pointer duration-300 ease-in-out transition-all shadow-md shadow-black/50 "
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  fill="#FFFFFF"
-                  viewBox="0 0 256 256"
-                >
-                  <path d="M213.66,82.34l-56-56A8,8,0,0,0,152,24H56A16,16,0,0,0,40,40V216a16,16,0,0,0,16,16H200a16,16,0,0,0,16-16V88A8,8,0,0,0,213.66,82.34ZM160,51.31,188.69,80H160ZM200,216H56V40h88V88a8,8,0,0,0,8,8h48V216Zm-42.34-82.34L139.31,152l18.35,18.34a8,8,0,0,1-11.32,11.32L128,163.31l-18.34,18.35a8,8,0,0,1-11.32-11.32L116.69,152,98.34,133.66a8,8,0,0,1,11.32-11.32L128,140.69l18.34-18.35a8,8,0,0,1,11.32,11.32Z"></path>
-                </svg>
+                <FileX />
               </button>
             )}
           </div>

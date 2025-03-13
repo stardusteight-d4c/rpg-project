@@ -1,14 +1,15 @@
 "use client"
 
 import { ChangeEvent, useState } from "react"
-import { GlowingWrapper } from "@/shared/components/ui"
+import { GlowingWrapper, Loader } from "@/shared/components/ui"
 import { usePosts, useToast, useAuth } from "@/shared/contexts"
+import { PaperPlaneTilt } from "@/shared/components/ui/icons"
 
 export const CommentInput = ({ postId }: { postId: string }) => {
   const { currentSession } = useAuth()
   const { comment } = usePosts()
   const { addToast } = useToast()
-  const [isSending, setIsSending] = useState<boolean>(false)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   const [commentData, setCommentData] = useState<IComment>({
     id: "",
     postId,
@@ -22,10 +23,10 @@ export const CommentInput = ({ postId }: { postId: string }) => {
     setCommentData((prev) => ({ ...prev, content: e.target.value }))
   }
 
-  const onSend = () => {
-    if (isSending) return null
-    setIsSending(true)
-    comment(commentData)
+  async function onSend() {
+    if (isLoading) return null
+    setIsLoading(true)
+    await comment(commentData)
       .catch((error) => {
         addToast(error.message, "error", 45)
       })
@@ -37,7 +38,7 @@ export const CommentInput = ({ postId }: { postId: string }) => {
           createdAt: "",
           owner: currentSession,
         })
-        setIsSending(false)
+        setIsLoading(false)
       })
   }
 
@@ -65,18 +66,14 @@ export const CommentInput = ({ postId }: { postId: string }) => {
             e.preventDefault()
             onSend()
           }}
-          disabled={isSending}
-          className="flex hover:brightness-125 active:scale-95 items-center  justify-center text-white p-2 rounded-full w-fit shadow-sm shadow-black/50 cursor-pointer bg-background border border-border hover:border-transparent hover:bg-gradient-to-tr hover:from-[#42d392] hover:to-[#8B5CF6] duration-300 ease-in-out transition-all"
+          disabled={isLoading}
+          className={`${
+            isLoading
+              ? " border-transparent bg-gradient-to-tr from-[#42d392] to-[#8B5CF6] "
+              : " bg-background "
+          } flex hover:brightness-125 active:scale-95 items-center  justify-center text-white p-2 rounded-full w-fit shadow-sm shadow-black/50 cursor-pointer border border-border hover:border-transparent hover:bg-gradient-to-tr hover:from-[#42d392] hover:to-[#8B5CF6] duration-300 ease-in-out transition-all`}
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            fill="#FFFFFF"
-            viewBox="0 0 256 256"
-          >
-            <path d="M227.32,28.68a16,16,0,0,0-15.66-4.08l-.15,0L19.57,82.84a16,16,0,0,0-2.49,29.8L102,154l41.3,84.87A15.86,15.86,0,0,0,157.74,248q.69,0,1.38-.06a15.88,15.88,0,0,0,14-11.51l58.2-191.94c0-.05,0-.1,0-.15A16,16,0,0,0,227.32,28.68ZM157.83,231.85l-.05.14,0-.07-40.06-82.3,48-48a8,8,0,0,0-11.31-11.31l-48,48L24.08,98.25l-.07,0,.14,0L216,40Z"></path>
-          </svg>
+          {isLoading ? <Loader /> : <PaperPlaneTilt />}
         </button>
       </div>
     </div>
