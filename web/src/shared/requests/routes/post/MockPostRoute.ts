@@ -57,6 +57,8 @@ export class MockPostRoute implements IPostRoute {
   }
 
   public async comment(postId: string, comment: IComment): Promise<IComment> {
+    await new Promise((resolve) => setTimeout(resolve, 5000))
+
     const post = this.#posts.get(postId)
     if (!post) {
       throw new Error("Post not found")
@@ -76,6 +78,8 @@ export class MockPostRoute implements IPostRoute {
   }
 
   public async updateComment(comment: Partial<IComment>): Promise<IComment> {
+    await new Promise((resolve) => setTimeout(resolve, 5000))
+
     if (!comment.id) {
       throw new Error("Comment ID is required")
     }
@@ -92,6 +96,8 @@ export class MockPostRoute implements IPostRoute {
   }
 
   public async deleteComment(comment: IComment): Promise<void> {
+    await new Promise((resolve) => setTimeout(resolve, 5000))
+
     if (!comment.id) {
       throw new Error("Comment ID is required")
     }
@@ -108,6 +114,8 @@ export class MockPostRoute implements IPostRoute {
   }
 
   public async like(postId: string, userId: string): Promise<void> {
+    await new Promise((resolve) => setTimeout(resolve, 5000))
+
     const post = this.#posts.get(postId)
     if (!post) {
       throw new Error("Post not found")
@@ -121,6 +129,8 @@ export class MockPostRoute implements IPostRoute {
   }
 
   public async unlike(postId: string, userId: string): Promise<void> {
+    await new Promise((resolve) => setTimeout(resolve, 5000))
+
     const post = this.#posts.get(postId)
     if (!post) {
       throw new Error("Post not found")

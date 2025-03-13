@@ -26,6 +26,8 @@ export class MockSheetRoute implements ISheetRoute {
   }
 
   public async update(sheet: Partial<ISheet>): Promise<ISheet> {
+    await new Promise((resolve) => setTimeout(resolve, 5000))
+
     if (!sheet.id || !this.#sheets.has(sheet.id)) {
       throw new Error("Sheet not found.")
     }

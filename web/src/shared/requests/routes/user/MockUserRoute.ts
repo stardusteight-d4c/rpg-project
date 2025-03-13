@@ -14,6 +14,8 @@ export class MockUserRoute implements IUserRoute {
   }
 
   public async create(data: SignUpDTO): Promise<IUser> {
+    await new Promise((resolve) => setTimeout(resolve, 5000))
+
     if ([...this.#users.values()].some((user) => user.email === data.email)) {
       throw new Error("This email already exists.")
     }
@@ -51,6 +53,8 @@ export class MockUserRoute implements IUserRoute {
   }
 
   public async update(user: Partial<IUser>): Promise<IUser> {
+    await new Promise((resolve) => setTimeout(resolve, 5000))
+
     if (!user.id || !this.#users.has(user.id)) {
       throw new Error("User not found.")
     }
@@ -62,6 +66,8 @@ export class MockUserRoute implements IUserRoute {
   }
 
   public async list(queryParams?: ListUsersDTO): Promise<Array<IUser>> {
+    await new Promise((resolve) => setTimeout(resolve, 5000))
+
     const usersArray = [...this.#users.values()]
     if (!queryParams) return usersArray
 
@@ -85,6 +91,8 @@ export class MockUserRoute implements IUserRoute {
     userFollowed: string,
     userFollowing: string
   ): Promise<{ updatedFollowedUser: IUser; updatedFollowingUser: IUser }> {
+    await new Promise((resolve) => setTimeout(resolve, 5000))
+
     if (userFollowing === userFollowed) {
       throw new Error("You cannot follow yourself.")
     }
@@ -123,6 +131,8 @@ export class MockUserRoute implements IUserRoute {
     userFollowed: string,
     userFollowing: string
   ): Promise<{ updatedFollowedUser: IUser; updatedFollowingUser: IUser }> {
+    await new Promise((resolve) => setTimeout(resolve, 5000))
+
     const followedFound = this.#users.get(userFollowed)
     if (!followedFound) {
       throw new Error("Followed user not found")
@@ -159,6 +169,8 @@ export class MockUserRoute implements IUserRoute {
   }
 
   public async followers(userId: string): Promise<Array<IUser>> {
+    await new Promise((resolve) => setTimeout(resolve, 5000))
+
     const user = this.#users.get(userId)
     if (!user) {
       throw new Error("User not found")
@@ -172,6 +184,8 @@ export class MockUserRoute implements IUserRoute {
   }
 
   public async following(userId: string): Promise<Array<IUser>> {
+    await new Promise((resolve) => setTimeout(resolve, 5000))
+
     const user = this.#users.get(userId)
     if (!user) {
       throw new Error("User not found")
