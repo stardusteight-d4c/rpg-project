@@ -1,17 +1,8 @@
 import { motion } from "framer-motion"
 
 interface AttributesDisplayProps {
-  activeItems: (
-    | "attributes"
-    | "skills"
-    | "inventory"
-    | "combat"
-    | "backstory"
-    | null
-  )[]
-  toggleItem: (
-    item: "attributes" | "skills" | "inventory" | "combat" | "backstory"
-  ) => void
+  activeItems: SheetItems[]
+  toggleItem: (item: SheetItems) => void
   character: ISheet
 }
 

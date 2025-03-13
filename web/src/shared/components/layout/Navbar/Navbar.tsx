@@ -8,9 +8,8 @@ import {
   NotificationsModal,
   SearchModal,
 } from "@/shared/components/content/modals"
-import { useAuth } from "@/shared/contexts/Auth/AuthContext"
-import { getNameInitials } from "@/shared/utils"
-import { UserAvatar } from "../../content"
+import { useAuth } from "@/shared/contexts"
+import { UserAvatar } from "@/shared/components/content"
 
 export const Navbar = () => {
   const { push } = useRouter()

@@ -269,7 +269,7 @@ export const Post = ({ post }: { post: IPost }) => {
           <button
             onClick={loadMoreComments}
             disabled={loading}
-            className="px-4 py-2 text-sm text-primary hover:bg-secondary rounded-md mb-4"
+            className="p-2 text-sm text-primary hover:bg-secondary rounded-md"
           >
             {loading ? (
               <div className="w-fit mx-auto">
@@ -286,7 +286,7 @@ export const Post = ({ post }: { post: IPost }) => {
               </div>
             ) : (
               <span className="mx-auto block text-blue-500 hover:underline">
-                Carregar mais comentários
+                Load more
               </span>
             )}
           </button>

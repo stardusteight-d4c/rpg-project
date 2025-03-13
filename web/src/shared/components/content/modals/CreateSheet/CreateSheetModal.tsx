@@ -1,10 +1,9 @@
-import React from "react"
+import { useEffect, useState } from "react"
 import { ModalWrapper } from "@/shared/components/ui"
 import { Sheet } from "@/shared/components/content"
-import { useEffect, useState } from "react"
-import { initialData as mockInitialData } from "./initialData"
 import { useToast, useAuth, useSheets, useCharacters } from "@/shared/contexts"
-import { generateRandomOccupation, generateRandomName } from "@/shared/utils/"
+import { initialData as mockInitialData } from "./initialData"
+import { AutoGenerateSheet } from "./AutoGenerateSheet"
 
 export const CreateSheetModal: React.FC<{
   status: boolean
@@ -45,97 +44,10 @@ export const CreateSheetModal: React.FC<{
       })
   }
 
-  function rollDice(sides: number, rolls: number): number {
-    return Array.from(
-      { length: rolls },
-      () => Math.floor(Math.random() * sides) + 1
-    ).reduce((a, b) => a + b, 0)
-  }
-
-  function distributePointsRandomly(skills: any[], totalPoints: number) {
-    let remainingPoints = totalPoints
-
-    while (remainingPoints > 0) {
-      const skillIndex = Math.floor(Math.random() * skills.length)
-      const pointsToAdd = Math.min(
-        5 + Math.floor(Math.random() * 10),
-        remainingPoints
-      )
-      skills[skillIndex].currentValue += pointsToAdd
-      remainingPoints -= pointsToAdd
-    }
-
-    return skills
-  }
-
-  function initializeSkills(
-    attributes: any,
-    occupationalPoints: number,
-    freePoints: number
-  ) {
-    let updatedSkills = initialData.skills!.map((skill: any) => ({
-      ...skill,
-      currentValue:
-        skill.baseValue === "half DEX"
-          ? Math.floor(attributes.dexterity / 2)
-          : skill.baseValue === "EDU"
-          ? attributes.education
-          : skill.baseValue,
-    }))
-
-    updatedSkills = distributePointsRandomly(updatedSkills, occupationalPoints)
-    updatedSkills = distributePointsRandomly(updatedSkills, freePoints)
-
-    return updatedSkills
-  }
-
   function autoGenerate() {
-    const attributes = {
-      strength: rollDice(6, 3) * 5,
-      dexterity: rollDice(6, 3) * 5,
-      intelligence: (rollDice(6, 2) + 6) * 5,
-      power: rollDice(6, 3) * 5,
-      constitution: rollDice(6, 3) * 5,
-      appearance: rollDice(6, 3) * 5,
-      size: (rollDice(6, 2) + 6) * 5,
-      education: (rollDice(6, 2) + 6) * 5,
-      luck: rollDice(6, 3) * 5,
-    }
-
-    const hitPoints = Math.floor(
-      (attributes.constitution + attributes.size) / 10
-    )
-    const magicPoints = Math.floor(attributes.power / 5)
-    const sanity = attributes.power
-
-    const occupationalPoints = attributes.education * 4
-    const freePoints = attributes.intelligence * 2
-
-    const skills = initializeSkills(attributes, occupationalPoints, freePoints)
-
-    const createdCharacter = copyCharacters.find(
-      (character) => character.id === initialData.id
-    )
-
-    const randomCharacter = generateRandomName()
-
-    setInitialData({
-      ...createdCharacter,
-      infos: {
-        ...(createdCharacter?.infos ?? initialData),
-        name: randomCharacter.name,
-        sex: randomCharacter.sex,
-        occupation: generateRandomOccupation(),
-        maxHitPoints: hitPoints,
-        maxMagicPoints: magicPoints,
-        maxSanity: sanity,
-        hitPoints,
-        magicPoints,
-        sanity,
-      },
-      attributes: attributes,
-      skills: skills,
-    })
+    const generator = new AutoGenerateSheet(copyCharacters)
+    const generatedSheet = generator.autoGenerate(initialData)
+    setInitialData(generatedSheet)
   }
 
   function toggleItem(item: SheetItems) {

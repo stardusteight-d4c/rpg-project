@@ -14,6 +14,8 @@ export class MockSheetRoute implements ISheetRoute {
   }
 
   public async create(sheet: ISheet): Promise<ISheet> {
+    await new Promise((resolve) => setTimeout(resolve, 5000))
+
     const newSheet: ISheet = {
       ...sheet,
       tableId: sheet.tableId ?? undefined,
@@ -36,10 +38,12 @@ export class MockSheetRoute implements ISheetRoute {
   }
 
   public async delete(sheetId: string): Promise<void> {
+    await new Promise((resolve) => setTimeout(resolve, 5000))
     this.#sheets.delete(sheetId)
   }
 
   public async list(queryParams?: ListSheetsDTO): Promise<Array<ISheet>> {
+    await new Promise((resolve) => setTimeout(resolve, 5000))
     const sheetsArray = [...this.#sheets.values()]
     if (!queryParams) return sheetsArray
 

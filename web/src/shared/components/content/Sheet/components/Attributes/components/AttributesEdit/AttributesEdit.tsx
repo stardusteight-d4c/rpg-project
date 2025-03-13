@@ -64,7 +64,7 @@ export const AttributesEdit = ({
                   <stop offset="1" stopColor="#8B5CF6" />
                 </linearGradient>
               </defs>
-            </svg>{" "}
+            </svg>
           </span>
           <span className="background-gradient bg-clip-text text-transparent">
             Attributes

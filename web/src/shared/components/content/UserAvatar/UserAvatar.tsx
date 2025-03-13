@@ -27,6 +27,8 @@ export const UserAvatar: React.FC<{
         style={{
           width: size,
           height: size,
+          minWidth: size,
+          minHeight: size,
           cursor,
         }}
         className="aspect-square object-cover rounded-full"

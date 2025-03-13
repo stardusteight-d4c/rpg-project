@@ -1,13 +1,12 @@
 "use client"
 
+import { useState } from "react"
 import { HandoutDisplay } from "@/modules/Table/components/Handouts/components/HandoutDisplay"
 import { HandoutModalWrapper } from "@/modules/Table/components/Handouts/components/HandoutModalWrapper"
-import { useCharacters } from "@/shared/contexts/Characters/CharactersContext"
-import { useState } from "react"
+import { useCharacters } from "@/shared/contexts"
 
 interface InventoryDisplayProps {
   character: ISheet
-
   activeItems: SheetItems[]
   toggleItem: (item: SheetItems) => void
 }
