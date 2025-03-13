@@ -83,7 +83,7 @@ export const CampaignsProvider: React.FC<{ children: ReactNode }> = ({
   }
 
   const remove = async (campaignId: string) => {
-    return api.campaign
+    return await api.campaign
       .delete(campaignId)
       .then(() => {
         setCachedCampaigns((prev) =>

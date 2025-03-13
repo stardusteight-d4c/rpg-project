@@ -5,7 +5,7 @@ import { useState } from "react"
 interface ButtonProps {
   title: string
   action: () => any | Promise<any>
-  children: React.ReactNode
+  children?: React.ReactNode
   bgColor?: "blue" | "green" | "red" | "gradientPurple" | "gradientBlue"
   variant?: "modal" | "default"
 }
@@ -28,22 +28,37 @@ export const Button: React.FC<ButtonProps> = ({
       setIsLoading(false)
     }
   }
-  const bgColorsOnHover: Record<NonNullable<ButtonProps["bgColor"]>, string> = {
-    blue: "group-hover:bg-blue-500",
-    green: "group-hover:bg-green-500",
-    red: "group-hover:bg-red-500",
-    gradientBlue:
-      "group-hover:bg-gradient-to-tr group-hover:from-[#42d392] group-hover:to-[#8B5CF6]",
-    gradientPurple:
-      "group-hover:bg-gradient-to-tr group-hover:from-violet-600 group-hover:to-pink-500",
-  }
 
-  const bgColors: Record<NonNullable<ButtonProps["bgColor"]>, string> = {
-    blue: "bg-blue-500",
-    green: "bg-green-500",
-    red: "bg-red-500",
-    gradientBlue: "bg-gradient-to-tr from-[#42d392] to-[#8B5CF6]",
-    gradientPurple: "bg-gradient-to-tr from-violet-600 to-pink-500",
+  const bgColors: {
+    default: Record<NonNullable<ButtonProps["bgColor"]>, string>
+    onGroupHover: Record<NonNullable<ButtonProps["bgColor"]>, string>
+    onHover: Record<NonNullable<ButtonProps["bgColor"]>, string>
+  } = {
+    default: {
+      blue: "bg-blue-500",
+      green: "bg-green-500",
+      red: "bg-red-500",
+      gradientBlue: "bg-gradient-to-tr from-[#42d392] to-[#8B5CF6]",
+      gradientPurple: "bg-gradient-to-tr from-violet-600 to-pink-500",
+    },
+    onGroupHover: {
+      blue: "group-hover:bg-blue-500",
+      green: "group-hover:bg-green-500",
+      red: "group-hover:bg-red-500",
+      gradientBlue:
+        "group-hover:bg-gradient-to-tr group-hover:from-[#42d392] group-hover:to-[#8B5CF6]",
+      gradientPurple:
+        "group-hover:bg-gradient-to-tr group-hover:from-violet-600 group-hover:to-pink-500",
+    },
+    onHover: {
+      blue: "hover:bg-blue-500",
+      green: "hover:bg-green-500",
+      red: "hover:bg-red-500",
+      gradientBlue:
+        "hover:bg-gradient-to-tr hover:from-[#42d392] hover:to-[#8B5CF6]",
+      gradientPurple:
+        "hover:bg-gradient-to-tr hover:from-violet-600 hover:to-pink-500",
+    },
   }
 
   if (variant === "modal")
@@ -54,9 +69,9 @@ export const Button: React.FC<ButtonProps> = ({
         className="cursor-pointer disabled:cursor-not-allowed disabled:brightness-90 w-fit flex items-center group gap-x-2"
       >
         <div
-          className={`${isLoading ? bgColors[bgColor] : " bg-ashes "} ${
-            bgColorsOnHover[bgColor]
-          } relative flex items-center justify-center text-white p-1 rounded-full shadow-p duration-300 ease-in-out transition-all`}
+          className={`${isLoading ? bgColors.default[bgColor] : " bg-ashes "} ${
+            bgColors.onGroupHover[bgColor]
+          } relative flex items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50 duration-300 ease-in-out transition-all`}
         >
           {isLoading ? <Loader /> : children}
         </div>
@@ -64,7 +79,16 @@ export const Button: React.FC<ButtonProps> = ({
       </button>
     )
 
-  return <button>Hello, Button</button>
+  if (variant === "default")
+    return (
+      <button
+        onClick={handleClick}
+        disabled={isLoading}
+        className={`${bgColors.default[bgColor]} p-2 w-full disabled:cursor-not-allowed disabled:brightness-90 cursor-pointer hover:brightness-125 flex items-center justify-center min-h-[45px] max-h-[45px] font-medium text-center text-lg text-white rounded-full`}
+      >
+        {isLoading ? <Loader /> : <span>{title}</span>}
+      </button>
+    )
 }
 
 const Loader = () => {

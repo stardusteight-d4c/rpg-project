@@ -68,7 +68,6 @@ export const EditCommentModal: React.FC<{
         status={openDeleteModal}
         onStatusChange={setOpenDeleteModal}
         text="You are about to delete this comment. This action cannot be undone!"
-        isLoading={isLoadingDelete}
       />
       <div className="py-2 px-4 sticky z-[200] border-b border-border shadow-md shadow-black/50 top-0 w-full inset-x-0 bg-background">
         <div className="flex items-center gap-x-4">

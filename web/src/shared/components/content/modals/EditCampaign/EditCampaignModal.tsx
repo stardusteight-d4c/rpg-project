@@ -1,10 +1,11 @@
 "use client"
 
 import React, { useState } from "react"
-import { useAuth, useCampaigns, useToast } from "@/shared/contexts"
-import { GlowingWrapper, ModalWrapper } from "@/shared/components/ui"
-import { DeleteContentModal } from "@/shared/components/content/modals"
 import { useRouter } from "next/navigation"
+import { useAuth, useCampaigns, useToast } from "@/shared/contexts"
+import { DeleteContentModal } from "@/shared/components/content/modals"
+import { Button, GlowingWrapper, ModalWrapper } from "@/shared/components/ui"
+import { Check, Panorama, Trash } from "@/shared/components/ui/icons"
 
 export const EditCampaignModal: React.FC<{
   status: boolean
@@ -25,9 +26,9 @@ export const EditCampaignModal: React.FC<{
     file: undefined,
   })
 
-  const handleChange = (
+  function handleChange(
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  ) {
     setCampaignData({ ...campaignData, [e.target.name]: e.target.value })
   }
 
@@ -55,7 +56,7 @@ export const EditCampaignModal: React.FC<{
     }
   }
 
-  const onRemoveCover = () => {
+  function onRemoveCover() {
     setCampaignData({
       ...campaignData,
       file: undefined,
@@ -63,8 +64,8 @@ export const EditCampaignModal: React.FC<{
     })
   }
 
-  const onEdit = async () => {
-    update({
+  async function onEdit() {
+    await update({
       ...campaignData,
       id: campaign.id,
     })
@@ -79,8 +80,8 @@ export const EditCampaignModal: React.FC<{
       })
   }
 
-  const onDelete = async () => {
-    remove(campaign.id)
+  async function onDelete() {
+    await remove(campaign.id)
       .then(() => {
         addToast("The campaign has been deleted!", "success", 45)
       })
@@ -117,84 +118,33 @@ export const EditCampaignModal: React.FC<{
         onStatusChange={setOpenDeleteModal}
         action={onDelete}
         text={`You are about to delete your campaign (${campaign.name}). This action cannot be undone!`}
-        isLoading={false}
       />
       <div className="py-2 px-4 sticky z-[200] border-b border-border shadow-md shadow-black/50 top-0 w-full inset-x-0 bg-background">
         <div className="flex items-center gap-x-4">
-          <button
-            onClick={handleClick}
-            className="cursor-pointer w-fit flex items-center group gap-x-2"
+          <Button
+            title="Change Cover Image"
+            action={handleClick}
+            variant="modal"
+            bgColor="blue"
           >
-            <div className="bg-ashes flex items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50 group-hover:bg-blue-500 duration-300 ease-in-out transition-all">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                fill="#FFFFFF"
-                viewBox="0 0 256 256"
-              >
-                <path d="M241.75,51.32a15.88,15.88,0,0,0-13.86-2.77l-3.48.94C205.61,54.56,170.61,64,128,64S50.39,54.56,31.59,49.49l-3.48-.94A16,16,0,0,0,8,64V192a16,16,0,0,0,16,16,16.22,16.22,0,0,0,4.18-.55l3.18-.86C50.13,201.49,85.17,192,128,192s77.87,9.49,96.69,14.59l3.18.86A16,16,0,0,0,248,192V64A15.9,15.9,0,0,0,241.75,51.32ZM27.42,64.93C46.94,70.2,83.27,80,128,80s81.06-9.8,100.58-15.07L232,64V182.76l-58.07-58.07a16,16,0,0,0-22.63,0l-20,20-44-44a16,16,0,0,0-22.62,0L24,141.37V64ZM213.84,187.21a391.22,391.22,0,0,0-49-9L142.63,156l20-20ZM27.13,191.14,24,192V164l52-52,64.25,64.25q-6-.24-12.25-.25C83,176,45.28,186.23,27.13,191.14ZM192,108a12,12,0,1,1,12,12A12,12,0,0,1,192,108Z"></path>
-              </svg>
-            </div>
-            <span>Change Cover Image</span>
-          </button>
-          <button
-            onClick={() => setOpenDeleteModal(true)}
-            className="cursor-pointer w-fit flex items-center group gap-x-2"
+            <Panorama />
+          </Button>
+          <Button
+            title="Delete Campaign"
+            action={() => setOpenDeleteModal(true)}
+            variant="modal"
+            bgColor="red"
           >
-            <div className="bg-ashes flex items-center justify-center text-white p-1 rounded-full shadow-p group-hover:bg-red-500 duration-300 ease-in-out transition-all">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                fill="#FFFFFF"
-                viewBox="0 0 256 256"
-              >
-                <path d="M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V208a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16ZM96,40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8v8H96Zm96,168H64V64H192ZM112,104v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Z"></path>
-              </svg>
-            </div>
-            <span className="capitalize">Delete Campaign</span>
-          </button>
-          <button
-            onClick={onEdit}
-            className={`${
-              false ? " !cursor-not-allowed " : " cursor-pointer group "
-            } w-fit flex items-center gap-x-2`}
+            <Trash />
+          </Button>
+          <Button
+            title="Save Changes"
+            action={onEdit}
+            variant="modal"
+            bgColor="green"
           >
-            <div className="bg-ashes flex items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50 group-hover:bg-green-500 duration-300 ease-in-out transition-all">
-              {false ? (
-                <div className="w-fit mx-auto">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    fill="#FFFFFF"
-                    className="animate-spin"
-                    viewBox="0 0 256 256"
-                  >
-                    <path d="M136,32V64a8,8,0,0,1-16,0V32a8,8,0,0,1,16,0Zm88,88H192a8,8,0,0,0,0,16h32a8,8,0,0,0,0-16Zm-45.09,47.6a8,8,0,0,0-11.31,11.31l22.62,22.63a8,8,0,0,0,11.32-11.32ZM128,184a8,8,0,0,0-8,8v32a8,8,0,0,0,16,0V192A8,8,0,0,0,128,184ZM77.09,167.6,54.46,190.22a8,8,0,0,0,11.32,11.32L88.4,178.91A8,8,0,0,0,77.09,167.6ZM72,128a8,8,0,0,0-8-8H32a8,8,0,0,0,0,16H64A8,8,0,0,0,72,128ZM65.78,54.46A8,8,0,0,0,54.46,65.78L77.09,88.4A8,8,0,0,0,88.4,77.09Z"></path>
-                  </svg>
-                </div>
-              ) : (
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  fill="#FFFFFF"
-                  viewBox="0 0 256 256"
-                >
-                  <path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z"></path>
-                </svg>
-              )}
-            </div>
-            <span>
-              {false ? (
-                <span className="animate-pulse">Saving Changes...</span>
-              ) : (
-                "Save Changes"
-              )}
-            </span>
-          </button>
+            <Check />
+          </Button>
         </div>
       </div>
       <div className="w-[700px] p-2">

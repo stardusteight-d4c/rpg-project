@@ -2,15 +2,6 @@
 
 import { createContext, useContext, useState, ReactNode } from "react"
 
-type ToastType = "success" | "error" | "info"
-
-interface Toast {
-  id: number
-  message: string
-  type: ToastType
-  duration: number
-}
-
 interface ToastContextType {
   addToast: (
     message: string,

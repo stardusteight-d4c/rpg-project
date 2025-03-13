@@ -36,7 +36,7 @@ export const SheetsProvider: React.FC<{ children: ReactNode }> = ({
   }
 
   const getUserSheets = async (userId: string) => {
-    return api.sheet
+    return await api.sheet
       .list({ ownerId: userId })
       .then((sheets) => {
         updateCache(sheets)
@@ -48,7 +48,7 @@ export const SheetsProvider: React.FC<{ children: ReactNode }> = ({
   }
 
   const add = async (sheet: ISheet) => {
-    return api.sheet
+    return await api.sheet
       .create(sheet)
       .then((createdSheet) => {
         updateCache([createdSheet])
@@ -60,7 +60,7 @@ export const SheetsProvider: React.FC<{ children: ReactNode }> = ({
   }
 
   const remove = async (sheetId: string) => {
-    return api.sheet
+    return await api.sheet
       .delete(sheetId)
       .then(() => {
         setUserSheets((prev) => {
@@ -75,7 +75,7 @@ export const SheetsProvider: React.FC<{ children: ReactNode }> = ({
   }
 
   const update = async (sheet: Partial<ISheet>) => {
-    return api.sheet
+    return await api.sheet
       .update(sheet)
       .then((updatedSheet) => {
         updateCache([updatedSheet])

@@ -1,6 +1,6 @@
 import { generateRandomName, generateRandomOccupation } from "@/shared/utils"
 
-export class AutoGenerateSheet {
+export class AutoGenerateSheetHandler {
   copyCharacters: ISheet[]
 
   constructor(copyCharacters: ISheet[]) {

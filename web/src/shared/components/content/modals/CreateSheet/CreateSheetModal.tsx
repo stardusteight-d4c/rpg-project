@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { Button, ModalWrapper } from "@/shared/components/ui"
 import { Sheet } from "@/shared/components/content"
 import { useToast, useAuth, useSheets, useCharacters } from "@/shared/contexts"
-import { AutoGenerateSheet } from "./AutoGenerateSheet"
+import { AutoGenerateSheetHandler } from "./AutoGenerateSheetHandler"
 import { initialData as mockInitialData } from "./initialData"
 import { Check, Sparkle } from "@/shared/components/ui/icons"
 
@@ -46,7 +46,7 @@ export const CreateSheetModal: React.FC<{
   }
 
   function autoGenerate() {
-    const generator = new AutoGenerateSheet(copyCharacters)
+    const generator = new AutoGenerateSheetHandler(copyCharacters)
     const generatedSheet = generator.autoGenerate(initialData)
     setInitialData(generatedSheet)
   }
