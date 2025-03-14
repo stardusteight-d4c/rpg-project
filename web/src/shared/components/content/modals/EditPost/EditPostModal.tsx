@@ -206,13 +206,11 @@ export const EditPostModal: React.FC<{
           </div>
 
           {postData.image && (
-            <div>
-              <img
-                src={postData.image}
-                alt=""
-                className="w-full max-h-[300px] h-fit rounded-xl border border-border bg-button overflow-hidden object-cover"
-              />
-            </div>
+            <img
+              src={postData.image}
+              alt={`${postData.image}/url`}
+              className="w-fit max-h-[600px] h-fit mb-4 border border-border rounded-xl bg-button overflow-hidden object-contain"
+            />
           )}
         </div>
       </div>

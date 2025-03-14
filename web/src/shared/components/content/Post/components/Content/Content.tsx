@@ -11,7 +11,7 @@ export const Content: React.FC<{ post: IPost }> = ({ post }) => {
           <img
             src={post.image}
             alt=""
-            className="w-full max-h-[300px] h-fit mb-2 border border-border rounded-xl bg-button overflow-hidden object-cover"
+            className="w-fit max-h-[600px] h-fit mb-4 border border-border rounded-xl bg-button overflow-hidden object-contain"
           />
         </div>
       )}

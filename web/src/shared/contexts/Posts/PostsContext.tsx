@@ -14,6 +14,7 @@ interface PostsState {
   campaignPosts: Map<string, IPost>
   posts: Map<string, IPost>
   feedPosts: Map<string, IPost>
+  lastRequestProfilePostsData: Map<string, ListPostsResponseDTO<IPost>>
   add: (post: IPost, currentPage?: number) => Promise<IPost | void>
   update: (post: Partial<IPost>) => Promise<IPost | void>
   remove: (postId: string) => Promise<void>
@@ -35,6 +36,7 @@ interface PostsState {
 const defaultState: PostsState = {
   campaignPosts: new Map(),
   posts: new Map(),
+  lastRequestProfilePostsData: new Map(),
   feedPosts: new Map(),
   add: async () => {},
   update: async () => {},
@@ -76,6 +78,11 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
   )
   const [posts, setPosts] = useState<Map<string, IPost>>(new Map())
   const [feedPosts, setFeedPosts] = useState<Map<string, IPost>>(new Map())
+  const [profilePosts, setProfilePosts] = useState<Map<string, IPost>>(
+    new Map()
+  )
+  const [lastRequestProfilePostsData, setLastRequestProfilePostsData] =
+    useState<Map<string, ListPostsResponseDTO<IPost>>>(new Map())
 
   const api = new MockAPI()
 
@@ -177,6 +184,14 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
     return api.post
       .list(queryParams)
       .then((postsPagination) => {
+        setLastRequestProfilePostsData((prev) => {
+          const updatedPosts = new Map(prev)
+          postsPagination.items.forEach((post) =>
+            updatedPosts.set(post.owner.id, postsPagination)
+          )
+          return updatedPosts
+        })
+     
         return postsPagination
       })
       .catch((error) => {
@@ -305,6 +320,7 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
       value={{
         posts,
         feedPosts,
+        lastRequestProfilePostsData,
         campaignPosts,
         update,
         remove,

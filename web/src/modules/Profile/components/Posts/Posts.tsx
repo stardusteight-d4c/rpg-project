@@ -1,46 +1,58 @@
-import React, { useEffect, useState, useCallback } from "react"
-import { Post } from "@/shared/components/content/Post/Post"
+import React, { useEffect, useState } from "react"
+import { Post } from "@/shared/components/content"
 import { DataFetcher } from "@/shared/components/ui"
 import { usePosts, useToast } from "@/shared/contexts"
 
 export const Posts: React.FC<{ user: IUser }> = ({ user }) => {
-  const { getByUser } = usePosts()
+  const { getByUser, lastRequestProfilePostsData } = usePosts()
   const { addToast } = useToast()
-
   const [userPostsI, setUserPostsI] = useState<IPost[]>([])
   const [userPostsII, setUserPostsII] = useState<IPost[]>([])
   const [currentPage, setCurrentPage] = useState<number>(1)
   const [lastPage, setLastPage] = useState<number>(10)
   const [request, setRequest] = useState(false)
   const [loading, setLoading] = useState<boolean>(false)
+  const [mounted, setMounted] = useState<boolean>(false)
+
+  function getUniqueFilteredPosts(posts: IPost[], isEvenIndex: boolean) {
+    const uniquePosts = new Map(
+      posts
+        .filter((_, index) => (index % 2 === 0) === isEvenIndex)
+        .map((post) => [post.id, post])
+    )
+    return Array.from(uniquePosts.values())
+  }
+
+  useEffect(() => {
+    const cachedPostsRequestData = lastRequestProfilePostsData.get(user.id)
+    if (cachedPostsRequestData) {
+      setUserPostsI(getUniqueFilteredPosts(cachedPostsRequestData.items, true))
+      setUserPostsII(
+        getUniqueFilteredPosts(cachedPostsRequestData.items, false)
+      )
+      const totalCachePages = Math.floor(
+        cachedPostsRequestData.items.length / 4
+      )
+      setCurrentPage(totalCachePages)
+      setLastPage(cachedPostsRequestData.totalPages)
+    }
+
+    setMounted(true)
+  }, [])
 
   useEffect(() => {
     ;(async () => {
-      if (loading) return null
+      if (loading || !mounted) return null
       setLoading(true)
       getByUser({
         ownerId: user.id,
         currentPage: 1,
         pageSize: 4 * currentPage,
       })
-        .then((posts) => {
-          setUserPostsI(() => {
-            const uniquePosts = new Map(
-              [...posts.items.filter((_, index) => index % 2 === 0)].map(
-                (post) => [post.id, post]
-              )
-            )
-            return Array.from(uniquePosts.values())
-          })
-
-          setUserPostsII(() => {
-            const uniquePosts = new Map(
-              [...posts.items.filter((_, index) => index % 2 !== 0)].map(
-                (post) => [post.id, post]
-              )
-            )
-            return Array.from(uniquePosts.values())
-          })
+        .then((postsPagination) => {
+          setLastPage(postsPagination.totalPages)
+          setUserPostsI(getUniqueFilteredPosts(postsPagination.items, true))
+          setUserPostsII(getUniqueFilteredPosts(postsPagination.items, false))
         })
         .catch((error) => addToast(error.message, "error"))
         .finally(() => setLoading(false))
@@ -52,7 +64,7 @@ export const Posts: React.FC<{ user: IUser }> = ({ user }) => {
       Math.ceil(window.innerHeight + window.scrollY) >=
       Math.ceil(document.body.offsetHeight)
     ) {
-      if (!loading && currentPage <= lastPage) {
+      if (!loading && mounted && currentPage < lastPage) {
         setCurrentPage((prev) => prev + 1)
         setRequest((prev) => !prev)
       }
@@ -93,7 +105,8 @@ export const Posts: React.FC<{ user: IUser }> = ({ user }) => {
           Posts
         </span>
       </h3>
-      {userPostsI.length === 0 && !loading ? (
+      {!loading &&
+      lastRequestProfilePostsData.get(user.id)?.items.length === 0 ? (
         <div className="w-full flex items-center justify-center">
           <div className="p-8 w-full h-[230px] bg-ashes rounded-xl flex flex-col items-center justify-center">
             <div className="col-span-1 w-[50px] h-[50px] flex items-center justify-center bg-border/50 border border-border rounded aspect-square">
