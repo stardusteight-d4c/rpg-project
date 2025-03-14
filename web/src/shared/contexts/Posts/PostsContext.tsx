@@ -78,9 +78,6 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
   )
   const [posts, setPosts] = useState<Map<string, IPost>>(new Map())
   const [feedPosts, setFeedPosts] = useState<Map<string, IPost>>(new Map())
-  const [profilePosts, setProfilePosts] = useState<Map<string, IPost>>(
-    new Map()
-  )
   const [lastRequestProfilePostsData, setLastRequestProfilePostsData] =
     useState<Map<string, ListPostsResponseDTO<IPost>>>(new Map())
 

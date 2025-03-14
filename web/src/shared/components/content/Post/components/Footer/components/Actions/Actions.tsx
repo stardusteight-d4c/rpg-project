@@ -44,9 +44,11 @@ export const Actions: React.FC<{
       })
   }
 
+  if (!currentSession) return null
+
   return (
     <div className="px-4 flex items-center gap-x-2">
-      {post.likes.includes(currentSession!.id) ? (
+      {post.likes.includes(currentSession.id) ? (
         <button
           onClick={onUnlike}
           className="bg-background flex items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50 hover:bg-button duration-300 ease-in-out transition-all"

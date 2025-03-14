@@ -21,7 +21,7 @@ export const Sheets: React.FC<{ user: IUser }> = ({ user }) => {
     ;(async () => {
       await getUserSheets(user.id)
     })()
-  }, [])
+  }, [user.id])
 
   return (
     <div>

@@ -25,6 +25,7 @@ export const Posts: React.FC<{ user: IUser }> = ({ user }) => {
 
   useEffect(() => {
     const cachedPostsRequestData = lastRequestProfilePostsData.get(user.id)
+
     if (cachedPostsRequestData) {
       setUserPostsI(getUniqueFilteredPosts(cachedPostsRequestData.items, true))
       setUserPostsII(
@@ -34,7 +35,6 @@ export const Posts: React.FC<{ user: IUser }> = ({ user }) => {
         cachedPostsRequestData.items.length / 4
       )
       setCurrentPage(totalCachePages)
-      setLastPage(cachedPostsRequestData.totalPages)
     }
 
     setMounted(true)
@@ -43,6 +43,11 @@ export const Posts: React.FC<{ user: IUser }> = ({ user }) => {
   useEffect(() => {
     ;(async () => {
       if (loading || !mounted) return null
+      console.log(
+        "lastRequestProfilePostsData.get(user.id)",
+        lastRequestProfilePostsData.get(user.id)
+      )
+
       setLoading(true)
       getByUser({
         ownerId: user.id,
@@ -70,6 +75,11 @@ export const Posts: React.FC<{ user: IUser }> = ({ user }) => {
       }
     }
   }
+
+  const isEmptyStateRendering =
+    !loading && lastRequestProfilePostsData.get(user.id)
+      ? lastRequestProfilePostsData.get(user.id)?.items.length === 0
+      : true
 
   return (
     <div>
@@ -105,8 +115,7 @@ export const Posts: React.FC<{ user: IUser }> = ({ user }) => {
           Posts
         </span>
       </h3>
-      {!loading &&
-      lastRequestProfilePostsData.get(user.id)?.items.length === 0 ? (
+      {isEmptyStateRendering ? (
         <div className="w-full flex items-center justify-center">
           <div className="p-8 w-full h-[230px] bg-ashes rounded-xl flex flex-col items-center justify-center">
             <div className="col-span-1 w-[50px] h-[50px] flex items-center justify-center bg-border/50 border border-border rounded aspect-square">
