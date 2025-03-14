@@ -1,0 +1,1 @@
+export { CreatePostInput } from "./CreatePostInput"

@@ -5,7 +5,7 @@ import React, { ChangeEvent, useState } from "react"
 import { GlowingWrapper } from "@/shared/components/ui"
 import { usePosts, useAuth, useToast } from "@/shared/contexts"
 import { getNameInitials } from "@/shared/utils"
-import { UserAvatar } from "../../../UserAvatar"
+import { UserAvatar } from "../../content/UserAvatar"
 
 export const CreatePostInput: React.FC<{
   currentPage?: number

@@ -1,7 +1,7 @@
 "use client"
 
 import { Post } from "../../../../shared/components/content/Post/Post"
-import { CreatePostInput } from "../../../../shared/components/content/Post/components/CreatePostInput/CreatePostInput"
+import { CreatePostInput } from "../../../../shared/components/ui/CreatePostInput/CreatePostInput"
 import { usePosts } from "@/shared/contexts/Posts/PostsContext"
 import { useAuth } from "@/shared/contexts/Auth/AuthContext"
 import { useEffect, useState } from "react"
