@@ -31,14 +31,10 @@ export const Posts: React.FC<{ user: IUser }> = ({ user }) => {
       setUserPostsII(
         getUniqueFilteredPosts(cachedPostsRequestData.items, false)
       )
-      const totalCachePages = Math.floor(
-        cachedPostsRequestData.items.length / 4
-      )
-      setCurrentPage(totalCachePages)
     }
 
     setMounted(true)
-  }, [])
+  }, [lastRequestProfilePostsData])
 
   useEffect(() => {
     ;(async () => {
@@ -47,7 +43,6 @@ export const Posts: React.FC<{ user: IUser }> = ({ user }) => {
         "lastRequestProfilePostsData.get(user.id)",
         lastRequestProfilePostsData.get(user.id)
       )
-
       setLoading(true)
       getByUser({
         ownerId: user.id,
@@ -56,8 +51,6 @@ export const Posts: React.FC<{ user: IUser }> = ({ user }) => {
       })
         .then((postsPagination) => {
           setLastPage(postsPagination.totalPages)
-          setUserPostsI(getUniqueFilteredPosts(postsPagination.items, true))
-          setUserPostsII(getUniqueFilteredPosts(postsPagination.items, false))
         })
         .catch((error) => addToast(error.message, "error"))
         .finally(() => setLoading(false))
@@ -77,9 +70,9 @@ export const Posts: React.FC<{ user: IUser }> = ({ user }) => {
   }
 
   const isEmptyStateRendering =
-    !loading && lastRequestProfilePostsData.get(user.id)
-      ? lastRequestProfilePostsData.get(user.id)?.items.length === 0
-      : true
+    !loading &&
+    lastRequestProfilePostsData.get(user.id) &&
+    lastRequestProfilePostsData.get(user.id)?.items.length === 0
 
   return (
     <div>

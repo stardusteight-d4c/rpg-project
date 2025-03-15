@@ -1,4 +1,13 @@
-export class PostsContextHandlers {
+interface IPostsContextHandlers {
+  updatePostLikes(postId: string, userId: string, isLiking: boolean): void
+  updatePostComments(
+    postId: string,
+    comment: IComment,
+    action: "add" | "edit" | "delete"
+  ): void
+}
+
+export class PostsContextHandlers implements IPostsContextHandlers {
   private posts: Map<string, IPost>
   private updatePostState: (updatedPost: IPost) => void
 
@@ -10,7 +19,7 @@ export class PostsContextHandlers {
     this.updatePostState = updatePostState
   }
 
-  updatePostLikes(postId: string, userId: string, isLiking: boolean) {
+  public updatePostLikes(postId: string, userId: string, isLiking: boolean) {
     const updatingPost = this.posts.get(postId)
     if (!updatingPost) throw new Error("[updatePostLikes]: Post not found")
 
@@ -31,7 +40,7 @@ export class PostsContextHandlers {
     this.updatePostState(updatedPost)
   }
 
-  updatePostComments(
+  public updatePostComments(
     postId: string,
     comment: IComment,
     action: "add" | "edit" | "delete"

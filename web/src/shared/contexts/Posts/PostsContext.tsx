@@ -11,10 +11,11 @@ import { MockAPI } from "@/shared/requests/MockAPI"
 import { PostsContextHandlers } from "./PostsContextHandlers"
 
 interface PostsState {
-  campaignPosts: Map<string, IPost>
   posts: Map<string, IPost>
-  feedPosts: Map<string, IPost>
   lastRequestProfilePostsData: Map<string, ListPostsResponseDTO<IPost>>
+
+  campaignPosts: Map<string, IPost>
+  feedPosts: Map<string, IPost>
   add: (post: IPost, currentPage?: number) => Promise<IPost | void>
   update: (post: Partial<IPost>) => Promise<IPost | void>
   remove: (postId: string) => Promise<void>
@@ -34,9 +35,10 @@ interface PostsState {
 }
 
 const defaultState: PostsState = {
-  campaignPosts: new Map(),
   posts: new Map(),
   lastRequestProfilePostsData: new Map(),
+
+  campaignPosts: new Map(),
   feedPosts: new Map(),
   add: async () => {},
   update: async () => {},
@@ -103,6 +105,27 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
     setFeedPosts((prev) =>
       sortPostsMap(new Map(prev).set(updatedPost.id, updatedPost))
     )
+
+    setLastRequestProfilePostsData((prev) => {
+      const updatedCache = new Map(prev)
+      const userPosts = updatedCache.get(updatedPost.owner.id)
+
+      if (userPosts) {
+        updatedCache.set(updatedPost.owner.id, {
+          ...userPosts,
+          items: Array.from(
+            sortPostsMap(
+              new Map(userPosts.items.map((p) => [p.id, p])).set(
+                updatedPost.id,
+                updatedPost
+              )
+            ).values()
+          ),
+        })
+      }
+
+      return updatedCache
+    })
   }
 
   const deletePostFromLocalState = (postId: string) => {
@@ -120,6 +143,17 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
       const newFeedPosts = new Map(prev)
       newFeedPosts.delete(postId)
       return newFeedPosts
+    })
+
+    setLastRequestProfilePostsData((prev) => {
+      const updatedCache = new Map(prev)
+      updatedCache.forEach((profileData, userId) => {
+        const filteredPosts = profileData.items.filter(
+          (post) => post.id !== postId
+        )
+        updatedCache.set(userId, { ...profileData, items: filteredPosts })
+      })
+      return updatedCache
     })
   }
 
@@ -153,13 +187,9 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
   const update = async (post: Partial<IPost>) => {
     return api.post
       .update(post)
-      .then((post) => {
-        setPosts((prev) => sortPostsMap(new Map(prev).set(post.id, post)))
-        setFeedPosts((prev) => sortPostsMap(new Map(prev).set(post.id, post)))
-        setCampaignPosts((prev) =>
-          sortPostsMap(new Map(prev).set(post.id, post))
-        )
-        return post
+      .then((updatedPost) => {
+        updatePostState(updatedPost)
+        return updatedPost
       })
       .catch((error) => {
         throw new Error(error.message)
@@ -188,7 +218,7 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
           )
           return updatedPosts
         })
-     
+
         return postsPagination
       })
       .catch((error) => {
