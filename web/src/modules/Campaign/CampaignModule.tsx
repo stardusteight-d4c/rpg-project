@@ -388,7 +388,7 @@ export function CampaignModule() {
                     ) : (
                       <div className="flex flex-col gap-y-4 rounded-3xl w-full">
                         {Array.from(campaignPosts.values()).map((post) => (
-                          <Post post={post} />
+                          <Post key={post.id} post={post} />
                         ))}
                       </div>
                     )}

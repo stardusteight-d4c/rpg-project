@@ -2,6 +2,7 @@ interface IPost {
   id: string
   owner: IUser
   campaignId?: string
+  campaign?: Partial<ICampaign>
   content: string
   image?: string | undefined
   commentsCount: number
@@ -30,9 +31,9 @@ interface ListPostsDTO {
 }
 
 interface ListCommentsDTO {
-  postId: string; 
-  currentPage?: number;
-  pageSize?: number; 
+  postId: string
+  currentPage?: number
+  pageSize?: number
 }
 
 interface ListPostsResponseDTO<T> {
@@ -42,7 +43,7 @@ interface ListPostsResponseDTO<T> {
 }
 
 interface ListCommentsResponseDTO {
-  items: IComment[];
-  totalItems: number;
-  totalPages: number;
+  items: IComment[]
+  totalItems: number
+  totalPages: number
 }

@@ -1,3 +1,8 @@
+"use client"
+
+import Link from "next/link"
+import { formatText } from "@/shared/utils"
+
 export const Metrics: React.FC<{ post: IPost }> = ({ post }) => {
   return (
     <div className="px-4 flex items-center gap-x-2">
@@ -26,6 +31,14 @@ export const Metrics: React.FC<{ post: IPost }> = ({ post }) => {
         {post.commentsCount ?? 0}{" "}
         {post.commentsCount === 1 ? "Comment" : "Comments"}
       </span>
+      {post.campaign && (
+        <Link
+          href={`/campaign/${post.campaign.id}`}
+          className="cursor-pointer hover:brightness-125 bg-border block ml-auto w-fit rounded-full px-2 border border-border"
+        >
+          #{formatText(post.campaign.name!)}
+        </Link>
+      )}
     </div>
   )
 }

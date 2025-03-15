@@ -1,13 +1,16 @@
+import { MockCampaignRoute } from "../campaign/MockCampaignRoute"
 import { MockUserRoute } from "../user/MockUserRoute"
 
 export class MockPostRoute implements IPostRoute {
   static #instance: MockPostRoute | null = null
   #posts: Map<string, IPost>
   #inMemoryUserRoute: IUserRoute
+  #inMemoryCampaignRoute: ICampaignRoute
 
   private constructor() {
     this.#posts = new Map()
     this.#inMemoryUserRoute = MockUserRoute.getInstance()
+    this.#inMemoryCampaignRoute = MockCampaignRoute.getInstance()
   }
 
   public static getInstance(): MockPostRoute {
@@ -20,7 +23,7 @@ export class MockPostRoute implements IPostRoute {
   public async create(post: IPost): Promise<IPost> {
     await new Promise((resolve) => setTimeout(resolve, 5000))
 
-    const newPost: IPost = {
+    let newPost: IPost = {
       ...post,
       commentsCount: 0,
       likesCount: 0,
@@ -28,6 +31,18 @@ export class MockPostRoute implements IPostRoute {
       likes: [],
       comments: [],
       createdAt: new Date().toISOString(),
+    }
+
+    if (post.campaignId) {
+      this.#inMemoryCampaignRoute
+        .list({ campaignId: post.campaignId })
+        .then(
+          (campaigns) =>
+            (newPost.campaign = {
+              id: campaigns[0].id,
+              name: campaigns[0].name,
+            })
+        )
     }
 
     this.#posts.set(newPost.id, newPost)

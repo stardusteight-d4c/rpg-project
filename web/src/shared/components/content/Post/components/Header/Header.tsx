@@ -10,6 +10,7 @@ export const Header: React.FC<{ post: IPost }> = ({ post }) => {
           username={post.owner.username}
           avatarUrl={post.owner.avatarUrl}
         />
+
         <div className="flex flex-col">
           <span className="block whitespace-nowrap text-lg font-bold -tracking-wide">
             {post.owner.name}
@@ -19,6 +20,7 @@ export const Header: React.FC<{ post: IPost }> = ({ post }) => {
           </span>
         </div>
       </div>
+     
       <div className="ml-auto text-gray-500/80 select-none flex items-center gap-x-[2px] mt-1 w-full justify-end">
         <span className="text-xs block">{timeago(post.createdAt)}</span>
         <svg
