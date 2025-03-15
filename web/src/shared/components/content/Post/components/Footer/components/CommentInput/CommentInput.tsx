@@ -66,9 +66,9 @@ export const CommentInput = ({ postId }: { postId: string }) => {
             e.preventDefault()
             onSend()
           }}
-          data-isLoading={isLoading}
+          data-isloading={isLoading}
           disabled={isLoading}
-          className="bg-background flex hover:brightness-125 active:scale-95 items-center  justify-center text-white p-2 rounded-full w-fit shadow-sm shadow-black/50 cursor-pointer border border-border disabled:cursor-not-allowed data-[isLoading=false]:hover:border-transparent data-[isLoading=false]:hover:bg-gradient-to-tr data-[isLoading=false]:hover:from-[#42d392] data-[isLoading=false]:hover:to-[#8B5CF6] duration-300 ease-in-out transition-all"
+          className="bg-background flex hover:brightness-125 active:scale-95 items-center  justify-center text-white p-2 rounded-full w-fit shadow-sm shadow-black/50 cursor-pointer border border-border disabled:cursor-not-allowed data-[isloading=false]:hover:border-transparent data-[isloading=false]:hover:bg-gradient-to-tr data-[isloading=false]:hover:from-[#42d392] data-[isloading=false]:hover:to-[#8B5CF6] duration-300 ease-in-out transition-all"
         >
           {isLoading ? <Loader /> : <PaperPlaneTilt />}
         </button>

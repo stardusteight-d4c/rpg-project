@@ -188,6 +188,9 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
     return api.post
       .update(post)
       .then((updatedPost) => {
+        const cachedPost = posts.get(post.id!)
+        if (cachedPost)
+          updatePostState({ ...updatedPost, comments: cachedPost.comments })
         updatePostState(updatedPost)
         return updatedPost
       })
