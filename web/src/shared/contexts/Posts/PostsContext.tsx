@@ -214,10 +214,15 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
     return api.post
       .list(queryParams)
       .then((postsPagination) => {
+        console.log(queryParams.ownerId)
+
         setLastRequestProfilePostsData((prev) => {
           const updatedPosts = new Map(prev)
           postsPagination.items.forEach((post) =>
-            updatedPosts.set(post.owner.id, postsPagination)
+            updatedPosts.set(
+              queryParams.ownerId ?? post.owner.id,
+              postsPagination
+            )
           )
           return updatedPosts
         })

@@ -36,13 +36,15 @@ export const Posts: React.FC<{ user: IUser }> = ({ user }) => {
     setMounted(true)
   }, [lastRequestProfilePostsData])
 
+  console.log(
+    "lastRequestProfilePostsData.get(user.id)",
+    lastRequestProfilePostsData.get(user.id)
+  )
+
   useEffect(() => {
     ;(async () => {
       if (loading || !mounted) return null
-      console.log(
-        "lastRequestProfilePostsData.get(user.id)",
-        lastRequestProfilePostsData.get(user.id)
-      )
+
       setLoading(true)
       getByUser({
         ownerId: user.id,
@@ -71,8 +73,8 @@ export const Posts: React.FC<{ user: IUser }> = ({ user }) => {
 
   const isEmptyStateRendering =
     !loading &&
-    lastRequestProfilePostsData.get(user.id) &&
-    lastRequestProfilePostsData.get(user.id)?.items.length === 0
+    (lastRequestProfilePostsData.get(user.id) === undefined ||
+      lastRequestProfilePostsData.get(user.id)?.items.length === 0)
 
   return (
     <div>
