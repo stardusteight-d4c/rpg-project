@@ -13,6 +13,7 @@ import { PostsContextHandlers } from "./PostsContextHandlers"
 interface PostsState {
   posts: Map<string, IPost>
   lastRequestProfilePostsData: Map<string, ListPostsResponseDTO<IPost>>
+  lastRequestCampaignPostsData: Map<string, ListPostsResponseDTO<IPost>>
   campaignPosts: Map<string, IPost>
   feedPosts: Map<string, IPost>
   add: (post: IPost, currentPage?: number) => Promise<IPost | void>
@@ -36,7 +37,7 @@ interface PostsState {
 const defaultState: PostsState = {
   posts: new Map(),
   lastRequestProfilePostsData: new Map(),
-
+  lastRequestCampaignPostsData: new Map(),
   campaignPosts: new Map(),
   feedPosts: new Map(),
   add: async () => {},
@@ -80,6 +81,8 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
   const [posts, setPosts] = useState<Map<string, IPost>>(new Map())
   const [feedPosts, setFeedPosts] = useState<Map<string, IPost>>(new Map())
   const [lastRequestProfilePostsData, setLastRequestProfilePostsData] =
+    useState<Map<string, ListPostsResponseDTO<IPost>>>(new Map())
+  const [lastRequestCampaignPostsData, setLastRequestCampaignPostsData] =
     useState<Map<string, ListPostsResponseDTO<IPost>>>(new Map())
 
   const api = new MockAPI()
@@ -283,13 +286,52 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
   }
 
   const getByCampaign = async (queryParams: ListPostsDTO) => {
+    const campaignId = queryParams.campaignId
+
+    setLastRequestCampaignPostsData((prev) => {
+      const existingData = prev.get(campaignId!)
+      if (
+        existingData &&
+        existingData.currentPage === queryParams.currentPage &&
+        existingData.pageSize === queryParams.pageSize
+      ) {
+        return prev
+      }
+      return prev
+    })
+
     return api.post
       .list(queryParams)
       .then((postsPagination) => {
-        const postsMap = new Map(
-          postsPagination.items.map((post) => [post.id, post])
-        )
-        setCampaignPosts(sortPostsMap(postsMap))
+        setLastRequestCampaignPostsData((prev) => {
+          const updatedCampaignPosts = new Map(prev)
+          const existingData = updatedCampaignPosts.get(campaignId!)
+          const previousPosts = existingData?.items || []
+          const previousPostsMap = new Map(
+            previousPosts.map((post) => [post.id, post])
+          )
+
+          const updatedItems = postsPagination.items.map((newPost) => {
+            const existingPost = previousPostsMap.get(newPost.id)
+            return existingPost ? existingPost : newPost
+          })
+
+          updatedCampaignPosts.set(campaignId!, {
+            ...postsPagination,
+            items: updatedItems,
+            currentPage: queryParams.currentPage,
+            pageSize: queryParams.pageSize,
+          })
+
+          return updatedCampaignPosts
+        })
+
+        setCampaignPosts((prev) => {
+          const postsMap = new Map(prev)
+          postsPagination.items.forEach((post) => postsMap.set(post.id, post))
+          return sortPostsMap(postsMap)
+        })
+
         return postsPagination
       })
       .catch((error) => {
@@ -404,6 +446,7 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
         posts,
         feedPosts,
         lastRequestProfilePostsData,
+        lastRequestCampaignPostsData,
         campaignPosts,
         update,
         remove,

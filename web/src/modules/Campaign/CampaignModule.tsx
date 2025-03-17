@@ -1,7 +1,7 @@
 "use client"
 
 import { useParams } from "next/navigation"
-import React, { useEffect, useRef, useState } from "react"
+import React, { useEffect } from "react"
 import { useCampaigns } from "@/shared/contexts"
 import { Campaign } from "./components"
 
@@ -28,7 +28,9 @@ export function CampaignModule() {
   )
 }
 
-export const Wrapper = ({ children }: { children: React.ReactNode[] }) => {
+export const Wrapper: React.FC<{ children: React.ReactNode[] }> = ({
+  children,
+}) => {
   const elements = React.Children.toArray(children)
 
   return (

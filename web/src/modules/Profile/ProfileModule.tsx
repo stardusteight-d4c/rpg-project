@@ -1,7 +1,7 @@
 "use client"
 
 import { useParams } from "next/navigation"
-import { useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import { useUsers } from "@/shared/contexts/Users/UsersContext"
 import { Profile } from "./components"
 
@@ -21,15 +21,30 @@ export function ProfileModule() {
   if (!user) return null
 
   return (
-    <main className="w-screen relative">
+    <Wrapper>
       <Profile.Navbar />
       <Profile.Header user={user} />
-      <div className="z-[500] max-w-7xl mb-[200px] mt-[80px] flex flex-col gap-y-[100px] w-full mx-auto">
-        <Profile.Sheets user={user} />
-        <Profile.Campaigns user={user} />
-        <Profile.Posts user={user} />
-      </div>
+      <Profile.Sheets user={user} />
+      <Profile.Campaigns user={user} />
+      <Profile.Posts user={user} />
       <Profile.Footer />
+    </Wrapper>
+  )
+}
+
+const Wrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const elements = React.Children.toArray(children)
+
+  return (
+    <main className="w-screen relative">
+      {elements[0]}
+      {elements[1]}
+      <div className="z-[500] max-w-7xl mb-[200px] mt-[80px] flex flex-col gap-y-[100px] w-full mx-auto">
+        {elements[2]}
+        {elements[3]}
+        {elements[4]}
+      </div>
+      {elements[5]}
     </main>
   )
 }

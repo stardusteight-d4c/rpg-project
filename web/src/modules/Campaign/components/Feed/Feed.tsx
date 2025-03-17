@@ -10,11 +10,14 @@ import {
 import { usePosts, useToast } from "@/shared/contexts"
 
 export const Feed: React.FC<{ campaign: ICampaign }> = ({ campaign }) => {
-  const { getByCampaign, campaignPosts } = usePosts()
+  const { getByCampaign, campaignPosts, lastRequestCampaignPostsData } =
+    usePosts()
   const { addToast } = useToast()
   const [currentPage, setCurrentPage] = useState(1)
   const [totalPages, setTotalPages] = useState(0)
   const [isLoading, setIsLoading] = useState<boolean>(false)
+
+  console.log({lastRequestCampaignPostsData})
 
   useEffect(() => {
     ;(async () => {
