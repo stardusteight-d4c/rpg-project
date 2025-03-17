@@ -23,6 +23,7 @@ export function CampaignModule() {
       <Campaign.Header campaign={campaign} />
       <Campaign.Details campaign={campaign} />
       <Campaign.Feed campaign={campaign} />
+      <Campaign.Footer />
     </Wrapper>
   )
 }
@@ -40,7 +41,7 @@ export const Wrapper = ({ children }: { children: React.ReactNode[] }) => {
           {elements[3]}
         </div>
       </div>
-      <Campaign.Footer />
+      {elements[4]}
     </main>
   )
 }
