@@ -101,9 +101,15 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
     setPosts((prev) =>
       sortPostsMap(new Map(prev).set(updatedPost.id, updatedPost))
     )
-    setCampaignPosts((prev) =>
-      sortPostsMap(new Map(prev).set(updatedPost.id, updatedPost))
-    )
+
+    setCampaignPosts((prev) => {
+      const postsMap = new Map(prev)
+      if (postsMap.get(updatedPost.id)) {
+        return sortPostsMap(new Map(prev).set(updatedPost.id, updatedPost))
+      }
+      return postsMap
+    })
+    
     setFeedPosts((prev) =>
       sortPostsMap(new Map(prev).set(updatedPost.id, updatedPost))
     )
@@ -175,6 +181,8 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
           sortPostsMap(new Map(prev).set(createdPost.id, createdPost))
         )
         if (currentPage === 1) {
+          console.log(createdPost)
+
           setCampaignPosts((prev) =>
             sortPostsMap(new Map(prev).set(createdPost.id, createdPost))
           )

@@ -34,15 +34,9 @@ export class MockPostRoute implements IPostRoute {
     }
 
     if (post.campaignId) {
-      this.#inMemoryCampaignRoute
+      newPost.campaign = await this.#inMemoryCampaignRoute
         .list({ campaignId: post.campaignId })
-        .then(
-          (campaigns) =>
-            (newPost.campaign = {
-              id: campaigns[0].id,
-              name: campaigns[0].name,
-            })
-        )
+        .then((campaigns) => campaigns[0])
     }
 
     this.#posts.set(newPost.id, newPost)
@@ -210,9 +204,9 @@ export class MockPostRoute implements IPostRoute {
       )
     }
 
-    if (queryParams?.feed && queryParams?.userId) {
+    if (queryParams?.feed && queryParams?.ownerId) {
       const user = await this.#inMemoryUserRoute.list({
-        userId: queryParams.userId,
+        userId: queryParams.ownerId,
       })
       if (user.length === 0) {
         return { items: [], totalItems: 0, totalPages: 0 }
@@ -220,7 +214,7 @@ export class MockPostRoute implements IPostRoute {
       const followingIds = user[0].following
       filteredPosts = filteredPosts.filter(
         (post) =>
-          post.owner.id === queryParams.userId ||
+          post.owner.id === queryParams.ownerId ||
           followingIds.includes(post.owner.id)
       )
     }

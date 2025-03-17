@@ -107,7 +107,7 @@ export const CreateCampaignModal: React.FC<{
         <div className="py-2 px-4 sticky z-[200] border-b border-border shadow-md shadow-black/50 top-0 w-full inset-x-0 bg-background">
           <div className="flex items-center gap-x-4">
             <Button
-              title="Change Cover Image"
+              title="Upload Cover Image"
               action={handleClick}
               variant="modal"
               bgColor="blue"

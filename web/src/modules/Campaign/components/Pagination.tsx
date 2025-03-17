@@ -1,4 +1,3 @@
-import { usePosts } from "@/shared/contexts/Posts/PostsContext"
 import React from "react"
 
 interface PaginationProps {
@@ -82,9 +81,10 @@ export const Pagination: React.FC<PaginationProps> = ({
 
       {/* Botão Próximo */}
       <button
+    
         className="px-3 py-1 border border-border shadow-md shadow-black/50 rounded-full disabled:opacity-50 disabled:cursor-not-allowed"
         onClick={handleNext}
-        disabled={currentPage === totalPages}
+        disabled={currentPage >= totalPages}
       >
         {">"}
       </button>
