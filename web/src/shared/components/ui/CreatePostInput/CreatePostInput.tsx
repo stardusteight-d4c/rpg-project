@@ -15,7 +15,7 @@ export const CreatePostInput: React.FC<{
   const { currentSession } = useAuth()
   const { addToast } = useToast()
   const campaignId = useParams().id as string
-  const [loading, setLoading] = useState<boolean>(false)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   const [postData, setPostData] = useState<Partial<IPost>>({
     id: "",
     content: "",
@@ -56,8 +56,8 @@ export const CreatePostInput: React.FC<{
   }
 
   const onPost = async () => {
-    if (loading) return null
-    setLoading(true)
+    if (isLoading) return null
+    setIsLoading(true)
     add({ ...(postData as IPost), campaignId }, currentPage)
       .then(() => {
         addToast("The post has been created!", "success", 45)
@@ -76,7 +76,7 @@ export const CreatePostInput: React.FC<{
           likes: [],
         })
         setImageFile(undefined)
-        setLoading(false)
+        setIsLoading(false)
       })
   }
 
@@ -104,11 +104,13 @@ export const CreatePostInput: React.FC<{
         )}
         <div className="rounded-xl w-full">
           <GlowingWrapper
+            disabled={isLoading}
             styles="w-full"
             border="rounded-xl rounded-b-none"
             inset="0"
           >
             <textarea
+              disabled={isLoading}
               onChange={(e) => handleInputChange(e)}
               value={postData.content}
               placeholder={
@@ -123,7 +125,7 @@ export const CreatePostInput: React.FC<{
                   onPost()
                 }
               }}
-              className="p-2 bg-background h-[100px]  resize-none overflow-y-scroll no-scrollbar w-full cursor-text hover:brightness-125 flex items-center gap-x-1 line-clamp-1 rounded-xl rounded-b-none border border-border outline-none"
+              className="p-2 disabled:cursor-not-allowed disabled:brightness-90 bg-background h-[100px]  resize-none overflow-y-scroll no-scrollbar w-full cursor-text focus:brightness-125 flex items-center gap-x-1 line-clamp-1 rounded-xl rounded-b-none border border-border outline-none"
             />
           </GlowingWrapper>
           <div className="flex rounded-b-xl w-full items-center gap-x-2 px-4 py-2 bg-border">
@@ -169,7 +171,7 @@ export const CreatePostInput: React.FC<{
                 </span>
               </div>
             )}
-            {loading ? (
+            {isLoading ? (
               <button className="bg-background cursor-not-allowed ml-auto flex items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50 duration-300 ease-in-out transition-all">
                 <div className="w-fit mx-auto">
                   <svg

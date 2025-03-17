@@ -71,7 +71,10 @@ export class PostsContextHandlers implements IPostsContextHandlers {
 
     const updatedPost: IPost = {
       ...updatingPost,
-      comments: updatedComments,
+      comments: updatedComments.sort(
+        (a, b) =>
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+      ),
       commentsCount: updatedCommentsCount,
     }
 

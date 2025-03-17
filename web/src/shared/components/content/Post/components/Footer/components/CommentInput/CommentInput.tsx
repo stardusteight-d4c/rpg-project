@@ -45,8 +45,14 @@ export const CommentInput = ({ postId }: { postId: string }) => {
   return (
     <div className="p-4 sticky top-[45px] inset-x-0 z-[100] bg-background border border-border shadow-sm shadow-black/50 rounded-b-xl">
       <div className="flex items-center gap-x-4 p-2 bottom-0 inset-x-0">
-        <GlowingWrapper styles="w-full" border="rounded-3xl" inset="0">
+        <GlowingWrapper
+          disabled={isLoading}
+          styles="w-full"
+          border="rounded-3xl"
+          inset="0"
+        >
           <input
+            disabled={isLoading}
             onChange={(e) => handleInputChange(e)}
             value={commentData.content}
             onKeyDown={(e) => {
@@ -57,7 +63,7 @@ export const CommentInput = ({ postId }: { postId: string }) => {
             }}
             placeholder="Send a comment"
             spellCheck="false"
-            className="p-2 px-4 w-full cursor-text hover:brightness-125 flex items-center gap-x-1 rounded-full bg-border/50 border border-border outline-none"
+            className="p-2 px-4 disabled:cursor-not-allowed w-full cursor-text focus:brightness-125 flex items-center gap-x-1 rounded-full bg-border/50 border border-border outline-none"
           />
         </GlowingWrapper>
 

@@ -13,7 +13,6 @@ import { PostsContextHandlers } from "./PostsContextHandlers"
 interface PostsState {
   posts: Map<string, IPost>
   lastRequestProfilePostsData: Map<string, ListPostsResponseDTO<IPost>>
-
   campaignPosts: Map<string, IPost>
   feedPosts: Map<string, IPost>
   add: (post: IPost, currentPage?: number) => Promise<IPost | void>
@@ -85,14 +84,17 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
 
   const api = new MockAPI()
 
-  const sortPostsMap = (postsMap: Map<string, IPost>) => {
-    return new Map(
-      Array.from(postsMap.entries()).sort(
-        (a, b) =>
-          new Date(b[1].createdAt).getTime() -
-          new Date(a[1].createdAt).getTime()
-      )
+  const sortByCreatedAt = <T extends { createdAt: string }>(
+    items: [string, T][]
+  ) => {
+    return items.sort(
+      (a, b) =>
+        new Date(b[1].createdAt).getTime() - new Date(a[1].createdAt).getTime()
     )
+  }
+
+  const sortPostsMap = (postsMap: Map<string, IPost>) => {
+    return new Map(sortByCreatedAt(Array.from(postsMap.entries())))
   }
 
   const updatePostState = (updatedPost: IPost) => {
@@ -108,14 +110,14 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
 
     setLastRequestProfilePostsData((prev) => {
       const updatedCache = new Map(prev)
-      const userPosts = updatedCache.get(updatedPost.owner.id)
+      const outdatedData = updatedCache.get(updatedPost.owner.id)
 
-      if (userPosts) {
+      if (outdatedData) {
         updatedCache.set(updatedPost.owner.id, {
-          ...userPosts,
+          ...outdatedData,
           items: Array.from(
             sortPostsMap(
-              new Map(userPosts.items.map((p) => [p.id, p])).set(
+              new Map(outdatedData.items.map((p) => [p.id, p])).set(
                 updatedPost.id,
                 updatedPost
               )
@@ -189,9 +191,11 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
       .update(post)
       .then((updatedPost) => {
         const cachedPost = posts.get(post.id!)
-        if (cachedPost)
+        if (cachedPost) {
           updatePostState({ ...updatedPost, comments: cachedPost.comments })
-        updatePostState(updatedPost)
+        } else {
+          updatePostState(updatedPost)
+        }
         return updatedPost
       })
       .catch((error) => {
@@ -211,22 +215,40 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
   }
 
   const getByUser = async (queryParams: ListPostsDTO) => {
+    const ownerId = queryParams.ownerId
+
+    setLastRequestProfilePostsData((prev) => {
+      const existingData = prev.get(ownerId!)
+      if (
+        existingData &&
+        existingData.currentPage === queryParams.currentPage &&
+        existingData.pageSize === queryParams.pageSize
+      ) {
+        return prev
+      }
+      return prev
+    })
+
     return api.post
       .list(queryParams)
       .then((postsPagination) => {
-        console.log(queryParams.ownerId)
-
         setLastRequestProfilePostsData((prev) => {
           const updatedPosts = new Map(prev)
-          postsPagination.items.forEach((post) =>
-            updatedPosts.set(
-              queryParams.ownerId ?? post.owner.id,
-              postsPagination
-            )
+          const existingData = updatedPosts.get(ownerId!)
+          const previousPosts = existingData?.items || []
+          const previousPostsMap = new Map(
+            previousPosts.map((post) => [post.id, post])
           )
+          const updatedItems = postsPagination.items.map((newPost) => {
+            const existingPost = previousPostsMap.get(newPost.id)
+            return existingPost ? existingPost : newPost
+          })
+          updatedPosts.set(ownerId!, {
+            ...postsPagination,
+            items: updatedItems,
+          })
           return updatedPosts
         })
-
         return postsPagination
       })
       .catch((error) => {

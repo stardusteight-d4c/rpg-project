@@ -23,7 +23,6 @@ interface IComment {
 
 interface ListPostsDTO {
   feed?: boolean
-  userId?: string
   campaignId?: string
   ownerId?: string
   currentPage?: number
@@ -40,6 +39,8 @@ interface ListPostsResponseDTO<T> {
   items: Array<T>
   totalItems: number
   totalPages: number
+  currentPage?: number
+  pageSize?: number
 }
 
 interface ListCommentsResponseDTO {
