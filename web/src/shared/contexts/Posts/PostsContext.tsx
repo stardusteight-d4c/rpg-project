@@ -97,7 +97,7 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
     return new Map(sortByCreatedAt(Array.from(postsMap.entries())))
   }
 
-  const updatePostState = (updatedPost: IPost) => {
+  const updatePostFromLocalState = (updatedPost: IPost) => {
     setPosts((prev) =>
       sortPostsMap(new Map(prev).set(updatedPost.id, updatedPost))
     )
@@ -109,21 +109,21 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
       }
       return postsMap
     })
-    
+
     setFeedPosts((prev) =>
       sortPostsMap(new Map(prev).set(updatedPost.id, updatedPost))
     )
 
     setLastRequestProfilePostsData((prev) => {
       const updatedCache = new Map(prev)
-      const outdatedData = updatedCache.get(updatedPost.owner.id)
+      const prevProfileRequest = updatedCache.get(updatedPost.owner.id)
 
-      if (outdatedData) {
+      if (prevProfileRequest) {
         updatedCache.set(updatedPost.owner.id, {
-          ...outdatedData,
+          ...prevProfileRequest,
           items: Array.from(
             sortPostsMap(
-              new Map(outdatedData.items.map((p) => [p.id, p])).set(
+              new Map(prevProfileRequest.items.map((p) => [p.id, p])).set(
                 updatedPost.id,
                 updatedPost
               )
@@ -134,6 +134,33 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
 
       return updatedCache
     })
+  }
+
+  const addPostInLocalState = (createdPost: IPost, currentPage?: number) => {
+    setPosts((prev) =>
+      sortPostsMap(new Map(prev).set(createdPost.id, createdPost))
+    )
+    setFeedPosts((prev) =>
+      sortPostsMap(new Map(prev).set(createdPost.id, createdPost))
+    )
+    setLastRequestProfilePostsData((prev) => {
+      const updatedCache = new Map(prev)
+      const prevProfileRequest = updatedCache.get(createdPost.owner.id)
+
+      if (prevProfileRequest) {
+        updatedCache.set(createdPost.owner.id, {
+          ...prevProfileRequest,
+          items: [createdPost, ...prevProfileRequest.items],
+        })
+      }
+
+      return updatedCache
+    })
+    if (currentPage === 1) {
+      setCampaignPosts((prev) =>
+        sortPostsMap(new Map(prev).set(createdPost.id, createdPost))
+      )
+    }
   }
 
   const deletePostFromLocalState = (postId: string) => {
@@ -166,7 +193,7 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
   }
 
   const handlers = useMemo(
-    () => new PostsContextHandlers(posts, updatePostState),
+    () => new PostsContextHandlers(posts, updatePostFromLocalState),
     [posts]
   )
 
@@ -174,19 +201,7 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
     return api.post
       .create(post)
       .then((createdPost) => {
-        setPosts((prev) =>
-          sortPostsMap(new Map(prev).set(createdPost.id, createdPost))
-        )
-        setFeedPosts((prev) =>
-          sortPostsMap(new Map(prev).set(createdPost.id, createdPost))
-        )
-        if (currentPage === 1) {
-          console.log(createdPost)
-
-          setCampaignPosts((prev) =>
-            sortPostsMap(new Map(prev).set(createdPost.id, createdPost))
-          )
-        }
+        addPostInLocalState(createdPost, currentPage)
         return createdPost
       })
       .catch((error) => {
@@ -200,9 +215,12 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
       .then((updatedPost) => {
         const cachedPost = posts.get(post.id!)
         if (cachedPost) {
-          updatePostState({ ...updatedPost, comments: cachedPost.comments })
+          updatePostFromLocalState({
+            ...updatedPost,
+            comments: cachedPost.comments,
+          })
         } else {
-          updatePostState(updatedPost)
+          updatePostFromLocalState(updatedPost)
         }
         return updatedPost
       })
@@ -327,7 +345,7 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
             (c) => !existingCommentIds.has(c.id)
           )
           post.comments = [...newComments, ...post.comments]
-          updatePostState(post)
+          updatePostFromLocalState(post)
         }
         return commentsPagination
       })

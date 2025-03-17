@@ -21,8 +21,6 @@ export class MockPostRoute implements IPostRoute {
   }
 
   public async create(post: IPost): Promise<IPost> {
-    await new Promise((resolve) => setTimeout(resolve, 5000))
-
     let newPost: IPost = {
       ...post,
       commentsCount: 0,
@@ -37,6 +35,8 @@ export class MockPostRoute implements IPostRoute {
       newPost.campaign = await this.#inMemoryCampaignRoute
         .list({ campaignId: post.campaignId })
         .then((campaigns) => campaigns[0])
+    } else {
+      await new Promise((resolve) => setTimeout(resolve, 5000))
     }
 
     this.#posts.set(newPost.id, newPost)

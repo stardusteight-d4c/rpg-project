@@ -4,21 +4,29 @@ import { useState } from "react"
 import { Loader } from "@/shared/components/ui"
 
 interface ButtonProps {
+  id?: string
   title: string
   action: () => any | Promise<any>
   children?: React.ReactNode
   bgColor?: "blue" | "green" | "red" | "gradientPurple" | "gradientBlue"
-  variant?: "modal" | "default"
+  variant?: "modal" | "default" | "icon"
+  disabled?: boolean
+  className?: string
 }
 
 export const Button: React.FC<ButtonProps> = ({
+  id,
   title,
   action,
   children,
+  className,
   bgColor = "blue",
   variant = "default",
+  disabled = false,
 }) => {
   const [isLoading, setIsLoading] = useState(false)
+
+  console.log(isLoading)
 
   const handleClick = async () => {
     if (isLoading) return
@@ -65,13 +73,14 @@ export const Button: React.FC<ButtonProps> = ({
   if (variant === "modal")
     return (
       <button
+        id={id}
         onClick={handleClick}
-        disabled={isLoading}
-        className="cursor-pointer disabled:cursor-not-allowed disabled:brightness-90 w-fit flex items-center group gap-x-2"
+        disabled={isLoading || disabled}
+        className={`${className} cursor-pointer disabled:cursor-not-allowed disabled:brightness-90 w-fit flex items-center group gap-x-2`}
       >
         <div
           className={`${isLoading ? bgColors.default[bgColor] : " bg-ashes "} ${
-            bgColors.onGroupHover[bgColor]
+            !disabled && bgColors.onGroupHover[bgColor]
           } relative flex items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50 duration-300 ease-in-out transition-all`}
         >
           {isLoading ? <Loader /> : children}
@@ -83,11 +92,26 @@ export const Button: React.FC<ButtonProps> = ({
   if (variant === "default")
     return (
       <button
+        id={id}
         onClick={handleClick}
-        disabled={isLoading}
-        className={`${bgColors.default[bgColor]} p-2 w-full disabled:cursor-not-allowed disabled:brightness-90 cursor-pointer hover:brightness-125 flex items-center justify-center min-h-[45px] max-h-[45px] font-medium text-center text-lg text-white rounded-full`}
+        disabled={isLoading || disabled}
+        className={`${bgColors.default[bgColor]} ${className} p-2 w-full disabled:cursor-not-allowed disabled:brightness-90 cursor-pointer hover:brightness-125 flex items-center justify-center min-h-[45px] max-h-[45px] font-medium text-center text-lg text-white rounded-full`}
       >
         {isLoading ? <Loader /> : <span>{title}</span>}
+      </button>
+    )
+
+  if (variant === "icon")
+    return (
+      <button
+        id={id}
+        onClick={handleClick}
+        disabled={isLoading || disabled}
+        className={`${!disabled && bgColors.onGroupHover[bgColor]} ${
+          isLoading ? bgColors.default[bgColor] : " bg-ashes "
+        } ${className} disabled:cursor-not-allowed disabled:brightness-90 cursor-pointer hover:brightness-125 bg-background flex items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50 duration-300 ease-in-out transition-all`}
+      >
+        {isLoading ? <Loader /> : children}
       </button>
     )
 }

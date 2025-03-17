@@ -9,14 +9,14 @@ interface IPostsContextHandlers {
 
 export class PostsContextHandlers implements IPostsContextHandlers {
   private posts: Map<string, IPost>
-  private updatePostState: (updatedPost: IPost) => void
+  private updatePostFromLocalState: (updatedPost: IPost) => void
 
   constructor(
     posts: Map<string, IPost>,
-    updatePostState: (updatedPost: IPost) => void
+    updatePostFromLocalState: (updatedPost: IPost) => void
   ) {
     this.posts = posts
-    this.updatePostState = updatePostState
+    this.updatePostFromLocalState = updatePostFromLocalState
   }
 
   public updatePostLikes(postId: string, userId: string, isLiking: boolean) {
@@ -37,7 +37,7 @@ export class PostsContextHandlers implements IPostsContextHandlers {
       likedByUser: isLiking,
     }
 
-    this.updatePostState(updatedPost)
+    this.updatePostFromLocalState(updatedPost)
   }
 
   public updatePostComments(
@@ -78,6 +78,6 @@ export class PostsContextHandlers implements IPostsContextHandlers {
       commentsCount: updatedCommentsCount,
     }
 
-    this.updatePostState(updatedPost)
+    this.updatePostFromLocalState(updatedPost)
   }
 }

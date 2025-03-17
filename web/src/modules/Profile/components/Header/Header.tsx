@@ -42,7 +42,7 @@ export const Header: React.FC<{ user: IUser }> = ({ user }) => {
   if (!currentSession) return null
 
   return (
-    <>
+    <header className="mt-[45px]">
       <EditProfileModal
         status={isOpenEditModal}
         onStatusChange={setIsOpenEditModal}
@@ -62,10 +62,10 @@ export const Header: React.FC<{ user: IUser }> = ({ user }) => {
         <img
           src={user.coverImage}
           alt=""
-          className="pointer-events-none h-[372px] select-none w-screen overflow-hidden object-cover"
+          className="pointer-events-none h-[327px] select-none w-screen overflow-hidden object-cover"
         />
       ) : (
-        <div className="w-full h-[372px] bg-button"></div>
+        <div className="w-full h-[327px] bg-button"></div>
       )}
       <div className="max-w-7xl h-[150px] z-[500] mx-auto relative">
         <div className="absolute w-full  -top-[55px] left-[0px] flex items-center gap-x-2">
@@ -251,6 +251,6 @@ export const Header: React.FC<{ user: IUser }> = ({ user }) => {
           </div>
         </div>
       </div>
-    </>
+    </header>
   )
 }
