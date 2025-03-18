@@ -1,9 +1,5 @@
-import { Loader } from "@/shared/components/ui"
-import {
-  ChatCircleDots,
-  Fire,
-  FireGradient,
-} from "@/shared/components/ui/icons"
+import { GradientSVGWrapper, Loader } from "@/shared/components/ui"
+import { ChatCircleDots, Fire } from "@/shared/components/ui/icons"
 import { useAuth, usePosts, useToast } from "@/shared/contexts"
 import { useState } from "react"
 
@@ -59,7 +55,13 @@ export const Actions: React.FC<{
           disabled={loading}
           className="bg-background disabled:cursor-not-allowed disabled:brightness-95 flex items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50 hover:bg-button duration-300 ease-in-out transition-all"
         >
-          {loading ? <Loader /> : <FireGradient />}
+          {loading ? (
+            <Loader />
+          ) : (
+            <GradientSVGWrapper>
+              <Fire />
+            </GradientSVGWrapper>
+          )}
         </button>
       ) : (
         <button

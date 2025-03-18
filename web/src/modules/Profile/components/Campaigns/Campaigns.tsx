@@ -6,7 +6,7 @@ import { motion } from "framer-motion"
 import { getNameInitials } from "@/shared/utils"
 import { useCampaigns } from "@/shared/contexts"
 import { UserAvatar } from "@/shared/components/content"
-import { EmptyState } from "@/shared/components/ui"
+import { EmptyState, Heading } from "@/shared/components/ui"
 import { Flag } from "@/shared/components/ui/icons"
 
 export const Campaigns: React.FC<{ user: IUser }> = ({ user }) => {
@@ -22,38 +22,9 @@ export const Campaigns: React.FC<{ user: IUser }> = ({ user }) => {
 
   return (
     <div>
-      <h3 className="text-2xl mb-2 flex items-center gap-x-2 font-semibold">
-        <span>
-          <svg
-            width="32"
-            height="32"
-            viewBox="0 0 32 32"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M5.345 6.24984C5.23742 6.34309 5.15099 6.45824 5.09149 6.58758C5.032 6.71692 5.0008 6.85748 5 6.99984V27.9998C5 28.2651 5.10536 28.5194 5.29289 28.707C5.48043 28.8945 5.73478 28.9998 6 28.9998C6.26522 28.9998 6.51957 28.8945 6.70711 28.707C6.89464 28.5194 7 28.2651 7 27.9998V22.4711C10.3488 19.8261 13.2337 21.2523 16.5562 22.8973C18.6062 23.9111 20.8137 25.0036 23.1812 25.0036C24.9225 25.0036 26.7488 24.4098 28.6588 22.7536C28.7663 22.6603 28.8528 22.5452 28.9123 22.4159C28.9718 22.2865 29.0029 22.146 29.0037 22.0036V6.99984C29.0033 6.8079 28.9476 6.62015 28.8433 6.45899C28.7391 6.29784 28.5906 6.1701 28.4157 6.09102C28.2408 6.01194 28.0469 5.98486 27.857 6.01303C27.6672 6.04119 27.4894 6.1234 27.345 6.24984C23.845 9.27859 20.88 7.81109 17.4438 6.10984C13.8838 4.34484 9.8475 2.34859 5.345 6.24984ZM27 21.5311C23.6512 24.1761 20.7663 22.7486 17.4438 21.1048C14.3188 19.5611 10.8425 17.8386 7 20.0548V7.47359C10.3488 4.82859 13.2337 6.25484 16.5562 7.89859C19.6812 9.44234 23.1588 11.1648 27 8.94859V21.5311Z"
-              fill="url(#paint0_linear_217_15)"
-            />
-            <defs>
-              <linearGradient
-                id="paint0_linear_217_15"
-                x1="17.0019"
-                y1="4.00098"
-                x2="17.0019"
-                y2="28.9998"
-                gradientUnits="userSpaceOnUse"
-              >
-                <stop stopColor="#42D392" />
-                <stop offset="1" stopColor="#8B5CF6" />
-              </linearGradient>
-            </defs>
-          </svg>
-        </span>
-        <span className="background-gradient bg-clip-text text-transparent">
-          Campaigns
-        </span>
-      </h3>
+      <Heading title="Campaigns" className="mb-2">
+        <Flag />
+      </Heading>
       {userCampaigns.length === 0 ? (
         <EmptyState description="The Ancient Whispers talk about great narrators… do you know any? Or do you just fear what hides in the shadows?">
           <Flag />

@@ -35,14 +35,6 @@ body {
   height: 32px;
 }
 
-.svg-gradient {
-  background: linear-gradient(180deg, #42D392, #8B5CF6);
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  display: inline-block;
-}
-
 /* Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;

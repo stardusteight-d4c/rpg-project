@@ -6,10 +6,11 @@ import {
   CreatePostInput,
   DataFetcher,
   EmptyState,
+  GradientSVGWrapper,
   Pagination,
 } from "@/shared/components/ui"
 import { usePosts, useToast } from "@/shared/contexts"
-import { CrownSimpleGradient, Notepad } from "@/shared/components/ui/icons"
+import { CrownSimple, Notepad } from "@/shared/components/ui/icons"
 
 export const Feed: React.FC<{ campaign: ICampaign }> = ({ campaign }) => {
   const { getByCampaign, campaignPosts, lastRequestCampaignPostsData } =
@@ -60,7 +61,9 @@ export const Feed: React.FC<{ campaign: ICampaign }> = ({ campaign }) => {
                 </div>
               </div>
               <div className="flex select-none z-20 items-center gap-x-2">
-                <CrownSimpleGradient />
+                <GradientSVGWrapper>
+                  <CrownSimple />
+                </GradientSVGWrapper>
                 <div className="flex flex-col">
                   <span className="block whitespace-nowrap background-gradient w-fit bg-clip-text text-transparent text-lg font-bold -tracking-wide">
                     Keeper of Arcane Lore

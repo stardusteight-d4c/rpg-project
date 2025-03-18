@@ -1,0 +1,1 @@
+export { GradientSVGWrapper } from "./GradientSVGWrapper"
