@@ -81,7 +81,7 @@ export const Button: React.FC<ButtonProps> = ({
         <div
           className={`${isLoading ? bgColors.default[bgColor] : " bg-ashes "} ${
             !disabled && bgColors.onGroupHover[bgColor]
-          } relative flex items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50 duration-300 ease-in-out transition-all`}
+          } relative flex items-center justify-center !fill-white !text-white p-1 rounded-full shadow-md shadow-black/50 duration-300 ease-in-out transition-all`}
         >
           {isLoading ? <Loader /> : children}
         </div>
@@ -109,7 +109,7 @@ export const Button: React.FC<ButtonProps> = ({
         disabled={isLoading || disabled}
         className={`${!disabled && bgColors.onGroupHover[bgColor]} ${
           isLoading ? bgColors.default[bgColor] : " bg-ashes "
-        } ${className} disabled:cursor-not-allowed disabled:brightness-90 cursor-pointer hover:brightness-125 bg-background flex items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50 duration-300 ease-in-out transition-all`}
+        } ${className} disabled:cursor-not-allowed !fill-white !text-white disabled:brightness-90 cursor-pointer hover:brightness-125 bg-background flex items-center justify-center p-1 rounded-full shadow-md shadow-black/50 duration-300 ease-in-out transition-all`}
       >
         {isLoading ? <Loader /> : children}
       </button>

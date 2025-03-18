@@ -5,6 +5,8 @@ import { useSheets } from "@/shared/contexts"
 import React, { useEffect, useState, useRef } from "react"
 import { ProfileInfo } from "@/shared/components/content/Sheet/components/ProfileInfo"
 import { SheetModal } from "@/shared/components/content/modals"
+import { EmptyState } from "@/shared/components/ui"
+import { AddressBook } from "@/shared/components/ui/icons"
 
 export const Sheets: React.FC<{ user: IUser }> = ({ user }) => {
   const { userSheets, getUserSheets } = useSheets()
@@ -64,25 +66,9 @@ export const Sheets: React.FC<{ user: IUser }> = ({ user }) => {
       </h3>
 
       {userSheets.size === 0 ? (
-        <div className="w-full flex items-center justify-center">
-          <div className="p-8 w-full h-[230px] bg-ashes rounded-xl flex flex-col items-center justify-center">
-            <div className="col-span-1 w-[50px] h-[50px] flex items-center justify-center bg-border/50 border border-border rounded aspect-square">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="32"
-                height="32"
-                fill="#9ca3af"
-                viewBox="0 0 256 256"
-              >
-                <path d="M83.19,174.4a8,8,0,0,0,11.21-1.6,52,52,0,0,1,83.2,0,8,8,0,1,0,12.8-9.6A67.88,67.88,0,0,0,163,141.51a40,40,0,1,0-53.94,0A67.88,67.88,0,0,0,81.6,163.2,8,8,0,0,0,83.19,174.4ZM112,112a24,24,0,1,1,24,24A24,24,0,0,1,112,112Zm96-88H64A16,16,0,0,0,48,40V64H32a8,8,0,0,0,0,16H48v40H32a8,8,0,0,0,0,16H48v40H32a8,8,0,0,0,0,16H48v24a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V40A16,16,0,0,0,208,24Zm0,192H64V40H208Z"></path>
-              </svg>
-            </div>
-            <span className="text-gray-400 block mt-2 w-[400px] text-center">
-              Not even a sheet? Looks like someone is still waiting for the call
-              of the adventure...
-            </span>
-          </div>
-        </div>
+        <EmptyState description="Not even a sheet? Looks like someone is still waiting for the call of the adventure...">
+          <AddressBook />
+        </EmptyState>
       ) : (
         <motion.div
           ref={sliderRef}

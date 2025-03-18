@@ -161,15 +161,16 @@ export const CreatePostInput: React.FC<{
                 <span className="truncate max-w-[300px] text-sm text-gray-400 ml-2">
                   {imageFile.name}
                 </span>
-                <span
+                <button
+                  disabled={isLoading}
                   onClick={() => {
                     setImageFile(undefined)
                     handlePostData("image", undefined)
                   }}
-                  className="text-red-500 underline cursor-pointer"
+                  className="text-red-500 disabled:cursor-not-allowed underline cursor-pointer"
                 >
                   Remove
-                </span>
+                </button>
               </div>
             )}
             <Button

@@ -6,6 +6,8 @@ import { motion } from "framer-motion"
 import { getNameInitials } from "@/shared/utils"
 import { useCampaigns } from "@/shared/contexts"
 import { UserAvatar } from "@/shared/components/content"
+import { EmptyState } from "@/shared/components/ui"
+import { Flag } from "@/shared/components/ui/icons"
 
 export const Campaigns: React.FC<{ user: IUser }> = ({ user }) => {
   const { push } = useRouter()
@@ -53,25 +55,9 @@ export const Campaigns: React.FC<{ user: IUser }> = ({ user }) => {
         </span>
       </h3>
       {userCampaigns.length === 0 ? (
-        <div className="w-full flex items-center justify-center">
-          <div className="p-8 w-full h-[230px] bg-ashes rounded-xl flex flex-col items-center justify-center">
-            <div className="col-span-1 w-[50px] h-[50px] flex items-center justify-center bg-border/50 border border-border rounded aspect-square">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="32"
-                height="32"
-                fill="#9ca3af"
-                viewBox="0 0 256 256"
-              >
-                <path d="M42.76,50A8,8,0,0,0,40,56V224a8,8,0,0,0,16,0V179.77c26.79-21.16,49.87-9.75,76.45,3.41,16.4,8.11,34.06,16.85,53,16.85,13.93,0,28.54-4.75,43.82-18a8,8,0,0,0,2.76-6V56A8,8,0,0,0,218.76,50c-28,24.23-51.72,12.49-79.21-1.12C111.07,34.76,78.78,18.79,42.76,50ZM216,172.25c-26.79,21.16-49.87,9.74-76.45-3.41-25-12.35-52.81-26.13-83.55-8.4V59.79c26.79-21.16,49.87-9.75,76.45,3.4,25,12.35,52.82,26.13,83.55,8.4Z"></path>
-              </svg>
-            </div>
-            <span className="text-gray-400 block mt-2 w-[400px] text-center">
-              The Ancient Whispers talk about great narrators… do you know any?
-              Or do you just fear what hides in the shadows?
-            </span>
-          </div>
-        </div>
+        <EmptyState description="The Ancient Whispers talk about great narrators… do you know any? Or do you just fear what hides in the shadows?">
+          <Flag />
+        </EmptyState>
       ) : (
         <motion.div
           ref={sliderRef}
