@@ -4,7 +4,6 @@ import { UserAvatar } from "@/shared/components/content"
 import { EmptyState, Heading } from "@/shared/components/ui"
 import { MapPinArea } from "@/shared/components/ui/icons"
 import { useCampaigns } from "@/shared/contexts/Campaigns/CampaignsContext"
-import { getNameInitials } from "@/shared/utils/getNameInitials"
 import { useRouter } from "next/navigation"
 
 export const Sidebar = () => {

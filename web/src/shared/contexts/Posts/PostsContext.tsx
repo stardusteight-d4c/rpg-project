@@ -14,7 +14,6 @@ interface PostsState {
   posts: Map<string, IPost>
   lastRequestProfilePostsData: Map<string, ListPostsResponseDTO<IPost>>
   lastRequestCampaignPostsData: Map<string, ListPostsResponseDTO<IPost>>
-  campaignPosts: Map<string, IPost>
   feedPosts: Map<string, IPost>
   add: (post: IPost, currentPage?: number) => Promise<IPost | void>
   update: (post: Partial<IPost>) => Promise<IPost | void>
@@ -38,7 +37,6 @@ const defaultState: PostsState = {
   posts: new Map(),
   lastRequestProfilePostsData: new Map(),
   lastRequestCampaignPostsData: new Map(),
-  campaignPosts: new Map(),
   feedPosts: new Map(),
   add: async () => {},
   update: async () => {},
@@ -75,9 +73,6 @@ const PostsContext = createContext<PostsState>(defaultState)
 export const PostsProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [campaignPosts, setCampaignPosts] = useState<Map<string, IPost>>(
-    new Map()
-  )
   const [posts, setPosts] = useState<Map<string, IPost>>(new Map())
   const [feedPosts, setFeedPosts] = useState<Map<string, IPost>>(new Map())
   const [lastRequestProfilePostsData, setLastRequestProfilePostsData] =
@@ -105,14 +100,6 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
       sortPostsMap(new Map(prev).set(updatedPost.id, updatedPost))
     )
 
-    setCampaignPosts((prev) => {
-      const postsMap = new Map(prev)
-      if (postsMap.get(updatedPost.id)) {
-        return sortPostsMap(new Map(prev).set(updatedPost.id, updatedPost))
-      }
-      return postsMap
-    })
-
     setFeedPosts((prev) =>
       sortPostsMap(new Map(prev).set(updatedPost.id, updatedPost))
     )
@@ -124,6 +111,7 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
       if (prevProfileRequest) {
         updatedCache.set(updatedPost.owner.id, {
           ...prevProfileRequest,
+
           items: Array.from(
             sortPostsMap(
               new Map(prevProfileRequest.items.map((p) => [p.id, p])).set(
@@ -139,7 +127,7 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
     })
   }
 
-  const addPostInLocalState = (createdPost: IPost, currentPage?: number) => {
+  const addPostInLocalState = (createdPost: IPost) => {
     setPosts((prev) =>
       sortPostsMap(new Map(prev).set(createdPost.id, createdPost))
     )
@@ -148,21 +136,41 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
     )
     setLastRequestProfilePostsData((prev) => {
       const updatedCache = new Map(prev)
-      const prevProfileRequest = updatedCache.get(createdPost.owner.id)
+      const prevProfilePostsRequest = updatedCache.get(createdPost.owner.id)
 
-      if (prevProfileRequest) {
+      if (prevProfilePostsRequest) {
         updatedCache.set(createdPost.owner.id, {
-          ...prevProfileRequest,
-          items: [createdPost, ...prevProfileRequest.items],
+          totalItems: prevProfilePostsRequest.items.length + 1,
+          totalPages: Math.ceil(
+            (prevProfilePostsRequest.items.length + 1) /
+              prevProfilePostsRequest.pageSize!
+          ),
+          items: [createdPost, ...prevProfilePostsRequest.items],
         })
       }
 
       return updatedCache
     })
-    if (currentPage === 1) {
-      setCampaignPosts((prev) =>
-        sortPostsMap(new Map(prev).set(createdPost.id, createdPost))
-      )
+    if (createdPost.campaignId) {
+      setLastRequestCampaignPostsData((prev) => {
+        const updatedCache = new Map(prev)
+        const prevCampaignPostsRequest = updatedCache.get(
+          createdPost.campaignId!
+        )
+
+        if (prevCampaignPostsRequest) {
+          updatedCache.set(createdPost.campaignId!, {
+            totalItems: prevCampaignPostsRequest.items.length + 1,
+            totalPages: Math.ceil(
+              (prevCampaignPostsRequest.items.length + 1) /
+                prevCampaignPostsRequest.pageSize!
+            ),
+            items: [createdPost, ...prevCampaignPostsRequest.items],
+          })
+        }
+
+        return updatedCache
+      })
     }
   }
 
@@ -172,11 +180,7 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
       newPosts.delete(postId)
       return newPosts
     })
-    setCampaignPosts((prev) => {
-      const newCampaignPosts = new Map(prev)
-      newCampaignPosts.delete(postId)
-      return newCampaignPosts
-    })
+
     setFeedPosts((prev) => {
       const newFeedPosts = new Map(prev)
       newFeedPosts.delete(postId)
@@ -200,11 +204,11 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
     [posts]
   )
 
-  const add = async (post: IPost, currentPage?: number) => {
+  const add = async (post: IPost) => {
     return api.post
       .create(post)
       .then((createdPost) => {
-        addPostInLocalState(createdPost, currentPage)
+        addPostInLocalState(createdPost)
         return createdPost
       })
       .catch((error) => {
@@ -288,18 +292,6 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
   const getByCampaign = async (queryParams: ListPostsDTO) => {
     const campaignId = queryParams.campaignId
 
-    setLastRequestCampaignPostsData((prev) => {
-      const existingData = prev.get(campaignId!)
-      if (
-        existingData &&
-        existingData.currentPage === queryParams.currentPage &&
-        existingData.pageSize === queryParams.pageSize
-      ) {
-        return prev
-      }
-      return prev
-    })
-
     return api.post
       .list(queryParams)
       .then((postsPagination) => {
@@ -307,14 +299,17 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
           const updatedCampaignPosts = new Map(prev)
           const existingData = updatedCampaignPosts.get(campaignId!)
           const previousPosts = existingData?.items || []
+
           const previousPostsMap = new Map(
             previousPosts.map((post) => [post.id, post])
           )
 
-          const updatedItems = postsPagination.items.map((newPost) => {
-            const existingPost = previousPostsMap.get(newPost.id)
-            return existingPost ? existingPost : newPost
-          })
+          const updatedItems = [
+            ...previousPosts,
+            ...postsPagination.items.filter(
+              (newPost) => !previousPostsMap.has(newPost.id)
+            ),
+          ]
 
           updatedCampaignPosts.set(campaignId!, {
             ...postsPagination,
@@ -324,12 +319,6 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
           })
 
           return updatedCampaignPosts
-        })
-
-        setCampaignPosts((prev) => {
-          const postsMap = new Map(prev)
-          postsPagination.items.forEach((post) => postsMap.set(post.id, post))
-          return sortPostsMap(postsMap)
         })
 
         return postsPagination
@@ -447,7 +436,7 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
         feedPosts,
         lastRequestProfilePostsData,
         lastRequestCampaignPostsData,
-        campaignPosts,
+        // campaignPosts,
         update,
         remove,
         add,
