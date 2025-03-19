@@ -2,7 +2,7 @@
 
 import React, { useState } from "react"
 import { useRouter } from "next/navigation"
-import { useAuth, useCampaigns, useToast } from "@/shared/contexts"
+import { useAuth, useCampaigns, usePosts, useToast } from "@/shared/contexts"
 import { DeleteContentModal } from "@/shared/components/content/modals"
 import { Button, GlowingWrapper, ModalWrapper } from "@/shared/components/ui"
 import { Check, Panorama, Trash } from "@/shared/components/ui/icons"
@@ -16,6 +16,7 @@ export const EditCampaignModal: React.FC<{
   const { currentSession } = useAuth()
   const { addToast } = useToast()
   const { update, remove } = useCampaigns()
+  const { updateLocalPostsOnEditCampaign } = usePosts()
   const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false)
   const [campaignData, setCampaignData] = useState<
     ICampaign & {
@@ -70,6 +71,7 @@ export const EditCampaignModal: React.FC<{
       id: campaign.id,
     })
       .then(() => {
+        updateLocalPostsOnEditCampaign(campaign.id, campaignData)
         addToast("The campaign has been updated!", "success", 45)
       })
       .catch((error) => {

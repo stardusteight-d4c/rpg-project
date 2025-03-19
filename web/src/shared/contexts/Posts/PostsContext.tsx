@@ -18,6 +18,10 @@ interface PostsState {
   feedPosts: Map<string, IPost>
   add: (post: IPost, currentPage?: number) => Promise<IPost | void>
   update: (post: Partial<IPost>) => Promise<IPost | void>
+  updateLocalPostsOnEditCampaign: (
+    campaignId: string,
+    campaign: ICampaign
+  ) => Promise<void>
   remove: (postId: string) => Promise<void>
   comment(comment: IComment): Promise<IComment | void>
   updateComment(comment: Partial<IComment>): Promise<IComment | void>
@@ -41,6 +45,7 @@ const defaultState: PostsState = {
   feedPosts: new Map(),
   add: async () => {},
   update: async () => {},
+  updateLocalPostsOnEditCampaign: async () => {},
   remove: async () => {},
   comment: async () => {},
   updateComment: async () => {},
@@ -84,7 +89,9 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
   const api = new MockAPI()
 
   const sortPostsMap = (postsMap: Map<string, IPost>) => {
-    return new Map(sortArrayOfMapObjectByCreatedAt(Array.from(postsMap.entries())))
+    return new Map(
+      sortArrayOfMapObjectByCreatedAt(Array.from(postsMap.entries()))
+    )
   }
 
   const addPostInLocalState = (createdPost: IPost) => {
@@ -171,14 +178,14 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
 
     setLastRequestCampaignPostsData((prev) => {
       const updatedCache = new Map(prev)
-      const prevProfileRequest = updatedCache.get(updatedPost.campaignId!)
+      const prevCampaignRequest = updatedCache.get(updatedPost.campaignId!)
 
-      if (prevProfileRequest) {
-        updatedCache.set(updatedPost.owner.id, {
-          ...prevProfileRequest,
+      if (prevCampaignRequest) {
+        updatedCache.set(updatedPost.campaignId!, {
+          ...prevCampaignRequest,
           items: Array.from(
             sortPostsMap(
-              new Map(prevProfileRequest.items.map((p) => [p.id, p])).set(
+              new Map(prevCampaignRequest.items.map((p) => [p.id, p])).set(
                 updatedPost.id,
                 updatedPost
               )
@@ -230,6 +237,21 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
       .catch((error) => {
         throw new Error(error.message)
       })
+  }
+
+  const updateLocalPostsOnEditCampaign = async (
+    campaignId: string,
+    campaign: ICampaign
+  ) => {
+    const campaignPosts = Array.from(posts.values()).filter(
+      (post) => post.campaignId === campaignId
+    )
+
+    if (campaignPosts) {
+      campaignPosts.map((campaignPost) => {
+        updatePostFromLocalState({ ...campaignPost, campaign })
+      })
+    }
   }
 
   const update = async (post: Partial<IPost>) => {
@@ -452,7 +474,6 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
         feedPosts,
         lastRequestProfilePostsData,
         lastRequestCampaignPostsData,
-        // campaignPosts,
         update,
         remove,
         add,
@@ -465,6 +486,7 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
         getByCampaign,
         getByUser,
         getFeed,
+        updateLocalPostsOnEditCampaign,
       }}
     >
       {children}

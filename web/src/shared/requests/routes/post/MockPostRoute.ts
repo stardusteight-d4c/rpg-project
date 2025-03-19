@@ -236,14 +236,37 @@ export class MockPostRoute implements IPostRoute {
     const users = await this.#inMemoryUserRoute.list()
     const usersMap = new Map(users.map((user) => [user.id, user]))
 
-    const updatedPosts = paginatedPosts.map((post) => ({
+    let updatedPosts = paginatedPosts.map((post) => ({
       ...post,
       owner: usersMap.get(post.owner.id) ?? post.owner,
       comments: [],
     }))
 
+    const campaigns = await Promise.all(
+      updatedPosts.map(async (post) => {
+        if (post.campaignId) {
+          return await this.#inMemoryCampaignRoute.list({
+            campaignId: post.campaignId,
+          })
+        }
+        return undefined
+      })
+    )
+
+    const resolvedCampaigns = campaigns
+      .flat()
+      .filter((c): c is ICampaign => c !== undefined)
+
+    let campaignMap: Map<string, ICampaign> = new Map()
+    resolvedCampaigns.forEach((campaign) =>
+      campaignMap.set(campaign.id, campaign)
+    )
+
     return {
-      items: updatedPosts,
+      items: updatedPosts.map((post) => ({
+        ...post,
+        campaign: campaignMap.get(post.campaignId!),
+      })),
       totalItems,
       totalPages,
     }
