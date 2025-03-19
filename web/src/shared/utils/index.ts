@@ -8,3 +8,7 @@ export { handleCharacterTooltipText } from "./handleCharacterTooltipText"
 export { handleCharacterVisibilityTooltipText } from "./handleCharacterVisibilityTooltipText"
 export { timeago } from "./timeago"
 export { formatText } from "./formatText"
+export {
+  sortArrayByCreatedAt,
+  sortArrayOfMapObjectByCreatedAt,
+} from "./sortByCreatedAt"

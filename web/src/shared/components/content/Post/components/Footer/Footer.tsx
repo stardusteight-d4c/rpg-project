@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react"
 import { usePosts, useToast } from "@/shared/contexts"
 import { Comment, CommentInput, Actions } from "./components"
+import { sortArrayByCreatedAt } from "@/shared/utils"
 
 export const Footer: React.FC<{
   post: IPost
@@ -61,7 +62,7 @@ export const Footer: React.FC<{
 
       {showComments && post.comments.length !== 0 && (
         <div className="px-4 mt-2 mb-4 space-y-[20px]">
-          {post.comments.map((comment) => (
+          {sortArrayByCreatedAt(post.comments).map((comment) => (
             <Comment key={comment.id} comment={comment} />
           ))}
         </div>

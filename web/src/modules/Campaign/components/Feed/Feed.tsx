@@ -20,6 +20,8 @@ export const Feed: React.FC<{ campaign: ICampaign }> = ({ campaign }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [posts, setPosts] = useState<IPost[]>([])
 
+  console.log(lastRequestCampaignPostsData.get(campaign.id)?.items[0].comments )
+
   useEffect(() => {
     const existingPostCampaignRequestData = lastRequestCampaignPostsData.get(
       campaign.id

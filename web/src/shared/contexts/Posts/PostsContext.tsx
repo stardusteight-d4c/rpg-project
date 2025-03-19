@@ -9,6 +9,7 @@ import React, {
 } from "react"
 import { MockAPI } from "@/shared/requests/MockAPI"
 import { PostsContextHandlers } from "./PostsContextHandlers"
+import { sortArrayOfMapObjectByCreatedAt } from "@/shared/utils"
 
 interface PostsState {
   posts: Map<string, IPost>
@@ -82,49 +83,8 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
 
   const api = new MockAPI()
 
-  const sortByCreatedAt = <T extends { createdAt: string }>(
-    items: [string, T][]
-  ) => {
-    return items.sort(
-      (a, b) =>
-        new Date(b[1].createdAt).getTime() - new Date(a[1].createdAt).getTime()
-    )
-  }
-
   const sortPostsMap = (postsMap: Map<string, IPost>) => {
-    return new Map(sortByCreatedAt(Array.from(postsMap.entries())))
-  }
-
-  const updatePostFromLocalState = (updatedPost: IPost) => {
-    setPosts((prev) =>
-      sortPostsMap(new Map(prev).set(updatedPost.id, updatedPost))
-    )
-
-    setFeedPosts((prev) =>
-      sortPostsMap(new Map(prev).set(updatedPost.id, updatedPost))
-    )
-
-    setLastRequestProfilePostsData((prev) => {
-      const updatedCache = new Map(prev)
-      const prevProfileRequest = updatedCache.get(updatedPost.owner.id)
-
-      if (prevProfileRequest) {
-        updatedCache.set(updatedPost.owner.id, {
-          ...prevProfileRequest,
-
-          items: Array.from(
-            sortPostsMap(
-              new Map(prevProfileRequest.items.map((p) => [p.id, p])).set(
-                updatedPost.id,
-                updatedPost
-              )
-            ).values()
-          ),
-        })
-      }
-
-      return updatedCache
-    })
+    return new Map(sortArrayOfMapObjectByCreatedAt(Array.from(postsMap.entries())))
   }
 
   const addPostInLocalState = (createdPost: IPost) => {
@@ -167,11 +127,67 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
             ),
             items: [createdPost, ...prevCampaignPostsRequest.items],
           })
+        } else {
+          updatedCache.set(createdPost.campaignId!, {
+            totalItems: 1,
+            totalPages: 1,
+            items: [createdPost],
+          })
         }
 
         return updatedCache
       })
     }
+  }
+
+  const updatePostFromLocalState = (updatedPost: IPost) => {
+    setPosts((prev) =>
+      sortPostsMap(new Map(prev).set(updatedPost.id, updatedPost))
+    )
+
+    setFeedPosts((prev) =>
+      sortPostsMap(new Map(prev).set(updatedPost.id, updatedPost))
+    )
+
+    setLastRequestProfilePostsData((prev) => {
+      const updatedCache = new Map(prev)
+      const prevProfileRequest = updatedCache.get(updatedPost.owner.id)
+
+      if (prevProfileRequest) {
+        updatedCache.set(updatedPost.owner.id, {
+          ...prevProfileRequest,
+          items: Array.from(
+            sortPostsMap(
+              new Map(prevProfileRequest.items.map((p) => [p.id, p])).set(
+                updatedPost.id,
+                updatedPost
+              )
+            ).values()
+          ),
+        })
+      }
+      return updatedCache
+    })
+
+    setLastRequestCampaignPostsData((prev) => {
+      const updatedCache = new Map(prev)
+      const prevProfileRequest = updatedCache.get(updatedPost.campaignId!)
+
+      if (prevProfileRequest) {
+        updatedCache.set(updatedPost.owner.id, {
+          ...prevProfileRequest,
+          items: Array.from(
+            sortPostsMap(
+              new Map(prevProfileRequest.items.map((p) => [p.id, p])).set(
+                updatedPost.id,
+                updatedPost
+              )
+            ).values()
+          ),
+        })
+      }
+      return updatedCache
+    })
   }
 
   const deletePostFromLocalState = (postId: string) => {
