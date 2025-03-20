@@ -88,6 +88,7 @@ export const EditCampaignModal: React.FC<{
         addToast("The campaign has been deleted!", "success", 45)
       })
       .catch((error) => {
+        // Ao deletar campanha deletar os posts relacionados a campanha
         addToast(error.message, "error", 45)
       })
       .finally(() => {
