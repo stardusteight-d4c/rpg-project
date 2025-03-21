@@ -22,6 +22,7 @@ interface PostsState {
     campaignId: string,
     campaign: ICampaign
   ) => Promise<void>
+  deletePostsFromCampaignOnLocalState: (campaignId: string) => void
   remove: (postId: string) => Promise<void>
   comment(comment: IComment): Promise<IComment | void>
   updateComment(comment: Partial<IComment>): Promise<IComment | void>
@@ -46,6 +47,7 @@ const defaultState: PostsState = {
   add: async () => {},
   update: async () => {},
   updateLocalPostsOnEditCampaign: async () => {},
+  deletePostsFromCampaignOnLocalState: () => {},
   remove: async () => {},
   comment: async () => {},
   updateComment: async () => {},
@@ -79,14 +81,13 @@ const PostsContext = createContext<PostsState>(defaultState)
 export const PostsProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
+  const api = new MockAPI().initializeRoutes()
   const [posts, setPosts] = useState<Map<string, IPost>>(new Map())
   const [feedPosts, setFeedPosts] = useState<Map<string, IPost>>(new Map())
   const [lastRequestProfilePostsData, setLastRequestProfilePostsData] =
     useState<Map<string, ListPostsResponseDTO<IPost>>>(new Map())
   const [lastRequestCampaignPostsData, setLastRequestCampaignPostsData] =
     useState<Map<string, ListPostsResponseDTO<IPost>>>(new Map())
-
-  const api = new MockAPI()
 
   const sortPostsMap = (postsMap: Map<string, IPost>) => {
     return new Map(
@@ -197,7 +198,16 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
     })
   }
 
+  const deletePostsFromCampaignOnLocalState = (campaignId: string) => {
+    posts
+      .values()
+      .filter((post) => post.campaignId === campaignId)
+      .forEach((post) => deletePostFromLocalState(post.id))
+  }
+
   const deletePostFromLocalState = (postId: string) => {
+    console.log(postId)
+
     setPosts((prev) => {
       const newPosts = new Map(prev)
       newPosts.delete(postId)
@@ -475,6 +485,7 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
         lastRequestProfilePostsData,
         lastRequestCampaignPostsData,
         update,
+        deletePostsFromCampaignOnLocalState,
         remove,
         add,
         comment,

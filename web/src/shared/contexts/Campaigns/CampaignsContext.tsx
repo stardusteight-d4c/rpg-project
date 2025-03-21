@@ -30,7 +30,7 @@ const CampaignsContext = createContext<CampaignsState>(defaultState)
 export const CampaignsProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const api = new MockAPI()
+  const api = new MockAPI().initializeRoutes()
   const [campaign, setCampaign] = useState<ICampaign | undefined>(undefined)
   const [cachedCampaigns, setCachedCampaigns] = useState<ICampaign[]>([])
   const [userCampaigns, setUserCampaigns] = useState<ICampaign[]>([])

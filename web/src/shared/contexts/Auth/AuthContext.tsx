@@ -32,7 +32,7 @@ const AuthContext = createContext<AuthState>(defaultState)
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const api = new MockAPI()
+  const api = new MockAPI().initializeRoutes()
   const { replace } = useRouter()
   const [currentSession, setCurrentSession] = useState<IUser | undefined>(
     undefined

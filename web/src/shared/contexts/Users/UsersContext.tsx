@@ -30,7 +30,7 @@ const UsersContext = createContext<UsersState>(defaultState)
 export const UsersProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const api = new MockAPI()
+  const api = new MockAPI().initializeRoutes()
   const [cachedUsers, setCachedUsers] = useState<Map<string, IUser>>(new Map())
 
   const updateCache = (users: IUser[]) => {

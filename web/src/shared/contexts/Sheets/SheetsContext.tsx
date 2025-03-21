@@ -24,7 +24,7 @@ const SheetsContext = createContext<SheetsState>(defaultState)
 export const SheetsProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const api = new MockAPI()
+  const api = new MockAPI().initializeRoutes()
   const [userSheets, setUserSheets] = useState<Map<string, ISheet>>(new Map())
 
   const updateCache = (sheets: ISheet[]) => {

@@ -16,7 +16,10 @@ export const EditCampaignModal: React.FC<{
   const { currentSession } = useAuth()
   const { addToast } = useToast()
   const { update, remove } = useCampaigns()
-  const { updateLocalPostsOnEditCampaign } = usePosts()
+  const {
+    updateLocalPostsOnEditCampaign,
+    deletePostsFromCampaignOnLocalState,
+  } = usePosts()
   const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false)
   const [campaignData, setCampaignData] = useState<
     ICampaign & {
@@ -85,10 +88,10 @@ export const EditCampaignModal: React.FC<{
   async function onDelete() {
     await remove(campaign.id)
       .then(() => {
+        deletePostsFromCampaignOnLocalState(campaign.id)
         addToast("The campaign has been deleted!", "success", 45)
       })
       .catch((error) => {
-        // Ao deletar campanha deletar os posts relacionados a campanha
         addToast(error.message, "error", 45)
       })
       .finally(() => {
