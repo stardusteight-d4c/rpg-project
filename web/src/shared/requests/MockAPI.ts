@@ -5,17 +5,49 @@ import { MockSheetRoute } from "./routes/sheet/MockSheetRoute"
 import { MockUserRoute } from "./routes/user/MockUserRoute"
 
 export class MockAPI {
-  auth: IAuthRoute
-  user: IUserRoute
-  sheet: ISheetRoute
-  campaign: ICampaignRoute
-  post: IPostRoute
+  #auth: IAuthRoute | undefined
+  #user: IUserRoute | undefined
+  #sheet: ISheetRoute | undefined
+  #campaign: ICampaignRoute | undefined
+  #post: IPostRoute | undefined
 
-  constructor() {
-    this.auth = MockAuthRoute.getInstance()
-    this.user = MockUserRoute.getInstance()
-    this.sheet = MockSheetRoute.getInstance()
-    this.campaign = MockCampaignRoute.getInstance()
-    this.post = MockPostRoute.getInstance()
+  constructor() {}
+
+  public initializeRoutes(): {
+    auth: IAuthRoute
+    user: IUserRoute
+    sheet: ISheetRoute
+    campaign: ICampaignRoute
+    post: IPostRoute
+  } {
+    if (!this.#auth) {
+      this.#auth = MockAuthRoute.getInstance()
+    }
+    if (!this.#user) {
+      this.#user = MockUserRoute.getInstance()
+    }
+    if (!this.#user) {
+      this.#user = MockUserRoute.getInstance()
+    }
+    if (!this.#sheet) {
+      this.#sheet = MockSheetRoute.getInstance()
+    }
+    if (!this.#campaign) {
+      this.#campaign = MockCampaignRoute.getInstance()
+    }
+    if (!this.#post) {
+      this.#post = MockPostRoute.getInstance()
+    }
+
+    MockCampaignRoute.initialize(this.#post)
+    MockPostRoute.initialize(this.#campaign)
+
+    return {
+      auth: this.#auth!,
+      user: this.#user!,
+      sheet: this.#sheet!,
+      campaign: this.#campaign!,
+      post: this.#post!,
+    }
   }
 }

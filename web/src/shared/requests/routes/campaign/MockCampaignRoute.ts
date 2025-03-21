@@ -4,10 +4,17 @@ export class MockCampaignRoute implements ICampaignRoute {
   static #instance: MockCampaignRoute | null = null
   #campaigns: Map<string, ICampaign>
   #inMemoryUserRoute: IUserRoute
+  #inMemoryPostRoute: IPostRoute | null = null
 
   private constructor() {
     this.#campaigns = new Map()
     this.#inMemoryUserRoute = MockUserRoute.getInstance()
+  }
+
+  public static initialize(postRoute: IPostRoute): void {
+    if (this.#instance) {
+      this.#instance.#inMemoryPostRoute = postRoute
+    }
   }
 
   public static getInstance(): MockCampaignRoute {
@@ -36,6 +43,14 @@ export class MockCampaignRoute implements ICampaignRoute {
 
   public async delete(campaignId: string): Promise<void> {
     await new Promise((resolve) => setTimeout(resolve, 5000))
+
+    const campaignPostsIds = await this.#inMemoryPostRoute!
+      .list({ campaignId })
+      .then((res) => res.items.map((post) => post.id))
+
+    await Promise.all(
+      campaignPostsIds.map((id) => this.#inMemoryPostRoute!.delete(id))
+    )
 
     this.#campaigns.delete(campaignId)
   }

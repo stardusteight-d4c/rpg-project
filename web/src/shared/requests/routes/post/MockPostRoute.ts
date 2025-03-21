@@ -1,16 +1,20 @@
-import { MockCampaignRoute } from "../campaign/MockCampaignRoute"
 import { MockUserRoute } from "../user/MockUserRoute"
 
 export class MockPostRoute implements IPostRoute {
   static #instance: MockPostRoute | null = null
   #posts: Map<string, IPost>
   #inMemoryUserRoute: IUserRoute
-  #inMemoryCampaignRoute: ICampaignRoute
+  #inMemoryCampaignRoute: ICampaignRoute | null = null
 
   private constructor() {
     this.#posts = new Map()
     this.#inMemoryUserRoute = MockUserRoute.getInstance()
-    this.#inMemoryCampaignRoute = MockCampaignRoute.getInstance()
+  }
+
+  public static initialize(campaignRoute: ICampaignRoute): void {
+    if (this.#instance) {
+      this.#instance.#inMemoryCampaignRoute = campaignRoute
+    }
   }
 
   public static getInstance(): MockPostRoute {
@@ -32,7 +36,7 @@ export class MockPostRoute implements IPostRoute {
     }
 
     if (post.campaignId) {
-      newPost.campaign = await this.#inMemoryCampaignRoute
+      newPost.campaign = await this.#inMemoryCampaignRoute!
         .list({ campaignId: post.campaignId })
         .then((campaigns) => campaigns[0])
     } else {
@@ -245,7 +249,7 @@ export class MockPostRoute implements IPostRoute {
     const campaigns = await Promise.all(
       updatedPosts.map(async (post) => {
         if (post.campaignId) {
-          return await this.#inMemoryCampaignRoute.list({
+          return await this.#inMemoryCampaignRoute!.list({
             campaignId: post.campaignId,
           })
         }
