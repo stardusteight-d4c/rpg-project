@@ -115,10 +115,17 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
           ),
           items: [createdPost, ...prevProfilePostsRequest.items],
         })
+      } else {
+        updatedCache.set(createdPost.owner.id, {
+          totalItems: 1,
+          totalPages: 1,
+          items: [createdPost],
+        })
       }
 
       return updatedCache
     })
+    
     if (createdPost.campaignId) {
       setLastRequestCampaignPostsData((prev) => {
         const updatedCache = new Map(prev)
