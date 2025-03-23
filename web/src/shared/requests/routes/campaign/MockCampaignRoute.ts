@@ -44,9 +44,9 @@ export class MockCampaignRoute implements ICampaignRoute {
   public async delete(campaignId: string): Promise<void> {
     await new Promise((resolve) => setTimeout(resolve, 5000))
 
-    const campaignPostsIds = await this.#inMemoryPostRoute!
-      .list({ campaignId })
-      .then((res) => res.items.map((post) => post.id))
+    const campaignPostsIds = await this.#inMemoryPostRoute!.list({
+      campaignId,
+    }).then((res) => res.items.map((post) => post.id))
 
     await Promise.all(
       campaignPostsIds.map((id) => this.#inMemoryPostRoute!.delete(id))
@@ -69,35 +69,49 @@ export class MockCampaignRoute implements ICampaignRoute {
     return updatedCampaign
   }
 
-  public async list(queryParams?: ListCampaignsDTO): Promise<Array<ICampaign>> {
+  public async list(
+    queryParams?: ListCampaignsDTO
+  ): Promise<ListCampaignsResponseDTO<ICampaign>> {
     await new Promise((resolve) => setTimeout(resolve, 5000))
-
+  
     let filteredCampaigns = Array.from(this.#campaigns.values())
-
-    if (queryParams?.search) {
+  
+    if (queryParams?.search && queryParams?.name) {
       filteredCampaigns = filteredCampaigns.filter((campaign) =>
-        campaign.name
-          .toLocaleLowerCase()
-          .includes(queryParams.name?.toLocaleLowerCase()!)
+        campaign.name.toLocaleLowerCase().includes(queryParams.name!.toLocaleLowerCase())
       )
     }
-
+  
     const users = await this.#inMemoryUserRoute.list()
     const usersMap = new Map(users.map((user) => [user.id, user]))
-
+  
     filteredCampaigns = filteredCampaigns.filter((campaign) => {
-      const isMatchingId =
-        !queryParams?.campaignId || campaign.id === queryParams.campaignId
-      const isMatchingOwner =
-        !queryParams?.ownerId || campaign.owner.id === queryParams.ownerId
-      const isMatchingStatus =
-        !queryParams?.status || campaign.status === queryParams.status
+      const isMatchingId = !queryParams?.campaignId || campaign.id === queryParams.campaignId
+      const isMatchingOwner = !queryParams?.ownerId || campaign.owner.id === queryParams.ownerId
+      const isMatchingStatus = !queryParams?.status || campaign.status === queryParams.status
       return isMatchingId && isMatchingOwner && isMatchingStatus
     })
-
-    return filteredCampaigns.map((campaign) => {
+  
+    const updatedCampaigns = filteredCampaigns.map((campaign) => {
       const updatedOwner = usersMap.get(campaign.owner.id) ?? campaign.owner
       return { ...campaign, owner: updatedOwner }
     })
+  
+    const totalItems = updatedCampaigns.length
+    const pageSize = queryParams?.pageSize || 10
+    const totalPages = Math.ceil(totalItems / pageSize)
+    const currentPage = queryParams?.currentPage || 1
+  
+    const startIndex = (currentPage - 1) * pageSize
+    const pagedItems = updatedCampaigns.slice(startIndex, startIndex + pageSize)
+  
+    return {
+      items: pagedItems,
+      totalItems,
+      totalPages,
+      currentPage,
+      pageSize
+    }
   }
+  
 }

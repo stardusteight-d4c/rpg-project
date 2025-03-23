@@ -2,24 +2,30 @@
 
 import React, { createContext, useContext, useState, ReactNode } from "react"
 import { MockAPI } from "@/shared/requests/MockAPI"
+import { sortArrayOfMapObjectByCreatedAt } from "@/shared/utils"
 
 interface CampaignsState {
-  userCampaigns: ICampaign[]
-  campaign: ICampaign | undefined
+  lastRequestCampaignsData: Map<string, ICampaign>
+  lastRequestProfileCampaignsData: Map<
+    string,
+    ListCampaignsResponseDTO<ICampaign>
+  >
   searchByName: (name: string) => Promise<ICampaign[]>
   add: (campaign: CampaignCreate) => Promise<ICampaign | void>
-  getUserCampaigns: (userId: string) => Promise<Array<ICampaign> | void>
+  getUserCampaigns: (
+    userId: string
+  ) => Promise<ListCampaignsResponseDTO<ICampaign> | void>
   getById: (campaignId: string) => Promise<ICampaign | undefined>
   update: (campaign: Partial<ICampaign>) => Promise<ICampaign | void>
   remove: (campaignId: string) => Promise<void>
 }
 
 const defaultState: CampaignsState = {
-  userCampaigns: [],
-  campaign: undefined,
+  lastRequestCampaignsData: new Map(),
+  lastRequestProfileCampaignsData: new Map(),
   add: async () => {},
   searchByName: async () => [],
-  getUserCampaigns: async () => [],
+  getUserCampaigns: async () => {},
   getById: async () => undefined,
   update: async () => {},
   remove: async () => {},
@@ -31,31 +37,53 @@ export const CampaignsProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const api = new MockAPI().initializeRoutes()
-  const [campaign, setCampaign] = useState<ICampaign | undefined>(undefined)
-  const [cachedCampaigns, setCachedCampaigns] = useState<ICampaign[]>([])
-  const [userCampaigns, setUserCampaigns] = useState<ICampaign[]>([])
+  const [lastRequestCampaignsData, setLastRequestCampaignsData] = useState<
+    Map<string, ICampaign>
+  >(new Map())
+  const [lastRequestProfileCampaignsData, setLastRequestProfileCampaignsData] =
+    useState<Map<string, ListCampaignsResponseDTO<ICampaign>>>(new Map())
 
+  const sortCampaignsMap = (campaginsMap: Map<string, ICampaign>) => {
+    return new Map(
+      sortArrayOfMapObjectByCreatedAt(Array.from(campaginsMap.entries()))
+    )
+  }
+
+  // fazer por paginação
   const getUserCampaigns = async (userId: string) => {
-    return userCampaigns.length === 0
-      ? await api.campaign
-          .list({ ownerId: userId })
-          .then((campaigns) => {
-            setUserCampaigns(campaigns)
-            return campaigns
-          })
-          .catch((error) => {
-            throw new Error(error.message)
-          })
-      : userCampaigns
+    const existingUserCampaingsData =
+      lastRequestProfileCampaignsData.get(userId)
+
+    if (existingUserCampaingsData) {
+      return existingUserCampaingsData
+    }
+
+    return await api.campaign
+      .list({ ownerId: userId })
+      .then((campaigns) => {
+        // setLastRequestProfileCampaignsData((prev) => {
+        //   const updatedCache = new Map(prev)
+        //   updatedCache.set(campaigns)
+        // })
+        return campaigns
+      })
+      .catch((error) => {
+        throw new Error(error.message)
+      })
   }
 
   const searchByName = async (name: string) => {
     return await api.campaign
       .list({ name, search: true })
       .then((campaignsFound) => {
-        campaignsFound &&
-          setCachedCampaigns((prev) => [...prev, ...campaignsFound])
-        return campaignsFound
+        setLastRequestCampaignsData((prev) => {
+          const updatedCache = new Map(prev)
+          campaignsFound.items.map((campaignFound) => {
+            updatedCache.set(campaignFound.id, campaignFound)
+          })
+          return updatedCache
+        })
+        return campaignsFound.items
       })
       .catch((error) => {
         throw new Error(error.message)
@@ -63,35 +91,50 @@ export const CampaignsProvider: React.FC<{ children: ReactNode }> = ({
   }
 
   const getById = async (campaignId: string) => {
-    const findCachedCampaign = cachedCampaigns.find(
-      (cachedCampaign) => cachedCampaign.id === campaignId
-    )
-    findCachedCampaign && setCampaign(findCachedCampaign)
-    return findCachedCampaign
-      ? findCachedCampaign
-      : await api.campaign
-          .list({ campaignId: campaignId })
-          .then((campaign) => {
-            campaign && setCachedCampaigns((prev) => [...prev, campaign[0]]),
-              setCampaign(campaign[0])
+    const prevCampaignRequestData = lastRequestCampaignsData.get(campaignId)
 
-            return campaign[0]
-          })
-          .catch((error) => {
-            throw new Error(error.message)
-          })
+    if (prevCampaignRequestData) {
+      return prevCampaignRequestData
+    }
+
+    return await api.campaign
+      .list({ campaignId: campaignId })
+      .then((campaign) => {
+        setLastRequestCampaignsData((prev) => {
+          const updatedCache = new Map(prev)
+          updatedCache.set(campaign.items[0].id, campaign.items[0])
+          return updatedCache
+        })
+        return campaign.items[0]
+      })
+      .catch((error) => {
+        throw new Error(error.message)
+      })
   }
 
   const remove = async (campaignId: string) => {
     return await api.campaign
       .delete(campaignId)
       .then(() => {
-        setCachedCampaigns((prev) =>
-          prev.filter((campaign) => campaign.id !== campaignId)
-        )
-        setUserCampaigns((prev) =>
-          prev.filter((campaign) => campaign.id !== campaignId)
-        )
+        setLastRequestCampaignsData((prev) => {
+          const updatedCache = new Map(prev)
+          updatedCache.delete(campaignId)
+          return updatedCache
+        })
+
+        setLastRequestProfileCampaignsData((prev) => {
+          const updatedCache = new Map(prev)
+          updatedCache.forEach((profileData, userId) => {
+            const filteredCampaigns = profileData.items.filter(
+              (campaign) => campaign.id !== campaignId
+            )
+            updatedCache.set(userId, {
+              ...profileData,
+              items: filteredCampaigns,
+            })
+          })
+          return updatedCache
+        })
       })
       .catch((error) => {
         throw new Error(error.message)
@@ -102,13 +145,38 @@ export const CampaignsProvider: React.FC<{ children: ReactNode }> = ({
     return await api.campaign
       .update(campaign)
       .then((updatedCampaign) => {
-        setCachedCampaigns((prev) =>
-          prev.map((c) => (c.id === updatedCampaign.id ? updatedCampaign : c))
-        )
-        setCampaign(updatedCampaign)
-        setUserCampaigns((prev) =>
-          prev.map((c) => (c.id === updatedCampaign.id ? updatedCampaign : c))
-        )
+        setLastRequestCampaignsData((prev) => {
+          const updatedCache = new Map(prev)
+          const existingCampaing = updatedCache.get(campaign.id!)
+          if (existingCampaing) {
+            updatedCache.set(existingCampaing.id, {
+              ...existingCampaing,
+              ...updatedCampaign,
+            })
+          }
+          return updatedCache
+        })
+
+        setLastRequestProfileCampaignsData((prev) => {
+          const updatedCache = new Map(prev)
+          const prevProfileRequest = updatedCache.get(updatedCampaign.owner.id)
+
+          if (prevProfileRequest) {
+            updatedCache.set(updatedCampaign.owner.id, {
+              ...prevProfileRequest,
+              items: Array.from(
+                sortCampaignsMap(
+                  new Map(prevProfileRequest.items.map((p) => [p.id, p])).set(
+                    updatedCampaign.id,
+                    updatedCampaign
+                  )
+                ).values()
+              ),
+            })
+          }
+          return updatedCache
+        })
+
         return updatedCampaign
       })
       .catch((error) => {
@@ -120,8 +188,32 @@ export const CampaignsProvider: React.FC<{ children: ReactNode }> = ({
     return await api.campaign
       .create(campaign)
       .then((createdCampaign) => {
-        setUserCampaigns((prev) => [createdCampaign, ...prev])
-        setCachedCampaigns((prev) => [createdCampaign, ...prev])
+        setLastRequestCampaignsData((prev) => {
+          const updatedCache = new Map(prev)
+          updatedCache.set(createdCampaign.id, createdCampaign)
+          return updatedCache
+        })
+        setLastRequestProfileCampaignsData((prev) => {
+          const updatedCache = new Map(prev)
+          const prevProfileCampaignRequest = updatedCache.get(
+            createdCampaign.owner.id
+          )
+
+          if (prevProfileCampaignRequest) {
+            updatedCache.set(createdCampaign.owner.id, {
+              ...prevProfileCampaignRequest,
+              items: [createdCampaign, ...prevProfileCampaignRequest?.items],
+            })
+          } else {
+            updatedCache.set(createdCampaign.owner.id, {
+              items: [createdCampaign],
+              totalItems: 1,
+              totalPages: 1,
+            })
+          }
+
+          return updatedCache
+        })
         return createdCampaign
       })
       .catch((error) => {
@@ -132,9 +224,9 @@ export const CampaignsProvider: React.FC<{ children: ReactNode }> = ({
   return (
     <CampaignsContext.Provider
       value={{
-        campaign,
+        lastRequestCampaignsData,
+        lastRequestProfileCampaignsData,
         searchByName,
-        userCampaigns,
         add,
         remove,
         getUserCampaigns,

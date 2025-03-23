@@ -1,19 +1,24 @@
 "use client"
 
 import { useParams } from "next/navigation"
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { useCampaigns } from "@/shared/contexts"
 import { Campaign } from "./components"
 
 export function CampaignModule() {
   const campaignId = useParams().id as string
-  const { getById, campaign } = useCampaigns()
+  const { getById, lastRequestCampaignsData } = useCampaigns()
+  const [campaign, setCampaign] = useState<ICampaign | undefined>(undefined)
 
   useEffect(() => {
     ;(async () => {
-      await getById(campaignId)
+      const existingCampaignData = lastRequestCampaignsData.get(campaignId)
+      if (!existingCampaignData) {
+        await getById(campaignId)
+      }
+      setCampaign(lastRequestCampaignsData.get(campaignId))
     })()
-  }, [campaignId])
+  }, [campaignId, lastRequestCampaignsData])
 
   if (!campaign) return
 

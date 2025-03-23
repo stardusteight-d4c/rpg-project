@@ -38,7 +38,9 @@ interface ICampaignRoute {
   create(campaign: CampaignCreate): Promise<ICampaign>
   update(campaign: Partial<ICampaign>): Promise<ICampaign>
   delete(campaignId: string): Promise<void>
-  list(queryParams?: ListCampaignsDTO): Promise<Array<ICampaign>>
+  list(
+    queryParams?: ListCampaignsDTO
+  ): Promise<ListCampaignsResponseDTO<ICampaign>>
 }
 
 interface IPostRoute {

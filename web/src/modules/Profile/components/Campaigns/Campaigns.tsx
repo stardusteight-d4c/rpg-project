@@ -3,7 +3,6 @@
 import React, { useEffect, useState, useRef } from "react"
 import { useRouter } from "next/navigation"
 import { motion } from "framer-motion"
-import { getNameInitials } from "@/shared/utils"
 import { useCampaigns } from "@/shared/contexts"
 import { UserAvatar } from "@/shared/components/content"
 import { EmptyState, Heading } from "@/shared/components/ui"
@@ -11,14 +10,17 @@ import { Flag } from "@/shared/components/ui/icons"
 
 export const Campaigns: React.FC<{ user: IUser }> = ({ user }) => {
   const { push } = useRouter()
-  const { userCampaigns, getUserCampaigns } = useCampaigns()
+  const { lastRequestProfileCampaignsData, getUserCampaigns } = useCampaigns()
   const sliderRef = useRef<HTMLDivElement>(null)
+  const [userCampaigns, setUserCampaigns] = useState<ICampaign[]>([])
 
   useEffect(() => {
     ;(async () => {
       await getUserCampaigns(user.id)
     })()
-  }, [])
+
+    setUserCampaigns(lastRequestProfileCampaignsData.get(user.id)?.items ?? [])
+  }, [user, lastRequestProfileCampaignsData])
 
   return (
     <div>

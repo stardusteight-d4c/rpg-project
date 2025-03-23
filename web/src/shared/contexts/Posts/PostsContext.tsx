@@ -213,8 +213,6 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
   }
 
   const deletePostFromLocalState = (postId: string) => {
-    console.log(postId)
-
     setPosts((prev) => {
       const newPosts = new Map(prev)
       newPosts.delete(postId)

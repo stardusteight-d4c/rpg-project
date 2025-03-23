@@ -28,4 +28,14 @@ interface ListCampaignsDTO {
   campaignId?: string
   ownerId?: string
   status?: CampaignStatus
+  currentPage?: number
+  pageSize?: number
+}
+
+interface ListCampaignsResponseDTO<T> {
+  items: Array<T>
+  totalItems: number
+  totalPages: number
+  currentPage?: number
+  pageSize?: number
 }
