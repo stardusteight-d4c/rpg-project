@@ -12,8 +12,8 @@ interface CampaignsState {
   >
   searchByName: (name: string) => Promise<ICampaign[]>
   add: (campaign: CampaignCreate) => Promise<ICampaign | void>
-  getUserCampaigns: (
-    userId: string
+  getCampaignsByUser: (
+    queryParams: ListCampaignsDTO
   ) => Promise<ListCampaignsResponseDTO<ICampaign> | void>
   getById: (campaignId: string) => Promise<ICampaign | undefined>
   update: (campaign: Partial<ICampaign>) => Promise<ICampaign | void>
@@ -25,7 +25,7 @@ const defaultState: CampaignsState = {
   lastRequestProfileCampaignsData: new Map(),
   add: async () => {},
   searchByName: async () => [],
-  getUserCampaigns: async () => {},
+  getCampaignsByUser: async () => {},
   getById: async () => undefined,
   update: async () => {},
   remove: async () => {},
@@ -50,16 +50,17 @@ export const CampaignsProvider: React.FC<{ children: ReactNode }> = ({
   }
 
   // fazer por paginação
-  const getUserCampaigns = async (userId: string) => {
+  const getCampaignsByUser = async ({ ownerId }: ListCampaignsDTO) => {
+    if (!ownerId) return
     const existingUserCampaingsData =
-      lastRequestProfileCampaignsData.get(userId)
+      lastRequestProfileCampaignsData.get(ownerId)
 
     if (existingUserCampaingsData) {
       return existingUserCampaingsData
     }
 
     return await api.campaign
-      .list({ ownerId: userId })
+      .list({ ownerId })
       .then((campaigns) => {
         // setLastRequestProfileCampaignsData((prev) => {
         //   const updatedCache = new Map(prev)
@@ -229,7 +230,7 @@ export const CampaignsProvider: React.FC<{ children: ReactNode }> = ({
         searchByName,
         add,
         remove,
-        getUserCampaigns,
+        getCampaignsByUser,
         getById,
         update,
       }}
