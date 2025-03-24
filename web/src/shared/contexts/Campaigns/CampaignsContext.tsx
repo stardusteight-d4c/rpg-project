@@ -49,24 +49,37 @@ export const CampaignsProvider: React.FC<{ children: ReactNode }> = ({
     )
   }
 
-  // fazer por paginação
-  const getCampaignsByUser = async ({ ownerId }: ListCampaignsDTO) => {
+  const getCampaignsByUser = async (queryParams: ListCampaignsDTO) => {
+    const { ownerId, pageSize } = queryParams
     if (!ownerId) return
-    const existingUserCampaingsData =
-      lastRequestProfileCampaignsData.get(ownerId)
-
-    if (existingUserCampaingsData) {
-      return existingUserCampaingsData
-    }
 
     return await api.campaign
-      .list({ ownerId })
-      .then((campaigns) => {
-        // setLastRequestProfileCampaignsData((prev) => {
-        //   const updatedCache = new Map(prev)
-        //   updatedCache.set(campaigns)
-        // })
-        return campaigns
+      .list({ ownerId, pageSize })
+      .then((res) => {
+        setLastRequestProfileCampaignsData((prev) => {
+          const updatedCache = new Map(prev)
+          const prevProfileRequest = updatedCache.get(ownerId)
+
+          if (prevProfileRequest) {
+            const allItems = [...prevProfileRequest.items, ...res.items]
+            const uniqueItemsMap = new Map(
+              allItems.map((item) => [item.id, item]) 
+            )
+
+            updatedCache.set(ownerId, {
+              ...res,
+              items: Array.from(uniqueItemsMap.values()),
+            })
+          } else {
+            updatedCache.set(ownerId, {
+              ...res,
+              items: res.items,
+            })
+          }
+
+          return updatedCache
+        })
+        return res
       })
       .catch((error) => {
         throw new Error(error.message)
@@ -203,7 +216,8 @@ export const CampaignsProvider: React.FC<{ children: ReactNode }> = ({
           if (prevProfileCampaignRequest) {
             updatedCache.set(createdCampaign.owner.id, {
               ...prevProfileCampaignRequest,
-              items: [createdCampaign, ...prevProfileCampaignRequest?.items],
+              totalItems: prevProfileCampaignRequest.totalItems + 1,
+              items: [createdCampaign, ...prevProfileCampaignRequest.items],
             })
           } else {
             updatedCache.set(createdCampaign.owner.id, {

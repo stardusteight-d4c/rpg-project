@@ -36,9 +36,9 @@ export class MockPostRoute implements IPostRoute {
     }
 
     if (post.campaignId) {
-      newPost.campaign = await this.#inMemoryCampaignRoute!
-        .list({ campaignId: post.campaignId })
-        .then((campaigns) => campaigns[0])
+      newPost.campaign = await this.#inMemoryCampaignRoute!.list({
+        campaignId: post.campaignId,
+      }).then((campaigns) => campaigns.items[0])
     } else {
       await new Promise((resolve) => setTimeout(resolve, 5000))
     }
@@ -251,7 +251,7 @@ export class MockPostRoute implements IPostRoute {
         if (post.campaignId) {
           return await this.#inMemoryCampaignRoute!.list({
             campaignId: post.campaignId,
-          })
+          }).then((res) => res.items)
         }
         return undefined
       })

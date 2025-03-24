@@ -11,7 +11,7 @@ export const Posts = () => {
   const { feedPosts: posts, getFeed } = usePosts()
   const [currentPage, setCurrentPage] = useState<number>(1)
   const [loading, setLoading] = useState<boolean>(false)
-  const [lastPage, setLastPage] = useState<number>(10)
+  const [lastPage, setLastPage] = useState<number>(1)
   const [hasMorePost, setHasMorePosts] = useState<boolean>(true)
 
   const pageSize = 10

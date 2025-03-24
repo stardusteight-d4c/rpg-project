@@ -10,7 +10,7 @@ export const Posts: React.FC<{ user: IUser }> = ({ user }) => {
     secondColumn: IPost[]
   }>({ firstColumn: [], secondColumn: [] })
   const [currentPage, setCurrentPage] = useState<number>(1)
-  const [lastPage, setLastPage] = useState<number>(10)
+  const [lastPage, setLastPage] = useState<number>(1)
   const [request, setRequest] = useState(false)
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isMounted, setIsMounted] = useState<boolean>(false)

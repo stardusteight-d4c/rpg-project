@@ -26,8 +26,6 @@ export const Button: React.FC<ButtonProps> = ({
 }) => {
   const [isLoading, setIsLoading] = useState(false)
 
-  console.log(isLoading)
-
   const handleClick = async () => {
     if (isLoading) return
     setIsLoading(true)
