@@ -2,7 +2,7 @@
 
 import { useRef } from "react"
 import { motion } from "framer-motion"
-import { Banner } from "./components/Banner"
+import { Banner } from "./Banner"
 
 export const Slider: React.FC<{ campaigns: ICampaign[] }> = ({ campaigns }) => {
   const sliderRef = useRef<HTMLDivElement>(null)
@@ -20,7 +20,7 @@ export const Slider: React.FC<{ campaigns: ICampaign[] }> = ({ campaigns }) => {
       }}
     >
       {campaigns.map((campaign) => (
-        <Banner campaign={campaign} />
+        <Banner key={campaign.id} campaign={campaign} />
       ))}
     </motion.div>
   )

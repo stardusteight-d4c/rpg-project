@@ -30,9 +30,8 @@ export const Sidebar = () => {
 
           {Array.from(lastRequestCampaignsData.values()).map(
             (campaign, index) => (
-              <div>
+              <div key={index}>
                 <div
-                  key={index}
                   onClick={() => push(`/campaign/${campaign.id}`)}
                   className="cursor-pointer relative h-[200px] rounded-3xl bg-ashes"
                 >

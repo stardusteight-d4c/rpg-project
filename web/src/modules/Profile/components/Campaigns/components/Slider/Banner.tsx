@@ -9,7 +9,6 @@ export const Banner: React.FC<{ campaign: ICampaign }> = ({ campaign }) => {
 
   return (
     <motion.div
-      key={campaign.id}
       onDoubleClick={() => push(`/campaign/${campaign.id}`)}
       className="max-w-[636px] min-w-[636px] w-full relative h-[229px] rounded-xl bg-ashes"
     >

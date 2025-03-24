@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from "react"
-import { Post } from "@/shared/components/content"
-import { DataFetcher, EmptyState, Heading } from "@/shared/components/ui"
 import { usePosts, useToast } from "@/shared/contexts"
-import { Notepad } from "@/shared/components/ui/icons"
+import { Components } from "./components"
 
 export const Posts: React.FC<{ user: IUser }> = ({ user }) => {
   const { getByUser, lastRequestProfilePostsData } = usePosts()
   const { addToast } = useToast()
-  const [userPostsI, setUserPostsI] = useState<IPost[]>([])
-  const [userPostsII, setUserPostsII] = useState<IPost[]>([])
+  const [posts, setPosts] = useState<{
+    firstColumn: IPost[]
+    secondColumn: IPost[]
+  }>({ firstColumn: [], secondColumn: [] })
   const [currentPage, setCurrentPage] = useState<number>(1)
   const [lastPage, setLastPage] = useState<number>(10)
   const [request, setRequest] = useState(false)
-  const [loading, setLoading] = useState<boolean>(false)
-  const [mounted, setMounted] = useState<boolean>(false)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [isMounted, setIsMounted] = useState<boolean>(false)
 
   function getUniqueFilteredPosts(posts: IPost[], isEvenIndex: boolean) {
     const uniquePosts = new Map(
@@ -28,20 +28,23 @@ export const Posts: React.FC<{ user: IUser }> = ({ user }) => {
     const cachedPostsRequestData = lastRequestProfilePostsData.get(user.id)
 
     if (cachedPostsRequestData) {
-      setUserPostsI(getUniqueFilteredPosts(cachedPostsRequestData.items, true))
-      setUserPostsII(
-        getUniqueFilteredPosts(cachedPostsRequestData.items, false)
-      )
+      setPosts({
+        firstColumn: getUniqueFilteredPosts(cachedPostsRequestData.items, true),
+        secondColumn: getUniqueFilteredPosts(
+          cachedPostsRequestData.items,
+          false
+        ),
+      })
     }
 
-    setMounted(true)
+    setIsMounted(true)
   }, [lastRequestProfilePostsData])
 
   useEffect(() => {
     ;(async () => {
-      if (loading || !mounted) return null
+      if (isLoading || !isMounted) return null
 
-      setLoading(true)
+      setIsLoading(true)
       getByUser({
         ownerId: user.id,
         currentPage: 1,
@@ -51,7 +54,7 @@ export const Posts: React.FC<{ user: IUser }> = ({ user }) => {
           setLastPage(postsPagination.totalPages)
         })
         .catch((error) => addToast(error.message, "error"))
-        .finally(() => setLoading(false))
+        .finally(() => setIsLoading(false))
     })()
   }, [request])
 
@@ -60,59 +63,24 @@ export const Posts: React.FC<{ user: IUser }> = ({ user }) => {
       Math.ceil(window.innerHeight + window.scrollY) >=
       Math.ceil(document.body.offsetHeight)
     ) {
-      if (!loading && mounted && currentPage < lastPage) {
+      if (!isLoading && isMounted && currentPage < lastPage) {
         setCurrentPage((prev) => prev + 1)
         setRequest((prev) => !prev)
       }
     }
   }
 
-  const isEmptyStateRendering =
-    !loading &&
+  const isEmpty =
+    !isLoading &&
     (lastRequestProfilePostsData.get(user.id) === undefined ||
       lastRequestProfilePostsData.get(user.id)?.items.length === 0)
 
   return (
     <div>
-      <Heading title="Posts" className="mb-2">
-        <Notepad />
-      </Heading>
-      {isEmptyStateRendering ? (
-        <EmptyState description="In the beginning, there was chaos. Now there's just this blank space.">
-          <Notepad />
-        </EmptyState>
-      ) : (
-        <div>
-          <div className="flex items-start justify-start rounded-xl w-full gap-4">
-            <div className="flex flex-col gap-4">
-              {userPostsI.map((post) => (
-                <div
-                  key={post.id}
-                  className="max-w-[632px] h-fit min-w-[632px] w-full relative rounded-xl"
-                >
-                  <Post post={post} />
-                </div>
-              ))}
-            </div>
-
-            <div className="flex flex-col gap-4">
-              {userPostsII.map((post) => (
-                <div
-                  key={post.id}
-                  className="max-w-[632px] h-fit min-w-[632px] w-full relative rounded-xl"
-                >
-                  <Post post={post} />
-                </div>
-              ))}
-            </div>
-          </div>
-          {loading && (
-            <div className="flex mt-44 items-center justify-center w-full">
-              <DataFetcher />
-            </div>
-          )}
-        </div>
-      )}
+      <Components.Heading />
+      <Components.Empty isEmpty={isEmpty} />
+      <Components.View isEmpty={isEmpty} posts={posts} />
+      <Components.Loading isLoading={isLoading} />
     </div>
   )
 }

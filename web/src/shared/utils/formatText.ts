@@ -1,4 +1,6 @@
 export function formatText(text: string): string {
+  if (!text) return ""
+
   return text
     .trim()
     .replace(/\s+/g, " ")
