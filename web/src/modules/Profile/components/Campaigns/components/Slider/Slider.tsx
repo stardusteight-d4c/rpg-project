@@ -3,11 +3,13 @@
 import { useRef } from "react"
 import { motion, PanInfo } from "framer-motion"
 import { Banner } from "./Banner"
+import { DataFetcher, Loader } from "@/shared/components/ui"
 
 export const Slider: React.FC<{
   campaigns: ICampaign[]
   onPagination: () => void
-}> = ({ campaigns, onPagination }) => {
+  isLoading: boolean
+}> = ({ campaigns, onPagination, isLoading }) => {
   const sliderRef = useRef<HTMLDivElement>(null)
 
   if (campaigns.length <= 0) return null
@@ -24,7 +26,7 @@ export const Slider: React.FC<{
   return (
     <motion.div
       ref={sliderRef}
-      className="flex w-full gap-4 cursor-grab"
+      className="flex w-full relative gap-4 cursor-grab"
       drag="x"
       dragConstraints={{
         right: 0,
@@ -35,6 +37,7 @@ export const Slider: React.FC<{
       {campaigns.map((campaign) => (
         <Banner key={campaign.id} campaign={campaign} />
       ))}
+      {isLoading && "Loading..."}
     </motion.div>
   )
 }

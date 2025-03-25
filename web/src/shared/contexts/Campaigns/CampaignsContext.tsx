@@ -52,6 +52,9 @@ export const CampaignsProvider: React.FC<{ children: ReactNode }> = ({
   const getCampaignsByUser = async (queryParams: ListCampaignsDTO) => {
     const { ownerId, pageSize } = queryParams
     if (!ownerId) return
+    if (!pageSize) return
+
+    console.log(queryParams)
 
     return await api.campaign
       .list({ ownerId, pageSize })
@@ -61,14 +64,20 @@ export const CampaignsProvider: React.FC<{ children: ReactNode }> = ({
           const prevProfileRequest = updatedCache.get(ownerId)
 
           if (prevProfileRequest) {
-            const allItems = [...prevProfileRequest.items, ...res.items]
-            const uniqueItemsMap = new Map(
-              allItems.map((item) => [item.id, item]) 
-            )
+            const updatedItems = new Map()
+
+            prevProfileRequest.items.forEach((item) => {
+              updatedItems.set(item.id, item)
+            })
+
+            res.items.forEach((item) => {
+              updatedItems.set(item.id, item)
+            })
 
             updatedCache.set(ownerId, {
               ...res,
-              items: Array.from(uniqueItemsMap.values()),
+              currentPage: Math.ceil(updatedItems.size / pageSize),
+              items: Array.from(updatedItems.values()),
             })
           } else {
             updatedCache.set(ownerId, {
