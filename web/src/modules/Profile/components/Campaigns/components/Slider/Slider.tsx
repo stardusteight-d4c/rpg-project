@@ -12,7 +12,7 @@ export const Slider: React.FC<{
 }> = ({ campaigns, onPagination, isLoading }) => {
   const sliderRef = useRef<HTMLDivElement>(null)
 
-  if (campaigns.length <= 0) return null
+  if (campaigns.length === 0) return null
 
   const handleDrag = (
     event: MouseEvent | TouchEvent | PointerEvent,

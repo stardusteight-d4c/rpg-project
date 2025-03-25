@@ -6,15 +6,12 @@ import { sortArrayOfMapObjectByCreatedAt } from "@/shared/utils"
 
 interface CampaignsState {
   lastRequestCampaignsData: Map<string, ICampaign>
-  lastRequestProfileCampaignsData: Map<
-    string,
-    ListCampaignsResponseDTO<ICampaign>
-  >
+  lastRequestProfileCampaignsData: Map<string, ListResponseDTO<ICampaign>>
   searchByName: (name: string) => Promise<ICampaign[]>
   add: (campaign: CampaignCreate) => Promise<ICampaign | void>
   getCampaignsByUser: (
-    queryParams: ListCampaignsDTO
-  ) => Promise<ListCampaignsResponseDTO<ICampaign> | void>
+    queryParams: CampaignQueryParams
+  ) => Promise<ListResponseDTO<ICampaign> | void>
   getById: (campaignId: string) => Promise<ICampaign | undefined>
   update: (campaign: Partial<ICampaign>) => Promise<ICampaign | void>
   remove: (campaignId: string) => Promise<void>
@@ -41,7 +38,7 @@ export const CampaignsProvider: React.FC<{ children: ReactNode }> = ({
     Map<string, ICampaign>
   >(new Map())
   const [lastRequestProfileCampaignsData, setLastRequestProfileCampaignsData] =
-    useState<Map<string, ListCampaignsResponseDTO<ICampaign>>>(new Map())
+    useState<Map<string, ListResponseDTO<ICampaign>>>(new Map())
 
   const sortCampaignsMap = (campaginsMap: Map<string, ICampaign>) => {
     return new Map(
@@ -49,12 +46,9 @@ export const CampaignsProvider: React.FC<{ children: ReactNode }> = ({
     )
   }
 
-  const getCampaignsByUser = async (queryParams: ListCampaignsDTO) => {
+  const getCampaignsByUser = async (queryParams: CampaignQueryParams) => {
     const { ownerId, pageSize } = queryParams
-    if (!ownerId) return
-    if (!pageSize) return
-
-    console.log(queryParams)
+    if (!ownerId || !pageSize) return
 
     return await api.campaign
       .list({ ownerId, pageSize })

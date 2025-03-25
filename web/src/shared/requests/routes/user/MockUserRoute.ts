@@ -65,7 +65,7 @@ export class MockUserRoute implements IUserRoute {
     return updatedUser
   }
 
-  public async list(queryParams?: ListUsersDTO): Promise<Array<IUser>> {
+  public async list(queryParams: UserQueryParams): Promise<Array<IUser>> {
     await new Promise((resolve) => setTimeout(resolve, 5000))
 
     const usersArray = [...this.#users.values()]

@@ -21,30 +21,14 @@ interface IComment {
   createdAt: string
 }
 
-interface ListPostsDTO {
+interface PostQueryParams extends ListQueryParams {
   feed?: boolean
   campaignId?: string
   ownerId?: string
-  currentPage?: number
-  pageSize?: number
 }
 
-interface ListCommentsDTO {
-  postId: string
+interface CommentQueryParams {
+  postId?: string
   currentPage?: number
   pageSize?: number
-}
-
-interface ListPostsResponseDTO<T> {
-  items: Array<T>
-  totalItems: number
-  totalPages: number
-  currentPage?: number
-  pageSize?: number
-}
-
-interface ListCommentsResponseDTO {
-  items: IComment[]
-  totalItems: number
-  totalPages: number
 }

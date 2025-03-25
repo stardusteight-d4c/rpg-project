@@ -158,13 +158,18 @@ export class MockPostRoute implements IPostRoute {
   }
 
   public async listComments(
-    postId: string,
-    currentPage: number = 1,
-    pageSize: number = 10
-  ): Promise<ListCommentsResponseDTO> {
+    queryParams: CommentQueryParams
+  ): Promise<ListResponseDTO<IComment>> {
     await new Promise((resolve) => setTimeout(resolve, 5000))
 
+    const { postId, currentPage, pageSize } = queryParams
+
+    if (!postId || !currentPage || !pageSize) {
+      throw new Error("Query params required")
+    }
+
     const post = this.#posts.get(postId)
+
     if (!post) {
       throw new Error("Post not found")
     }
@@ -175,7 +180,7 @@ export class MockPostRoute implements IPostRoute {
     const endIndex = startIndex + pageSize
     const paginatedComments = post.comments.slice(startIndex, endIndex)
 
-    const users = await this.#inMemoryUserRoute.list()
+    const users = await this.#inMemoryUserRoute.list({})
     const usersMap = new Map(users.map((user) => [user.id, user]))
 
     const updatedComments = paginatedComments.map((comment) => ({
@@ -191,8 +196,8 @@ export class MockPostRoute implements IPostRoute {
   }
 
   public async list(
-    queryParams?: ListPostsDTO
-  ): Promise<ListPostsResponseDTO<IPost>> {
+    queryParams?: PostQueryParams
+  ): Promise<ListResponseDTO<IPost>> {
     await new Promise((resolve) => setTimeout(resolve, 5000))
 
     let filteredPosts = Array.from(this.#posts.values())
@@ -237,7 +242,7 @@ export class MockPostRoute implements IPostRoute {
     const endIndex = startIndex + pageSize
     const paginatedPosts = filteredPosts.slice(startIndex, endIndex)
 
-    const users = await this.#inMemoryUserRoute.list()
+    const users = await this.#inMemoryUserRoute.list({})
     const usersMap = new Map(users.map((user) => [user.id, user]))
 
     let updatedPosts = paginatedPosts.map((post) => ({

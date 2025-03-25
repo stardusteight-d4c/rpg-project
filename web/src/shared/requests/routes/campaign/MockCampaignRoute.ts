@@ -70,8 +70,8 @@ export class MockCampaignRoute implements ICampaignRoute {
   }
 
   public async list(
-    queryParams?: ListCampaignsDTO
-  ): Promise<ListCampaignsResponseDTO<ICampaign>> {
+    queryParams: CampaignQueryParams
+  ): Promise<ListResponseDTO<ICampaign>> {
     await new Promise((resolve) => setTimeout(resolve, 5000))
 
     let filteredCampaigns = Array.from(this.#campaigns.values())
@@ -84,7 +84,7 @@ export class MockCampaignRoute implements ICampaignRoute {
       )
     }
 
-    const users = await this.#inMemoryUserRoute.list()
+    const users = await this.#inMemoryUserRoute.list({})
     const usersMap = new Map(users.map((user) => [user.id, user]))
 
     filteredCampaigns = filteredCampaigns.filter((campaign) => {

@@ -108,9 +108,9 @@ interface ISheet {
   createdAt: string
 }
 
-interface ListSheetsDTO {
+interface SheetQueryParams extends ListQueryParams {
   sheetId?: string
-  ownerId: string
+  ownerId?: string
 }
 
 type SheetItems = "attributes" | "skills" | "inventory" | "combat" | "backstory"

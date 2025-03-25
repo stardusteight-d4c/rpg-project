@@ -26,7 +26,7 @@ interface TableUser extends IUser {
   role: UserTableRole
 }
 
-interface ListUsersDTO {
+interface UserQueryParams extends ListQueryParams {
   search?: boolean
   username?: string 
   userId?: string

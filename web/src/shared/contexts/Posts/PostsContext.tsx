@@ -13,8 +13,8 @@ import { sortArrayOfMapObjectByCreatedAt } from "@/shared/utils"
 
 interface PostsState {
   posts: Map<string, IPost>
-  lastRequestProfilePostsData: Map<string, ListPostsResponseDTO<IPost>>
-  lastRequestCampaignPostsData: Map<string, ListPostsResponseDTO<IPost>>
+  lastRequestProfilePostsData: Map<string, ListResponseDTO<IPost>>
+  lastRequestCampaignPostsData: Map<string, ListResponseDTO<IPost>>
   feedPosts: Map<string, IPost>
   add: (post: IPost, currentPage?: number) => Promise<IPost | void>
   update: (post: Partial<IPost>) => Promise<IPost | void>
@@ -30,13 +30,13 @@ interface PostsState {
   like(postId: string, userId: string): Promise<void>
   unlike(postId: string, userId: string): Promise<void>
   getByCampaign: (
-    queryParams: ListPostsDTO
-  ) => Promise<ListPostsResponseDTO<IPost>>
-  getByUser: (queryParams: ListPostsDTO) => Promise<ListPostsResponseDTO<IPost>>
-  getFeed: (queryParams: ListPostsDTO) => Promise<ListPostsResponseDTO<IPost>>
+    queryParams: PostQueryParams
+  ) => Promise<ListResponseDTO<IPost>>
+  getByUser: (queryParams: PostQueryParams) => Promise<ListResponseDTO<IPost>>
+  getFeed: (queryParams: PostQueryParams) => Promise<ListResponseDTO<IPost>>
   getCommentsByPost: (
-    queryParams: ListCommentsDTO
-  ) => Promise<ListCommentsResponseDTO>
+    queryParams: CommentQueryParams
+  ) => Promise<ListResponseDTO<IComment>>
 }
 
 const defaultState: PostsState = {
@@ -85,9 +85,9 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
   const [posts, setPosts] = useState<Map<string, IPost>>(new Map())
   const [feedPosts, setFeedPosts] = useState<Map<string, IPost>>(new Map())
   const [lastRequestProfilePostsData, setLastRequestProfilePostsData] =
-    useState<Map<string, ListPostsResponseDTO<IPost>>>(new Map())
+    useState<Map<string, ListResponseDTO<IPost>>>(new Map())
   const [lastRequestCampaignPostsData, setLastRequestCampaignPostsData] =
-    useState<Map<string, ListPostsResponseDTO<IPost>>>(new Map())
+    useState<Map<string, ListResponseDTO<IPost>>>(new Map())
 
   const sortPostsMap = (postsMap: Map<string, IPost>) => {
     return new Map(
@@ -125,7 +125,7 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
 
       return updatedCache
     })
-    
+
     if (createdPost.campaignId) {
       setLastRequestCampaignPostsData((prev) => {
         const updatedCache = new Map(prev)
@@ -300,7 +300,7 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
       })
   }
 
-  const getByUser = async (queryParams: ListPostsDTO) => {
+  const getByUser = async (queryParams: PostQueryParams) => {
     const ownerId = queryParams.ownerId
 
     setLastRequestProfilePostsData((prev) => {
@@ -342,7 +342,7 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
       })
   }
 
-  const getByCampaign = async (queryParams: ListPostsDTO) => {
+  const getByCampaign = async (queryParams: PostQueryParams) => {
     const campaignId = queryParams.campaignId
 
     return api.post
@@ -381,7 +381,7 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
       })
   }
 
-  const getFeed = async (queryParams: ListPostsDTO) => {
+  const getFeed = async (queryParams: PostQueryParams) => {
     return api.post
       .list({ ...queryParams, feed: true })
       .then((postsPagination) => {
@@ -413,16 +413,14 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
   }
 
   const getCommentsByPost = async (
-    queryParams: ListCommentsDTO
-  ): Promise<ListCommentsResponseDTO> => {
+    queryParams: CommentQueryParams
+  ): Promise<ListResponseDTO<IComment>> => {
+    const { postId } = queryParams
+
     return api.post
-      .listComments(
-        queryParams.postId,
-        queryParams.currentPage,
-        queryParams.pageSize
-      )
+      .listComments(queryParams)
       .then((commentsPagination) => {
-        const post = posts.get(queryParams.postId)
+        const post = posts.get(postId!)
         if (post) {
           const existingCommentIds = new Set(post.comments.map((c) => c.id))
           const newComments = commentsPagination.items.filter(

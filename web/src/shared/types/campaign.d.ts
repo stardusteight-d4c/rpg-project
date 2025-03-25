@@ -22,20 +22,10 @@ interface CampaignCreate {
   owner: IUser
 }
 
-interface ListCampaignsDTO {
+interface CampaignQueryParams extends ListQueryParams {
   search?: boolean
   name?: string
   campaignId?: string
   ownerId?: string
   status?: CampaignStatus
-  currentPage?: number
-  pageSize?: number
-}
-
-interface ListCampaignsResponseDTO<T> {
-  items: Array<T>
-  totalItems: number
-  totalPages: number
-  currentPage?: number
-  pageSize?: number
 }

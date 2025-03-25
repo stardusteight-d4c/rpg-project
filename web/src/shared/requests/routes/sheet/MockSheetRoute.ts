@@ -44,17 +44,49 @@ export class MockSheetRoute implements ISheetRoute {
     this.#sheets.delete(sheetId)
   }
 
-  public async list(queryParams?: ListSheetsDTO): Promise<Array<ISheet>> {
+  public async list(
+    queryParams: SheetQueryParams
+  ): Promise<ListResponseDTO<ISheet>> {
     await new Promise((resolve) => setTimeout(resolve, 5000))
-    const sheetsArray = [...this.#sheets.values()]
-    if (!queryParams) return sheetsArray
 
-    return sheetsArray.filter((sheet) => {
-      const isMatchingId =
-        !queryParams.sheetId || sheet.id === queryParams.sheetId
-      const isMatchingOwner =
-        !queryParams.ownerId || sheet.owner.id === queryParams.ownerId
-      return isMatchingId && isMatchingOwner
-    })
+    let filteredSheets = Array.from(this.#sheets.values())
+
+    if (queryParams?.sheetId) {
+      filteredSheets = filteredSheets.filter(
+        (sheet) => sheet.id === queryParams.sheetId
+      )
+    }
+
+    if (queryParams?.ownerId) {
+      filteredSheets = filteredSheets.filter(
+        (sheet) => sheet.owner.id === queryParams.ownerId
+      )
+    }
+
+    filteredSheets.sort(
+      (a, b) =>
+        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    )
+
+    const totalItems = filteredSheets.length
+
+    const page = queryParams?.currentPage ?? 1
+
+    const pageSize = queryParams?.pageSize ?? 10
+
+    const totalPages = Math.ceil(totalItems / pageSize)
+
+    const startIndex = (page - 1) * pageSize
+    const endIndex = startIndex + pageSize
+
+    const paginatedSheets = filteredSheets.slice(startIndex, endIndex)
+
+    return {
+      items: paginatedSheets,
+      totalItems,
+      totalPages,
+      currentPage: page,
+      pageSize,
+    }
   }
 }
