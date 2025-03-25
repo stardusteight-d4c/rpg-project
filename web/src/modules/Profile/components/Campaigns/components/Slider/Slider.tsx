@@ -3,7 +3,7 @@
 import { useRef } from "react"
 import { motion, PanInfo } from "framer-motion"
 import { Banner } from "./Banner"
-import { DataFetcher, EmptyState, Loader } from "@/shared/components/ui"
+import { EmptyState, Loader } from "@/shared/components/ui"
 
 export const Slider: React.FC<{
   campaigns: ICampaign[]

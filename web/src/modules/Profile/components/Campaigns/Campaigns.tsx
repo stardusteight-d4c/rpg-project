@@ -11,7 +11,7 @@ export const Campaigns: React.FC<{ user: IUser }> = ({ user }) => {
   const [lastPage, setLastPage] = useState<number>(1)
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const campaigns = lastRequestProfileCampaignsData.get(user.id)?.items ?? []
-  const pageSize = 1
+  const pageSize = 5
 
   useEffect(() => {
     const existingRequestCachedData = lastRequestProfileCampaignsData.get(
@@ -54,7 +54,7 @@ export const Campaigns: React.FC<{ user: IUser }> = ({ user }) => {
   return (
     <div>
       <Components.Heading />
-      <Components.Empty campaigns={campaigns} />
+      <Components.Empty campaignsLength={campaigns.length} />
       <Components.Slider
         campaigns={campaigns}
         isLoading={isLoading}
