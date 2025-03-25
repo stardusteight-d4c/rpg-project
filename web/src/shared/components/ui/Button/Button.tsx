@@ -9,7 +9,7 @@ interface ButtonProps {
   action: () => any | Promise<any>
   children?: React.ReactNode
   bgColor?: "blue" | "green" | "red" | "gradientPurple" | "gradientBlue"
-  variant?: "modal" | "default" | "icon"
+  variant?: "modal" | "default" | "icon" | "textIcon"
   disabled?: boolean
   className?: string
 }
@@ -105,11 +105,28 @@ export const Button: React.FC<ButtonProps> = ({
         id={id}
         onClick={handleClick}
         disabled={isLoading || disabled}
-        className={`${!disabled && bgColors.onGroupHover[bgColor]} ${
+        className={`${!disabled && bgColors.onHover[bgColor]} ${
           isLoading ? bgColors.default[bgColor] : " bg-ashes "
         } ${className} disabled:cursor-not-allowed !fill-white !text-white disabled:brightness-90 cursor-pointer hover:brightness-125 bg-background flex items-center justify-center p-1 rounded-full shadow-md shadow-black/50 duration-300 ease-in-out transition-all`}
       >
         {isLoading ? <Loader /> : children}
       </button>
     )
+
+  if (variant === "textIcon") {
+    return (
+      <button
+        disabled={isLoading || disabled}
+        onClick={handleClick}
+        className={`${!disabled && bgColors.onHover[bgColor]} ${
+          isLoading ? bgColors.default[bgColor] : " bg-background "
+        } ${className} disabled:cursor-not-allowed disabled:brightness-90 flex items-center pr-3 gap-x-2 cursor-pointer shadow-sm shadow-black/50 duration-300 ease-in-out transition-all p-2 rounded-full`}
+      >
+        <span className="w-[32px] h-[32px] flex items-center justify-center">
+          {isLoading ? <Loader /> : children}
+        </span>
+        <span className="font-medium">{title}</span>
+      </button>
+    )
+  }
 }
