@@ -108,13 +108,15 @@ export class MockCampaignRoute implements ICampaignRoute {
     const currentPage = queryParams?.currentPage || 1
 
     const startIndex = (currentPage - 1) * pageSize
-    const pagedItems = updatedCampaigns.slice(startIndex, startIndex + pageSize)
-
-    return {
-      items: pagedItems.sort(
+    const pagedItems = updatedCampaigns
+      .sort(
         (a, b) =>
           new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-      ),
+      )
+      .slice(startIndex, startIndex + pageSize)
+
+    return {
+      items: pagedItems,
       totalItems,
       totalPages,
       currentPage,
