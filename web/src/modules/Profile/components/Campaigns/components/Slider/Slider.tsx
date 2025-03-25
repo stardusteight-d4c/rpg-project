@@ -3,7 +3,7 @@
 import { useRef } from "react"
 import { motion, PanInfo } from "framer-motion"
 import { Banner } from "./Banner"
-import { DataFetcher, Loader } from "@/shared/components/ui"
+import { DataFetcher, EmptyState, Loader } from "@/shared/components/ui"
 
 export const Slider: React.FC<{
   campaigns: ICampaign[]
@@ -37,7 +37,16 @@ export const Slider: React.FC<{
       {campaigns.map((campaign) => (
         <Banner key={campaign.id} campaign={campaign} />
       ))}
-      {isLoading && "Loading..."}
+      {isLoading && (
+        <div className="max-w-[636px] min-w-[636px] rounded-xl">
+          <EmptyState
+            height={229}
+            description="The stars conspire... or maybe it's just loading more data. Let's wait and find out."
+          >
+            <Loader />
+          </EmptyState>
+        </div>
+      )}
     </motion.div>
   )
 }
