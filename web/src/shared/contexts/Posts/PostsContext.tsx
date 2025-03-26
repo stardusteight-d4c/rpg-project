@@ -103,11 +103,11 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
       sortPostsMap(new Map(prev).set(createdPost.id, createdPost))
     )
     setLastRequestProfilePostsData((prev) => {
-      const updatedCache = new Map(prev)
-      const prevProfilePostsRequest = updatedCache.get(createdPost.owner.id)
+      const newCache = new Map(prev)
+      const prevProfilePostsRequest = newCache.get(createdPost.owner.id)
 
       if (prevProfilePostsRequest) {
-        updatedCache.set(createdPost.owner.id, {
+        newCache.set(createdPost.owner.id, {
           totalItems: prevProfilePostsRequest.items.length + 1,
           totalPages: Math.ceil(
             (prevProfilePostsRequest.items.length + 1) /
@@ -116,25 +116,25 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
           items: [createdPost, ...prevProfilePostsRequest.items],
         })
       } else {
-        updatedCache.set(createdPost.owner.id, {
+        newCache.set(createdPost.owner.id, {
           totalItems: 1,
           totalPages: 1,
           items: [createdPost],
         })
       }
 
-      return updatedCache
+      return newCache
     })
 
     if (createdPost.campaignId) {
       setLastRequestCampaignPostsData((prev) => {
-        const updatedCache = new Map(prev)
-        const prevCampaignPostsRequest = updatedCache.get(
+        const newCache = new Map(prev)
+        const prevCampaignPostsRequest = newCache.get(
           createdPost.campaignId!
         )
 
         if (prevCampaignPostsRequest) {
-          updatedCache.set(createdPost.campaignId!, {
+          newCache.set(createdPost.campaignId!, {
             totalItems: prevCampaignPostsRequest.items.length + 1,
             totalPages: Math.ceil(
               (prevCampaignPostsRequest.items.length + 1) /
@@ -143,14 +143,14 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
             items: [createdPost, ...prevCampaignPostsRequest.items],
           })
         } else {
-          updatedCache.set(createdPost.campaignId!, {
+          newCache.set(createdPost.campaignId!, {
             totalItems: 1,
             totalPages: 1,
             items: [createdPost],
           })
         }
 
-        return updatedCache
+        return newCache
       })
     }
   }
@@ -165,11 +165,11 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
     )
 
     setLastRequestProfilePostsData((prev) => {
-      const updatedCache = new Map(prev)
-      const prevProfileRequest = updatedCache.get(updatedPost.owner.id)
+      const newCache = new Map(prev)
+      const prevProfileRequest = newCache.get(updatedPost.owner.id)
 
       if (prevProfileRequest) {
-        updatedCache.set(updatedPost.owner.id, {
+        newCache.set(updatedPost.owner.id, {
           ...prevProfileRequest,
           items: Array.from(
             sortPostsMap(
@@ -181,15 +181,15 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
           ),
         })
       }
-      return updatedCache
+      return newCache
     })
 
     setLastRequestCampaignPostsData((prev) => {
-      const updatedCache = new Map(prev)
-      const prevCampaignRequest = updatedCache.get(updatedPost.campaignId!)
+      const newCache = new Map(prev)
+      const prevCampaignRequest = newCache.get(updatedPost.campaignId!)
 
       if (prevCampaignRequest) {
-        updatedCache.set(updatedPost.campaignId!, {
+        newCache.set(updatedPost.campaignId!, {
           ...prevCampaignRequest,
           items: Array.from(
             sortPostsMap(
@@ -201,7 +201,7 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
           ),
         })
       }
-      return updatedCache
+      return newCache
     })
   }
 
@@ -226,14 +226,14 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
     })
 
     setLastRequestProfilePostsData((prev) => {
-      const updatedCache = new Map(prev)
-      updatedCache.forEach((profileData, userId) => {
+      const newCache = new Map(prev)
+      newCache.forEach((profileData, userId) => {
         const filteredPosts = profileData.items.filter(
           (post) => post.id !== postId
         )
-        updatedCache.set(userId, { ...profileData, items: filteredPosts })
+        newCache.set(userId, { ...profileData, items: filteredPosts })
       })
-      return updatedCache
+      return newCache
     })
   }
 

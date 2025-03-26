@@ -6,6 +6,7 @@ import { EmptyState, Loader, ModalWrapper } from "@/shared/components/ui"
 import { useToast, useUsers } from "@/shared/contexts"
 import { UsersThree } from "@/shared/components/ui/icons"
 import Link from "next/link"
+import { convertTimestamp } from "@/shared/utils"
 
 export const FollowersModal: React.FC<{
   status: boolean
@@ -13,23 +14,42 @@ export const FollowersModal: React.FC<{
   user: IUser
 }> = ({ status, onStatusChange, user }) => {
   const { addToast } = useToast()
-  const { getFollowers } = useUsers()
-  const [followers, setFollowers] = useState<IUser[]>([])
+  const { listFollowers } = useUsers()
   const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [paginationData, setPaginationData] = useState<{
+    currentPage: number
+    lastPage: undefined | number
+    pageSize: number
+    totalItems: number | undefined
+  }>({
+    currentPage: 1,
+    lastPage: undefined,
+    pageSize: 1,
+    totalItems: undefined,
+  })
+  const followers = user.followers ?? []
 
   useEffect(() => {
     ;(async () => {
       setIsLoading(true)
-      await getFollowers(user.id)
+      await listFollowers({
+        userId: user.id,
+        currentPage: paginationData.currentPage,
+        pageSize: paginationData.pageSize,
+      })
         .then((res) => {
-          setFollowers(res)
+          setPaginationData((prev) => ({
+            ...prev,
+            lastPage: res.totalPages,
+            totalItems: res.totalItems,
+          }))
         })
         .catch((error) => {
           addToast(error.message, "error", 45)
         })
         .finally(() => setIsLoading(false))
     })()
-  }, [user])
+  }, [paginationData.currentPage])
 
   return (
     <ModalWrapper
@@ -63,6 +83,9 @@ export const FollowersModal: React.FC<{
                 <span className="text-gray-400 whitespace-nowrap -mt-2 block text-sm">
                   #{follower.username}
                 </span>
+              </div>
+              <div className="ml-auto text-sm flex flex-col text-gray-400">
+                {convertTimestamp(follower.createdAt)}
               </div>
             </Link>
           ))}

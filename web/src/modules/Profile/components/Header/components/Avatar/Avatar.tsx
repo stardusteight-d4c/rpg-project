@@ -27,7 +27,7 @@ export const Avatar: React.FC<{ user: IUser }> = ({ user }) => {
           avatarUrl={user.avatarUrl}
           size={150}
           fontSize={60}
-          bgColor="button"
+          bgColor="border"
         />
         <div className="bg-background pointer-events-none select-none text-lg font-bold shadow-sm shadow-black/50 absolute bottom-[0px] right-[0px] w-[32px] h-[32px] rounded-full flex items-center justify-center">
           {user.exp?.level}

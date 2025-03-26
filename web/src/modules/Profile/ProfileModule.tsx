@@ -6,17 +6,18 @@ import { useUsers } from "@/shared/contexts/Users/UsersContext"
 import { Profile } from "./components"
 
 export function ProfileModule() {
-  const [user, setUser] = useState<IUser | undefined>(undefined)
   const params = useParams()
   const username = params.username as string
-  const { getByUsername, cachedUsers } = useUsers()
+  const { findByUsername, cachedUsers } = useUsers()
+  const user = cachedUsers.get(username)
 
   useEffect(() => {
     ;(async () => {
-      const foundUser = await getByUsername(username)
-      setUser(foundUser!)
+      if (!user) {
+        await findByUsername(username)
+      }
     })()
-  }, [username, cachedUsers])
+  }, [username])
 
   if (!user) return null
 

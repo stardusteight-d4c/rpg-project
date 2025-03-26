@@ -7,6 +7,7 @@ import {
 import {
   Link,
   PencilSimpleLine,
+  UserCircleMinus,
   UserCirclePlus,
   UsersThree,
 } from "@/shared/components/ui/icons"
@@ -14,19 +15,21 @@ import { Button } from "@/shared/components/ui"
 import { useAuth, useToast, useUsers } from "@/shared/contexts"
 
 export const Actions: React.FC<{ user: IUser }> = ({ user }) => {
-  const { currentSession, updateSession } = useAuth()
-  const { follow, unfollow } = useUsers()
+  const { currentSession } = useAuth()
+  const { follow, unfollow, cachedUsers } = useUsers()
   const { addToast } = useToast()
   const [isOpenEditModal, setIsOpenEditModal] = useState<boolean>(false)
   const [isOpenFollowingModal, setIsOpenFollowingModal] =
     useState<boolean>(false)
   const [isOpenFollowersModal, setIsOpenFollowersModal] =
     useState<boolean>(false)
+  const followers = cachedUsers.get(user.username)?.followers ?? []
+  const isFollowing = followers.some((follower) => follower.id === currentSession?.id);
 
   const onFollow = async () => {
     await follow(user.id, currentSession!.id)
       .then((updatedUser) => {
-        updatedUser && updateSession(updatedUser)
+        // updatedUser && updateSession(updatedUser)
       })
       .catch((error) => {
         addToast(error.message, "error", 45)
@@ -36,7 +39,7 @@ export const Actions: React.FC<{ user: IUser }> = ({ user }) => {
   const onUnfollow = async () => {
     await unfollow(user.id, currentSession!.id)
       .then((updatedUser) => {
-        updatedUser && updateSession(updatedUser)
+        // updatedUser && updateSession(updatedUser)
       })
       .catch((error) => {
         addToast(error.message, "error", 45)
@@ -65,7 +68,7 @@ export const Actions: React.FC<{ user: IUser }> = ({ user }) => {
       <div className="absolute w-full  -top-[55px] left-[0px] flex items-center gap-x-2">
         {user.id !== currentSession.id && (
           <Fragment>
-            {user.followers.includes(currentSession.id) ? (
+            {isFollowing ? (
               <Button
                 action={onUnfollow}
                 variant="textIcon"
@@ -73,7 +76,7 @@ export const Actions: React.FC<{ user: IUser }> = ({ user }) => {
                 bgColor="red"
                 className="p-2"
               >
-                <UserCirclePlus />
+                <UserCircleMinus />
               </Button>
             ) : (
               <Button

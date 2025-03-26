@@ -1,6 +1,12 @@
+interface InMemoryUser extends IUser {
+  password: string
+  followers: Follow[]
+  following: Follow[]
+}
+
 export class MockUserRoute implements IUserRoute {
   static #instance: MockUserRoute | null = null
-  #users: Map<string, IUser & { password: string }>
+  #users: Map<string, InMemoryUser>
 
   private constructor() {
     this.#users = new Map()
@@ -26,7 +32,11 @@ export class MockUserRoute implements IUserRoute {
       throw new Error("This username already exists.")
     }
 
-    const newUser: IUser & { password: string } = {
+    const newUser: IUser & {
+      password: string
+      followers: Follow[]
+      following: Follow[]
+    } = {
       id: crypto.randomUUID(),
       name: data.name,
       email: data.email,
@@ -36,13 +46,13 @@ export class MockUserRoute implements IUserRoute {
       hoursPlayed: 0,
       avatarUrl: undefined,
       coverImage: undefined,
-      following: [],
-      followers: [],
       exp: {
         current: 0,
         level: 0,
         nextLevel: 500,
       },
+      followers: [],
+      following: [],
       koalCampaigns: 0,
       memberSince: new Date().toISOString(),
       playingCampaigns: 0,
@@ -61,7 +71,14 @@ export class MockUserRoute implements IUserRoute {
 
     const existingUser = this.#users.get(user.id)!
     const updatedUser = { ...existingUser, ...user }
-    this.#users.set(user.id, updatedUser as IUser & { password: string })
+    this.#users.set(
+      user.id,
+      updatedUser as IUser & {
+        password: string
+        followers: Follow[]
+        following: Follow[]
+      }
+    )
     return updatedUser
   }
 
@@ -88,113 +105,146 @@ export class MockUserRoute implements IUserRoute {
   }
 
   public async follow(
-    userFollowed: string,
-    userFollowing: string
-  ): Promise<{ updatedFollowedUser: IUser; updatedFollowingUser: IUser }> {
+    followedUserId: string,
+    followingUserId: string
+  ): Promise<{ followed: Follow; following: Follow }> {
     await new Promise((resolve) => setTimeout(resolve, 5000))
 
-    if (userFollowing === userFollowed) {
+    if (followingUserId === followedUserId) {
       throw new Error("You cannot follow yourself.")
     }
 
-    const followedFound = this.#users.get(userFollowed)
-    if (!followedFound) {
+    const whoIsBeingFollowed = this.#users.get(followedUserId)
+    if (!whoIsBeingFollowed) {
       throw new Error("Followed user not found")
     }
 
-    const followingFound = this.#users.get(userFollowing)
-    if (!followingFound) {
+    const whoIsFollowing = this.#users.get(followingUserId)
+    if (!whoIsFollowing) {
       throw new Error("Following user not found")
     }
 
-    const updatedFollowedUser = {
-      ...followedFound,
-      followers: [...followedFound.followers, userFollowing],
-    }
-    const updatedFollowingUser = {
-      ...followingFound,
-      following: [...followingFound.following, userFollowed],
+    const followingData: Follow = {
+      id: whoIsFollowing.id,
+      name: whoIsFollowing.name,
+      username: whoIsFollowing.username,
+      avatarUrl: whoIsFollowing.avatarUrl,
+      coverImage: whoIsFollowing.coverImage,
+      createdAt: new Date().toISOString(),
     }
 
-    this.#users.set(
-      userFollowed,
-      updatedFollowedUser as IUser & { password: string }
-    )
-    this.#users.set(
-      userFollowing,
-      updatedFollowingUser as IUser & { password: string }
-    )
-    return { updatedFollowedUser, updatedFollowingUser }
+    const followedData: Follow = {
+      id: whoIsBeingFollowed.id,
+      name: whoIsBeingFollowed.name,
+      username: whoIsBeingFollowed.username,
+      avatarUrl: whoIsBeingFollowed.avatarUrl,
+      coverImage: whoIsBeingFollowed.coverImage,
+      createdAt: new Date().toISOString(),
+    }
+
+    const newFollower: InMemoryUser = {
+      ...whoIsBeingFollowed,
+      followers: [followingData, ...whoIsBeingFollowed.followers],
+    }
+
+    const newFollowing: InMemoryUser = {
+      ...whoIsFollowing,
+      following: [followingData, ...whoIsFollowing.following],
+    }
+
+    this.#users.set(whoIsBeingFollowed.id, newFollower)
+    this.#users.set(whoIsFollowing.id, newFollowing)
+
+    return { followed: followedData, following: followingData }
   }
 
   public async unfollow(
-    userFollowed: string,
-    userFollowing: string
-  ): Promise<{ updatedFollowedUser: IUser; updatedFollowingUser: IUser }> {
+    followedUserId: string,
+    followingUserId: string
+  ): Promise<void> {
     await new Promise((resolve) => setTimeout(resolve, 5000))
 
-    const followedFound = this.#users.get(userFollowed)
+    const followedFound = this.#users.get(followedUserId)
     if (!followedFound) {
       throw new Error("Followed user not found")
     }
 
-    const followingFound = this.#users.get(userFollowing)
+    const followingFound = this.#users.get(followingUserId)
     if (!followingFound) {
       throw new Error("Following user not found")
     }
 
-    const updatedFollowedUser = {
+    const updatedFollowedUser: InMemoryUser = {
       ...followedFound,
       followers: followedFound.followers.filter(
-        (follow) => follow !== userFollowing
+        (follow) => follow.id !== followingUserId
       ),
     }
-    const updatedFollowingUser = {
+
+    const updatedFollowingUser: InMemoryUser = {
       ...followingFound,
       following: followingFound.following.filter(
-        (follow) => follow !== userFollowed
+        (follow) => follow.id !== followedUserId
       ),
     }
 
-    this.#users.set(
-      userFollowed,
-      updatedFollowedUser as IUser & { password: string }
-    )
-    this.#users.set(
-      userFollowing,
-      updatedFollowingUser as IUser & { password: string }
-    )
-
-    return { updatedFollowedUser, updatedFollowingUser }
+    this.#users.set(followedUserId, updatedFollowedUser)
+    this.#users.set(followingUserId, updatedFollowingUser)
   }
 
-  public async followers(userId: string): Promise<Array<IUser>> {
+  public async followers(
+    queryParams: FollowQueryParams
+  ): Promise<ListResponseDTO<Follow>> {
     await new Promise((resolve) => setTimeout(resolve, 5000))
 
-    const user = this.#users.get(userId)
+    const user = this.#users.get(queryParams.userId)
     if (!user) {
       throw new Error("User not found")
     }
-    const followersIds = user.followers || []
-    const followers = followersIds
-      .map((id) => this.#users.get(id))
-      .filter((user) => user !== undefined) as IUser[]
 
-    return followers
+    const sortedFollowers = [...user.followers].sort(
+      (a, b) =>
+        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    )
+    const start =
+      ((queryParams.currentPage || 1) - 1) * (queryParams.pageSize || 10)
+    const end = start + (queryParams.pageSize || 10)
+    const totalItems = user.followers.length
+
+    return {
+      items: sortedFollowers.slice(start, end),
+      totalItems,
+      totalPages: Math.ceil(totalItems / (queryParams.pageSize || 10)),
+      currentPage: queryParams.currentPage || 1,
+      pageSize: queryParams.pageSize || 10,
+    }
   }
 
-  public async following(userId: string): Promise<Array<IUser>> {
+  public async following(
+    queryParams: FollowQueryParams
+  ): Promise<ListResponseDTO<Follow>> {
     await new Promise((resolve) => setTimeout(resolve, 5000))
 
-    const user = this.#users.get(userId)
+    const user = this.#users.get(queryParams.userId)
     if (!user) {
       throw new Error("User not found")
     }
-    const followingIds = user.following || []
-    const following = followingIds
-      .map((id) => this.#users.get(id))
-      .filter((user) => user !== undefined) as IUser[]
 
-    return following
+    const sortedFollowing = [...user.following].sort(
+      (a, b) =>
+        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    )
+    const start =
+      ((queryParams.currentPage || 1) - 1) * (queryParams.pageSize || 10)
+    const end = start + (queryParams.pageSize || 10)
+    const totalItems = user.following.length
+
+    return {
+      items: sortedFollowing.slice(start, end),
+      totalItems,
+      totalPages: Math.ceil(totalItems / (queryParams.pageSize || 10)),
+      currentPage: queryParams.currentPage || 1,
+      pageSize: queryParams.pageSize || 10,
+    }
   }
 }

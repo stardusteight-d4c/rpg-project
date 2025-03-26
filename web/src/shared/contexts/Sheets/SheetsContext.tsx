@@ -39,11 +39,11 @@ export const SheetsProvider: React.FC<{ children: ReactNode }> = ({
 
   const addSheetInLocalState = (createdSheet: ISheet) => {
     setLastRequestProfileSheetsData((prev) => {
-      const updatedCache = new Map(prev)
-      const prevProfilePostsRequest = updatedCache.get(createdSheet.owner.id)
+      const newCache = new Map(prev)
+      const prevProfilePostsRequest = newCache.get(createdSheet.owner.id)
 
       if (prevProfilePostsRequest) {
-        updatedCache.set(createdSheet.owner.id, {
+        newCache.set(createdSheet.owner.id, {
           totalItems: prevProfilePostsRequest.items.length + 1,
           totalPages: Math.ceil(
             (prevProfilePostsRequest.items.length + 1) /
@@ -52,14 +52,14 @@ export const SheetsProvider: React.FC<{ children: ReactNode }> = ({
           items: [createdSheet, ...prevProfilePostsRequest.items],
         })
       } else {
-        updatedCache.set(createdSheet.owner.id, {
+        newCache.set(createdSheet.owner.id, {
           totalItems: 1,
           totalPages: 1,
           items: [createdSheet],
         })
       }
 
-      return updatedCache
+      return newCache
     })
   }
 
@@ -71,8 +71,8 @@ export const SheetsProvider: React.FC<{ children: ReactNode }> = ({
       .list(queryParams)
       .then((res) => {
         setLastRequestProfileSheetsData((prev) => {
-          const updatedCache = new Map(prev)
-          const prevProfileRequest = updatedCache.get(ownerId)
+          const newCache = new Map(prev)
+          const prevProfileRequest = newCache.get(ownerId)
 
           if (prevProfileRequest) {
             const updatedItems = new Map()
@@ -85,19 +85,19 @@ export const SheetsProvider: React.FC<{ children: ReactNode }> = ({
               updatedItems.set(item.id, item)
             })
 
-            updatedCache.set(ownerId, {
+            newCache.set(ownerId, {
               ...res,
               currentPage: Math.ceil(updatedItems.size / pageSize),
               items: Array.from(updatedItems.values()),
             })
           } else {
-            updatedCache.set(ownerId, {
+            newCache.set(ownerId, {
               ...res,
               items: res.items,
             })
           }
 
-          return updatedCache
+          return newCache
         })
         return res
       })
@@ -123,17 +123,17 @@ export const SheetsProvider: React.FC<{ children: ReactNode }> = ({
       .delete(sheetId)
       .then(() => {
         setLastRequestProfileSheetsData((prev) => {
-          const updatedCache = new Map(prev)
-          updatedCache.forEach((profileData, userId) => {
+          const newCache = new Map(prev)
+          newCache.forEach((profileData, userId) => {
             const filteredSheets = profileData.items.filter(
               (sheet) => sheet.id !== sheetId
             )
-            updatedCache.set(userId, {
+            newCache.set(userId, {
               ...profileData,
               items: filteredSheets,
             })
           })
-          return updatedCache
+          return newCache
         })
       })
       .catch((error) => {
@@ -146,11 +146,11 @@ export const SheetsProvider: React.FC<{ children: ReactNode }> = ({
       .update(sheet)
       .then((updatedSheet) => {
         setLastRequestProfileSheetsData((prev) => {
-          const updatedCache = new Map(prev)
-          const prevProfileRequest = updatedCache.get(updatedSheet.owner.id)
+          const newCache = new Map(prev)
+          const prevProfileRequest = newCache.get(updatedSheet.owner.id)
 
           if (prevProfileRequest) {
-            updatedCache.set(updatedSheet.owner.id, {
+            newCache.set(updatedSheet.owner.id, {
               ...prevProfileRequest,
               items: Array.from(
                 sortSheetsMap(
@@ -162,7 +162,7 @@ export const SheetsProvider: React.FC<{ children: ReactNode }> = ({
               ),
             })
           }
-          return updatedCache
+          return newCache
         })
 
         return updatedSheet

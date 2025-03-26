@@ -54,8 +54,8 @@ export const CampaignsProvider: React.FC<{ children: ReactNode }> = ({
       .list({ ownerId, pageSize })
       .then((res) => {
         setLastRequestProfileCampaignsData((prev) => {
-          const updatedCache = new Map(prev)
-          const prevProfileRequest = updatedCache.get(ownerId)
+          const newCache = new Map(prev)
+          const prevProfileRequest = newCache.get(ownerId)
 
           if (prevProfileRequest) {
             const updatedItems = new Map()
@@ -68,19 +68,19 @@ export const CampaignsProvider: React.FC<{ children: ReactNode }> = ({
               updatedItems.set(item.id, item)
             })
 
-            updatedCache.set(ownerId, {
+            newCache.set(ownerId, {
               ...res,
               currentPage: Math.ceil(updatedItems.size / pageSize),
               items: Array.from(updatedItems.values()),
             })
           } else {
-            updatedCache.set(ownerId, {
+            newCache.set(ownerId, {
               ...res,
               items: res.items,
             })
           }
 
-          return updatedCache
+          return newCache
         })
         return res
       })
@@ -94,11 +94,11 @@ export const CampaignsProvider: React.FC<{ children: ReactNode }> = ({
       .list({ name, search: true })
       .then((campaignsFound) => {
         setLastRequestCampaignsData((prev) => {
-          const updatedCache = new Map(prev)
+          const newCache = new Map(prev)
           campaignsFound.items.map((campaignFound) => {
-            updatedCache.set(campaignFound.id, campaignFound)
+            newCache.set(campaignFound.id, campaignFound)
           })
-          return updatedCache
+          return newCache
         })
         return campaignsFound.items
       })
@@ -118,9 +118,9 @@ export const CampaignsProvider: React.FC<{ children: ReactNode }> = ({
       .list({ campaignId: campaignId })
       .then((campaign) => {
         setLastRequestCampaignsData((prev) => {
-          const updatedCache = new Map(prev)
-          updatedCache.set(campaign.items[0].id, campaign.items[0])
-          return updatedCache
+          const newCache = new Map(prev)
+          newCache.set(campaign.items[0].id, campaign.items[0])
+          return newCache
         })
         return campaign.items[0]
       })
@@ -134,23 +134,23 @@ export const CampaignsProvider: React.FC<{ children: ReactNode }> = ({
       .delete(campaignId)
       .then(() => {
         setLastRequestCampaignsData((prev) => {
-          const updatedCache = new Map(prev)
-          updatedCache.delete(campaignId)
-          return updatedCache
+          const newCache = new Map(prev)
+          newCache.delete(campaignId)
+          return newCache
         })
 
         setLastRequestProfileCampaignsData((prev) => {
-          const updatedCache = new Map(prev)
-          updatedCache.forEach((profileData, userId) => {
+          const newCache = new Map(prev)
+          newCache.forEach((profileData, userId) => {
             const filteredCampaigns = profileData.items.filter(
               (campaign) => campaign.id !== campaignId
             )
-            updatedCache.set(userId, {
+            newCache.set(userId, {
               ...profileData,
               items: filteredCampaigns,
             })
           })
-          return updatedCache
+          return newCache
         })
       })
       .catch((error) => {
@@ -163,23 +163,23 @@ export const CampaignsProvider: React.FC<{ children: ReactNode }> = ({
       .update(campaign)
       .then((updatedCampaign) => {
         setLastRequestCampaignsData((prev) => {
-          const updatedCache = new Map(prev)
-          const existingCampaing = updatedCache.get(campaign.id!)
+          const newCache = new Map(prev)
+          const existingCampaing = newCache.get(campaign.id!)
           if (existingCampaing) {
-            updatedCache.set(existingCampaing.id, {
+            newCache.set(existingCampaing.id, {
               ...existingCampaing,
               ...updatedCampaign,
             })
           }
-          return updatedCache
+          return newCache
         })
 
         setLastRequestProfileCampaignsData((prev) => {
-          const updatedCache = new Map(prev)
-          const prevProfileRequest = updatedCache.get(updatedCampaign.owner.id)
+          const newCache = new Map(prev)
+          const prevProfileRequest = newCache.get(updatedCampaign.owner.id)
 
           if (prevProfileRequest) {
-            updatedCache.set(updatedCampaign.owner.id, {
+            newCache.set(updatedCampaign.owner.id, {
               ...prevProfileRequest,
               items: Array.from(
                 sortCampaignsMap(
@@ -191,7 +191,7 @@ export const CampaignsProvider: React.FC<{ children: ReactNode }> = ({
               ),
             })
           }
-          return updatedCache
+          return newCache
         })
 
         return updatedCampaign
@@ -206,31 +206,31 @@ export const CampaignsProvider: React.FC<{ children: ReactNode }> = ({
       .create(campaign)
       .then((createdCampaign) => {
         setLastRequestCampaignsData((prev) => {
-          const updatedCache = new Map(prev)
-          updatedCache.set(createdCampaign.id, createdCampaign)
-          return updatedCache
+          const newCache = new Map(prev)
+          newCache.set(createdCampaign.id, createdCampaign)
+          return newCache
         })
         setLastRequestProfileCampaignsData((prev) => {
-          const updatedCache = new Map(prev)
-          const prevProfileCampaignRequest = updatedCache.get(
+          const newCache = new Map(prev)
+          const prevProfileCampaignRequest = newCache.get(
             createdCampaign.owner.id
           )
 
           if (prevProfileCampaignRequest) {
-            updatedCache.set(createdCampaign.owner.id, {
+            newCache.set(createdCampaign.owner.id, {
               ...prevProfileCampaignRequest,
               totalItems: prevProfileCampaignRequest.totalItems + 1,
               items: [createdCampaign, ...prevProfileCampaignRequest.items],
             })
           } else {
-            updatedCache.set(createdCampaign.owner.id, {
+            newCache.set(createdCampaign.owner.id, {
               items: [createdCampaign],
               totalItems: 1,
               totalPages: 1,
             })
           }
 
-          return updatedCache
+          return newCache
         })
         return createdCampaign
       })

@@ -7,7 +7,7 @@ export const SearchModal: React.FC<{
   onStatusChange: (value: boolean) => void
   status: boolean
 }> = ({ onStatusChange, status }) => {
-  const { searchByUsername } = useUsers()
+  const { listByUsername } = useUsers()
   const { searchByName } = useCampaigns()
   const [users, setUsers] = useState<IUser[]>([])
   const [campaigns, setCampaigns] = useState<ICampaign[]>([])
@@ -18,7 +18,7 @@ export const SearchModal: React.FC<{
   const userSearch = async () => {
     if (searchTerm.length >= 4 && searchType === "user") {
       setUsers([])
-      await searchByUsername(searchTerm).then((users) => {
+      await listByUsername(searchTerm).then((users) => {
         setUsers(users)
       })
     }
@@ -39,6 +39,8 @@ export const SearchModal: React.FC<{
         setUsers([])
         setCampaigns([])
       }
+
+      if (isLoading) return
 
       setIsLoading(true)
       await userSearch()

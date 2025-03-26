@@ -10,6 +10,7 @@ export const Campaigns: React.FC<{
     <div className="space-y-2 mb-2">
       {campaigns.map((campaign) => (
         <Link
+          key={campaign.id}
           href={`/campaign/${campaign.id}`}
           className="flex p-2 cursor-pointer select-none bg-ashes rounded-lg z-20 items-center gap-x-2"
         >

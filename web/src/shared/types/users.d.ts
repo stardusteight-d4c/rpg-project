@@ -1,5 +1,14 @@
 type UserTableRole = "master" | "player"
 
+interface Follow {
+  id: string
+  name: string
+  username: string
+  avatarUrl: string | undefined
+  coverImage: string | undefined
+  createdAt: string
+}
+
 interface IUser {
   id: string
   name: string
@@ -8,6 +17,8 @@ interface IUser {
   email: string
   avatarUrl: string | undefined
   coverImage: string | undefined
+  followers?: Follow[]
+  following?: Follow[]
   exp: {
     level: number
     current: number
@@ -18,8 +29,10 @@ interface IUser {
   koalCampaigns: number
   playingCampaigns: number
   createdAt: string
-  following: string[]
-  followers: string[]
+}
+
+interface FollowQueryParams extends ListQueryParams {
+  userId: string
 }
 
 interface TableUser extends IUser {
@@ -28,6 +41,6 @@ interface TableUser extends IUser {
 
 interface UserQueryParams extends ListQueryParams {
   search?: boolean
-  username?: string 
+  username?: string
   userId?: string
 }

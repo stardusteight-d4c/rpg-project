@@ -7,7 +7,7 @@ export const UserAvatar: React.FC<{
   avatarUrl: string | undefined
   size?: number
   fontSize?: number
-  bgColor?: "background" | "button"
+  bgColor?: "background" | "border"
   cursor?: "pointer" | "default"
 }> = ({
   name,
@@ -44,7 +44,7 @@ export const UserAvatar: React.FC<{
           fontSize,
         }}
         className={`${
-          bgColor === "background" ? " bg-background " : " bg-button "
+          bgColor === "background" ? " bg-background " : " bg-border "
         } font-bold text-white flex items-center justify-center aspect-square border border-border rounded-full`}
       >
         {getNameInitials(name)}

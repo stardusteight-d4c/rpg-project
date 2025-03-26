@@ -11,6 +11,7 @@ export const Users: React.FC<{
     <div className="space-y-2 mb-2">
       {users.map((user) => (
         <Link
+          key={user.id}
           href={`/profile/${user.username}`}
           className="flex p-2 cursor-pointer select-none border border-border bg-ashes rounded-lg z-20 items-center gap-x-2"
         >

@@ -16,15 +16,12 @@ interface IUserRoute {
   update(user: Partial<IUser>): Promise<IUser>
   list(queryParams: UserQueryParams): Promise<Array<IUser>>
   follow(
-    userFollowed: string,
-    userFollowing: string
-  ): Promise<{ updatedFollowedUser: IUser; updatedFollowingUser: IUser }>
-  unfollow(
-    userFollowed: string,
-    userFollowing: string
-  ): Promise<{ updatedFollowedUser: IUser; updatedFollowingUser: IUser }>
-  followers(userId: string): Promise<Array<IUser>>
-  following(userId: string): Promise<Array<IUser>>
+    followedUserId: string,
+    followingUserId: string
+  ): Promise<{ followed: Follow; following: Follow }>
+  unfollow(followedUserId: string, followingUserId: string): Promise<void>
+  followers(queryParams: FollowQueryParams): Promise<ListResponseDTO<Follow>>
+  following(queryParams: FollowQueryParams): Promise<ListResponseDTO<Follow>>
 }
 
 interface ISheetRoute {
