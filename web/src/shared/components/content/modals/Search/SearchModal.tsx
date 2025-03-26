@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react"
-import { GlowingWrapper } from "../../../ui/GlowingWrapper"
-import { ModalWrapper } from "../../../ui/ModalWrapper"
-import { useUsers } from "@/shared/contexts/Users/UsersContext"
-import { getNameInitials } from "@/shared/utils/getNameInitials"
 import { useRouter } from "next/navigation"
-import { useCampaigns } from "@/shared/contexts/Campaigns/CampaignsContext"
-import { UserAvatar } from "../../UserAvatar"
+import { UserAvatar } from "@/shared/components/content"
+import {
+  EmptyState,
+  GlowingWrapper,
+  Loader,
+  ModalWrapper,
+} from "@/shared/components/ui"
+import { useCampaigns, useUsers } from "@/shared/contexts"
 
 export const SearchModal: React.FC<{
   onStatusChange: (value: boolean) => void
@@ -18,6 +20,7 @@ export const SearchModal: React.FC<{
   const [campaignsFound, setCampaignsFound] = useState<ICampaign[]>([])
   const [searchType, setSearchType] = useState<"campaign" | "player">("player")
   const [searchTerm, setSearchTerm] = useState<string>("")
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
   useEffect(() => {
     ;(async () => {
@@ -27,15 +30,22 @@ export const SearchModal: React.FC<{
       }
 
       if (searchTerm.length >= 4 && searchType === "player") {
-        searchByUsername(searchTerm).then((users) => {
-          setUsersFound(users)
-        })
+        setIsLoading(true)
+        setUsersFound([])
+        await searchByUsername(searchTerm)
+          .then((users) => {
+            setUsersFound(users)
+          })
+          .finally(() => setIsLoading(false))
       }
 
       if (searchTerm.length >= 4 && searchType === "campaign") {
-        searchByName(searchTerm).then((campaigns) => {
-          setCampaignsFound(campaigns)
-        })
+        setIsLoading(true)
+        await searchByName(searchTerm)
+          .then((campaigns) => {
+            setCampaignsFound(campaigns)
+          })
+          .finally(() => setIsLoading(false))
       }
     })()
   }, [searchTerm, searchType])
@@ -171,6 +181,22 @@ export const SearchModal: React.FC<{
               </div>
             ))}
           </div>
+        )}
+        {isLoading && searchType === "player" && (
+          <EmptyState
+            description="Seeking brave souls to face the horrors of the beyond."
+            height={150}
+          >
+            <Loader />
+          </EmptyState>
+        )}
+        {isLoading && searchType === "campaign" && (
+          <EmptyState
+            description="In search of new adventures and epic challenges. Where is the next great journey?"
+            height={150}
+          >
+            <Loader />
+          </EmptyState>
         )}
       </div>
     </ModalWrapper>

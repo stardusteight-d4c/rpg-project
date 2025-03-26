@@ -1,18 +1,28 @@
+import React from "react"
 import { Feed } from "./components"
 
 export function FeedModule() {
   return (
-    <FeedModuleWrapper>
+    <Wrapper>
       <Feed.Navbar />
-      <div className="max-w-7xl mt-[45px] w-full mx-auto flex">
-        <Feed.Posts  />
-        <Feed.Sidebar />
-      </div>
+      <Feed.Posts />
+      <Feed.Sidebar />
       <Feed.Footer />
-    </FeedModuleWrapper>
+    </Wrapper>
   )
 }
 
-const FeedModuleWrapper: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => <main className="w-screen">{children}</main>
+const Wrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const elements = React.Children.toArray(children)
+
+  return (
+    <main className="w-screen">
+      {elements[0]}
+      <div className="max-w-7xl mt-[45px] w-full mx-auto flex">
+        {elements[1]}
+        {elements[2]}
+      </div>
+      {elements[3]}
+    </main>
+  )
+}
