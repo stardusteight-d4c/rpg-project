@@ -26,12 +26,12 @@ export const FollowingModal: React.FC<{
   const [isLoadingUnfollow, setIsLoadingUnfollow] = useState<boolean>(false)
   const [paginationData, setPaginationData] = useState<{
     currentPage: number
-    lastPage: undefined | number
+    lastPage: number
     pageSize: number
     totalItems: number | undefined
   }>({
     currentPage: 1,
-    lastPage: undefined,
+    lastPage: 1,
     pageSize: 1,
     totalItems: undefined,
   })
@@ -39,36 +39,43 @@ export const FollowingModal: React.FC<{
 
   useEffect(() => {
     ;(async () => {
-      setIsLoadingList(true)
-      await listFollowing({
-        userId: user.id,
-        currentPage: paginationData.currentPage,
-        pageSize: paginationData.pageSize,
-      })
-        .then((res) => {
-          setPaginationData((prev) => ({
-            ...prev,
-            lastPage: res.totalPages,
-            totalItems: res.totalItems,
-          }))
+      const { currentPage, lastPage } = paginationData
+      if (currentPage <= lastPage) {
+        setIsLoadingList(true)
+        await listFollowing({
+          userId: user.id,
+          currentPage: paginationData.currentPage,
+          pageSize: paginationData.pageSize,
         })
-        .catch((error) => {
-          addToast(error.message, "error", 45)
-        })
-        .finally(() => setIsLoadingList(false))
+          .then((res) => {
+            setPaginationData((prev) => ({
+              ...prev,
+              lastPage: res.totalPages,
+              totalItems: res.totalItems,
+            }))
+          })
+          .catch((error) => {
+            addToast(error.message, "error", 45)
+          })
+          .finally(() => setIsLoadingList(false))
+      }
     })()
   }, [paginationData.currentPage])
 
   const onUnfollow = async (userId: string) => {
     setIsLoadingUnfollow(true)
     await unfollow(userId, currentSession!.id)
-      .then((updatedUser) => {
-        // updatedUser && updateSession(updatedUser)
-      })
       .catch((error) => {
         addToast(error.message, "error", 45)
       })
       .finally(() => setIsLoadingUnfollow(false))
+  }
+
+  const handlePagination = () => {
+    setPaginationData((prev) => ({
+      ...prev,
+      currentPage: prev.currentPage + 1,
+    }))
   }
 
   return (
@@ -79,11 +86,12 @@ export const FollowingModal: React.FC<{
     >
       <div className="border-b pb-2 -mt-2 border-border shadow-md shadow-black/50  w-full z-[200] bg-background"></div>
       <div className="w-[700px] p-2">
-        {followings.length === 0 && (
-          <EmptyState description="Not even the most insane occultists walk alone, there's always something whispering in the dark.">
-            {isLoadingList ? <Loader /> : <LinkIcon />}
-          </EmptyState>
-        )}
+        {followings.length === 0 ||
+          (isLoadingList && (
+            <EmptyState description="Not even the most insane occultists walk alone, there's always something whispering in the dark.">
+              {isLoadingList ? <Loader /> : <LinkIcon />}
+            </EmptyState>
+          ))}
         <div className="space-y-2">
           {followings.map((following) => (
             <div
@@ -130,6 +138,15 @@ export const FollowingModal: React.FC<{
               )}
             </div>
           ))}
+          {followings.length !== 0 &&
+            paginationData.currentPage <= paginationData.lastPage && (
+              <span
+                onClick={handlePagination}
+                className="text-blue-500 mx-auto block w-fit cursor-pointer hover:underline"
+              >
+                Load More
+              </span>
+            )}
         </div>
       </div>
     </ModalWrapper>

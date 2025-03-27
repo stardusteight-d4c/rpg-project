@@ -1,11 +1,17 @@
 import { GlowingWrapper } from "@/shared/components/ui"
-import React from "react"
+import React, { useEffect, useRef } from "react"
 
 export const Input: React.FC<{
   searchType: "campaign" | "user"
   searchTerm: string
   onSearch: (value: string) => void
 }> = ({ searchType, searchTerm, onSearch }) => {
+  const inputRef = useRef<HTMLInputElement>(null)
+
+  useEffect(() => {
+    inputRef.current?.focus()
+  }, [])
+
   return (
     <GlowingWrapper inset="0" border="rounded-md">
       <input
@@ -14,6 +20,7 @@ export const Input: React.FC<{
         placeholder={
           searchType === "campaign" ? "Enter a name" : "Enter a username"
         }
+        ref={inputRef}
         spellCheck="false"
         value={searchTerm}
         onChange={(e) => onSearch(e.target.value)}
