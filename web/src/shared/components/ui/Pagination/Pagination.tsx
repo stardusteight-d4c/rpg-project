@@ -4,6 +4,8 @@ interface PaginationProps {
   totalPages: number
   currentPage: number
   onPageChange: (page: number) => void
+  length: number
+  className?: string
   isLoading?: boolean
 }
 
@@ -11,6 +13,8 @@ export const Pagination: React.FC<PaginationProps> = ({
   totalPages,
   currentPage,
   onPageChange,
+  length,
+  className,
   isLoading,
 }) => {
   const handlePrev = () => {
@@ -21,8 +25,10 @@ export const Pagination: React.FC<PaginationProps> = ({
     if (currentPage < totalPages) onPageChange(currentPage + 1)
   }
 
+  if (length === 0 || (currentPage === 1 && totalPages === 1)) return
+
   return (
-    <div className="flex items-center space-x-2 mt-4">
+    <div className={`${className} flex items-center space-x-2`}>
       <button
         onClick={handlePrev}
         disabled={currentPage === 1}

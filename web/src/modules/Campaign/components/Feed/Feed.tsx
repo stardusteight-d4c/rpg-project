@@ -106,13 +106,14 @@ export const Feed: React.FC<{ campaign: ICampaign }> = ({ campaign }) => {
                   <DataFetcher />
                 </div>
               ) : (
-                <div className="flex flex-col gap-y-4 rounded-3xl w-full">
+                <div className="flex flex-col gap-y-4 mb-4 rounded-3xl w-full">
                   {posts.map((post) => (
                     <Post key={post.id} post={post} />
                   ))}
                 </div>
               )}
               <Pagination
+              length={posts.length}
                 totalPages={totalPages}
                 currentPage={currentPage}
                 onPageChange={setCurrentPage}

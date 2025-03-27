@@ -1,12 +1,9 @@
 "use client"
 
-import React, { useEffect, useState } from "react"
-import { UserAvatar } from "@/shared/components/content"
-import { EmptyState, Loader, ModalWrapper } from "@/shared/components/ui"
+import React, { Fragment, useEffect, useState } from "react"
+import { ModalWrapper } from "@/shared/components/ui"
 import { useToast, useUsers } from "@/shared/contexts"
-import { UsersThree } from "@/shared/components/ui/icons"
-import Link from "next/link"
-import { convertTimestamp } from "@/shared/utils"
+import { Components } from "./components"
 
 export const FollowersModal: React.FC<{
   status: boolean
@@ -16,81 +13,79 @@ export const FollowersModal: React.FC<{
   const { addToast } = useToast()
   const { listFollowers } = useUsers()
   const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [currentPage, setCurrentPage] = useState(1)
   const [paginationData, setPaginationData] = useState<{
-    currentPage: number
-    lastPage: undefined | number
+    lastPage: number
     pageSize: number
     totalItems: number | undefined
   }>({
-    currentPage: 1,
-    lastPage: undefined,
-    pageSize: 1,
+    lastPage: 1,
+    pageSize: 5,
     totalItems: undefined,
   })
   const followers = user.followers ?? []
+  const startIndex = (currentPage - 1) * paginationData.pageSize
+  const endIndex = startIndex + paginationData.pageSize
+  const paginationFollowers = followers.slice(startIndex, endIndex)
 
   useEffect(() => {
     ;(async () => {
-      setIsLoading(true)
-      await listFollowers({
-        userId: user.id,
-        currentPage: paginationData.currentPage,
-        pageSize: paginationData.pageSize,
-      })
-        .then((res) => {
-          setPaginationData((prev) => ({
-            ...prev,
-            lastPage: res.totalPages,
-            totalItems: res.totalItems,
-          }))
+      if (isLoading) return
+      const { lastPage } = paginationData
+      if (currentPage <= lastPage) {
+        setIsLoading(true)
+        await listFollowers({
+          userId: user.id,
+          currentPage,
+          pageSize: paginationData.pageSize,
         })
-        .catch((error) => {
-          addToast(error.message, "error", 45)
-        })
-        .finally(() => setIsLoading(false))
+          .then((res) => {
+            setPaginationData((prev) => ({
+              ...prev,
+              lastPage: res.totalPages,
+              totalItems: res.totalItems,
+            }))
+          })
+          .catch((error) => {
+            addToast(error.message, "error", 45)
+          })
+          .finally(() => setIsLoading(false))
+      }
     })()
-  }, [paginationData.currentPage])
+  }, [currentPage])
 
   return (
     <ModalWrapper
       title="Followers"
       status={status}
       onStatusChange={onStatusChange}
+      quantity={paginationData.totalItems}
     >
-      <div className="border-b pb-2 -mt-2 border-border shadow-md shadow-black/50  w-full z-[200] bg-background"></div>
-      <div className="w-[700px] p-2">
-        {followers.length === 0 && (
-          <EmptyState description="The void responds with silence... but one day, the first adept will hear its call.">
-            {isLoading ? <Loader /> : <UsersThree />}
-          </EmptyState>
-        )}
-        <div className="space-y-2">
-          {followers.map((follower) => (
-            <Link
-              href={`/profile/${follower.username}`}
-              key={follower.id}
-              className="flex bg-ashes p-2 cursor-pointer select-none border border-border rounded-lg z-20 items-center gap-x-2"
-            >
-              <UserAvatar
-                name={follower.name}
-                username={follower.username}
-                avatarUrl={follower.avatarUrl}
-              />
-              <div className="flex flex-col">
-                <span className="block  whitespace-nowrap text-lg font-bold -tracking-wide">
-                  {follower.name}
-                </span>
-                <span className="text-gray-400 whitespace-nowrap -mt-2 block text-sm">
-                  #{follower.username}
-                </span>
-              </div>
-              <div className="ml-auto text-sm flex flex-col text-gray-400">
-                {convertTimestamp(follower.createdAt)}
-              </div>
-            </Link>
-          ))}
-        </div>
-      </div>
+      <Wrapper>
+        <Components.Empty
+          length={paginationFollowers.length}
+          isLoading={isLoading}
+        />
+        <Components.View followers={paginationFollowers} />
+        <Components.Pagination
+          length={paginationFollowers.length}
+          currentPage={currentPage}
+          onPageChange={setCurrentPage}
+          totalPages={paginationData.lastPage}
+          className="mt-2"
+        />
+      </Wrapper>
     </ModalWrapper>
+  )
+}
+
+export const Wrapper: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
+  return (
+    <Fragment>
+      <div className="border-b pb-2 -mt-2 border-border shadow-md shadow-black/50  w-full z-[200] bg-background"></div>
+      <div className="w-[700px] p-2">{children}</div>
+    </Fragment>
   )
 }
