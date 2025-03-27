@@ -1,7 +1,7 @@
 "use client"
 
-import React, { Dispatch, SetStateAction, useEffect, useRef } from "react"
 import ReactDOM from "react-dom"
+import React, { useEffect, useRef } from "react"
 import { Fade, Zoom } from "react-awesome-reveal"
 
 interface ModalWrapperProps {
@@ -10,6 +10,8 @@ interface ModalWrapperProps {
   children: React.ReactNode
   showCloseIcon?: boolean
   title?: string
+  id?: string
+  quantity?: number
 }
 
 export const ModalWrapper = ({
@@ -18,6 +20,8 @@ export const ModalWrapper = ({
   onStatusChange,
   showCloseIcon = true,
   title,
+  id,
+  quantity,
 }: ModalWrapperProps) => {
   if (status === false) {
     document.body.style.overflow = ""
@@ -42,6 +46,7 @@ export const ModalWrapper = ({
 
   return ReactDOM.createPortal(
     <div
+      id={id}
       className="w-screen h-screen inset-0 !z-[1000] fixed"
       onClick={(e) => {
         document.body.style.overflow = ""
@@ -80,7 +85,16 @@ export const ModalWrapper = ({
                 </svg>
               )}
               {title && (
-                <h3 className="block text-3xl font-bold p-4">{title}</h3>
+                <div className="flex items-center gap-x-1">
+                  <h3 className="block text-3xl font-bold p-4 pr-0">{title}</h3>
+                  {!isNaN(quantity!) && (
+                    <div className="bg-border flex items-center justify-center w-fit aspect-square h-[32px] p-2  rounded-full">
+                      <span className="text-lg font-bold background-gradient text-transparent bg-clip-text w-fit block">
+                        {quantity}
+                      </span>
+                    </div>
+                  )}
+                </div>
               )}
               {children}
             </div>

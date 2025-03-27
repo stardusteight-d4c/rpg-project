@@ -24,26 +24,20 @@ export const Actions: React.FC<{ user: IUser }> = ({ user }) => {
   const [isOpenFollowersModal, setIsOpenFollowersModal] =
     useState<boolean>(false)
   const followers = cachedUsers.get(user.username)?.followers ?? []
-  const isFollowing = followers.some((follower) => follower.id === currentSession?.id);
+  const isFollowing = followers.some(
+    (follower) => follower.id === currentSession?.id
+  )
 
   const onFollow = async () => {
-    await follow(user.id, currentSession!.id)
-      .then((updatedUser) => {
-        // updatedUser && updateSession(updatedUser)
-      })
-      .catch((error) => {
-        addToast(error.message, "error", 45)
-      })
+    await follow(user.id, currentSession!.id).catch((error) => {
+      addToast(error.message, "error", 45)
+    })
   }
 
   const onUnfollow = async () => {
-    await unfollow(user.id, currentSession!.id)
-      .then((updatedUser) => {
-        // updatedUser && updateSession(updatedUser)
-      })
-      .catch((error) => {
-        addToast(error.message, "error", 45)
-      })
+    await unfollow(user.id, currentSession!.id).catch((error) => {
+      addToast(error.message, "error", 45)
+    })
   }
 
   if (!currentSession) return

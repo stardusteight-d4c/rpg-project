@@ -124,7 +124,12 @@ export class MockUserRoute implements IUserRoute {
       throw new Error("Following user not found")
     }
 
-    const followingData: Follow = {
+    const alreadyFollow = whoIsBeingFollowed.following.find(
+      (following) => following.id === whoIsFollowing.id
+    )
+    if (alreadyFollow) throw new Error("You already follow this user.")
+
+    const whoIsFollowingFollowingData: Follow = {
       id: whoIsFollowing.id,
       name: whoIsFollowing.name,
       username: whoIsFollowing.username,
@@ -133,7 +138,7 @@ export class MockUserRoute implements IUserRoute {
       createdAt: new Date().toISOString(),
     }
 
-    const followedData: Follow = {
+    const whoIsBeingFollowedData: Follow = {
       id: whoIsBeingFollowed.id,
       name: whoIsBeingFollowed.name,
       username: whoIsBeingFollowed.username,
@@ -144,18 +149,21 @@ export class MockUserRoute implements IUserRoute {
 
     const newFollower: InMemoryUser = {
       ...whoIsBeingFollowed,
-      followers: [followingData, ...whoIsBeingFollowed.followers],
+      followers: [whoIsFollowingFollowingData, ...whoIsBeingFollowed.followers],
     }
 
     const newFollowing: InMemoryUser = {
       ...whoIsFollowing,
-      following: [followingData, ...whoIsFollowing.following],
+      following: [whoIsBeingFollowedData, ...whoIsFollowing.following],
     }
 
     this.#users.set(whoIsBeingFollowed.id, newFollower)
     this.#users.set(whoIsFollowing.id, newFollowing)
 
-    return { followed: followedData, following: followingData }
+    return {
+      followed: whoIsBeingFollowedData,
+      following: whoIsFollowingFollowingData,
+    }
   }
 
   public async unfollow(

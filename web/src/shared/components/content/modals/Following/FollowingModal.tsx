@@ -5,6 +5,7 @@ import {
   EmptyState,
   Loader,
   ModalWrapper,
+  Pagination,
   Tooltip,
 } from "@/shared/components/ui"
 import { UserAvatar } from "@/shared/components/content"
@@ -24,27 +25,30 @@ export const FollowingModal: React.FC<{
   const { currentSession } = useAuth()
   const [isLoadingList, setIsLoadingList] = useState<boolean>(false)
   const [isLoadingUnfollow, setIsLoadingUnfollow] = useState<boolean>(false)
+  const [currentPage, setCurrentPage] = useState(1)
   const [paginationData, setPaginationData] = useState<{
-    currentPage: number
     lastPage: number
     pageSize: number
     totalItems: number | undefined
   }>({
-    currentPage: 1,
     lastPage: 1,
-    pageSize: 1,
+    pageSize: 5,
     totalItems: undefined,
   })
   const followings = user.following ?? []
+  const startIndex = (currentPage - 1) * paginationData.pageSize
+  const endIndex = startIndex + paginationData.pageSize
+  const paginationFollowings = followings.slice(startIndex, endIndex)
 
   useEffect(() => {
     ;(async () => {
-      const { currentPage, lastPage } = paginationData
+      if (isLoadingList) return
+      const { lastPage } = paginationData
       if (currentPage <= lastPage) {
         setIsLoadingList(true)
         await listFollowing({
           userId: user.id,
-          currentPage: paginationData.currentPage,
+          currentPage,
           pageSize: paginationData.pageSize,
         })
           .then((res) => {
@@ -60,9 +64,10 @@ export const FollowingModal: React.FC<{
           .finally(() => setIsLoadingList(false))
       }
     })()
-  }, [paginationData.currentPage])
+  }, [currentPage])
 
   const onUnfollow = async (userId: string) => {
+    if (isLoadingUnfollow) return
     setIsLoadingUnfollow(true)
     await unfollow(userId, currentSession!.id)
       .catch((error) => {
@@ -71,29 +76,22 @@ export const FollowingModal: React.FC<{
       .finally(() => setIsLoadingUnfollow(false))
   }
 
-  const handlePagination = () => {
-    setPaginationData((prev) => ({
-      ...prev,
-      currentPage: prev.currentPage + 1,
-    }))
-  }
-
   return (
     <ModalWrapper
       title="Following"
       status={status}
       onStatusChange={onStatusChange}
+      quantity={paginationData.totalItems ?? 0}
     >
       <div className="border-b pb-2 -mt-2 border-border shadow-md shadow-black/50  w-full z-[200] bg-background"></div>
       <div className="w-[700px] p-2">
-        {followings.length === 0 ||
-          (isLoadingList && (
-            <EmptyState description="Not even the most insane occultists walk alone, there's always something whispering in the dark.">
-              {isLoadingList ? <Loader /> : <LinkIcon />}
-            </EmptyState>
-          ))}
+        {followings.length === 0 && (
+          <EmptyState description="Not even the most insane occultists walk alone, there's always something whispering in the dark.">
+            <LinkIcon />
+          </EmptyState>
+        )}
         <div className="space-y-2">
-          {followings.map((following) => (
+          {paginationFollowings.map((following) => (
             <div
               key={following.id}
               onClick={(e) => {
@@ -138,15 +136,14 @@ export const FollowingModal: React.FC<{
               )}
             </div>
           ))}
-          {followings.length !== 0 &&
-            paginationData.currentPage <= paginationData.lastPage && (
-              <span
-                onClick={handlePagination}
-                className="text-blue-500 mx-auto block w-fit cursor-pointer hover:underline"
-              >
-                Load More
-              </span>
-            )}
+
+          {followings.length !== 0 && (
+            <Pagination
+              currentPage={currentPage}
+              onPageChange={setCurrentPage}
+              totalPages={paginationData.lastPage}
+            />
+          )}
         </div>
       </div>
     </ModalWrapper>

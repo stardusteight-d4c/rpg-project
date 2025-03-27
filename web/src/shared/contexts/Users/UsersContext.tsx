@@ -54,7 +54,7 @@ export const UsersProvider: React.FC<{ children: ReactNode }> = ({
     Map<string, IUser & { followers?: Follow[]; following?: Follow[] }>
   >(new Map())
 
-  const updateCache = (users: IUser[]) => {
+  const updateCachedUsers = (users: IUser[]) => {
     setCachedUsers((prev) => {
       const newCache = new Map(prev)
       users.forEach((updatedUser) => {
@@ -81,7 +81,7 @@ export const UsersProvider: React.FC<{ children: ReactNode }> = ({
     return await api.user
       .list({ username })
       .then((user) => {
-        if (user[0]) updateCache([user[0]])
+        if (user[0]) updateCachedUsers([user[0]])
         return user[0]
       })
       .catch((error) => {
@@ -93,7 +93,7 @@ export const UsersProvider: React.FC<{ children: ReactNode }> = ({
     return await api.user
       .list({ username, search: true })
       .then((usersFound) => {
-        updateCache(usersFound)
+        updateCachedUsers(usersFound)
         return usersFound
       })
       .catch((error) => {
@@ -105,7 +105,7 @@ export const UsersProvider: React.FC<{ children: ReactNode }> = ({
     return await api.user
       .update(updatedUser)
       .then((user) => {
-        updateCache([user])
+        updateCachedUsers([user])
         return user
       })
       .catch((error) => {
@@ -248,17 +248,21 @@ export const UsersProvider: React.FC<{ children: ReactNode }> = ({
             const updateCache = new Map(prev)
 
             const followingMap = new Map(
-              existingCachedUser.following?.map((follower) => [
-                follower.id,
-                follower,
+              existingCachedUser.following?.map((following) => [
+                following.id,
+                following,
               ]) ?? []
             )
 
-            followingList.items.forEach((newFollower) => {
-              followingMap.set(newFollower.id, newFollower)
+            followingList.items.forEach((newFollowing) => {
+              followingMap.set(newFollowing.id, newFollowing)
             })
 
             const uniqueFollowing = Array.from(followingMap.values())
+
+            console.log(uniqueFollowing);
+            console.log(existingCachedUser);
+            
 
             updateCache.set(existingCachedUser.username, {
               ...existingCachedUser,
