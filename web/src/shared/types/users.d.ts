@@ -46,3 +46,25 @@ interface UserQueryParams extends ListQueryParams {
   username?: string
   userId?: string
 }
+
+interface NotificationQueryParams extends ListQueryParams {
+  recipientId?: string
+}
+
+interface INotification {
+  id: string
+  recipientId: string
+  content: string
+  type: "text" | "html"
+  sender?: {
+    id: string
+    avatarUrl?: string
+    username: string
+  }
+  createdAt: string
+}
+
+interface UserNotifications {
+  notifications: Array<INotification>
+  viewed: boolean
+}

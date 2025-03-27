@@ -1,32 +1,58 @@
 "use client"
 
-import React, { createContext, useContext, useState, ReactNode } from "react"
-import { notifications as mockNotifications } from "./mock-data"
+import { MockAPI } from "@/shared/requests/MockAPI"
+import React, {
+  createContext,
+  useContext,
+  useState,
+  ReactNode,
+  PropsWithChildren,
+} from "react"
 
 interface NotificationsState {
-  notifications: INotification[]
-  addNotification: (notification: INotification) => void
+  notifications: Map<string, UserNotifications>
+  sendNotification: (notification: INotification) => Promise<void>
+  listNotifications: (
+    recipientId: string
+  ) => Promise<ListResponseDTO<UserNotifications>>
 }
 
 const defaultState: NotificationsState = {
-  notifications: [],
-  addNotification: () => {},
+  notifications: new Map(),
+  sendNotification: async () => {},
+  listNotifications: async () => ({
+    items: [],
+    totalItems: 0,
+    totalPages: 0,
+    currentPage: 1,
+    pageSize: 0,
+  }),
 }
 
 const NotificationsContext = createContext<NotificationsState>(defaultState)
 
-export const NotificationsProvider: React.FC<{ children: ReactNode }> = ({
+export const NotificationsProvider: React.FC<PropsWithChildren> = ({
   children,
 }) => {
-  const [notifications, setNotifications] =
-    useState<INotification[]>(mockNotifications)
+  const api = new MockAPI().initializeRoutes()
+  const [notifications, setNotifications] = useState<
+    Map<string, UserNotifications>
+  >(new Map())
 
-  const addNotification = (notification: INotification) => {
-    setNotifications((prev) => [notification, ...prev])
+  const listNotifications = async (recipientId: string) => {
+    return api.user
+      .notifications({ recipientId })
+      .then((paginationNotifications) => paginationNotifications)
+  }
+
+  const sendNotification = async (notification: INotification) => {
+    api.user.sendNotification(notification)
   }
 
   return (
-    <NotificationsContext.Provider value={{ notifications, addNotification }}>
+    <NotificationsContext.Provider
+      value={{ notifications, listNotifications, sendNotification }}
+    >
       {children}
     </NotificationsContext.Provider>
   )

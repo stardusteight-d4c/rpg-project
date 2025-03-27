@@ -220,7 +220,8 @@ export class MockPostRoute implements IPostRoute {
       if (user.length === 0) {
         return { items: [], totalItems: 0, totalPages: 0 }
       }
-      const followingIds = user[0].following
+      const followingIds = user[0].following?.map((following) => following.id) ?? [];
+
       filteredPosts = filteredPosts.filter(
         (post) =>
           post.owner.id === queryParams.ownerId ||

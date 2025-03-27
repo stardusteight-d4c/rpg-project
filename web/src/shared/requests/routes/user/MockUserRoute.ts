@@ -9,9 +9,11 @@ interface InMemoryUser extends IUser {
 export class MockUserRoute implements IUserRoute {
   static #instance: MockUserRoute | null = null
   #users: Map<string, InMemoryUser>
+  #notifications: Map<string, UserNotifications>
 
   private constructor() {
     this.#users = new Map()
+    this.#notifications = new Map()
   }
 
   public static getInstance(): MockUserRoute {
@@ -75,6 +77,60 @@ export class MockUserRoute implements IUserRoute {
     return updatedUser
   }
 
+  public async notifications(
+    queryParams: NotificationQueryParams
+  ): Promise<ListResponseDTO<UserNotifications>> {
+    await new Promise((resolve) => setTimeout(resolve, 5000))
+    const { recipientId, currentPage, pageSize } = queryParams
+
+    if (!recipientId) throw new Error("recipientId is required.")
+
+    const recipient = this.#notifications.get(recipientId)
+    if (!recipient) {
+      throw new Error("Recipient not found.")
+    }
+
+    const sortedNotifications = [...recipient.notifications].sort(
+      (a, b) =>
+        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    )
+    const start = ((currentPage || 1) - 1) * (pageSize || 10)
+    const end = start + (pageSize || 10)
+    const totalItems = sortedNotifications.length
+
+    return {
+      items: [
+        {
+          notifications: sortedNotifications.slice(start, end),
+          viewed: recipient.viewed,
+        },
+      ],
+      totalItems,
+      totalPages: Math.ceil(totalItems / (pageSize || 10)),
+      currentPage: currentPage || 1,
+      pageSize: pageSize || 10,
+    }
+  }
+
+  public async sendNotification(notification: INotification): Promise<void> {
+    await new Promise((resolve) => setTimeout(resolve, 5000))
+
+    const recipientNotifications = this.#notifications.get(
+      notification.recipientId
+    )
+    if (recipientNotifications) {
+      this.#notifications.set(notification.recipientId, {
+        notifications: [...recipientNotifications.notifications, notification],
+        viewed: false,
+      })
+    } else {
+      this.#notifications.set(notification.recipientId, {
+        notifications: [notification],
+        viewed: false,
+      })
+    }
+  }
+
   public async list(queryParams: UserQueryParams): Promise<Array<IUser>> {
     await new Promise((resolve) => setTimeout(resolve, 5000))
 
@@ -109,12 +165,12 @@ export class MockUserRoute implements IUserRoute {
 
     const whoIsBeingFollowed = this.#users.get(followedUserId)
     if (!whoIsBeingFollowed) {
-      throw new Error("Followed user not found")
+      throw new Error("Followed user not found.")
     }
 
     const whoIsFollowing = this.#users.get(followingUserId)
     if (!whoIsFollowing) {
-      throw new Error("Following user not found")
+      throw new Error("Following user not found.")
     }
 
     const alreadyFollow = whoIsBeingFollowed.following.find(
@@ -155,6 +211,21 @@ export class MockUserRoute implements IUserRoute {
     this.#users.set(whoIsBeingFollowed.id, newFollower)
     this.#users.set(whoIsFollowing.id, newFollowing)
 
+    const newNotification: INotification = {
+      id: crypto.randomUUID(),
+      type: "text",
+      content: `Now it's following you!`,
+      recipientId: whoIsBeingFollowed.id,
+      sender: {
+        id: whoIsFollowing.id,
+        avatarUrl: whoIsFollowing.avatarUrl,
+        username: whoIsFollowing.username,
+      },
+      createdAt: new Date().toISOString(),
+    }
+
+    await this.sendNotification(newNotification)
+
     return {
       followed: whoIsBeingFollowedData,
       following: whoIsFollowingFollowingData,
@@ -169,12 +240,12 @@ export class MockUserRoute implements IUserRoute {
 
     const followedFound = this.#users.get(followedUserId)
     if (!followedFound) {
-      throw new Error("Followed user not found")
+      throw new Error("Followed user not found.")
     }
 
     const followingFound = this.#users.get(followingUserId)
     if (!followingFound) {
-      throw new Error("Following user not found")
+      throw new Error("Following user not found.")
     }
 
     const updatedFollowedUser: InMemoryUser = {
@@ -200,56 +271,56 @@ export class MockUserRoute implements IUserRoute {
   public async followers(
     queryParams: FollowQueryParams
   ): Promise<ListResponseDTO<Follow>> {
+    const { userId, currentPage, pageSize } = queryParams
     await new Promise((resolve) => setTimeout(resolve, 5000))
 
-    const user = this.#users.get(queryParams.userId)
+    const user = this.#users.get(userId)
     if (!user) {
-      throw new Error("User not found")
+      throw new Error("User not found.")
     }
 
     const sortedFollowers = [...user.followers].sort(
       (a, b) =>
         new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
     )
-    const start =
-      ((queryParams.currentPage || 1) - 1) * (queryParams.pageSize || 10)
-    const end = start + (queryParams.pageSize || 10)
+    const start = ((currentPage || 1) - 1) * (pageSize || 10)
+    const end = start + (pageSize || 10)
     const totalItems = user.followers.length
 
     return {
       items: sortedFollowers.slice(start, end),
       totalItems,
-      totalPages: Math.ceil(totalItems / (queryParams.pageSize || 10)),
-      currentPage: queryParams.currentPage || 1,
-      pageSize: queryParams.pageSize || 10,
+      totalPages: Math.ceil(totalItems / (pageSize || 10)),
+      currentPage: currentPage || 1,
+      pageSize: pageSize || 10,
     }
   }
 
   public async following(
     queryParams: FollowQueryParams
   ): Promise<ListResponseDTO<Follow>> {
+    const { userId, currentPage, pageSize } = queryParams
     await new Promise((resolve) => setTimeout(resolve, 5000))
 
-    const user = this.#users.get(queryParams.userId)
+    const user = this.#users.get(userId)
     if (!user) {
-      throw new Error("User not found")
+      throw new Error("User not found.")
     }
 
     const sortedFollowing = [...user.following].sort(
       (a, b) =>
         new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
     )
-    const start =
-      ((queryParams.currentPage || 1) - 1) * (queryParams.pageSize || 10)
-    const end = start + (queryParams.pageSize || 10)
+    const start = ((currentPage || 1) - 1) * (pageSize || 10)
+    const end = start + (pageSize || 10)
     const totalItems = user.following.length
 
     return {
       items: sortedFollowing.slice(start, end),
       totalItems,
-      totalPages: Math.ceil(totalItems / (queryParams.pageSize || 10)),
-      currentPage: queryParams.currentPage || 1,
-      pageSize: queryParams.pageSize || 10,
+      totalPages: Math.ceil(totalItems / (pageSize || 10)),
+      currentPage: currentPage || 1,
+      pageSize: pageSize || 10,
     }
   }
 }

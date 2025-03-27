@@ -22,6 +22,10 @@ interface IUserRoute {
   unfollow(followedUserId: string, followingUserId: string): Promise<void>
   followers(queryParams: FollowQueryParams): Promise<ListResponseDTO<Follow>>
   following(queryParams: FollowQueryParams): Promise<ListResponseDTO<Follow>>
+  sendNotification(notification: INotification): Promise<void>
+  notifications(
+    queryParams: NotificationQueryParams
+  ): Promise<ListResponseDTO<UserNotifications>>
 }
 
 interface ISheetRoute {
