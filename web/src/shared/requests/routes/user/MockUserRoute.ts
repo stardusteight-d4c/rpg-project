@@ -1,7 +1,9 @@
 interface InMemoryUser extends IUser {
   password: string
   followers: Follow[]
+  totalFollowers: number
   following: Follow[]
+  totalFollowing: number
 }
 
 export class MockUserRoute implements IUserRoute {
@@ -32,11 +34,7 @@ export class MockUserRoute implements IUserRoute {
       throw new Error("This username already exists.")
     }
 
-    const newUser: IUser & {
-      password: string
-      followers: Follow[]
-      following: Follow[]
-    } = {
+    const newUser: InMemoryUser = {
       id: crypto.randomUUID(),
       name: data.name,
       email: data.email,
@@ -53,6 +51,8 @@ export class MockUserRoute implements IUserRoute {
       },
       followers: [],
       following: [],
+      totalFollowers: 0,
+      totalFollowing: 0,
       koalCampaigns: 0,
       memberSince: new Date().toISOString(),
       playingCampaigns: 0,
@@ -71,14 +71,7 @@ export class MockUserRoute implements IUserRoute {
 
     const existingUser = this.#users.get(user.id)!
     const updatedUser = { ...existingUser, ...user }
-    this.#users.set(
-      user.id,
-      updatedUser as IUser & {
-        password: string
-        followers: Follow[]
-        following: Follow[]
-      }
-    )
+    this.#users.set(user.id, updatedUser as InMemoryUser)
     return updatedUser
   }
 
@@ -149,11 +142,13 @@ export class MockUserRoute implements IUserRoute {
 
     const newFollower: InMemoryUser = {
       ...whoIsBeingFollowed,
+      totalFollowers: whoIsBeingFollowed.totalFollowers + 1,
       followers: [whoIsFollowingFollowingData, ...whoIsBeingFollowed.followers],
     }
 
     const newFollowing: InMemoryUser = {
       ...whoIsFollowing,
+      totalFollowing: whoIsFollowing.totalFollowing + 1,
       following: [whoIsBeingFollowedData, ...whoIsFollowing.following],
     }
 
@@ -184,6 +179,7 @@ export class MockUserRoute implements IUserRoute {
 
     const updatedFollowedUser: InMemoryUser = {
       ...followedFound,
+      totalFollowers: followedFound.totalFollowers - 1,
       followers: followedFound.followers.filter(
         (follow) => follow.id !== followingUserId
       ),
@@ -191,6 +187,7 @@ export class MockUserRoute implements IUserRoute {
 
     const updatedFollowingUser: InMemoryUser = {
       ...followingFound,
+      totalFollowing: followingFound.totalFollowing - 1,
       following: followingFound.following.filter(
         (follow) => follow.id !== followedUserId
       ),

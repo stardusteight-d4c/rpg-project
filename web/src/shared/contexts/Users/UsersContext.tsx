@@ -4,10 +4,7 @@ import React, { createContext, useContext, ReactNode, useState } from "react"
 import { MockAPI } from "@/shared/requests/MockAPI"
 
 interface UsersState {
-  cachedUsers: Map<
-    string,
-    IUser & { followers?: Follow[]; following?: Follow[] }
-  >
+  cachedUsers: Map<string, IUser>
   update: (updatedUser: Partial<IUser>) => Promise<IUser | void>
   follow(followedUserId: string, followingUserId: string): Promise<void>
   unfollow(followedUserId: string, followingUserId: string): Promise<void>
@@ -50,9 +47,7 @@ export const UsersProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const api = new MockAPI().initializeRoutes()
-  const [cachedUsers, setCachedUsers] = useState<
-    Map<string, IUser & { followers?: Follow[]; following?: Follow[] }>
-  >(new Map())
+  const [cachedUsers, setCachedUsers] = useState<Map<string, IUser>>(new Map())
 
   const updateCachedUsers = (users: IUser[]) => {
     setCachedUsers((prev) => {
@@ -125,6 +120,7 @@ export const UsersProvider: React.FC<{ children: ReactNode }> = ({
             const updateCache = new Map(prev)
             updateCache.set(followedUser.username, {
               ...followedUser,
+              totalFollowers: followedUser.totalFollowers! + 1,
               followers: followedUser.followers
                 ? [following, ...followedUser.followers]
                 : [following],
@@ -138,6 +134,7 @@ export const UsersProvider: React.FC<{ children: ReactNode }> = ({
             const updateCache = new Map(prev)
             updateCache.set(followingUser.username, {
               ...followingUser,
+              totalFollowing: followingUser.totalFollowing! + 1,
               following: followingUser.following
                 ? [followed, ...followingUser.following]
                 : [followed],
@@ -167,6 +164,10 @@ export const UsersProvider: React.FC<{ children: ReactNode }> = ({
           if (followedUser) {
             updateCache.set(followedUser.username, {
               ...followedUser,
+              totalFollowers:
+                followedUser.totalFollowers !== 0
+                  ? followedUser.totalFollowers! - 1
+                  : 0,
               followers: followedUser.followers?.filter(
                 (f) => f.id !== followingUserId
               ),
@@ -176,6 +177,10 @@ export const UsersProvider: React.FC<{ children: ReactNode }> = ({
           if (followingUser) {
             updateCache.set(followingUser.username, {
               ...followingUser,
+              totalFollowing:
+                followingUser.totalFollowing !== 0
+                  ? followingUser.totalFollowing! - 1
+                  : 0,
               following: followingUser.following?.filter(
                 (f) => f.id !== followedUserId
               ),
@@ -220,6 +225,7 @@ export const UsersProvider: React.FC<{ children: ReactNode }> = ({
             updateCache.set(existingCachedUser.username, {
               ...existingCachedUser,
               followers: uniqueFollowers,
+              totalFollowers: followersList.totalItems,
             })
 
             return updateCache
@@ -260,12 +266,9 @@ export const UsersProvider: React.FC<{ children: ReactNode }> = ({
 
             const uniqueFollowing = Array.from(followingMap.values())
 
-            console.log(uniqueFollowing);
-            console.log(existingCachedUser);
-            
-
             updateCache.set(existingCachedUser.username, {
               ...existingCachedUser,
+              totalFollowing: followingList.totalItems,
               following: uniqueFollowing,
             })
 

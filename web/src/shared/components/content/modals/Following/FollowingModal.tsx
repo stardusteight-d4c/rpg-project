@@ -59,7 +59,7 @@ export const FollowingModal: React.FC<{
       title="Following"
       status={status}
       onStatusChange={onStatusChange}
-      quantity={paginationData.totalItems ?? 0}
+      quantity={user.totalFollowing}
     >
       <Wrapper>
         <Components.Empty

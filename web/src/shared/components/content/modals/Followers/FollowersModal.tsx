@@ -59,7 +59,7 @@ export const FollowersModal: React.FC<{
       title="Followers"
       status={status}
       onStatusChange={onStatusChange}
-      quantity={paginationData.totalItems}
+      quantity={user.totalFollowers}
     >
       <Wrapper>
         <Components.Empty

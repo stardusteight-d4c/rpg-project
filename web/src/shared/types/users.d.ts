@@ -19,6 +19,8 @@ interface IUser {
   coverImage: string | undefined
   followers?: Follow[]
   following?: Follow[]
+  totalFollowers?: number
+  totalFollowing?: number
   exp: {
     level: number
     current: number
