@@ -49,7 +49,7 @@ export const NotificationsProvider: React.FC<PropsWithChildren> = ({
   const listNotifications = async (
     queryParams: NotificationQueryParams & { navbar: boolean }
   ) => {
-    const { navbar } = queryParams
+    const { navbar, recipientId } = queryParams
     return api.user
       .notifications(queryParams)
       .then((paginationNotifications) => {
@@ -70,11 +70,13 @@ export const NotificationsProvider: React.FC<PropsWithChildren> = ({
             }
           }
 
-          // enviar requisição para marcar como viewed
+          console.log(cachedNotifications);
+          
 
           return cachedNotifications
         })
 
+        api.user.viewedNotifications(recipientId!, true)
         return paginationNotifications
       })
   }

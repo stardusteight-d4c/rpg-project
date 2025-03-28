@@ -59,12 +59,6 @@ export class EditProfileHandler {
             [`${field}ImageFile`]: file,
           }
 
-    console.log("log:", {
-      ...editableData,
-      ...url,
-      ...imageFile,
-    })
-
     return {
       ...editableData,
       ...url,

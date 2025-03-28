@@ -26,6 +26,7 @@ interface IUserRoute {
   notifications(
     queryParams: NotificationQueryParams
   ): Promise<NotificationsResponseDTO>
+  viewedNotifications(recipientId: string, isViewed: boolean): Promise<void>
 }
 
 interface ISheetRoute {

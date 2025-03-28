@@ -112,6 +112,22 @@ export class MockUserRoute implements IUserRoute {
     }
   }
 
+  public async viewedNotifications(
+    recipientId: string,
+    isViewed: boolean
+  ): Promise<void> {
+    await new Promise((resolve) => setTimeout(resolve, 5000))
+
+    const recipientNotifications = this.#notifications.get(recipientId)
+
+    if (recipientNotifications) {
+      this.#notifications.set(recipientId, {
+        notifications: recipientNotifications.notifications,
+        viewed: isViewed,
+      })
+    }
+  }
+
   public async sendNotification(notification: INotification): Promise<void> {
     await new Promise((resolve) => setTimeout(resolve, 5000))
 
@@ -120,7 +136,7 @@ export class MockUserRoute implements IUserRoute {
     )
     if (recipientNotifications) {
       this.#notifications.set(notification.recipientId, {
-        notifications: [...recipientNotifications.notifications, notification],
+        notifications: [notification, ...recipientNotifications.notifications],
         viewed: false,
       })
     } else {
@@ -173,8 +189,8 @@ export class MockUserRoute implements IUserRoute {
       throw new Error("Following user not found.")
     }
 
-    const alreadyFollow = whoIsBeingFollowed.following.find(
-      (following) => following.id === whoIsFollowing.id
+    const alreadyFollow = whoIsBeingFollowed.followers.find(
+      (follower) => follower.id === whoIsFollowing.id
     )
     if (alreadyFollow) throw new Error("You already follow this user.")
 

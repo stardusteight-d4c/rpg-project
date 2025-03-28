@@ -1,17 +1,20 @@
+"use client"
+
 import { UserAvatar } from "@/shared/components/content/UserAvatar"
 import { convertTimestamp } from "@/shared/utils"
-import Link from "next/link"
+import { useRouter } from "next/navigation"
 import React from "react"
 
 export const View: React.FC<{ followers: Follow[] }> = ({ followers }) => {
+  const { push } = useRouter()
   if (followers.length === 0) return
 
   return (
     <div className="space-y-2">
       {followers.map((follower) => (
-        <Link
-          href={`/profile/${follower.username}`}
+        <div
           key={follower.id}
+          onClick={() => push(`/profile/${follower.username}`)}
           className="flex bg-ashes p-2 cursor-pointer select-none border border-border rounded-lg z-20 items-center gap-x-2"
         >
           <UserAvatar
@@ -30,7 +33,7 @@ export const View: React.FC<{ followers: Follow[] }> = ({ followers }) => {
           <div className="ml-auto text-sm flex flex-col text-gray-400">
             {convertTimestamp(follower.createdAt)}
           </div>
-        </Link>
+        </div>
       ))}
     </div>
   )

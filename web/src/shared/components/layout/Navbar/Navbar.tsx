@@ -40,8 +40,6 @@ export const Navbar = () => {
           navbar: true,
           currentPage: 1,
           pageSize: 5
-        }).then((res) => {
-          console.log("listNotifications done", res)
         })
       }
     })()
