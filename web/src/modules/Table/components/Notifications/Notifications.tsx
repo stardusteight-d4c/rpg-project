@@ -1,36 +1,34 @@
 "use client"
 
-import { GlowingWrapper } from "@/shared/components"
-import { useNotifications } from "../../../../shared/contexts/Notifications/NotificationsContext"
 import { currentSession } from "../../../../shared/contexts/Users/mock-data"
-import { useState } from "react"
 import { PlayerNotification } from "./components/PlayerNotification"
 import { MasterNotification } from "./components/MasterNotification"
+import { GlowingWrapper } from "@/shared/components/ui"
 
 export const Notifications = () => {
-  const { notifications, addNotification } = useNotifications()
-  const [newNotification, setNewNotification] = useState<string | undefined>(
-    undefined
-  )
+  // const { notifications, addNotification } = useNotifications()
+  // const [newNotification, setNewNotification] = useState<string | undefined>(
+  //   undefined
+  // )
 
-  function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
-    setNewNotification(e.target.value)
-  }
+  // function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
+  //   setNewNotification(e.target.value)
+  // }
 
-  const onSend = () => {
-    if (!newNotification || newNotification?.length === 0) return
-    addNotification({
-      id: crypto.randomUUID(),
-      content: newNotification,
-      owner: currentSession,
-      createdAt: new Date().toISOString(),
-    })
-    setNewNotification("")
-  }
+  // const onSend = () => {
+  //   if (!newNotification || newNotification?.length === 0) return
+  //   addNotification({
+  //     id: crypto.randomUUID(),
+  //     content: newNotification,
+  //     owner: currentSession,
+  //     createdAt: new Date().toISOString(),
+  //   })
+  //   setNewNotification("")
+  // }
 
   return (
     <section className="h-screen overflow-y-scroll no-scrollbar">
-      {currentSession.role === "master" && (
+      {/* {currentSession.role === "master" && (
         <div>
           <div
             className={`${
@@ -75,7 +73,7 @@ export const Notifications = () => {
             <PlayerNotification key={notification.id} notification={notification} />
           )
         )}
-      </div>
+      </div> */}
     </section>
   )
 }

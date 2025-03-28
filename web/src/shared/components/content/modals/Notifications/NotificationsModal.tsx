@@ -21,7 +21,10 @@ export const NotificationsModal: React.FC<{
     pageSize: 1,
     totalItems: undefined,
   })
-  const cachedNotify = notify.get(currentSession!.id)
+  const cachedNotify = notify.get(currentSession!.id) ?? {
+    notifications: [],
+    viewed: true
+  }
   const startIndex = (currentPage - 1) * paginationData.pageSize
   const endIndex = startIndex + paginationData.pageSize
   const paginationNotifications = cachedNotify!.notifications.slice(

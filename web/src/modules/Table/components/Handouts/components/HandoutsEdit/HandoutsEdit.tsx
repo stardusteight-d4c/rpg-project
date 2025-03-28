@@ -3,8 +3,8 @@
 import { useState } from "react"
 import { handoutContentTypes, handoutsTypes } from "../../data"
 import { HandoutDisplay } from "../HandoutDisplay"
-import { GlowingWrapper } from "@/shared/components"
 import { useCharacters } from "@/shared/contexts/Characters/CharactersContext"
+import { GlowingWrapper } from "@/shared/components/ui"
 
 interface HandoutsEditProps {
   handout: IHandout

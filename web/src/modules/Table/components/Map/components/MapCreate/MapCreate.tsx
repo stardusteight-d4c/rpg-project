@@ -4,8 +4,7 @@ import { useEffect, useState } from "react"
 import {
   CustomNumericInput,
   GlowingWrapper,
-  ModalWrapper,
-} from "@/shared/components"
+} from "@/shared/components/ui"
 import { useMaps } from "@/shared/contexts/Maps/MapsContext"
 import { randomUUID } from "node:crypto"
 

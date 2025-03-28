@@ -1,5 +1,4 @@
 import { useModal } from "@/shared/contexts/Modal/ModalContext"
-import { SelectedCharacterDisplay } from "../../../Characters/components"
 import { DragEvent } from "react"
 
 interface DraggableItemProps {
@@ -38,16 +37,16 @@ export const DraggableItem: React.FC<DraggableItemProps> = ({
       onDragEnd={handleDragEnd}
       src={imgUrl}
       alt={type}
-      onClick={() =>
-        character &&
-        showModal(
-          id,
-          <SelectedCharacterDisplay
-            selectedCharacter={character!}
-            isModal={true}
-          />
-        )
-      }
+      // onClick={() =>
+      //   character &&
+      //   showModal(
+      //     id,
+      //     <SelectedCharacterDisplay
+      //       selectedCharacter={character!}
+      //       isModal={true}
+      //     />
+      //   )
+      // }
       className={`${
         player ? " z-[60] " : " z-[0] "
       } w-full relative select-none object-cover h-full cursor-grab m-auto flex items-center justify-center`}

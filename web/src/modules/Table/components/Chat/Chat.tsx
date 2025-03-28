@@ -1,10 +1,10 @@
 "use client"
 
-import { GlowingWrapper } from "@/shared/components"
 import { Sender } from "../Actions/components"
 import ReactMarkdown from "react-markdown"
 import rehypeRaw from "rehype-raw"
 import { useEffect, useRef, useState } from "react"
+import { GlowingWrapper } from "@/shared/components/ui"
 
 export const Chat = () => {
   const chatRef = useRef<HTMLDivElement>(null)
