@@ -25,7 +25,7 @@ interface IUserRoute {
   sendNotification(notification: INotification): Promise<void>
   notifications(
     queryParams: NotificationQueryParams
-  ): Promise<ListResponseDTO<UserNotifications>>
+  ): Promise<NotificationsResponseDTO>
 }
 
 interface ISheetRoute {

@@ -58,6 +58,7 @@ interface INotification {
   type: "text" | "html"
   sender?: {
     id: string
+    name: string
     avatarUrl?: string
     username: string
   }
@@ -67,4 +68,13 @@ interface INotification {
 interface UserNotifications {
   notifications: Array<INotification>
   viewed: boolean
+}
+
+interface NotificationsResponseDTO {
+  notifications: INotification[]
+  viewed: boolean
+  totalItems: number
+  totalPages: number
+  currentPage: number
+  pageSize: number
 }

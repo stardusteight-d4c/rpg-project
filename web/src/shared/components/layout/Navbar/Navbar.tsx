@@ -1,14 +1,14 @@
 "use client"
 
 import { useRouter } from "next/navigation"
-import { useState } from "react"
+import { Fragment, useEffect, useState } from "react"
 import {
   CreateSheetModal,
   CreateCampaignModal,
   NotificationsModal,
   SearchModal,
 } from "@/shared/components/content/modals"
-import { useAuth } from "@/shared/contexts"
+import { useAuth, useNotifications, useUsers } from "@/shared/contexts"
 import { UserAvatar } from "@/shared/components/content"
 import { Button } from "@/shared/components/ui"
 import {
@@ -23,7 +23,7 @@ import {
 export const Navbar = () => {
   const { push } = useRouter()
   const { currentSession, logout } = useAuth()
-
+  const { listNotifications, notify } = useNotifications()
   const [openSearchModal, setOpenSearchModal] = useState<boolean>(false)
   const [openNotificationsModal, setOpenNotificationsModal] =
     useState<boolean>(false)
@@ -31,6 +31,21 @@ export const Navbar = () => {
     useState<boolean>(false)
   const [openCreateCampaignModal, setOpenCreateCampaignModal] =
     useState<boolean>(false)
+
+  useEffect(() => {
+    ;(async () => {
+      if (currentSession) {
+        await listNotifications({
+          recipientId: currentSession.id,
+          navbar: true,
+          currentPage: 1,
+          pageSize: 5
+        }).then((res) => {
+          console.log("listNotifications done", res)
+        })
+      }
+    })()
+  }, [currentSession])
 
   if (!currentSession) return null
 
@@ -107,8 +122,12 @@ export const Navbar = () => {
             variant="modal"
           >
             <Bell />
-            <div className="absolute z-50 top-[4px] right-[7px] rounded-full bg-red-500 w-2 h-2" />
-            <div className="absolute z-50 animate-ping top-[4px] right-[7px] rounded-full bg-red-500 w-2 h-2" />
+            {notify.viewed === false && (
+              <Fragment>
+                <div className="absolute z-50 top-[4px] right-[7px] rounded-full bg-red-500 w-2 h-2" />
+                <div className="absolute z-50 animate-ping top-[4px] right-[7px] rounded-full bg-red-500 w-2 h-2" />
+              </Fragment>
+            )}
           </Button>
 
           <Button action={logout} title="Logout" bgColor="red" variant="modal">

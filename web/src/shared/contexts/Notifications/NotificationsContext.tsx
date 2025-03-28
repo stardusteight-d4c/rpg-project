@@ -5,23 +5,29 @@ import React, {
   createContext,
   useContext,
   useState,
-  ReactNode,
   PropsWithChildren,
 } from "react"
 
 interface NotificationsState {
-  notifications: Map<string, UserNotifications>
+  notify: {
+    notifications: Map<string, INotification>
+    viewed: boolean
+  }
   sendNotification: (notification: INotification) => Promise<void>
   listNotifications: (
-    recipientId: string
-  ) => Promise<ListResponseDTO<UserNotifications>>
+    queryParams: NotificationQueryParams & { navbar: boolean }
+  ) => Promise<NotificationsResponseDTO>
 }
 
 const defaultState: NotificationsState = {
-  notifications: new Map(),
+  notify: {
+    notifications: new Map(),
+    viewed: true,
+  },
   sendNotification: async () => {},
   listNotifications: async () => ({
-    items: [],
+    notifications: [],
+    viewed: true,
     totalItems: 0,
     totalPages: 0,
     currentPage: 1,
@@ -35,23 +41,51 @@ export const NotificationsProvider: React.FC<PropsWithChildren> = ({
   children,
 }) => {
   const api = new MockAPI().initializeRoutes()
-  const [notifications, setNotifications] = useState<
-    Map<string, UserNotifications>
-  >(new Map())
+  const [notify, setNotify] = useState<{
+    notifications: Map<string, INotification>
+    viewed: boolean
+  }>({ notifications: new Map(), viewed: true })
 
-  const listNotifications = async (recipientId: string) => {
+  const listNotifications = async (
+    queryParams: NotificationQueryParams & { navbar: boolean }
+  ) => {
+    const { navbar } = queryParams
     return api.user
-      .notifications({ recipientId })
-      .then((paginationNotifications) => paginationNotifications)
+      .notifications(queryParams)
+      .then((paginationNotifications) => {
+        setNotify((prev) => {
+          let cachedNotifications = {
+            notifications: new Map(prev.notifications),
+            viewed: true,
+          }
+
+          paginationNotifications.notifications.map((notification) =>
+            cachedNotifications.notifications.set(notification.id, notification)
+          )
+
+          if (navbar) {
+            return {
+              notifications: new Map(prev.notifications),
+              viewed: paginationNotifications.viewed,
+            }
+          }
+
+          // enviar requisição para marcar como viewed
+
+          return cachedNotifications
+        })
+
+        return paginationNotifications
+      })
   }
 
   const sendNotification = async (notification: INotification) => {
-    api.user.sendNotification(notification)
+    await api.user.sendNotification(notification)
   }
 
   return (
     <NotificationsContext.Provider
-      value={{ notifications, listNotifications, sendNotification }}
+      value={{ notify, listNotifications, sendNotification }}
     >
       {children}
     </NotificationsContext.Provider>

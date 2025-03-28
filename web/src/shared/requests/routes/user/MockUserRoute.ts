@@ -60,6 +60,10 @@ export class MockUserRoute implements IUserRoute {
       playingCampaigns: 0,
     }
 
+    this.#notifications.set(newUser.id, {
+      notifications: [],
+      viewed: true,
+    })
     this.#users.set(newUser.id, newUser)
     return newUser
   }
@@ -79,7 +83,7 @@ export class MockUserRoute implements IUserRoute {
 
   public async notifications(
     queryParams: NotificationQueryParams
-  ): Promise<ListResponseDTO<UserNotifications>> {
+  ): Promise<NotificationsResponseDTO> {
     await new Promise((resolve) => setTimeout(resolve, 5000))
     const { recipientId, currentPage, pageSize } = queryParams
 
@@ -99,12 +103,8 @@ export class MockUserRoute implements IUserRoute {
     const totalItems = sortedNotifications.length
 
     return {
-      items: [
-        {
-          notifications: sortedNotifications.slice(start, end),
-          viewed: recipient.viewed,
-        },
-      ],
+      notifications: sortedNotifications.slice(start, end),
+      viewed: recipient.viewed,
       totalItems,
       totalPages: Math.ceil(totalItems / (pageSize || 10)),
       currentPage: currentPage || 1,
@@ -218,6 +218,7 @@ export class MockUserRoute implements IUserRoute {
       recipientId: whoIsBeingFollowed.id,
       sender: {
         id: whoIsFollowing.id,
+        name: whoIsFollowing.name,
         avatarUrl: whoIsFollowing.avatarUrl,
         username: whoIsFollowing.username,
       },
