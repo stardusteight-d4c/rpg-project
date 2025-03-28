@@ -18,13 +18,16 @@ export const NotificationsModal: React.FC<{
     totalItems: number | undefined
   }>({
     lastPage: 1,
-    pageSize: 5,
+    pageSize: 1,
     totalItems: undefined,
   })
-  const notifications = Array.from(notify.notifications.values()) ?? []
+  const cachedNotify = notify.get(currentSession!.id)
   const startIndex = (currentPage - 1) * paginationData.pageSize
   const endIndex = startIndex + paginationData.pageSize
-  const paginationNotifications = notifications.slice(startIndex, endIndex)
+  const paginationNotifications = cachedNotify!.notifications.slice(
+    startIndex,
+    endIndex
+  )
 
   useEffect(() => {
     ;(async () => {
@@ -61,9 +64,9 @@ export const NotificationsModal: React.FC<{
       onStatusChange={onStatusChange}
     >
       <Wrapper>
-        <Components.Empty length={notify.notifications.size} />
+        <Components.Empty length={paginationNotifications.length} />
         <Components.View
-          notifications={Array.from(notify.notifications.values())}
+          notifications={Array.from(paginationNotifications.values())}
         />
         <Components.Pagination
           length={paginationNotifications.length}

@@ -39,13 +39,18 @@ export const Navbar = () => {
           recipientId: currentSession.id,
           navbar: true,
           currentPage: 1,
-          pageSize: 5
+          pageSize: 5,
         })
       }
     })()
   }, [currentSession])
 
   if (!currentSession) return null
+
+  const cachedNotify = notify.get(currentSession.id) ?? {
+    notifications: [],
+    viewed: true,
+  }
 
   return (
     <nav className="bg-background fixed inset-x-0 top-0 z-[600] w-screen border-b py-1 border-border shadow-md shadow-black/50 ">
@@ -120,7 +125,7 @@ export const Navbar = () => {
             variant="modal"
           >
             <Bell />
-            {notify.viewed === false && (
+            {cachedNotify.viewed === false && (
               <Fragment>
                 <div className="absolute z-50 top-[4px] right-[7px] rounded-full bg-red-500 w-2 h-2" />
                 <div className="absolute z-50 animate-ping top-[4px] right-[7px] rounded-full bg-red-500 w-2 h-2" />

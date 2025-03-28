@@ -9,10 +9,7 @@ import React, {
 } from "react"
 
 interface NotificationsState {
-  notify: {
-    notifications: Map<string, INotification>
-    viewed: boolean
-  }
+  notify: Map<string, UserNotifications>
   sendNotification: (notification: INotification) => Promise<void>
   listNotifications: (
     queryParams: NotificationQueryParams & { navbar: boolean }
@@ -20,10 +17,7 @@ interface NotificationsState {
 }
 
 const defaultState: NotificationsState = {
-  notify: {
-    notifications: new Map(),
-    viewed: true,
-  },
+  notify: new Map(),
   sendNotification: async () => {},
   listNotifications: async () => ({
     notifications: [],
@@ -41,42 +35,47 @@ export const NotificationsProvider: React.FC<PropsWithChildren> = ({
   children,
 }) => {
   const api = new MockAPI().initializeRoutes()
-  const [notify, setNotify] = useState<{
-    notifications: Map<string, INotification>
-    viewed: boolean
-  }>({ notifications: new Map(), viewed: true })
+  const [notify, setNotify] = useState<Map<string, UserNotifications>>(
+    new Map()
+  )
 
   const listNotifications = async (
     queryParams: NotificationQueryParams & { navbar: boolean }
   ) => {
     const { navbar, recipientId } = queryParams
+    if (!recipientId) throw new Error("recipientId is required.")
     return api.user
       .notifications(queryParams)
       .then((paginationNotifications) => {
         setNotify((prev) => {
-          let cachedNotifications = {
-            notifications: new Map(prev.notifications),
-            viewed: true,
+          const updateCache = new Map(prev)
+          const prevProfileNotifications = updateCache.get(recipientId)
+
+          if (prevProfileNotifications) {
+            updateCache.set(recipientId, {
+              notifications: [
+                ...paginationNotifications.notifications,
+                ...prevProfileNotifications.notifications,
+              ],
+              viewed: navbar ? paginationNotifications.viewed : true,
+            })
+          } else {
+            updateCache.set(recipientId, {
+              notifications: paginationNotifications.notifications,
+              viewed: navbar ? paginationNotifications.viewed : true,
+            })
           }
 
-          paginationNotifications.notifications.map((notification) =>
-            cachedNotifications.notifications.set(notification.id, notification)
-          )
-
-          if (navbar) {
-            return {
-              notifications: new Map(prev.notifications),
-              viewed: paginationNotifications.viewed,
-            }
+          if (!navbar) {
+            api.user.viewedNotifications(recipientId!, true)
           }
 
-          console.log(cachedNotifications);
+          console.log({updateCache});
           
 
-          return cachedNotifications
+          return updateCache
         })
 
-        api.user.viewedNotifications(recipientId!, true)
         return paginationNotifications
       })
   }

@@ -5,7 +5,7 @@ import React from "react"
 export const View: React.FC<{ notifications: INotification[] }> = ({
   notifications,
 }) => {
-  if (notifications.length === 0) return
+  if (notifications && notifications.length === 0) return
 
   return (
     <div className="space-y-2">
