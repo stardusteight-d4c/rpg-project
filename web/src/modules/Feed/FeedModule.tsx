@@ -1,13 +1,13 @@
 import React from "react"
-import { Feed } from "./components"
+import { Components } from "./components"
 
 export function FeedModule() {
   return (
     <Wrapper>
-      <Feed.Navbar />
-      <Feed.Posts />
-      <Feed.Sidebar />
-      <Feed.Footer />
+      <Components.Navbar />
+      <Components.Posts />
+      <Components.Sidebar />
+      <Components.Footer />
     </Wrapper>
   )
 }

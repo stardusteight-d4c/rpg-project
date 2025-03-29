@@ -3,7 +3,7 @@
 import { useParams } from "next/navigation"
 import React, { useEffect, useState } from "react"
 import { useCampaigns } from "@/shared/contexts"
-import { Campaign } from "./components"
+import { Components } from "./components"
 
 export function CampaignModule() {
   const campaignId = useParams().id as string
@@ -24,11 +24,11 @@ export function CampaignModule() {
 
   return (
     <Wrapper>
-      <Campaign.Navbar />
-      <Campaign.Header campaign={campaign} />
-      <Campaign.Details campaign={campaign} />
-      <Campaign.Feed campaign={campaign} />
-      <Campaign.Footer />
+      <Components.Navbar />
+      <Components.Header campaign={campaign} />
+      <Components.Details campaign={campaign} />
+      <Components.Feed campaign={campaign} />
+      <Components.Footer />
     </Wrapper>
   )
 }

@@ -1,12 +1,12 @@
-import { Home } from "./components"
+import { Components } from "./components"
 
 export function HomeModule() {
   return (
     <main>
-      <Home.Nav />
-      <Home.Hero />
-      <Home.About />
-      <Home.Footer />
+      <Components.Nav />
+      <Components.Hero />
+      <Components.About />
+      <Components.Footer />
     </main>
   )
 }

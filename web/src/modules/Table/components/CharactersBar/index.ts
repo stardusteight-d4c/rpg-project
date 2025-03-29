@@ -1,1 +1,0 @@
-export { CharactersBar } from "./CharactersBar"

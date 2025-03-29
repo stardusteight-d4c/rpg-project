@@ -4,7 +4,7 @@ import { Sheets } from "./Sheets"
 import { Campaigns } from "./Campaigns"
 import { Posts } from "./Posts"
 
-export const Profile = {
+export const Components = {
   Navbar,
   Header,
   Sheets,

@@ -1,8 +1,8 @@
 import { useCharacters } from "@/shared/contexts/Characters/CharactersContext"
 import { currentSession } from "@/shared/contexts/Users/mock-data"
-import { DraggableItem } from "../ActiveSection/components/Map/components"
+import { DraggableItem } from "../Main/components/Map/components"
 
-export const CharactersBar = () => {
+export const Sheets = () => {
   const charactersContext = useCharacters()
   const { players, enemies, npcs } = charactersContext.getCharactersByType()
 

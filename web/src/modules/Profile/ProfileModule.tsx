@@ -1,9 +1,9 @@
 "use client"
 
 import { useParams } from "next/navigation"
-import React, { useEffect, useState } from "react"
+import React, { useEffect } from "react"
 import { useUsers } from "@/shared/contexts/Users/UsersContext"
-import { Profile } from "./components"
+import { Components } from "./components"
 
 export function ProfileModule() {
   const params = useParams()
@@ -23,12 +23,12 @@ export function ProfileModule() {
 
   return (
     <Wrapper>
-      <Profile.Navbar />
-      <Profile.Header user={user} />
-      <Profile.Sheets user={user} />
-      <Profile.Campaigns user={user} />
-      <Profile.Posts user={user} />
-      <Profile.Footer />
+      <Components.Navbar />
+      <Components.Header user={user} />
+      <Components.Sheets user={user} />
+      <Components.Campaigns user={user} />
+      <Components.Posts user={user} />
+      <Components.Footer />
     </Wrapper>
   )
 }

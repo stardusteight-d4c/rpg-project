@@ -2,7 +2,7 @@ import { Footer, Navbar } from "@/shared/components/layout"
 import { Posts } from "./Post"
 import { Sidebar } from "./Sidebar"
 
-export const Feed = {
+export const Components = {
   Navbar,
   Posts,
   Sidebar,

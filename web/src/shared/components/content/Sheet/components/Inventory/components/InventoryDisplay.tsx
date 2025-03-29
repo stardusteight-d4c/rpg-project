@@ -1,8 +1,8 @@
 "use client"
 
 import { useState } from "react"
-import { HandoutDisplay } from "@/modules/Table/components/ActiveSection/components/Handouts/components/HandoutDisplay"
-import { HandoutModalWrapper } from "@/modules/Table/components/ActiveSection/components/Handouts/components/HandoutModalWrapper"
+import { HandoutDisplay } from "@/modules/Table/components/Main/components/Handouts/components/HandoutDisplay"
+import { HandoutModalWrapper } from "@/modules/Table/components/Main/components/Handouts/components/HandoutModalWrapper"
 import { useCharacters } from "@/shared/contexts"
 
 interface InventoryDisplayProps {

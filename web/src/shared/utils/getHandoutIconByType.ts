@@ -1,4 +1,4 @@
-import { handoutsTypes } from "@/modules/Table/components/ActiveSection/components/Handouts/data";
+import { handoutsTypes } from "@/modules/Table/components/Main/components/Handouts/data";
 
 export function getHandoutIconByType(type: string): string | undefined {
   const match = handoutsTypes.find((item) => item.type === type);
