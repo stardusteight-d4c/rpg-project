@@ -17,6 +17,7 @@ export const Navbar: React.FC<{
   openSheetModal: boolean
   onOpenSheetModal: (value: boolean) => void
   onTabChange: (value: "TableSheets" | "MySheets") => void
+  currentTab: "TableSheets" | "MySheets"
 }> = ({
   selectedSheet,
   sheetType,
@@ -24,6 +25,7 @@ export const Navbar: React.FC<{
   onSelectSheetType,
   onOpenSheetModal,
   onTabChange,
+  currentTab,
 }) => {
   const [openCreateSheetModal, setOpenCreateSheetModal] =
     useState<boolean>(false)
@@ -54,6 +56,7 @@ export const Navbar: React.FC<{
             title="Table Sheets"
             bgColor="gradientBlue"
             variant="modal"
+            active={currentTab === "TableSheets"}
           >
             <AddressBook />
           </Button>
@@ -63,6 +66,7 @@ export const Navbar: React.FC<{
             title="My Sheets"
             bgColor="gradientBlue"
             variant="modal"
+            active={currentTab === "MySheets"}
           >
             <IdentificationBadge />
           </Button>
@@ -72,6 +76,7 @@ export const Navbar: React.FC<{
             title="New Sheet"
             bgColor="gradientBlue"
             variant="modal"
+            active={openCreateSheetModal}
           >
             <PlusCircle />
           </Button>

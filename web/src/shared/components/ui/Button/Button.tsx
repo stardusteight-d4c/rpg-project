@@ -10,9 +10,9 @@ interface ButtonProps {
   children?: React.ReactNode
   bgColor?: "blue" | "green" | "red" | "gradientPurple" | "gradientBlue"
   variant?: "modal" | "default" | "icon" | "textIcon"
-  disabled?: boolean
   className?: string
-  active?: string 
+  disabled?: boolean
+  active?: boolean
 }
 
 export const Button: React.FC<ButtonProps> = ({
@@ -24,7 +24,7 @@ export const Button: React.FC<ButtonProps> = ({
   bgColor = "blue",
   variant = "default",
   disabled,
-  active
+  active,
 }) => {
   const [isLoading, setIsLoading] = useState(false)
 
@@ -79,7 +79,9 @@ export const Button: React.FC<ButtonProps> = ({
         className={`${className} cursor-pointer disabled:cursor-not-allowed disabled:brightness-90 w-fit flex items-center group gap-x-2`}
       >
         <div
-          className={`${isLoading ? bgColors.default[bgColor] : " bg-ashes "} ${
+          className={`${
+            isLoading || active ? bgColors.default[bgColor] : " bg-ashes "
+          } ${
             !disabled && bgColors.onGroupHover[bgColor]
           } modal-button relative flex items-center justify-center !fill-white !text-white p-1 rounded-full shadow-md shadow-black/50 duration-300 ease-in-out transition-all`}
         >

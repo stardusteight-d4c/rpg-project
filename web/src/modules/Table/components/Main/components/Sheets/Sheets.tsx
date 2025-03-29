@@ -14,7 +14,7 @@ export const Sheets = () => {
     undefined
   )
   const [openSheetModal, setOpenSheetModal] = useState<boolean>(false)
-  const [activeTab, setActiveTab] = useState<"TableSheets" | "MySheets">(
+  const [currentTab, setCurrentTab] = useState<"TableSheets" | "MySheets">(
     "TableSheets"
   )
 
@@ -31,13 +31,19 @@ export const Sheets = () => {
         selectedSheet={selectedSheet}
         onOpenSheetModal={setOpenSheetModal}
         openSheetModal={openSheetModal}
-        onTabChange={setActiveTab}
+        onTabChange={setCurrentTab}
+        currentTab={currentTab}
       />
-      <Components.Display
-        onSelectSheet={onSelectedSheet}
-        sheetType={sheetType}
-        sheets={sheets}
-      />
+
+      {currentTab === "TableSheets" && "All Players and DM Active Sheets"}
+
+      {currentTab === "MySheets" && (
+        <Components.Display
+          onSelectSheet={onSelectedSheet}
+          sheetType={sheetType}
+          sheets={sheets}
+        />
+      )}
     </section>
   )
 }
