@@ -12,6 +12,7 @@ interface ButtonProps {
   variant?: "modal" | "default" | "icon" | "textIcon"
   disabled?: boolean
   className?: string
+  active?: string 
 }
 
 export const Button: React.FC<ButtonProps> = ({
@@ -22,7 +23,8 @@ export const Button: React.FC<ButtonProps> = ({
   className,
   bgColor = "blue",
   variant = "default",
-  disabled = false,
+  disabled,
+  active
 }) => {
   const [isLoading, setIsLoading] = useState(false)
 

@@ -1,5 +1,5 @@
 type Gender = "male" | "female" | "neuter"
-type CharacterType = "player" | "npc" | "enemy"
+type SheetType = "player" | "npc" | "enemy"
 
 type Infos = {
   type: CharacterType

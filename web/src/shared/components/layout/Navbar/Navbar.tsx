@@ -53,7 +53,7 @@ export const Navbar = () => {
   }
 
   return (
-    <nav className="bg-background fixed inset-x-0 top-0 z-[600] w-screen border-b py-1 border-border shadow-md shadow-black/50 ">
+    <nav className="bg-background fixed inset-x-0 top-0 z-[600] w-screen border-b py-1 border-border shadow-md shadow-black/50">
       <CreateSheetModal
         status={openCreateSheetModal}
         onStatusChange={setOpenCreateSheetModal}

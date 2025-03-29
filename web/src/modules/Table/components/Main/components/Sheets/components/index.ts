@@ -1,3 +1,7 @@
-// export { SelectedCharacterDisplay } from "./CharactersDisplay"
-// export { CharactersDisplay } from "./CharactersDisplay"
-// export { CharactersEdit } from "./CharactersEdit"
+import { Display } from "./Display"
+import { Navbar } from "./Navbar"
+
+export const Components = {
+  Navbar,
+  Display
+}
