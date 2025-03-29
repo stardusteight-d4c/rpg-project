@@ -3,23 +3,23 @@
 import React, { createContext, useContext, useState, ReactNode } from "react"
 import { rolls as mockRolls } from "./mock-data"
 
-interface RollsState {
+interface TableRollsState {
   rolls: IRoll[]
   openDiceModal: boolean
   setOpenDiceModal: (value: boolean) => void
   addRoll: (roll: IRoll) => void
 }
 
-const defaultState: RollsState = {
+const defaultState: TableRollsState = {
   rolls: [],
   openDiceModal: false,
   setOpenDiceModal: () => {},
   addRoll: () => {},
 }
 
-const RollsContext = createContext<RollsState>(defaultState)
+const TableRollsContext = createContext<TableRollsState>(defaultState)
 
-export const RollsProvider: React.FC<{ children: ReactNode }> = ({
+export const TableRollsProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const [rolls, setRolls] = useState<IRoll[]>(mockRolls)
@@ -30,18 +30,18 @@ export const RollsProvider: React.FC<{ children: ReactNode }> = ({
   }
 
   return (
-    <RollsContext.Provider
+    <TableRollsContext.Provider
       value={{ rolls, addRoll, openDiceModal, setOpenDiceModal }}
     >
       {children}
-    </RollsContext.Provider>
+    </TableRollsContext.Provider>
   )
 }
 
-export const useRolls = () => {
-  const context = useContext(RollsContext)
+export const useTableRolls = () => {
+  const context = useContext(TableRollsContext)
   if (!context) {
-    throw new Error("useRolls must be used within a RollsProvider")
+    throw new Error("useTableRolls must be used within a TableRollsProvider")
   }
   return context
 }

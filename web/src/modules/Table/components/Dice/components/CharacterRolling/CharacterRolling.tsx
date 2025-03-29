@@ -1,4 +1,4 @@
-import { useRolls } from "@/shared/contexts/Rolls/RollsContext"
+import { useTableRolls } from "@/shared/contexts"
 import { useState } from "react"
 
 interface CharacterRollingProps {
@@ -17,7 +17,7 @@ export const CharacterRolling = ({
   mode,
 }: CharacterRollingProps) => {
   if (mode !== "character") return null
-  const { addRoll, setOpenDiceModal } = useRolls()
+  const { addRoll, setOpenDiceModal } = useTableRolls()
   const [selectedAttribute, setSelectedAttribute] = useState<{
     name: string
     value: number
@@ -55,7 +55,7 @@ export const CharacterRolling = ({
       },
       createdAt: new Date().toISOString(),
     })
-    setOpenDiceModal("close")
+    setOpenDiceModal(true)
   }
 
   return (

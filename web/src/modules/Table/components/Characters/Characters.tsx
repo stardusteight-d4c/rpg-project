@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { useCharacters } from "@/shared/contexts/Characters/CharactersContext"
 import { Button } from "@/shared/components/ui"
-import { AddressBook, PlusCircle } from "@/shared/components/ui/icons"
+import { AddressBook, IdentificationBadge, PlusCircle, UsersThree } from "@/shared/components/ui/icons"
 import {
   CreateSheetModal,
   SheetModal,
@@ -14,15 +14,9 @@ import { ProfileInfo } from "@/shared/components/content/Sheet/components/Profil
 export const Characters = () => {
   const characters = useCharacters().characters
   const { lastRequestProfileSheetsData } = useSheets()
-  const [selectedCharacter, setSelectedCharacter] = useState<ISheet | null>(
-    null
-  )
   const { currentSession } = useAuth()
-  const [editMode, setEditMode] = useState<boolean>(false)
   const [openCreateSheetModal, setOpenCreateSheetModal] =
     useState<boolean>(false)
-  const selectedCharacterState = { selectedCharacter, setSelectedCharacter }
-  const { updateCopyCharacter } = useCharacters()
   const [activeCharacterType, setActiveCharacterType] = useState<
     "Players" | "NPCs" | "Enemies"
   >("Players")
@@ -58,32 +52,6 @@ export const Characters = () => {
     enemy: "Enemies",
   }
 
-  // if (editMode)
-  //   return (
-  //     <CharactersEdit
-  //       setEditMode={setEditMode}
-  //       playerCharacter={selectedCharacter!}
-  //     />
-  //   )
-
-  // if (selectedCharacter)
-  //   return (
-  //     <SelectedCharacterDisplay
-  //       setEditMode={setEditMode}
-  //       {...selectedCharacterState}
-  //     />
-  //   )
-
-  // if (!selectedCharacter)
-  //   return (
-  //     <CharactersDisplay
-  //       setCreateMode={setCreateMode}
-  //       setEditMode={setEditMode}
-  //       characters={characters}
-  //       {...selectedCharacterState}
-  //     />
-  //   )
-
   const onSelectedSheet = (sheet: ISheet) => {
     setSelectedSheet(sheet)
     setOpenSheetModal(true)
@@ -104,6 +72,24 @@ export const Characters = () => {
       <div className="sticky border-b border-border  shadow-sm shadow-black/50 z-50 top-0 p-2 w-full inset-x-0 bg-background">
         <div className="flex items-center gap-x-4">
           <Button
+            action={() => {}}
+            title="Table Sheets"
+            bgColor="gradientBlue"
+            variant="modal"
+          >
+            <AddressBook />
+          </Button>
+
+          <Button
+            action={() => setOpenCreateSheetModal(true)}
+            title="My Sheets"
+            bgColor="gradientBlue"
+            variant="modal"
+          >
+            <IdentificationBadge />
+          </Button>
+
+          <Button
             action={() => setOpenCreateSheetModal(true)}
             title="New Sheet"
             bgColor="gradientBlue"
@@ -111,15 +97,7 @@ export const Characters = () => {
           >
             <PlusCircle />
           </Button>
-          <Button
-            action={() => {}}
-            title="My Sheets"
-            bgColor="gradientBlue"
-            variant="modal"
-          >
-            <AddressBook />
-          </Button>
-
+          
           <div className="flex group items-center gap-x-2 w-fit cursor-pointer">
             <button className="bg-ashes relative flex items-center justify-center text-white p-1 rounded-full  shadow-md shadow-black/50 group-hover:bg-gradient-to-tr group-hover:from-[#42d392] group-hover:to-[#8B5CF6] duration-300 ease-in-out transition-all">
               <svg

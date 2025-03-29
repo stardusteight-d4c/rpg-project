@@ -79,7 +79,7 @@ export const Button: React.FC<ButtonProps> = ({
         <div
           className={`${isLoading ? bgColors.default[bgColor] : " bg-ashes "} ${
             !disabled && bgColors.onGroupHover[bgColor]
-          } relative flex items-center justify-center !fill-white !text-white p-1 rounded-full shadow-md shadow-black/50 duration-300 ease-in-out transition-all`}
+          } modal-button relative flex items-center justify-center !fill-white !text-white p-1 rounded-full shadow-md shadow-black/50 duration-300 ease-in-out transition-all`}
         >
           {isLoading ? <Loader /> : children}
         </div>

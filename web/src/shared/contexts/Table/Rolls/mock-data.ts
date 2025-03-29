@@ -1,4 +1,4 @@
-import { characters } from "../Characters/mock-data"
+import { characters } from "../../Characters/mock-data";
 
 export const rolls: IRoll[] = [
   {

@@ -1,4 +1,4 @@
-import { useRolls } from "@/shared/contexts/Rolls/RollsContext"
+import { useTableRolls } from "@/shared/contexts"
 import { useState } from "react"
 
 interface SystemRollingProps {
@@ -6,9 +6,12 @@ interface SystemRollingProps {
   playerCharacter: ISheet
 }
 
-export const SystemRolling = ({ mode, playerCharacter }: SystemRollingProps) => {
+export const SystemRolling = ({
+  mode,
+  playerCharacter,
+}: SystemRollingProps) => {
   if (mode !== "system") return null
-  const { addRoll, setOpenDiceModal } = useRolls()
+  const { addRoll, setOpenDiceModal } = useTableRolls()
   const [numDice, setNumDice] = useState<number>(1)
   const [diceType, setDiceType] = useState<number>(6)
 
@@ -28,14 +31,14 @@ export const SystemRolling = ({ mode, playerCharacter }: SystemRollingProps) => 
       id: crypto.randomUUID(),
       character: playerCharacter,
       systemRoll: {
-       diceQuantity: numDice,
-       diceType: diceType,
-       rolled: rolls,
-       total: rolls.reduce((acc, num) => acc + num, 0)
+        diceQuantity: numDice,
+        diceType: diceType,
+        rolled: rolls,
+        total: rolls.reduce((acc, num) => acc + num, 0),
       },
       createdAt: new Date().toISOString(),
     })
-    setOpenDiceModal("close")
+    setOpenDiceModal(true)
   }
 
   return (

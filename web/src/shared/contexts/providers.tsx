@@ -7,18 +7,20 @@ import { UsersProvider } from "./Users/UsersContext"
 import { CharactersProvider } from "./Characters/CharactersContext"
 import { MapsProvider } from "./Maps/MapsContext"
 import { NotificationsProvider } from "./Notifications/NotificationsContext"
-import { RollsProvider } from "./Rolls/RollsContext"
 import { CampaignsProvider } from "./Campaigns/CampaignsContext"
 import { ToastProvider } from "./Toaster/ToasterContext"
 import { SheetsProvider } from "./Sheets/SheetsContext"
 import { PostsProvider } from "./Posts/PostsContext"
+import { TableRollsProvider } from "./Table/Rolls/TableRollsContext"
+import { TableSheetsProvider } from "./Table/Sheets/TableSheetsContext"
 
 const providers = [
   AuthProvider,
   ToastProvider,
   CampaignsProvider,
   PostsProvider,
-  RollsProvider,
+  TableSheetsProvider,
+  TableRollsProvider,
   NotificationsProvider,
   UsersProvider,
   SheetsProvider,

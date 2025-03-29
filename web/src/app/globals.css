@@ -35,6 +35,11 @@ body {
   height: 32px;
 }
 
+.modal-button svg {
+  width: 24px;
+  height: 24px;
+}
+
 /* Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
