@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react"
 import { AudioPlayer } from "./components/AudioPlayer"
 
-export const Sounds = () => {
+export const SoundPad = () => {
   const [sounds, setSounds] = useState<Sound[]>([])
 
   useEffect(() => {

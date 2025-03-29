@@ -1,7 +1,7 @@
 type MenuItem =
   | "map"
   | "dice"
-  | "characters"
+  | "sheets"
   | "handouts"
   | "notifications"
   | "chat"

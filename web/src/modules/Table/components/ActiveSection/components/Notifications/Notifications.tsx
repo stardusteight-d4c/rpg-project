@@ -1,6 +1,6 @@
 "use client"
 
-import { currentSession } from "../../../../shared/contexts/Users/mock-data"
+import { currentSession } from "../../../../../../shared/contexts/Users/mock-data"
 import { PlayerNotification } from "./components/PlayerNotification"
 import { MasterNotification } from "./components/MasterNotification"
 import { GlowingWrapper } from "@/shared/components/ui"

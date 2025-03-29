@@ -1,0 +1,1 @@
+export { SoundPad } from "./SoundPad"

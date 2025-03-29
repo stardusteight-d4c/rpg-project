@@ -11,7 +11,7 @@ import {
 import { useAuth, useSheets } from "@/shared/contexts"
 import { ProfileInfo } from "@/shared/components/content/Sheet/components/ProfileInfo"
 
-export const Characters = () => {
+export const Sheets = () => {
   const characters = useCharacters().characters
   const { lastRequestProfileSheetsData } = useSheets()
   const { currentSession } = useAuth()
