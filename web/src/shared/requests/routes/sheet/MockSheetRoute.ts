@@ -44,6 +44,41 @@ export class MockSheetRoute implements ISheetRoute {
     this.#sheets.delete(sheetId)
   }
 
+  public async toggleSheetInCampaign(
+    sheetId: string,
+    tableId: string
+  ): Promise<ISheet[]> {
+    await new Promise((resolve) => setTimeout(resolve, 5000))
+
+    const sheet = this.#sheets.get(sheetId)
+    if (!sheet) throw new Error("Sheet not found.")
+
+    const existingSheet = Array.from(this.#sheets.values()).find(
+      (s) => s.tableId === tableId && s.owner.id === sheet.owner.id
+    )
+
+    const updatedSheets = []
+
+    if (existingSheet) {
+      const updatedExistingSheet = {
+        ...existingSheet,
+        tableId: undefined,
+      }
+      this.#sheets.set(existingSheet.id, updatedExistingSheet)
+      updatedSheets.push(updatedExistingSheet)
+    }
+
+    const newActiveSheet = {
+      ...sheet,
+      tableId,
+    }
+
+    this.#sheets.set(sheet.id, newActiveSheet)
+    updatedSheets.push(newActiveSheet)
+
+    return updatedSheets
+  }
+
   public async list(
     queryParams: SheetQueryParams
   ): Promise<ListResponseDTO<ISheet>> {

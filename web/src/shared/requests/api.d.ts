@@ -34,6 +34,7 @@ interface ISheetRoute {
   update(sheet: Partial<ISheet>): Promise<ISheet>
   delete(sheetId: string): Promise<void>
   list(queryParams: SheetQueryParams): Promise<ListResponseDTO<ISheet>>
+  toggleSheetInCampaign(sheetId: string, tableId: string): Promise<ISheet[]>
 }
 
 interface ICampaignRoute {

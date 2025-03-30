@@ -12,6 +12,7 @@ interface SheetsState {
   getSheetsByUser: (
     queryParams: SheetQueryParams
   ) => Promise<ListResponseDTO<ISheet> | void>
+  toggleSheetInCampaign: (sheetId: string, tableId: string) => Promise<void>
 }
 
 const defaultState: SheetsState = {
@@ -20,6 +21,7 @@ const defaultState: SheetsState = {
   update: async () => {},
   getSheetsByUser: async () => ({ items: [], totalItems: 0, totalPages: 0 }),
   remove: async () => {},
+  toggleSheetInCampaign: async () => {},
 }
 
 const SheetsContext = createContext<SheetsState>(defaultState)
@@ -59,6 +61,28 @@ export const SheetsProvider: React.FC<{ children: ReactNode }> = ({
         })
       }
 
+      return newCache
+    })
+  }
+
+  const updateSheetInLocalState = (updatedSheet: ISheet) => {
+    setLastRequestProfileSheetsData((prev) => {
+      const newCache = new Map(prev)
+      const prevProfileRequest = newCache.get(updatedSheet.owner.id)
+
+      if (prevProfileRequest) {
+        newCache.set(updatedSheet.owner.id, {
+          ...prevProfileRequest,
+          items: Array.from(
+            sortSheetsMap(
+              new Map(prevProfileRequest.items.map((p) => [p.id, p])).set(
+                updatedSheet.id,
+                updatedSheet
+              )
+            ).values()
+          ),
+        })
+      }
       return newCache
     })
   }
@@ -145,30 +169,21 @@ export const SheetsProvider: React.FC<{ children: ReactNode }> = ({
     return await api.sheet
       .update(sheet)
       .then((updatedSheet) => {
-        setLastRequestProfileSheetsData((prev) => {
-          const newCache = new Map(prev)
-          const prevProfileRequest = newCache.get(updatedSheet.owner.id)
-
-          if (prevProfileRequest) {
-            newCache.set(updatedSheet.owner.id, {
-              ...prevProfileRequest,
-              items: Array.from(
-                sortSheetsMap(
-                  new Map(prevProfileRequest.items.map((p) => [p.id, p])).set(
-                    updatedSheet.id,
-                    updatedSheet
-                  )
-                ).values()
-              ),
-            })
-          }
-          return newCache
-        })
-
+        updateSheetInLocalState(updatedSheet)
         return updatedSheet
       })
       .catch((error) => {
         throw new Error(error.message)
+      })
+  }
+
+  const toggleSheetInCampaign = async (sheetId: string, tableId: string) => {
+    return await api.sheet
+      .toggleSheetInCampaign(sheetId, tableId)
+      .then((updatedSheets) => {
+        updatedSheets.map((updatedSheet) =>
+          updateSheetInLocalState(updatedSheet)
+        )
       })
   }
 
@@ -180,6 +195,7 @@ export const SheetsProvider: React.FC<{ children: ReactNode }> = ({
         add,
         update,
         remove,
+        toggleSheetInCampaign,
       }}
     >
       {children}

@@ -8,13 +8,21 @@ export const SheetModal: React.FC<{
   status: boolean
   onStatusChange: (value: boolean) => void
   sheet: ISheet
-}> = ({ status, onStatusChange, sheet }) => {
+  showSelectActive: boolean
+}> = ({ status, onStatusChange, sheet, showSelectActive }) => {
   const [editSheet, setEditSheet] = useState<boolean>(false)
 
   if (!sheet) return null
 
   const handleSheetMode = () => {
-    if (!editSheet) return <DisplaySheet sheet={sheet} onEdit={setEditSheet} />
+    if (!editSheet)
+      return (
+        <DisplaySheet
+          sheet={sheet}
+          onEdit={setEditSheet}
+          showSelectActive={showSelectActive}
+        />
+      )
     return (
       <EditSheet
         sheet={sheet}

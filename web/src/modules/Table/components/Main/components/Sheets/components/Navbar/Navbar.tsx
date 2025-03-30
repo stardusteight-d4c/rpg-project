@@ -11,19 +11,13 @@ import {
 import React, { Fragment, useState } from "react"
 
 export const Navbar: React.FC<{
-  selectedSheet: ISheet | undefined
   sheetType: SheetType
   onSelectSheetType: (type: SheetType) => void
-  openSheetModal: boolean
-  onOpenSheetModal: (value: boolean) => void
   onTabChange: (value: "TableSheets" | "MySheets") => void
   currentTab: "TableSheets" | "MySheets"
 }> = ({
-  selectedSheet,
   sheetType,
-  openSheetModal,
   onSelectSheetType,
-  onOpenSheetModal,
   onTabChange,
   currentTab,
 }) => {
@@ -44,11 +38,7 @@ export const Navbar: React.FC<{
         status={openCreateSheetModal}
         onStatusChange={setOpenCreateSheetModal}
       />
-      <SheetModal
-        status={openSheetModal}
-        onStatusChange={onOpenSheetModal}
-        sheet={selectedSheet!}
-      />
+   
       <div className="sticky border-b border-border shadow-sm shadow-black/50 z-50 top-0 p-2 w-full inset-x-0 bg-background">
         <div className="flex items-center gap-x-4">
           <Button
