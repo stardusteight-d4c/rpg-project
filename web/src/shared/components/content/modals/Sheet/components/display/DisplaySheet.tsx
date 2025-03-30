@@ -27,9 +27,6 @@ export const DisplaySheet: React.FC<{
     })
   }
 
-console.log(sheet);
-
-
   const onToggleSheetInCampaign = async (sheetId: string, tableId: string) => {
     await toggleSheetInCampaign(sheetId, tableId)
     if (activeSheet === tableId) {

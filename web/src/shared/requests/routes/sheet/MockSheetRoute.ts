@@ -86,15 +86,27 @@ export class MockSheetRoute implements ISheetRoute {
 
     let filteredSheets = Array.from(this.#sheets.values())
 
-    if (queryParams?.sheetId) {
+    if (queryParams.sheetId) {
       filteredSheets = filteredSheets.filter(
         (sheet) => sheet.id === queryParams.sheetId
       )
     }
 
-    if (queryParams?.ownerId) {
+    if (queryParams.ownerId) {
       filteredSheets = filteredSheets.filter(
         (sheet) => sheet.owner.id === queryParams.ownerId
+      )
+    }
+
+    if (queryParams.tableId) {
+      filteredSheets = filteredSheets.filter(
+        (sheet) => sheet.tableId === queryParams.tableId
+      )
+    }
+
+    if (queryParams.isActive !== undefined) {
+      filteredSheets = filteredSheets.filter(
+        (sheet) => Boolean(sheet.tableId) === queryParams.isActive
       )
     }
 
@@ -104,16 +116,11 @@ export class MockSheetRoute implements ISheetRoute {
     )
 
     const totalItems = filteredSheets.length
-
-    const page = queryParams?.currentPage ?? 1
-
-    const pageSize = queryParams?.pageSize ?? 10
-
+    const page = queryParams.currentPage ?? 1
+    const pageSize = queryParams.pageSize ?? 10
     const totalPages = Math.ceil(totalItems / pageSize)
-
     const startIndex = (page - 1) * pageSize
     const endIndex = startIndex + pageSize
-
     const paginatedSheets = filteredSheets.slice(startIndex, endIndex)
 
     return {

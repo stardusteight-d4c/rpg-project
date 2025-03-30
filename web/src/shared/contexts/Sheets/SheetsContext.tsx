@@ -5,6 +5,7 @@ import { MockAPI } from "@/shared/requests/MockAPI"
 import { sortArrayOfMapObjectByCreatedAt } from "@/shared/utils"
 
 interface SheetsState {
+  activePlayerSheet: Map<string, ISheet | undefined>
   lastRequestProfileSheetsData: Map<string, ListResponseDTO<ISheet>>
   add: (sheet: ISheet) => Promise<ISheet | void>
   update: (sheet: Partial<ISheet>) => Promise<ISheet | void>
@@ -13,15 +14,18 @@ interface SheetsState {
     queryParams: SheetQueryParams
   ) => Promise<ListResponseDTO<ISheet> | void>
   toggleSheetInCampaign: (sheetId: string, tableId: string) => Promise<void>
+  getActivePlayerSheet: (ownerId: string, tableId: string) => Promise<void>
 }
 
 const defaultState: SheetsState = {
+  activePlayerSheet: new Map(),
   lastRequestProfileSheetsData: new Map(),
   add: async () => {},
   update: async () => {},
   getSheetsByUser: async () => ({ items: [], totalItems: 0, totalPages: 0 }),
   remove: async () => {},
   toggleSheetInCampaign: async () => {},
+  getActivePlayerSheet: async () => {},
 }
 
 const SheetsContext = createContext<SheetsState>(defaultState)
@@ -30,6 +34,7 @@ export const SheetsProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const api = new MockAPI().initializeRoutes()
+  const [activePlayerSheet, setActivePlayerSheet] = useState(new Map())
   const [lastRequestProfileSheetsData, setLastRequestProfileSheetsData] =
     useState<Map<string, ListResponseDTO<ISheet>>>(new Map())
 
@@ -184,18 +189,49 @@ export const SheetsProvider: React.FC<{ children: ReactNode }> = ({
         updatedSheets.map((updatedSheet) =>
           updateSheetInLocalState(updatedSheet)
         )
+        const newActiveSheet = updatedSheets.find(
+          (sheet) => sheet.id === sheetId && sheet.tableId !== undefined
+        )
+
+        if (newActiveSheet) {
+          setActivePlayerSheet((prev) => {
+            const updateCahe = new Map(prev)
+            updateCahe.set(tableId, newActiveSheet)
+            return updateCahe
+          })
+        } else {
+          setActivePlayerSheet((prev) => {
+            const updateCahe = new Map(prev)
+            updateCahe.delete(tableId)
+            return updateCahe
+          })
+        }
+      })
+  }
+
+  const getActivePlayerSheet = async (ownerId: string, tableId: string) => {
+    return await api.sheet
+      .list({ ownerId, tableId, isActive: true })
+      .then((res) => {
+        setActivePlayerSheet((prev) => {
+          const updateCahe = new Map(prev)
+          updateCahe.set(tableId, res.items[0])
+          return updateCahe
+        })
       })
   }
 
   return (
     <SheetsContext.Provider
       value={{
+        activePlayerSheet,
         lastRequestProfileSheetsData,
         getSheetsByUser,
         add,
         update,
         remove,
         toggleSheetInCampaign,
+        getActivePlayerSheet,
       }}
     >
       {children}

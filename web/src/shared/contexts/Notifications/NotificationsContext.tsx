@@ -70,9 +70,6 @@ export const NotificationsProvider: React.FC<PropsWithChildren> = ({
             api.user.viewedNotifications(recipientId!, true)
           }
 
-          console.log({updateCache});
-          
-
           return updateCache
         })
 

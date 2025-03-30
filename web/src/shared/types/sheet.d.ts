@@ -111,6 +111,8 @@ interface ISheet {
 interface SheetQueryParams extends ListQueryParams {
   sheetId?: string
   ownerId?: string
+  tableId?: string 
+  isActive?: boolean
 }
 
 type SheetItems = "attributes" | "skills" | "inventory" | "combat" | "backstory"

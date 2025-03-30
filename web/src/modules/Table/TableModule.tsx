@@ -1,10 +1,23 @@
 "use client"
 
+import { useAuth, useSheets } from "@/shared/contexts"
 import { Components } from "./components"
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
+import { useParams } from "next/navigation"
 
 export function TableModule() {
   const [active, setActive] = useState<MenuItem>("map")
+  const { getActivePlayerSheet } = useSheets()
+  const tableId = useParams().id as string
+  const { currentSession } = useAuth()
+
+  useEffect(() => {
+    ;(async () => {
+      if (tableId && currentSession) {
+        await getActivePlayerSheet(currentSession.id, tableId)
+      }
+    })()
+  }, [])
 
   return (
     <Wrapper>

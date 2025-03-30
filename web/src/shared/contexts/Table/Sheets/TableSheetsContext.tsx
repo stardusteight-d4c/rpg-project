@@ -1,5 +1,6 @@
 "use client"
 
+import { MockAPI } from "@/shared/requests/MockAPI"
 import React, { createContext, useContext, useState, ReactNode } from "react"
 
 interface TableSheetsState {
@@ -17,10 +18,13 @@ const TableSheetsContext = createContext<TableSheetsState>(defaultState)
 export const TableSheetsProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
+  const api = new MockAPI().initializeRoutes()
   const [activePlayerSheet, setActivePlayerSheet] = useState<
     ISheet | undefined
   >(undefined)
   const [activeTableSheets, setActiveTableSheets] = useState<ISheet[]>([])
+
+  
 
   return (
     <TableSheetsContext.Provider
