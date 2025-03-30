@@ -5,7 +5,8 @@ import { MockAPI } from "@/shared/requests/MockAPI"
 import { sortArrayOfMapObjectByCreatedAt } from "@/shared/utils"
 
 interface SheetsState {
-  activePlayerSheet: Map<string, ISheet | undefined>
+  activeTableSheets: Map<string, { sheets: ISheet[] }>
+  activeTablePlayerSheet: Map<string, ISheet>
   lastRequestProfileSheetsData: Map<string, ListResponseDTO<ISheet>>
   add: (sheet: ISheet) => Promise<ISheet | void>
   update: (sheet: Partial<ISheet>) => Promise<ISheet | void>
@@ -15,10 +16,12 @@ interface SheetsState {
   ) => Promise<ListResponseDTO<ISheet> | void>
   toggleSheetInCampaign: (sheetId: string, tableId: string) => Promise<void>
   getActivePlayerSheet: (ownerId: string, tableId: string) => Promise<void>
+  getActiveTableSheets: (tableId: string) => Promise<void>
 }
 
 const defaultState: SheetsState = {
-  activePlayerSheet: new Map(),
+  activeTableSheets: new Map(),
+  activeTablePlayerSheet: new Map(),
   lastRequestProfileSheetsData: new Map(),
   add: async () => {},
   update: async () => {},
@@ -26,6 +29,7 @@ const defaultState: SheetsState = {
   remove: async () => {},
   toggleSheetInCampaign: async () => {},
   getActivePlayerSheet: async () => {},
+  getActiveTableSheets: async () => {},
 }
 
 const SheetsContext = createContext<SheetsState>(defaultState)
@@ -34,7 +38,12 @@ export const SheetsProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const api = new MockAPI().initializeRoutes()
-  const [activePlayerSheet, setActivePlayerSheet] = useState(new Map())
+  const [activeTablePlayerSheet, setActivePlayerSheet] = useState<
+    Map<string, ISheet>
+  >(new Map())
+  const [activeTableSheets, setActiveTableSheets] = useState<
+    Map<string, { sheets: ISheet[] }>
+  >(new Map())
   const [lastRequestProfileSheetsData, setLastRequestProfileSheetsData] =
     useState<Map<string, ListResponseDTO<ISheet>>>(new Map())
 
@@ -206,6 +215,20 @@ export const SheetsProvider: React.FC<{ children: ReactNode }> = ({
             return updateCahe
           })
         }
+
+        setActiveTableSheets((prev) => {
+          const updateCahe = new Map(prev)
+          const existingTableSheets = updateCahe.get(tableId)?.sheets ?? []
+          if (existingTableSheets && newActiveSheet) {
+            const removeOldPlayerSheet = existingTableSheets.filter(
+              (tableSheet) => tableSheet.owner.id !== newActiveSheet.owner.id
+            )
+            updateCahe.set(tableId, {
+              sheets: [newActiveSheet, ...removeOldPlayerSheet],
+            })
+          }
+          return updateCahe
+        })
       })
   }
 
@@ -221,10 +244,22 @@ export const SheetsProvider: React.FC<{ children: ReactNode }> = ({
       })
   }
 
+  const getActiveTableSheets = async (tableId: string) => {
+    return await api.sheet.list({ tableId, isActive: true }).then((res) => {
+      const activeSheets = res.items
+      setActiveTableSheets((prev) => {
+        const updateCahe = new Map(prev)
+        updateCahe.set(tableId, { sheets: activeSheets })
+        return updateCahe
+      })
+    })
+  }
+
   return (
     <SheetsContext.Provider
       value={{
-        activePlayerSheet,
+        activeTableSheets,
+        activeTablePlayerSheet,
         lastRequestProfileSheetsData,
         getSheetsByUser,
         add,
@@ -232,6 +267,7 @@ export const SheetsProvider: React.FC<{ children: ReactNode }> = ({
         remove,
         toggleSheetInCampaign,
         getActivePlayerSheet,
+        getActiveTableSheets,
       }}
     >
       {children}

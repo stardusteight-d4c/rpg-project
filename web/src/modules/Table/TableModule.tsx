@@ -7,7 +7,7 @@ import { useParams } from "next/navigation"
 
 export function TableModule() {
   const [active, setActive] = useState<MenuItem>("map")
-  const { getActivePlayerSheet } = useSheets()
+  const { getActivePlayerSheet, getActiveTableSheets } = useSheets()
   const tableId = useParams().id as string
   const { currentSession } = useAuth()
 
@@ -15,6 +15,7 @@ export function TableModule() {
     ;(async () => {
       if (tableId && currentSession) {
         await getActivePlayerSheet(currentSession.id, tableId)
+        await getActiveTableSheets(tableId)
       }
     })()
   }, [])
