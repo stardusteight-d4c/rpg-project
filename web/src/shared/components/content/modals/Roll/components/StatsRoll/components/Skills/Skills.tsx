@@ -1,4 +1,4 @@
-import { Button } from "@/shared/components/ui"
+import { Button, GlowingWrapper } from "@/shared/components/ui"
 import React, { Fragment, useState } from "react"
 
 export const Skills: React.FC<{
@@ -10,14 +10,33 @@ export const Skills: React.FC<{
     name: string
     value: number
   } | null>(null)
+  const [searchTerm, setSearchTerm] = useState("")
+
   if (selectedType !== "skills") return
+
+  const filteredSkills = activeSheet.skills.filter((skill) =>
+    skill.name.toLowerCase().includes(searchTerm.toLowerCase())
+  )
 
   return (
     <div className="flex flex-col gap-4">
       <div className="gap-y-1 p-2 flex flex-col">
         <h4 className="text-sm text-gray-400 block">Skills</h4>
-        <ul className="grid grid-cols-2 gap-2">
-          {activeSheet.skills.map((skill, index) => (
+        {selectedType === "skills" && (
+          <GlowingWrapper inset="0" border="rounded-full">
+            <input
+              id="findSkill"
+              name="findSkill"
+              placeholder="Find a skill"
+              spellCheck="false"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="py-1 px-2 w-full cursor-text hover:brightness-125 flex items-center gap-x-1 line-clamp-1 rounded-full bg-ashes border border-border outline-none"
+            />
+          </GlowingWrapper>
+        )}
+        <ul className="grid grid-cols-2 pt-1 gap-2">
+          {filteredSkills.map((skill, index) => (
             <div
               key={skill.name}
               onClick={() =>
