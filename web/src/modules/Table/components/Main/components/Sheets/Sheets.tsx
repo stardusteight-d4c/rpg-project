@@ -18,7 +18,7 @@ export const Sheets = () => {
   )
 
   return (
-    <section>
+    <section className="min-h-[100vh] max-h-[100vh] relative overflow-y-scroll no-scrollbar">
       <Components.Navbar
         sheetType={sheetType}
         onSelectSheetType={setSheetType}

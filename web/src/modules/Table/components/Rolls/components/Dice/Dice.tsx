@@ -8,7 +8,7 @@ export const Dice = () => {
   return (
     <Fragment>
       <RollModal status={openDiceModal} onStatusChange={setOpenDiceModal} />
-      <div className="custom-inset-shadow h-[100px] z-[100] absolute bottom-0 bg-background flex items-center justify-center w-[20vw] border-t border-border">
+      <div className="custom-inset-shadow h-[100px] z-[100] absolute left-0 bottom-0 bg-background flex items-center justify-center w-[20vw] border-t border-border">
         <span
           className={`${
             openDiceModal === true ? " rotate-90 " : " hover:rotate-90 "

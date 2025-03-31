@@ -68,7 +68,7 @@ export const RollModal: React.FC<{
         ) : (
           <div>
             <DiceRoll activeSheet={activePlayerSheet} mode={mode} />
-            <StatsRoll playerCharacter={activePlayerSheet} mode={mode} />
+            <StatsRoll activeSheet={activePlayerSheet} mode={mode} />
           </div>
         )}
       </div>

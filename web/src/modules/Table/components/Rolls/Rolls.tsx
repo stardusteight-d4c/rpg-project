@@ -75,7 +75,7 @@ export const Rolls = () => {
 
 const Wrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
-    <section className="w-full min-w-[20vw] max-w-[20vw] relative overflow-hidden box-content">
+    <section className="w-full min-w-[20vw] max-w-[20vw] min-h-[100vh] max-h-[100vh] relative overflow-y-scroll no-scrollbar">
       {children}
     </section>
   )
