@@ -173,6 +173,32 @@ export const SheetsProvider: React.FC<{ children: ReactNode }> = ({
           })
           return newCache
         })
+
+        setActiveTableSheets((prev) => {
+          const updateCache = new Map(prev)
+          updateCache.values().forEach((tableSheets) => {
+            const sheetFound = tableSheets.sheets.find(
+              (tableSheet) => tableSheet.id === sheetId
+            )
+            const tableId = sheetFound?.tableId
+            const table = updateCache.get(tableId!)
+            if (sheetFound && table && tableId) {
+              setActivePlayerSheet((prev) => {
+                const updateUserSheetCache = new Map(prev)
+                updateUserSheetCache.delete(tableId)
+                return updateUserSheetCache
+              })
+              const removedSheet = table?.sheets.filter(
+                (sheet) => sheet.id !== sheetId
+              )
+              updateCache.set(tableId, {
+                sheets: removedSheet,
+              })
+            }
+          })
+
+          return updateCache
+        })
       })
       .catch((error) => {
         throw new Error(error.message)

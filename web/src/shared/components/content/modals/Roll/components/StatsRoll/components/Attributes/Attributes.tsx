@@ -16,7 +16,7 @@ export const Attributes: React.FC<{
     <div className="flex flex-col gap-4">
       <div className="gap-y-1 p-2 flex flex-col">
         <h4 className="text-sm text-gray-400 block">Attributes</h4>
-        <ul className="grid grid-cols-2 gap-2">
+        <ul className="grid grid-cols-3 gap-2">
           {Object.entries(activeSheet.attributes).map(([attribute, value]) => (
             <div
               onClick={() => setSelectedAttribute({ name: attribute, value })}
@@ -25,8 +25,6 @@ export const Attributes: React.FC<{
                 selectedAttribute?.name === attribute
                   ? " bg-border brightness-125 "
                   : " bg-border/50 "
-              } ${
-                attribute === "luck" ? " col-span-2 " : " col-span-1 "
               } cursor-pointer border border-border overflow-hidden rounded`}
             >
               <div className="flex justify-between items-center px-2 pt-2">

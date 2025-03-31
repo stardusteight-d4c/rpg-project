@@ -28,4 +28,5 @@ export { default as IdentificationBadge } from "./IdentificationBadge.svg"
 export { default as DiceFive } from "./DiceFive.svg"
 export { default as ChartPie } from "./ChartPie.svg"
 export { default as ChartLineUp } from "./ChartLineUp.svg"
-
+export { default as UserCircle } from "./UserCircle.svg"
+export { default as Empty } from "./Empty.svg"

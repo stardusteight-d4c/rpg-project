@@ -2,14 +2,16 @@ import { currentSession } from "@/shared/contexts/Users/mock-data"
 import { DraggableItem } from "../Main/components/Map/components"
 import { useSheets } from "@/shared/contexts"
 import { useParams } from "next/navigation"
+import { Empty } from "@/shared/components/ui/icons"
+import { Tooltip } from "@/shared/components/ui"
 
 export const SheetsBar = () => {
   const { activeTableSheets } = useSheets()
   const tableId = useParams().id as string
   const tableSheets = activeTableSheets.get(tableId)?.sheets ?? []
-  const players = tableSheets.filter((sheet) => sheet.infos.type === 'player')
-  const npcs = tableSheets.filter((sheet) => sheet.infos.type === 'npc')
-  const enemies = tableSheets.filter((sheet) => sheet.infos.type === 'enemy')
+  const players = tableSheets.filter((sheet) => sheet.infos.type === "player")
+  const npcs = tableSheets.filter((sheet) => sheet.infos.type === "npc")
+  const enemies = tableSheets.filter((sheet) => sheet.infos.type === "enemy")
 
   return (
     <div className="flex flex-col items-center justify-start border-l py-2 min-w-[70px] border-border overflow-y-scroll overflow-x-hidden no-scrollbar h-screen">
@@ -42,6 +44,11 @@ export const SheetsBar = () => {
             />
           </div>
         ))}
+        {players.length === 0 && (
+          <div className="rounded-full text-gray-500/50 flex items-center justify-center p-1 shadow-md shadow-black/50 w-[32px] h-[32px] overflow-hidden aspect-square">
+            <Empty />
+          </div>
+        )}
       </div>
       <div className="w-[50px] mx-auto my-4 h-0 border-t border-border" />
       <div className="flex flex-col gap-2 w-full items-center mx-auto">
@@ -77,6 +84,11 @@ export const SheetsBar = () => {
             />
           </div>
         ))}
+        {npcs.length === 0 && (
+          <div className="rounded-full text-gray-500/50 flex items-center justify-center p-1 shadow-md shadow-black/50 w-[32px] h-[32px] overflow-hidden aspect-square">
+            <Empty />
+          </div>
+        )}
       </div>
       <div className="w-[50px] mx-auto my-4 h-0 border-t border-border" />
       <div className="flex flex-col gap-2 w-full items-center mx-auto">
@@ -112,6 +124,11 @@ export const SheetsBar = () => {
             />
           </div>
         ))}
+        {enemies.length === 0 && (
+          <div className="rounded-full text-gray-500/50 flex items-center justify-center p-1 shadow-md shadow-black/50 w-[32px] h-[32px] overflow-hidden aspect-square">
+            <Empty />
+          </div>
+        )}
       </div>
     </div>
   )
