@@ -97,7 +97,7 @@ export const Button: React.FC<ButtonProps> = ({
         id={id}
         onClick={handleClick}
         disabled={isLoading || disabled}
-        className={`${bgColors.default[bgColor]} ${className} p-2 w-full disabled:cursor-not-allowed disabled:brightness-90 cursor-pointer hover:brightness-125 flex items-center justify-center min-h-[45px] max-h-[45px] font-medium text-center text-lg text-white rounded-full`}
+        className={`${bgColors.default[bgColor]} ${className} capitalize p-2 w-full disabled:cursor-not-allowed disabled:brightness-90 cursor-pointer hover:brightness-125 flex items-center justify-center min-h-[45px] max-h-[45px] font-medium text-center text-lg text-white rounded-full`}
       >
         {isLoading ? <Loader /> : <span>{title}</span>}
       </button>

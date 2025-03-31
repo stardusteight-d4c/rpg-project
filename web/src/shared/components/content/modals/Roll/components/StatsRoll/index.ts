@@ -1,2 +1,1 @@
 export { StatsRoll } from "./StatsRoll"
-export { DiceRoll } from "./DiceRoll"

@@ -1,22 +1,12 @@
+import { Button } from "@/shared/components/ui"
 import { useTableRolls } from "@/shared/contexts"
-import { useState } from "react"
+import { Fragment, useState } from "react"
 
-interface CharacterRollingProps {
-  setSelectedType: (
-    value: "attributes" | "status" | "skills" | "combat" | null
-  ) => void
-  selectedType: "attributes" | "status" | "skills" | "combat" | null
+export const StatsRoll: React.FC<{
   playerCharacter: ISheet
-  mode: "system" | "character" | null
-}
-
-export const CharacterRolling = ({
-  setSelectedType,
-  selectedType,
-  playerCharacter,
-  mode,
-}: CharacterRollingProps) => {
-  if (mode !== "character") return null
+  mode: "dice" | "stats"
+}> = ({ playerCharacter, mode }) => {
+  if (mode !== "stats") return null
   const { addRoll, setOpenDiceModal } = useTableRolls()
   const [selectedAttribute, setSelectedAttribute] = useState<{
     name: string
@@ -26,21 +16,9 @@ export const CharacterRolling = ({
     name: string
     value: number
   } | null>(null)
-  const [selectedStatus, setSelectedStatus] = useState<{
-    name: string
-    value: number
-  } | null>(null)
-  const status = {
-    hitPoints: playerCharacter.infos.hitPoints,
-    magicPoints: playerCharacter.infos.magicPoints,
-    sanity: playerCharacter.infos.sanity,
-  }
-
-  const formatStatName = (stat: string) => {
-    return stat
-      .replace(/([A-Z])/g, " $1")
-      .replace(/^./, (str) => str.toUpperCase())
-  }
+  const [selectedType, setSelectedType] = useState<"attributes" | "skills">(
+    "attributes"
+  )
 
   const rollDice = (selectedRoll: { value: number; name: string }) => {
     addRoll({
@@ -55,54 +33,14 @@ export const CharacterRolling = ({
       },
       createdAt: new Date().toISOString(),
     })
-    setOpenDiceModal(true)
+    setOpenDiceModal(false)
   }
 
   return (
     <div className="flex flex-col gap-4">
-      <h3 className="text-xl font-semibold">Character Rolling</h3>
-      <div className="flex flex-col gap-y-1">
+      <div className="flex p-2 flex-col gap-y-1">
         <h4 className="text-sm text-gray-400 block">Choose a Type</h4>
         <div className="flex items-center gap-2">
-          <span
-            onClick={() => setSelectedType("status")}
-            className={`${
-              selectedType === "status"
-                ? " background-gradient "
-                : " bg-border "
-            } hover:brightness-125 p-2 rounded-xl cursor-pointer`}
-          >
-            <svg
-              width="32"
-              height="32"
-              viewBox="0 0 32 32"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M16 3C13.4288 3 10.9154 3.76244 8.77759 5.1909C6.63975 6.61935 4.97351 8.64968 3.98957 11.0251C3.00563 13.4006 2.74819 16.0144 3.2498 18.5362C3.75141 21.0579 4.98953 23.3743 6.80762 25.1924C8.6257 27.0105 10.9421 28.2486 13.4638 28.7502C15.9856 29.2518 18.5995 28.9944 20.9749 28.0104C23.3503 27.0265 25.3807 25.3603 26.8091 23.2224C28.2376 21.0846 29 18.5712 29 16C28.9964 12.5533 27.6256 9.24882 25.1884 6.81163C22.7512 4.37445 19.4467 3.00364 16 3ZM9.26001 24.6875C9.98342 23.5561 10.98 22.625 12.1579 21.9801C13.3358 21.3351 14.6571 20.9971 16 20.9971C17.3429 20.9971 18.6642 21.3351 19.8421 21.9801C21.02 22.625 22.0166 23.5561 22.74 24.6875C20.8129 26.1862 18.4413 26.9999 16 26.9999C13.5587 26.9999 11.1871 26.1862 9.26001 24.6875ZM12 15C12 14.2089 12.2346 13.4355 12.6741 12.7777C13.1137 12.1199 13.7384 11.6072 14.4693 11.3045C15.2002 11.0017 16.0044 10.9225 16.7804 11.0769C17.5563 11.2312 18.269 11.6122 18.8284 12.1716C19.3878 12.731 19.7688 13.4437 19.9231 14.2196C20.0775 14.9956 19.9983 15.7998 19.6955 16.5307C19.3928 17.2616 18.8801 17.8864 18.2223 18.3259C17.5645 18.7654 16.7911 19 16 19C14.9391 19 13.9217 18.5786 13.1716 17.8284C12.4214 17.0783 12 16.0609 12 15ZM24.22 23.3013C23.1047 21.6851 21.5365 20.4348 19.7125 19.7075C20.6923 18.9358 21.4072 17.878 21.7579 16.6811C22.1086 15.4843 22.0776 14.2079 21.6693 13.0294C21.2609 11.851 20.4955 10.8291 19.4794 10.1059C18.4634 9.38262 17.2472 8.99397 16 8.99397C14.7528 8.99397 13.5366 9.38262 12.5206 10.1059C11.5045 10.8291 10.7391 11.851 10.3307 13.0294C9.92238 14.2079 9.8914 15.4843 10.2421 16.6811C10.5928 17.878 11.3077 18.9358 12.2875 19.7075C10.4635 20.4348 8.89529 21.6851 7.78001 23.3013C6.37072 21.7165 5.4496 19.7581 5.12756 17.6619C4.80553 15.5657 5.09631 13.4211 5.9649 11.4864C6.83349 9.55163 8.24285 7.90922 10.0233 6.75692C11.8037 5.60462 13.8792 4.99156 16 4.99156C18.1208 4.99156 20.1963 5.60462 21.9768 6.75692C23.7572 7.90922 25.1665 9.55163 26.0351 11.4864C26.9037 13.4211 27.1945 15.5657 26.8724 17.6619C26.5504 19.7581 25.6293 21.7165 24.22 23.3013Z"
-                fill={`${
-                  selectedType === "status"
-                    ? "#FFFFFF"
-                    : "url(#paint0_linear_69_2)"
-                }`}
-              />
-              <defs>
-                <linearGradient
-                  id="paint0_linear_69_2"
-                  x1="16"
-                  y1="3"
-                  x2="16"
-                  y2="29"
-                  gradientUnits="userSpaceOnUse"
-                >
-                  <stop stopColor="#42D392" />
-                  <stop offset="1" stopColor="#8B5CF6" />
-                </linearGradient>
-              </defs>
-            </svg>
-          </span>
-          {/*  */}
           <span
             onClick={() => setSelectedType("attributes")}
             className={`${
@@ -182,60 +120,9 @@ export const CharacterRolling = ({
         </div>
       </div>
 
-      {selectedType === "status" && (
-        <div className="flex flex-col gap-4">
-          <div className="gap-y-1 flex flex-col">
-            <h4 className="text-sm text-gray-400 block">Status</h4>
-            <ul className="grid grid-cols-2 gap-2">
-              {Object.entries(status).map(([key, value]) => (
-                <div
-                  onClick={() => setSelectedStatus({ name: key, value })}
-                  key={key}
-                  className={`${
-                    selectedStatus?.name === key
-                      ? " bg-border brightness-125 "
-                      : " bg-border/50 "
-                  } ${
-                    key === "sanity" ? " col-span-2 " : " col-span-1 "
-                  } cursor-pointer border border-border overflow-hidden rounded`}
-                >
-                  <div className="flex justify-between items-center px-2 pt-2">
-                    <span className="font-medium capitalize text-lg">
-                      {formatStatName(key)}
-                    </span>
-                    <span className="bg-gray-600/10 w-[35px] h-[35px] rounded-full flex items-center justify-center aspect-square text-center font-medium z-10 relative bg-ashes outline-none caret-white">
-                      {value}
-                    </span>
-                  </div>
-                  <div className="w-full bg-gray-600/10">
-                    <div
-                      style={{ width: `${value}%` }}
-                      className="w-full background-gradient h-[4px] mt-2"
-                    />
-                  </div>
-                </div>
-              ))}
-            </ul>
-          </div>
-          {selectedStatus && (
-            <button
-              className="p-2 -mb-2 hover:brightness-125 font-medium capitalize w-full text-center text-lg background-gradient text-white rounded-xl border-border border"
-              onClick={() =>
-                rollDice({
-                  name: formatStatName(selectedStatus.name),
-                  value: selectedStatus.value,
-                })
-              }
-            >
-              {formatStatName(selectedStatus.name)} Roll
-            </button>
-          )}
-        </div>
-      )}
-
       {selectedType === "attributes" && (
         <div className="flex flex-col gap-4">
-          <div className="gap-y-1 flex flex-col">
+          <div className="gap-y-1 p-2 flex flex-col">
             <h4 className="text-sm text-gray-400 block">Attributes</h4>
             <ul className="grid grid-cols-2 gap-2">
               {Object.entries(playerCharacter.attributes).map(
@@ -273,24 +160,28 @@ export const CharacterRolling = ({
             </ul>
           </div>
           {selectedAttribute && (
-            <button
-              className="p-2 -mb-2 font-medium capitalize w-full text-center text-lg background-gradient text-white rounded-xl"
-              onClick={() =>
-                rollDice({
-                  name: selectedAttribute.name,
-                  value: selectedAttribute.value,
-                })
-              }
-            >
-              {selectedAttribute.name} Roll
-            </button>
+            <Fragment>
+              <div className="custom-inset-shadow z-[100] p-4 sticky bottom-0 inset-x-0 bg-background border-t border-border">
+                <Button
+                  variant="default"
+                  bgColor="gradientBlue"
+                  title={`${selectedAttribute.name} Roll`}
+                  action={() =>
+                    rollDice({
+                      name: selectedAttribute.name,
+                      value: selectedAttribute.value,
+                    })
+                  }
+                />
+              </div>
+            </Fragment>
           )}
         </div>
       )}
 
       {selectedType === "skills" && (
         <div className="flex flex-col gap-4">
-          <div className="gap-y-1 flex flex-col">
+          <div className="gap-y-1 p-2 flex flex-col">
             <h4 className="text-sm text-gray-400 block">Skills</h4>
             <ul className="grid grid-cols-2 gap-2">
               {playerCharacter.skills.map((skill, index) => (
@@ -351,17 +242,21 @@ export const CharacterRolling = ({
             </ul>
           </div>
           {selectedSkill && (
-            <button
-              className="p-2 -mb-2 font-medium hover:brightness-125 capitalize w-full text-center text-lg background-gradient text-white rounded-xl"
-              onClick={() =>
-                rollDice({
-                  name: selectedSkill.name,
-                  value: selectedSkill.value,
-                })
-              }
-            >
-              {selectedSkill.name} Roll
-            </button>
+            <Fragment>
+              <div className="custom-inset-shadow z-[100] p-4 sticky bottom-0 inset-x-0 bg-background border-t border-border">
+                <Button
+                  variant="default"
+                  bgColor="gradientBlue"
+                  title={`${selectedSkill.name} Roll`}
+                  action={() =>
+                    rollDice({
+                      name: selectedSkill.name,
+                      value: selectedSkill.value,
+                    })
+                  }
+                />
+              </div>
+            </Fragment>
           )}
         </div>
       )}
