@@ -1,4 +1,6 @@
-export { CharacterRoll } from "./CharacterRoll"
-export { Sender } from "./Sender"
-export { SystemRoll } from "./SystemRoll"
-export { Dice } from "./Dice"
+import { Dice } from "./Dice"
+import { Display } from "./Display"
+import { Empty } from "./Empty"
+import { ToBottom } from "./ToBottom"
+
+export const Components = { Empty, Display, ToBottom, Dice }
