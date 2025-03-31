@@ -1,11 +1,11 @@
-import { Actions } from "./Actions"
+import { Rolls } from "./Rolls"
 import { Menu } from "./Menu"
 import { Main } from "./Main"
-import { Sheets } from "./Sheets"
+import { SheetsBar } from "./SheetsBar"
 
 export const Components = {
-  Actions,
+  Rolls,
   Menu,
   Main,
-  Sheets,
+  SheetsBar,
 }

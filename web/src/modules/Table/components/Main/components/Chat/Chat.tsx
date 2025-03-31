@@ -1,6 +1,6 @@
 "use client"
 
-import { Sender } from "../../../Actions/components"
+import { Sender } from "../../../Rolls/components"
 import ReactMarkdown from "react-markdown"
 import rehypeRaw from "rehype-raw"
 import { useEffect, useRef, useState } from "react"

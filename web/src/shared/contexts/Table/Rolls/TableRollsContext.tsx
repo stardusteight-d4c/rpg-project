@@ -1,7 +1,6 @@
 "use client"
 
 import React, { createContext, useContext, useState, ReactNode } from "react"
-import { rolls as mockRolls } from "./mock-data"
 
 interface TableRollsState {
   rolls: IRoll[]
@@ -22,7 +21,7 @@ const TableRollsContext = createContext<TableRollsState>(defaultState)
 export const TableRollsProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [rolls, setRolls] = useState<IRoll[]>(mockRolls)
+  const [rolls, setRolls] = useState<IRoll[]>([])
   const [openDiceModal, setOpenDiceModal] = useState<boolean>(false)
 
   const addRoll = (roll: IRoll) => {

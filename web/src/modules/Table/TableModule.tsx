@@ -22,10 +22,10 @@ export function TableModule() {
 
   return (
     <Wrapper>
-      <Components.Actions />
+      <Components.Rolls />
       <Components.Menu active={active} onActive={setActive} />
       <Components.Main active={active} />
-      <Components.Sheets />
+      <Components.SheetsBar />
     </Wrapper>
   )
 }

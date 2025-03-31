@@ -2,7 +2,7 @@ type Gender = "male" | "female" | "neuter"
 type SheetType = "player" | "npc" | "enemy"
 
 type Infos = {
-  type: CharacterType
+  type: SheetType
   name: string
   sex: Gender
   visibility?: boolean

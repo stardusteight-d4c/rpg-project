@@ -1,10 +1,15 @@
-import { useCharacters } from "@/shared/contexts/Characters/CharactersContext"
 import { currentSession } from "@/shared/contexts/Users/mock-data"
 import { DraggableItem } from "../Main/components/Map/components"
+import { useSheets } from "@/shared/contexts"
+import { useParams } from "next/navigation"
 
-export const Sheets = () => {
-  const charactersContext = useCharacters()
-  const { players, enemies, npcs } = charactersContext.getCharactersByType()
+export const SheetsBar = () => {
+  const { activeTableSheets } = useSheets()
+  const tableId = useParams().id as string
+  const tableSheets = activeTableSheets.get(tableId)?.sheets ?? []
+  const players = tableSheets.filter((sheet) => sheet.infos.type === 'player')
+  const npcs = tableSheets.filter((sheet) => sheet.infos.type === 'npc')
+  const enemies = tableSheets.filter((sheet) => sheet.infos.type === 'enemy')
 
   return (
     <div className="flex flex-col items-center justify-start border-l py-2 min-w-[70px] border-border overflow-y-scroll overflow-x-hidden no-scrollbar h-screen">

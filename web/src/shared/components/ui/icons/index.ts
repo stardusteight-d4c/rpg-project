@@ -25,3 +25,5 @@ export { default as UserCircleMinus } from "./UserCircleMinus.svg"
 export { default as UserCircleCheck } from "./UserCircleCheck.svg"
 export { default as PlusCircle } from "./PlusCircle.svg"
 export { default as IdentificationBadge } from "./IdentificationBadge.svg"
+export { default as DiceFive } from "./DiceFive.svg"
+

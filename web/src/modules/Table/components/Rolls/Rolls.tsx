@@ -1,19 +1,19 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
-import { CharacterRoll, Sender, SystemRoll } from "./components"
-import { ModalWrapper } from "@/shared/components/ui/ModalWrapper/ModalWrapper"
-import { Dice } from "./components/Dice"
-import { convertTimestamp } from "../../../../shared/utils/convertTimestamp"
+import { EmptyState, ModalWrapper } from "@/shared/components/ui"
+import { convertTimestamp } from "@/shared/utils"
 import { useTableRolls } from "@/shared/contexts"
+import { CharacterRoll, Sender, SystemRoll, Dice } from "./components"
+import { DiceFive } from "@/shared/components/ui/icons"
 
-export const Actions = () => {
+export const Rolls = () => {
   const { rolls, openDiceModal, setOpenDiceModal } = useTableRolls()
   const chatRef = useRef<HTMLDivElement>(null)
   const [showButton, setShowButton] = useState(false)
   const [mounted, setMounted] = useState<boolean>(false)
 
-  const diceRollSound = new Audio("/rolling-dice-2-102706.mp3")
+  const diceRollSound = new Audio("/rolling-dice.mp3")
   diceRollSound.preload = "auto"
   diceRollSound.volume = 1.0
 
@@ -65,78 +65,86 @@ export const Actions = () => {
   }, [])
 
   return (
-    <section
-      ref={chatRef}
-      className="w-full min-w-[20vw] max-w-[20vw] overflow-x-hidden box-content !relative  h-screen overflow-y-scroll no-scrollbar"
-    >
-      {openDiceModal === true && (
-        <ModalWrapper status={openDiceModal} onStatusChange={setOpenDiceModal}>
-          <div>
-            <Dice />
-          </div>
-        </ModalWrapper>
+    <section className="w-full min-w-[20vw] max-w-[20vw] overflow-hidden box-content">
+      <ModalWrapper status={openDiceModal} onStatusChange={setOpenDiceModal}>
+        <Dice />
+      </ModalWrapper>
+
+      {rolls.length === 0 && (
+        <div className="p-2">
+          <EmptyState
+            height={400}
+            description="The gears of the cosmos grind in their eternal march. But here, all is still. No dice roll. No hand dares disturb them."
+          >
+            <DiceFive />
+          </EmptyState>
+        </div>
       )}
 
-      {rolls.map((roll) => (
-        <div key={roll.id} className="space-y-2">
-          {roll.characterRoll && (
-            <div className="flex flex-col p-2">
-              <Sender
-                name={roll.character.infos.name}
-                characterUrl={roll.character.infos.characterUrl}
-              />
-              <div className="space-y-4">
-                <CharacterRoll {...roll.characterRoll} />
+      <div
+        ref={chatRef}
+        className="min-h-[100vh] max-h-[100vh] h-screen overflow-y-scroll no-scrollbar pb-[100px]"
+      >
+        {rolls.map((roll) => (
+          <div key={roll.id} className="space-y-2">
+            {roll.characterRoll && (
+              <div className="flex flex-col  p-2">
+                <Sender
+                  name={roll.character.infos.name}
+                  characterUrl={roll.character.infos.characterUrl}
+                />
+                <div className="space-y-4">
+                  <CharacterRoll {...roll.characterRoll} />
+                </div>
+                <div className="text-gray-500/80 select-none flex items-center gap-x-[2px] mt-1 w-full justify-end">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="#6b7280"
+                    viewBox="0 0 256 256"
+                  >
+                    <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm64-88a8,8,0,0,1-8,8H128a8,8,0,0,1-8-8V72a8,8,0,0,1,16,0v48h48A8,8,0,0,1,192,128Z"></path>
+                  </svg>
+                  <span className="text-xs block max-h-[16px]">
+                    {convertTimestamp(roll.createdAt)}
+                  </span>
+                </div>
               </div>
-              <div className="text-gray-500/80 select-none flex items-center gap-x-[2px] mt-1 w-full justify-end">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  fill="#6b7280"
-                  viewBox="0 0 256 256"
-                >
-                  <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm64-88a8,8,0,0,1-8,8H128a8,8,0,0,1-8-8V72a8,8,0,0,1,16,0v48h48A8,8,0,0,1,192,128Z"></path>
-                </svg>
-                <span className="text-xs block max-h-[16px]">
-                  {convertTimestamp(roll.createdAt)}
-                </span>
+            )}
+            {roll.systemRoll && (
+              <div className="flex flex-col p-2">
+                <Sender
+                  name={roll.character.infos.name}
+                  characterUrl={roll.character.infos.characterUrl}
+                />
+                <div className="space-y-4">
+                  <SystemRoll {...roll.systemRoll} />
+                </div>
+                <div className="text-gray-500/80 select-none flex items-center gap-x-[2px] mt-1 w-full justify-end">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="#6b7280"
+                    viewBox="0 0 256 256"
+                  >
+                    <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm64-88a8,8,0,0,1-8,8H128a8,8,0,0,1-8-8V72a8,8,0,0,1,16,0v48h48A8,8,0,0,1,192,128Z"></path>
+                  </svg>
+                  <span className="text-xs block max-h-[16px]">
+                    {convertTimestamp(roll.createdAt)}
+                  </span>
+                </div>
               </div>
-            </div>
-          )}
-          {roll.systemRoll && (
-            <div className="flex flex-col p-2">
-              <Sender
-                name={roll.character.infos.name}
-                characterUrl={roll.character.infos.characterUrl}
-              />
-              <div className="space-y-4">
-                <SystemRoll {...roll.systemRoll} />
-              </div>
-              <div className="text-gray-500/80 select-none flex items-center gap-x-[2px] mt-1 w-full justify-end">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  fill="#6b7280"
-                  viewBox="0 0 256 256"
-                >
-                  <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm64-88a8,8,0,0,1-8,8H128a8,8,0,0,1-8-8V72a8,8,0,0,1,16,0v48h48A8,8,0,0,1,192,128Z"></path>
-                </svg>
-                <span className="text-xs block max-h-[16px]">
-                  {convertTimestamp(roll.createdAt)}
-                </span>
-              </div>
-            </div>
-          )}
-        </div>
-      ))}
+            )}
+          </div>
+        ))}
+      </div>
 
-      {/*  */}
       {showButton && (
         <button
           onClick={scrollToBottom}
-          className="sticky z-40 bottom-4 left-1/2 -translate-x-1/2 bg-ashes text-white p-1 rounded-full  shadow-md shadow-black/50"
+          className="absolute z-40 bottom-[110px] left-1/2 -translate-x-1/2 bg-ashes text-white p-1 rounded-full  shadow-md shadow-black/50"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -149,7 +157,7 @@ export const Actions = () => {
           </svg>
         </button>
       )}
-      <div className="h-[100px] bg-background flex items-center justify-center w-[20vw] border-t border-border">
+      <div className="custom-inset-shadow h-[100px] z-[100] absolute bottom-0 bg-background flex items-center justify-center w-[20vw] border-t border-border">
         <span
           className={`${
             openDiceModal === true ? " rotate-90 " : " hover:rotate-90 "

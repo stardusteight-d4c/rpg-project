@@ -14,7 +14,7 @@ export const Sheets = () => {
     lastRequestProfileSheetsData.get(currentSession!.id)?.items ?? []
 
   const [currentTab, setCurrentTab] = useState<"TableSheets" | "MySheets">(
-    "TableSheets"
+    "MySheets"
   )
 
   return (
