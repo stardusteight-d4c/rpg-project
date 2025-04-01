@@ -8,7 +8,7 @@ import { useState } from "react"
 
 export const Display: React.FC<{
   sheets: Array<ISheet>
-  sheetType: SheetType
+  sheetType: SheetType | "all"
   tab: "TableSheets" | "MySheets"
   currentTab: "TableSheets" | "MySheets"
 }> = ({ sheets, sheetType, tab, currentTab }) => {
@@ -39,7 +39,7 @@ export const Display: React.FC<{
       )}
       {sheets.map((sheet) => (
         <div>
-          {(sheet.infos.type as SheetType) === sheetType && (
+          {(sheet.infos.type === sheetType || sheetType === "all") && (
             <div
               onDoubleClick={() => onSelectSheet(sheet)}
               className="border border-border hover:bg-border hover:brightness-105 p-2 rounded-xl"

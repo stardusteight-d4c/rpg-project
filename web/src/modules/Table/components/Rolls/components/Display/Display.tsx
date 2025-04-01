@@ -1,11 +1,62 @@
 import { convertTimestamp } from "@/shared/utils"
 import { SystemRoll, Sender, CharacterRoll } from "./components/"
-import React, { RefObject } from "react"
+import React, { useEffect, useRef, useState } from "react"
 
-export const Display: React.FC<{
-  rolls: IRoll[]
-  chatRef: RefObject<HTMLDivElement | null>
-}> = ({ rolls, chatRef }) => {
+export const Display: React.FC<{ rolls: IRoll[] }> = ({ rolls }) => {
+  const [showButton, setShowButton] = useState(false)
+  const [mounted, setMounted] = useState<boolean>(false)
+  const diceRollSound = new Audio("/rolling-dice.mp3")
+  const chatRef = useRef<HTMLDivElement>(null)
+  diceRollSound.preload = "auto"
+  diceRollSound.volume = 1.0
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  useEffect(() => {
+    if (rolls.length > 0 && mounted) {
+      diceRollSound.currentTime = 0
+      diceRollSound.play()
+      if (chatRef.current) {
+        chatRef.current.scrollTo({
+          top: chatRef.current.scrollHeight,
+          behavior: "smooth",
+        })
+      }
+    }
+  }, [rolls])
+
+  useEffect(() => {
+    scrollToBottom()
+  }, [])
+
+  useEffect(() => {
+    const chat = chatRef.current
+    if (chat) chat.addEventListener("scroll", handleScroll)
+    return () => {
+      if (chat) chat.removeEventListener("scroll", handleScroll)
+    }
+  })
+
+  const scrollToBottom = () => {
+    if (chatRef.current) {
+      chatRef.current.scrollTo({
+        top: chatRef.current.scrollHeight,
+        behavior: "smooth",
+      })
+    }
+  }
+
+  const handleScroll = () => {
+    if (chatRef.current) {
+      const isAtBottom =
+        chatRef.current.scrollTop + chatRef.current.clientHeight >=
+        chatRef.current.scrollHeight - 100
+      setShowButton(!isAtBottom)
+    }
+  }
+
   if (rolls.length === 0) return
 
   return (
@@ -67,6 +118,22 @@ export const Display: React.FC<{
           )}
         </div>
       ))}
+      {showButton && (
+        <button
+          onClick={scrollToBottom}
+          className="absolute z-40 bottom-[110px] left-1/2 -translate-x-1/2 bg-ashes text-white p-1 rounded-full border border-border shadow-md shadow-black/60"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            fill="#FFFFFF"
+            viewBox="0 0 256 256"
+          >
+            <path d="M205.66,149.66l-72,72a8,8,0,0,1-11.32,0l-72-72a8,8,0,0,1,11.32-11.32L120,196.69V40a8,8,0,0,1,16,0V196.69l58.34-58.35a8,8,0,0,1,11.32,11.32Z"></path>
+          </svg>
+        </button>
+      )}
     </div>
   )
 }

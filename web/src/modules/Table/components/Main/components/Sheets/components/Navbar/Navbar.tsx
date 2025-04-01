@@ -11,8 +11,8 @@ import {
 import React, { Fragment, useState } from "react"
 
 export const Navbar: React.FC<{
-  sheetType: SheetType
-  onSelectSheetType: (type: SheetType) => void
+  sheetType: SheetType | 'all'
+  onSelectSheetType: (type:  SheetType | 'all') => void
   onTabChange: (value: "TableSheets" | "MySheets") => void
   currentTab: "TableSheets" | "MySheets"
 }> = ({ sheetType, onSelectSheetType, onTabChange, currentTab }) => {
@@ -20,12 +20,13 @@ export const Navbar: React.FC<{
     useState<boolean>(false)
 
   const typesObj = {
+    all: "All",
     player: "Players",
     npc: "NPCs",
     enemy: "Enemies",
   }
 
-  const typesArr = ["player", "npc", "enemy"] as const
+  const typesArr = ["all", "player", "npc", "enemy"] as const
 
   return (
     <Fragment>

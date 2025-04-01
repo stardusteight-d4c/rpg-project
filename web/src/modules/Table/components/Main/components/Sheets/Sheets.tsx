@@ -9,7 +9,7 @@ export const Sheets = () => {
   const { lastRequestProfileSheetsData, activeTableSheets } = useSheets()
   const { currentSession } = useAuth()
   const tableId = useParams().id as string
-  const [sheetType, setSheetType] = useState<SheetType>("player")
+  const [sheetType, setSheetType] = useState<SheetType | "all">("all")
   const sheets =
     lastRequestProfileSheetsData.get(currentSession!.id)?.items ?? []
 
