@@ -1,6 +1,6 @@
 interface IMap {
   id: string
-  type: "map" | "scenario"
+  type: "exploration" | "scenario"
   name: string
   imageUrl: string
   gridSize?: Array<number>

@@ -1,9 +1,8 @@
 import { currentSession } from "@/shared/contexts/Users/mock-data"
-import { DraggableItem } from "../Main/components/Map/components"
 import { useSheets } from "@/shared/contexts"
 import { useParams } from "next/navigation"
 import { Empty } from "@/shared/components/ui/icons"
-import { Tooltip } from "@/shared/components/ui"
+import { DraggableItem } from "@/shared/components/ui"
 
 export const SheetsBar = () => {
   const { activeTableSheets } = useSheets()

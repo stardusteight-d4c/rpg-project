@@ -1,10 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import {
-  CustomNumericInput,
-  GlowingWrapper,
-} from "@/shared/components/ui"
+import { CustomNumericInput, GlowingWrapper } from "@/shared/components/ui"
 import { useMaps } from "@/shared/contexts/Maps/MapsContext"
 import { randomUUID } from "node:crypto"
 
@@ -47,10 +44,16 @@ export const MapCreate = ({ onCreateMode }: MapCreateProps) => {
       setFile(file)
       setEditableData((prevData) => ({
         ...prevData,
+        gridSize:
+          prevData.gridSize?.length !== 2 ? [20, 20] : prevData.gridSize,
         imageUrl: tempUrl,
       }))
       updateCopyMap(editableData.id ?? randomUUID(), {
         ...editableData,
+        gridSize:
+          editableData.gridSize?.length !== 2
+            ? [20, 20]
+            : editableData.gridSize,
         imageUrl: tempUrl,
       })
     }

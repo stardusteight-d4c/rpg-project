@@ -1,11 +1,9 @@
-import { Exploration } from "./maps/Exploration"
-import { Scenario } from "./maps/Scenario"
-export { DraggableItem } from "./DraggableItem"
-export { MapEdit } from "./MapEdit"
-export { MapsDisplay } from "./MapsDisplay"
-export { MapCreate } from "./MapCreate"
+import { Config } from "./Config"
+import { Display } from "./Display"
+import { Empty } from "./Empty"
 
-export const Maps = {
-  Exploration,
-  Scenario,
+export const Components = {
+  Config,
+  Display,
+  Empty
 }

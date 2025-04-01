@@ -7,7 +7,6 @@ import React, {
   ReactNode,
   useEffect,
 } from "react"
-import { maps as mockMaps } from "./mock-data"
 
 interface MapsState {
   maps: IMap[]
@@ -38,8 +37,8 @@ const MapsContext = createContext<MapsState>(defaultState)
 export const MapsProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [maps, setMaps] = useState<IMap[]>(mockMaps)
-  const [copyMaps, setCopyMaps] = useState<IMap[]>(mockMaps)
+  const [maps, setMaps] = useState<IMap[]>([])
+  const [copyMaps, setCopyMaps] = useState<IMap[]>([])
   const [activeMap, setActiveMap] = useState<IMap | undefined>(
     maps.find((map) => map.active === true)
   )

@@ -12,13 +12,11 @@ import { randomUUID } from "node:crypto"
 interface MapEditProps {
   selectedMap: IMap
   onSelectedMap: (value: IMap | null) => void
-  onConfig: (value: boolean) => void
 }
 
 export const MapEdit = ({
   selectedMap,
   onSelectedMap,
-  onConfig,
 }: MapEditProps) => {
   const { updateCopyMap, copyMaps, deleteMap, updateMap } = useMaps()
   const [editableData, setEditableData] = useState<IMap>({
@@ -63,13 +61,11 @@ export const MapEdit = ({
     const updatedMap = copyMaps.find((map) => map.id === editableData.id)
     updateMap(editableData.id, updatedMap!)
     onSelectedMap(null)
-    onConfig(false)
   }
 
   function onDelete() {
     deleteMap(editableData.id)
     onSelectedMap(null)
-    onConfig(false)
   }
 
   function handleClick() {
@@ -79,7 +75,7 @@ export const MapEdit = ({
     }
   }
 
-  const types = ["Map", "Scenario"]
+  const types = ["Exploration", "Scenario"]
   const visibilities = ["low", "default"]
   const status = [true, false]
 
@@ -309,7 +305,7 @@ export const MapEdit = ({
             </GlowingWrapper>
           </li>
         </ul>
-        {editableData.type === "map" && (
+        {editableData.type === "exploration" && (
           <ul>
             <h3 className="block mb-2 mt-4 text-4xl font-bold background-gradient bg-clip-text text-transparent">
               Settings
@@ -415,7 +411,7 @@ export const MapEdit = ({
           </ul>
         )}
         <div className="mt-4">
-          {editableData.type === "map" ? (
+          {editableData.type === "exploration" ? (
             <div className="relative rounded-3xl overflow-hidden w-full">
               <div
                 className="w-full min-h-[100vh] grid "
