@@ -1,7 +1,7 @@
 export const maps: IMap[] = [
   {
     id: "saklskalasdk",
-    type: "map",
+    type: "exploration",
     name: "Casa Abandonada",
     imageUrl: "/Simple-house-1.png",
     gridSize: [20, 20],
@@ -18,7 +18,7 @@ export const maps: IMap[] = [
   },
   {
     id: "sasdksalklds",
-    type: "map",
+    type: "exploration",
     name: "Ponte da Ambição",
     imageUrl:
       "https://c10.patreonusercontent.com/4/patreon-media/p/post/78027277/e0ce73f693f24922bde8d90e72b0b8e2/eyJ3Ijo2MjB9/1.jpg?token-time=1738886400&token-hash=OAuEQjO0rfSPofbjHDgZGqSgHyn0G_r4M7SkDur-D1U%3D",

@@ -1,1 +1,1 @@
-export { MapConfigModal } from "./MapConfigModal"
+export { MapModal } from "./MapModal"
