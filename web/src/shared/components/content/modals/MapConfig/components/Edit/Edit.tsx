@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import React, { useState } from "react"
 import {
   CustomNumericInput,
   GlowingWrapper,
@@ -9,15 +9,13 @@ import {
 import { useMaps } from "@/shared/contexts/Maps/MapsContext"
 import { randomUUID } from "node:crypto"
 
-interface MapEditProps {
+export const Edit: React.FC<{
   selectedMap: IMap
-  onSelectedMap: (value: IMap | null) => void
-}
+  createMode: boolean
+  onSelectedMap: (value: IMap | undefined) => void
+}> = ({ selectedMap, onSelectedMap, createMode }) => {
+  if (!selectedMap || createMode) return
 
-export const MapEdit = ({
-  selectedMap,
-  onSelectedMap,
-}: MapEditProps) => {
   const { updateCopyMap, copyMaps, deleteMap, updateMap } = useMaps()
   const [editableData, setEditableData] = useState<IMap>({
     ...selectedMap,
@@ -25,9 +23,7 @@ export const MapEdit = ({
     visibility: selectedMap.visibility ?? "default",
     active: selectedMap.active ?? false,
   })
-  const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(
-    false
-  )
+  const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false)
   const [file, setFile] = useState<File | null>(null)
 
   function updateEditableData(data: { key: keyof IMap; value: any }) {
@@ -60,12 +56,12 @@ export const MapEdit = ({
   function onSave() {
     const updatedMap = copyMaps.find((map) => map.id === editableData.id)
     updateMap(editableData.id, updatedMap!)
-    onSelectedMap(null)
+    onSelectedMap(undefined)
   }
 
   function onDelete() {
     deleteMap(editableData.id)
-    onSelectedMap(null)
+    onSelectedMap(undefined)
   }
 
   function handleClick() {
@@ -80,14 +76,13 @@ export const MapEdit = ({
   const status = [true, false]
 
   return (
-    <section className="relative w-full h-screen overflow-y-scroll no-scrollbar">
+    <section>
       {openDeleteModal === true && (
         <ModalWrapper
           status={openDeleteModal}
           onStatusChange={setOpenDeleteModal}
         >
           <div className="w-[500px] p-4">
-            {" "}
             <h3 className="block text-3xl font-bold text-red-500">Warning!</h3>
             <div className="flex flex-col mt-4 gap-2 items-center justify-center">
               <svg
@@ -116,7 +111,7 @@ export const MapEdit = ({
       <div className="sticky flex items-center border-b border-border shadow-sm shadow-black/50 z-[200] top-0 p-2 w-full inset-x-0 bg-background">
         <div className="flex items-center gap-x-4">
           <div
-            onClick={() => onSelectedMap(null)}
+            onClick={() => onSelectedMap(undefined)}
             className="cursor-pointer w-fit flex items-center group gap-x-2"
           >
             <button className="bg-ashes flex items-center justify-center text-white p-1 rounded-full shadow-p group-hover:bg-gradient-to-tr group-hover:from-[#42d392] group-hover:to-[#8B5CF6] duration-300 ease-in-out transition-all">
@@ -193,12 +188,11 @@ export const MapEdit = ({
         </div>
       </div>
       <div className="p-2">
-        <h3 className="block mb-2 text-4xl font-bold background-gradient bg-clip-text text-transparent">
-          Informations
-        </h3>
         <ul className="grid grid-cols-2 gap-2 text-base">
           <li className="col-span-2 text-base relative z-[60] flex flex-col">
-            <span className="text-gray-400 text-sm font-medium">Name</span>
+            <span className="text-gray-400 text-sm w-full block cursor-pointer">
+              Name
+            </span>
             <GlowingWrapper inset="0">
               <input
                 onChange={(e) =>
@@ -211,7 +205,9 @@ export const MapEdit = ({
             </GlowingWrapper>
           </li>
           <li className="col-span-1 text-base relative z-[100] flex flex-col">
-            <span className="text-gray-400 text-sm font-medium">Type</span>
+            <span className="text-gray-400 text-sm w-full block cursor-pointer">
+              Type
+            </span>
             <GlowingWrapper inset="0">
               <div className="relative z-10 overflow-visible text-center justify-center group py-1 px-2 w-full cursor-pointer hover:brightness-125 flex items-center gap-x-1 line-clamp-1 rounded bg-border/50 border border-border">
                 <span className="capitalize">
@@ -257,7 +253,9 @@ export const MapEdit = ({
             </GlowingWrapper>
           </li>
           <li className="col-span-1 text-base relative z-[100] flex flex-col">
-            <span className="text-gray-400 text-sm font-medium">Status</span>
+            <span className="text-gray-400 text-sm w-full block cursor-pointer">
+              Status
+            </span>
             <GlowingWrapper inset="0">
               <div className="relative z-10 overflow-visible text-center justify-center group py-1 px-2 w-full cursor-pointer hover:brightness-125 flex items-center gap-x-1 line-clamp-1 rounded bg-border/50 border border-border">
                 <span className="capitalize">
@@ -294,7 +292,6 @@ export const MapEdit = ({
                           </svg>
                         </label>
                         <span>
-                          {" "}
                           {item ? "Currently Active Map" : "Inactive Map"}
                         </span>
                       </div>
@@ -307,12 +304,9 @@ export const MapEdit = ({
         </ul>
         {editableData.type === "exploration" && (
           <ul>
-            <h3 className="block mb-2 mt-4 text-4xl font-bold background-gradient bg-clip-text text-transparent">
-              Settings
-            </h3>
-            <ul className="grid relative z-[90] grid-cols-2 gap-2 text-base">
+            <ul className="grid mt-2 relative z-[90] grid-cols-2 gap-2 text-base">
               <li className="col-span-1 text-base relative z-[10] flex flex-col">
-                <span className="text-gray-400 text-sm font-medium">
+                <span className="text-gray-400 text-sm w-full block cursor-pointer">
                   Grid Size
                 </span>
                 <div className="flex items-center gap-x-2 w-fit">
@@ -356,7 +350,7 @@ export const MapEdit = ({
                 </div>
               </li>
               <li className="col-span-1 text-base relative z-[60] flex flex-col">
-                <span className="text-gray-400 text-sm font-medium">
+                <span className="text-gray-400 text-sm w-full block cursor-pointer">
                   Visibility
                 </span>
                 <GlowingWrapper inset="0">
@@ -419,9 +413,7 @@ export const MapEdit = ({
                   gridTemplateColumns: `repeat(${
                     editableData.gridSize![0]
                   }, 1fr)`,
-                  gridTemplateRows: `repeat(${
-                    editableData.gridSize![1]
-                  }, 1fr)`,
+                  gridTemplateRows: `repeat(${editableData.gridSize![1]}, 1fr)`,
                   transformOrigin: "top left",
                   overflow: "hidden",
                 }}

@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from "react"
-import { useAuth, useSheets } from "@/shared/contexts"
+import { useAuth, useSheets, useToast } from "@/shared/contexts"
 import { Sheet } from "@/shared/components/content/Sheet"
 import { PencilSimpleLine, UserCircleCheck } from "@/shared/components/ui/icons"
 import { Button } from "@/shared/components/ui"
@@ -16,6 +16,7 @@ export const DisplaySheet: React.FC<{
   const { currentSession } = useAuth()
   const [activeSheet, setActiveSheet] = useState(sheet.tableId)
   const [activeItems, setActiveItems] = useState<SheetItems[]>([])
+  const { addToast } = useToast()
 
   const toggleItem = (item: SheetItems) => {
     setActiveItems((prev) => {
@@ -28,12 +29,23 @@ export const DisplaySheet: React.FC<{
   }
 
   const onToggleSheetInCampaign = async (sheetId: string, tableId: string) => {
-    await toggleSheetInCampaign(sheetId, tableId)
-    if (activeSheet === tableId) {
-      setActiveSheet(undefined)
-    } else {
-      setActiveSheet(tableId)
-    }
+    await toggleSheetInCampaign(sheetId, tableId).then(() => {
+      if (activeSheet === tableId) {
+        setActiveSheet(undefined)
+        addToast(
+          `${sheet.infos.name} it is no longer your active sheet`,
+          "info",
+          45
+        )
+      } else {
+        addToast(
+          `${sheet.infos.name} now it's your active sheet`,
+          "success",
+          45
+        )
+        setActiveSheet(tableId)
+      }
+    })
   }
 
   return (

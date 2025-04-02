@@ -72,7 +72,7 @@ export const DiceRoll: React.FC<{
         <Button
           variant="default"
           bgColor="gradientBlue"
-          title="Roll"
+          title={`Roll ${numDice}d${diceType}`}
           action={() => rollDice(diceType, numDice)}
         />
       </div>
