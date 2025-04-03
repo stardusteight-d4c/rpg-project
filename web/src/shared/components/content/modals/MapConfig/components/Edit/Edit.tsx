@@ -451,7 +451,7 @@ export const Edit: React.FC<{
               <img
                 src={editableData.imageUrl}
                 alt=""
-                className="aspect-map rounded-3xl h-screen z-0 w-full object-cover select-none pointer-events-none"
+                className="aspect-map rounded-md h-[300px] z-0 w-full object-cover select-none pointer-events-none"
               />
             </div>
           )}

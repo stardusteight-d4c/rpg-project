@@ -1,7 +1,8 @@
-import { EmptyState, ModalWrapper } from "@/shared/components/ui"
-import React, { Fragment, useState } from "react"
+"use client"
+
+import { ModalWrapper } from "@/shared/components/ui"
+import React, { useState } from "react"
 import { useMaps } from "@/shared/contexts"
-import { CompassRose } from "@/shared/components/ui/icons"
 import { Components } from "./components"
 
 export const MapModal: React.FC<{
