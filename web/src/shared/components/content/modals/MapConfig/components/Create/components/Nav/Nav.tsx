@@ -14,8 +14,8 @@ export const Nav: React.FC<{
 
   const onSave = () => {
     let updatedMap = copyMaps.find((map) => map.id === editableData.id)
-    const isExploration = updatedMap?.type === "exploration"
-    if (isExploration) {
+    const isScenario = updatedMap?.type === "scenario"
+    if (isScenario) {
       delete updatedMap.gridSize
       delete updatedMap.visibility
     }

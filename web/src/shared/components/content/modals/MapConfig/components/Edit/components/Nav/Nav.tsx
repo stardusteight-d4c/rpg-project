@@ -34,7 +34,7 @@ export const Nav: React.FC<{
         text={`You are about to delete your "{selectedMap.name}". This action cannot be undone!`}
       />
       <input
-        id="file-input"
+        id={fileInputId}
         type="file"
         accept="image/*"
         className="hidden"

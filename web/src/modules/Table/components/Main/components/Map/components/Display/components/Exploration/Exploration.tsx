@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState, DragEvent, useRef, useEffect } from "react"
+import React, { useState, DragEvent, useRef, useEffect, Fragment } from "react"
 import { useMaps } from "@/shared/contexts/Maps/MapsContext"
 import { currentSession } from "@/shared/contexts/Users/mock-data"
 import { DraggableItem } from "@/shared/components/ui"
@@ -173,9 +173,10 @@ export const Exploration: React.FC<{
               key={`${rowIndex}-${colIndex}`}
               onDrop={(e) => handleDrop(e, colIndex, rowIndex)}
               onDragOver={handleDragOver}
-              className="relative w-full border border-transparent rounded-full z-50 aspect-square overflow-hidden h-fit mx-auto"
+              className="relative w-full border border-transparent flex items-center justify-center z-50 aspect-square overflow-hidden h-fit mx-auto"
             >
               <div>
+                {/* <Fragment>{`${rowIndex}-${colIndex}`}</Fragment> */}
                 {items
                   .filter((item) => item.x === colIndex && item.y === rowIndex)
                   .map((item) => (

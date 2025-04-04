@@ -85,7 +85,7 @@ export const Form: React.FC<{
           <InputDropdown
             label="Visibility"
             options={visibilities}
-            selected={editableData.visibility}
+            selected={editableData.visibility ?? "default"}
             onChange={(value) =>
               updateEditableData({ key: "visibility", value })
             }
