@@ -13,6 +13,7 @@ interface ButtonProps {
   className?: string
   disabled?: boolean
   active?: boolean
+  shadow?: boolean
 }
 
 export const Button: React.FC<ButtonProps> = ({
@@ -25,6 +26,7 @@ export const Button: React.FC<ButtonProps> = ({
   variant = "default",
   disabled,
   active,
+  shadow = true
 }) => {
   const [isLoading, setIsLoading] = useState(false)
 
@@ -110,8 +112,8 @@ export const Button: React.FC<ButtonProps> = ({
         onClick={handleClick}
         disabled={isLoading || disabled}
         className={`${!disabled && bgColors.onHover[bgColor]} ${
-          isLoading ? bgColors.default[bgColor] : " bg-ashes "
-        } ${className} disabled:cursor-not-allowed !fill-white !text-white disabled:brightness-90 cursor-pointer hover:brightness-125 bg-background flex items-center justify-center p-1 rounded-full shadow-md shadow-black/50 duration-300 ease-in-out transition-all`}
+          isLoading || active ? bgColors.default[bgColor] : " bg-ashes "
+        } ${shadow && ' shadow-md shadow-black/50 '} ${className} disabled:cursor-not-allowed !fill-white !text-white disabled:brightness-90 cursor-pointer hover:brightness-125 bg-background flex items-center justify-center p-1 rounded-full duration-300 ease-in-out transition-all`}
       >
         {isLoading ? <Loader /> : children}
       </button>

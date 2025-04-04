@@ -5,5 +5,5 @@ type MenuItem =
   | "handouts"
   | "notifications"
   | "chat"
-  | "cam"
+  | "connect"
   | "sounds"
