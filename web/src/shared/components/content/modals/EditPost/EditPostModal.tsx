@@ -2,7 +2,7 @@
 
 import { ChangeEvent, useEffect, useRef, useState } from "react"
 import { usePosts, useToast } from "@/shared/contexts"
-import { timeago } from "@/shared/utils"
+import { clickElement, timeago } from "@/shared/utils"
 import { DeleteContentModal } from "@/shared/components/content/modals"
 import { UserAvatar } from "@/shared/components/content"
 import { Button, GlowingWrapper, ModalWrapper } from "@/shared/components/ui"
@@ -20,6 +20,7 @@ export const EditPostModal: React.FC<{
   const [postData, setPostData] = useState<IPost>(post)
   const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false)
   const [imageFile, setImageFile] = useState<File | undefined>(undefined)
+  const filePostInputId = `file-input-post-${post.id}`
 
   useEffect(() => {
     adjustHeight()
@@ -45,30 +46,20 @@ export const EditPostModal: React.FC<{
     }
   }
 
-  const handleClick = () => {
-    const fileInput = document.getElementById(
-      `file-input-post-${post.id}`
-    ) as HTMLInputElement
-    if (fileInput) {
-      fileInput.click()
-    }
-  }
-
-  function adjustHeight() {
+  const adjustHeight = () => {
     const textarea = textareaRef.current
-
     if (textarea) {
       textarea.style.height = "auto"
       textarea.style.height = `${textarea.scrollHeight}px`
     }
   }
 
-  function onRemovePostImage() {
+  const onRemovePostImage = () => {
     setImageFile(undefined)
     handlePostData("image", undefined)
   }
 
-  async function onEdit() {
+  const onEdit = async () => {
     if (loading) return null
     setLoading(true)
     await update(postData)
@@ -85,7 +76,7 @@ export const EditPostModal: React.FC<{
       })
   }
 
-  async function onDelete() {
+  const onDelete = async () => {
     if (loading) return null
     setLoading(true)
     await remove(postData.id)
@@ -116,7 +107,7 @@ export const EditPostModal: React.FC<{
       />
       <div className="py-2 px-4 sticky z-[200] border-b border-border shadow-md shadow-black/50 top-0 w-full inset-x-0 bg-background">
         <input
-          id={`file-input-post-${post.id}`}
+          id={filePostInputId}
           type="file"
           accept="image/*"
           className="hidden"
@@ -124,7 +115,7 @@ export const EditPostModal: React.FC<{
         />
         <div className="flex items-center gap-x-4">
           <Button
-            action={handleClick}
+            action={() => clickElement(filePostInputId)}
             title="Upload a Image"
             bgColor="blue"
             variant="modal"

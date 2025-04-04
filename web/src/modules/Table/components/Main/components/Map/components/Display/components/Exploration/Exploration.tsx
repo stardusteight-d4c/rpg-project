@@ -26,22 +26,6 @@ export const Exploration: React.FC<{
   const showResetMap = zoom !== 1 || position.x !== 0 || position.y !== 0
   const [file, setFile] = useState<File | undefined>(undefined)
 
-  function handleClick() {
-    const fileInput = document.getElementById("file-input") as HTMLInputElement
-    if (fileInput) {
-      fileInput.click()
-    }
-  }
-
-  function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0]
-    if (file) {
-      const tempUrl = URL.createObjectURL(file)
-      setFile(file)
-      addWallpaper(tempUrl)
-    }
-  }
-
   const handleDrop = (e: DragEvent<HTMLDivElement>, x: number, y: number) => {
     e.preventDefault()
 

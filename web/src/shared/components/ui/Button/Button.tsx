@@ -26,11 +26,11 @@ export const Button: React.FC<ButtonProps> = ({
   variant = "default",
   disabled,
   active,
-  shadow = true
+  shadow = true,
 }) => {
   const [isLoading, setIsLoading] = useState(false)
 
-  const handleClick = async () => {
+  const executeAction = async () => {
     if (isLoading) return
     setIsLoading(true)
     try {
@@ -76,7 +76,7 @@ export const Button: React.FC<ButtonProps> = ({
     return (
       <button
         id={id}
-        onClick={handleClick}
+        onClick={executeAction}
         disabled={isLoading || disabled}
         className={`${className} cursor-pointer disabled:cursor-not-allowed disabled:brightness-90 w-fit flex items-center group gap-x-2`}
       >
@@ -97,7 +97,7 @@ export const Button: React.FC<ButtonProps> = ({
     return (
       <button
         id={id}
-        onClick={handleClick}
+        onClick={executeAction}
         disabled={isLoading || disabled}
         className={`${bgColors.default[bgColor]} ${className} capitalize p-2 w-full disabled:cursor-not-allowed disabled:brightness-90 cursor-pointer hover:brightness-125 flex items-center justify-center min-h-[45px] max-h-[45px] font-medium text-center text-lg text-white rounded-full`}
       >
@@ -109,11 +109,13 @@ export const Button: React.FC<ButtonProps> = ({
     return (
       <button
         id={id}
-        onClick={handleClick}
+        onClick={executeAction}
         disabled={isLoading || disabled}
         className={`${!disabled && bgColors.onHover[bgColor]} ${
           isLoading || active ? bgColors.default[bgColor] : " bg-ashes "
-        } ${shadow && ' shadow-md shadow-black/50 '} ${className} disabled:cursor-not-allowed !fill-white !text-white disabled:brightness-90 cursor-pointer hover:brightness-125 bg-background flex items-center justify-center p-1 rounded-full duration-300 ease-in-out transition-all`}
+        } ${
+          shadow && " shadow-md shadow-black/50 "
+        } ${className} disabled:cursor-not-allowed !fill-white !text-white disabled:brightness-90 cursor-pointer hover:brightness-125 bg-background flex items-center justify-center p-1 rounded-full duration-300 ease-in-out transition-all`}
       >
         {isLoading ? <Loader /> : children}
       </button>
@@ -123,7 +125,7 @@ export const Button: React.FC<ButtonProps> = ({
     return (
       <button
         disabled={isLoading || disabled}
-        onClick={handleClick}
+        onClick={executeAction}
         className={`${!disabled && bgColors.onHover[bgColor]} ${
           isLoading ? bgColors.default[bgColor] : " bg-background "
         } ${className} disabled:cursor-not-allowed disabled:brightness-90 flex items-center pr-3 gap-x-2 cursor-pointer shadow-sm shadow-black/50 duration-300 ease-in-out transition-all p-2 rounded-full`}

@@ -5,11 +5,13 @@ import { useState } from "react"
 import { useToast, useAuth, useCampaigns } from "@/shared/contexts"
 import { Button, GlowingWrapper, ModalWrapper } from "@/shared/components/ui"
 import { Check, FileX, Image, Panorama } from "@/shared/components/ui/icons"
+import { clickElement } from "@/shared/utils"
 
 export const CreateCampaignModal: React.FC<{
   status: boolean
   onStatusChange: (status: boolean) => void
 }> = ({ onStatusChange, status }) => {
+  const campaignFileInputId = "campaign-file-input-785651"
   const { currentSession } = useAuth()
   const { addToast } = useToast()
   const { add } = useCampaigns()
@@ -31,7 +33,7 @@ export const CreateCampaignModal: React.FC<{
     setCampaignData({ ...campaignData, [e.target.name]: e.target.value })
   }
 
-  function updateCampaignData(data: {
+  const updateCampaignData = (data: {
     key: keyof {
       name: string
       description: string
@@ -39,23 +41,14 @@ export const CreateCampaignModal: React.FC<{
       file: File | undefined
     }
     value: any
-  }) {
+  }) => {
     setCampaignData((prev) => ({
       ...prev,
       [data.key]: data.value,
     }))
   }
 
-  function handleClick() {
-    const fileInput = document.getElementById(
-      "campaign-file-input"
-    ) as HTMLInputElement
-    if (fileInput) {
-      fileInput.click()
-    }
-  }
-
-  function onRemoveCover() {
+  const onRemoveCover = async () => {
     setCampaignData({
       ...campaignData,
       file: undefined,
@@ -63,7 +56,7 @@ export const CreateCampaignModal: React.FC<{
     })
   }
 
-  async function onCreate() {
+  const onCreate = async () => {
     await add({
       ...campaignData,
       owner: currentSession!,
@@ -85,7 +78,7 @@ export const CreateCampaignModal: React.FC<{
       })
   }
 
-  function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (file) {
       const tempUrl = URL.createObjectURL(file)
@@ -108,7 +101,7 @@ export const CreateCampaignModal: React.FC<{
           <div className="flex items-center gap-x-4">
             <Button
               title="Upload Cover Image"
-              action={handleClick}
+              action={() => clickElement(campaignFileInputId)}
               variant="modal"
               bgColor="blue"
             >
@@ -181,7 +174,7 @@ export const CreateCampaignModal: React.FC<{
                       <FileX />
                     </button>
                     <img
-                      onClick={handleClick}
+                      onClick={() => clickElement(campaignFileInputId)}
                       src={campaignData.coverUrl}
                       alt=""
                       className="rounded-md object-fill h-[200px] bg-ashes border border-border w-full flex items-center justify-center"
@@ -191,7 +184,7 @@ export const CreateCampaignModal: React.FC<{
               ) : (
                 <GlowingWrapper inset="0" border="rounded-md">
                   <div
-                    onClick={handleClick}
+                    onClick={() => clickElement(campaignFileInputId)}
                     className="rounded-md cursor-pointer h-[200px] bg-ashes border border-border w-full flex items-center justify-center"
                   >
                     <Image />
@@ -200,7 +193,7 @@ export const CreateCampaignModal: React.FC<{
               )}
             </div>
             <input
-              id="campaign-file-input"
+              id={campaignFileInputId}
               type="file"
               accept="image/*"
               className="hidden"

@@ -1,13 +1,10 @@
 "use client"
 
-import React, { useState } from "react"
-import {
-  CustomNumericInput,
-  GlowingWrapper,
-  ModalWrapper,
-} from "@/shared/components/ui"
-import { useMaps } from "@/shared/contexts/Maps/MapsContext"
 import { randomUUID } from "node:crypto"
+import React, { useState } from "react"
+import { CustomNumericInput, GlowingWrapper } from "@/shared/components/ui"
+import { useMaps } from "@/shared/contexts"
+import { Components } from "./components"
 
 export const Edit: React.FC<{
   selectedMap: IMap
@@ -15,18 +12,16 @@ export const Edit: React.FC<{
   onSelectedMap: (value: IMap | undefined) => void
 }> = ({ selectedMap, onSelectedMap, createMode }) => {
   if (!selectedMap || createMode) return
-
-  const { updateCopyMap, copyMaps, deleteMap, updateMap } = useMaps()
+  const { updateCopyMap } = useMaps()
   const [editableData, setEditableData] = useState<IMap>({
     ...selectedMap,
     gridSize: selectedMap.gridSize ?? [20, 20],
     visibility: selectedMap.visibility ?? "default",
     active: selectedMap.active ?? false,
   })
-  const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false)
   const [file, setFile] = useState<File | null>(null)
 
-  function updateEditableData(data: { key: keyof IMap; value: any }) {
+  const updateEditableData = (data: { key: keyof IMap; value: any }) => {
     setEditableData((prev) => ({
       ...prev,
       [data.key]: data.value,
@@ -37,7 +32,7 @@ export const Edit: React.FC<{
     })
   }
 
-  function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (file) {
       const tempUrl = URL.createObjectURL(file)
@@ -53,140 +48,18 @@ export const Edit: React.FC<{
     }
   }
 
-  function onSave() {
-    const updatedMap = copyMaps.find((map) => map.id === editableData.id)
-    updateMap(editableData.id, updatedMap!)
-    onSelectedMap(undefined)
-  }
-
-  function onDelete() {
-    deleteMap(editableData.id)
-    onSelectedMap(undefined)
-  }
-
-  function handleClick() {
-    const fileInput = document.getElementById("file-input") as HTMLInputElement
-    if (fileInput) {
-      fileInput.click()
-    }
-  }
-
   const types = ["Exploration", "Scenario"]
   const visibilities = ["low", "default"]
   const status = [true, false]
 
   return (
     <section>
-      {openDeleteModal === true && (
-        <ModalWrapper
-          status={openDeleteModal}
-          onStatusChange={setOpenDeleteModal}
-        >
-          <div className="w-[500px] p-4">
-            <h3 className="block text-3xl font-bold text-red-500">Warning!</h3>
-            <div className="flex flex-col mt-4 gap-2 items-center justify-center">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="58"
-                height="58"
-                fill="#ef4444"
-                viewBox="0 0 256 256"
-              >
-                <path d="M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V208a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16ZM96,40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8v8H96Zm96,168H64V64H192ZM112,104v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Z"></path>
-              </svg>
-              <span className="block w-[300px] text-center text-gray-400">
-                You are about to delete your {selectedMap.type} "
-                {selectedMap.name}". This action cannot be undone!
-              </span>
-              <button
-                onClick={onDelete}
-                className="p-2 mt-2 w-full hover:brightness-125 font-medium text-center text-lg bg-red-500 text-white rounded-full"
-              >
-                Delete
-              </button>
-            </div>
-          </div>
-        </ModalWrapper>
-      )}
-      <div className="sticky flex items-center border-b border-border shadow-sm shadow-black/50 z-[200] top-0 p-2 w-full inset-x-0 bg-background">
-        <div className="flex items-center gap-x-4">
-          <div
-            onClick={() => onSelectedMap(undefined)}
-            className="cursor-pointer w-fit flex items-center group gap-x-2"
-          >
-            <button className="bg-ashes flex items-center justify-center text-white p-1 rounded-full shadow-p group-hover:bg-gradient-to-tr group-hover:from-[#42d392] group-hover:to-[#8B5CF6] duration-300 ease-in-out transition-all">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                fill="#FFFFFF"
-                viewBox="0 0 256 256"
-              >
-                <path d="M224,128a8,8,0,0,1-8,8H59.31l58.35,58.34a8,8,0,0,1-11.32,11.32l-72-72a8,8,0,0,1,0-11.32l72-72a8,8,0,0,1,11.32,11.32L59.31,120H216A8,8,0,0,1,224,128Z"></path>
-              </svg>
-            </button>
-            <span>Back</span>
-          </div>
-          <div
-            onClick={handleClick}
-            className="flex cursor-pointer items-center group w-fit gap-x-2"
-          >
-            <button className="bg-ashes flex items-center justify-center text-white p-1 rounded-full  shadow-md shadow-black/50 group-hover:bg-blue-500 duration-300 ease-in-out transition-all">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                fill="#FFFFFF"
-                viewBox="0 0 256 256"
-              >
-                <path d="M224,144v64a8,8,0,0,1-8,8H40a8,8,0,0,1-8-8V144a8,8,0,0,1,16,0v56H208V144a8,8,0,0,1,16,0ZM93.66,77.66,120,51.31V144a8,8,0,0,0,16,0V51.31l26.34,26.35a8,8,0,0,0,11.32-11.32l-40-40a8,8,0,0,0-11.32,0l-40,40A8,8,0,0,0,93.66,77.66Z"></path>
-              </svg>
-            </button>
-            <span className="capitalize">Upload {editableData.type}</span>
-            <input
-              id="file-input"
-              type="file"
-              accept="image/*"
-              className="hidden"
-              onChange={handleFileChange}
-            />
-          </div>
-          <div
-            onClick={() => setOpenDeleteModal(true)}
-            className="cursor-pointer w-fit flex items-center group gap-x-2"
-          >
-            <button className="bg-ashes flex items-center justify-center text-white p-1 rounded-full shadow-p group-hover:bg-red-500 duration-300 ease-in-out transition-all">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                fill="#FFFFFF"
-                viewBox="0 0 256 256"
-              >
-                <path d="M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V208a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16ZM96,40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8v8H96Zm96,168H64V64H192ZM112,104v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Z"></path>
-              </svg>
-            </button>
-            <span className="capitalize">Delete {editableData.type}</span>
-          </div>
-          <div
-            onClick={onSave}
-            className="cursor-pointer w-fit flex items-center group gap-x-2"
-          >
-            <button className="bg-ashes flex items-center justify-center text-white p-1 rounded-full shadow-p group-hover:bg-green-500 duration-300 ease-in-out transition-all">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                fill="#FFFFFF"
-                viewBox="0 0 256 256"
-              >
-                <path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z"></path>
-              </svg>
-            </button>
-            <span>Save Changes</span>
-          </div>
-        </div>
-      </div>
+      <Components.Nav
+        editableData={editableData}
+        onFileChange={handleFileChange}
+        onSelectedMap={onSelectedMap}
+      />
+
       <div className="p-2">
         <ul className="grid grid-cols-2 gap-2 text-base">
           <li className="col-span-2 text-base relative z-[60] flex flex-col">

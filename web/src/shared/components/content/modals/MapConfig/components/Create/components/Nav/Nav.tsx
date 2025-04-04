@@ -1,18 +1,32 @@
 import { Button } from "@/shared/components/ui"
 import { ArrowLeft, Check, Image } from "@/shared/components/ui/icons"
+import { useMaps } from "@/shared/contexts"
+import { clickElement } from "@/shared/utils"
 import React from "react"
 
 export const Nav: React.FC<{
   onCreateMode: (value: boolean) => void
   onFileChange(e: React.ChangeEvent<HTMLInputElement>): void
-  handleClick(): void
-  onSave(): void
   editableData: IMap
-}> = ({ handleClick, editableData, onFileChange, onCreateMode, onSave }) => {
+}> = ({ editableData, onFileChange, onCreateMode }) => {
+  const { copyMaps, addMap } = useMaps()
+  const fileInputId = "file-input-456753"
+
+  const onSave = () => {
+    let updatedMap = copyMaps.find((map) => map.id === editableData.id)
+    const isExploration = updatedMap?.type === "exploration"
+    if (isExploration) {
+      delete updatedMap.gridSize
+      delete updatedMap.visibility
+    }
+    addMap(updatedMap!)
+    onCreateMode(false)
+  }
+
   return (
     <div className="sticky border-b border-border  shadow-sm shadow-black/50 z-[999] top-0 p-2 w-full inset-x-0 bg-background">
       <input
-        id="file-input"
+        id={fileInputId}
         type="file"
         accept="image/*"
         className="hidden"
@@ -29,7 +43,7 @@ export const Nav: React.FC<{
           <ArrowLeft />
         </Button>
         <Button
-          action={handleClick}
+          action={() => clickElement(fileInputId)}
           variant="modal"
           title={`Upload ${editableData.type}`}
           className="capitalize"

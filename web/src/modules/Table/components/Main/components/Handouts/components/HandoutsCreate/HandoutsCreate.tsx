@@ -5,6 +5,7 @@ import { handoutContentTypes, handoutsTypes } from "../../data"
 import { HandoutDisplay } from "../HandoutDisplay"
 import { useCharacters } from "@/shared/contexts/Characters/CharactersContext"
 import { GlowingWrapper } from "@/shared/components/ui"
+import { clickElement } from "@/shared/utils"
 
 interface HandoutsCreateProps {
   onCreate: (value: boolean) => void
@@ -12,6 +13,7 @@ interface HandoutsCreateProps {
 
 export const HandoutsCreate = ({ onCreate }: HandoutsCreateProps) => {
   const characters = useCharacters().characters
+  const fileInputId = 'file-input-445887'
   const [editableData, setEditableData] = useState<IHandout>({
     id: "",
     name: "",
@@ -40,13 +42,6 @@ export const HandoutsCreate = ({ onCreate }: HandoutsCreateProps) => {
     characterId: string
   }): boolean {
     return editableData[data.type].some((item) => item.id === data.characterId)
-  }
-
-  const handleClick = () => {
-    const fileInput = document.getElementById("file-input") as HTMLInputElement
-    if (fileInput) {
-      fileInput.click()
-    }
   }
 
   function handleCheckEdit(data: {
@@ -126,7 +121,7 @@ export const HandoutsCreate = ({ onCreate }: HandoutsCreateProps) => {
           </div>
           {!editableData.upload ? (
             <div
-              onClick={handleClick}
+              onClick={() => clickElement(fileInputId)}
               className="flex cursor-pointer items-center group w-fit gap-x-2"
             >
               <button className="bg-ashes flex items-center justify-center text-white p-1 rounded-full  shadow-md shadow-black/50 group-hover:bg-blue-500 duration-300 ease-in-out transition-all">
@@ -142,7 +137,7 @@ export const HandoutsCreate = ({ onCreate }: HandoutsCreateProps) => {
               </button>
               <span>Upload Handout</span>
               <input
-                id="file-input"
+                id={fileInputId}
                 type="file"
                 accept="image/*"
                 className="hidden"

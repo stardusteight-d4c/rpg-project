@@ -6,6 +6,7 @@ import { Button, GlowingWrapper } from "@/shared/components/ui"
 import { usePosts, useAuth, useToast } from "@/shared/contexts"
 import { UserAvatar } from "@/shared/components/content"
 import { Image, PaperPlaneTilt } from "@/shared/components/ui/icons"
+import { clickElement } from "@/shared/utils"
 
 export const CreatePostInput: React.FC<{
   currentPage?: number
@@ -26,6 +27,8 @@ export const CreatePostInput: React.FC<{
     likes: [],
   })
   const [imageFile, setImageFile] = useState<File | undefined>(undefined)
+  const fileInputPostId = "file-input-post"
+  const sendPostButtonId = "send-post-button"
 
   const handleInputChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     e.preventDefault()
@@ -43,24 +46,6 @@ export const CreatePostInput: React.FC<{
       setImageFile(file)
       handlePostData("image", tempUrl)
       // URL.revokeObjectURL(tempUrl)
-    }
-  }
-
-  const handleClick = () => {
-    const fileInput = document.getElementById(
-      "file-input-post"
-    ) as HTMLInputElement
-    if (fileInput) {
-      fileInput.click()
-    }
-  }
-
-  const handleSendPost = () => {
-    const fileInput = document.getElementById(
-      "send-post-button"
-    ) as HTMLInputElement
-    if (fileInput) {
-      fileInput.click()
     }
   }
 
@@ -131,7 +116,7 @@ export const CreatePostInput: React.FC<{
               onKeyDown={(e) => {
                 if (e.key === "Enter" && !e.shiftKey) {
                   e.preventDefault()
-                  handleSendPost()
+                  clickElement(sendPostButtonId)
                 }
               }}
               className="p-2 disabled:cursor-not-allowed disabled:brightness-90 bg-background h-[100px]  resize-none overflow-y-scroll no-scrollbar w-full cursor-text focus:brightness-125 flex items-center gap-x-1 line-clamp-1 rounded-xl rounded-b-none border border-border outline-none"
@@ -139,7 +124,7 @@ export const CreatePostInput: React.FC<{
           </GlowingWrapper>
           <div className="flex rounded-b-xl w-full items-center gap-x-2 px-4 py-2 bg-border">
             <input
-              id="file-input-post"
+              id={fileInputPostId}
               type="file"
               accept="image/*"
               className="hidden"
@@ -147,7 +132,7 @@ export const CreatePostInput: React.FC<{
             />
 
             <Button
-              action={handleClick}
+              action={() => clickElement(fileInputPostId)}
               title="Upload a Image"
               variant="modal"
               bgColor="blue"
@@ -174,7 +159,7 @@ export const CreatePostInput: React.FC<{
               </div>
             )}
             <Button
-              id="send-post-button"
+              id={sendPostButtonId}
               action={onPost}
               bgColor="gradientBlue"
               variant="icon"

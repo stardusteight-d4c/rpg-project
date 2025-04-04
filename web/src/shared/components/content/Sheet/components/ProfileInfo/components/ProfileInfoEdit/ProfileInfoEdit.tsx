@@ -10,6 +10,7 @@ import {
   Tooltip,
 } from "@/shared/components/ui"
 import {
+  clickElement,
   handleCharacterTooltipText,
   handleCharacterVisibilityTooltipText,
 } from "@/shared/utils"
@@ -19,12 +20,12 @@ export const ProfileInfoEdit: React.FC<{ character: ISheet }> = ({
   character,
 }) => {
   const { updateCopyCharacter } = useCharacters()
-
   const [editableData, setEditableData] = useState({
     ...character.infos,
     type: character.infos.type ?? "player",
     characterFile: null,
   })
+  const fileInputId = "file-input-id-423985"
 
   useEffect(() => {
     setEditableData({
@@ -64,13 +65,6 @@ export const ProfileInfoEdit: React.FC<{ character: ISheet }> = ({
     if (editableData.type === "player") return "npc"
   }
 
-  const handleClick = () => {
-    const fileInput = document.getElementById("file-input") as HTMLInputElement
-    if (fileInput) {
-      fileInput.click()
-    }
-  }
-
   return (
     <div className="flex">
       <div className="relative rounded w-fit">
@@ -78,14 +72,14 @@ export const ProfileInfoEdit: React.FC<{ character: ISheet }> = ({
           <GlowingWrapper border="rounded-xl">
             {editableData.characterUrl.length > 0 ? (
               <img
-                onClick={() => handleClick()}
+                onClick={() => clickElement(fileInputId)}
                 src={editableData.characterUrl}
                 alt="Imagem do Personagem"
                 className="min-w-[210px] max-w-[210px] min-h-[210px] max-h-[210px] cursor-pointer overflow-hidden border border-border object-cover rounded-xl"
               />
             ) : (
               <div
-                onClick={() => handleClick()}
+                onClick={() => clickElement(fileInputId)}
                 className="min-w-[210px] opacity-50 bg-gray-600/10 cursor-pointer flex items-center justify-center flex-col max-w-[210px] min-h-[210px] max-h-[210px] border border-border object-cover rounded-xl"
               >
                 <svg
@@ -101,7 +95,7 @@ export const ProfileInfoEdit: React.FC<{ character: ISheet }> = ({
             )}
           </GlowingWrapper>
           <input
-            id="file-input"
+            id={fileInputId}
             type="file"
             accept="image/*"
             className="hidden"

@@ -6,12 +6,14 @@ import { useAuth, useCampaigns, usePosts, useToast } from "@/shared/contexts"
 import { DeleteContentModal } from "@/shared/components/content/modals"
 import { Button, GlowingWrapper, ModalWrapper } from "@/shared/components/ui"
 import { Check, Panorama, Trash } from "@/shared/components/ui/icons"
+import { clickElement } from "@/shared/utils"
 
 export const EditCampaignModal: React.FC<{
   status: boolean
   onStatusChange: (value: boolean) => void
   campaign: ICampaign
 }> = ({ onStatusChange, status, campaign }) => {
+  const campaignFileInputId = "campaign-file-input-456987"
   const { push } = useRouter()
   const { currentSession } = useAuth()
   const { addToast } = useToast()
@@ -30,13 +32,13 @@ export const EditCampaignModal: React.FC<{
     file: undefined,
   })
 
-  function handleChange(
+  const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) {
+  ) => {
     setCampaignData({ ...campaignData, [e.target.name]: e.target.value })
   }
 
-  function updateCampaignData(data: {
+  const updateCampaignData = (data: {
     key: keyof {
       name: string
       description: string
@@ -44,23 +46,14 @@ export const EditCampaignModal: React.FC<{
       file: File | undefined
     }
     value: any
-  }) {
+  }) => {
     setCampaignData((prev) => ({
       ...prev,
       [data.key]: data.value,
     }))
   }
 
-  function handleClick() {
-    const fileInput = document.getElementById(
-      "campaign-file-input"
-    ) as HTMLInputElement
-    if (fileInput) {
-      fileInput.click()
-    }
-  }
-
-  function onRemoveCover() {
+  const onRemoveCover = () => {
     setCampaignData({
       ...campaignData,
       file: undefined,
@@ -68,7 +61,7 @@ export const EditCampaignModal: React.FC<{
     })
   }
 
-  async function onEdit() {
+  const onEdit = async () => {
     await update({
       ...campaignData,
       id: campaign.id,
@@ -85,7 +78,7 @@ export const EditCampaignModal: React.FC<{
       })
   }
 
-  async function onDelete() {
+  const onDelete = async () => {
     await remove(campaign.id)
       .then(() => {
         deletePostsFromCampaignOnLocalState(campaign.id)
@@ -101,7 +94,7 @@ export const EditCampaignModal: React.FC<{
       })
   }
 
-  function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (file) {
       const tempUrl = URL.createObjectURL(file)
@@ -129,7 +122,7 @@ export const EditCampaignModal: React.FC<{
         <div className="flex items-center gap-x-4">
           <Button
             title="Change Cover Image"
-            action={handleClick}
+            action={() => clickElement(campaignFileInputId)}
             variant="modal"
             bgColor="blue"
           >
@@ -237,7 +230,7 @@ export const EditCampaignModal: React.FC<{
             )}
           </div>
           <input
-            id="campaign-file-input"
+            id={campaignFileInputId}
             type="file"
             accept="image/*"
             className="hidden"
