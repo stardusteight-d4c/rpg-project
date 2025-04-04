@@ -94,7 +94,11 @@ export class MockCampaignRoute implements ICampaignRoute {
         !queryParams?.ownerId || campaign.owner.id === queryParams.ownerId
       const isMatchingStatus =
         !queryParams?.status || campaign.status === queryParams.status
-      return isMatchingId && isMatchingOwner && isMatchingStatus
+      const isMatchingTableId =
+        !queryParams?.tableId || campaign.tableId === queryParams.tableId
+      return (
+        isMatchingId && isMatchingOwner && isMatchingStatus && isMatchingTableId
+      )
     })
 
     const updatedCampaigns = filteredCampaigns.map((campaign) => {

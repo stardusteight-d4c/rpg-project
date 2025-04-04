@@ -1,31 +1,51 @@
 "use client"
 
-import { useAuth, useSheets } from "@/shared/contexts"
-import { Components } from "./components"
-import React, { useEffect, useState } from "react"
 import { useParams } from "next/navigation"
+import React, { Fragment, useEffect, useState } from "react"
+import { useAuth, useCampaigns, useSheets } from "@/shared/contexts"
+import { Components } from "./components"
+import { DataFetcher } from "@/shared/components/ui"
 
 export function TableModule() {
-  const [active, setActive] = useState<MenuItem>("map")
-  const { getActivePlayerSheet, getActiveTableSheets } = useSheets()
   const tableId = useParams().id as string
+  const [active, setActive] = useState<MenuItem>("map")
+  const [isLoading, setIsLoading] = useState<boolean>(true)
+  const { getActivePlayerSheet, getActiveTableSheets } = useSheets()
   const { currentSession } = useAuth()
+  const { getByTableId } = useCampaigns()
 
   useEffect(() => {
     ;(async () => {
       if (tableId && currentSession) {
-        await getActivePlayerSheet(currentSession.id, tableId)
-        await getActiveTableSheets(tableId)
+        await Promise.all([
+          getByTableId(tableId, currentSession.id),
+          getActivePlayerSheet(currentSession.id, tableId),
+          getActiveTableSheets(tableId),
+        ]).then(() => {
+          setIsLoading(false)
+        })
       }
     })()
   }, [])
 
   return (
     <Wrapper>
-      <Components.Rolls />
-      <Components.Menu active={active} onActive={setActive} />
-      <Components.Main active={active} />
-      <Components.SheetsBar />
+      {isLoading ? (
+        <div className="min-h-screen w-screen bg-background flex flex-col items-center justify-center text-center p-4">
+          <div className="relative mt-[100px]">
+            <DataFetcher />
+          </div>
+          <p className="text-sm">The stars are no longer aligned...</p>
+          <p className="text-sm">but something is coming anyway.</p>
+        </div>
+      ) : (
+        <Fragment>
+          <Components.Rolls />
+          <Components.Menu active={active} onActive={setActive} />
+          <Components.Main active={active} />
+          <Components.SheetsBar />
+        </Fragment>
+      )}
     </Wrapper>
   )
 }

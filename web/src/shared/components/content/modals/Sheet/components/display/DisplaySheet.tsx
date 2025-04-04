@@ -1,7 +1,11 @@
 import React, { Fragment, useState } from "react"
 import { useAuth, useSheets, useToast } from "@/shared/contexts"
 import { Sheet } from "@/shared/components/content/Sheet"
-import { PencilSimpleLine, UserCircleCheck } from "@/shared/components/ui/icons"
+import {
+  MapTrifold,
+  PencilSimpleLine,
+  UserCircleCheck,
+} from "@/shared/components/ui/icons"
 import { Button } from "@/shared/components/ui"
 import { useParams } from "next/navigation"
 
@@ -17,6 +21,7 @@ export const DisplaySheet: React.FC<{
   const [activeSheet, setActiveSheet] = useState(sheet.tableId)
   const [activeItems, setActiveItems] = useState<SheetItems[]>([])
   const { addToast } = useToast()
+  const sheetInTable = true
 
   const toggleItem = (item: SheetItems) => {
     setActiveItems((prev) => {
@@ -63,15 +68,44 @@ export const DisplaySheet: React.FC<{
             </Button>
           )}
           {showSelectActive && (
-            <Button
-              action={() => onToggleSheetInCampaign(sheet.id, tableId)}
-              title={activeSheet === tableId ? "Active Sheet" : "Use Sheet"}
-              bgColor="green"
-              variant="modal"
-              active={activeSheet === tableId}
-            >
-              <UserCircleCheck />
-            </Button>
+            <Fragment>
+              {sheet.infos.type !== "player" && (
+                <Fragment>
+                  {sheetInTable ? (
+                    <Button
+                      action={() => {}}
+                      title="On The Table"
+                      bgColor="green"
+                      variant="modal"
+                      active={true}
+                    >
+                      <MapTrifold />
+                    </Button>
+                  ) : (
+                    <Button
+                      action={() => {}}
+                      title="Add Sheet To Table"
+                      bgColor="blue"
+                      variant="modal"
+                      active={sheetInTable}
+                    >
+                      <MapTrifold />
+                    </Button>
+                  )}
+                </Fragment>
+              )}
+              {sheetInTable && (
+                <Button
+                  action={() => onToggleSheetInCampaign(sheet.id, tableId)}
+                  title={activeSheet === tableId ? "Active Sheet" : "Use Sheet"}
+                  bgColor="green"
+                  variant="modal"
+                  active={activeSheet === tableId}
+                >
+                  <UserCircleCheck />
+                </Button>
+              )}
+            </Fragment>
           )}
         </div>
       </div>

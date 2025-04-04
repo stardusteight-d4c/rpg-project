@@ -2,23 +2,23 @@
 
 import React, { createContext, useContext, useState, ReactNode } from "react"
 
-interface TableRollsState {
+interface RollsState {
   rolls: IRoll[]
   openDiceModal: boolean
   setOpenDiceModal: (value: boolean) => void
   addRoll: (roll: IRoll) => void
 }
 
-const defaultState: TableRollsState = {
+const defaultState: RollsState = {
   rolls: [],
   openDiceModal: false,
   setOpenDiceModal: () => {},
   addRoll: () => {},
 }
 
-const TableRollsContext = createContext<TableRollsState>(defaultState)
+const RollsContext = createContext<RollsState>(defaultState)
 
-export const TableRollsProvider: React.FC<{ children: ReactNode }> = ({
+export const RollsProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const [rolls, setRolls] = useState<IRoll[]>([])
@@ -29,18 +29,18 @@ export const TableRollsProvider: React.FC<{ children: ReactNode }> = ({
   }
 
   return (
-    <TableRollsContext.Provider
+    <RollsContext.Provider
       value={{ rolls, addRoll, openDiceModal, setOpenDiceModal }}
     >
       {children}
-    </TableRollsContext.Provider>
+    </RollsContext.Provider>
   )
 }
 
-export const useTableRolls = () => {
-  const context = useContext(TableRollsContext)
+export const useRolls = () => {
+  const context = useContext(RollsContext)
   if (!context) {
-    throw new Error("useTableRolls must be used within a TableRollsProvider")
+    throw new Error("useRolls must be used within a RollsProvider")
   }
   return context
 }

@@ -1,9 +1,9 @@
 import { Fragment } from "react"
 import { RollModal } from "@/shared/components/content/modals"
-import { useTableRolls } from "@/shared/contexts"
+import { useRolls } from "@/shared/contexts"
 
 export const Dice = () => {
-  const { openDiceModal, setOpenDiceModal } = useTableRolls()
+  const { openDiceModal, setOpenDiceModal } = useRolls()
 
   return (
     <Fragment>

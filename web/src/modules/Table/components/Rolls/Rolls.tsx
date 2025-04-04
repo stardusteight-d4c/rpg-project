@@ -1,11 +1,11 @@
 "use client"
 
 import React, { useEffect, useRef, useState } from "react"
-import { useTableRolls } from "@/shared/contexts"
+import { useRolls } from "@/shared/contexts"
 import { Components } from "./components"
 
 export const Rolls = () => {
-  const { rolls } = useTableRolls()
+  const { rolls } = useRolls()
 
   return (
     <Wrapper>

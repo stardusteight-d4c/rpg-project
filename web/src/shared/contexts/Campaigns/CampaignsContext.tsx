@@ -1,10 +1,17 @@
 "use client"
 
-import React, { createContext, useContext, useState, ReactNode } from "react"
+import React, {
+  createContext,
+  useContext,
+  useState,
+  ReactNode,
+  useEffect,
+} from "react"
 import { MockAPI } from "@/shared/requests/MockAPI"
 import { sortArrayOfMapObjectByCreatedAt } from "@/shared/utils"
 
 interface CampaignsState {
+  isMaster: boolean
   lastRequestCampaignsData: Map<string, ICampaign>
   lastRequestProfileCampaignsData: Map<string, ListResponseDTO<ICampaign>>
   searchByName: (name: string) => Promise<ICampaign[]>
@@ -13,17 +20,20 @@ interface CampaignsState {
     queryParams: CampaignQueryParams
   ) => Promise<ListResponseDTO<ICampaign> | void>
   getById: (campaignId: string) => Promise<ICampaign | undefined>
+  getByTableId: (tableId: string, userId: string) => Promise<ICampaign | void>
   update: (campaign: Partial<ICampaign>) => Promise<ICampaign | void>
   remove: (campaignId: string) => Promise<void>
 }
 
 const defaultState: CampaignsState = {
+  isMaster: false,
   lastRequestCampaignsData: new Map(),
   lastRequestProfileCampaignsData: new Map(),
   add: async () => {},
   searchByName: async () => [],
   getCampaignsByUser: async () => {},
   getById: async () => undefined,
+  getByTableId: async () => {},
   update: async () => {},
   remove: async () => {},
 }
@@ -34,6 +44,10 @@ export const CampaignsProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const api = new MockAPI().initializeRoutes()
+  const [isMaster, setIsMaster] = useState<boolean>(false)
+  const [activeCampaign, setActiveCampaign] = useState<ICampaign | undefined>(
+    undefined
+  )
   const [lastRequestCampaignsData, setLastRequestCampaignsData] = useState<
     Map<string, ICampaign>
   >(new Map())
@@ -107,6 +121,32 @@ export const CampaignsProvider: React.FC<{ children: ReactNode }> = ({
       })
   }
 
+  const getByTableId = async (tableId: string, userId: string) => {
+    const prevCampaignRequestData = lastRequestCampaignsData.get(tableId)
+
+    if (prevCampaignRequestData) {
+      setActiveCampaign(prevCampaignRequestData)
+      setIsMaster(prevCampaignRequestData.owner.id === userId)
+      return prevCampaignRequestData
+    }
+
+    return await api.campaign
+      .list({ tableId })
+      .then((campaign) => {
+        setLastRequestCampaignsData((prev) => {
+          const newCache = new Map(prev)
+          newCache.set(campaign.items[0].id, campaign.items[0])
+          return newCache
+        })
+        setActiveCampaign(campaign.items[0])
+        setIsMaster(campaign.items[0].owner.id === userId)
+        return campaign.items[0]
+      })
+      .catch((error) => {
+        throw new Error(error.message)
+      })
+  }
+
   const getById = async (campaignId: string) => {
     const prevCampaignRequestData = lastRequestCampaignsData.get(campaignId)
 
@@ -115,7 +155,7 @@ export const CampaignsProvider: React.FC<{ children: ReactNode }> = ({
     }
 
     return await api.campaign
-      .list({ campaignId: campaignId })
+      .list({ campaignId })
       .then((campaign) => {
         setLastRequestCampaignsData((prev) => {
           const newCache = new Map(prev)
@@ -242,11 +282,13 @@ export const CampaignsProvider: React.FC<{ children: ReactNode }> = ({
   return (
     <CampaignsContext.Provider
       value={{
+        isMaster,
         lastRequestCampaignsData,
         lastRequestProfileCampaignsData,
         searchByName,
         add,
         remove,
+        getByTableId,
         getCampaignsByUser,
         getById,
         update,

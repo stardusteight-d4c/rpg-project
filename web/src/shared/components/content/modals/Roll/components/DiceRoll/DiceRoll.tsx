@@ -1,5 +1,5 @@
 import { Button } from "@/shared/components/ui"
-import { useTableRolls } from "@/shared/contexts"
+import { useRolls } from "@/shared/contexts"
 import React, { useState } from "react"
 
 export const DiceRoll: React.FC<{
@@ -7,7 +7,7 @@ export const DiceRoll: React.FC<{
   activeSheet: ISheet
 }> = ({ mode, activeSheet }) => {
   if (mode !== "dice") return null
-  const { addRoll, setOpenDiceModal } = useTableRolls()
+  const { addRoll, setOpenDiceModal } = useRolls()
   const [numDice, setNumDice] = useState<number>(1)
   const [diceType, setDiceType] = useState<number>(4)
   const diceTypes = [4, 6, 8, 10, 12, 20, 100]

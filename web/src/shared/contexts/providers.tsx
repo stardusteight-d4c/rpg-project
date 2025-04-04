@@ -11,16 +11,14 @@ import { CampaignsProvider } from "./Campaigns/CampaignsContext"
 import { ToastProvider } from "./Toaster/ToasterContext"
 import { SheetsProvider } from "./Sheets/SheetsContext"
 import { PostsProvider } from "./Posts/PostsContext"
-import { TableRollsProvider } from "./Table/Rolls/TableRollsContext"
-import { TableSheetsProvider } from "./Table/Sheets/TableSheetsContext"
+import { RollsProvider } from "./Rolls/RollsContext"
 
 const providers = [
   AuthProvider,
   ToastProvider,
   CampaignsProvider,
   PostsProvider,
-  TableSheetsProvider,
-  TableRollsProvider,
+ RollsProvider,
   NotificationsProvider,
   UsersProvider,
   SheetsProvider,

@@ -11,12 +11,14 @@ import {
   Waveform,
 } from "@/shared/components/ui/icons"
 import { useAuth } from "@/shared/contexts/Auth/AuthContext"
+import { useCampaigns } from "@/shared/contexts"
 
 export const Menu: React.FC<{
   active: MenuItem
   onActive: (value: MenuItem) => void
 }> = ({ active, onActive }) => {
   const { currentSession } = useAuth()
+  const { isMaster } = useCampaigns()
 
   if (!currentSession) return
 
@@ -48,7 +50,7 @@ export const Menu: React.FC<{
           </Button>
         </Tooltip>
 
-        {true && (
+        {isMaster && (
           <Fragment>
             <Tooltip text="Handouts" variant position="right">
               <Button

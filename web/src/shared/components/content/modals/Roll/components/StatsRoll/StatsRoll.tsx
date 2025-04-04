@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { useTableRolls } from "@/shared/contexts"
+import { useRolls } from "@/shared/contexts"
 import { Components } from "./components"
 
 export const StatsRoll: React.FC<{
@@ -7,7 +7,7 @@ export const StatsRoll: React.FC<{
   mode: "dice" | "stats"
 }> = ({ activeSheet, mode }) => {
   if (mode !== "stats") return null
-  const { addRoll, setOpenDiceModal } = useTableRolls()
+  const { addRoll, setOpenDiceModal } = useRolls()
 
   const [selectedType, setSelectedType] = useState<"attributes" | "skills">(
     "attributes"

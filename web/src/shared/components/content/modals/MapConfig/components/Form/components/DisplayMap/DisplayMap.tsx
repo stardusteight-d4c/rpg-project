@@ -2,7 +2,7 @@ export const DisplayMap: React.FC<{ editableData: IMap }> = ({ editableData }) =
   if (!editableData.imageUrl) return
 
   return (
-    <div className="">
+    <div className="px-2">
       {editableData.type === "exploration" ? (
         <div className="relative rounded-md overflow-hidden w-full">
           <div

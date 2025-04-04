@@ -4,12 +4,13 @@ import { Fragment, useState } from "react"
 import { Button } from "@/shared/components/ui"
 import { Gear } from "@/shared/components/ui/icons"
 import { MapModal } from "@/shared/components/content/modals"
+import { useAuth, useCampaigns } from "@/shared/contexts"
 
 export const Config = () => {
   const [openConfig, setOpenConfig] = useState(false)
+  const { isMaster } = useCampaigns()
 
-  // Exibir apenas para o DM
-  if (false) return
+  if (!isMaster) return
 
   return (
     <Fragment>
