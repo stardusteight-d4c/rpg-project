@@ -45,7 +45,7 @@ export const Nav: React.FC<{
         <Button
           action={() => clickElement(fileInputId)}
           variant="modal"
-          title={`Upload ${editableData.type}`}
+          title="Upload Map"
           className="capitalize"
           bgColor="blue"
         >
@@ -54,7 +54,7 @@ export const Nav: React.FC<{
         <Button
           action={onSave}
           variant="modal"
-          title={`Save ${editableData.type}`}
+          title="Save New Map"
           className="capitalize"
           bgColor="green"
         >

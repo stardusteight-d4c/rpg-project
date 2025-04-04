@@ -6,7 +6,12 @@ import { Components } from "./components"
 export const Create: React.FC<{
   createMode: boolean
   onCreateMode: (value: boolean) => void
-}> = ({ createMode, onCreateMode }) => {
+
+  Form: React.FC<{
+    editableData: IMap
+    updateEditableData: (data: { key: keyof IMap; value: any }) => void
+  }>
+}> = ({ createMode, onCreateMode, Form }) => {
   const { updateCopyMap } = useMaps()
   const [file, setFile] = useState<File | null>(null)
   const [editableData, setEditableData] = useState<IMap>({
@@ -63,12 +68,11 @@ export const Create: React.FC<{
         onFileChange={handleFileChange}
         onCreateMode={onCreateMode}
       />
-      <Components.Form
+      <Form
         editableData={editableData}
         updateEditableData={updateEditableData}
       />
       <Components.Empty imageUrl={editableData.imageUrl} />
-      <Components.Display editableData={editableData} />
     </Wrapper>
   )
 }
@@ -79,13 +83,13 @@ export const Wrapper: React.FC<{ children: React.ReactNode }> = ({
   const elements = React.Children.toArray(children)
 
   return (
-    <section>
+    <div>
       {elements[0]}
       {elements[1]}
       <div className="p-2 pt-0">
         {elements[2]}
         {elements[3]}
       </div>
-    </section>
+    </div>
   )
 }

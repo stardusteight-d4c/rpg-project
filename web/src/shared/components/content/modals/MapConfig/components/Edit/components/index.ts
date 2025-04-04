@@ -1,5 +1,7 @@
+import { Form } from "../../Form"
 import { Nav } from "./Nav"
 
 export const Components = {
   Nav,
+  Form,
 }

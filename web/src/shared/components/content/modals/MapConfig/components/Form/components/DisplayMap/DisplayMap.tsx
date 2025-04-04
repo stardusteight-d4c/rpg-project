@@ -1,4 +1,4 @@
-export const Display: React.FC<{ editableData: IMap }> = ({ editableData }) => {
+export const DisplayMap: React.FC<{ editableData: IMap }> = ({ editableData }) => {
   if (!editableData.imageUrl) return
 
   return (
