@@ -36,7 +36,7 @@ interface ISheetRoute {
   list(queryParams: SheetQueryParams): Promise<ListResponseDTO<ISheet>>
   toggleActive(sheetId: string, tableId: string): Promise<ISheet[]>
   addToTable(sheetId: string, tableId: string): Promise<ISheet>
-  removeFromTable(sheetId: string, tableId: string): Promise<void>
+  removeFromTable(sheetId: string, tableId: string): Promise<ISheet>
 }
 
 interface ICampaignRoute {

@@ -9,7 +9,7 @@ import {
 import { Button } from "@/shared/components/ui"
 import { useParams } from "next/navigation"
 
-export const DisplaySheet: React.FC<{
+export const Display: React.FC<{
   sheet: ISheet
   onEdit: (value: boolean) => void
   showSelectActive: boolean
@@ -19,11 +19,8 @@ export const DisplaySheet: React.FC<{
   const params = useParams()
   const tableId = params.id as string
   const { currentSession } = useAuth()
-  const [sheetInTable, setSheetInTable] = useState<string | undefined>(
-    sheet.tableId
-  )
-  const [activeItems, setActiveItems] = useState<SheetItems[]>([])
   const { addToast } = useToast()
+  const [activeItems, setActiveItems] = useState<SheetItems[]>([])
 
   const toggleItem = (item: SheetItems) => {
     setActiveItems((prev) => {
@@ -37,12 +34,14 @@ export const DisplaySheet: React.FC<{
 
   const onAddToTable = async () => {
     await addToTable(sheet.id, tableId).then(() => {
+      sheet.tableId = tableId
       addToast(`${sheet.infos.name} Added to Table`, "success", 45)
     })
   }
 
   const onRemoveFromTable = async () => {
     await removeFromTable(sheet.id, tableId).then(() => {
+      sheet.tableId = undefined
       addToast(`${sheet.infos.name} Removed from Table`, "info", 45)
     })
   }
@@ -50,14 +49,14 @@ export const DisplaySheet: React.FC<{
   const onToggleActiveSheetOnTable = async (value: boolean) => {
     await toggleActive(sheet.id, tableId).then(() => {
       if (value === false) {
-        setSheetInTable(undefined)
+        sheet.active = false
         addToast(
           `${sheet.infos.name} it is no longer your active sheet`,
           "info",
           45
         )
       } else {
-        setSheetInTable(tableId)
+        sheet.active = true
         addToast(
           `${sheet.infos.name} now it's your active sheet`,
           "success",
@@ -83,7 +82,7 @@ export const DisplaySheet: React.FC<{
           )}
           {showSelectActive && sheet.owner?.id === currentSession?.id && (
             <Fragment>
-              {sheetInTable ? (
+              {Boolean(sheet.tableId) ? (
                 <Fragment>
                   <Button
                     action={() => onRemoveFromTable()}

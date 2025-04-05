@@ -246,6 +246,20 @@ export const SheetsProvider: React.FC<{ children: ReactNode }> = ({
             return updateCahe
           })
         }
+
+        setTableSheets((prev) => {
+          const updateCache = new Map(prev)
+          const table = updateCache.get(tableId) || { sheets: [] }
+          const sheetInTable = table.sheets.find(
+            (tableSheet) => tableSheet.id === tableId
+          )
+          if (sheetInTable) {
+            updateCache.set(tableId, {
+              sheets: [sheetInTable, ...table.sheets],
+            })
+          }
+          return updateCache
+        })
       })
   }
 
@@ -268,7 +282,7 @@ export const SheetsProvider: React.FC<{ children: ReactNode }> = ({
     sheetId: string,
     tableId: string
   ): Promise<void> => {
-    return await api.sheet.removeFromTable(sheetId, tableId).then(() => {
+    return await api.sheet.removeFromTable(sheetId, tableId).then((sheet) => {
       setTableSheets((prev) => {
         const updateCache = new Map(prev)
         const table = updateCache.get(tableId)
@@ -280,6 +294,7 @@ export const SheetsProvider: React.FC<{ children: ReactNode }> = ({
         }
         return updateCache
       })
+      updateSheetInLocalState(sheet)
     })
   }
 

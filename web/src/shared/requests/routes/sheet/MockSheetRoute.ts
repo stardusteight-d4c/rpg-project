@@ -80,10 +80,7 @@ export class MockSheetRoute implements ISheetRoute {
     return updatedSheets
   }
 
-  public async addToTable(
-    sheetId: string,
-    tableId: string
-  ): Promise<ISheet> {
+  public async addToTable(sheetId: string, tableId: string): Promise<ISheet> {
     await new Promise((resolve) => setTimeout(resolve, 5000))
 
     const sheet = this.#sheets.get(sheetId)
@@ -97,7 +94,7 @@ export class MockSheetRoute implements ISheetRoute {
   public async removeFromTable(
     sheetId: string,
     tableId: string
-  ): Promise<void> {
+  ): Promise<ISheet> {
     await new Promise((resolve) => setTimeout(resolve, 5000))
 
     const sheet = this.#sheets.get(sheetId)
@@ -109,6 +106,7 @@ export class MockSheetRoute implements ISheetRoute {
 
     const updatedSheet = { ...sheet, tableId: undefined }
     this.#sheets.set(sheetId, updatedSheet)
+    return updatedSheet
   }
 
   public async list(

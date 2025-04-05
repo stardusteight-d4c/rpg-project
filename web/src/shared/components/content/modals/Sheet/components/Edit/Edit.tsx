@@ -5,7 +5,7 @@ import { useCharacters, useSheets, useToast } from "@/shared/contexts"
 import { Button } from "@/shared/components/ui"
 import { ArrowLeft, Check, Trash } from "@/shared/components/ui/icons"
 
-export const EditSheet: React.FC<{
+export const Edit: React.FC<{
   sheet: ISheet
   onEdit: (value: boolean) => void
   onStatusChange: (value: boolean) => void

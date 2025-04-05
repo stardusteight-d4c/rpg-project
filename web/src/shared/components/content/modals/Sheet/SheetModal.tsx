@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { ModalWrapper } from "@/shared/components/ui"
-import { DisplaySheet, EditSheet } from "./components"
+import { Display, Edit } from "./components"
 
 export const SheetModal: React.FC<{
   status: boolean
@@ -10,7 +10,13 @@ export const SheetModal: React.FC<{
   sheet: ISheet
   showSelectActive?: boolean
   showOwnerInfo?: boolean
-}> = ({ status, onStatusChange, sheet, showSelectActive = false, showOwnerInfo }) => {
+}> = ({
+  status,
+  onStatusChange,
+  sheet,
+  showSelectActive = false,
+  showOwnerInfo,
+}) => {
   const [editSheet, setEditSheet] = useState<boolean>(false)
 
   if (!sheet) return null
@@ -18,7 +24,7 @@ export const SheetModal: React.FC<{
   const handleSheetMode = () => {
     if (!editSheet)
       return (
-        <DisplaySheet
+        <Display
           sheet={sheet}
           onEdit={setEditSheet}
           showSelectActive={showSelectActive}
@@ -26,7 +32,7 @@ export const SheetModal: React.FC<{
         />
       )
     return (
-      <EditSheet
+      <Edit
         sheet={sheet}
         onEdit={setEditSheet}
         onStatusChange={onStatusChange}

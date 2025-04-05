@@ -152,7 +152,7 @@ export const Details: React.FC<{ campaign: ICampaign }> = ({ campaign }) => {
         </h2>
         <div
           ref={contentRef}
-          className={`text-gray-400 space-y-4 ${
+          className={`space-y-4 ${
             expanded ? "" : "line-clamp-[10] overflow-hidden"
           }`}
         >
