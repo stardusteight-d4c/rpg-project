@@ -2,7 +2,7 @@ import { BackstoryDisplay } from "./components/BackstoryDisplay"
 import { BackstoryEdit } from "./components/BackstoryEdit"
 
 interface BackstoryProps {
-  character: ISheet
+  sheet: ISheet
   isEditMode?: boolean
   activeItems: SheetItems[]
   toggleItem: (item: SheetItems) => void

@@ -23,7 +23,8 @@ export default {
     extend: {
       colors: {
         background: "#090909",
-        ashes: "#0c0c0c",
+        ashes: "#0C0C0C",
+        smoke: "#CCCCCC80",
         border: "#101010",
         tag: "#1B1C1C",
         white: "#FFFFFF",

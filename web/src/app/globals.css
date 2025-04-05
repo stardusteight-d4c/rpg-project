@@ -40,6 +40,11 @@ body {
   height: 24px;
 }
 
+.svg-28 svg {
+  width: 28px;
+  height: 28px;
+}
+
 /* Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;

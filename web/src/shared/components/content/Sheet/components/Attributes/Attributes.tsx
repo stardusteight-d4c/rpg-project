@@ -4,7 +4,7 @@ interface AttributesProps {
   activeItems: SheetItems[]
   toggleItem: (item: SheetItems) => void
   isEditMode?: boolean
-  character: ISheet
+  sheet: ISheet
 }
 
 export const Attributes = ({ isEditMode, ...props }: AttributesProps) => {

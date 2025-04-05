@@ -3,7 +3,7 @@
 import { CombatDisplay, CombatEdit } from "./components"
 
 interface CombatProps {
-  character: ISheet
+  sheet: ISheet
   activeItems: SheetItems[]
   toggleItem: (item: SheetItems) => void
   isEditMode?: boolean

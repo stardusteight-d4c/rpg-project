@@ -78,7 +78,7 @@ export const Navbar: React.FC<{
               </svg>
               <ul className="left-0 bg-background rounded-2xl shadow-p border border-border top-full hidden absolute z-[200] group-hover:flex flex-col min-w-[110px] no-scrollbar max-h-[300px] overflow-y-scroll gap-y-1">
                 {typesArr.map((type, index) => (
-                  <Fragment>
+                  <Fragment key={index}>
                     {type !== sheetType && (
                       <li
                         key={index}

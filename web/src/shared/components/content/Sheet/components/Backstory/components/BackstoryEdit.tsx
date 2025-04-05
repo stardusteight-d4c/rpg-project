@@ -8,7 +8,7 @@ import { tutorial } from "./data"
 import { useCharacters } from "@/shared/contexts"
 
 interface BackstoryEditProps {
-  character: ISheet
+  sheet: ISheet
   activeItems: SheetItems[]
   toggleItem: (item: SheetItems) => void
 }
@@ -16,11 +16,11 @@ interface BackstoryEditProps {
 export const BackstoryEdit = ({
   activeItems,
   toggleItem,
-  character,
+  sheet,
 }: BackstoryEditProps) => {
   const { updateCopyCharacter } = useCharacters()
 
-  const [currentBackstory, setCurrentBackstory] = useState(character.backstory)
+  const [currentBackstory, setCurrentBackstory] = useState(sheet.backstory)
 
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   const [view, setView] = useState<"editor" | "markdown" | "tutorial">("editor")
@@ -43,7 +43,7 @@ export const BackstoryEdit = ({
     adjustHeight()
     setCurrentBackstory(newBackstory)
 
-    updateCopyCharacter(character.id ?? crypto.randomUUID(), {
+    updateCopyCharacter(sheet.id ?? crypto.randomUUID(), {
       backstory: newBackstory,
     })
   }
@@ -90,7 +90,7 @@ export const BackstoryEdit = ({
           xmlns="http://www.w3.org/2000/svg"
           width="24"
           height="24"
-          fill="#FFFFFF"
+          fill="#cccccc80"
           viewBox="0 0 256 256"
           className={`${
             activeItems.includes("backstory") ? "rotate-180" : "rotate-0"

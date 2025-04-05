@@ -7,7 +7,7 @@ import { useCharacters } from "@/shared/contexts"
 import { CombatEditModal } from "./CombatEditModal"
 
 interface CombatEditProps {
-  character: ISheet
+  sheet: ISheet
   activeItems: SheetItems[]
   toggleItem: (item: SheetItems) => void
 }
@@ -15,12 +15,12 @@ interface CombatEditProps {
 export const CombatEdit = ({
   activeItems,
   toggleItem,
-  character,
+  sheet,
 }: CombatEditProps) => {
   const { updateCopyCharacter } = useCharacters()
 
   const [editableData, setEditableData] = useState<Array<CombatItem>>(
-    character.combat
+    sheet.combat
   )
   const [selectionMode, setSelectionMode] = useState<boolean>(false)
   const [selectedWeapon, setSelectedWeapon] = useState<CombatItem | null>(null)
@@ -37,7 +37,7 @@ export const CombatEdit = ({
         (weapon) => weapon.id !== removedWeapon.id
       )
       setEditableData(updatedWeapons)
-      updateCopyCharacter(character.id ?? crypto.randomUUID(), {
+      updateCopyCharacter(sheet.id ?? crypto.randomUUID(), {
         combat: updatedWeapons,
       })
     }
@@ -51,7 +51,7 @@ export const CombatEdit = ({
       return weapon
     })
     setEditableData(updatedWeapons)
-    updateCopyCharacter(character.id ?? crypto.randomUUID(), {
+    updateCopyCharacter(sheet.id ?? crypto.randomUUID(), {
       combat: updatedWeapons,
     })
   }
@@ -60,7 +60,7 @@ export const CombatEdit = ({
     const weaponWithId = { ...newWeapon, id: crypto.randomUUID() }
     const updatedWeapons = [...editableData, weaponWithId]
     setEditableData(updatedWeapons)
-    updateCopyCharacter(character.id ?? crypto.randomUUID(), {
+    updateCopyCharacter(sheet.id ?? crypto.randomUUID(), {
       combat: updatedWeapons,
     })
   }
@@ -122,7 +122,7 @@ export const CombatEdit = ({
           xmlns="http://www.w3.org/2000/svg"
           width="24"
           height="24"
-          fill="#FFFFFF"
+          fill="#cccccc80"
           viewBox="0 0 256 256"
           className={`${
             activeItems.includes("combat") ? "rotate-180" : "rotate-0"

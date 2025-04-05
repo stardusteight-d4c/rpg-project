@@ -12,27 +12,27 @@ import { ChartPie } from "@/shared/components/ui/icons"
 interface AttributesEditProps {
   activeItems: SheetItems[]
   toggleItem: (item: SheetItems) => void
-  character: ISheet
+  sheet: ISheet
 }
 
 export const AttributesEdit = ({
   activeItems,
-  character,
+  sheet,
   toggleItem,
 }: AttributesEditProps) => {
   const { updateCopyCharacter } = useCharacters()
-  const [editableData, setEditableData] = useState(character.attributes)
+  const [editableData, setEditableData] = useState(sheet.attributes)
 
   useEffect(() => {
-    setEditableData(character.attributes)
-    updateCopyCharacter(character.id ?? randomUUID(), {
-      attributes: character.attributes,
+    setEditableData(sheet.attributes)
+    updateCopyCharacter(sheet.id ?? randomUUID(), {
+      attributes: sheet.attributes,
     })
-  }, [character])
+  }, [sheet])
 
   const handleEdit = (field: string, value: any) => {
     setEditableData((prev) => ({ ...prev, [field]: value }))
-    updateCopyCharacter(character.id ?? randomUUID(), {
+    updateCopyCharacter(sheet.id ?? randomUUID(), {
       attributes: { ...editableData, [field]: value },
     })
   }
@@ -55,7 +55,7 @@ export const AttributesEdit = ({
           xmlns="http://www.w3.org/2000/svg"
           width="24"
           height="24"
-          fill="#FFFFFF"
+          fill="#cccccc80"
           viewBox="0 0 256 256"
           className={`${
             activeItems.includes("attributes") ? "rotate-180" : "rotate-0"

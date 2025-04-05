@@ -16,31 +16,31 @@ import {
 } from "@/shared/utils"
 import { useCharacters } from "@/shared/contexts"
 
-export const ProfileInfoEdit: React.FC<{ character: ISheet }> = ({
-  character,
+export const ProfileInfoEdit: React.FC<{ sheet: ISheet }> = ({
+  sheet,
 }) => {
   const { updateCopyCharacter } = useCharacters()
   const [editableData, setEditableData] = useState({
-    ...character.infos,
-    type: character.infos.type ?? "player",
+    ...sheet.infos,
+    type: sheet.infos.type ?? "player",
     characterFile: null,
   })
   const fileInputId = "file-input-id-423985"
 
   useEffect(() => {
     setEditableData({
-      ...character.infos,
-      type: character.infos.type ?? "player",
+      ...sheet.infos,
+      type: sheet.infos.type ?? "player",
       characterFile: null,
     })
-    updateCopyCharacter(character.id ?? randomUUID(), {
-      infos: character.infos,
+    updateCopyCharacter(sheet.id ?? randomUUID(), {
+      infos: sheet.infos,
     })
-  }, [character])
+  }, [sheet])
 
   const handleEdit = (field: string, value: any) => {
     setEditableData((prev) => ({ ...prev, [field]: value }))
-    updateCopyCharacter(character.id ?? randomUUID(), {
+    updateCopyCharacter(sheet.id ?? randomUUID(), {
       infos: { ...editableData, [field]: value },
     })
   }
@@ -52,7 +52,7 @@ export const ProfileInfoEdit: React.FC<{ character: ISheet }> = ({
 
       handleEdit("characterUrl", tempUrl)
       handleEdit("characterFile", file)
-      updateCopyCharacter(character.id, {
+      updateCopyCharacter(sheet.id, {
         infos: { ...editableData, characterUrl: tempUrl },
       })
       // URL.revokeObjectURL(tempUrl)
@@ -419,8 +419,8 @@ export const ProfileInfoEdit: React.FC<{ character: ISheet }> = ({
                 }
                 size={80}
                 strokeWidth={10}
-                maxSanity={character.infos.maxSanity}
-                sanity={character.infos.sanity}
+                maxSanity={sheet.infos.maxSanity}
+                sanity={sheet.infos.sanity}
               />
             </div>
             <span className="font-medium absolute top-1/2 -translate-y-1/2 -right-[50px]">

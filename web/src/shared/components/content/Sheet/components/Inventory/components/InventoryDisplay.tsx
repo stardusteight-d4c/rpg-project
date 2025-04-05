@@ -6,7 +6,7 @@ import { HandoutModalWrapper } from "@/modules/Table/components/Main/components/
 import { useCharacters } from "@/shared/contexts"
 
 interface InventoryDisplayProps {
-  character: ISheet
+  sheet: ISheet
   activeItems: SheetItems[]
   toggleItem: (item: SheetItems) => void
 }
@@ -14,10 +14,10 @@ interface InventoryDisplayProps {
 export const InventoryDisplay = ({
   activeItems,
   toggleItem,
-  character,
+  sheet,
 }: InventoryDisplayProps) => {
   const [showHandout, setShowHandout] = useState<IHandout | null>(null)
-  const playerCharacter = useCharacters().characters[0]
+  const playerSheet = useCharacters().characters[0]
 
   return (
     <div className="mb-4">
@@ -72,7 +72,7 @@ export const InventoryDisplay = ({
           xmlns="http://www.w3.org/2000/svg"
           width="24"
           height="24"
-          fill="#FFFFFF"
+          fill="#cccccc80"
           viewBox="0 0 256 256"
           className={`${
             activeItems.includes("inventory") ? "rotate-180" : "rotate-0"
@@ -83,7 +83,7 @@ export const InventoryDisplay = ({
       </div>
       {activeItems.includes("inventory") && (
         <>
-          {character.inventory.length === 0 ? (
+          {sheet.inventory.length === 0 ? (
             <div className="p-8 flex flex-col items-center justify-center">
               <div className="col-span-1 cursor-pointer w-[50px] h-[50px] hover:brightness-150 flex items-center justify-center border border-border bg-border/50 rounded aspect-square">
                 <svg
@@ -97,19 +97,19 @@ export const InventoryDisplay = ({
                 </svg>
               </div>
               <span className="text-gray-400 block mt-2 w-[400px] text-center">
-                {character.infos.name} rummage through your inventory, but find
+                {sheet.infos.name} rummage through your inventory, but find
                 only the weight of nothing.
               </span>
             </div>
           ) : (
             <ul className="grid grid-cols-2 gap-2">
-              {character.inventory.map((item) => (
+              {sheet.inventory.map((item) => (
                 <>
                   {item.content &&
                     !item.upload &&
                     item.visibility
                       ?.map((visibility) => {
-                        if (visibility.id === playerCharacter.id) return true
+                        if (visibility.id === playerSheet.id) return true
                       })
                       .includes(true) && (
                       <li
@@ -134,7 +134,7 @@ export const InventoryDisplay = ({
                     !item.content &&
                     item.visibility
                       ?.map((visibility) => {
-                        if (visibility.id === playerCharacter.id) return true
+                        if (visibility.id === playerSheet.id) return true
                       })
                       .includes(true) && (
                       <li

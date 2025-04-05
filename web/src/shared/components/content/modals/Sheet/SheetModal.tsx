@@ -8,8 +8,9 @@ export const SheetModal: React.FC<{
   status: boolean
   onStatusChange: (value: boolean) => void
   sheet: ISheet
-  showSelectActive: boolean
-}> = ({ status, onStatusChange, sheet, showSelectActive }) => {
+  showSelectActive?: boolean
+  showOwnerInfo?: boolean
+}> = ({ status, onStatusChange, sheet, showSelectActive = false, showOwnerInfo }) => {
   const [editSheet, setEditSheet] = useState<boolean>(false)
 
   if (!sheet) return null
@@ -21,6 +22,7 @@ export const SheetModal: React.FC<{
           sheet={sheet}
           onEdit={setEditSheet}
           showSelectActive={showSelectActive}
+          showOwnerInfo={showOwnerInfo}
         />
       )
     return (

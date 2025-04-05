@@ -90,7 +90,7 @@ export const CreateSheetModal: React.FC<{
       <div className="p-2 w-[700px]">
         <Sheet
           actions={{ activeItems, toggleItem }}
-          data={initialData}
+          sheet={initialData}
           isEdit
         />
       </div>

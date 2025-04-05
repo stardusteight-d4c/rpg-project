@@ -2,7 +2,7 @@ import { InventoryDisplay } from "./components/InventoryDisplay"
 import { InventoryEdit } from "./components/InventoryEdit"
 
 interface InventoryProps {
-  character: ISheet
+  sheet: ISheet
   activeItems: SheetItems[]
   toggleItem: (item: SheetItems) => void
   isEditMode?: boolean

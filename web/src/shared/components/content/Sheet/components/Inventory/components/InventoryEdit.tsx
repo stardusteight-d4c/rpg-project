@@ -5,7 +5,7 @@ import { GlowingWrapper } from "@/shared/components/ui"
 import { useCharacters } from "@/shared/contexts"
 
 interface InventoryEditProps {
-  character: ISheet
+  sheet: ISheet
   activeItems: SheetItems[]
   toggleItem: (item: SheetItems) => void
 }
@@ -13,7 +13,7 @@ interface InventoryEditProps {
 export const InventoryEdit = ({
   activeItems,
   toggleItem,
-  character,
+  sheet,
 }: InventoryEditProps) => {
   const { updateCopyCharacter } = useCharacters()
 
@@ -24,7 +24,7 @@ export const InventoryEdit = ({
       type?: "Note Type 01" | "Note Type 02" | "Newspaper" | "Letter"
       content?: any
     }[]
-  >(character.inventory)
+  >(sheet.inventory)
   const [newItemName, setNewItemName] = useState("")
 
   function handleEdit(data: { id: string; newValue: string }) {
@@ -33,7 +33,7 @@ export const InventoryEdit = ({
     )
 
     setEditableData(updatedData)
-    updateCopyCharacter(character.id ?? crypto.randomUUID(), {
+    updateCopyCharacter(sheet.id ?? crypto.randomUUID(), {
       inventory: updatedData,
     })
   }
@@ -43,7 +43,7 @@ export const InventoryEdit = ({
 
     setEditableData(updatedData)
 
-    updateCopyCharacter(character.id ?? crypto.randomUUID(), {
+    updateCopyCharacter(sheet.id ?? crypto.randomUUID(), {
       inventory: updatedData,
     })
   }
@@ -56,7 +56,7 @@ export const InventoryEdit = ({
 
     setEditableData(updatedData)
     setNewItemName("")
-    updateCopyCharacter(character.id ?? crypto.randomUUID(), {
+    updateCopyCharacter(sheet.id ?? crypto.randomUUID(), {
       inventory: updatedData,
     })
   }
@@ -103,7 +103,7 @@ export const InventoryEdit = ({
           xmlns="http://www.w3.org/2000/svg"
           width="24"
           height="24"
-          fill="#FFFFFF"
+          fill="#cccccc80"
           viewBox="0 0 256 256"
           className={`${
             activeItems.includes("inventory") ? "rotate-180" : "rotate-0"

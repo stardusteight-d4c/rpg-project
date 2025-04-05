@@ -51,7 +51,7 @@ export const Slider: React.FC<{
             onDoubleClick={() => onSelectedSheet(sheet)}
             className="max-w-[636px] select-none min-w-[636px] border border-border hover:bg-border hover:brightness-105 p-2 rounded-xl"
           >
-            <ProfileInfo character={sheet} />
+            <ProfileInfo sheet={sheet} />
           </motion.div>
         ))}
         {isLoading && (

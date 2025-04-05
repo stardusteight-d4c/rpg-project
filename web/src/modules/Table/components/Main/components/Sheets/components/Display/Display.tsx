@@ -31,6 +31,7 @@ export const Display: React.FC<{
         onStatusChange={setOpenSheetModal}
         sheet={selectedSheet!}
         showSelectActive={true}
+        showOwnerInfo={true}
       />
       {sheets.length === 0 && (
         <EmptyState description="Not even a sheet? Looks like someone is still waiting for the call of the adventure...">
@@ -44,7 +45,7 @@ export const Display: React.FC<{
               onDoubleClick={() => onSelectSheet(sheet)}
               className="border border-border hover:bg-border hover:brightness-105 p-2 rounded-xl"
             >
-              <ProfileInfo character={sheet} />
+              <ProfileInfo sheet={sheet} />
             </div>
           )}
         </div>

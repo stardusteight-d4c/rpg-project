@@ -5,12 +5,12 @@ import { motion } from "framer-motion"
 interface AttributesDisplayProps {
   activeItems: SheetItems[]
   toggleItem: (item: SheetItems) => void
-  character: ISheet
+  sheet: ISheet
 }
 
 export const AttributesDisplay = ({
   activeItems,
-  character,
+  sheet,
   toggleItem,
 }: AttributesDisplayProps) => {
   return (
@@ -31,7 +31,7 @@ export const AttributesDisplay = ({
           xmlns="http://www.w3.org/2000/svg"
           width="24"
           height="24"
-          fill="#FFFFFF"
+          fill="#cccccc80"
           viewBox="0 0 256 256"
           className={`${
             activeItems.includes("attributes") ? "rotate-180" : "rotate-0"
@@ -42,7 +42,7 @@ export const AttributesDisplay = ({
       </div>
       {activeItems.includes("attributes") && (
         <div className="grid grid-cols-3 gap-2">
-          {Object.entries(character.attributes).map(([attribute, value]) => (
+          {Object.entries(sheet.attributes).map(([attribute, value]) => (
             <div
               key={attribute}
               className="bg-border/50 border border-border overflow-hidden rounded"

@@ -2,19 +2,20 @@ import React, { Fragment } from "react"
 import { Components } from "./components"
 
 export const Sheet: React.FC<{
-  data: ISheet
+  sheet: ISheet
   actions: SheetActions
   isEdit?: boolean
-}> = ({ data, actions, isEdit }) => {
+  showOwnerInfo?: boolean
+}> = ({ sheet, actions, isEdit, showOwnerInfo }) => {
   const props = {
-    character: data,
+    sheet,
     isEditMode: isEdit,
     ...actions,
   }
 
   return (
     <Fragment>
-      <Components.ProfileInfo {...props} />
+      <Components.ProfileInfo {...props} showOwnerInfo={showOwnerInfo} />
       <Components.Attributes {...props} />
       <Components.Skills {...props} />
       <Components.Combat {...props} />

@@ -13,7 +13,8 @@ export const DisplaySheet: React.FC<{
   sheet: ISheet
   onEdit: (value: boolean) => void
   showSelectActive: boolean
-}> = ({ sheet, onEdit, showSelectActive }) => {
+  showOwnerInfo?: boolean
+}> = ({ sheet, onEdit, showSelectActive, showOwnerInfo }) => {
   const { toggleSheetInCampaign } = useSheets()
   const params = useParams()
   const tableId = params.id as string
@@ -112,8 +113,9 @@ export const DisplaySheet: React.FC<{
       <div className="w-[700px] p-2">
         <Sheet
           actions={{ toggleItem, activeItems }}
-          data={sheet}
+          sheet={sheet}
           isEdit={false}
+          showOwnerInfo={showOwnerInfo}
         />
       </div>
     </Fragment>

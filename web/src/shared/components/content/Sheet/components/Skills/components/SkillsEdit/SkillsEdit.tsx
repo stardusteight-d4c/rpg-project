@@ -14,30 +14,30 @@ import { ChartLineUp } from "@/shared/components/ui/icons"
 interface SkillsEditProps {
   activeItems: SheetItems[]
   toggleItem: (item: SheetItems) => void
-  character: ISheet
+  sheet: ISheet
 }
 
 export const SkillsEdit = ({
   toggleItem,
-  character,
+  sheet,
   activeItems,
 }: SkillsEditProps) => {
   const { updateCopyCharacter } = useCharacters()
-  const [editableData, setEditableData] = useState(character.skills)
+  const [editableData, setEditableData] = useState(sheet.skills)
 
   useEffect(() => {
-    setEditableData(character.skills)
-    updateCopyCharacter(character.id ?? randomUUID(), {
-      skills: character.skills,
+    setEditableData(sheet.skills)
+    updateCopyCharacter(sheet.id ?? randomUUID(), {
+      skills: sheet.skills,
     })
-  }, [character])
+  }, [sheet])
 
   const handleEdit = (name: string, field: string, value: any) => {
     const updatedSkills = editableData.map((skill) =>
       skill.name === name ? { ...skill, [field]: value } : skill
     )
     setEditableData(updatedSkills)
-    updateCopyCharacter(character.id ?? randomUUID(), {
+    updateCopyCharacter(sheet.id ?? randomUUID(), {
       skills: updatedSkills,
     })
   }
@@ -60,7 +60,7 @@ export const SkillsEdit = ({
           xmlns="http://www.w3.org/2000/svg"
           width="24"
           height="24"
-          fill="#FFFFFF"
+          fill="#cccccc80"
           viewBox="0 0 256 256"
           className={`${
             activeItems.includes("skills") ? "rotate-180" : "rotate-0"

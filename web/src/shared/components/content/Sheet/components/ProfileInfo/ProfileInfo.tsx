@@ -2,13 +2,11 @@
 
 import { ProfileInfoDisplay, ProfileInfoEdit } from "./components"
 
-interface ProfileInfoProps {
-  character: ISheet
+export const ProfileInfo: React.FC<{
+  sheet: ISheet
   isEditMode?: boolean
-  showPlayerInfo?: boolean
-}
-
-export const ProfileInfo = ({ isEditMode, ...props }: ProfileInfoProps) => {
+  showOwnerInfo?: boolean
+}> = ({ isEditMode, ...props }) => {
   if (!isEditMode) return <ProfileInfoDisplay {...props} />
   if (isEditMode) return <ProfileInfoEdit {...props} />
 }

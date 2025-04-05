@@ -7,12 +7,12 @@ import { motion } from "framer-motion"
 interface SkillsDisplayProps {
   activeItems: SheetItems[]
   toggleItem: (item: SheetItems) => void
-  character: ISheet
+  sheet: ISheet
 }
 
 export const SkillsDisplay = ({
   toggleItem,
-  character,
+  sheet,
   activeItems,
 }: SkillsDisplayProps) => {
   return (
@@ -33,7 +33,7 @@ export const SkillsDisplay = ({
           xmlns="http://www.w3.org/2000/svg"
           width="24"
           height="24"
-          fill="#FFFFFF"
+          fill="#cccccc80"
           viewBox="0 0 256 256"
           className={`${
             activeItems.includes("skills") ? "rotate-180" : "rotate-0"
@@ -44,7 +44,7 @@ export const SkillsDisplay = ({
       </div>
       {activeItems.includes("skills") && (
         <div className="grid grid-cols-3 gap-2">
-          {character.skills.map((skill) => (
+          {sheet.skills.map((skill) => (
             <div
               key={skill.name}
               className="bg-border/50 border border-border overflow-hidden rounded-md p-2"

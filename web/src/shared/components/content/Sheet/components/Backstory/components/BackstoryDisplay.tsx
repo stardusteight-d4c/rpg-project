@@ -4,7 +4,7 @@ import ReactMarkdown from "react-markdown"
 import rehypeRaw from "rehype-raw"
 
 interface BackstoryDisplayProps {
-  character: ISheet
+  sheet: ISheet
   activeItems: SheetItems[]
   toggleItem: (item: SheetItems) => void
 }
@@ -12,7 +12,7 @@ interface BackstoryDisplayProps {
 export const BackstoryDisplay = ({
   activeItems,
   toggleItem,
-  character,
+  sheet,
 }: BackstoryDisplayProps) => {
   return (
     <div>
@@ -56,7 +56,7 @@ export const BackstoryDisplay = ({
           xmlns="http://www.w3.org/2000/svg"
           width="24"
           height="24"
-          fill="#FFFFFF"
+          fill="#cccccc80"
           viewBox="0 0 256 256"
           className={`${
             activeItems.includes("backstory") ? "rotate-180" : "rotate-0"
@@ -68,7 +68,7 @@ export const BackstoryDisplay = ({
       {activeItems.includes("backstory") && (
         <div className="space-y-4 markdown-context bg-border/50 border border-border px-4 py-2 rounded">
           <ReactMarkdown rehypePlugins={[rehypeRaw]}>
-            {character.backstory}
+            {sheet.backstory}
           </ReactMarkdown>
         </div>
       )}

@@ -96,7 +96,7 @@ export const EditSheet: React.FC<{
       <div className="w-[700px] p-2">
         <Sheet
           actions={{ toggleItem, activeItems }}
-          data={sheet}
+          sheet={sheet}
           isEdit={true}
         />
       </div>

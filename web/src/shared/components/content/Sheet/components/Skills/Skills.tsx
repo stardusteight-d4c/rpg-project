@@ -1,18 +1,9 @@
 import { SkillsDisplay, SkillsEdit } from "./components"
 
 interface SkillsProps {
-  activeItems: (
-    | "attributes"
-    | "skills"
-    | "inventory"
-    | "combat"
-    | "backstory"
-    | null
-  )[]
-  toggleItem: (
-    item: "attributes" | "skills" | "inventory" | "combat" | "backstory"
-  ) => void
-  character:  ISheet
+  activeItems: SheetItems[]
+  toggleItem: (item: SheetItems) => void
+  sheet: ISheet
   isEditMode?: boolean
 }
 

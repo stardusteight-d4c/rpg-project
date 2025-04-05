@@ -4,7 +4,7 @@ import { useState } from "react"
 import { CombatModalDisplay } from "./components"
 
 interface CombatDisplayProps {
-  character: ISheet
+  sheet: ISheet
   activeItems: SheetItems[]
   toggleItem: (item: SheetItems) => void
 }
@@ -12,7 +12,7 @@ interface CombatDisplayProps {
 export const CombatDisplay = ({
   activeItems,
   toggleItem,
-  character,
+  sheet,
 }: CombatDisplayProps) => {
   const [selectedWeapon, setSelectedWeapon] = useState<CombatItem | null>(null)
 
@@ -70,7 +70,7 @@ export const CombatDisplay = ({
           xmlns="http://www.w3.org/2000/svg"
           width="24"
           height="24"
-          fill="#FFFFFF"
+          fill="#cccccc80"
           viewBox="0 0 256 256"
           className={`${
             activeItems.includes("combat") ? "rotate-180" : "rotate-0"
@@ -81,9 +81,9 @@ export const CombatDisplay = ({
       </div>
       {activeItems.includes("combat") && (
         <div>
-          {character.combat && character.combat.length > 1 ? (
+          {sheet.combat && sheet.combat.length > 1 ? (
             <div className="flex flex-wrap gap-2">
-              {character.combat.map((weapon, index) => (
+              {sheet.combat.map((weapon, index) => (
                 <div key={index} className="col-span-1">
                   {weapon.name === "Unarmed" ? (
                     <div
@@ -107,7 +107,7 @@ export const CombatDisplay = ({
             </div>
           ) : (
             <div className="p-8 flex flex-col items-center justify-center">
-              {character.combat.map((weapon, index) => (
+              {sheet.combat.map((weapon, index) => (
                 <div
                   key={index}
                   onClick={() => setSelectedWeapon(weapon)}
@@ -117,7 +117,7 @@ export const CombatDisplay = ({
                 </div>
               ))}
               <span className="text-gray-400 block mt-2 w-[400px] text-center">
-                The enemies arm themselves, while {character.infos.name}{" "}
+                The enemies arm themselves, while {sheet.infos.name}{" "}
                 empty-handed... gazes into the abyss of his preparation.
               </span>
             </div>
