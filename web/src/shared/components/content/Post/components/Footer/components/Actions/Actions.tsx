@@ -78,7 +78,7 @@ export const Actions: React.FC<{
           showComments
             ? " bg-gradient-to-tr from-[#42d392] to-[#8B5CF6] "
             : " bg-background hover:bg-button "
-        }  flex items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50  duration-300 ease-in-out transition-all`}
+        } w-[32px] h-[32px] flex items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50  duration-300 ease-in-out transition-all`}
       >
         <ChatCircleDots />
       </button>
