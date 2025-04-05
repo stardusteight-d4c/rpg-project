@@ -104,7 +104,7 @@ export class MockSheetRoute implements ISheetRoute {
       throw new Error("Sheet is not associated with the specified table.")
     }
 
-    const updatedSheet = { ...sheet, tableId: undefined }
+    const updatedSheet: ISheet = { ...sheet, tableId: undefined, active: false}
     this.#sheets.set(sheetId, updatedSheet)
     return updatedSheet
   }

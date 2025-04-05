@@ -294,6 +294,15 @@ export const SheetsProvider: React.FC<{ children: ReactNode }> = ({
         }
         return updateCache
       })
+
+      setActivePlayerSheet((prev) => {
+        const updateCahe = new Map(prev)
+        const activeSheet = updateCahe.get(tableId)
+        if (activeSheet && activeSheet.id === sheetId) {
+          updateCahe.delete(tableId)
+        }
+        return updateCahe
+      })
       updateSheetInLocalState(sheet)
     })
   }
