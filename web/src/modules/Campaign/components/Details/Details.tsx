@@ -123,9 +123,9 @@ export const Details: React.FC<{ campaign: ICampaign }> = ({ campaign }) => {
                      {campaign.duration} hours
                    </span>
                  </span> */}
-        {campaign.players.find(
+        {/* {campaign.players.find(
           (player) => player.id === currentSession?.id
-        ) && (
+        ) && ( */}
           <Link
             href={`/table/${campaign.tableId}`}
             className="hover:bg-green-500 absolute bottom-4 right-4 cursor-pointer w-fit flex items-center gap-x-2 shadow-sm shadow-black/50 bg-background duration-300 ease-in-out transition-all px-4 py-2 rounded-full"
@@ -144,7 +144,7 @@ export const Details: React.FC<{ campaign: ICampaign }> = ({ campaign }) => {
               Join the table
             </span>
           </Link>
-        )}
+        {/* )} */}
       </div>
       <div className="flex -mt-2 flex-col gap-y-2">
         <h2 className="text-5xl w-fit mt-4 font-bold background-gradient text-transparent bg-clip-text">

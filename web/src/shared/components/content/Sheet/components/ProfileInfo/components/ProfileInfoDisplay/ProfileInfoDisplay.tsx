@@ -94,7 +94,6 @@ export const ProfileInfoDisplay: React.FC<{
             </button>
           </Tooltip>
         </div>
-        {currentSession.role === "master" && sheet.infos.type !== "player" && (
           <div className="flex absolute top-2 z-40 right-2 items-center w-fit gap-x-2">
             <Tooltip
               text={handleCharacterVisibilityTooltipText(
@@ -126,7 +125,6 @@ export const ProfileInfoDisplay: React.FC<{
               </button>
             </Tooltip>
           </div>
-        )}
         {sheet.infos.type === "player" && (
           <div className="flex absolute bottom-2 z-40 left-2 items-center w-fit gap-x-2">
             <Tooltip text="Point of Inspiration">

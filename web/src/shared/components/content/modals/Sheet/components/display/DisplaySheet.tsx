@@ -15,14 +15,15 @@ export const DisplaySheet: React.FC<{
   showSelectActive: boolean
   showOwnerInfo?: boolean
 }> = ({ sheet, onEdit, showSelectActive, showOwnerInfo }) => {
-  const { toggleSheetInCampaign } = useSheets()
+  const { toggleActive, addToTable, removeFromTable } = useSheets()
   const params = useParams()
   const tableId = params.id as string
   const { currentSession } = useAuth()
-  const [activeSheet, setActiveSheet] = useState(sheet.tableId)
+  const [sheetInTable, setSheetInTable] = useState<string | undefined>(
+    sheet.tableId
+  )
   const [activeItems, setActiveItems] = useState<SheetItems[]>([])
   const { addToast } = useToast()
-  const sheetInTable = true
 
   const toggleItem = (item: SheetItems) => {
     setActiveItems((prev) => {
@@ -34,22 +35,34 @@ export const DisplaySheet: React.FC<{
     })
   }
 
-  const onToggleSheetInCampaign = async (sheetId: string, tableId: string) => {
-    await toggleSheetInCampaign(sheetId, tableId).then(() => {
-      if (activeSheet === tableId) {
-        setActiveSheet(undefined)
+  const onAddToTable = async () => {
+    await addToTable(sheet.id, tableId).then(() => {
+      addToast(`${sheet.infos.name} Added to Table`, "success", 45)
+    })
+  }
+
+  const onRemoveFromTable = async () => {
+    await removeFromTable(sheet.id, tableId).then(() => {
+      addToast(`${sheet.infos.name} Removed from Table`, "info", 45)
+    })
+  }
+
+  const onToggleActiveSheetOnTable = async (value: boolean) => {
+    await toggleActive(sheet.id, tableId).then(() => {
+      if (value === false) {
+        setSheetInTable(undefined)
         addToast(
           `${sheet.infos.name} it is no longer your active sheet`,
           "info",
           45
         )
       } else {
+        setSheetInTable(tableId)
         addToast(
           `${sheet.infos.name} now it's your active sheet`,
           "success",
           45
         )
-        setActiveSheet(tableId)
       }
     })
   }
@@ -68,42 +81,46 @@ export const DisplaySheet: React.FC<{
               <PencilSimpleLine />
             </Button>
           )}
-          {showSelectActive && (
+          {showSelectActive && sheet.owner?.id === currentSession?.id && (
             <Fragment>
-              {sheet.infos.type !== "player" && (
+              {sheetInTable ? (
                 <Fragment>
-                  {sheetInTable ? (
+                  <Button
+                    action={() => onRemoveFromTable()}
+                    title="Take From Table"
+                    bgColor="red"
+                    variant="modal"
+                  >
+                    <MapTrifold />
+                  </Button>
+                  {sheet.active ? (
                     <Button
-                      action={() => {}}
-                      title="On The Table"
-                      bgColor="green"
+                      action={() => onToggleActiveSheetOnTable(false)}
+                      title="Unuse Sheet"
+                      bgColor="red"
                       variant="modal"
-                      active={true}
                     >
-                      <MapTrifold />
+                      <UserCircleCheck />
                     </Button>
                   ) : (
                     <Button
-                      action={() => {}}
-                      title="Add Sheet To Table"
-                      bgColor="blue"
+                      action={() => onToggleActiveSheetOnTable(true)}
+                      title="Use Sheet"
+                      bgColor="green"
                       variant="modal"
-                      active={sheetInTable}
                     >
-                      <MapTrifold />
+                      <UserCircleCheck />
                     </Button>
                   )}
                 </Fragment>
-              )}
-              {sheetInTable && (
+              ) : (
                 <Button
-                  action={() => onToggleSheetInCampaign(sheet.id, tableId)}
-                  title={activeSheet === tableId ? "Active Sheet" : "Use Sheet"}
-                  bgColor="green"
+                  action={() => onAddToTable()}
+                  title="Add Sheet To Table"
+                  bgColor="blue"
                   variant="modal"
-                  active={activeSheet === tableId}
                 >
-                  <UserCircleCheck />
+                  <MapTrifold />
                 </Button>
               )}
             </Fragment>

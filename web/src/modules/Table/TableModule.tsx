@@ -10,7 +10,7 @@ export function TableModule() {
   const tableId = useParams().id as string
   const [active, setActive] = useState<MenuItem>("map")
   const [isLoading, setIsLoading] = useState<boolean>(true)
-  const { getActivePlayerSheet, getActiveTableSheets } = useSheets()
+  const { getActivePlayerSheet, getTableSheets } = useSheets()
   const { currentSession } = useAuth()
   const { getByTableId } = useCampaigns()
 
@@ -20,7 +20,7 @@ export function TableModule() {
         await Promise.all([
           getByTableId(tableId, currentSession.id),
           getActivePlayerSheet(currentSession.id, tableId),
-          getActiveTableSheets(tableId),
+          getTableSheets(tableId),
         ]).then(() => {
           setIsLoading(false)
         })

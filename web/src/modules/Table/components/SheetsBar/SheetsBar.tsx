@@ -5,9 +5,9 @@ import { Empty } from "@/shared/components/ui/icons"
 import { DraggableItem } from "@/shared/components/ui"
 
 export const SheetsBar = () => {
-  const { activeTableSheets } = useSheets()
+  const { tableSheets: sheetsOnTable } = useSheets()
   const tableId = useParams().id as string
-  const tableSheets = activeTableSheets.get(tableId)?.sheets ?? []
+  const tableSheets = sheetsOnTable.get(tableId)?.sheets ?? []
   const players = tableSheets.filter((sheet) => sheet.infos.type === "player")
   const npcs = tableSheets.filter((sheet) => sheet.infos.type === "npc")
   const enemies = tableSheets.filter((sheet) => sheet.infos.type === "enemy")

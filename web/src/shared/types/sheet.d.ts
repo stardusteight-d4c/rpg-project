@@ -98,6 +98,7 @@ type Skill = {
 interface ISheet {
   id: string
   tableId?: string
+  active: boolean 
   owner: TableUser
   infos: Infos
   attributes: Attributes
@@ -112,7 +113,8 @@ interface SheetQueryParams extends ListQueryParams {
   sheetId?: string
   ownerId?: string
   tableId?: string 
-  isActive?: boolean
+  active?: boolean
+  visibility?: boolean
 }
 
 type SheetItems = "attributes" | "skills" | "inventory" | "combat" | "backstory"

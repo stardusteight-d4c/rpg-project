@@ -18,6 +18,7 @@ export class MockSheetRoute implements ISheetRoute {
 
     const newSheet: ISheet = {
       ...sheet,
+      active: false,
       tableId: sheet.tableId ?? undefined,
       id: crypto.randomUUID(),
     }
@@ -44,7 +45,7 @@ export class MockSheetRoute implements ISheetRoute {
     this.#sheets.delete(sheetId)
   }
 
-  public async toggleSheetInCampaign(
+  public async toggleActive(
     sheetId: string,
     tableId: string
   ): Promise<ISheet[]> {
@@ -62,7 +63,7 @@ export class MockSheetRoute implements ISheetRoute {
     if (existingSheet) {
       const updatedExistingSheet = {
         ...existingSheet,
-        tableId: undefined,
+        active: false,
       }
       this.#sheets.set(existingSheet.id, updatedExistingSheet)
       updatedSheets.push(updatedExistingSheet)
@@ -70,13 +71,44 @@ export class MockSheetRoute implements ISheetRoute {
 
     const newActiveSheet = {
       ...sheet,
-      tableId,
+      active: true,
     }
 
     this.#sheets.set(sheet.id, newActiveSheet)
     updatedSheets.push(newActiveSheet)
 
     return updatedSheets
+  }
+
+  public async addToTable(
+    sheetId: string,
+    tableId: string
+  ): Promise<ISheet> {
+    await new Promise((resolve) => setTimeout(resolve, 5000))
+
+    const sheet = this.#sheets.get(sheetId)
+    if (!sheet) throw new Error("Sheet not found.")
+
+    const updatedSheet = { ...sheet, tableId }
+    this.#sheets.set(sheetId, updatedSheet)
+    return updatedSheet
+  }
+
+  public async removeFromTable(
+    sheetId: string,
+    tableId: string
+  ): Promise<void> {
+    await new Promise((resolve) => setTimeout(resolve, 5000))
+
+    const sheet = this.#sheets.get(sheetId)
+    if (!sheet) throw new Error("Sheet not found.")
+
+    if (sheet.tableId !== tableId) {
+      throw new Error("Sheet is not associated with the specified table.")
+    }
+
+    const updatedSheet = { ...sheet, tableId: undefined }
+    this.#sheets.set(sheetId, updatedSheet)
   }
 
   public async list(
@@ -104,9 +136,21 @@ export class MockSheetRoute implements ISheetRoute {
       )
     }
 
-    if (queryParams.isActive !== undefined) {
+    if (queryParams.tableId !== undefined) {
       filteredSheets = filteredSheets.filter(
-        (sheet) => Boolean(sheet.tableId) === queryParams.isActive
+        (sheet) => sheet.tableId === queryParams.tableId
+      )
+    }
+
+    if (queryParams.active !== undefined) {
+      filteredSheets = filteredSheets.filter(
+        (sheet) => sheet.active === queryParams.active
+      )
+    }
+
+    if (queryParams.visibility !== undefined) {
+      filteredSheets = filteredSheets.filter(
+        (sheet) => sheet.infos.visibility === queryParams.visibility
       )
     }
 

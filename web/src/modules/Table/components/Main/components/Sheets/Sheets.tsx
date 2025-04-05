@@ -6,7 +6,7 @@ import { Components } from "./components"
 import { useParams } from "next/navigation"
 
 export const Sheets = () => {
-  const { lastRequestProfileSheetsData, activeTableSheets } = useSheets()
+  const { lastRequestProfileSheetsData, tableSheets } = useSheets()
   const { currentSession } = useAuth()
   const tableId = useParams().id as string
   const [sheetType, setSheetType] = useState<SheetType | "all">("all")
@@ -27,7 +27,7 @@ export const Sheets = () => {
       />
       <Components.Display
         sheetType={sheetType}
-        sheets={activeTableSheets.get(tableId)?.sheets ?? []}
+        sheets={tableSheets.get(tableId)?.sheets ?? []}
         tab="TableSheets"
         currentTab={currentTab}
       />
