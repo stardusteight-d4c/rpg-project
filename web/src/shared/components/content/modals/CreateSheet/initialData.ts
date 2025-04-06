@@ -12,7 +12,8 @@ export const initialData: Partial<ISheet> = {
     inspiration: false,
     maxHitPoints: 0,
     maxMagicPoints: 0,
-    maxSanity: 0
+    maxSanity: 0,
+    visibility: true,
   },
   attributes: {
     strength: 0,

@@ -6,6 +6,8 @@ interface API {
   post: IPostRoute
 }
 
+// Criar rotas findOne (with params)
+
 interface IAuthRoute {
   signUp(data: SignUpDTO): Promise<AuthResponse>
   signIn(data: SignInDTO): Promise<AuthResponse>

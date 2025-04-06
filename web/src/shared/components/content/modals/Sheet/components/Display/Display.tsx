@@ -33,15 +33,17 @@ export const Display: React.FC<{
   }
 
   const onAddToTable = async () => {
-    await addToTable(sheet.id, tableId).then(() => {
+    await addToTable(sheet.id, tableId).then((res) => {
       sheet.tableId = tableId
+      sheet.campaign = res.campaign
       addToast(`${sheet.infos.name} Added to Table`, "success", 45)
     })
   }
 
   const onRemoveFromTable = async () => {
-    await removeFromTable(sheet.id, tableId).then(() => {
+    await removeFromTable(sheet.id, tableId).then((res) => {
       sheet.tableId = undefined
+      sheet.campaign = res.campaign
       addToast(`${sheet.infos.name} Removed from Table`, "info", 45)
     })
   }

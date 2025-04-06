@@ -5,7 +5,7 @@ import {
 import { Button } from "@/shared/components/ui"
 import {
   AddressBook,
-  IdentificationBadge,
+  MapTrifold,
   PlusCircle,
 } from "@/shared/components/ui/icons"
 import React, { Fragment, useState } from "react"
@@ -44,7 +44,7 @@ export const Navbar: React.FC<{
             variant="modal"
             active={currentTab === "MySheets"}
           >
-            <IdentificationBadge />
+            <AddressBook />
           </Button>
           <Button
             action={() => onTabChange("TableSheets")}
@@ -53,7 +53,7 @@ export const Navbar: React.FC<{
             variant="modal"
             active={currentTab === "TableSheets"}
           >
-            <AddressBook />
+            <MapTrifold />
           </Button>
           <Button
             action={() => setOpenCreateSheetModal(true)}

@@ -16,9 +16,7 @@ import {
 } from "@/shared/utils"
 import { useCharacters } from "@/shared/contexts"
 
-export const ProfileInfoEdit: React.FC<{ sheet: ISheet }> = ({
-  sheet,
-}) => {
+export const ProfileInfoEdit: React.FC<{ sheet: ISheet }> = ({ sheet }) => {
   const { updateCopyCharacter } = useCharacters()
   const [editableData, setEditableData] = useState({
     ...sheet.infos,
@@ -262,6 +260,37 @@ export const ProfileInfoEdit: React.FC<{ sheet: ISheet }> = ({
               </GlowingWrapper>
             </div>
           )}
+          <div className="flex absolute bottom-2 z-40 right-2 items-center w-fit gap-x-2">
+            {sheet.campaign ? (
+              <Tooltip text={sheet.campaign.name}>
+                <button className="bg-background !text-green-500 flex !cursor-default items-center justify-center p-1 rounded-full shadow-md shadow-black/50">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="22"
+                    height="22"
+                    fill="currentColor"
+                    viewBox="0 0 256 256"
+                  >
+                    <path d="M228.92,49.69a8,8,0,0,0-6.86-1.45L160.93,63.52,99.58,32.84a8,8,0,0,0-5.52-.6l-64,16A8,8,0,0,0,24,56V200a8,8,0,0,0,9.94,7.76l61.13-15.28,61.35,30.68A8.15,8.15,0,0,0,160,224a8,8,0,0,0,1.94-.24l64-16A8,8,0,0,0,232,200V56A8,8,0,0,0,228.92,49.69ZM104,52.94l48,24V203.06l-48-24ZM40,62.25l48-12v127.5l-48,12Zm176,131.5-48,12V78.25l48-12Z"></path>
+                  </svg>
+                </button>
+              </Tooltip>
+            ) : (
+              <Tooltip text="Not in a campaign">
+                <button className="bg-background !text-white/80 flex !cursor-default items-center justify-center p-1 rounded-full shadow-md shadow-black/50">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="22"
+                    height="22"
+                    fill="currentColor"
+                    viewBox="0 0 256 256"
+                  >
+                    <path d="M228.92,49.69a8,8,0,0,0-6.86-1.45L160.93,63.52,99.58,32.84a8,8,0,0,0-5.52-.6l-64,16A8,8,0,0,0,24,56V200a8,8,0,0,0,9.94,7.76l61.13-15.28,61.35,30.68A8.15,8.15,0,0,0,160,224a8,8,0,0,0,1.94-.24l64-16A8,8,0,0,0,232,200V56A8,8,0,0,0,228.92,49.69ZM104,52.94l48,24V203.06l-48-24ZM40,62.25l48-12v127.5l-48,12Zm176,131.5-48,12V78.25l48-12Z"></path>
+                  </svg>
+                </button>
+              </Tooltip>
+            )}
+          </div>
         </div>
       </div>
       <div className="w-full pl-4">

@@ -41,6 +41,7 @@ export class MockAPI {
 
     MockCampaignRoute.initialize(this.#post)
     MockPostRoute.initialize(this.#campaign)
+    MockSheetRoute.initialize(this.#campaign)
 
     return {
       auth: this.#auth!,

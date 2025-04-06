@@ -98,6 +98,10 @@ type Skill = {
 interface ISheet {
   id: string
   tableId?: string
+  campaign?: {
+    id: string
+    name: string
+  }
   active: boolean 
   owner: TableUser
   infos: Infos

@@ -1,9 +1,19 @@
+import { MockCampaignRoute } from "../campaign/MockCampaignRoute"
+
 export class MockSheetRoute implements ISheetRoute {
   static #instance: MockSheetRoute | null = null
   #sheets: Map<string, ISheet>
+  #inMemoryCampaignRoute: ICampaignRoute | null = null
 
   private constructor() {
     this.#sheets = new Map()
+    this.#inMemoryCampaignRoute = MockCampaignRoute.getInstance()
+  }
+
+  public static initialize(campaignRoute: ICampaignRoute): void {
+    if (this.#instance) {
+      this.#instance.#inMemoryCampaignRoute = campaignRoute
+    }
   }
 
   public static getInstance(): MockSheetRoute {
@@ -20,6 +30,7 @@ export class MockSheetRoute implements ISheetRoute {
       ...sheet,
       active: false,
       tableId: sheet.tableId ?? undefined,
+      campaign: sheet.campaign ?? undefined,
       id: crypto.randomUUID(),
     }
     this.#sheets.set(newSheet.id, newSheet)
@@ -86,7 +97,17 @@ export class MockSheetRoute implements ISheetRoute {
     const sheet = this.#sheets.get(sheetId)
     if (!sheet) throw new Error("Sheet not found.")
 
-    const updatedSheet = { ...sheet, tableId }
+    const campaign = await this.#inMemoryCampaignRoute!.list({ tableId }).then(
+      (pagination) => pagination.items[0]
+    )
+
+    if (!campaign) throw new Error("Campaign not found.")
+
+    const updatedSheet = {
+      ...sheet,
+      tableId,
+      campaign: { id: campaign.id, name: campaign.name },
+    }
     this.#sheets.set(sheetId, updatedSheet)
     return updatedSheet
   }
@@ -104,7 +125,12 @@ export class MockSheetRoute implements ISheetRoute {
       throw new Error("Sheet is not associated with the specified table.")
     }
 
-    const updatedSheet: ISheet = { ...sheet, tableId: undefined, active: false}
+    const updatedSheet: ISheet = {
+      ...sheet,
+      tableId: undefined,
+      active: false,
+      campaign: undefined,
+    }
     this.#sheets.set(sheetId, updatedSheet)
     return updatedSheet
   }

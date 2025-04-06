@@ -118,7 +118,7 @@ export const Exploration: React.FC<{
 
       <img
         src="/table-wallpaper.jpg"
-        className="absolute w-full h-screen object-fill inset-0 select-none pointer-events-none opacity-20 z-0"
+        className="absolute w-full h-screen object-fill inset-0 select-none pointer-events-none opacity-10 z-0"
         alt=""
       />
 
