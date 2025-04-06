@@ -354,6 +354,7 @@ export const SheetsProvider: React.FC<{ children: ReactNode }> = ({
   const getTableSheets = async (tableId: string) => {
     return await api.sheet.list({ tableId, visibility: true }).then((res) => {
       const sheets = res.items
+
       setTableSheets((prev) => {
         const updateCache = new Map(prev)
         updateCache.set(tableId, { sheets })

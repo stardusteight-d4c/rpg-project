@@ -27,7 +27,11 @@ export const Sheets = () => {
       />
       <Components.Display
         sheetType={sheetType}
-        sheets={tableSheets.get(tableId)?.sheets ?? []}
+        sheets={
+          tableSheets
+            .get(tableId)
+            ?.sheets.filter((sheet) => sheet.infos.visibility === true) ?? []
+        }
         tab="TableSheets"
         currentTab={currentTab}
       />

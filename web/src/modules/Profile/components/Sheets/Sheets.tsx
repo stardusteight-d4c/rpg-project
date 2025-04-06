@@ -54,6 +54,7 @@ export const Sheets: React.FC<{ user: IUser }> = ({ user }) => {
       <Components.Heading />
       <Components.Empty sheetsLength={sheets.length} />
       <Components.Slider
+        userId={user.id}
         sheets={sheets}
         isLoading={isLoading}
         onPagination={handlePagination}

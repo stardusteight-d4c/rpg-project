@@ -5,17 +5,24 @@ import React, { useState, useRef, Fragment } from "react"
 import { ProfileInfo } from "@/shared/components/content/Sheet/components/ProfileInfo"
 import { SheetModal } from "@/shared/components/content/modals"
 import { EmptyState, Loader } from "@/shared/components/ui"
+import { useAuth } from "@/shared/contexts"
 
 export const Slider: React.FC<{
   sheets: ISheet[]
   onPagination: () => void
   isLoading: boolean
-}> = ({ sheets, onPagination, isLoading }) => {
+  userId: string
+}> = ({ sheets, onPagination, isLoading, userId }) => {
+  const { currentSession } = useAuth()
   const sliderRef = useRef<HTMLDivElement>(null)
   const [selectedSheet, setSelectedSheet] = useState<ISheet | null>(null)
   const [openSheetModal, setOpenSheetModal] = useState<boolean>(false)
 
-  if (sheets.length === 0) return null
+  if (sheets.length === 0 || !currentSession) return null
+
+  if (currentSession.id !== userId) {
+    sheets = sheets.filter((sheet) => sheet.infos.visibility === true)
+  }
 
   const onSelectedSheet = (sheet: ISheet) => {
     setSelectedSheet(sheet)

@@ -7,10 +7,13 @@ import { DraggableItem } from "@/shared/components/ui"
 export const SheetsBar = () => {
   const { tableSheets: sheetsOnTable } = useSheets()
   const tableId = useParams().id as string
-  const tableSheets = sheetsOnTable.get(tableId)?.sheets ?? []
-  const players = tableSheets.filter((sheet) => sheet.infos.type === "player")
-  const npcs = tableSheets.filter((sheet) => sheet.infos.type === "npc")
-  const enemies = tableSheets.filter((sheet) => sheet.infos.type === "enemy")
+  let tableSheets =
+    sheetsOnTable
+      .get(tableId)
+      ?.sheets.filter((sheet) => sheet.infos.visibility === true) ?? []
+  let players = tableSheets.filter((sheet) => sheet.infos.type === "player")
+  let npcs = tableSheets.filter((sheet) => sheet.infos.type === "npc")
+  let enemies = tableSheets.filter((sheet) => sheet.infos.type === "enemy")
 
   return (
     <div className="flex flex-col items-center justify-start border-l py-2 min-w-[70px] border-border overflow-y-scroll overflow-x-hidden no-scrollbar h-screen">
