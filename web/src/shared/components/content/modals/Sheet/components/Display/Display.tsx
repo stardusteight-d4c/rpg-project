@@ -104,14 +104,18 @@ export const Display: React.FC<{
                       <UserCircleCheck />
                     </Button>
                   ) : (
-                    <Button
-                      action={() => onToggleActiveSheetOnTable(true)}
-                      title="Use Sheet"
-                      bgColor="green"
-                      variant="modal"
-                    >
-                      <UserCircleCheck />
-                    </Button>
+                    <Fragment>
+                      {sheet.infos.visibility && (
+                        <Button
+                          action={() => onToggleActiveSheetOnTable(true)}
+                          title="Use Sheet"
+                          bgColor="green"
+                          variant="modal"
+                        >
+                          <UserCircleCheck />
+                        </Button>
+                      )}
+                    </Fragment>
                   )}
                 </Fragment>
               ) : (

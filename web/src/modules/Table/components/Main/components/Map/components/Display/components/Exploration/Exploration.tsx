@@ -73,7 +73,7 @@ export const Exploration: React.FC<{
     const mouseY = e.clientY - e.currentTarget.getBoundingClientRect().top
 
     const newZoom =
-      e.deltaY < 0 ? Math.min(zoom + 0.1, 3) : Math.max(zoom - 0.1, 0.5)
+      e.deltaY < 0 ? Math.min(zoom + 0.5, 5) : Math.max(zoom - 0.5, 0.5)
 
     const scaleDifference = newZoom / zoom
 

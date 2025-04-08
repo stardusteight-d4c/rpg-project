@@ -45,7 +45,11 @@ export class MockSheetRoute implements ISheetRoute {
     }
 
     const existingSheet = this.#sheets.get(sheet.id)!
-    const updatedSheet = { ...existingSheet, ...sheet }
+    let updatedSheet = { ...existingSheet, ...sheet }
+    if (updatedSheet.infos.visibility === false && updatedSheet.active) {
+      updatedSheet.active = false
+    }
+
     this.#sheets.set(sheet.id, updatedSheet)
 
     return updatedSheet

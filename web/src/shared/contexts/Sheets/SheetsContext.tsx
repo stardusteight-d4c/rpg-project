@@ -92,7 +92,11 @@ export const SheetsProvider: React.FC<{ children: ReactNode }> = ({
       const activeSheet = updateCache.get(tableId)
       if (!activeSheet) return updateCache
       if (activeSheet.id === updatedSheet.id) {
-        updateCache.set(tableId, { ...activeSheet, ...updatedSheet })
+        if (updatedSheet.infos.visibility === false) {
+          updateCache.delete(tableId)
+        } else {
+          updateCache.set(tableId, { ...activeSheet, ...updatedSheet })
+        }
       }
       return updateCache
     })
@@ -100,17 +104,21 @@ export const SheetsProvider: React.FC<{ children: ReactNode }> = ({
     setTableSheets((prev) => {
       const updateCache = new Map(prev)
 
-      if (tableId) {
-        const table = updateCache.get(tableId) || { sheets: [] }
-        const sheetInTable = table.sheets.find(
-          (tableSheet) => tableSheet.id === updatedSheet.tableId
-        )
-        if (sheetInTable) {
-          updateCache.set(tableId, {
-            sheets: [sheetInTable, ...table.sheets],
-          })
-        }
-      }
+      if (!tableId) return updateCache
+      const table = updateCache.get(tableId) || { sheets: [] }
+      const sheetInTable = table.sheets.find(
+        (tableSheet) => tableSheet.id === updatedSheet.id
+      )
+
+      if (!sheetInTable) return updateCache
+      const removedOldSheet = table.sheets.filter(
+        (sheet) => sheet.id !== sheetInTable.id
+      )
+
+      updateCache.set(tableId, {
+        sheets: [updatedSheet, ...removedOldSheet],
+      })
+
       return updateCache
     })
 
