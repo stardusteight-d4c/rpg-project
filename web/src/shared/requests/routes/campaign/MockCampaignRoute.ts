@@ -33,6 +33,7 @@ export class MockCampaignRoute implements ICampaignRoute {
       duration: "0",
       coverUrl: campaign.coverUrl ?? undefined,
       status: "inactive" as "inactive",
+      rolls: [],
       players: [campaign.owner],
       tableId: crypto.randomUUID(),
       createdAt: new Date().toISOString(),
@@ -67,6 +68,54 @@ export class MockCampaignRoute implements ICampaignRoute {
     this.#campaigns.set(campaign.id, updatedCampaign)
 
     return updatedCampaign
+  }
+
+  public async roll(roll: IRoll): Promise<IRoll> {
+    await new Promise((resolve) => setTimeout(resolve, 5000))
+
+    const campaign = this.#campaigns.get(roll.campaignId)
+    if (!campaign) throw new Error("Campaign not found.")
+
+    this.#campaigns.set(campaign.id, {
+      ...campaign,
+      rolls: [{ ...roll, ...campaign.rolls }],
+    })
+
+    return roll
+  }
+
+  public async rolls(
+    queryParams: RollsQueryParams
+  ): Promise<ListResponseDTO<IRoll>> {
+    await new Promise((resolve) => setTimeout(resolve, 5000))
+
+    const { campaignId } = queryParams
+    const pageSize = queryParams?.pageSize || 20
+    const currentPage = queryParams?.currentPage || 1
+
+    if (!campaignId) throw new Error("campaignId is required.")
+    const campaign = this.#campaigns.get(campaignId)
+    if (!campaign) throw new Error("Campaign not found.")
+
+    const rolls = campaign.rolls
+    const totalItems = rolls.length
+    const totalPages = Math.ceil(totalItems / pageSize)
+
+    const startIndex = (currentPage - 1) * pageSize
+    const pagedItems = rolls
+      .sort(
+        (a, b) =>
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+      )
+      .slice(startIndex, startIndex + pageSize)
+
+    return {
+      items: pagedItems,
+      totalItems,
+      totalPages,
+      currentPage,
+      pageSize,
+    }
   }
 
   public async list(

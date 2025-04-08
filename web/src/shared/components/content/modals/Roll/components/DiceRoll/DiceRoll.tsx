@@ -1,5 +1,5 @@
 import { Button } from "@/shared/components/ui"
-import { useRolls } from "@/shared/contexts"
+import { useCampaigns, useRolls, useToast } from "@/shared/contexts"
 import React, { useState } from "react"
 
 export const DiceRoll: React.FC<{
@@ -7,18 +7,26 @@ export const DiceRoll: React.FC<{
   activeSheet: ISheet
 }> = ({ mode, activeSheet }) => {
   if (mode !== "dice") return null
+  const { currentCampaign } = useCampaigns()
   const { addRoll, setOpenDiceModal } = useRolls()
+  const { addToast } = useToast()
   const [numDice, setNumDice] = useState<number>(1)
   const [diceType, setDiceType] = useState<number>(4)
   const diceTypes = [4, 6, 8, 10, 12, 20, 100]
 
-  const rollDice = (sides: number, quantity: number) => {
+  if (!currentCampaign) return
+
+  const rollDice = async (sides: number, quantity: number) => {
     const rolls = Array.from(
       { length: quantity },
       () => Math.floor(Math.random() * sides) + 1
     )
-    addRoll({
+
+    console.log("aaa")
+
+    await addRoll({
       id: crypto.randomUUID(),
+      campaignId: currentCampaign.id,
       character: activeSheet,
       systemRoll: {
         diceQuantity: numDice,
@@ -28,7 +36,12 @@ export const DiceRoll: React.FC<{
       },
       createdAt: new Date().toISOString(),
     })
-    setOpenDiceModal(false)
+      .catch((error) => {
+        addToast(error.message, "error", 45)
+      })
+      .finally(() => {
+        setOpenDiceModal(false)
+      })
   }
 
   return (
@@ -73,7 +86,7 @@ export const DiceRoll: React.FC<{
           variant="default"
           bgColor="gradientBlue"
           title={`Roll ${numDice}d${diceType}`}
-          action={() => rollDice(diceType, numDice)}
+          action={async () => await rollDice(diceType, numDice)}
         />
       </div>
     </div>

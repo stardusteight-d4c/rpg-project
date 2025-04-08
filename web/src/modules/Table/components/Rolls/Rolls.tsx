@@ -1,17 +1,22 @@
 "use client"
 
-import React, { useEffect, useRef, useState } from "react"
-import { useRolls } from "@/shared/contexts"
+import React from "react"
+import { useCampaigns, useRolls } from "@/shared/contexts"
 import { Components } from "./components"
 
 export const Rolls = () => {
-  const { rolls } = useRolls()
+  const { rolls: tableRolls } = useRolls()
+  const { currentCampaign } = useCampaigns()
+  if (!currentCampaign) return
+
+  const rolls = Array.from(
+    tableRolls.get(currentCampaign.id)?.rolls.values() ?? []
+  )
 
   return (
     <Wrapper>
       <Components.Empty length={rolls.length} />
       <Components.Display rolls={rolls} />
-
       <Components.Dice />
     </Wrapper>
   )

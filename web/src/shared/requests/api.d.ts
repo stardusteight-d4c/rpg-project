@@ -45,6 +45,8 @@ interface ICampaignRoute {
   create(campaign: CampaignCreate): Promise<ICampaign>
   update(campaign: Partial<ICampaign>): Promise<ICampaign>
   delete(campaignId: string): Promise<void>
+  roll(roll: IRoll): Promise<IRoll>
+  rolls(queryParams: RollsQueryParams): Promise<ListResponseDTO<IRoll>>
   list(queryParams: CampaignQueryParams): Promise<ListResponseDTO<ICampaign>>
 }
 

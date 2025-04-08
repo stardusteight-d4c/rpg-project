@@ -5,12 +5,12 @@ import React, {
   useContext,
   useState,
   ReactNode,
-  useEffect,
 } from "react"
 import { MockAPI } from "@/shared/requests/MockAPI"
 import { sortArrayOfMapObjectByCreatedAt } from "@/shared/utils"
 
 interface CampaignsState {
+  currentCampaign: ICampaign | undefined
   isMaster: boolean
   lastRequestCampaignsData: Map<string, ICampaign>
   lastRequestProfileCampaignsData: Map<string, ListResponseDTO<ICampaign>>
@@ -26,6 +26,7 @@ interface CampaignsState {
 }
 
 const defaultState: CampaignsState = {
+  currentCampaign: undefined,
   isMaster: false,
   lastRequestCampaignsData: new Map(),
   lastRequestProfileCampaignsData: new Map(),
@@ -45,7 +46,7 @@ export const CampaignsProvider: React.FC<{ children: ReactNode }> = ({
 }) => {
   const api = new MockAPI().initializeRoutes()
   const [isMaster, setIsMaster] = useState<boolean>(false)
-  const [activeCampaign, setActiveCampaign] = useState<ICampaign | undefined>(
+  const [currentCampaign, setCurrentCampaign] = useState<ICampaign | undefined>(
     undefined
   )
   const [lastRequestCampaignsData, setLastRequestCampaignsData] = useState<
@@ -125,7 +126,7 @@ export const CampaignsProvider: React.FC<{ children: ReactNode }> = ({
     const prevCampaignRequestData = lastRequestCampaignsData.get(tableId)
 
     if (prevCampaignRequestData) {
-      setActiveCampaign(prevCampaignRequestData)
+      setCurrentCampaign(prevCampaignRequestData)
       setIsMaster(prevCampaignRequestData.owner.id === userId)
       return prevCampaignRequestData
     }
@@ -138,7 +139,7 @@ export const CampaignsProvider: React.FC<{ children: ReactNode }> = ({
           newCache.set(campaign.items[0].id, campaign.items[0])
           return newCache
         })
-        setActiveCampaign(campaign.items[0])
+        setCurrentCampaign(campaign.items[0])
         setIsMaster(campaign.items[0].owner.id === userId)
         return campaign.items[0]
       })
@@ -282,6 +283,7 @@ export const CampaignsProvider: React.FC<{ children: ReactNode }> = ({
   return (
     <CampaignsContext.Provider
       value={{
+        currentCampaign,
         isMaster,
         lastRequestCampaignsData,
         lastRequestProfileCampaignsData,

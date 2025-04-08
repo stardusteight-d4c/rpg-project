@@ -46,6 +46,31 @@ export const CharacterRoll = ({
 
   const { label, bgClass } = getResultMeta()
 
+  function capitalizeWithParentheses(input: string): string {
+    const matches = [...input.matchAll(/\((.*?)\)/g)].map(match => match[1]);
+  
+    matches.forEach((content, index) => {
+      input = input.replace(`(${content})`, `__PLACEHOLDER_${index}__`);
+    });
+  
+    input = input
+      .split(' ')
+      .map(word =>
+        word.startsWith('__PLACEHOLDER_')
+          ? word
+          : word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+      )
+      .join(' ');
+  
+    matches.forEach((content, index) => {
+      const upper = content.toUpperCase();
+      input = input.replace(`__PLACEHOLDER_${index}__`, `(${upper})`);
+    });
+  
+    return input;
+  }
+  
+
   return (
     <div className="w-full rounded-3xl select-none overflow-hidden border border-border">
       <span className="block text-2xl bg-ashes px-4 py-2 font-bold">

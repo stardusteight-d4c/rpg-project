@@ -1,6 +1,26 @@
 type CampaignStatus = "active" | "recent_active" | "inactive"
 // active -> Agora | recent_active -> 24h | inactive > 24h
 
+interface IRoll {
+  id: string
+  character: ISheet
+  campaignId: string 
+  characterRoll?: {
+    name: string
+    value: number
+    halfValue: number
+    fifthValue: number
+    rolled: number
+  }
+  systemRoll?: {
+    diceQuantity: number
+    diceType: number
+    rolled: Array<number>
+    total: number
+  }
+  createdAt: string
+}
+
 interface ICampaign {
   id: string
   tableId: string
@@ -11,6 +31,7 @@ interface ICampaign {
   status: CampaignStatus
   players: IUser[]
   streaming?: { watchers: IUser[]; startedAt: string }
+  rolls: IRoll[]
   owner: IUser
   createdAt: string
 }
@@ -30,3 +51,9 @@ interface CampaignQueryParams extends ListQueryParams {
   tableId?: string
   status?: CampaignStatus
 }
+
+
+interface RollsQueryParams extends ListQueryParams {
+  campaignId?: string
+}
+
