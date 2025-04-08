@@ -52,7 +52,7 @@ export const Attributes: React.FC<{
               variant="default"
               bgColor="gradientBlue"
               title={`${selectedAttribute.name} Roll`}
-              action={() =>
+              action={async () =>
                 rollDice({
                   name: selectedAttribute.name,
                   value: selectedAttribute.value,

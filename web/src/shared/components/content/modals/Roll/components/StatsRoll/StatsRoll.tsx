@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { useRolls } from "@/shared/contexts"
+import { useCampaigns, useRolls } from "@/shared/contexts"
 import { Components } from "./components"
 
 export const StatsRoll: React.FC<{
@@ -8,14 +8,17 @@ export const StatsRoll: React.FC<{
 }> = ({ activeSheet, mode }) => {
   if (mode !== "stats") return null
   const { addRoll, setOpenDiceModal } = useRolls()
+  const { currentCampaign } = useCampaigns()
+  if (!currentCampaign) return
 
   const [selectedType, setSelectedType] = useState<"attributes" | "skills">(
     "attributes"
   )
 
-  const rollDice = (selectedRoll: { value: number; name: string }) => {
-    addRoll({
+  const rollDice = async (selectedRoll: { value: number; name: string }) => {
+    await addRoll({
       id: crypto.randomUUID(),
+      campaignId: currentCampaign.id,
       character: activeSheet,
       characterRoll: {
         name: selectedRoll.name.toLocaleLowerCase(),

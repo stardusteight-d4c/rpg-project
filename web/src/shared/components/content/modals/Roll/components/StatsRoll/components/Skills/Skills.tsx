@@ -100,7 +100,7 @@ export const Skills: React.FC<{
               variant="default"
               bgColor="gradientBlue"
               title={`${selectedSkill.name} Roll`}
-              action={() =>
+              action={async () =>
                 rollDice({
                   name: selectedSkill.name,
                   value: selectedSkill.value,

@@ -22,8 +22,6 @@ export const DiceRoll: React.FC<{
       () => Math.floor(Math.random() * sides) + 1
     )
 
-    console.log("aaa")
-
     await addRoll({
       id: crypto.randomUUID(),
       campaignId: currentCampaign.id,
@@ -86,7 +84,7 @@ export const DiceRoll: React.FC<{
           variant="default"
           bgColor="gradientBlue"
           title={`Roll ${numDice}d${diceType}`}
-          action={async () => await rollDice(diceType, numDice)}
+          action={async () => rollDice(diceType, numDice)}
         />
       </div>
     </div>
