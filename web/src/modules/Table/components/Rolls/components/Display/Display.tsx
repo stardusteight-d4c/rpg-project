@@ -25,7 +25,7 @@ export const Display: React.FC<{ rolls: IRoll[] }> = ({ rolls }) => {
         })
       }
     }
-  }, [rolls])
+  }, [rolls.length])
 
   useEffect(() => {
     scrollToBottom()

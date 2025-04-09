@@ -16,7 +16,6 @@ interface GridItem {
 export const Exploration: React.FC<{
   map: IMap
 }> = ({ map }) => {
-  const { wallpaper, addWallpaper } = useMaps()
   const [items, setItems] = useState<GridItem[]>([])
   const [zoom, setZoom] = useState(1)
   const [position, setPosition] = useState({ x: 0, y: 0 })
@@ -24,7 +23,6 @@ export const Exploration: React.FC<{
   const [startDragPos, setStartDragPos] = useState({ x: 0, y: 0 })
   const [isItemDragging, setIsItemDragging] = useState(false)
   const showResetMap = zoom !== 1 || position.x !== 0 || position.y !== 0
-  const [file, setFile] = useState<File | undefined>(undefined)
 
   const handleDrop = (e: DragEvent<HTMLDivElement>, x: number, y: number) => {
     e.preventDefault()
@@ -173,7 +171,7 @@ export const Exploration: React.FC<{
               key={`${rowIndex}-${colIndex}`}
               onDrop={(e) => handleDrop(e, colIndex, rowIndex)}
               onDragOver={handleDragOver}
-              className="relative w-full border border-transparent flex items-center justify-center z-50 aspect-square overflow-hidden h-fit mx-auto"
+              className="relative select-none w-full border border-transparent flex items-center justify-center z-50 aspect-square overflow-hidden h-fit mx-auto"
             >
               <div>
                 {/* <Fragment>{`${rowIndex}-${colIndex}`}</Fragment> */}
@@ -250,7 +248,7 @@ export const FogOfWar: React.FC<{
   return (
     <canvas
       ref={canvasRef}
-      className="absolute z-[600] top-0 left-0 w-full h-full pointer-events-none"
+      className="absolute z-[600] top-0 left-0 w-full h-full select-none pointer-events-none"
     />
   )
 }

@@ -49,7 +49,7 @@ export const DraggableItem: React.FC<DraggableItemProps> = ({
       // }
       className={`${
         player ? " z-[60] " : " z-[0] "
-      } w-full relative aspect-square rounded-full select-none object-cover h-full cursor-grab m-auto flex items-center justify-center`}
+      } w-full relative aspect-square rounded-full !pointer-events-auto select-none object-cover h-full cursor-grab m-auto flex items-center justify-center`}
     />
   )
 }
