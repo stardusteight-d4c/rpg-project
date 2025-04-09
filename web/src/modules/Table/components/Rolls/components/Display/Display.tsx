@@ -29,7 +29,7 @@ export const Display: React.FC<{ rolls: IRoll[] }> = ({ rolls }) => {
 
   useEffect(() => {
     scrollToBottom()
-  }, [])
+  }, [rolls.length])
 
   useEffect(() => {
     const chat = chatRef.current

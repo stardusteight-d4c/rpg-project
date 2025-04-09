@@ -7,7 +7,7 @@ interface DraggableItemProps {
   type: string
   setIsItemDragging?: (isDragging: boolean) => void
   player?: boolean
-  character?: ISheet
+  sheet?: ISheet
 }
 
 export const DraggableItem: React.FC<DraggableItemProps> = ({
@@ -16,7 +16,7 @@ export const DraggableItem: React.FC<DraggableItemProps> = ({
   type,
   setIsItemDragging,
   player,
-  character,
+  sheet,
 }) => {
   const { showModal, hideModal } = useModal()
   const handleDragStart = (e: DragEvent<HTMLDivElement>) => {

@@ -1,8 +1,6 @@
 "use client"
 
 import React, { useState, DragEvent, useRef, useEffect, Fragment } from "react"
-import { useMaps } from "@/shared/contexts/Maps/MapsContext"
-import { currentSession } from "@/shared/contexts/Users/mock-data"
 import { DraggableItem } from "@/shared/components/ui"
 
 interface GridItem {
