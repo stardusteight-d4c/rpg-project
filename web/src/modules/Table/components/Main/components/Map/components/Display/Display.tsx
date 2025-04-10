@@ -1,8 +1,10 @@
 import { useMaps } from "@/shared/contexts"
 import { Exploration, Scenario } from "./components"
 
-export const Display: React.FC<{}> = ({}) => {
+export const Display = () => {
   const { activeMap } = useMaps()
+
+  console.log(activeMap)
 
   if (!activeMap) return
 

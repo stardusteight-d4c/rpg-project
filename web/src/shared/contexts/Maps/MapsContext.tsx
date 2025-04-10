@@ -16,7 +16,7 @@ interface MapsState {
   deleteMap: (id: string) => void
   updateMap: (id: string, updatedMap: IMap) => void
   updateCopyMap: (id: string, updatedMap: Partial<IMap>) => void
-  moveSheet: (sheetPosition: SheetPosition) => Promise<SheetPosition>
+  moveSheet: (newSheetPosition: SheetPosition) => Promise<SheetPosition>
 }
 
 const defaultState: MapsState = {
@@ -137,9 +137,33 @@ export const MapsProvider: React.FC<{ children: ReactNode }> = ({
     })
   }
 
-  const moveSheet = async (sheetPosition: SheetPosition) => {
-    // setMaps(())
-    return {} as any
+  const moveSheet = async (newSheetPosition: SheetPosition) => {
+    let updateMap = maps.get(newSheetPosition.mapId)
+
+    // Fazer rota mockada para map
+
+    if (!updateMap) throw new Error("map not found.")
+
+    setMaps((prev) => {
+      const updateCache = new Map(prev)
+
+      const filteredSheetsPositions = updateMap.positions?.filter(
+        (position) => position.sheetId !== newSheetPosition.sheetId
+      )
+
+      updateMap.positions = [
+        newSheetPosition,
+        ...(filteredSheetsPositions ?? []),
+      ]
+      updateCache.set(updateMap.id, updateMap)
+
+      console.log('updateCache', updateCache);
+      
+
+      return updateCache
+    })
+
+    return newSheetPosition
   }
 
   return (

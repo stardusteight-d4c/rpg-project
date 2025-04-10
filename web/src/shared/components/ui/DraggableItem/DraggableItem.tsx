@@ -24,6 +24,7 @@ export const DraggableItem: React.FC<{
     e.dataTransfer.setData("characterUrl", characterUrl)
     e.dataTransfer.setData("ownerId", ownerId)
     e.dataTransfer.setData("isOwner", isOwner.toString())
+
     handleDragging(true)
   }
 

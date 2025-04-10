@@ -2,11 +2,16 @@
 
 import React, { useState, DragEvent, useRef, useEffect, Fragment } from "react"
 import { DraggableItem } from "@/shared/components/ui"
+import { useMaps } from "@/shared/contexts"
 
 export const Exploration: React.FC<{
   map: IMap
 }> = ({ map }) => {
-  const [sheetsPostions, setSheetsPositions] = useState<SheetPosition[]>([])
+  const { moveSheet } = useMaps()
+
+  const [sheetsPostions, setSheetsPositions] = useState<SheetPosition[]>(
+    map.positions ?? []
+  )
   const [zoom, setZoom] = useState(1)
   const [position, setPosition] = useState({ x: 0, y: 0 })
   const [isDragging, setIsDragging] = useState(false)
@@ -14,7 +19,7 @@ export const Exploration: React.FC<{
   const [isItemDragging, setIsItemDragging] = useState(false)
   const showResetMap = zoom !== 1 || position.x !== 0 || position.y !== 0
 
-  const handleDrop = (e: DragEvent<HTMLDivElement>, x: number, y: number) => {
+  const handleDrop = async (e: DragEvent<HTMLDivElement>, x: number, y: number) => {
     e.preventDefault()
 
     const sheetId = e.dataTransfer.getData("id")
@@ -22,32 +27,33 @@ export const Exploration: React.FC<{
     const ownerId = e.dataTransfer.getData("ownerId")
     const isOwner = e.dataTransfer.getData("isOwner") === "true" ? true : false
 
+    const newSheetPosition = {
+      sheetId,
+      mapId: map.id,
+      characterUrl,
+      ownerId,
+      isOwner,
+      position: {
+        x,
+        y,
+      },
+    }
+
     if (!isOwner) return null
 
-    setSheetsPositions((prev) => {
-      const existingSheetPosition = prev.find(
-        (sheet) => sheet.sheetId === sheetId
-      )
-      if (existingSheetPosition) {
-        return prev.map((item) =>
-          item.sheetId === sheetId ? { ...item, position: { x, y } } : item
+     moveSheet(newSheetPosition).then(() => {
+      setSheetsPositions((prev) => {
+        const existingSheetPosition = prev.find(
+          (sheet) => sheet.sheetId === sheetId
         )
-      } else {
-        return [
-          ...prev,
-          {
-            sheetId,
-            mapId: map.id,
-            characterUrl,
-            ownerId,
-            isOwner,
-            position: {
-              x,
-              y,
-            },
-          },
-        ]
-      }
+        if (existingSheetPosition) {
+          return prev.map((item) =>
+            item.sheetId === sheetId ? newSheetPosition : item
+          )
+        } else {
+          return [...prev, newSheetPosition]
+        }
+      })
     })
   }
 

@@ -21,7 +21,7 @@ export const Config = () => {
           title="Config"
           bgColor="gradientBlue"
           variant="icon"
-          className="!w-[32px] !h-[32px] hover:-rotate-45 transition-all duration-300 ease-in-out"
+          className="!w-[32px] !h-[32px] hover:-rotate-180 transition-all duration-300 ease-in-out"
         >
           <Gear />
         </Button>
