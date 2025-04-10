@@ -1,5 +1,6 @@
 "use client"
 
+import { MockAPI } from "@/shared/requests/MockAPI"
 import React, {
   createContext,
   useContext,
@@ -12,10 +13,10 @@ interface MapsState {
   maps: Map<string, IMap>
   copyMaps: IMap[]
   activeMap: IMap | undefined
-  addMap: (map: IMap) => void
-  deleteMap: (id: string) => void
-  updateMap: (id: string, updatedMap: IMap) => void
-  updateCopyMap: (id: string, updatedMap: Partial<IMap>) => void
+  addMap: (map: IMap) => Promise<void>
+  deleteMap: (id: string) => Promise<void>
+  updateMap: (map: Partial<IMap>) => Promise<void>
+  updateCopyMap: (updatedMap: Partial<IMap>) => void
   moveSheet: (newSheetPosition: SheetPosition) => Promise<SheetPosition>
 }
 
@@ -23,9 +24,9 @@ const defaultState: MapsState = {
   maps: new Map(),
   copyMaps: [],
   activeMap: undefined,
-  addMap: () => {},
-  deleteMap: () => {},
-  updateMap: () => {},
+  addMap: async () => {},
+  deleteMap: async () => {},
+  updateMap: async () => {},
   updateCopyMap: () => {},
   moveSheet: async () => ({} as SheetPosition),
 }
@@ -35,6 +36,7 @@ const MapsContext = createContext<MapsState>(defaultState)
 export const MapsProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
+  const api = new MockAPI().initializeRoutes()
   const [maps, setMaps] = useState<Map<string, IMap>>(new Map())
   const [copyMaps, setCopyMaps] = useState<IMap[]>([])
   const [activeMap, setActiveMap] = useState<IMap | undefined>(undefined)
@@ -59,35 +61,38 @@ export const MapsProvider: React.FC<{ children: ReactNode }> = ({
     })
   }
 
-  const addMap = (createdMap: IMap) => {
-    // Fazer rota mockada para map
+  const addMap = async (createdMap: IMap) => {
+    await api.map.create(createdMap).then(() => {
+      setMaps((prev) => {
+        const updateCache = new Map(prev)
+        updateCache.set(createdMap.id, createdMap)
+        return updateCache
+      })
 
-    setMaps((prev) => {
-      const updateCache = new Map(prev)
-      updateCache.set(createdMap.id, createdMap)
-      return updateCache
-    })
-
-    if (createdMap.active) {
-      if (activeMap) removeOldActiveMap()
-      setActiveMap(createdMap)
-    }
-  }
-
-  const deleteMap = (id: string) => {
-    // Fazer rota mockada para map
-
-    setMaps((prev) => {
-      const updateCache = new Map(prev)
-      const map = updateCache.get(id)
-      if (!map) throw new Error("Map not found")
-      if (map.active) setActiveMap(undefined)
-      updateCache.delete(id)
-      return updateCache
+      if (createdMap.active) {
+        if (activeMap) removeOldActiveMap()
+        setActiveMap(createdMap)
+      }
     })
   }
 
-  const updateCopyMap = (id: string, updatedMap: Partial<IMap>) => {
+  const deleteMap = async (id: string) => {
+    api.map.delete(id).then(() => {
+      setMaps((prev) => {
+        const updateCache = new Map(prev)
+        const map = updateCache.get(id)
+        if (!map) throw new Error("Map not found")
+        if (map.active) setActiveMap(undefined)
+        updateCache.delete(id)
+        return updateCache
+      })
+    })
+  }
+
+  const updateCopyMap = (updatedMap: Partial<IMap>) => {
+    const { id } = updatedMap
+    if (!id) return
+
     setCopyMaps((prevMaps) => {
       const isScenario = updatedMap.type === "scenario"
       const existingMapIndex = prevMaps.findIndex((map) => map.id === id)
@@ -105,48 +110,47 @@ export const MapsProvider: React.FC<{ children: ReactNode }> = ({
     })
   }
 
-  const updateMap = (id: string, updatedMap: IMap) => {
-    // Fazer rota mockada para map
-
-    if (updatedMap.type === "scenario") {
-      delete updatedMap.gridSize
-      delete updatedMap.visibility
-      delete updatedMap.positions
+  const updateMap = async (map: Partial<IMap>) => {
+    const { id } = map
+    if (!id) throw new Error("Id is required")
+    if (map.type === "scenario") {
+      delete map.gridSize
+      delete map.visibility
+      delete map.positions
     }
 
-    if (!activeMap) {
+    return await api.map.update(map).then((updatedMap) => {
+      if (!activeMap) {
+        setMaps((prev) => {
+          const updateCache = new Map(prev)
+          updateCache.set(id, updatedMap)
+          return updateCache
+        })
+        return
+      }
+
+      if (updatedMap.active) {
+        if (id !== activeMap.id) removeOldActiveMap()
+        setActiveMap(updatedMap)
+      } else if (activeMap.id === id) {
+        setActiveMap(undefined)
+      }
+
       setMaps((prev) => {
         const updateCache = new Map(prev)
-        updateCache.set(updatedMap.id, updatedMap)
+        updateCache.set(id, updatedMap)
         return updateCache
       })
-      return
-    }
-
-    if (updatedMap.active) {
-      if (updatedMap.id !== activeMap.id) removeOldActiveMap()
-      setActiveMap(updatedMap)
-    } else if (activeMap.id === updatedMap.id) {
-      setActiveMap(undefined)
-    }
-
-    setMaps((prev) => {
-      const updateCache = new Map(prev)
-      updateCache.set(updatedMap.id, updatedMap)
-      return updateCache
     })
   }
 
   const moveSheet = async (newSheetPosition: SheetPosition) => {
     let updateMap = maps.get(newSheetPosition.mapId)
 
-    // Fazer rota mockada para map
-
     if (!updateMap) throw new Error("map not found.")
 
     setMaps((prev) => {
       const updateCache = new Map(prev)
-
       const filteredSheetsPositions = updateMap.positions?.filter(
         (position) => position.sheetId !== newSheetPosition.sheetId
       )
@@ -157,11 +161,10 @@ export const MapsProvider: React.FC<{ children: ReactNode }> = ({
       ]
       updateCache.set(updateMap.id, updateMap)
 
-      console.log('updateCache', updateCache);
-      
-
       return updateCache
     })
+
+    api.map.moveSheet(newSheetPosition)
 
     return newSheetPosition
   }

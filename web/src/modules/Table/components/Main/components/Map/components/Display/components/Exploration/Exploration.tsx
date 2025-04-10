@@ -19,7 +19,11 @@ export const Exploration: React.FC<{
   const [isItemDragging, setIsItemDragging] = useState(false)
   const showResetMap = zoom !== 1 || position.x !== 0 || position.y !== 0
 
-  const handleDrop = async (e: DragEvent<HTMLDivElement>, x: number, y: number) => {
+  const handleDrop = async (
+    e: DragEvent<HTMLDivElement>,
+    x: number,
+    y: number
+  ) => {
     e.preventDefault()
 
     const sheetId = e.dataTransfer.getData("id")
@@ -41,20 +45,20 @@ export const Exploration: React.FC<{
 
     if (!isOwner) return null
 
-     moveSheet(newSheetPosition).then(() => {
-      setSheetsPositions((prev) => {
-        const existingSheetPosition = prev.find(
-          (sheet) => sheet.sheetId === sheetId
+    setSheetsPositions((prev) => {
+      const existingSheetPosition = prev.find(
+        (sheet) => sheet.sheetId === sheetId
+      )
+      if (existingSheetPosition) {
+        return prev.map((item) =>
+          item.sheetId === sheetId ? newSheetPosition : item
         )
-        if (existingSheetPosition) {
-          return prev.map((item) =>
-            item.sheetId === sheetId ? newSheetPosition : item
-          )
-        } else {
-          return [...prev, newSheetPosition]
-        }
-      })
+      } else {
+        return [...prev, newSheetPosition]
+      }
     })
+
+    moveSheet(newSheetPosition)
   }
 
   const handleDragOver = (e: DragEvent<HTMLDivElement>) => {

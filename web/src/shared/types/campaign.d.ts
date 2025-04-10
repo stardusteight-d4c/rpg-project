@@ -1,6 +1,30 @@
 type CampaignStatus = "active" | "recent_active" | "inactive"
 // active -> Agora | recent_active -> 24h | inactive > 24h
 
+interface SheetPosition {
+  sheetId: string
+  mapId: string
+  characterUrl: string
+  ownerId: string
+  isOwner: boolean
+  position: {
+    x: number
+    y: number
+  }
+}
+
+interface IMap {
+  id: string
+  campaignId: string
+  type: "exploration" | "scenario"
+  name: string
+  imageUrl: string
+  active: boolean
+  visibility?: "low" | "default"
+  gridSize?: Array<number>
+  positions?: SheetPosition[]
+}
+
 interface IRoll {
   id: string
   character: ISheet
@@ -32,6 +56,7 @@ interface ICampaign {
   players: IUser[]
   streaming?: { watchers: IUser[]; startedAt: string }
   rolls: IRoll[]
+  maps: IMap[]
   owner: IUser
   createdAt: string
 }

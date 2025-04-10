@@ -34,6 +34,7 @@ export class MockCampaignRoute implements ICampaignRoute {
       coverUrl: campaign.coverUrl ?? undefined,
       status: "inactive" as "inactive",
       rolls: [],
+      maps: [],
       players: [campaign.owner],
       tableId: crypto.randomUUID(),
       createdAt: new Date().toISOString(),

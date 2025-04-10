@@ -28,7 +28,7 @@ export const Create: React.FC<{
   })
 
   useEffect(() => {
-    updateCopyMap(editableData.id, editableData)
+    updateCopyMap(editableData)
   }, [editableData])
 
   const updateEditableData = (data: { key: keyof IMap; value: any }) => {
@@ -37,7 +37,7 @@ export const Create: React.FC<{
       gridSize: editableData.gridSize ?? [20, 20],
       [data.key]: data.value,
     }))
-    updateCopyMap(editableData.id ?? randomUUID(), {
+    updateCopyMap({
       ...editableData,
       gridSize: editableData.gridSize ?? [20, 20],
       [data.key]: data.value,
@@ -54,7 +54,7 @@ export const Create: React.FC<{
         gridSize: prevData.gridSize ?? [20, 20],
         imageUrl: tempUrl,
       }))
-      updateCopyMap(editableData.id ?? randomUUID(), {
+      updateCopyMap({
         ...editableData,
         gridSize: editableData.gridSize ?? [20, 20],
         imageUrl: tempUrl,

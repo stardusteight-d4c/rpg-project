@@ -2,6 +2,7 @@ interface API {
   auth: IAuthRoute
   user: IUserRoute
   sheet: ISheetRoute
+  map: IMapRoute
   campaign: ICampaignRoute
   post: IPostRoute
 }
@@ -39,6 +40,13 @@ interface ISheetRoute {
   toggleActive(sheetId: string, tableId: string): Promise<ISheet[]>
   addToTable(sheetId: string, tableId: string): Promise<ISheet>
   removeFromTable(sheetId: string, tableId: string): Promise<ISheet>
+}
+
+interface IMapRoute {
+  create(map: IMap): Promise<IMap>
+  update(updatedMap: Partial<IMap>): Promise<IMap>
+  delete(id: string): Promise<void>
+  moveSheet(sheetPosition: SheetPosition): Promise<void>
 }
 
 interface ICampaignRoute {
