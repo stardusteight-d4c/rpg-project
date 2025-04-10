@@ -1,9 +1,23 @@
+interface SheetPosition {
+  sheetId: string
+  mapId: string
+  characterUrl: string
+  ownerId: string
+  isOwner: boolean
+  position: {
+    x: number
+    y: number
+  }
+}
+
 interface IMap {
   id: string
+  campaignId: string
   type: "exploration" | "scenario"
   name: string
   imageUrl: string
-  gridSize?: Array<number>
-  visibility?: "low" | "default"
   active: boolean
+  visibility?: "low" | "default"
+  gridSize?: Array<number>
+  positions?: SheetPosition[]
 }

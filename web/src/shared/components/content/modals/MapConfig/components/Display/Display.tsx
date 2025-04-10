@@ -13,9 +13,12 @@ export const Display: React.FC<{
   if (createMode || !!selectedMap) return
 
   return (
-    <Wrapper length={maps.length}>
+    <Wrapper length={maps.size}>
       <Components.Nav onCreateMode={onCreateMode} />
-      <Components.Maps maps={maps} onSelectedMap={onSelectedMap} />
+      <Components.Maps
+        maps={Array.from(maps.values())}
+        onSelectedMap={onSelectedMap}
+      />
     </Wrapper>
   )
 }

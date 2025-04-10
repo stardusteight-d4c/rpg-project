@@ -3,17 +3,6 @@
 import React, { useState, DragEvent, useRef, useEffect, Fragment } from "react"
 import { DraggableItem } from "@/shared/components/ui"
 
-interface SheetPosition {
-  sheetId: string
-  characterUrl: string
-  ownerId: string
-  isOwner: boolean
-  position: {
-    x: number
-    y: number
-  }
-}
-
 export const Exploration: React.FC<{
   map: IMap
 }> = ({ map }) => {
@@ -48,6 +37,7 @@ export const Exploration: React.FC<{
           ...prev,
           {
             sheetId,
+            mapId: map.id,
             characterUrl,
             ownerId,
             isOwner,

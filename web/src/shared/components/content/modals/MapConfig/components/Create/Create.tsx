@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { randomUUID } from "node:crypto"
-import { useMaps } from "@/shared/contexts"
+import { useCampaigns, useMaps } from "@/shared/contexts"
 import { Components } from "./components"
 
 export const Create: React.FC<{
@@ -13,15 +13,18 @@ export const Create: React.FC<{
   }>
 }> = ({ createMode, onCreateMode, Form }) => {
   const { updateCopyMap } = useMaps()
+  const { currentCampaign } = useCampaigns()
   const [file, setFile] = useState<File | null>(null)
   const [editableData, setEditableData] = useState<IMap>({
     id: crypto.randomUUID(),
+    campaignId: currentCampaign!.id,
     active: false,
     imageUrl: "",
     name: "",
     type: "scenario",
     gridSize: [20, 20],
     visibility: "default",
+    positions: [],
   })
 
   useEffect(() => {

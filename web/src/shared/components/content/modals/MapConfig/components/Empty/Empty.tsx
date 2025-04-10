@@ -4,7 +4,7 @@ import { useMaps } from "@/shared/contexts"
 
 export const Empty: React.FC<{ createMode: boolean }> = ({ createMode }) => {
   const { maps } = useMaps()
-  if (createMode || maps.length !== 0) return
+  if (createMode || maps.size !== 0) return
 
   return (
     <div className="p-2">
