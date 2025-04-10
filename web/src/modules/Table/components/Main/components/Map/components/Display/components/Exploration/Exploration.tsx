@@ -3,18 +3,21 @@
 import React, { useState, DragEvent, useRef, useEffect, Fragment } from "react"
 import { DraggableItem } from "@/shared/components/ui"
 
-interface GridItem {
-  id: string
-  type: string
-  x: number
-  y: number
-  imgUrl: string
+interface SheetPosition {
+  sheetId: string
+  characterUrl: string
+  ownerId: string
+  isOwner: boolean
+  position: {
+    x: number
+    y: number
+  }
 }
 
 export const Exploration: React.FC<{
   map: IMap
 }> = ({ map }) => {
-  const [items, setItems] = useState<GridItem[]>([])
+  const [sheetsPostions, setSheetsPositions] = useState<SheetPosition[]>([])
   const [zoom, setZoom] = useState(1)
   const [position, setPosition] = useState({ x: 0, y: 0 })
   const [isDragging, setIsDragging] = useState(false)
@@ -25,25 +28,33 @@ export const Exploration: React.FC<{
   const handleDrop = (e: DragEvent<HTMLDivElement>, x: number, y: number) => {
     e.preventDefault()
 
-    const itemId = e.dataTransfer.getData("id")
-    const imgUrl = e.dataTransfer.getData("imgUrl")
-    const type = e.dataTransfer.getData("type")
+    const sheetId = e.dataTransfer.getData("id")
+    const characterUrl = e.dataTransfer.getData("characterUrl")
+    const ownerId = e.dataTransfer.getData("ownerId")
+    const isOwner = e.dataTransfer.getData("isOwner") === "true" ? true : false
 
-    setItems((prev) => {
-      const existingItem = prev.find((item) => item.id === itemId)
-      if (existingItem) {
+    if (!isOwner) return null
+
+    setSheetsPositions((prev) => {
+      const existingSheetPosition = prev.find(
+        (sheet) => sheet.sheetId === sheetId
+      )
+      if (existingSheetPosition) {
         return prev.map((item) =>
-          item.id === itemId ? { ...item, x, y } : item
+          item.sheetId === sheetId ? { ...item, position: { x, y } } : item
         )
       } else {
         return [
           ...prev,
           {
-            id: itemId,
-            type,
-            x,
-            y,
-            imgUrl,
+            sheetId,
+            characterUrl,
+            ownerId,
+            isOwner,
+            position: {
+              x,
+              y,
+            },
           },
         ]
       }
@@ -156,7 +167,9 @@ export const Exploration: React.FC<{
           overflow: "hidden",
         }}
       >
-        {map.visibility === "low" && <FogOfWar map={map} items={items} />}
+        {map.visibility === "low" && (
+          <FogOfWar map={map} sheetsPostions={sheetsPostions} />
+        )}
         <img
           src={map.imageUrl}
           alt="Mapa"
@@ -173,14 +186,18 @@ export const Exploration: React.FC<{
             >
               <div>
                 {/* <Fragment>{`${rowIndex}-${colIndex}`}</Fragment> */}
-                {items
-                  .filter((item) => item.x === colIndex && item.y === rowIndex)
-                  .map((item) => (
+                {sheetsPostions
+                  .filter(
+                    (sheetPostion) =>
+                      sheetPostion.position.x === colIndex &&
+                      sheetPostion.position.y === rowIndex
+                  )
+                  .map((matchSheet) => (
                     <DraggableItem
-                      key={item.id}
-                      id={item.id}
-                      imgUrl={item.imgUrl}
-                      type={item.type}
+                      key={matchSheet.sheetId}
+                      sheetId={matchSheet.sheetId}
+                      characterUrl={matchSheet.characterUrl}
+                      ownerId={matchSheet.ownerId}
                       setIsItemDragging={setIsItemDragging}
                     />
                   ))}
@@ -195,8 +212,8 @@ export const Exploration: React.FC<{
 
 export const FogOfWar: React.FC<{
   map: IMap
-  items: GridItem[]
-}> = ({ map, items }) => {
+  sheetsPostions: SheetPosition[]
+}> = ({ map, sheetsPostions }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
   useEffect(() => {
@@ -214,13 +231,13 @@ export const FogOfWar: React.FC<{
 
     ctx.globalCompositeOperation = "destination-out"
 
-    items.forEach((item) => {
+    sheetsPostions.forEach((item) => {
       const cellWidth = canvas.width / map.gridSize![0]
       const cellHeight = canvas.height / map.gridSize![1]
 
-      const gridX = (item.x + 0.5) * cellWidth // Centraliza no meio do quadrado
-      const gridY = (item.y + 0.5) * cellHeight // Centraliza no meio do quadrado
-      const radius = Math.max(cellWidth, cellHeight) * 2 // Garante que cobre 2 quadrados ao redor
+      const gridX = (item.position.x + 0.5) * cellWidth
+      const gridY = (item.position.y + 0.5) * cellHeight
+      const radius = Math.max(cellWidth, cellHeight) * 2
 
       const gradient = ctx.createRadialGradient(
         gridX,
@@ -241,7 +258,7 @@ export const FogOfWar: React.FC<{
     })
 
     ctx.globalCompositeOperation = "source-over"
-  }, [map, items])
+  }, [map, sheetsPostions])
 
   return (
     <canvas

@@ -32,17 +32,15 @@ export const SheetsBar = () => {
             />
           </svg>
         </button>
-        {players.map((character: ISheet, index: any) => (
+        {players.map((sheet: ISheet, index: any) => (
           <div
             key={index}
             className="rounded-full w-[48px] h-[48px] overflow-hidden aspect-square"
           >
             <DraggableItem
-              id={character.id}
-              imgUrl={character.infos.characterUrl}
-              type="box"
-              player={index === 0}
-              character={character}
+              sheetId={sheet.id}
+              characterUrl={sheet.infos.characterUrl}
+              ownerId={sheet.owner.id}
             />
           </div>
         ))}
@@ -68,21 +66,19 @@ export const SheetsBar = () => {
             />
           </svg>
         </button>
-        {npcs.map((character: ISheet, index: any) => (
+        {npcs.map((sheet: ISheet, index: any) => (
           <div
             key={index}
             className={`${
               currentSession.role !== "master" &&
-              !character.infos.visibility &&
+              !sheet.infos.visibility &&
               " hidden invisible sr-only "
             } rounded-full w-[48px] h-[48px] overflow-hidden aspect-square`}
           >
             <DraggableItem
-              id={character.id}
-              imgUrl={character.infos.characterUrl}
-              type="box"
-              player={index === 0}
-              character={character}
+              sheetId={sheet.id}
+              characterUrl={sheet.infos.characterUrl}
+              ownerId={sheet.owner.id}
             />
           </div>
         ))}
@@ -108,21 +104,19 @@ export const SheetsBar = () => {
             />
           </svg>
         </button>
-        {enemies.map((character: ISheet, index: any) => (
+        {enemies.map((sheet: ISheet, index: any) => (
           <div
             key={index}
             className={`${
               currentSession.role !== "master" &&
-              !character.infos.visibility &&
+              !sheet.infos.visibility &&
               " hidden invisible sr-only "
             } rounded-full w-[48px] h-[48px] overflow-hidden aspect-square`}
           >
             <DraggableItem
-              id={character.id}
-              imgUrl={character.infos.characterUrl}
-              type="box"
-              player={index === 0}
-              character={character}
+              sheetId={sheet.id}
+              characterUrl={sheet.infos.characterUrl}
+              ownerId={sheet.owner.id}
             />
           </div>
         ))}

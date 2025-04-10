@@ -1,55 +1,45 @@
-import { useModal } from "@/shared/contexts/Modal/ModalContext"
+import { useAuth } from "@/shared/contexts"
 import { DragEvent } from "react"
 
-interface DraggableItemProps {
-  id: string
-  imgUrl: string
-  type: string
+export const DraggableItem: React.FC<{
+  sheetId: string
+  characterUrl: string
+  ownerId: string
   setIsItemDragging?: (isDragging: boolean) => void
-  player?: boolean
-  sheet?: ISheet
-}
+}> = ({ sheetId, characterUrl, ownerId, setIsItemDragging }) => {
+  const { currentSession } = useAuth()
 
-export const DraggableItem: React.FC<DraggableItemProps> = ({
-  id,
-  imgUrl,
-  type,
-  setIsItemDragging,
-  player,
-  sheet,
-}) => {
-  const { showModal, hideModal } = useModal()
-  const handleDragStart = (e: DragEvent<HTMLDivElement>) => {
-    e.dataTransfer.setData("id", id)
-    e.dataTransfer.setData("imgUrl", imgUrl)
-    e.dataTransfer.setData("type", type)
-    setIsItemDragging && setIsItemDragging(true)
+  const handleDragging = (isDragging: boolean) => {
+    setIsItemDragging && setIsItemDragging(isDragging)
   }
 
-  const handleDragEnd = () => setIsItemDragging && setIsItemDragging(false)
-  if (imgUrl.length === 0) return null
+  if (!sheetId || !currentSession) return null
+
+  const handleDragEnd = () => handleDragging(false)
+  const isOwner = currentSession.id === ownerId
+
+  const handleDragStart = (e: DragEvent<HTMLDivElement>) => {
+    if (!isOwner) return null
+    e.dataTransfer.setData("id", sheetId)
+    e.dataTransfer.setData("characterUrl", characterUrl)
+    e.dataTransfer.setData("ownerId", ownerId)
+    e.dataTransfer.setData("isOwner", isOwner.toString())
+    handleDragging(true)
+  }
+
   return (
     <img
-      draggable
-      onMouseEnter={() => setIsItemDragging && setIsItemDragging(true)}
-      onMouseLeave={() => setIsItemDragging && setIsItemDragging(false)}
+      onMouseEnter={() => handleDragging(true)}
+      onMouseLeave={() => handleDragging(false)}
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
-      src={imgUrl}
-      alt={type}
-      // onClick={() =>
-      //   character &&
-      //   showModal(
-      //     id,
-      //     <SelectedCharacterDisplay
-      //       selectedCharacter={character!}
-      //       isModal={true}
-      //     />
-      //   )
-      // }
+      draggable={isOwner}
+      src={characterUrl}
       className={`${
-        player ? " z-[60] " : " z-[0] "
-      } w-full relative aspect-square rounded-full !pointer-events-auto select-none object-cover h-full cursor-grab m-auto flex items-center justify-center`}
+        isOwner
+          ? " z-[60] cursor-grab "
+          : " pointer-events-none select-none !cursor-default z-[50] "
+      } w-full relative aspect-square rounded-full !pointer-events-auto object-cover h-full m-auto flex items-center justify-center`}
     />
   )
 }
