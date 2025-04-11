@@ -1,6 +1,7 @@
 "use client"
 
-import React, { useState, DragEvent, useRef, useEffect, Fragment } from "react"
+import React, { useState, DragEvent, useRef, useEffect } from "react"
+
 import { DraggableItem } from "@/shared/components/ui"
 import { useMaps } from "@/shared/contexts"
 

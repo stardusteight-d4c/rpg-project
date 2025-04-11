@@ -14,7 +14,6 @@ export const Edit: React.FC<{
   }>
 }> = ({ selectedMap, onSelectedMap, createMode, Form }) => {
   if (!selectedMap || createMode) return
-  const { updateCopyMap } = useMaps()
   const [editableData, setEditableData] = useState<IMap>({
     ...selectedMap,
     gridSize: selectedMap.gridSize ?? [20, 20],
@@ -28,10 +27,6 @@ export const Edit: React.FC<{
       ...prev,
       [data.key]: data.value,
     }))
-    updateCopyMap({
-      ...editableData,
-      [data.key]: data.value,
-    })
   }
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -43,10 +38,6 @@ export const Edit: React.FC<{
         ...prevData,
         imageUrl: tempUrl,
       }))
-      updateCopyMap({
-        ...editableData,
-        imageUrl: tempUrl,
-      })
     }
   }
 

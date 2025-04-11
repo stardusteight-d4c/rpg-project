@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react"
-import { useCampaigns, useMaps } from "@/shared/contexts"
+import React, { useState } from "react"
+
+import { useCampaigns } from "@/shared/contexts"
 import { Components } from "./components"
 
 export const Create: React.FC<{
@@ -10,7 +11,6 @@ export const Create: React.FC<{
     updateEditableData: (data: { key: keyof IMap; value: any }) => void
   }>
 }> = ({ createMode, onCreateMode, Form }) => {
-  const { updateCopyMap } = useMaps()
   const { currentCampaign } = useCampaigns()
   const [file, setFile] = useState<File | null>(null)
   const [editableData, setEditableData] = useState<IMap>({
@@ -25,21 +25,12 @@ export const Create: React.FC<{
     positions: [],
   })
 
-  useEffect(() => {
-    updateCopyMap(editableData)
-  }, [editableData])
-
   const updateEditableData = (data: { key: keyof IMap; value: any }) => {
     setEditableData((prev) => ({
       ...prev,
       gridSize: editableData.gridSize ?? [20, 20],
       [data.key]: data.value,
     }))
-    updateCopyMap({
-      ...editableData,
-      gridSize: editableData.gridSize ?? [20, 20],
-      [data.key]: data.value,
-    })
   }
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -52,11 +43,6 @@ export const Create: React.FC<{
         gridSize: prevData.gridSize ?? [20, 20],
         imageUrl: tempUrl,
       }))
-      updateCopyMap({
-        ...editableData,
-        gridSize: editableData.gridSize ?? [20, 20],
-        imageUrl: tempUrl,
-      })
     }
   }
 

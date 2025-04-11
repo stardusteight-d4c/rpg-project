@@ -1,9 +1,11 @@
 import { Config } from "./Config"
-import { Display } from "./Display"
 import { Empty } from "./Empty"
+import { Exploration } from "./Exploration"
+import { Scenario } from "./Scenario"
 
 export const Components = {
   Config,
-  Display,
-  Empty
+  Exploration,
+  Scenario,
+  Empty,
 }

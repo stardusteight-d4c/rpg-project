@@ -9,17 +9,17 @@ export const Nav: React.FC<{
   onFileChange(e: React.ChangeEvent<HTMLInputElement>): void
   editableData: IMap
 }> = ({ editableData, onFileChange, onCreateMode }) => {
-  const { copyMaps, addMap } = useMaps()
+  const { create } = useMaps()
   const fileInputId = "file-input-456753"
 
   const onSave = async () => {
-    let updatedMap = copyMaps.find((map) => map.id === editableData.id)
-    const isScenario = updatedMap?.type === "scenario"
+    const isScenario = editableData?.type === "scenario"
     if (isScenario) {
-      delete updatedMap.gridSize
-      delete updatedMap.visibility
+      delete editableData.gridSize
+      delete editableData.visibility
+      delete editableData.positions
     }
-    await addMap(updatedMap!)
+    await create(editableData!)
     onCreateMode(false)
   }
 

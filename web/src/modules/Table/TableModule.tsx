@@ -14,6 +14,8 @@ export function TableModule() {
   const { currentSession } = useAuth()
   const { getByTableId } = useCampaigns()
 
+  if (!currentSession) return
+
   useEffect(() => {
     ;(async () => {
       if (tableId && currentSession) {
