@@ -2,7 +2,7 @@ import { Button } from "@/shared/components/ui"
 import { ArrowLeft, Check, Image } from "@/shared/components/ui/icons"
 import { useMaps } from "@/shared/contexts"
 import { clickElement } from "@/shared/utils"
-import React from "react"
+import React, { useState } from "react"
 
 export const Nav: React.FC<{
   onCreateMode: (value: boolean) => void
@@ -12,14 +12,14 @@ export const Nav: React.FC<{
   const { copyMaps, addMap } = useMaps()
   const fileInputId = "file-input-456753"
 
-  const onSave = () => {
+  const onSave = async () => {
     let updatedMap = copyMaps.find((map) => map.id === editableData.id)
     const isScenario = updatedMap?.type === "scenario"
     if (isScenario) {
       delete updatedMap.gridSize
       delete updatedMap.visibility
     }
-    addMap(updatedMap!)
+    await addMap(updatedMap!)
     onCreateMode(false)
   }
 

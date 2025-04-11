@@ -48,7 +48,5 @@ export class MockMapRoute implements IMapRoute {
       ...existingMap,
       positions: [newSheetPosition, ...updatedPositions],
     })
-
-    console.log("Sheet foi movida assincronamente", this.#maps.get(newSheetPosition.mapId))
   }
 }

@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react"
-import { randomUUID } from "node:crypto"
 import { useCampaigns, useMaps } from "@/shared/contexts"
 import { Components } from "./components"
 
 export const Create: React.FC<{
   createMode: boolean
   onCreateMode: (value: boolean) => void
-
   Form: React.FC<{
     editableData: IMap
     updateEditableData: (data: { key: keyof IMap; value: any }) => void

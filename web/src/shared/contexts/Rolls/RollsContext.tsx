@@ -39,14 +39,12 @@ export const RollsProvider: React.FC<{ children: ReactNode }> = ({
         if (existingRolls) {
           existingRolls.rolls.set(createdRoll.id, createdRoll)
           updateCache.set(campaignId, existingRolls)
-          console.log("updateCache-1", updateCache)
           return updateCache
         }
 
         updateCache.set(campaignId, {
           rolls: new Map().set(createdRoll.id, createdRoll),
         })
-        console.log("updateCache-2", updateCache)
         return updateCache
       })
       return createdRoll
@@ -71,7 +69,6 @@ export const RollsProvider: React.FC<{ children: ReactNode }> = ({
               existingRolls.rolls.set(roll.id, roll)
             })
             updateCache.set(campaignId, existingRolls)
-            console.log("updateCache-1", updateCache)
             return updateCache
           }
 
@@ -83,7 +80,6 @@ export const RollsProvider: React.FC<{ children: ReactNode }> = ({
             rolls: initialRolls,
           })
 
-          console.log("updateCache-2", updateCache)
           return updateCache
         })
 

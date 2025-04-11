@@ -1,6 +1,5 @@
 "use client"
 
-import { randomUUID } from "node:crypto"
 import React, { useState } from "react"
 import { useMaps } from "@/shared/contexts"
 import { Components } from "./components"
@@ -29,7 +28,7 @@ export const Edit: React.FC<{
       ...prev,
       [data.key]: data.value,
     }))
-    updateCopyMap(editableData.id ?? randomUUID(), {
+    updateCopyMap({
       ...editableData,
       [data.key]: data.value,
     })
@@ -44,7 +43,7 @@ export const Edit: React.FC<{
         ...prevData,
         imageUrl: tempUrl,
       }))
-      updateCopyMap(editableData.id ?? randomUUID(), {
+      updateCopyMap({
         ...editableData,
         imageUrl: tempUrl,
       })

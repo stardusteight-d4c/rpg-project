@@ -2,7 +2,7 @@ import React, { Fragment, useState } from "react"
 import { Button } from "@/shared/components/ui"
 import { ArrowLeft, Check, Image, Trash } from "@/shared/components/ui/icons"
 import { DeleteContentModal } from "@/shared/components/content/modals/DeleteContent"
-import { useMaps } from "@/shared/contexts"
+import { useMaps, useToast } from "@/shared/contexts"
 import { clickElement } from "@/shared/utils"
 
 export const Nav: React.FC<{
@@ -10,19 +10,27 @@ export const Nav: React.FC<{
   onSelectedMap: (value: IMap | undefined) => void
   onFileChange(e: React.ChangeEvent<HTMLInputElement>): void
 }> = ({ onFileChange, onSelectedMap, editableData }) => {
+  const { addToast } = useToast()
   const { deleteMap, copyMaps, updateMap } = useMaps()
   const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false)
   const fileInputId = "file-input-357951"
 
   const onDelete = async () => {
-    deleteMap(editableData.id)
+    await deleteMap(editableData.id)
     onSelectedMap(undefined)
   }
 
   const onUpdate = async () => {
     const updatedMap = copyMaps.find((map) => map.id === editableData.id)
-    updateMap(editableData.id, updatedMap!)
-    onSelectedMap(undefined)
+    
+    if (!updatedMap) return
+    await updateMap(updatedMap)
+      .catch((error) => {
+        addToast(error.message, "error", 45)
+      })
+      .finally(() => {
+        onSelectedMap(undefined)
+      })
   }
 
   return (
@@ -31,7 +39,7 @@ export const Nav: React.FC<{
         status={openDeleteModal}
         onStatusChange={setOpenDeleteModal}
         action={onDelete}
-        text={`You are about to delete your "{selectedMap.name}". This action cannot be undone!`}
+        text={`You are about to delete your "${editableData.name}". This action cannot be undone!`}
       />
       <input
         id={fileInputId}

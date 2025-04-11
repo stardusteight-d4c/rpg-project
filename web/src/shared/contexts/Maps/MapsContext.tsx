@@ -50,8 +50,8 @@ export const MapsProvider: React.FC<{ children: ReactNode }> = ({
 
     setMaps((prev) => {
       const updateCache = new Map(prev)
-      const updateCacheArr = Array.from(prev.values())
-      updateCacheArr.map((map) =>
+      const cacheArr = Array.from(prev.values())
+      const updateCacheArr = cacheArr.map((map) =>
         map.id === activeMap.id ? { ...map, active: false } : map
       )
       updateCacheArr.map((cachedMap) => {
@@ -77,7 +77,7 @@ export const MapsProvider: React.FC<{ children: ReactNode }> = ({
   }
 
   const deleteMap = async (id: string) => {
-    api.map.delete(id).then(() => {
+    await api.map.delete(id).then(() => {
       setMaps((prev) => {
         const updateCache = new Map(prev)
         const map = updateCache.get(id)
@@ -112,6 +112,7 @@ export const MapsProvider: React.FC<{ children: ReactNode }> = ({
 
   const updateMap = async (map: Partial<IMap>) => {
     const { id } = map
+
     if (!id) throw new Error("Id is required")
     if (map.type === "scenario") {
       delete map.gridSize
@@ -164,7 +165,7 @@ export const MapsProvider: React.FC<{ children: ReactNode }> = ({
       return updateCache
     })
 
-    api.map.moveSheet(newSheetPosition)
+    await api.map.moveSheet(newSheetPosition)
 
     return newSheetPosition
   }

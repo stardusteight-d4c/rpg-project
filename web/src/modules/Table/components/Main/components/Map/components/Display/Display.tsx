@@ -4,8 +4,6 @@ import { Exploration, Scenario } from "./components"
 export const Display = () => {
   const { activeMap } = useMaps()
 
-  console.log(activeMap)
-
   if (!activeMap) return
 
   if (activeMap.type === "scenario") return <Scenario map={activeMap} />
