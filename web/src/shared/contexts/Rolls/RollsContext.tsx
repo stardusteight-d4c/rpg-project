@@ -11,44 +11,62 @@ interface RollsState {
   getRolls: (queryParams: RollsQueryParams) => Promise<ListResponseDTO<IRoll>>
 }
 
-const defaultState: RollsState = {
-  rolls: new Map(),
-  openDiceModal: false,
-  setOpenDiceModal: () => {},
-  addRoll: async () => ({} as IRoll),
-  getRolls: async () => ({} as ListResponseDTO<IRoll>),
-}
-
-const RollsContext = createContext<RollsState>(defaultState)
+const RollsContext = createContext<RollsState | undefined>(undefined)
 
 export const RollsProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const api = new MockAPI().initializeRoutes()
+  const [openDiceModal, setOpenDiceModal] = useState<boolean>(false)
   const [rolls, setRolls] = useState<
     Map<string, { rolls: Map<string, IRoll> }>
   >(new Map())
-  const [openDiceModal, setOpenDiceModal] = useState<boolean>(false)
+
+  const updateRollsCache = (
+    prev: Map<string, { rolls: Map<string, IRoll> }>,
+    campaignId: string,
+    newRolls: IRoll[] | IRoll
+  ): Map<string, { rolls: Map<string, IRoll> }> => {
+    const updatedCache = new Map(prev)
+    const existingRolls = updatedCache.get(campaignId)
+    if (Array.isArray(newRolls)) {
+      if (existingRolls) {
+        newRolls.forEach((roll) => {
+          existingRolls.rolls.set(roll.id, roll)
+        })
+        updatedCache.set(campaignId, existingRolls)
+      } else {
+        const rollsMap = new Map<string, IRoll>()
+        newRolls.forEach((roll) => {
+          rollsMap.set(roll.id, roll)
+        })
+        updatedCache.set(campaignId, { rolls: rollsMap })
+      }
+    } else {
+      if (existingRolls) {
+        existingRolls.rolls.set(newRolls.id, newRolls)
+        updatedCache.set(campaignId, existingRolls)
+      } else {
+        updatedCache.set(campaignId, {
+          rolls: new Map().set(newRolls.id, newRolls),
+        })
+      }
+    }
+    return updatedCache
+  }
 
   const addRoll = async (roll: IRoll) => {
-    return api.campaign.roll(roll).then((createdRoll) => {
-      setRolls((prev) => {
-        const campaignId = createdRoll.campaignId
-        const updateCache = new Map(prev)
-        const existingRolls = updateCache.get(campaignId)
-        if (existingRolls) {
-          existingRolls.rolls.set(createdRoll.id, createdRoll)
-          updateCache.set(campaignId, existingRolls)
-          return updateCache
-        }
-
-        updateCache.set(campaignId, {
-          rolls: new Map().set(createdRoll.id, createdRoll),
-        })
-        return updateCache
+    return api.campaign
+      .roll(roll)
+      .then((createdRoll) => {
+        setRolls((prev) =>
+          updateRollsCache(prev, createdRoll.campaignId, createdRoll)
+        )
+        return createdRoll
       })
-      return createdRoll
-    }).catch((error) => error)
+      .catch((error) => {
+        throw new Error(error)
+      })
   }
 
   const getRolls = async (queryParams: RollsQueryParams) => {
@@ -61,30 +79,14 @@ export const RollsProvider: React.FC<{ children: ReactNode }> = ({
         pageSize,
       })
       .then((rollsPagination) => {
-        setRolls((prev) => {
-          const updateCache = new Map(prev)
-          const existingRolls = updateCache.get(campaignId)
-          if (existingRolls) {
-            rollsPagination.items.map((roll) => {
-              existingRolls.rolls.set(roll.id, roll)
-            })
-            updateCache.set(campaignId, existingRolls)
-            return updateCache
-          }
-
-          const initialRolls = new Map()
-          rollsPagination.items.map((roll) => {
-            initialRolls.set(roll.id, roll)
-          })
-          updateCache.set(campaignId, {
-            rolls: initialRolls,
-          })
-
-          return updateCache
-        })
-
+        setRolls((prev) =>
+          updateRollsCache(prev, campaignId, rollsPagination.items)
+        )
         return rollsPagination
-      }).catch((error) => error)
+      })
+      .catch((error) => {
+        throw new Error(error)
+      })
   }
 
   return (

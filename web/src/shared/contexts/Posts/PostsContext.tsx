@@ -7,25 +7,27 @@ import React, {
   useState,
   useMemo,
 } from "react"
+
 import { MockAPI } from "@/shared/requests/MockAPI"
-import { PostsContextHandlers } from "./PostsContextHandlers"
 import { sortArrayOfMapObjectByCreatedAt } from "@/shared/utils"
+
+import { PostsContextHandlers } from "./PostsContextHandlers"
 
 interface PostsState {
   posts: Map<string, IPost>
   lastRequestProfilePostsData: Map<string, ListResponseDTO<IPost>>
   lastRequestCampaignPostsData: Map<string, ListResponseDTO<IPost>>
   feedPosts: Map<string, IPost>
-  add: (post: IPost, currentPage?: number) => Promise<IPost | void>
-  update: (post: Partial<IPost>) => Promise<IPost | void>
+  add: (post: IPost, currentPage?: number) => Promise<IPost>
+  update: (post: Partial<IPost>) => Promise<IPost>
   updateLocalPostsOnEditCampaign: (
     campaignId: string,
     campaign: ICampaign
   ) => Promise<void>
   deletePostsFromCampaignOnLocalState: (campaignId: string) => void
   remove: (postId: string) => Promise<void>
-  comment(comment: IComment): Promise<IComment | void>
-  updateComment(comment: Partial<IComment>): Promise<IComment | void>
+  comment(comment: IComment): Promise<void>
+  updateComment(comment: Partial<IComment>): Promise<void>
   deleteComment(comment: IComment): Promise<void>
   like(postId: string, userId: string): Promise<void>
   unlike(postId: string, userId: string): Promise<void>
@@ -39,44 +41,7 @@ interface PostsState {
   ) => Promise<ListResponseDTO<IComment>>
 }
 
-const defaultState: PostsState = {
-  posts: new Map(),
-  lastRequestProfilePostsData: new Map(),
-  lastRequestCampaignPostsData: new Map(),
-  feedPosts: new Map(),
-  add: async () => {},
-  update: async () => {},
-  updateLocalPostsOnEditCampaign: async () => {},
-  deletePostsFromCampaignOnLocalState: () => {},
-  remove: async () => {},
-  comment: async () => {},
-  updateComment: async () => {},
-  deleteComment: async () => {},
-  like: async () => {},
-  unlike: async () => {},
-  getByCampaign: async () => ({
-    items: [],
-    totalItems: 0,
-    totalPages: 0,
-  }),
-  getByUser: async () => ({
-    items: [],
-    totalItems: 0,
-    totalPages: 0,
-  }),
-  getFeed: async () => ({
-    items: [],
-    totalItems: 0,
-    totalPages: 0,
-  }),
-  getCommentsByPost: async () => ({
-    items: [],
-    totalItems: 0,
-    totalPages: 0,
-  }),
-}
-
-const PostsContext = createContext<PostsState>(defaultState)
+const PostsContext = createContext<PostsState | undefined>(undefined)
 
 export const PostsProvider: React.FC<{ children: ReactNode }> = ({
   children,
@@ -105,7 +70,6 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
     setLastRequestProfilePostsData((prev) => {
       const newCache = new Map(prev)
       const prevProfilePostsRequest = newCache.get(createdPost.owner.id)
-
       if (prevProfilePostsRequest) {
         newCache.set(createdPost.owner.id, {
           totalItems: prevProfilePostsRequest.items.length + 1,
@@ -122,17 +86,12 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
           items: [createdPost],
         })
       }
-
       return newCache
     })
-
     if (createdPost.campaignId) {
       setLastRequestCampaignPostsData((prev) => {
         const newCache = new Map(prev)
-        const prevCampaignPostsRequest = newCache.get(
-          createdPost.campaignId!
-        )
-
+        const prevCampaignPostsRequest = newCache.get(createdPost.campaignId!)
         if (prevCampaignPostsRequest) {
           newCache.set(createdPost.campaignId!, {
             totalItems: prevCampaignPostsRequest.items.length + 1,
@@ -149,7 +108,6 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
             items: [createdPost],
           })
         }
-
         return newCache
       })
     }
@@ -159,15 +117,12 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
     setPosts((prev) =>
       sortPostsMap(new Map(prev).set(updatedPost.id, updatedPost))
     )
-
     setFeedPosts((prev) =>
       sortPostsMap(new Map(prev).set(updatedPost.id, updatedPost))
     )
-
     setLastRequestProfilePostsData((prev) => {
       const newCache = new Map(prev)
       const prevProfileRequest = newCache.get(updatedPost.owner.id)
-
       if (prevProfileRequest) {
         newCache.set(updatedPost.owner.id, {
           ...prevProfileRequest,
@@ -183,11 +138,9 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
       }
       return newCache
     })
-
     setLastRequestCampaignPostsData((prev) => {
       const newCache = new Map(prev)
       const prevCampaignRequest = newCache.get(updatedPost.campaignId!)
-
       if (prevCampaignRequest) {
         newCache.set(updatedPost.campaignId!, {
           ...prevCampaignRequest,
@@ -218,13 +171,11 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
       newPosts.delete(postId)
       return newPosts
     })
-
     setFeedPosts((prev) => {
       const newFeedPosts = new Map(prev)
       newFeedPosts.delete(postId)
       return newFeedPosts
     })
-
     setLastRequestProfilePostsData((prev) => {
       const newCache = new Map(prev)
       newCache.forEach((profileData, userId) => {
@@ -235,6 +186,20 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
       })
       return newCache
     })
+  }
+
+  const updateLocalPostsOnEditCampaign = async (
+    campaignId: string,
+    campaign: ICampaign
+  ) => {
+    const campaignPosts = Array.from(posts.values()).filter(
+      (post) => post.campaignId === campaignId
+    )
+    if (campaignPosts) {
+      campaignPosts.map((campaignPost) => {
+        updatePostFromLocalState({ ...campaignPost, campaign })
+      })
+    }
   }
 
   const handlers = useMemo(
@@ -252,21 +217,6 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
       .catch((error) => {
         throw new Error(error.message)
       })
-  }
-
-  const updateLocalPostsOnEditCampaign = async (
-    campaignId: string,
-    campaign: ICampaign
-  ) => {
-    const campaignPosts = Array.from(posts.values()).filter(
-      (post) => post.campaignId === campaignId
-    )
-
-    if (campaignPosts) {
-      campaignPosts.map((campaignPost) => {
-        updatePostFromLocalState({ ...campaignPost, campaign })
-      })
-    }
   }
 
   const update = async (post: Partial<IPost>) => {
@@ -302,7 +252,6 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
 
   const getByUser = async (queryParams: PostQueryParams) => {
     const ownerId = queryParams.ownerId
-
     setLastRequestProfilePostsData((prev) => {
       const existingData = prev.get(ownerId!)
       if (
@@ -314,7 +263,6 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
       }
       return prev
     })
-
     return api.post
       .list(queryParams)
       .then((postsPagination) => {
@@ -344,7 +292,6 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
 
   const getByCampaign = async (queryParams: PostQueryParams) => {
     const campaignId = queryParams.campaignId
-
     return api.post
       .list(queryParams)
       .then((postsPagination) => {
@@ -356,24 +303,20 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
           const previousPostsMap = new Map(
             previousPosts.map((post) => [post.id, post])
           )
-
           const updatedItems = [
             ...previousPosts,
             ...postsPagination.items.filter(
               (newPost) => !previousPostsMap.has(newPost.id)
             ),
           ]
-
           updatedCampaignPosts.set(campaignId!, {
             ...postsPagination,
             items: updatedItems,
             currentPage: queryParams.currentPage,
             pageSize: queryParams.pageSize,
           })
-
           return updatedCampaignPosts
         })
-
         return postsPagination
       })
       .catch((error) => {
@@ -390,10 +333,8 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
           postsPagination.items.forEach((post) =>
             updatedPosts.set(post.id, post)
           )
-
           return sortPostsMap(updatedPosts)
         })
-
         return postsPagination
       })
       .catch((error) => {
@@ -416,7 +357,6 @@ export const PostsProvider: React.FC<{ children: ReactNode }> = ({
     queryParams: CommentQueryParams
   ): Promise<ListResponseDTO<IComment>> => {
     const { postId } = queryParams
-
     return api.post
       .listComments(queryParams)
       .then((commentsPagination) => {

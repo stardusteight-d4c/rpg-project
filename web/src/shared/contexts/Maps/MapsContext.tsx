@@ -34,7 +34,6 @@ export const MapsProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const api = new MockAPI().initializeRoutes()
-
   const [maps, setMaps] = useState<Map<string, IMap>>(new Map())
   const [activeMap, setActiveMap] = useState<IMap | undefined>(undefined)
 

@@ -11,23 +11,12 @@ interface AuthState {
   signIn: (data: SignInDTO) => Promise<void>
   logout: () => void
   updateSession: (updatedUser: IUser) => void
+  getToken: () => string | null
   // addSession: (user: User, accessToken: string, refreshToken: string) => void
-  // getToken: () => string | null
   // signUpWithGoogle: () => Promise<void>
 }
 
-const defaultState: AuthState = {
-  currentSession: undefined,
-  signUp: async () => {},
-  signIn: async () => {},
-  logout: () => {},
-  updateSession: () => {},
-  // addSession: () => {},
-  // getToken: () => null,
-  // signUpWithGoogle: async () => {},
-}
-
-const AuthContext = createContext<AuthState>(defaultState)
+const AuthContext = createContext<AuthState | undefined>(undefined)
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   children,
@@ -60,7 +49,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     refreshToken: string
   ) => {
     setCurrentSession(user)
-
     Cookies.set("accessToken", accessToken, { expires: 7 })
     Cookies.set("refreshToken", refreshToken, { expires: 30 })
     Cookies.set("currentSession", JSON.stringify(user), { expires: 7 })
@@ -95,7 +83,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   }
 
   const signUp = async (data: SignUpDTO) => {
-    return await api.auth
+    return api.auth
       .signUp(data)
       .then((res) => {
         addSession(res.user, res.accessToken, res.refreshToken)
@@ -107,7 +95,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   }
 
   const signIn = async (data: SignInDTO) => {
-    return await api.auth
+    return api.auth
       .signIn(data)
       .then((res) => {
         addSession(res.user, res.accessToken, res.refreshToken)
@@ -120,7 +108,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
 
   const logout = async () => {
     setCurrentSession(undefined)
-
     Cookies.remove("accessToken")
     Cookies.remove("refreshToken")
     Cookies.remove("currentSession")
@@ -135,7 +122,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         signIn,
         logout,
         updateSession,
-        // getToken,
+        getToken,
         // signUpWithGoogle,
         // addSession,
         // logout,

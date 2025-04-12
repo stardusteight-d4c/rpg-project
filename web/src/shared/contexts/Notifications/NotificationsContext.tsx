@@ -50,7 +50,6 @@ export const NotificationsProvider: React.FC<PropsWithChildren> = ({
         setNotify((prev) => {
           const updateCache = new Map(prev)
           const prevProfileNotifications = updateCache.get(recipientId)
-
           if (prevProfileNotifications) {
             updateCache.set(recipientId, {
               notifications: [
@@ -65,20 +64,17 @@ export const NotificationsProvider: React.FC<PropsWithChildren> = ({
               viewed: navbar ? paginationNotifications.viewed : true,
             })
           }
-
           if (!navbar) {
             api.user.viewedNotifications(recipientId!, true)
           }
-
           return updateCache
         })
-
         return paginationNotifications
       })
   }
 
   const sendNotification = async (notification: INotification) => {
-    await api.user.sendNotification(notification)
+    return api.user.sendNotification(notification)
   }
 
   return (

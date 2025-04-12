@@ -1,6 +1,7 @@
 "use client"
 
-import React, { createContext, useContext, ReactNode, useState } from "react"
+import aRect, { createContext, useContext, ReactNode, useState } from "react"
+
 import { MockAPI } from "@/shared/requests/MockAPI"
 import { sortArrayOfMapObjectByCreatedAt } from "@/shared/utils"
 
@@ -8,12 +9,12 @@ interface SheetsState {
   tableSheets: Map<string, { sheets: ISheet[] }>
   activeTablePlayerSheet: Map<string, ISheet>
   lastRequestProfileSheetsData: Map<string, ListResponseDTO<ISheet>>
-  add: (sheet: ISheet) => Promise<ISheet | void>
-  update: (sheet: Partial<ISheet>) => Promise<ISheet | void>
+  add: (sheet: ISheet) => Promise<ISheet>
+  update: (sheet: Partial<ISheet>) => Promise<ISheet>
   remove: (sheetId: string) => Promise<void>
   getSheetsByUser: (
     queryParams: SheetQueryParams
-  ) => Promise<ListResponseDTO<ISheet> | void>
+  ) => Promise<ListResponseDTO<ISheet>>
   toggleActive: (sheetId: string, tableId: string) => Promise<void>
   addToTable(sheetId: string, tableId: string): Promise<ISheet>
   removeFromTable(sheetId: string, tableId: string): Promise<ISheet>
@@ -21,22 +22,7 @@ interface SheetsState {
   getTableSheets: (tableId: string) => Promise<void>
 }
 
-const defaultState: SheetsState = {
-  tableSheets: new Map(),
-  activeTablePlayerSheet: new Map(),
-  lastRequestProfileSheetsData: new Map(),
-  add: async () => {},
-  update: async () => {},
-  getSheetsByUser: async () => ({ items: [], totalItems: 0, totalPages: 0 }),
-  remove: async () => {},
-  toggleActive: async () => {},
-  addToTable: async () => ({} as ISheet),
-  removeFromTable: async () => ({} as ISheet),
-  getActivePlayerSheet: async () => {},
-  getTableSheets: async () => {},
-}
-
-const SheetsContext = createContext<SheetsState>(defaultState)
+const SheetsContext = createContext<SheetsState | undefined>(undefined)
 
 export const SheetsProvider: React.FC<{ children: ReactNode }> = ({
   children,
@@ -61,7 +47,6 @@ export const SheetsProvider: React.FC<{ children: ReactNode }> = ({
     setLastRequestProfileSheetsData((prev) => {
       const newCache = new Map(prev)
       const prevProfilePostsRequest = newCache.get(createdSheet.owner.id)
-
       if (prevProfilePostsRequest) {
         newCache.set(createdSheet.owner.id, {
           totalItems: prevProfilePostsRequest.items.length + 1,
@@ -85,7 +70,6 @@ export const SheetsProvider: React.FC<{ children: ReactNode }> = ({
 
   const updateSheetInLocalState = (updatedSheet: ISheet) => {
     const tableId = updatedSheet.tableId
-
     setActivePlayerSheet((prev) => {
       const updateCache = new Map(prev)
       if (!tableId) return updateCache
@@ -100,32 +84,26 @@ export const SheetsProvider: React.FC<{ children: ReactNode }> = ({
       }
       return updateCache
     })
-
     setTableSheets((prev) => {
       const updateCache = new Map(prev)
-
       if (!tableId) return updateCache
       const table = updateCache.get(tableId) || { sheets: [] }
       const sheetInTable = table.sheets.find(
         (tableSheet) => tableSheet.id === updatedSheet.id
       )
-
       if (!sheetInTable) return updateCache
       const removedOldSheet = table.sheets.filter(
         (sheet) => sheet.id !== sheetInTable.id
       )
-
       updateCache.set(tableId, {
         sheets: [updatedSheet, ...removedOldSheet],
       })
-
       return updateCache
     })
 
     setLastRequestProfileSheetsData((prev) => {
       const newCache = new Map(prev)
       const prevProfileRequest = newCache.get(updatedSheet.owner.id)
-
       if (prevProfileRequest) {
         newCache.set(updatedSheet.owner.id, {
           ...prevProfileRequest,
@@ -145,26 +123,22 @@ export const SheetsProvider: React.FC<{ children: ReactNode }> = ({
 
   const getSheetsByUser = async (queryParams: SheetQueryParams) => {
     const { ownerId, pageSize } = queryParams
-    if (!ownerId || !pageSize) return
-
-    return await api.sheet
+    if (!ownerId || !pageSize)
+      throw new Error("ownerId and pageSize is required.")
+    return api.sheet
       .list(queryParams)
       .then((res) => {
         setLastRequestProfileSheetsData((prev) => {
           const newCache = new Map(prev)
           const prevProfileRequest = newCache.get(ownerId)
-
           if (prevProfileRequest) {
             const updatedItems = new Map()
-
             prevProfileRequest.items.forEach((item) => {
               updatedItems.set(item.id, item)
             })
-
             res.items.forEach((item) => {
               updatedItems.set(item.id, item)
             })
-
             newCache.set(ownerId, {
               ...res,
               currentPage: Math.ceil(updatedItems.size / pageSize),
@@ -176,7 +150,6 @@ export const SheetsProvider: React.FC<{ children: ReactNode }> = ({
               items: res.items,
             })
           }
-
           return newCache
         })
         return res
@@ -187,7 +160,7 @@ export const SheetsProvider: React.FC<{ children: ReactNode }> = ({
   }
 
   const add = async (sheet: ISheet) => {
-    return await api.sheet
+    return api.sheet
       .create(sheet)
       .then((createdSheet) => {
         addSheetInLocalState(createdSheet)
@@ -199,7 +172,7 @@ export const SheetsProvider: React.FC<{ children: ReactNode }> = ({
   }
 
   const remove = async (sheetId: string) => {
-    return await api.sheet
+    return api.sheet
       .delete(sheetId)
       .then(() => {
         setLastRequestProfileSheetsData((prev) => {
@@ -248,7 +221,7 @@ export const SheetsProvider: React.FC<{ children: ReactNode }> = ({
   }
 
   const update = async (sheet: Partial<ISheet>) => {
-    return await api.sheet
+    return api.sheet
       .update(sheet)
       .then((updatedSheet) => {
         updateSheetInLocalState(updatedSheet)
@@ -260,17 +233,15 @@ export const SheetsProvider: React.FC<{ children: ReactNode }> = ({
   }
 
   const toggleActive = async (sheetId: string, tableId: string) => {
-    return await api.sheet
+    return api.sheet
       .toggleActive(sheetId, tableId)
       .then((updatedSheets) => {
         updatedSheets.map((updatedSheet) =>
           updateSheetInLocalState(updatedSheet)
         )
-
         const newActiveSheet = updatedSheets.find(
           (sheet) => sheet.id === sheetId && sheet.active === true
         )
-
         if (newActiveSheet) {
           setActivePlayerSheet((prev) => {
             const updateCache = new Map(prev)
@@ -284,7 +255,6 @@ export const SheetsProvider: React.FC<{ children: ReactNode }> = ({
             return updateCache
           })
         }
-
         setTableSheets((prev) => {
           const updateCache = new Map(prev)
           const table = updateCache.get(tableId) || { sheets: [] }
@@ -299,56 +269,66 @@ export const SheetsProvider: React.FC<{ children: ReactNode }> = ({
           return updateCache
         })
       })
+      .catch((error) => error)
   }
 
   const addToTable = async (
     sheetId: string,
     tableId: string
   ): Promise<ISheet> => {
-    return await api.sheet.addToTable(sheetId, tableId).then((sheet) => {
-      setTableSheets((prev) => {
-        const updateCache = new Map(prev)
-        const table = updateCache.get(tableId) || { sheets: [] }
-        updateCache.set(tableId, { sheets: [sheet, ...table.sheets] })
-        return updateCache
+    return api.sheet
+      .addToTable(sheetId, tableId)
+      .then((sheet) => {
+        setTableSheets((prev) => {
+          const updateCache = new Map(prev)
+          const table = updateCache.get(tableId) || { sheets: [] }
+          updateCache.set(tableId, { sheets: [sheet, ...table.sheets] })
+          return updateCache
+        })
+        updateSheetInLocalState(sheet)
+        return sheet
       })
-      updateSheetInLocalState(sheet)
-      return sheet
-    })
+      .catch((error) => {
+        throw new Error(error.message)
+      })
   }
 
   const removeFromTable = async (
     sheetId: string,
     tableId: string
   ): Promise<ISheet> => {
-    return await api.sheet.removeFromTable(sheetId, tableId).then((sheet) => {
-      setTableSheets((prev) => {
-        const updateCache = new Map(prev)
-        const table = updateCache.get(tableId)
-        if (table) {
-          const updatedSheets = table.sheets.filter(
-            (sheet) => sheet.id !== sheetId
-          )
-          updateCache.set(tableId, { sheets: updatedSheets })
-        }
-        return updateCache
+    return api.sheet
+      .removeFromTable(sheetId, tableId)
+      .then((sheet) => {
+        setTableSheets((prev) => {
+          const updateCache = new Map(prev)
+          const table = updateCache.get(tableId)
+          if (table) {
+            const updatedSheets = table.sheets.filter(
+              (sheet) => sheet.id !== sheetId
+            )
+            updateCache.set(tableId, { sheets: updatedSheets })
+          }
+          return updateCache
+        })
+        setActivePlayerSheet((prev) => {
+          const updateCache = new Map(prev)
+          const activeSheet = updateCache.get(tableId)
+          if (activeSheet && activeSheet.id === sheetId) {
+            updateCache.delete(tableId)
+          }
+          return updateCache
+        })
+        updateSheetInLocalState(sheet)
+        return sheet
       })
-
-      setActivePlayerSheet((prev) => {
-        const updateCache = new Map(prev)
-        const activeSheet = updateCache.get(tableId)
-        if (activeSheet && activeSheet.id === sheetId) {
-          updateCache.delete(tableId)
-        }
-        return updateCache
+      .catch((error) => {
+        throw new Error(error.message)
       })
-      updateSheetInLocalState(sheet)
-      return sheet
-    })
   }
 
   const getActivePlayerSheet = async (ownerId: string, tableId: string) => {
-    return await api.sheet
+    return api.sheet
       .list({ ownerId, tableId, active: true })
       .then((res) => {
         setActivePlayerSheet((prev) => {
@@ -357,18 +337,25 @@ export const SheetsProvider: React.FC<{ children: ReactNode }> = ({
           return updateCache
         })
       })
+      .catch((error) => {
+        throw new Error(error.message)
+      })
   }
 
   const getTableSheets = async (tableId: string) => {
-    return await api.sheet.list({ tableId, visibility: true }).then((res) => {
-      const sheets = res.items
-
-      setTableSheets((prev) => {
-        const updateCache = new Map(prev)
-        updateCache.set(tableId, { sheets })
-        return updateCache
+    return api.sheet
+      .list({ tableId, visibility: true })
+      .then((res) => {
+        const sheets = res.items
+        setTableSheets((prev) => {
+          const updateCache = new Map(prev)
+          updateCache.set(tableId, { sheets })
+          return updateCache
+        })
       })
-    })
+      .catch((error) => {
+        throw new Error(error.message)
+      })
   }
 
   return (

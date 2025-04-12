@@ -1,11 +1,11 @@
-import { currentSession } from "@/shared/contexts/Users/mock-data"
-import { useSheets } from "@/shared/contexts"
+import { useCampaigns, useSheets } from "@/shared/contexts"
 import { useParams } from "next/navigation"
 import { Empty } from "@/shared/components/ui/icons"
 import { DraggableItem } from "@/shared/components/ui"
 
 export const SheetsBar = () => {
   const { tableSheets: sheetsOnTable } = useSheets()
+  const { isMaster } = useCampaigns()
   const tableId = useParams().id as string
   let tableSheets =
     sheetsOnTable
@@ -70,7 +70,7 @@ export const SheetsBar = () => {
           <div
             key={index}
             className={`${
-              currentSession.role !== "master" &&
+              isMaster &&
               !sheet.infos.visibility &&
               " hidden invisible sr-only "
             } rounded-full w-[48px] h-[48px] overflow-hidden aspect-square`}
@@ -108,7 +108,7 @@ export const SheetsBar = () => {
           <div
             key={index}
             className={`${
-              currentSession.role !== "master" &&
+              isMaster &&
               !sheet.infos.visibility &&
               " hidden invisible sr-only "
             } rounded-full w-[48px] h-[48px] overflow-hidden aspect-square`}

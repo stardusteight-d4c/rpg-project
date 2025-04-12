@@ -5,10 +5,10 @@ import { MockAPI } from "@/shared/requests/MockAPI"
 
 interface UsersState {
   cachedUsers: Map<string, IUser>
-  update: (updatedUser: Partial<IUser>) => Promise<IUser | void>
+  update: (updatedUser: Partial<IUser>) => Promise<IUser>
   follow(followedUserId: string, followingUserId: string): Promise<void>
   unfollow(followedUserId: string, followingUserId: string): Promise<void>
-  findByUsername: (username: string) => Promise<IUser | void>
+  findByUsername: (username: string) => Promise<IUser>
   listByUsername: (username: string) => Promise<IUser[]>
   listFollowers(
     queryParams: FollowQueryParams
@@ -18,30 +18,7 @@ interface UsersState {
   ): Promise<ListResponseDTO<Follow>>
 }
 
-const defaultState: UsersState = {
-  cachedUsers: new Map(),
-  findByUsername: async () => {},
-  listByUsername: async () => [],
-  update: async () => {},
-  follow: async () => {},
-  unfollow: async () => {},
-  listFollowers: async () => ({
-    items: [],
-    totalItems: 0,
-    totalPages: 0,
-    currentPage: 0,
-    pageSize: 0,
-  }),
-  listFollowing: async () => ({
-    items: [],
-    totalItems: 0,
-    totalPages: 0,
-    currentPage: 0,
-    pageSize: 0,
-  }),
-}
-
-const UsersContext = createContext<UsersState>(defaultState)
+const UsersContext = createContext<UsersState | undefined>(undefined)
 
 export const UsersProvider: React.FC<{ children: ReactNode }> = ({
   children,
@@ -72,8 +49,7 @@ export const UsersProvider: React.FC<{ children: ReactNode }> = ({
       (user) => user.username === username
     )
     if (findCachedUser) return findCachedUser
-
-    return await api.user
+    return api.user
       .list({ username })
       .then((user) => {
         if (user[0]) updateCachedUsers([user[0]])
@@ -97,7 +73,7 @@ export const UsersProvider: React.FC<{ children: ReactNode }> = ({
   }
 
   const update = async (updatedUser: Partial<IUser>) => {
-    return await api.user
+    return api.user
       .update(updatedUser)
       .then((user) => {
         updateCachedUsers([user])
@@ -109,12 +85,11 @@ export const UsersProvider: React.FC<{ children: ReactNode }> = ({
   }
 
   const follow = async (followedUserId: string, followingUserId: string) => {
-    return await api.user
+    return api.user
       .follow(followedUserId, followingUserId)
       .then(({ followed, following }) => {
         const followedUser = cachedUsers.get(followed.username)
         const followingUser = cachedUsers.get(following.username)
-
         if (followedUser) {
           setCachedUsers((prev) => {
             const updateCache = new Map(prev)
@@ -128,7 +103,6 @@ export const UsersProvider: React.FC<{ children: ReactNode }> = ({
             return updateCache
           })
         }
-
         if (followingUser) {
           setCachedUsers((prev) => {
             const updateCache = new Map(prev)
@@ -149,7 +123,7 @@ export const UsersProvider: React.FC<{ children: ReactNode }> = ({
   }
 
   const unfollow = async (followedUserId: string, followingUserId: string) => {
-    return await api.user
+    return api.user
       .unfollow(followedUserId, followingUserId)
       .then(() => {
         setCachedUsers((prev) => {
@@ -160,7 +134,6 @@ export const UsersProvider: React.FC<{ children: ReactNode }> = ({
           const followingUser = updateCache
             .values()
             .find((user) => user.id === followingUserId)
-
           if (followedUser) {
             updateCache.set(followedUser.username, {
               ...followedUser,
@@ -173,7 +146,6 @@ export const UsersProvider: React.FC<{ children: ReactNode }> = ({
               ),
             })
           }
-
           if (followingUser) {
             updateCache.set(followingUser.username, {
               ...followingUser,
@@ -186,7 +158,6 @@ export const UsersProvider: React.FC<{ children: ReactNode }> = ({
               ),
             })
           }
-
           return updateCache
         })
       })
@@ -198,40 +169,33 @@ export const UsersProvider: React.FC<{ children: ReactNode }> = ({
   const listFollowers = async (queryParams: FollowQueryParams) => {
     const { userId } = queryParams
     if (!userId) throw new Error("[listFollowers] userId is required.")
-    return await api.user
+    return api.user
       .followers(queryParams)
       .then((followersList) => {
         const existingCachedUser = cachedUsers
           .values()
           .find((user) => user.id === userId)
-
         if (existingCachedUser) {
           setCachedUsers((prev) => {
             const updateCache = new Map(prev)
-
             const followersMap = new Map(
               existingCachedUser.followers?.map((follower) => [
                 follower.id,
                 follower,
               ]) ?? []
             )
-
             followersList.items.forEach((newFollower) => {
               followersMap.set(newFollower.id, newFollower)
             })
-
             const uniqueFollowers = Array.from(followersMap.values())
-
             updateCache.set(existingCachedUser.username, {
               ...existingCachedUser,
               followers: uniqueFollowers,
               totalFollowers: followersList.totalItems,
             })
-
             return updateCache
           })
         }
-
         return followersList
       })
       .catch((error) => {
@@ -242,40 +206,33 @@ export const UsersProvider: React.FC<{ children: ReactNode }> = ({
   const listFollowing = async (queryParams: FollowQueryParams) => {
     const { userId } = queryParams
     if (!userId) throw new Error("[listFollowing] userId is required.")
-    return await api.user
+    return api.user
       .following(queryParams)
       .then((followingList) => {
         const existingCachedUser = cachedUsers
           .values()
           .find((user) => user.id === userId)
-
         if (existingCachedUser) {
           setCachedUsers((prev) => {
             const updateCache = new Map(prev)
-
             const followingMap = new Map(
               existingCachedUser.following?.map((following) => [
                 following.id,
                 following,
               ]) ?? []
             )
-
             followingList.items.forEach((newFollowing) => {
               followingMap.set(newFollowing.id, newFollowing)
             })
-
             const uniqueFollowing = Array.from(followingMap.values())
-
             updateCache.set(existingCachedUser.username, {
               ...existingCachedUser,
               totalFollowing: followingList.totalItems,
               following: uniqueFollowing,
             })
-
             return updateCache
           })
         }
-
         return followingList
       })
       .catch((error) => {

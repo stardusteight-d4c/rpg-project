@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useState, ReactNode } from "react"
 
-interface ToastContextType {
+interface ToastState {
   addToast: (
     message: string,
     type?: ToastType,
@@ -11,7 +11,7 @@ interface ToastContextType {
   ) => void
 }
 
-const ToastContext = createContext<ToastContextType | undefined>(undefined)
+const ToastContext = createContext<ToastState | undefined>(undefined)
 
 export const ToastProvider = ({ children }: { children: ReactNode }) => {
   const [toasts, setToasts] = useState<Toast[]>([])
@@ -38,7 +38,7 @@ export const ToastProvider = ({ children }: { children: ReactNode }) => {
       {children}
       <div
         className="fixed right-4 flex flex-col gap-2 z-[9999]"
-        style={{top: position}}
+        style={{ top: position }}
       >
         {toasts.map((toast) => (
           <div
