@@ -4,12 +4,14 @@ import Link from "next/link"
 import ReactMarkdown from "react-markdown"
 import rehypeRaw from "rehype-raw"
 import { Tooltip } from "@/shared/components/ui"
-import { useAuth } from "@/shared/contexts"
+import { useAuth, useCampaigns } from "@/shared/contexts"
 import { convertTimestamp, countTimeago } from "@/shared/utils"
 import { useEffect, useRef, useState } from "react"
 
 export const Details: React.FC<{ campaign: ICampaign }> = ({ campaign }) => {
   const { currentSession } = useAuth()
+  const { isMaster } = useCampaigns()
+
   const [timeAgo, setTimeAgo] = useState<string>("")
   const [expanded, setExpanded] = useState(false)
   const [isClamped, setIsClamped] = useState(false)
@@ -95,20 +97,7 @@ export const Details: React.FC<{ campaign: ICampaign }> = ({ campaign }) => {
             </Tooltip>
           </div>
         )}
-        <span className="absolute bottom-4 left-4 bg-background flex items-center gap-x-2 shadow-sm shadow-black/50 duration-300 ease-in-out transition-all p-2 rounded-full">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            fill="#FFFFFF"
-            viewBox="0 0 256 256"
-          >
-            <path d="M208,32H184V24a8,8,0,0,0-16,0v8H88V24a8,8,0,0,0-16,0v8H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM72,48v8a8,8,0,0,0,16,0V48h80v8a8,8,0,0,0,16,0V48h24V80H48V48ZM208,208H48V96H208V208Zm-68-76a12,12,0,1,1-12-12A12,12,0,0,1,140,132Zm44,0a12,12,0,1,1-12-12A12,12,0,0,1,184,132ZM96,172a12,12,0,1,1-12-12A12,12,0,0,1,96,172Zm44,0a12,12,0,1,1-12-12A12,12,0,0,1,140,172Zm44,0a12,12,0,1,1-12-12A12,12,0,0,1,184,172Z"></path>
-          </svg>
-          <span className="text-lg font-medium pr-1">
-            Created on {convertTimestamp(campaign.createdAt)}
-          </span>
-        </span>
+
         {/* <span className="absolute bottom-4 right-4 bg-background flex items-center gap-x-2 shadow-sm shadow-black/50 duration-300 ease-in-out transition-all p-2 rounded-full">
                    <svg
                      xmlns="http://www.w3.org/2000/svg"
@@ -126,9 +115,25 @@ export const Details: React.FC<{ campaign: ICampaign }> = ({ campaign }) => {
         {/* {campaign.players.find(
           (player) => player.id === currentSession?.id
         ) && ( */}
+
+        {/* <span className="absolute bottom-[68px] left-4 bg-background flex items-center gap-x-2 shadow-sm shadow-black/50 duration-300 ease-in-out transition-all p-2 rounded-full">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            fill="#FFFFFF"
+            viewBox="0 0 256 256"
+          >
+            <path d="M208,32H184V24a8,8,0,0,0-16,0v8H88V24a8,8,0,0,0-16,0v8H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM72,48v8a8,8,0,0,0,16,0V48h80v8a8,8,0,0,0,16,0V48h24V80H48V48ZM208,208H48V96H208V208Zm-68-76a12,12,0,1,1-12-12A12,12,0,0,1,140,132Zm44,0a12,12,0,1,1-12-12A12,12,0,0,1,184,132ZM96,172a12,12,0,1,1-12-12A12,12,0,0,1,96,172Zm44,0a12,12,0,1,1-12-12A12,12,0,0,1,140,172Zm44,0a12,12,0,1,1-12-12A12,12,0,0,1,184,172Z"></path>
+          </svg>
+          <span className="text-lg font-medium pr-1">
+            Created on {convertTimestamp(campaign.createdAt)}
+          </span>
+        </span> */}
+        <div className="absolute flex items-center gap-x-2 bottom-4 left-4">
           <Link
             href={`/table/${campaign.tableId}`}
-            className="hover:bg-green-500 absolute bottom-4 right-4 cursor-pointer w-fit flex items-center gap-x-2 shadow-sm shadow-black/50 bg-background duration-300 ease-in-out transition-all px-4 py-2 rounded-full"
+            className="hover:bg-green-500 cursor-pointer w-fit flex items-center gap-x-2 shadow-sm shadow-black/50 bg-background duration-300 ease-in-out transition-all px-4 py-2 rounded-full"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -141,9 +146,27 @@ export const Details: React.FC<{ campaign: ICampaign }> = ({ campaign }) => {
             </svg>
 
             <span className="text-xl font-medium text-white pr-1">
-              Join the table
+              {campaign.players.find(
+                (player) => player.id === currentSession?.id
+              ) && "Join the table"}
             </span>
           </Link>
+          <div className="background-gradient cursor-pointer w-fit flex items-center gap-x-2 shadow-sm shadow-black/50 bg-background duration-300 ease-in-out transition-all px-4 py-2 rounded-full">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="28"
+              height="28"
+              fill="#FFFFFF"
+              viewBox="0 0 256 256"
+            >
+              <path d="M168,96v48a8,8,0,0,1-16,0V115.31l-50.34,50.35a8,8,0,0,1-11.32-11.32L140.69,104H112a8,8,0,0,1,0-16h48A8,8,0,0,1,168,96Zm64,32A104,104,0,1,1,128,24,104.11,104.11,0,0,1,232,128Zm-16,0a88,88,0,1,0-88,88A88.1,88.1,0,0,0,216,128Z"></path>
+            </svg>
+            <span className="text-xl font-medium text-white pr-1">
+              Invite players
+            </span>
+          </div>
+        </div>
+
         {/* )} */}
       </div>
       <div className="flex -mt-2 flex-col gap-y-2">
