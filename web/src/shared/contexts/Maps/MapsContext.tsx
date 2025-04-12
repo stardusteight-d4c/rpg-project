@@ -13,22 +13,25 @@ import { MockAPI } from "@/shared/requests/MockAPI"
 interface MapsState {
   maps: Map<string, IMap>
   activeMap: IMap | undefined
+  zoom: number
+  position: {
+    x: number
+    y: number
+  }
   create: (map: IMap) => Promise<void>
   remove: (id: string) => Promise<void>
   update: (updatedData: PartialMapWithID<IMap>) => Promise<void>
   moveSheet: (newSheetPosition: SheetPosition) => Promise<SheetPosition>
+  onPositionChange: React.Dispatch<
+    React.SetStateAction<{
+      x: number
+      y: number
+    }>
+  >
+  onZoomChange: React.Dispatch<React.SetStateAction<number>>
 }
 
-const defaultState: MapsState = {
-  maps: new Map(),
-  activeMap: undefined,
-  create: async () => {},
-  remove: async () => {},
-  update: async () => {},
-  moveSheet: async () => ({} as SheetPosition),
-}
-
-const MapsContext = createContext<MapsState>(defaultState)
+const MapsContext = createContext<MapsState | undefined>(undefined)
 
 export const MapsProvider: React.FC<{ children: ReactNode }> = ({
   children,
@@ -36,6 +39,8 @@ export const MapsProvider: React.FC<{ children: ReactNode }> = ({
   const api = new MockAPI().initializeRoutes()
   const [maps, setMaps] = useState<Map<string, IMap>>(new Map())
   const [activeMap, setActiveMap] = useState<IMap | undefined>(undefined)
+  const [zoom, setZoom] = useState(1)
+  const [position, setPosition] = useState({ x: 0, y: 0 })
 
   useEffect(() => {
     setActiveMap(maps.values().find((map) => map.active === true))
@@ -73,12 +78,6 @@ export const MapsProvider: React.FC<{ children: ReactNode }> = ({
     })
   }
 
-  // if (map.type === "scenario") {
-  //   delete map.gridSize
-  //   delete map.visibility
-  //   delete map.positions
-  // }
-
   const update = async (updatedData: PartialMapWithID<IMap>) => {
     return api.map.update(updatedData).then((updatedMap) => {
       setMaps((prev) => new Map(prev).set(updatedData.id, updatedMap))
@@ -110,10 +109,14 @@ export const MapsProvider: React.FC<{ children: ReactNode }> = ({
     <MapsContext.Provider
       value={{
         maps,
+        zoom,
+        position,
         create,
         activeMap,
         remove,
         update,
+        onPositionChange: setPosition,
+        onZoomChange: setZoom,
         moveSheet,
       }}
     >

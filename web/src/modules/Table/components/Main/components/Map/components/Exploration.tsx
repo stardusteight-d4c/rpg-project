@@ -8,13 +8,12 @@ import { useMaps } from "@/shared/contexts"
 export const Exploration: React.FC<{
   map: IMap
 }> = ({ map }) => {
-  const { moveSheet } = useMaps()
+  const { moveSheet, zoom, position, onPositionChange, onZoomChange } =
+    useMaps()
 
   const [sheetsPostions, setSheetsPositions] = useState<SheetPosition[]>(
     map.positions ?? []
   )
-  const [zoom, setZoom] = useState(1)
-  const [position, setPosition] = useState({ x: 0, y: 0 })
   const [isDragging, setIsDragging] = useState(false)
   const [startDragPos, setStartDragPos] = useState({ x: 0, y: 0 })
   const [isItemDragging, setIsItemDragging] = useState(false)
@@ -67,8 +66,8 @@ export const Exploration: React.FC<{
   }
 
   const resetConfig = () => (
-    setZoom(1),
-    setPosition({
+    onZoomChange(1),
+    onPositionChange({
       x: Math.min(Math.max(0)),
       y: Math.min(Math.max(0)),
     })
@@ -85,10 +84,10 @@ export const Exploration: React.FC<{
 
     const scaleDifference = newZoom / zoom
 
-    setPosition((prevPosition) => {
+    onPositionChange((prevPosition) => {
       const newPosX = prevPosition.x - mouseX * (scaleDifference - 1)
       const newPosY = prevPosition.y - mouseY * (scaleDifference - 1)
-      setZoom(newZoom)
+      onZoomChange(newZoom)
       return {
         x: newPosX,
         y: newPosY,
@@ -108,7 +107,7 @@ export const Exploration: React.FC<{
     const newPosX = e.clientX - startDragPos.x
     const newPosY = e.clientY - startDragPos.y
 
-    setPosition({
+    onPositionChange({
       x: Math.min(Math.max(newPosX)),
       y: Math.min(Math.max(newPosY)),
     })
