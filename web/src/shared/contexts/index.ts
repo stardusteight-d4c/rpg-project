@@ -1,7 +1,6 @@
 export { useAuth } from "./Auth/AuthContext"
 export { useModal } from "./Modal/ModalContext"
 export { useUsers } from "./Users/UsersContext"
-export { useCharacters } from "./Characters/CharactersContext"
 export { useMaps } from "./Maps/MapsContext"
 export { useNotifications } from "./Notifications/NotificationsContext"
 export { useCampaigns } from "./Campaigns/CampaignsContext"

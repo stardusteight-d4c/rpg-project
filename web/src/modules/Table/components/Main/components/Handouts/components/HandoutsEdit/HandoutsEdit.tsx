@@ -3,7 +3,6 @@
 import { useState } from "react"
 import { handoutContentTypes, handoutsTypes } from "../../data"
 import { HandoutDisplay } from "../HandoutDisplay"
-import { useCharacters } from "@/shared/contexts/Characters/CharactersContext"
 import { GlowingWrapper } from "@/shared/components/ui"
 import { clickElement } from "@/shared/utils"
 
@@ -13,7 +12,6 @@ interface HandoutsEditProps {
 }
 
 export const HandoutsEdit = ({ handout, onEdit }: HandoutsEditProps) => {
-  const characters = useCharacters().characters
   const fileInputId = "file-input-454518"
 
   const [editableData, setEditableData] = useState<IHandout>({
@@ -258,7 +256,7 @@ export const HandoutsEdit = ({ handout, onEdit }: HandoutsEditProps) => {
                     <span>Select</span>
                   </button>
                   <ul className="left-1/2 -translate-x-1/2 bg-background rounded-2xl shadow-p border border-border top-full hidden absolute z-[500] group-hover:flex flex-col w-full no-scrollbar max-h-[300px] overflow-y-scroll gap-y-1">
-                    {characters.map((character: any) => (
+                    {/* {characters.map((character: any) => (
                       <li
                         key={character.id}
                         onClick={() =>
@@ -293,7 +291,7 @@ export const HandoutsEdit = ({ handout, onEdit }: HandoutsEditProps) => {
                           <span>{character.infos.name}</span>
                         </div>
                       </li>
-                    ))}
+                    ))} */}
                   </ul>
                 </div>
               </GlowingWrapper>
@@ -318,7 +316,7 @@ export const HandoutsEdit = ({ handout, onEdit }: HandoutsEditProps) => {
                     <span>Select</span>
                   </button>
                   <ul className="left-1/2 -translate-x-1/2 bg-background rounded-2xl shadow-p border border-border top-full hidden absolute z-[200] group-hover:flex flex-col w-full no-scrollbar max-h-[300px] overflow-y-scroll gap-y-1">
-                    {characters.map((character: any) => (
+                    {/* {characters.map((character: any) => (
                       <li
                         onClick={() =>
                           handleCheckEdit({
@@ -355,7 +353,7 @@ export const HandoutsEdit = ({ handout, onEdit }: HandoutsEditProps) => {
                           <span>{character.infos.name}</span>
                         </div>
                       </li>
-                    ))}
+                    ))} */}
                   </ul>
                 </div>
               </GlowingWrapper>

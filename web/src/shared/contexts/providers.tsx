@@ -4,7 +4,6 @@ import { SessionProvider } from "next-auth/react"
 import { AuthProvider } from "./Auth/AuthContext"
 import { ModalProvider } from "./Modal/ModalContext"
 import { UsersProvider } from "./Users/UsersContext"
-import { CharactersProvider } from "./Characters/CharactersContext"
 import { MapsProvider } from "./Maps/MapsContext"
 import { NotificationsProvider } from "./Notifications/NotificationsContext"
 import { CampaignsProvider } from "./Campaigns/CampaignsContext"
@@ -18,11 +17,10 @@ const providers = [
   ToastProvider,
   CampaignsProvider,
   PostsProvider,
- RollsProvider,
+  RollsProvider,
   NotificationsProvider,
   UsersProvider,
   SheetsProvider,
-  CharactersProvider,
   MapsProvider,
   ModalProvider,
 ]
