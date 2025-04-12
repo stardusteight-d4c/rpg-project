@@ -1,10 +1,12 @@
-import { useEffect, useState } from "react"
-import { Button, ModalWrapper } from "@/shared/components/ui"
+import React, { Fragment, useState } from "react"
+
 import { Sheet } from "@/shared/components/content"
-import { useToast, useAuth, useSheets, useCharacters } from "@/shared/contexts"
-import { AutoGenerateSheetHandler } from "./AutoGenerateSheetHandler"
-import { initialData as mockInitialData } from "./initialData"
+import { Button, ModalWrapper } from "@/shared/components/ui"
 import { Check, Sparkle } from "@/shared/components/ui/icons"
+import { useToast, useAuth, useSheets } from "@/shared/contexts"
+
+import { AutoGenerateSheetHandler } from "./AutoGenerateSheetHandler"
+import { initialData } from "./initialData"
 
 export const CreateSheetModal: React.FC<{
   status: boolean
@@ -13,27 +15,16 @@ export const CreateSheetModal: React.FC<{
   const { add } = useSheets()
   const { addToast } = useToast()
   const { currentSession } = useAuth()
-  const { updateCopyCharacter, copyCharacters } = useCharacters()
-  const [initialData, setInitialData] = useState<any>({
-    ...mockInitialData,
+
+  const [activeItems, setActiveItems] = useState<SheetItems[]>([])
+  const [editableData, setEditableData] = useState<ISheet>({
+    ...initialData,
     owner: currentSession,
     id: crypto.randomUUID(),
-  })
-  const [activeItems, setActiveItems] = useState<SheetItems[]>([])
-
-  useEffect(() => {
-    updateCopyCharacter(initialData.id, {
-      ...initialData,
-      owner: currentSession,
-    })
-  }, [])
+  } as ISheet)
 
   async function onCreate() {
-    const findCharacter = copyCharacters.find(
-      (character) => character.id === initialData.id
-    )
-    if (!findCharacter) return null
-    await add(findCharacter)
+    return add(editableData)
       .then(() => {
         addToast("The sheet has been created!", "success", 45)
       })
@@ -42,16 +33,21 @@ export const CreateSheetModal: React.FC<{
       })
       .finally(() => {
         onStatusChange(false)
+        setEditableData({
+          ...initialData,
+          owner: currentSession,
+          id: crypto.randomUUID(),
+        } as ISheet)
       })
   }
 
-  function autoGenerate() {
-    const generator = new AutoGenerateSheetHandler(copyCharacters)
-    const generatedSheet = generator.autoGenerate(initialData)
-    setInitialData(generatedSheet)
+  const autoGenerate = async () => {
+    const generator = new AutoGenerateSheetHandler(editableData)
+    const generatedSheet = generator.autoGenerate()
+    setEditableData(generatedSheet)
   }
 
-  function toggleItem(item: SheetItems) {
+  const toggleItem = (item: SheetItems) => {
     setActiveItems((prev) => {
       if (prev.includes(item)) {
         return prev.filter((i) => i !== item)
@@ -67,33 +63,48 @@ export const CreateSheetModal: React.FC<{
       status={status}
       onStatusChange={onStatusChange}
     >
-      <div className="py-2 px-4 sticky z-[200] border-b border-border shadow-sm shadow-black/50 top-0 w-full inset-x-0 bg-background">
-        <div className="flex items-center gap-x-4">
-          <Button
-            action={autoGenerate}
-            title="Auto Generate"
-            bgColor="gradientPurple"
-            variant="modal"
-          >
-            <Sparkle />
-          </Button>
-          <Button
-            action={onCreate}
-            title="Save New Character"
-            bgColor="green"
-            variant="modal"
-          >
-            <Check />
-          </Button>
-        </div>
-      </div>
-      <div className="p-2 w-[700px]">
+      <Wrapper>
+        <Button
+          action={autoGenerate}
+          title="Auto Generate"
+          bgColor="gradientPurple"
+          variant="modal"
+        >
+          <Sparkle />
+        </Button>
+
+        <Button
+          action={onCreate}
+          title="Save New Character"
+          bgColor="green"
+          variant="modal"
+        >
+          <Check />
+        </Button>
+
         <Sheet
           actions={{ activeItems, toggleItem }}
-          sheet={initialData}
+          sheet={editableData}
+          onEdit={setEditableData}
           isEdit
         />
-      </div>
+      </Wrapper>
     </ModalWrapper>
+  )
+}
+
+const Wrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const elements = React.Children.toArray(children)
+
+  return (
+    <Fragment>
+      <div className="py-2 px-4 sticky z-[200] border-b border-border shadow-sm shadow-black/50 top-0 w-full inset-x-0 bg-background">
+        <div className="flex items-center gap-x-4">
+          {elements[0]}
+          {elements[1]}
+        </div>
+      </div>
+      <div className="p-2 w-[700px]">{elements[2]}</div>
+    </Fragment>
   )
 }

@@ -96,7 +96,7 @@ export class MockSheetRoute implements ISheetRoute {
   }
 
   public async addToTable(sheetId: string, tableId: string): Promise<ISheet> {
-    await new Promise((resolve) => setTimeout(resolve, 5000))
+    await new Promise((resolve) => setTimeout(resolve, 500))
 
     const sheet = this.#sheets.get(sheetId)
     if (!sheet) throw new Error("Sheet not found.")

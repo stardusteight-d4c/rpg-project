@@ -1,7 +1,7 @@
-import { randomUUID } from "node:crypto"
-import { useEffect, useState } from "react"
+"use client"
+
 import { motion } from "framer-motion"
-import { useCharacters } from "@/shared/contexts"
+
 import {
   CustomNumericInput,
   GlowingWrapper,
@@ -9,32 +9,20 @@ import {
 } from "@/shared/components/ui"
 import { ChartPie } from "@/shared/components/ui/icons"
 
-interface AttributesEditProps {
+export const AttributesEdit: React.FC<{
+  editableData: ISheet
   activeItems: SheetItems[]
   toggleItem: (item: SheetItems) => void
-  sheet: ISheet
-}
-
-export const AttributesEdit = ({
-  activeItems,
-  sheet,
-  toggleItem,
-}: AttributesEditProps) => {
-  const { updateCopyCharacter } = useCharacters()
-  const [editableData, setEditableData] = useState(sheet.attributes)
-
-  useEffect(() => {
-    setEditableData(sheet.attributes)
-    updateCopyCharacter(sheet.id ?? randomUUID(), {
-      attributes: sheet.attributes,
-    })
-  }, [sheet])
-
-  const handleEdit = (field: string, value: any) => {
-    setEditableData((prev) => ({ ...prev, [field]: value }))
-    updateCopyCharacter(sheet.id ?? randomUUID(), {
-      attributes: { ...editableData, [field]: value },
-    })
+  onEdit: React.Dispatch<React.SetStateAction<ISheet>>
+}> = ({ activeItems, editableData, toggleItem, onEdit }) => {
+  const handleEdit = (
+    field: keyof Attributes,
+    value: Attributes[keyof Attributes]
+  ) => {
+    onEdit((prev) => ({
+      ...prev,
+      attributes: { ...prev.attributes, [field]: value },
+    }))
   }
 
   return (
@@ -66,7 +54,7 @@ export const AttributesEdit = ({
       </div>
       {activeItems.includes("attributes") && (
         <div className="grid grid-cols-3 gap-2">
-          {Object.entries(editableData).map(([attribute, value]) => (
+          {Object.entries(editableData.attributes).map(([attribute, value]) => (
             <div
               key={attribute}
               className="bg-border/50 border border-border overflow-hidden rounded"
@@ -78,7 +66,9 @@ export const AttributesEdit = ({
                 <GlowingWrapper>
                   <CustomNumericInput
                     value={value}
-                    onChange={(value) => handleEdit(attribute, value)}
+                    onChange={(value) =>
+                      handleEdit(attribute as keyof Attributes, value)
+                    }
                   />
                 </GlowingWrapper>
               </div>

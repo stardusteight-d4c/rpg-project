@@ -1,23 +1,19 @@
 "use client"
 
-import { useState } from "react"
+import React, { Fragment, useState } from "react"
 import { HandoutDisplay } from "@/modules/Table/components/Main/components/Handouts/components/HandoutDisplay"
 import { HandoutModalWrapper } from "@/modules/Table/components/Main/components/Handouts/components/HandoutModalWrapper"
-import { useCharacters } from "@/shared/contexts"
+import { useAuth } from "@/shared/contexts"
 
-interface InventoryDisplayProps {
+export const InventoryDisplay: React.FC<{
   sheet: ISheet
   activeItems: SheetItems[]
   toggleItem: (item: SheetItems) => void
-}
-
-export const InventoryDisplay = ({
-  activeItems,
-  toggleItem,
-  sheet,
-}: InventoryDisplayProps) => {
+}> = ({ sheet, activeItems, toggleItem }) => {
   const [showHandout, setShowHandout] = useState<IHandout | null>(null)
-  const playerSheet = useCharacters().characters[0]
+  const { currentSession } = useAuth()
+
+  console.log(sheet);
 
   return (
     <div className="mb-4">
@@ -97,19 +93,19 @@ export const InventoryDisplay = ({
                 </svg>
               </div>
               <span className="text-gray-400 block mt-2 w-[400px] text-center">
-                {sheet.infos.name} rummage through your inventory, but find
-                only the weight of nothing.
+                {sheet.infos.name} rummage through your inventory, but find only
+                the weight of nothing.
               </span>
             </div>
           ) : (
             <ul className="grid grid-cols-2 gap-2">
               {sheet.inventory.map((item) => (
-                <>
+                <Fragment key={item.id}>
                   {item.content &&
                     !item.upload &&
                     item.visibility
                       ?.map((visibility) => {
-                        if (visibility.id === playerSheet.id) return true
+                        if (visibility.id === currentSession?.id) return true
                       })
                       .includes(true) && (
                       <li
@@ -134,7 +130,7 @@ export const InventoryDisplay = ({
                     !item.content &&
                     item.visibility
                       ?.map((visibility) => {
-                        if (visibility.id === playerSheet.id) return true
+                        if (visibility.id === currentSession?.id) return true
                       })
                       .includes(true) && (
                       <li
@@ -163,7 +159,7 @@ export const InventoryDisplay = ({
                       <span>{item.name}</span>
                     </li>
                   )}
-                </>
+                </Fragment>
               ))}
             </ul>
           )}

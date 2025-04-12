@@ -103,7 +103,7 @@ interface ISheet {
     name: string
   }
   active: boolean 
-  owner: TableUser
+  owner: IUser
   infos: Infos
   attributes: Attributes
   combat: CombatItem[]

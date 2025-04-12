@@ -1,7 +1,5 @@
 "use client"
 
-import { randomUUID } from "node:crypto"
-import { useEffect, useState } from "react"
 import { motion } from "framer-motion"
 import {
   CustomNumericInput,
@@ -14,53 +12,33 @@ import {
   handleCharacterTooltipText,
   handleCharacterVisibilityTooltipText,
 } from "@/shared/utils"
-import { useCharacters } from "@/shared/contexts"
 
-export const ProfileInfoEdit: React.FC<{ sheet: ISheet }> = ({ sheet }) => {
-  const { updateCopyCharacter } = useCharacters()
-  const [editableData, setEditableData] = useState({
-    ...sheet.infos,
-    type: sheet.infos.type ?? "player",
-    characterFile: null,
-  })
+export const ProfileInfoEdit: React.FC<{
+  editableData: ISheet
+  onEdit: React.Dispatch<React.SetStateAction<ISheet>>
+}> = ({ editableData, onEdit }) => {
   const fileInputId = "file-input-id-423985"
 
-  useEffect(() => {
-    setEditableData({
-      ...sheet.infos,
-      type: sheet.infos.type ?? "player",
-      characterFile: null,
-    })
-    updateCopyCharacter(sheet.id ?? randomUUID(), {
-      infos: sheet.infos,
-    })
-  }, [sheet])
-
-  const handleEdit = (field: string, value: any) => {
-    setEditableData((prev) => ({ ...prev, [field]: value }))
-    updateCopyCharacter(sheet.id ?? randomUUID(), {
-      infos: { ...editableData, [field]: value },
-    })
+  const handleEdit = (field: keyof Infos, value: Infos[keyof Infos]) => {
+    onEdit((prev) => ({
+      ...prev,
+      infos: { ...prev.infos, [field]: value },
+    }))
   }
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (file) {
       const tempUrl = URL.createObjectURL(file)
-
       handleEdit("characterUrl", tempUrl)
-      handleEdit("characterFile", file)
-      updateCopyCharacter(sheet.id, {
-        infos: { ...editableData, characterUrl: tempUrl },
-      })
       // URL.revokeObjectURL(tempUrl)
     }
   }
 
-  function handleType() {
-    if (editableData.type === "npc") return "enemy"
-    if (editableData.type === "enemy") return "player"
-    if (editableData.type === "player") return "npc"
+  const handleType = () => {
+    if (editableData.infos.type === "npc") return "enemy"
+    if (editableData.infos.type === "enemy") return "player"
+    if (editableData.infos.type === "player") return "npc"
   }
 
   return (
@@ -68,10 +46,10 @@ export const ProfileInfoEdit: React.FC<{ sheet: ISheet }> = ({ sheet }) => {
       <div className="relative rounded w-fit">
         <div className="w-fit h-fit relative">
           <GlowingWrapper border="rounded-xl">
-            {editableData.characterUrl.length > 0 ? (
+            {editableData.infos.characterUrl.length > 0 ? (
               <img
                 onClick={() => clickElement(fileInputId)}
-                src={editableData.characterUrl}
+                src={editableData.infos.characterUrl}
                 alt="Imagem do Personagem"
                 className="min-w-[210px] max-w-[210px] min-h-[210px] max-h-[210px] cursor-pointer overflow-hidden border border-border object-cover rounded-xl"
               />
@@ -104,16 +82,16 @@ export const ProfileInfoEdit: React.FC<{ sheet: ISheet }> = ({ sheet }) => {
             <Tooltip
               text={
                 handleCharacterTooltipText(
-                  editableData.type as "player" | "npc" | "enemy"
+                  editableData.infos.type as "player" | "npc" | "enemy"
                 )!
               }
             >
               <button
                 onClick={() => handleEdit("type", handleType())}
-                data-active={sheet.active}
+                data-active={editableData.active}
                 className="data-[active=true]:text-green-500 bg-background flex cursor-pointer items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50"
               >
-                {editableData.type === "player" && (
+                {editableData.infos.type === "player" && (
                   <svg
                     width="22"
                     height="22"
@@ -127,7 +105,7 @@ export const ProfileInfoEdit: React.FC<{ sheet: ISheet }> = ({ sheet }) => {
                     />
                   </svg>
                 )}
-                {editableData.type === "npc" && (
+                {editableData.infos.type === "npc" && (
                   <svg
                     width="22"
                     height="22"
@@ -141,7 +119,7 @@ export const ProfileInfoEdit: React.FC<{ sheet: ISheet }> = ({ sheet }) => {
                     />
                   </svg>
                 )}
-                {editableData.type === "enemy" && (
+                {editableData.infos.type === "enemy" && (
                   <svg
                     width="22"
                     height="22"
@@ -162,16 +140,16 @@ export const ProfileInfoEdit: React.FC<{ sheet: ISheet }> = ({ sheet }) => {
           <div className="flex absolute top-2 z-40 right-2 items-center w-fit gap-x-2">
             <Tooltip
               text={handleCharacterVisibilityTooltipText(
-                editableData.visibility!
+                editableData.infos.visibility!
               )}
             >
               <button
                 onClick={() =>
-                  handleEdit("visibility", !editableData.visibility)
+                  handleEdit("visibility", !editableData.infos.visibility)
                 }
                 className="bg-background flex cursor-pointer items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50"
               >
-                {editableData.visibility ? (
+                {editableData.infos.visibility ? (
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="22"
@@ -196,16 +174,16 @@ export const ProfileInfoEdit: React.FC<{ sheet: ISheet }> = ({ sheet }) => {
             </Tooltip>
           </div>
 
-          {editableData.type === "player" && (
+          {editableData.infos.type === "player" && (
             <div className="flex absolute bottom-2 left-2 items-center group w-fit gap-x-2">
               <GlowingWrapper>
                 <button
                   onClick={() =>
-                    handleEdit("inspiration", !editableData.inspiration)
+                    handleEdit("inspiration", !editableData.infos.inspiration)
                   }
                   className="bg-background flex cursor-pointer transition-all duration-300 ease-in-out active:scale-95 items-center justify-center text-white p-1 rounded-full shadow-md shadow-black/50"
                 >
-                  {editableData.inspiration ? (
+                  {editableData.infos.inspiration ? (
                     <svg
                       width="22"
                       height="22"
@@ -262,8 +240,8 @@ export const ProfileInfoEdit: React.FC<{ sheet: ISheet }> = ({ sheet }) => {
             </div>
           )}
           <div className="flex absolute bottom-2 z-40 right-2 items-center w-fit gap-x-2">
-            {sheet.campaign ? (
-              <Tooltip text={sheet.campaign.name}>
+            {editableData.campaign ? (
+              <Tooltip text={editableData.campaign.name}>
                 <button className="bg-background !text-green-500 flex !cursor-default items-center justify-center p-1 rounded-full shadow-md shadow-black/50">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -298,14 +276,14 @@ export const ProfileInfoEdit: React.FC<{ sheet: ISheet }> = ({ sheet }) => {
         <div className="flex justify-between items-center gap-x-2">
           <GlowingWrapper>
             <input
-              value={editableData.name}
+              value={editableData.infos.name}
               placeholder="Name"
               className="block w-[400px] placeholder:text-gray-400 placeholder:bg-background text-3xl outline-none caret-white font-bold background-gradient bg-clip-text text-transparent"
               onChange={(e) => handleEdit("name", e.target.value)}
             />
           </GlowingWrapper>
           <GlowingWrapper>
-            {editableData.sex === "male" && (
+            {editableData.infos.sex === "male" && (
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="32"
@@ -318,7 +296,7 @@ export const ProfileInfoEdit: React.FC<{ sheet: ISheet }> = ({ sheet }) => {
                 <path d="M216,32H168a8,8,0,0,0,0,16h28.69L154.62,90.07a80,80,0,1,0,11.31,11.31L208,59.32V88a8,8,0,0,0,16,0V40A8,8,0,0,0,216,32ZM149.24,197.29a64,64,0,1,1,0-90.53A64.1,64.1,0,0,1,149.24,197.29Z"></path>
               </svg>
             )}
-            {editableData.sex === "female" && (
+            {editableData.infos.sex === "female" && (
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="32"
@@ -331,7 +309,7 @@ export const ProfileInfoEdit: React.FC<{ sheet: ISheet }> = ({ sheet }) => {
                 <path d="M208,96a80,80,0,1,0-88,79.6V200H88a8,8,0,0,0,0,16h32v24a8,8,0,0,0,16,0V216h32a8,8,0,0,0,0-16H136V175.6A80.11,80.11,0,0,0,208,96ZM64,96a64,64,0,1,1,64,64A64.07,64.07,0,0,1,64,96Z"></path>
               </svg>
             )}
-            {editableData.sex === "neuter" && (
+            {editableData.infos.sex === "neuter" && (
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="32"
@@ -349,7 +327,7 @@ export const ProfileInfoEdit: React.FC<{ sheet: ISheet }> = ({ sheet }) => {
         <span className="flex w-full mt-2 items-center text-sm text-gray-400">
           <GlowingWrapper>
             <input
-              value={editableData.occupation}
+              value={editableData.infos.occupation}
               placeholder="Occupation"
               onChange={(e) => handleEdit("occupation", e.target.value)}
               className="text-sm min-w-[407px] placeholder:text-gray-400 bg-background outline-none text-gray-400 block"
@@ -365,18 +343,20 @@ export const ProfileInfoEdit: React.FC<{ sheet: ISheet }> = ({ sheet }) => {
                 </span>
                 <GlowingWrapper>
                   <CustomNumericInput
-                    value={editableData.hitPoints}
+                    value={editableData.infos.hitPoints}
                     onChange={(value) => handleEdit("hitPoints", value)}
                   />
                 </GlowingWrapper>
               </div>
               <div className="w-full bg-gray-600/10 overflow-hidden h-3 rounded-full">
                 <motion.div
-                  key={editableData.magicPoints}
+                  key={editableData.infos.magicPoints}
                   initial={{ width: 0 }}
                   animate={{
                     width: `${
-                      (editableData.hitPoints / editableData.maxHitPoints) * 100
+                      (editableData.infos.hitPoints /
+                        editableData.infos.maxHitPoints) *
+                      100
                     }%`,
                   }}
                   transition={{ duration: 1, ease: "easeInOut" }}
@@ -389,18 +369,19 @@ export const ProfileInfoEdit: React.FC<{ sheet: ISheet }> = ({ sheet }) => {
                 <span className="font-medium">Magic Points</span>
                 <GlowingWrapper>
                   <CustomNumericInput
-                    value={editableData.magicPoints}
+                    value={editableData.infos.magicPoints}
                     onChange={(value) => handleEdit("magicPoints", value)}
                   />
                 </GlowingWrapper>
               </div>
               <div className="w-full bg-gray-600/10 overflow-hidden h-3 rounded-full">
                 <motion.div
-                  key={editableData.magicPoints}
+                  key={editableData.infos.magicPoints}
                   initial={{ width: 0 }}
                   animate={{
                     width: `${
-                      (editableData.magicPoints / editableData.maxMagicPoints) *
+                      (editableData.infos.magicPoints /
+                        editableData.infos.maxMagicPoints) *
                       100
                     }%`,
                   }}
@@ -443,20 +424,22 @@ export const ProfileInfoEdit: React.FC<{ sheet: ISheet }> = ({ sheet }) => {
               </svg>
               <DonutChart
                 percentage={
-                  editableData.maxSanity === 0
+                  editableData.infos.maxSanity === 0
                     ? 0
-                    : (editableData.sanity / editableData.maxSanity) * 100
+                    : (editableData.infos.sanity /
+                        editableData.infos.maxSanity) *
+                      100
                 }
                 size={80}
                 strokeWidth={10}
-                maxSanity={sheet.infos.maxSanity}
-                sanity={sheet.infos.sanity}
+                maxSanity={editableData.infos.maxSanity}
+                sanity={editableData.infos.sanity}
               />
             </div>
             <span className="font-medium absolute top-1/2 -translate-y-1/2 -right-[50px]">
               <GlowingWrapper>
                 <CustomNumericInput
-                  value={editableData.sanity}
+                  value={editableData.infos.sanity}
                   onChange={(value) => handleEdit("sanity", value)}
                 />
               </GlowingWrapper>

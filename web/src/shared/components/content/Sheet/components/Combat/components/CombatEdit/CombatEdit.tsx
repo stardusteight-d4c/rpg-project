@@ -1,68 +1,48 @@
 "use client"
 
-import { useState } from "react"
-import { explosives, guns, weapons } from "../../mock-data"
+import React, { useState } from "react"
+import { explosives, guns, weapons } from "../../data"
 import { GlowingWrapper, ModalWrapper } from "@/shared/components/ui"
-import { useCharacters } from "@/shared/contexts"
 import { CombatEditModal } from "./CombatEditModal"
 
-interface CombatEditProps {
-  sheet: ISheet
+export const CombatEdit: React.FC<{
+  editableData: ISheet
   activeItems: SheetItems[]
   toggleItem: (item: SheetItems) => void
-}
-
-export const CombatEdit = ({
-  activeItems,
-  toggleItem,
-  sheet,
-}: CombatEditProps) => {
-  const { updateCopyCharacter } = useCharacters()
-
-  const [editableData, setEditableData] = useState<Array<CombatItem>>(
-    sheet.combat
-  )
+  onEdit: React.Dispatch<React.SetStateAction<ISheet>>
+}> = ({ editableData, activeItems, toggleItem, onEdit }) => {
   const [selectionMode, setSelectionMode] = useState<boolean>(false)
   const [selectedWeapon, setSelectedWeapon] = useState<CombatItem | null>(null)
 
-  function handleOnStatusChange(status: boolean) {
+  const handleOnStatusChange = (status: boolean) => {
     if (status === true) return
     if (status === false) setSelectedWeapon(null)
     return
   }
 
-  function handleRemoveWeapon(removedWeapon: CombatItem) {
+  const handleRemoveWeapon = (removedWeapon: CombatItem) => {
     if (removedWeapon.id) {
-      const updatedWeapons = editableData.filter(
+      const updatedWeapons = editableData.combat.filter(
         (weapon) => weapon.id !== removedWeapon.id
       )
-      setEditableData(updatedWeapons)
-      updateCopyCharacter(sheet.id ?? crypto.randomUUID(), {
-        combat: updatedWeapons,
-      })
+      onEdit((prev) => ({ ...prev, combat: updatedWeapons }))
     }
   }
 
-  function handleUpdateWeapon(updatedWeapon: CombatItem) {
-    const updatedWeapons = editableData.map((weapon) => {
+  const handleUpdateWeapon = (updatedWeapon: CombatItem) => {
+    const updatedWeapons = editableData.combat.map((weapon) => {
       if (weapon.id === updatedWeapon.id) {
         return { ...weapon, ...updatedWeapon } as CombatItem
       }
       return weapon
     })
-    setEditableData(updatedWeapons)
-    updateCopyCharacter(sheet.id ?? crypto.randomUUID(), {
-      combat: updatedWeapons,
-    })
+    onEdit((prev) => ({ ...prev, combat: updatedWeapons }))
   }
 
-  function handleAddWeapon(newWeapon: CombatItem) {
+  const handleAddWeapon = (newWeapon: CombatItem) => {
     const weaponWithId = { ...newWeapon, id: crypto.randomUUID() }
-    const updatedWeapons = [...editableData, weaponWithId]
-    setEditableData(updatedWeapons)
-    updateCopyCharacter(sheet.id ?? crypto.randomUUID(), {
-      combat: updatedWeapons,
-    })
+    const updatedWeapons = [...editableData.combat, weaponWithId]
+    onEdit((prev) => ({ ...prev, combat: updatedWeapons }))
   }
 
   return (
@@ -134,7 +114,7 @@ export const CombatEdit = ({
       {activeItems.includes("combat") && (
         <div>
           <div className="flex flex-wrap gap-2">
-            {editableData.map((weapon, index) => (
+            {editableData.combat.map((weapon, index) => (
               <div>
                 {weapon.name === "Unarmed" ? (
                   <GlowingWrapper>

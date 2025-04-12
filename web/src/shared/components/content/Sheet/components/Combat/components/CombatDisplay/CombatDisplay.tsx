@@ -1,19 +1,13 @@
 "use client"
 
-import { useState } from "react"
+import React, { useState } from "react"
 import { CombatModalDisplay } from "./components"
 
-interface CombatDisplayProps {
+export const CombatDisplay: React.FC<{
   sheet: ISheet
   activeItems: SheetItems[]
   toggleItem: (item: SheetItems) => void
-}
-
-export const CombatDisplay = ({
-  activeItems,
-  toggleItem,
-  sheet,
-}: CombatDisplayProps) => {
+}> = ({ activeItems, toggleItem, sheet }) => {
   const [selectedWeapon, setSelectedWeapon] = useState<CombatItem | null>(null)
 
   function handleOnStatusChange(status: boolean) {

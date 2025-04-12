@@ -1,27 +1,18 @@
 "use client"
 
-import { GlowingWrapper, Tooltip } from "@/shared/components/ui"
-import { useEffect, useRef, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import ReactMarkdown from "react-markdown"
 import rehypeRaw from "rehype-raw"
-import { tutorial } from "./data"
-import { useCharacters } from "@/shared/contexts"
 
-interface BackstoryEditProps {
-  sheet: ISheet
+import { GlowingWrapper, Tooltip } from "@/shared/components/ui"
+import { tutorial } from "./data"
+
+export const BackstoryEdit: React.FC<{
+  editableData: ISheet
   activeItems: SheetItems[]
   toggleItem: (item: SheetItems) => void
-}
-
-export const BackstoryEdit = ({
-  activeItems,
-  toggleItem,
-  sheet,
-}: BackstoryEditProps) => {
-  const { updateCopyCharacter } = useCharacters()
-
-  const [currentBackstory, setCurrentBackstory] = useState(sheet.backstory)
-
+  onEdit: React.Dispatch<React.SetStateAction<ISheet>>
+}> = ({ activeItems, toggleItem, editableData, onEdit }) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   const [view, setView] = useState<"editor" | "markdown" | "tutorial">("editor")
 
@@ -29,23 +20,18 @@ export const BackstoryEdit = ({
     adjustHeight()
   }, [activeItems, view])
 
-  function adjustHeight() {
+  const adjustHeight = () => {
     const textarea = textareaRef.current
-
     if (textarea) {
       textarea.style.height = "auto"
       textarea.style.height = `${textarea.scrollHeight}px`
     }
   }
 
-  function handleInputChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
-    const newBackstory = e.target.value
+  const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const updatedBackstory = e.target.value
+    onEdit((prev) => ({ ...prev, backstory: updatedBackstory }))
     adjustHeight()
-    setCurrentBackstory(newBackstory)
-
-    updateCopyCharacter(sheet.id ?? crypto.randomUUID(), {
-      backstory: newBackstory,
-    })
   }
 
   return (
@@ -159,7 +145,7 @@ export const BackstoryEdit = ({
           {view === "markdown" && (
             <div className="space-y-4 markdown-context bg-border/50 border border-border px-4 py-2 rounded-b">
               <ReactMarkdown rehypePlugins={[rehypeRaw]}>
-                {currentBackstory}
+                {editableData.backstory}
               </ReactMarkdown>
             </div>
           )}
@@ -169,7 +155,7 @@ export const BackstoryEdit = ({
                 ref={textareaRef}
                 spellCheck="false"
                 className="w-full min-h-[400px] bg-border/50 border border-border px-4 py-2 rounded-b resize-none outline-none"
-                value={currentBackstory}
+                value={editableData.backstory}
                 onChange={handleInputChange}
               ></textarea>
             </GlowingWrapper>

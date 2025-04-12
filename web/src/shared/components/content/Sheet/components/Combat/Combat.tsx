@@ -1,15 +1,26 @@
-"use client"
-
 import { CombatDisplay, CombatEdit } from "./components"
 
-interface CombatProps {
+export const Combat: React.FC<{
   sheet: ISheet
   activeItems: SheetItems[]
   toggleItem: (item: SheetItems) => void
   isEditMode?: boolean
-}
-
-export const Combat = ({ isEditMode, ...props }: CombatProps) => {
-  if (!isEditMode) return <CombatDisplay {...props} />
-  if (isEditMode) return <CombatEdit {...props} />
+  onEdit?: React.Dispatch<React.SetStateAction<ISheet>>
+}> = ({ sheet, activeItems, toggleItem, isEditMode, onEdit }) => {
+  if (!isEditMode)
+    return (
+      <CombatDisplay
+        sheet={sheet}
+        activeItems={activeItems}
+        toggleItem={toggleItem}
+      />
+    )
+    return (
+      <CombatEdit
+        editableData={sheet}
+        activeItems={activeItems}
+        toggleItem={toggleItem}
+        onEdit={onEdit!}
+      />
+    )
 }

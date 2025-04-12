@@ -1,14 +1,27 @@
 import { BackstoryDisplay } from "./components/BackstoryDisplay"
 import { BackstoryEdit } from "./components/BackstoryEdit"
 
-interface BackstoryProps {
+export const Backstory: React.FC<{
   sheet: ISheet
-  isEditMode?: boolean
   activeItems: SheetItems[]
   toggleItem: (item: SheetItems) => void
-}
-
-export const Backstory = ({ isEditMode, ...props }: BackstoryProps) => {
-  if (!isEditMode) return <BackstoryDisplay {...props} />
-  if (isEditMode) return <BackstoryEdit {...props} />
+  isEditMode?: boolean
+  onEdit?: React.Dispatch<React.SetStateAction<ISheet>>
+}> = ({ sheet, activeItems, toggleItem, isEditMode, onEdit }) => {
+  if (!isEditMode)
+    return (
+      <BackstoryDisplay
+        sheet={sheet}
+        activeItems={activeItems}
+        toggleItem={toggleItem}
+      />
+    )
+  return (
+    <BackstoryEdit
+      editableData={sheet}
+      activeItems={activeItems}
+      toggleItem={toggleItem}
+      onEdit={onEdit!}
+    />
+  )
 }

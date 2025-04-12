@@ -1,5 +1,3 @@
-type UserTableRole = "master" | "player"
-
 interface Follow {
   id: string
   name: string
@@ -35,10 +33,6 @@ interface IUser {
 
 interface FollowQueryParams extends ListQueryParams {
   userId: string
-}
-
-interface TableUser extends IUser {
-  role: UserTableRole
 }
 
 interface UserQueryParams extends ListQueryParams {

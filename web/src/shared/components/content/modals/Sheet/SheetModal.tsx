@@ -1,27 +1,37 @@
 "use client"
 
 import { useState } from "react"
+
 import { ModalWrapper } from "@/shared/components/ui"
 import { Display, Edit } from "./components"
 
 export const SheetModal: React.FC<{
+  sheet: ISheet
   status: boolean
   onStatusChange: (value: boolean) => void
-  sheet: ISheet
-  showSelectActive?: boolean
   showOwnerInfo?: boolean
+  showSelectActive?: boolean
 }> = ({
+  sheet,
   status,
   onStatusChange,
-  sheet,
-  showSelectActive = false,
   showOwnerInfo,
+  showSelectActive = false,
 }) => {
   const [editSheet, setEditSheet] = useState<boolean>(false)
 
   if (!sheet) return null
 
-  const handleSheetMode = () => {
+  const handleOnStatusChange = (value: boolean) => {
+    if (!value) {
+      onStatusChange(false)
+      setEditSheet(false)
+    } else {
+      onStatusChange(true)
+    }
+  }
+
+  const getSheetComponent = () => {
     if (!editSheet)
       return (
         <Display
@@ -45,8 +55,8 @@ export const SheetModal: React.FC<{
     : `${sheet.infos.name}'s Sheet`
 
   return (
-    <ModalWrapper title={title} status={status} onStatusChange={onStatusChange}>
-      {handleSheetMode()}
+    <ModalWrapper title={title} status={status} onStatusChange={handleOnStatusChange}>
+      {getSheetComponent()}
     </ModalWrapper>
   )
 }

@@ -1,4 +1,4 @@
-export const weapons: Array<IWeapon> = [
+export const weapons: Array<Weapon> = [
   {
     name: "Unarmed",
     iconUrl: "/weapons/fist.svg",
@@ -912,7 +912,7 @@ export const weapons: Array<IWeapon> = [
   },
 ]
 
-export const guns: Array<IGun> = [
+export const guns: Array<Gun> = [
   {
     name: "Assault Rifle 01",
     iconUrl: "/guns/assault-rifle-01.svg",
@@ -1551,7 +1551,7 @@ export const guns: Array<IGun> = [
   },
 ]
 
-export const explosives: Array<IExplosive> = [
+export const explosives: Array<Explosive> = [
   {
     name: "Pineapple",
     iconUrl: "/explosives/pineapple.svg",

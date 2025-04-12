@@ -1,45 +1,25 @@
 "use client"
 
-import { randomUUID } from "crypto"
-import { useEffect, useState } from "react"
 import { motion } from "framer-motion"
+
 import {
   CustomNumericInput,
   GlowingWrapper,
   GradientSVGWrapper,
 } from "@/shared/components/ui"
-import { useCharacters } from "@/shared/contexts"
 import { ChartLineUp } from "@/shared/components/ui/icons"
 
-interface SkillsEditProps {
+export const SkillsEdit: React.FC<{
+  editableData: ISheet
   activeItems: SheetItems[]
   toggleItem: (item: SheetItems) => void
-  sheet: ISheet
-}
-
-export const SkillsEdit = ({
-  toggleItem,
-  sheet,
-  activeItems,
-}: SkillsEditProps) => {
-  const { updateCopyCharacter } = useCharacters()
-  const [editableData, setEditableData] = useState(sheet.skills)
-
-  useEffect(() => {
-    setEditableData(sheet.skills)
-    updateCopyCharacter(sheet.id ?? randomUUID(), {
-      skills: sheet.skills,
-    })
-  }, [sheet])
-
+  onEdit: React.Dispatch<React.SetStateAction<ISheet>>
+}> = ({ editableData, toggleItem, activeItems, onEdit }) => {
   const handleEdit = (name: string, field: string, value: any) => {
-    const updatedSkills = editableData.map((skill) =>
+    const updatedSkills = editableData.skills.map((skill) =>
       skill.name === name ? { ...skill, [field]: value } : skill
     )
-    setEditableData(updatedSkills)
-    updateCopyCharacter(sheet.id ?? randomUUID(), {
-      skills: updatedSkills,
-    })
+    onEdit((prev) => ({ ...prev, skills: updatedSkills }))
   }
 
   return (
@@ -71,7 +51,7 @@ export const SkillsEdit = ({
       </div>
       {activeItems.includes("skills") && (
         <div className="grid grid-cols-3 gap-2">
-          {editableData.map((skill) => (
+          {editableData.skills.map((skill) => (
             <div
               key={skill.name}
               className="bg-border/50 border border-border overflow-hidden rounded-md p-2"

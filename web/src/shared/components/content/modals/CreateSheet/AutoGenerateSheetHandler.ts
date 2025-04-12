@@ -1,10 +1,10 @@
 import { generateRandomName, generateRandomOccupation } from "@/shared/utils"
 
 export class AutoGenerateSheetHandler {
-  copyCharacters: ISheet[]
+  editableData: ISheet
 
-  constructor(copyCharacters: ISheet[]) {
-    this.copyCharacters = copyCharacters
+  constructor(editableData: ISheet) {
+    this.editableData = editableData
   }
 
   private rollDice(sides: number, rolls: number): number {
@@ -51,7 +51,7 @@ export class AutoGenerateSheetHandler {
     return updatedSkills
   }
 
-  public autoGenerate(initialData: any) {
+  public autoGenerate(): ISheet {
     const attributes = {
       strength: this.rollDice(6, 3) * 5,
       dexterity: this.rollDice(6, 3) * 5,
@@ -70,16 +70,13 @@ export class AutoGenerateSheetHandler {
     const sanity = attributes.power
     const occupationalPoints = attributes.education * 4
     const freePoints = attributes.intelligence * 2
-    const createdCharacter = this.copyCharacters.find(
-      (character) => character.id === initialData.id
-    )
     const randomCharacter = generateRandomName()
     return {
-      ...createdCharacter,
+      ...this.editableData,
       infos: {
-        ...(createdCharacter?.infos ?? initialData),
+        ...this.editableData.infos,
         name: randomCharacter.name,
-        sex: randomCharacter.sex,
+        sex: randomCharacter.sex as Gender,
         occupation: generateRandomOccupation(),
         maxHitPoints: hitPoints,
         maxMagicPoints: magicPoints,
@@ -91,7 +88,7 @@ export class AutoGenerateSheetHandler {
       attributes: attributes,
       skills: this.initializeSkills(
         attributes,
-        initialData.skills,
+        this.editableData.skills,
         occupationalPoints,
         freePoints
       ),

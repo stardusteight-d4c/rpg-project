@@ -2,63 +2,33 @@
 
 import { useState } from "react"
 import { GlowingWrapper } from "@/shared/components/ui"
-import { useCharacters } from "@/shared/contexts"
 
-interface InventoryEditProps {
-  sheet: ISheet
+export const InventoryEdit: React.FC<{
+  editableData: ISheet
   activeItems: SheetItems[]
   toggleItem: (item: SheetItems) => void
-}
-
-export const InventoryEdit = ({
-  activeItems,
-  toggleItem,
-  sheet,
-}: InventoryEditProps) => {
-  const { updateCopyCharacter } = useCharacters()
-
-  const [editableData, setEditableData] = useState<
-    {
-      id: string
-      name: string
-      type?: "Note Type 01" | "Note Type 02" | "Newspaper" | "Letter"
-      content?: any
-    }[]
-  >(sheet.inventory)
+  onEdit: React.Dispatch<React.SetStateAction<ISheet>>
+}> = ({ editableData, activeItems, toggleItem, onEdit }) => {
   const [newItemName, setNewItemName] = useState("")
 
-  function handleEdit(data: { id: string; newValue: string }) {
-    const updatedData = editableData.map((item) =>
+  const handleEdit = (data: { id: string; newValue: string }) => {
+    const updatedData = editableData.inventory.map((item) =>
       item.id === data.id ? { ...item, name: data.newValue } : item
     )
-
-    setEditableData(updatedData)
-    updateCopyCharacter(sheet.id ?? crypto.randomUUID(), {
-      inventory: updatedData,
-    })
+    onEdit((prev) => ({ ...prev, inventory: updatedData }))
   }
 
-  function handleDelete(id: string) {
-    const updatedData = editableData.filter((item) => item.id !== id)
-
-    setEditableData(updatedData)
-
-    updateCopyCharacter(sheet.id ?? crypto.randomUUID(), {
-      inventory: updatedData,
-    })
+  const handleDelete = (id: string) => {
+    const updatedData = editableData.inventory.filter((item) => item.id !== id)
+    onEdit((prev) => ({ ...prev, inventory: updatedData }))
   }
 
   function handleAdd() {
     if (newItemName.trim() === "") return
-
     const newItem = { id: crypto.randomUUID(), name: newItemName }
-    const updatedData = [...editableData, newItem]
-
-    setEditableData(updatedData)
+    const updatedData = [...editableData.inventory, newItem]
+    onEdit((prev) => ({ ...prev, inventory: updatedData }))
     setNewItemName("")
-    updateCopyCharacter(sheet.id ?? crypto.randomUUID(), {
-      inventory: updatedData,
-    })
   }
 
   return (
@@ -114,38 +84,34 @@ export const InventoryEdit = ({
       </div>
       {activeItems.includes("inventory") && (
         <ul className="grid grid-cols-2 gap-2">
-          {editableData.map((item) => (
-            <>
-              {!item.type && (
-                <div className="relative">
-                  <GlowingWrapper>
-                    <input
-                      value={item.name}
-                      onChange={(e) =>
-                        handleEdit({ id: item.id, newValue: e.target.value })
-                      }
-                      placeholder="Provide a name..."
-                      key={item.id}
-                      className="py-2 pl-2 pr-[40px] w-full line-clamp-1 outline-none hover:brightness-125 border border-border bg-border/50 rounded"
-                    />
-                    <span
-                      onClick={() => handleDelete(item.id)}
-                      className="absolute cursor-pointer p-1 top-1/2 -translate-y-1/2 right-1"
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="32"
-                        height="32"
-                        fill="#ef4444"
-                        viewBox="0 0 256 256"
-                      >
-                        <path d="M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V208a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16ZM96,40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8v8H96Zm96,168H64V64H192ZM112,104v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Z"></path>
-                      </svg>
-                    </span>
-                  </GlowingWrapper>
-                </div>
-              )}
-            </>
+          {editableData.inventory.map((item) => (
+            <div className="relative" key={item.id}>
+              <GlowingWrapper>
+                <input
+                  value={item.name}
+                  onChange={(e) =>
+                    handleEdit({ id: item.id, newValue: e.target.value })
+                  }
+                  placeholder="Provide a name..."
+                  key={item.id}
+                  className="py-2 pl-2 pr-[40px] w-full line-clamp-1 outline-none hover:brightness-125 border border-border bg-border/50 rounded"
+                />
+                <span
+                  onClick={() => handleDelete(item.id)}
+                  className="absolute cursor-pointer p-1 top-1/2 -translate-y-1/2 right-1"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="32"
+                    height="32"
+                    fill="#ef4444"
+                    viewBox="0 0 256 256"
+                  >
+                    <path d="M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V208a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16ZM96,40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8v8H96Zm96,168H64V64H192ZM112,104v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Z"></path>
+                  </svg>
+                </span>
+              </GlowingWrapper>
+            </div>
           ))}
           <div className="relative">
             <GlowingWrapper>

@@ -12,11 +12,9 @@ import { OwnerModal } from "./components"
 
 export const ProfileInfoDisplay: React.FC<{
   sheet: ISheet
-  isEditMode?: boolean
   showOwnerInfo?: boolean
-}> = ({ sheet, isEditMode, showOwnerInfo }) => {
+}> = ({ sheet, showOwnerInfo }) => {
   const [isShowOwnerInfo, setIsShowOwnerInfo] = useState<boolean>(false)
-  if (isEditMode) return
 
   return (
     <div className="flex w-full">
