@@ -6,10 +6,10 @@ import { Loader } from "@/shared/components/ui"
 interface ButtonProps {
   id?: string
   title: string
-  action: () => any | Promise<any>
+  action?: () => any | Promise<any>
   children?: React.ReactNode
   bgColor?: "blue" | "green" | "red" | "gradientPurple" | "gradientBlue"
-  variant?: "modal" | "default" | "icon" | "textIcon"
+  variant?: "modal" | "default" | "icon" | "textWithIcon" | "displayWithIcon"
   className?: string
   disabled?: boolean
   active?: boolean
@@ -34,7 +34,7 @@ export const Button: React.FC<ButtonProps> = ({
     if (isLoading) return
     setIsLoading(true)
     try {
-      await action()
+      action && (await action())
     } finally {
       setIsLoading(false)
     }
@@ -70,6 +70,17 @@ export const Button: React.FC<ButtonProps> = ({
       gradientPurple:
         "hover:bg-gradient-to-tr hover:from-violet-600 hover:to-pink-500",
     },
+  }
+
+  if (variant === "displayWithIcon") {
+    return (
+      <span
+        className={`${className} cursor-default select-none whitespace-nowrap bg-background flex items-center gap-x-2 shadow-sm shadow-black/50 duration-300 ease-in-out transition-all px-4 py-2 rounded-full`}
+      >
+        <div className="w-[32px] h-[32px]">{children}</div>
+        <span className="text-lg font-medium pr-1">{title}</span>
+      </span>
+    )
   }
 
   if (variant === "modal")
@@ -121,19 +132,19 @@ export const Button: React.FC<ButtonProps> = ({
       </button>
     )
 
-  if (variant === "textIcon") {
+  if (variant === "textWithIcon") {
     return (
       <button
         disabled={isLoading || disabled}
         onClick={executeAction}
         className={`${!disabled && bgColors.onHover[bgColor]} ${
-          isLoading ? bgColors.default[bgColor] : " bg-background "
-        } ${className} disabled:cursor-not-allowed disabled:brightness-90 flex items-center pr-3 gap-x-2 cursor-pointer shadow-sm shadow-black/50 duration-300 ease-in-out transition-all p-2 rounded-full`}
+          isLoading || active ? bgColors.default[bgColor] : " bg-background "
+        } ${className} disabled:cursor-not-allowed disabled:brightness-90 flex items-center px-4 py-2 gap-x-2 cursor-pointer shadow-sm shadow-black/50 duration-300 ease-in-out transition-all rounded-full`}
       >
         <span className="w-[32px] h-[32px] flex items-center justify-center">
           {isLoading ? <Loader /> : children}
         </span>
-        <span className="font-medium">{title}</span>
+        <span className="text-lg font-medium pr-1">{title}</span>
       </button>
     )
   }

@@ -45,7 +45,7 @@ export const OwnerModal: React.FC<{
               {isFollowing ? (
                 <Button
                   action={onUnfollow}
-                  variant="textIcon"
+                  variant="textWithIcon"
                   title="Unfollow"
                   bgColor="red"
                   className="p-2 border border-border hover:!border-transparent"
@@ -55,7 +55,7 @@ export const OwnerModal: React.FC<{
               ) : (
                 <Button
                   action={onFollow}
-                  variant="textIcon"
+                  variant="textWithIcon"
                   title="Follow"
                   bgColor="gradientBlue"
                   className="p-2 border border-border hover:!border-transparent"

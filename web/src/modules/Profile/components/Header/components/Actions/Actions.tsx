@@ -65,7 +65,7 @@ export const Actions: React.FC<{ user: IUser }> = ({ user }) => {
             {isFollowing ? (
               <Button
                 action={onUnfollow}
-                variant="textIcon"
+                variant="textWithIcon"
                 title="Unfollow"
                 bgColor="red"
                 className="p-2"
@@ -75,7 +75,7 @@ export const Actions: React.FC<{ user: IUser }> = ({ user }) => {
             ) : (
               <Button
                 action={onFollow}
-                variant="textIcon"
+                variant="textWithIcon"
                 title="Follow"
                 bgColor="gradientBlue"
                 className="p-2"
@@ -87,7 +87,7 @@ export const Actions: React.FC<{ user: IUser }> = ({ user }) => {
         )}
         <Button
           action={() => setIsOpenFollowingModal(true)}
-          variant="textIcon"
+          variant="textWithIcon"
           title="Following"
           bgColor="gradientBlue"
           className="p-2"
@@ -96,7 +96,7 @@ export const Actions: React.FC<{ user: IUser }> = ({ user }) => {
         </Button>
         <Button
           action={() => setIsOpenFollowersModal(true)}
-          variant="textIcon"
+          variant="textWithIcon"
           title="Followers"
           bgColor="gradientBlue"
           className="p-2"
