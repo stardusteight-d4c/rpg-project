@@ -28,7 +28,7 @@ interface IMap {
 interface IRoll {
   id: string
   character: ISheet
-  campaignId: string 
+  campaignId: string
   characterRoll?: {
     name: string
     value: number
@@ -58,6 +58,7 @@ interface ICampaign {
   rolls: IRoll[]
   maps: IMap[]
   owner: IUser
+  activeSheets?: ISheet[]
   createdAt: string
 }
 
@@ -77,8 +78,6 @@ interface CampaignQueryParams extends ListQueryParams {
   status?: CampaignStatus
 }
 
-
 interface RollsQueryParams extends ListQueryParams {
   campaignId?: string
 }
-

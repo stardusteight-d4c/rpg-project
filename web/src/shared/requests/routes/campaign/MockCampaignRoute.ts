@@ -3,17 +3,23 @@ import { MockUserRoute } from "../user/MockUserRoute"
 export class MockCampaignRoute implements ICampaignRoute {
   static #instance: MockCampaignRoute | null = null
   #campaigns: Map<string, ICampaign>
-  #inMemoryUserRoute: IUserRoute
-  #inMemoryPostRoute: IPostRoute | null = null
+  #userRoute: IUserRoute | null = null
+  #postRoute: IPostRoute | null = null
+  #sheetRoute: ISheetRoute | null = null
 
   private constructor() {
     this.#campaigns = new Map()
-    this.#inMemoryUserRoute = MockUserRoute.getInstance()
   }
 
-  public static initialize(postRoute: IPostRoute): void {
+  public static initialize(
+    postRoute: IPostRoute,
+    userRoute: IUserRoute,
+    sheetRoute: ISheetRoute
+  ): void {
     if (this.#instance) {
-      this.#instance.#inMemoryPostRoute = postRoute
+      this.#instance.#postRoute = postRoute
+      this.#instance.#userRoute = userRoute
+      this.#instance.#sheetRoute = sheetRoute
     }
   }
 
@@ -25,7 +31,7 @@ export class MockCampaignRoute implements ICampaignRoute {
   }
 
   public async create(campaign: CampaignCreate): Promise<ICampaign> {
-    await new Promise((resolve) => setTimeout(resolve, 5000))
+    await new Promise((resolve) => setTimeout(resolve, 1000))
 
     const newCampaign: ICampaign = {
       ...campaign,
@@ -44,21 +50,19 @@ export class MockCampaignRoute implements ICampaignRoute {
   }
 
   public async delete(campaignId: string): Promise<void> {
-    await new Promise((resolve) => setTimeout(resolve, 5000))
+    await new Promise((resolve) => setTimeout(resolve, 1000))
 
-    const campaignPostsIds = await this.#inMemoryPostRoute!.list({
+    const campaignPostsIds = await this.#postRoute!.list({
       campaignId,
     }).then((res) => res.items.map((post) => post.id))
 
-    await Promise.all(
-      campaignPostsIds.map((id) => this.#inMemoryPostRoute!.delete(id))
-    )
+    await Promise.all(campaignPostsIds.map((id) => this.#postRoute!.delete(id)))
 
     this.#campaigns.delete(campaignId)
   }
 
   public async update(campaign: Partial<ICampaign>): Promise<ICampaign> {
-    await new Promise((resolve) => setTimeout(resolve, 5000))
+    await new Promise((resolve) => setTimeout(resolve, 1000))
 
     if (!campaign.id || !this.#campaigns.has(campaign.id)) {
       throw new Error("Campaign not found.")
@@ -72,7 +76,7 @@ export class MockCampaignRoute implements ICampaignRoute {
   }
 
   public async roll(roll: IRoll): Promise<IRoll> {
-    await new Promise((resolve) => setTimeout(resolve, 5000))
+    await new Promise((resolve) => setTimeout(resolve, 1000))
 
     const campaign = this.#campaigns.get(roll.campaignId)
     if (!campaign) throw new Error("Campaign not found.")
@@ -88,7 +92,7 @@ export class MockCampaignRoute implements ICampaignRoute {
   public async rolls(
     queryParams: RollsQueryParams
   ): Promise<ListResponseDTO<IRoll>> {
-    await new Promise((resolve) => setTimeout(resolve, 5000))
+    await new Promise((resolve) => setTimeout(resolve, 1000))
 
     const { campaignId } = queryParams
     const pageSize = queryParams?.pageSize || 20
@@ -122,7 +126,7 @@ export class MockCampaignRoute implements ICampaignRoute {
   public async list(
     queryParams: CampaignQueryParams
   ): Promise<ListResponseDTO<ICampaign>> {
-    await new Promise((resolve) => setTimeout(resolve, 5000))
+    await new Promise((resolve) => setTimeout(resolve, 1000))
 
     let filteredCampaigns = Array.from(this.#campaigns.values())
 
@@ -134,7 +138,7 @@ export class MockCampaignRoute implements ICampaignRoute {
       )
     }
 
-    const users = await this.#inMemoryUserRoute.list({})
+    const users = await this.#userRoute!.list({})
     const usersMap = new Map(users.map((user) => [user.id, user]))
 
     filteredCampaigns = filteredCampaigns.filter((campaign) => {

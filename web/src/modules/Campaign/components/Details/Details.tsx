@@ -120,16 +120,16 @@ export const Details: React.FC<{ campaign: ICampaign }> = ({ campaign }) => {
         <div className="absolute bottom-4 right-4 flex items-center gap-x-2">
           <Button
             title="Invite"
-            bgColor="blue"
             variant="textWithIcon"
+            bgColor="gradientPurple"
           >
             <UserCircleCheck />
           </Button>
           <Button
+            title="Join"
             action={() => push(`/table/${campaign.tableId}`)}
             variant="textWithIcon"
-            title="Join"
-            bgColor="green"
+            bgColor="gradientBlue"
           >
             <ArrowCircleUpRight />
           </Button>

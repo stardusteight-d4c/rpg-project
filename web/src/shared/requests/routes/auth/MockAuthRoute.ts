@@ -16,7 +16,7 @@ export class MockAuthRoute implements IAuthRoute {
   }
 
   public async signUp(data: SignUpDTO): Promise<AuthResponse> {
-    await new Promise((resolve) => setTimeout(resolve, 5000))
+    await new Promise((resolve) => setTimeout(resolve, 1000))
 
     return this.inMemoryUserRoute
       .create(data)
@@ -36,7 +36,7 @@ export class MockAuthRoute implements IAuthRoute {
   }
 
   public async signIn(data: SignInDTO): Promise<AuthResponse> {
-    await new Promise((resolve) => setTimeout(resolve, 5000))
+    await new Promise((resolve) => setTimeout(resolve, 1000))
 
     return this.inMemoryUserRoute
       .list()

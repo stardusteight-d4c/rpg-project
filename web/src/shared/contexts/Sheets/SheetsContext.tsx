@@ -19,7 +19,7 @@ interface SheetsState {
   addToTable(sheetId: string, tableId: string): Promise<ISheet>
   removeFromTable(sheetId: string, tableId: string): Promise<ISheet>
   getActivePlayerSheet: (ownerId: string, tableId: string) => Promise<void>
-  getTableSheets: (tableId: string) => Promise<void>
+  listSheets: (queryParams: SheetQueryParams) => Promise<void>
 }
 
 const SheetsContext = createContext<SheetsState | undefined>(undefined)
@@ -211,7 +211,6 @@ export const SheetsProvider: React.FC<{ children: ReactNode }> = ({
               })
             }
           })
-
           return updateCache
         })
       })
@@ -342,14 +341,19 @@ export const SheetsProvider: React.FC<{ children: ReactNode }> = ({
       })
   }
 
-  const getTableSheets = async (tableId: string) => {
+  const listSheets = async (queryParams: SheetQueryParams) => {
     return api.sheet
-      .list({ tableId, visibility: true })
+      .list(queryParams)
       .then((res) => {
         const sheets = res.items
         setTableSheets((prev) => {
           const updateCache = new Map(prev)
-          updateCache.set(tableId, { sheets })
+          console.log(sheets);
+          console.log(queryParams);
+          
+          if (queryParams.tableId) {
+            updateCache.set(queryParams.tableId, { sheets })
+          }
           return updateCache
         })
       })
@@ -372,7 +376,7 @@ export const SheetsProvider: React.FC<{ children: ReactNode }> = ({
         addToTable,
         removeFromTable,
         getActivePlayerSheet,
-        getTableSheets,
+        listSheets,
       }}
     >
       {children}

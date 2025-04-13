@@ -24,7 +24,7 @@ export class MockUserRoute implements IUserRoute {
   }
 
   public async create(data: SignUpDTO): Promise<IUser> {
-    await new Promise((resolve) => setTimeout(resolve, 5000))
+    await new Promise((resolve) => setTimeout(resolve, 1000))
 
     if ([...this.#users.values()].some((user) => user.email === data.email)) {
       throw new Error("This email already exists.")
@@ -69,7 +69,7 @@ export class MockUserRoute implements IUserRoute {
   }
 
   public async update(user: Partial<IUser>): Promise<IUser> {
-    await new Promise((resolve) => setTimeout(resolve, 5000))
+    await new Promise((resolve) => setTimeout(resolve, 1000))
 
     if (!user.id || !this.#users.has(user.id)) {
       throw new Error("User not found.")
@@ -84,7 +84,7 @@ export class MockUserRoute implements IUserRoute {
   public async notifications(
     queryParams: NotificationQueryParams
   ): Promise<NotificationsResponseDTO> {
-    await new Promise((resolve) => setTimeout(resolve, 5000))
+    await new Promise((resolve) => setTimeout(resolve, 1000))
     const { recipientId, currentPage, pageSize } = queryParams
 
     if (!recipientId) throw new Error("recipientId is required.")
@@ -116,7 +116,7 @@ export class MockUserRoute implements IUserRoute {
     recipientId: string,
     isViewed: boolean
   ): Promise<void> {
-    await new Promise((resolve) => setTimeout(resolve, 5000))
+    await new Promise((resolve) => setTimeout(resolve, 1000))
 
     const recipientNotifications = this.#notifications.get(recipientId)
 
@@ -129,7 +129,7 @@ export class MockUserRoute implements IUserRoute {
   }
 
   public async sendNotification(notification: INotification): Promise<void> {
-    await new Promise((resolve) => setTimeout(resolve, 5000))
+    await new Promise((resolve) => setTimeout(resolve, 1000))
 
     const recipientNotifications = this.#notifications.get(
       notification.recipientId
@@ -148,7 +148,7 @@ export class MockUserRoute implements IUserRoute {
   }
 
   public async list(queryParams: UserQueryParams): Promise<Array<IUser>> {
-    await new Promise((resolve) => setTimeout(resolve, 5000))
+    await new Promise((resolve) => setTimeout(resolve, 1000))
 
     const usersArray = [...this.#users.values()]
     if (!queryParams) return usersArray
@@ -173,7 +173,7 @@ export class MockUserRoute implements IUserRoute {
     followedUserId: string,
     followingUserId: string
   ): Promise<{ followed: Follow; following: Follow }> {
-    await new Promise((resolve) => setTimeout(resolve, 5000))
+    await new Promise((resolve) => setTimeout(resolve, 1000))
 
     if (followingUserId === followedUserId) {
       throw new Error("You cannot follow yourself.")
@@ -253,7 +253,7 @@ export class MockUserRoute implements IUserRoute {
     followedUserId: string,
     followingUserId: string
   ): Promise<void> {
-    await new Promise((resolve) => setTimeout(resolve, 5000))
+    await new Promise((resolve) => setTimeout(resolve, 1000))
 
     const followedFound = this.#users.get(followedUserId)
     if (!followedFound) {
@@ -289,7 +289,7 @@ export class MockUserRoute implements IUserRoute {
     queryParams: FollowQueryParams
   ): Promise<ListResponseDTO<Follow>> {
     const { userId, currentPage, pageSize } = queryParams
-    await new Promise((resolve) => setTimeout(resolve, 5000))
+    await new Promise((resolve) => setTimeout(resolve, 1000))
 
     const user = this.#users.get(userId)
     if (!user) {
@@ -317,7 +317,7 @@ export class MockUserRoute implements IUserRoute {
     queryParams: FollowQueryParams
   ): Promise<ListResponseDTO<Follow>> {
     const { userId, currentPage, pageSize } = queryParams
-    await new Promise((resolve) => setTimeout(resolve, 5000))
+    await new Promise((resolve) => setTimeout(resolve, 1000))
 
     const user = this.#users.get(userId)
     if (!user) {

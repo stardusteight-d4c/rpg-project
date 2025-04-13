@@ -2,21 +2,28 @@
 
 import { useParams } from "next/navigation"
 import React, { useEffect, useState } from "react"
-import { useCampaigns } from "@/shared/contexts"
+import { useCampaigns, useSheets } from "@/shared/contexts"
 import { Components } from "./components"
 
 export function CampaignModule() {
   const campaignId = useParams().id as string
   const { getById, lastRequestCampaignsData } = useCampaigns()
+  const { listSheets } = useSheets()
   const [campaign, setCampaign] = useState<ICampaign | undefined>(undefined)
 
   useEffect(() => {
     ;(async () => {
       const existingCampaignData = lastRequestCampaignsData.get(campaignId)
-      if (!existingCampaignData) {
-        await getById(campaignId)
-      }
-      setCampaign(lastRequestCampaignsData.get(campaignId))
+      setCampaign(existingCampaignData)
+      await getById(campaignId).then(async (res) => {
+        if (!res) return
+        setCampaign(res)
+        await listSheets({
+          campaignId,
+          active: true,
+          tableId: res.tableId,
+        })
+      })
     })()
   }, [campaignId, lastRequestCampaignsData])
 

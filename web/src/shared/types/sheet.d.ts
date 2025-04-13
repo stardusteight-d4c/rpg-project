@@ -102,7 +102,7 @@ interface ISheet {
     id: string
     name: string
   }
-  active: boolean 
+  active: boolean
   owner: IUser
   infos: Infos
   attributes: Attributes
@@ -116,7 +116,8 @@ interface ISheet {
 interface SheetQueryParams extends ListQueryParams {
   sheetId?: string
   ownerId?: string
-  tableId?: string 
+  tableId?: string
+  campaignId?: string
   active?: boolean
   visibility?: boolean
 }

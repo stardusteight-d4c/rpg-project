@@ -100,12 +100,12 @@ export const CampaignsProvider: React.FC<{ children: ReactNode }> = ({
   }
 
   const getByTableId = async (tableId: string, userId: string) => {
-    const prevCampaignRequestData = lastRequestCampaignsData.get(tableId)
-    if (prevCampaignRequestData) {
-      setCurrentCampaign(prevCampaignRequestData)
-      setIsMaster(prevCampaignRequestData.owner.id === userId)
-      return prevCampaignRequestData
-    }
+    // const prevCampaignRequestData = lastRequestCampaignsData.get(tableId)
+    // if (prevCampaignRequestData) {
+    //   setCurrentCampaign(prevCampaignRequestData)
+    //   setIsMaster(prevCampaignRequestData.owner.id === userId)
+    //   return prevCampaignRequestData
+    // }
     return api.campaign
       .list({ tableId })
       .then((campaign) => {

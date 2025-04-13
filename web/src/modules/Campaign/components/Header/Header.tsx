@@ -6,7 +6,6 @@ import { EditCampaignModal } from "@/shared/components/content/modals"
 import { useAuth } from "@/shared/contexts"
 import { Button } from "@/shared/components/ui"
 import {
-  ArrowCircleUpRight,
   PencilSimpleLine,
 } from "@/shared/components/ui/icons"
 
@@ -37,14 +36,6 @@ export const Header: React.FC<{ campaign: ICampaign }> = ({ campaign }) => {
       </div>
       {currentSession?.id === campaign.owner.id && (
         <div className="ml-auto w-fit flex items-center gap-x-4">
-          {/* <Button
-            action={() => setOpenEditCampaignModal(true)}
-            title="Invite Players"
-            bgColor="gradientPurple"
-            variant="modal"
-          >
-            <ArrowCircleUpRight />
-          </Button> */}
           <Button
             action={() => setOpenEditCampaignModal(true)}
             title="Edit Campaign"

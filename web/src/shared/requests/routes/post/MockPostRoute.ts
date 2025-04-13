@@ -40,7 +40,7 @@ export class MockPostRoute implements IPostRoute {
         campaignId: post.campaignId,
       }).then((campaigns) => campaigns.items[0])
     } else {
-      await new Promise((resolve) => setTimeout(resolve, 5000))
+      await new Promise((resolve) => setTimeout(resolve, 1000))
     }
 
     this.#posts.set(newPost.id, newPost)
@@ -48,7 +48,7 @@ export class MockPostRoute implements IPostRoute {
   }
 
   public async update(post: Partial<IPost>): Promise<IPost> {
-    await new Promise((resolve) => setTimeout(resolve, 5000))
+    await new Promise((resolve) => setTimeout(resolve, 1000))
 
     if (!post.id || !this.#posts.has(post.id)) {
       throw new Error("Post not found.")
@@ -62,7 +62,7 @@ export class MockPostRoute implements IPostRoute {
   }
 
   public async delete(postId: string): Promise<void> {
-    await new Promise((resolve) => setTimeout(resolve, 5000))
+    await new Promise((resolve) => setTimeout(resolve, 1000))
 
     if (!this.#posts.delete(postId)) {
       throw new Error("Post not found.")
@@ -70,7 +70,7 @@ export class MockPostRoute implements IPostRoute {
   }
 
   public async comment(postId: string, comment: IComment): Promise<IComment> {
-    await new Promise((resolve) => setTimeout(resolve, 5000))
+    await new Promise((resolve) => setTimeout(resolve, 1000))
 
     const post = this.#posts.get(postId)
     if (!post) {
@@ -91,7 +91,7 @@ export class MockPostRoute implements IPostRoute {
   }
 
   public async updateComment(comment: Partial<IComment>): Promise<IComment> {
-    await new Promise((resolve) => setTimeout(resolve, 5000))
+    await new Promise((resolve) => setTimeout(resolve, 1000))
 
     if (!comment.id) {
       throw new Error("Comment ID is required")
@@ -109,7 +109,7 @@ export class MockPostRoute implements IPostRoute {
   }
 
   public async deleteComment(comment: IComment): Promise<void> {
-    await new Promise((resolve) => setTimeout(resolve, 5000))
+    await new Promise((resolve) => setTimeout(resolve, 1000))
 
     if (!comment.id) {
       throw new Error("Comment ID is required")
@@ -127,7 +127,7 @@ export class MockPostRoute implements IPostRoute {
   }
 
   public async like(postId: string, userId: string): Promise<void> {
-    await new Promise((resolve) => setTimeout(resolve, 5000))
+    await new Promise((resolve) => setTimeout(resolve, 1000))
 
     const post = this.#posts.get(postId)
     if (!post) {
@@ -142,7 +142,7 @@ export class MockPostRoute implements IPostRoute {
   }
 
   public async unlike(postId: string, userId: string): Promise<void> {
-    await new Promise((resolve) => setTimeout(resolve, 5000))
+    await new Promise((resolve) => setTimeout(resolve, 1000))
 
     const post = this.#posts.get(postId)
     if (!post) {
@@ -160,7 +160,7 @@ export class MockPostRoute implements IPostRoute {
   public async listComments(
     queryParams: CommentQueryParams
   ): Promise<ListResponseDTO<IComment>> {
-    await new Promise((resolve) => setTimeout(resolve, 5000))
+    await new Promise((resolve) => setTimeout(resolve, 1000))
 
     const { postId, currentPage, pageSize } = queryParams
 
@@ -198,7 +198,7 @@ export class MockPostRoute implements IPostRoute {
   public async list(
     queryParams?: PostQueryParams
   ): Promise<ListResponseDTO<IPost>> {
-    await new Promise((resolve) => setTimeout(resolve, 5000))
+    await new Promise((resolve) => setTimeout(resolve, 1000))
 
     let filteredPosts = Array.from(this.#posts.values())
 

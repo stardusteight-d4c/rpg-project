@@ -14,14 +14,14 @@ export class MockMapRoute implements IMapRoute {
   }
 
   public async create(map: IMap): Promise<IMap> {
-    await new Promise((resolve) => setTimeout(resolve, 5000))
+    await new Promise((resolve) => setTimeout(resolve, 1000))
 
     this.#maps.set(map.id, map)
     return map
   }
 
   public async update(updatedMap: Partial<IMap>): Promise<IMap> {
-    await new Promise((resolve) => setTimeout(resolve, 5000))
+    await new Promise((resolve) => setTimeout(resolve, 1000))
 
     const existingMap = this.#maps.get(updatedMap.id!)
     if (!existingMap) throw new Error("Map not found.")
@@ -31,12 +31,12 @@ export class MockMapRoute implements IMapRoute {
   }
 
   public async delete(id: string): Promise<void> {
-    await new Promise((resolve) => setTimeout(resolve, 5000))
+    await new Promise((resolve) => setTimeout(resolve, 1000))
     this.#maps.delete(id)
   }
 
   public async moveSheet(newSheetPosition: SheetPosition): Promise<void> {
-    await new Promise((resolve) => setTimeout(resolve, 5000))
+    await new Promise((resolve) => setTimeout(resolve, 1000))
 
     const existingMap = this.#maps.get(newSheetPosition.mapId)
     if (!existingMap) throw new Error("Map not found.")

@@ -45,7 +45,7 @@ export class MockAPI {
       this.#post = MockPostRoute.getInstance()
     }
 
-    MockCampaignRoute.initialize(this.#post)
+    MockCampaignRoute.initialize(this.#post, this.#user, this.#sheet)
     MockPostRoute.initialize(this.#campaign)
     MockSheetRoute.initialize(this.#campaign)
 

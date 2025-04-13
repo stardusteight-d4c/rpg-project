@@ -24,7 +24,7 @@ export class MockSheetRoute implements ISheetRoute {
   }
 
   public async create(sheet: ISheet): Promise<ISheet> {
-    await new Promise((resolve) => setTimeout(resolve, 5000))
+    await new Promise((resolve) => setTimeout(resolve, 1000))
 
     const newSheet: ISheet = {
       ...sheet,
@@ -38,7 +38,7 @@ export class MockSheetRoute implements ISheetRoute {
   }
 
   public async update(sheet: Partial<ISheet>): Promise<ISheet> {
-    await new Promise((resolve) => setTimeout(resolve, 5000))
+    await new Promise((resolve) => setTimeout(resolve, 1000))
 
     if (!sheet.id || !this.#sheets.has(sheet.id)) {
       throw new Error("Sheet not found.")
@@ -56,7 +56,7 @@ export class MockSheetRoute implements ISheetRoute {
   }
 
   public async delete(sheetId: string): Promise<void> {
-    await new Promise((resolve) => setTimeout(resolve, 5000))
+    await new Promise((resolve) => setTimeout(resolve, 1000))
     this.#sheets.delete(sheetId)
   }
 
@@ -64,7 +64,7 @@ export class MockSheetRoute implements ISheetRoute {
     sheetId: string,
     tableId: string
   ): Promise<ISheet[]> {
-    await new Promise((resolve) => setTimeout(resolve, 5000))
+    await new Promise((resolve) => setTimeout(resolve, 1000))
 
     const sheet = this.#sheets.get(sheetId)
     if (!sheet) throw new Error("Sheet not found.")
@@ -120,7 +120,7 @@ export class MockSheetRoute implements ISheetRoute {
     sheetId: string,
     tableId: string
   ): Promise<ISheet> {
-    await new Promise((resolve) => setTimeout(resolve, 5000))
+    await new Promise((resolve) => setTimeout(resolve, 1000))
 
     const sheet = this.#sheets.get(sheetId)
     if (!sheet) throw new Error("Sheet not found.")
@@ -142,9 +142,15 @@ export class MockSheetRoute implements ISheetRoute {
   public async list(
     queryParams: SheetQueryParams
   ): Promise<ListResponseDTO<ISheet>> {
-    await new Promise((resolve) => setTimeout(resolve, 5000))
+    await new Promise((resolve) => setTimeout(resolve, 1000))
 
     let filteredSheets = Array.from(this.#sheets.values())
+
+    if (queryParams.campaignId) {
+      filteredSheets = filteredSheets.filter(
+        (sheet) => sheet.campaign?.id === queryParams.campaignId
+      )
+    }
 
     if (queryParams.sheetId) {
       filteredSheets = filteredSheets.filter(
