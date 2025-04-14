@@ -25,12 +25,11 @@ export const Feed: React.FC<{ campaign: ICampaign }> = ({ campaign }) => {
 
   const sheets = tableSheets.get(campaign.tableId)?.sheets ?? []
   const sheetsOwnersId = sheets.map((sheet) => sheet.owner.id)
-  const playersWithoutActiveSheet = campaign.players.find(
+  const playersWithoutActiveSheet = campaign.players.filter(
     (player) => !sheetsOwnersId.includes(player.id)
   )
 
-  console.log('playersWithoutActiveSheet', playersWithoutActiveSheet);
-  
+  console.log("playersWithoutActiveSheet", playersWithoutActiveSheet)
 
   const handleOpenSheetModal = (value: boolean) => {
     if (!value) {
@@ -87,51 +86,75 @@ export const Feed: React.FC<{ campaign: ICampaign }> = ({ campaign }) => {
 
       <div className="w-full">
         <div className="flex flex-col gap-y-4 ">
-          {sheets.length !== 0 && (
-            <div className="flex border bg-ashes border-border rounded-xl p-4 flex-col gap-4 flex-wrap">
-              {sheets.map((sheet) => (
-                <div className="grid grid-cols-2 gap-x-2">
-                  <div className="col-span-1 flex select-none z-20 items-center gap-x-2">
-                    <UserAvatar
-                      name={sheet.owner.name}
-                      username={sheet.owner.username}
-                      avatarUrl={sheet.owner.avatarUrl}
-                    />
-                    <div className="flex flex-col">
-                      <span className="flex items-center gap-x-2 text-lg font-bold -tracking-wide">
-                        {sheet.owner.name}{" "}
+          <div className="flex border bg-ashes border-border rounded-xl p-4 flex-col gap-4 flex-wrap">
+            {sheets.map((sheet) => (
+              <div className="grid grid-cols-2 gap-x-2">
+                <div className="col-span-1 flex select-none z-20 items-center gap-x-2">
+                  <UserAvatar
+                    name={sheet.owner.name}
+                    username={sheet.owner.username}
+                    avatarUrl={sheet.owner.avatarUrl}
+                  />
+                  <div className="flex flex-col">
+                    <span className="flex items-center gap-x-2 text-lg font-bold -tracking-wide">
+                      {sheet.owner.name}{" "}
+                      {sheet.owner.id === campaign.owner.id && (
                         <GradientSVGWrapper size={18}>
                           <CrownSimple />
                         </GradientSVGWrapper>
-                      </span>
-                      <span className="text-gray-400 -mt-2 block text-sm">
-                        #{sheet.owner.username}
-                      </span>
-                    </div>
-                  </div>
-                  <div
-                    onClick={() => setSelectedSheet(sheet)}
-                    className="flex cursor-pointer w-fit z-20 items-center gap-x-2"
-                  >
-                    <img
-                      src={sheet.infos.characterUrl}
-                      referrerPolicy="no-referrer"
-                      className="aspect-square w-[48px] h-[48px] object-cover rounded-full"
-                    />
-
-                    <div className="flex flex-col">
-                      <span className="block whitespace-nowrap background-gradient w-fit bg-clip-text text-transparent text-lg font-bold -tracking-wide">
-                        {sheet.infos.name}
-                      </span>
-                      <span className="text-gray-400 -mt-2 block text-sm">
-                        {sheet.infos.occupation}
-                      </span>
-                    </div>
+                      )}
+                    </span>
+                    <span className="text-gray-400 -mt-2 block text-sm">
+                      #{sheet.owner.username}
+                    </span>
                   </div>
                 </div>
-              ))}
-            </div>
-          )}
+                <div
+                  onClick={() => setSelectedSheet(sheet)}
+                  className="flex cursor-pointer w-fit z-20 items-center gap-x-2"
+                >
+                  <img
+                    src={sheet.infos.characterUrl}
+                    referrerPolicy="no-referrer"
+                    className="aspect-square w-[48px] h-[48px] object-cover rounded-full"
+                  />
+
+                  <div className="flex flex-col">
+                    <span className="block whitespace-nowrap background-gradient w-fit bg-clip-text text-transparent text-lg font-bold -tracking-wide">
+                      {sheet.infos.name}
+                    </span>
+                    <span className="text-gray-400 -mt-2 block text-sm">
+                      {sheet.infos.occupation}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            ))}
+            {playersWithoutActiveSheet.map((player) => (
+              <div className="grid grid-cols-2 gap-x-2">
+                <div className="col-span-1 flex select-none z-20 items-center gap-x-2">
+                  <UserAvatar
+                    name={player.name}
+                    username={player.username}
+                    avatarUrl={player.avatarUrl}
+                  />
+                  <div className="flex flex-col">
+                    <span className="flex items-center gap-x-2 text-lg font-bold -tracking-wide">
+                      {player.name}{" "}
+                      {player.id === campaign.owner.id && (
+                        <GradientSVGWrapper size={18}>
+                          <CrownSimple />
+                        </GradientSVGWrapper>
+                      )}
+                    </span>
+                    <span className="text-gray-400 -mt-2 block text-sm">
+                      #{player.username}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
 
           <CreatePostInput currentPage={currentPage} />
           {posts.length === 0 ? (

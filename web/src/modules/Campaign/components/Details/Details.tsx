@@ -10,6 +10,8 @@ import {
   ArrowCircleUpRight,
   CalendarDots,
   Clock,
+  Key,
+  PaperPlaneTilt,
   UserCircleCheck,
 } from "@/shared/components/ui/icons"
 import { useRouter } from "next/navigation"
@@ -120,10 +122,11 @@ export const Details: React.FC<{ campaign: ICampaign }> = ({ campaign }) => {
         <div className="absolute bottom-4 right-4 flex items-center gap-x-2">
           <Button
             title="Invite"
-            variant="textWithIcon"
+            variant="icon"
             bgColor="gradientPurple"
+            className="p-2"
           >
-            <UserCircleCheck />
+            <Key />
           </Button>
           <Button
             title="Join"
