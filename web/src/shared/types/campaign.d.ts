@@ -48,6 +48,7 @@ interface IRoll {
 interface ICampaign {
   id: string
   tableId: string
+  key?: number | undefined
   name: string
   description: string
   coverUrl: string | undefined

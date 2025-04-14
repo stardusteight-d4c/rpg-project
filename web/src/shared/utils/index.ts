@@ -13,3 +13,4 @@ export {
   sortArrayOfMapObjectByCreatedAt,
 } from "./sortByCreatedAt"
 export { clickElement } from "./clickElement"
+export { generateKey } from "./generateKey"
