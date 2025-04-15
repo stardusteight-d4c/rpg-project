@@ -19,6 +19,7 @@ interface CampaignsState {
   getByTableId: (tableId: string, userId: string) => Promise<ICampaign>
   update: (campaign: Partial<ICampaign>) => Promise<ICampaign>
   remove: (campaignId: string) => Promise<void>
+  join: (params: JoinCampaignParams) => Promise<ICampaign>
 }
 
 const CampaignsContext = createContext<CampaignsState | undefined>(undefined)
@@ -41,6 +42,38 @@ export const CampaignsProvider: React.FC<{ children: ReactNode }> = ({
     return new Map(
       sortArrayOfMapObjectByCreatedAt(Array.from(campaginsMap.entries()))
     )
+  }
+
+  const updatedInLocalState = (updatedCampaign: ICampaign) => {
+    setLastRequestCampaignsData((prev) => {
+      const newCache = new Map(prev)
+      const existingCampaing = newCache.get(updatedCampaign.id!)
+      if (existingCampaing) {
+        newCache.set(existingCampaing.id, {
+          ...existingCampaing,
+          ...updatedCampaign,
+        })
+      }
+      return newCache
+    })
+    setLastRequestProfileCampaignsData((prev) => {
+      const newCache = new Map(prev)
+      const prevProfileRequest = newCache.get(updatedCampaign.owner.id)
+      if (prevProfileRequest) {
+        newCache.set(updatedCampaign.owner.id, {
+          ...prevProfileRequest,
+          items: Array.from(
+            sortCampaignsMap(
+              new Map(prevProfileRequest.items.map((p) => [p.id, p])).set(
+                updatedCampaign.id,
+                updatedCampaign
+              )
+            ).values()
+          ),
+        })
+      }
+      return newCache
+    })
   }
 
   const getCampaignsByUser = async (queryParams: CampaignQueryParams) => {
@@ -175,35 +208,19 @@ export const CampaignsProvider: React.FC<{ children: ReactNode }> = ({
     return await api.campaign
       .update(campaign)
       .then((updatedCampaign) => {
-        setLastRequestCampaignsData((prev) => {
-          const newCache = new Map(prev)
-          const existingCampaing = newCache.get(campaign.id!)
-          if (existingCampaing) {
-            newCache.set(existingCampaing.id, {
-              ...existingCampaing,
-              ...updatedCampaign,
-            })
-          }
-          return newCache
-        })
-        setLastRequestProfileCampaignsData((prev) => {
-          const newCache = new Map(prev)
-          const prevProfileRequest = newCache.get(updatedCampaign.owner.id)
-          if (prevProfileRequest) {
-            newCache.set(updatedCampaign.owner.id, {
-              ...prevProfileRequest,
-              items: Array.from(
-                sortCampaignsMap(
-                  new Map(prevProfileRequest.items.map((p) => [p.id, p])).set(
-                    updatedCampaign.id,
-                    updatedCampaign
-                  )
-                ).values()
-              ),
-            })
-          }
-          return newCache
-        })
+        updatedInLocalState(updatedCampaign)
+        return updatedCampaign
+      })
+      .catch((error) => {
+        throw new Error(error.message)
+      })
+  }
+
+  const join = async (params: JoinCampaignParams) => {
+    return api.campaign
+      .join(params)
+      .then((updatedCampaign) => {
+        updatedInLocalState(updatedCampaign)
         return updatedCampaign
       })
       .catch((error) => {
@@ -257,6 +274,7 @@ export const CampaignsProvider: React.FC<{ children: ReactNode }> = ({
         searchByName,
         add,
         remove,
+        join,
         getByTableId,
         getCampaignsByUser,
         getById,

@@ -53,7 +53,11 @@ export const Details: React.FC<{ campaign: ICampaign }> = ({ campaign }) => {
         status={openInviteModal}
         onStatusChange={setOpenInviteModal}
       />
-      <JoinModal status={openJoinModal} onStatusChange={setOpenJoinModal} />
+      <JoinModal
+        campaign={campaign}
+        status={openJoinModal}
+        onStatusChange={setOpenJoinModal}
+      />
 
       <div className="col-span-1 flex w-full flex-col items-start">
         <div className="relative w-full">

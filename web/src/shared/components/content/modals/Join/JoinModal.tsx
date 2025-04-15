@@ -4,14 +4,16 @@ import { ChangeEvent, useState } from "react"
 
 import { Button, ModalWrapper, Tooltip } from "@/shared/components/ui"
 import { ClipboardText, LockKeyOpen } from "@/shared/components/ui/icons"
-import { useToast } from "@/shared/contexts"
+import { useAuth, useCampaigns, useToast } from "@/shared/contexts"
 
 export const JoinModal: React.FC<{
+  campaign: ICampaign
   status: boolean
   onStatusChange: (value: boolean) => void
-}> = ({ status, onStatusChange }) => {
+}> = ({ campaign, status, onStatusChange }) => {
   const { addToast } = useToast()
-  // const { join } = useCampaigns()
+  const { join } = useCampaigns()
+  const { currentSession } = useAuth()
   const [key, setKey] = useState<number[]>([NaN, NaN, NaN, NaN, NaN, NaN])
 
   const onKeyChange = (
@@ -76,16 +78,16 @@ export const JoinModal: React.FC<{
 
   const onJoin = async () => {
     if (!key) return
-    // return join({ id: campaign.id, key: Number(key.join("")) })
-    //   .then(() => {
-    //     if (campaign.key) {
-    //       addToast("Key has been changed!", "success", 45)
-    //     } else {
-    //       addToast("Key has been created!", "success", 45)
-    //     }
-    //   })
-    //   .catch((error) => addToast(error.message, "error", 45))
-    //   .finally(() => onStatusChange(false))
+    return join({
+      campaignId: campaign.id,
+      campaignKey: Number(key.join("")),
+      newPlayer: currentSession!,
+    })
+      .then(() => {
+        addToast("You have successfully joined the campaign.", "success", 45)
+      })
+      .catch((error) => addToast(error.message, "error", 45))
+      .finally(() => onStatusChange(false))
   }
 
   return (
@@ -96,12 +98,7 @@ export const JoinModal: React.FC<{
     >
       <div className="py-2 px-4 sticky z-[200] border-b border-border shadow-md shadow-black/50 top-0 w-full inset-x-0 bg-background">
         <div className="flex items-center gap-x-4">
-          <Button
-            action={() => {}}
-            title="Join"
-            bgColor="green"
-            variant="modal"
-          >
+          <Button action={onJoin} title="Join" bgColor="green" variant="modal">
             <LockKeyOpen />
           </Button>
         </div>

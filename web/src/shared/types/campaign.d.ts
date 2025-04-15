@@ -82,3 +82,9 @@ interface CampaignQueryParams extends ListQueryParams {
 interface RollsQueryParams extends ListQueryParams {
   campaignId?: string
 }
+
+interface JoinCampaignParams {
+  campaignId: string
+  campaignKey: number
+  newPlayer: IUser
+}

@@ -123,6 +123,21 @@ export class MockCampaignRoute implements ICampaignRoute {
     }
   }
 
+  public async join(params: JoinCampaignParams): Promise<ICampaign> {
+    await new Promise((resolve) => setTimeout(resolve, 1000))
+
+    const { campaignId, campaignKey, newPlayer } = params
+    const campaign = this.#campaigns.get(campaignId)
+    if (!campaign) throw new Error("Campaign not found")
+    if (campaign.key !== campaignKey) throw new Error("The keys do not match")
+    const updatedCampaign = {
+      ...campaign,
+      players: [newPlayer, ...campaign.players],
+    }
+    this.#campaigns.set(campaignId, updatedCampaign)
+    return updatedCampaign
+  }
+
   public async list(
     queryParams: CampaignQueryParams
   ): Promise<ListResponseDTO<ICampaign>> {
