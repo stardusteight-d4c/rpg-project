@@ -75,6 +75,7 @@ interface CampaignQueryParams extends ListQueryParams {
   name?: string
   campaignId?: string
   ownerId?: string
+  userId?: string
   tableId?: string
   status?: CampaignStatus
 }

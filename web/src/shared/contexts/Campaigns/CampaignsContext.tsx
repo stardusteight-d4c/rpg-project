@@ -77,15 +77,15 @@ export const CampaignsProvider: React.FC<{ children: ReactNode }> = ({
   }
 
   const getCampaignsByUser = async (queryParams: CampaignQueryParams) => {
-    const { ownerId, pageSize } = queryParams
-    if (!ownerId || !pageSize)
-      throw new Error("ownerId and pageSize is required.")
+    const { userId, pageSize } = queryParams
+    if (!userId || !pageSize)
+      throw new Error("userId and pageSize is required.")
     return api.campaign
-      .list({ ownerId, pageSize })
+      .list({ userId, pageSize })
       .then((res) => {
         setLastRequestProfileCampaignsData((prev) => {
           const newCache = new Map(prev)
-          const prevProfileRequest = newCache.get(ownerId)
+          const prevProfileRequest = newCache.get(userId)
           if (prevProfileRequest) {
             const updatedItems = new Map()
             prevProfileRequest.items.forEach((item) => {
@@ -94,13 +94,13 @@ export const CampaignsProvider: React.FC<{ children: ReactNode }> = ({
             res.items.forEach((item) => {
               updatedItems.set(item.id, item)
             })
-            newCache.set(ownerId, {
+            newCache.set(userId, {
               ...res,
               currentPage: Math.ceil(updatedItems.size / pageSize),
               items: Array.from(updatedItems.values()),
             })
           } else {
-            newCache.set(ownerId, {
+            newCache.set(userId, {
               ...res,
               items: res.items,
             })

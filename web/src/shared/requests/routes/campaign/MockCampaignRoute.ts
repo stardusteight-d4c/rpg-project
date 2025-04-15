@@ -143,6 +143,9 @@ export class MockCampaignRoute implements ICampaignRoute {
   ): Promise<ListResponseDTO<ICampaign>> {
     await new Promise((resolve) => setTimeout(resolve, 1000))
 
+    const users = await this.#userRoute!.list({})
+    const usersMap = new Map(users.map((user) => [user.id, user]))
+
     let filteredCampaigns = Array.from(this.#campaigns.values())
 
     if (queryParams?.search && queryParams?.name) {
@@ -153,20 +156,29 @@ export class MockCampaignRoute implements ICampaignRoute {
       )
     }
 
-    const users = await this.#userRoute!.list({})
-    const usersMap = new Map(users.map((user) => [user.id, user]))
-
     filteredCampaigns = filteredCampaigns.filter((campaign) => {
       const isMatchingId =
         !queryParams?.campaignId || campaign.id === queryParams.campaignId
+
       const isMatchingOwner =
         !queryParams?.ownerId || campaign.owner.id === queryParams.ownerId
+
       const isMatchingStatus =
         !queryParams?.status || campaign.status === queryParams.status
+
       const isMatchingTableId =
         !queryParams?.tableId || campaign.tableId === queryParams.tableId
+
+      const isMatchingUser =
+        !queryParams?.userId ||
+        campaign.players.some((player) => player.id === queryParams.userId)
+
       return (
-        isMatchingId && isMatchingOwner && isMatchingStatus && isMatchingTableId
+        isMatchingId &&
+        isMatchingOwner &&
+        isMatchingStatus &&
+        isMatchingTableId &&
+        isMatchingUser
       )
     })
 

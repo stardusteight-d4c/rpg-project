@@ -30,7 +30,7 @@ export const Campaigns: React.FC<{ user: IUser }> = ({ user }) => {
       if (isLoading) return
       if (currentPage <= lastPage) {
         setIsLoading(true)
-        await getCampaignsByUser({ ownerId: user.id, pageSize })
+        await getCampaignsByUser({ userId: user.id, pageSize })
           .then((res) => {
             if (res) {
               setLastPage(res.totalPages)
