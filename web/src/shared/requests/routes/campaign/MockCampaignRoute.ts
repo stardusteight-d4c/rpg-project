@@ -1,5 +1,3 @@
-import { MockUserRoute } from "../user/MockUserRoute"
-
 export class MockCampaignRoute implements ICampaignRoute {
   static #instance: MockCampaignRoute | null = null
   #campaigns: Map<string, ICampaign>
@@ -11,15 +9,15 @@ export class MockCampaignRoute implements ICampaignRoute {
     this.#campaigns = new Map()
   }
 
-  public static initialize(
-    postRoute: IPostRoute,
-    userRoute: IUserRoute,
-    sheetRoute: ISheetRoute
-  ): void {
+  public static initialize(routes: {
+    post: IPostRoute
+    user: IUserRoute
+    sheet: ISheetRoute
+  }): void {
     if (this.#instance) {
-      this.#instance.#postRoute = postRoute
-      this.#instance.#userRoute = userRoute
-      this.#instance.#sheetRoute = sheetRoute
+      this.#instance.#postRoute = routes.post
+      this.#instance.#userRoute = routes.user
+      this.#instance.#sheetRoute = routes.sheet
     }
   }
 
@@ -193,15 +191,31 @@ export class MockCampaignRoute implements ICampaignRoute {
     const currentPage = queryParams?.currentPage || 1
 
     const startIndex = (currentPage - 1) * pageSize
-    const pagedItems = updatedCampaigns
+    let pagedItems = updatedCampaigns
       .sort(
         (a, b) =>
           new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
       )
       .slice(startIndex, startIndex + pageSize)
 
+    const pagedItemsWithUpdatedPlayers = await Promise.all(
+      pagedItems.map(async (campaign) => {
+        const playersId = campaign.players.map((player) => player.id)
+        const campaignPlayers = await Promise.all(
+          playersId.map(async (userId) => {
+            const res = await this.#userRoute!.list({ userId })
+            return res[0]
+          })
+        )
+        return {
+          ...campaign,
+          players: campaignPlayers,
+        }
+      })
+    )
+
     return {
-      items: pagedItems,
+      items: pagedItemsWithUpdatedPlayers,
       totalItems,
       totalPages,
       currentPage,

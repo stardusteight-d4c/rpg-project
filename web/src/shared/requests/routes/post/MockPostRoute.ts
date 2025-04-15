@@ -1,19 +1,20 @@
-import { MockUserRoute } from "../user/MockUserRoute"
-
 export class MockPostRoute implements IPostRoute {
   static #instance: MockPostRoute | null = null
   #posts: Map<string, IPost>
-  #inMemoryUserRoute: IUserRoute
-  #inMemoryCampaignRoute: ICampaignRoute | null = null
+  #campaignRoute: ICampaignRoute | null = null
+  #userRoute: IUserRoute | null = null
 
   private constructor() {
     this.#posts = new Map()
-    this.#inMemoryUserRoute = MockUserRoute.getInstance()
   }
 
-  public static initialize(campaignRoute: ICampaignRoute): void {
+  public static initialize(routes: {
+    campaign: ICampaignRoute
+    user: IUserRoute
+  }): void {
     if (this.#instance) {
-      this.#instance.#inMemoryCampaignRoute = campaignRoute
+      this.#instance.#campaignRoute = routes.campaign
+      this.#instance.#userRoute = routes.user
     }
   }
 
@@ -36,7 +37,7 @@ export class MockPostRoute implements IPostRoute {
     }
 
     if (post.campaignId) {
-      newPost.campaign = await this.#inMemoryCampaignRoute!.list({
+      newPost.campaign = await this.#campaignRoute!.list({
         campaignId: post.campaignId,
       }).then((campaigns) => campaigns.items[0])
     } else {
@@ -180,7 +181,7 @@ export class MockPostRoute implements IPostRoute {
     const endIndex = startIndex + pageSize
     const paginatedComments = post.comments.slice(startIndex, endIndex)
 
-    const users = await this.#inMemoryUserRoute.list({})
+    const users = await this.#userRoute!.list({})
     const usersMap = new Map(users.map((user) => [user.id, user]))
 
     const updatedComments = paginatedComments.map((comment) => ({
@@ -214,7 +215,7 @@ export class MockPostRoute implements IPostRoute {
     }
 
     if (queryParams?.feed && queryParams?.ownerId) {
-      const user = await this.#inMemoryUserRoute.list({
+      const user = await this.#userRoute!.list({
         userId: queryParams.ownerId,
       })
       if (user.length === 0) {
@@ -244,7 +245,7 @@ export class MockPostRoute implements IPostRoute {
     const endIndex = startIndex + pageSize
     const paginatedPosts = filteredPosts.slice(startIndex, endIndex)
 
-    const users = await this.#inMemoryUserRoute.list({})
+    const users = await this.#userRoute!.list({})
     const usersMap = new Map(users.map((user) => [user.id, user]))
 
     let updatedPosts = paginatedPosts.map((post) => ({
@@ -256,7 +257,7 @@ export class MockPostRoute implements IPostRoute {
     const campaigns = await Promise.all(
       updatedPosts.map(async (post) => {
         if (post.campaignId) {
-          return await this.#inMemoryCampaignRoute!.list({
+          return await this.#campaignRoute!.list({
             campaignId: post.campaignId,
           }).then((res) => res.items)
         }

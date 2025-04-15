@@ -45,9 +45,13 @@ export class MockAPI {
       this.#post = MockPostRoute.getInstance()
     }
 
-    MockCampaignRoute.initialize(this.#post, this.#user, this.#sheet)
-    MockPostRoute.initialize(this.#campaign)
-    MockSheetRoute.initialize(this.#campaign)
+    MockCampaignRoute.initialize({
+      post: this.#post,
+      user: this.#user,
+      sheet: this.#sheet,
+    })
+    MockPostRoute.initialize({ campaign: this.#campaign, user: this.#user })
+    MockSheetRoute.initialize({ campaign: this.#campaign, user: this.#user })
 
     return {
       auth: this.#auth!,

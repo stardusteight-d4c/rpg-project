@@ -6,6 +6,7 @@ export const UserAvatar: React.FC<{
   username: string
   avatarUrl: string | undefined
   size?: number
+  border?: boolean
   fontSize?: number
   bgColor?: "background" | "border"
   cursor?: "pointer" | "default"
@@ -15,6 +16,7 @@ export const UserAvatar: React.FC<{
   avatarUrl,
   size = 48,
   fontSize = 24,
+  border = false,
   bgColor = "background",
   cursor = "pointer",
 }) => {
@@ -31,7 +33,9 @@ export const UserAvatar: React.FC<{
           minHeight: size,
           cursor,
         }}
-        className="aspect-square object-cover rounded-full"
+        className={`${
+          border && " border-[2px] border-background shadow-md shadow-black/50 "
+        } aspect-square object-cover rounded-full`}
       />
     </Link>
   ) : (
@@ -45,6 +49,8 @@ export const UserAvatar: React.FC<{
         }}
         className={`${
           bgColor === "background" ? " bg-background " : " bg-border "
+        } ${
+          border && " border-[2px] border-background shadow-md shadow-black/50 "
         } font-bold text-white flex items-center justify-center aspect-square border border-border rounded-full`}
       >
         {getNameInitials(name)}

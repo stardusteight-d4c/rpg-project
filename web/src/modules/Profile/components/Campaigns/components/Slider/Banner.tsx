@@ -17,11 +17,13 @@ export const Banner: React.FC<{ campaign: ICampaign }> = ({ campaign }) => {
           key={user.id}
           className="absolute flex z-50 items-center gap-x-1 w-fit top-2 right-2"
         >
-          <div style={{ marginRight: `${index * 20}px` }}>
+          <div style={{ marginRight: `${index * 22}px` }}>
             <UserAvatar
               name={user.name}
               username={user.username}
               avatarUrl={user.avatarUrl}
+              size={38}
+              border={true}
             />
           </div>
         </div>
@@ -29,7 +31,7 @@ export const Banner: React.FC<{ campaign: ICampaign }> = ({ campaign }) => {
       <img
         src={campaign.coverUrl}
         alt={`${campaign.name}/coverUrl`}
-        className="object-fill  pointer-events-none select-none rounded-xl w-full h-full"
+        className="object-fill pointer-events-none select-none rounded-xl w-full h-full"
       />
       <div className="px-2 border border-border bg-background w-fit z-50 shadow-sm shadow-black/50 rounded-full font-medium text-2xl absolute top-2 left-2">
         <span className="background-gradient bg-clip-text text-transparent whitespace-nowrap select-none cursor-default pointer-events-none">

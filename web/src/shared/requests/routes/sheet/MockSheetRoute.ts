@@ -1,18 +1,20 @@
-import { MockCampaignRoute } from "../campaign/MockCampaignRoute"
-
 export class MockSheetRoute implements ISheetRoute {
   static #instance: MockSheetRoute | null = null
   #sheets: Map<string, ISheet>
-  #inMemoryCampaignRoute: ICampaignRoute | null = null
+  #campaignRoute: ICampaignRoute | null = null
+  #userRoute: IUserRoute | null = null
 
   private constructor() {
     this.#sheets = new Map()
-    this.#inMemoryCampaignRoute = MockCampaignRoute.getInstance()
   }
 
-  public static initialize(campaignRoute: ICampaignRoute): void {
+  public static initialize(routes: {
+    campaign: ICampaignRoute
+    user: IUserRoute
+  }): void {
     if (this.#instance) {
-      this.#instance.#inMemoryCampaignRoute = campaignRoute
+      this.#instance.#campaignRoute = routes.campaign
+      this.#instance.#userRoute = routes.user
     }
   }
 
@@ -101,7 +103,7 @@ export class MockSheetRoute implements ISheetRoute {
     const sheet = this.#sheets.get(sheetId)
     if (!sheet) throw new Error("Sheet not found.")
 
-    const campaign = await this.#inMemoryCampaignRoute!.list({ tableId }).then(
+    const campaign = await this.#campaignRoute!.list({ tableId }).then(
       (pagination) => pagination.items[0]
     )
 
@@ -145,6 +147,7 @@ export class MockSheetRoute implements ISheetRoute {
     await new Promise((resolve) => setTimeout(resolve, 1000))
 
     let filteredSheets = Array.from(this.#sheets.values())
+    // const users = this.
 
     if (queryParams.campaignId) {
       filteredSheets = filteredSheets.filter(
