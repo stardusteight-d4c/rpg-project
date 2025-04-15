@@ -1,21 +1,20 @@
 "use client"
 
+import { Fragment, useEffect, useRef, useState } from "react"
+import { useRouter } from "next/navigation"
 import ReactMarkdown from "react-markdown"
 import rehypeRaw from "rehype-raw"
-import { Button, ModalWrapper, Tooltip } from "@/shared/components/ui"
+
+import { Button, Tooltip } from "@/shared/components/ui"
 import { useAuth } from "@/shared/contexts"
 import { convertTimestamp, countTimeago } from "@/shared/utils"
-import { Fragment, useEffect, useRef, useState } from "react"
 import {
   ArrowCircleUpRight,
   CalendarDots,
   Clock,
   Key,
-  PaperPlaneTilt,
-  UserCircleCheck,
 } from "@/shared/components/ui/icons"
-import { useRouter } from "next/navigation"
-import { InviteModal } from "@/shared/components/content/modals"
+import { InviteModal, JoinModal } from "@/shared/components/content/modals"
 
 export const Details: React.FC<{ campaign: ICampaign }> = ({ campaign }) => {
   const { currentSession } = useAuth()
@@ -24,7 +23,10 @@ export const Details: React.FC<{ campaign: ICampaign }> = ({ campaign }) => {
   const [expanded, setExpanded] = useState(false)
   const [isClamped, setIsClamped] = useState(false)
   const [openInviteModal, setOpenInviteModal] = useState(false)
+  const [openJoinModal, setOpenJoinModal] = useState(false)
   const contentRef = useRef<HTMLDivElement>(null)
+
+  const players = campaign.players.map((player) => player.id)
 
   useEffect(() => {
     if (campaign?.streaming && campaign?.streaming.startedAt) {
@@ -51,6 +53,7 @@ export const Details: React.FC<{ campaign: ICampaign }> = ({ campaign }) => {
         status={openInviteModal}
         onStatusChange={setOpenInviteModal}
       />
+      <JoinModal status={openJoinModal} onStatusChange={setOpenJoinModal} />
 
       <div className="col-span-1 flex w-full flex-col items-start">
         <div className="relative w-full">
@@ -129,23 +132,36 @@ export const Details: React.FC<{ campaign: ICampaign }> = ({ campaign }) => {
             <Clock />
           </Button>
           <div className="absolute bottom-4 right-4 flex items-center gap-x-2">
-            <Button
-              title="Invite"
-              action={() => setOpenInviteModal(true)}
-              variant="icon"
-              bgColor="gradientPurple"
-              className="p-2"
-            >
-              <Key />
-            </Button>
-            <Button
-              title="Join"
-              action={() => push(`/table/${campaign.tableId}`)}
-              variant="textWithIcon"
-              bgColor="gradientBlue"
-            >
-              <ArrowCircleUpRight />
-            </Button>
+            {campaign.owner.id === currentSession?.id && (
+              <Button
+                title="Invite"
+                action={() => setOpenInviteModal(true)}
+                variant="icon"
+                bgColor="gradientBlue"
+                className="p-2"
+              >
+                <Key />
+              </Button>
+            )}
+            {players.includes(currentSession!.id) ? (
+              <Button
+                title="Enter"
+                action={() => push(`/table/${campaign.tableId}`)}
+                variant="textWithIcon"
+                bgColor="green"
+              >
+                <ArrowCircleUpRight />
+              </Button>
+            ) : (
+              <Button
+                title="Join"
+                action={() => setOpenJoinModal(true)}
+                variant="textWithIcon"
+                bgColor="blue"
+              >
+                <ArrowCircleUpRight />
+              </Button>
+            )}
           </div>
         </div>
         <div className="flex -mt-2 flex-col gap-y-2">

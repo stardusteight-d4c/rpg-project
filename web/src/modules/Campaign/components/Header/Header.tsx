@@ -1,13 +1,12 @@
 "use client"
 
-import { Fragment, useState } from "react"
+import { useState } from "react"
+
 import { UserAvatar } from "@/shared/components/content"
-import { EditCampaignModal } from "@/shared/components/content/modals"
 import { useAuth } from "@/shared/contexts"
 import { Button } from "@/shared/components/ui"
-import {
-  PencilSimpleLine,
-} from "@/shared/components/ui/icons"
+import { PencilSimpleLine } from "@/shared/components/ui/icons"
+import { EditCampaignModal } from "@/shared/components/content/modals"
 
 export const Header: React.FC<{ campaign: ICampaign }> = ({ campaign }) => {
   const { currentSession } = useAuth()

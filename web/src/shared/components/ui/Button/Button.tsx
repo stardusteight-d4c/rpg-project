@@ -7,6 +7,7 @@ interface ButtonProps {
   id?: string
   title: string
   action?: () => any | Promise<any>
+  directAction?: () => any | Promise<any>
   children?: React.ReactNode
   bgColor?: "blue" | "green" | "red" | "gradientPurple" | "gradientBlue"
   variant?: "modal" | "default" | "icon" | "textWithIcon" | "displayWithIcon"
@@ -20,6 +21,7 @@ export const Button: React.FC<ButtonProps> = ({
   id,
   title,
   action,
+  directAction,
   children,
   className,
   bgColor = "blue",
@@ -87,7 +89,7 @@ export const Button: React.FC<ButtonProps> = ({
     return (
       <button
         id={id}
-        onClick={executeAction}
+        onClick={directAction ? directAction : executeAction}
         disabled={isLoading || disabled}
         className={`${className} cursor-pointer disabled:cursor-not-allowed disabled:brightness-90 w-fit flex items-center group gap-x-2`}
       >

@@ -2,13 +2,14 @@
 
 import { useParams } from "next/navigation"
 import React, { useEffect, useState } from "react"
-import { useCampaigns, useSheets } from "@/shared/contexts"
+import { useAuth, useCampaigns, useSheets } from "@/shared/contexts"
 import { Components } from "./components"
 
 export function CampaignModule() {
   const campaignId = useParams().id as string
   const { getById, lastRequestCampaignsData } = useCampaigns()
   const { listSheets } = useSheets()
+  const { currentSession } = useAuth()
   const [campaign, setCampaign] = useState<ICampaign | undefined>(undefined)
 
   useEffect(() => {
@@ -27,7 +28,7 @@ export function CampaignModule() {
     })()
   }, [campaignId, lastRequestCampaignsData])
 
-  if (!campaign) return
+  if (!campaign || !currentSession) return
 
   return (
     <Wrapper>

@@ -25,6 +25,15 @@ export const InviteModal: React.FC<{
     setKey(generateKey())
   }
 
+  const handleStatusChange = (value: boolean) => {
+    if (!value) {
+      setKey(campaignKey)
+      onStatusChange(false)
+    } else {
+      onStatusChange(true)
+    }
+  }
+
   const copyToClipboard = () => {
     if (!key) return
     const keytext = key.join("")
@@ -50,7 +59,7 @@ export const InviteModal: React.FC<{
     <ModalWrapper
       title="Invite a player"
       status={status}
-      onStatusChange={onStatusChange}
+      onStatusChange={handleStatusChange}
     >
       <div className="py-2 px-4 sticky z-[200] border-b border-border shadow-md shadow-black/50 top-0 w-full inset-x-0 bg-background">
         <div className="flex items-center gap-x-4">
@@ -109,7 +118,7 @@ export const InviteModal: React.FC<{
             </Tooltip>
           )}
         </div>
-        <span className="text-gray-400 text-center -ml-[35px] w-fit leading-4 text-sm block cursor-pointer">
+        <span className="text-gray-400 text-center -ml-[35px] w-fit leading-4 text-sm block cursor-default select-none">
           Use this code to invite friends
         </span>
       </div>
