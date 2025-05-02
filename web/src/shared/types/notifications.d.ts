@@ -1,7 +1,13 @@
 interface INotification {
   id: string
-  by?: Partial<ISheet>
-  owner?: User
+  recipientId: string
   content: string
+  type: "text" | "html"
+  sender?: {
+    id: string
+    name: string
+    avatarUrl?: string
+    username: string
+  }
   createdAt: string
 }

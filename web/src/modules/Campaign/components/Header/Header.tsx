@@ -5,19 +5,27 @@ import { useState } from "react"
 import { UserAvatar } from "@/shared/components/content"
 import { useAuth } from "@/shared/contexts"
 import { Button } from "@/shared/components/ui"
-import { PencilSimpleLine } from "@/shared/components/ui/icons"
+import { PencilSimpleLine, UserCircleGear } from "@/shared/components/ui/icons"
 import { EditCampaignModal } from "@/shared/components/content/modals"
+import { ManagePlayersModal } from "@/shared/components/content/modals/ManagePlayers/ManagePlayersModal"
 
 export const Header: React.FC<{ campaign: ICampaign }> = ({ campaign }) => {
   const { currentSession } = useAuth()
   const [openEditCampaignModal, setOpenEditCampaignModal] =
     useState<boolean>(false)
+  const [openManagePlayersModal, setOpenManagePlayersModal] =
+    useState<boolean>(false)
 
   return (
     <div className="flex pb-2 select-none bg-background z-20 items-center gap-x-2">
       <EditCampaignModal
-        onStatusChange={setOpenEditCampaignModal}
         status={openEditCampaignModal}
+        onStatusChange={setOpenEditCampaignModal}
+        campaign={campaign}
+      />
+      <ManagePlayersModal
+        status={openManagePlayersModal}
+        onStatusChange={setOpenManagePlayersModal}
         campaign={campaign}
       />
       <UserAvatar
@@ -35,6 +43,14 @@ export const Header: React.FC<{ campaign: ICampaign }> = ({ campaign }) => {
       </div>
       {currentSession?.id === campaign.owner.id && (
         <div className="ml-auto w-fit flex items-center gap-x-4">
+          <Button
+            action={() => setOpenManagePlayersModal(true)}
+            title="Manage Players"
+            bgColor="gradientBlue"
+            variant="modal"
+          >
+            <UserCircleGear />
+          </Button>
           <Button
             action={() => setOpenEditCampaignModal(true)}
             title="Edit Campaign"

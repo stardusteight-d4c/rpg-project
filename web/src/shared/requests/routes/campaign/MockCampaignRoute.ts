@@ -8,6 +8,7 @@ export class MockCampaignRoute implements ICampaignRoute {
   private constructor() {
     this.#campaigns = new Map()
   }
+ 
 
   public static initialize(routes: {
     post: IPostRoute
@@ -132,8 +133,58 @@ export class MockCampaignRoute implements ICampaignRoute {
       ...campaign,
       players: [newPlayer, ...campaign.players],
     }
+
+    const notifyDM: INotification = {
+      id: crypto.randomUUID(),
+      content: `${params.newPlayer.name} joins the "${campaign.name}" campaign! 🤩`,
+      type: "text",
+      recipientId: campaign.owner.id,
+      sender: {
+        id: params.newPlayer.id,
+        name: params.newPlayer.name,
+        username: params.newPlayer.username,
+        avatarUrl: params.newPlayer.avatarUrl,
+      },
+      createdAt: new Date().toISOString(),
+    }
+
+    this.#userRoute!.sendNotification(notifyDM)
     this.#campaigns.set(campaignId, updatedCampaign)
     return updatedCampaign
+  }
+
+  public async kick(params: KickPlayerParams): Promise<void> {
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
+    const { campaignId, playerId } = params;
+    
+    const campaign = this.#campaigns.get(campaignId);
+    if (!campaign) throw new Error("Campaign not found.");
+    if (campaign.owner.id === playerId) {
+      throw new Error("The campaign owner cannot be removed.");
+    }
+
+    const updatedPlayers = campaign.players.filter((player) => player.id !== playerId);
+    if (updatedPlayers.length === campaign.players.length) {
+      throw new Error("Player not found in the campaign.");
+    }
+
+    const updatedCampaign = { ...campaign, players: updatedPlayers };
+    this.#campaigns.set(campaignId, updatedCampaign);
+    const notifyPlayer: INotification = {
+      id: crypto.randomUUID(),
+      content: `You have been removed from the "${campaign.name}" campaign.`,
+      type: "text",
+      recipientId: playerId,
+      sender: {
+        id: campaign.owner.id,
+        name: campaign.owner.name,
+        username: campaign.owner.username,
+        avatarUrl: campaign.owner.avatarUrl,
+      },
+      createdAt: new Date().toISOString(),
+    };
+    this.#userRoute!.sendNotification(notifyPlayer);
   }
 
   public async list(

@@ -16,20 +16,9 @@ interface NotificationsState {
   ) => Promise<NotificationsResponseDTO>
 }
 
-const defaultState: NotificationsState = {
-  notify: new Map(),
-  sendNotification: async () => {},
-  listNotifications: async () => ({
-    notifications: [],
-    viewed: true,
-    totalItems: 0,
-    totalPages: 0,
-    currentPage: 1,
-    pageSize: 0,
-  }),
-}
-
-const NotificationsContext = createContext<NotificationsState>(defaultState)
+const NotificationsContext = createContext<NotificationsState | undefined>(
+  undefined
+)
 
 export const NotificationsProvider: React.FC<PropsWithChildren> = ({
   children,
@@ -50,12 +39,19 @@ export const NotificationsProvider: React.FC<PropsWithChildren> = ({
         setNotify((prev) => {
           const updateCache = new Map(prev)
           const prevProfileNotifications = updateCache.get(recipientId)
+
+          const notificationsObject = new Map()
+          const notificationsMerge = [
+            ...paginationNotifications?.notifications,
+            ...(prevProfileNotifications?.notifications ?? []),
+          ]
+          notificationsMerge.map((notification) =>
+            notificationsObject.set(notification.id, notification)
+          )
+
           if (prevProfileNotifications) {
             updateCache.set(recipientId, {
-              notifications: [
-                ...paginationNotifications.notifications,
-                ...prevProfileNotifications.notifications,
-              ],
+              notifications: Array.from(notificationsObject.values()),
               viewed: navbar ? paginationNotifications.viewed : true,
             })
           } else {

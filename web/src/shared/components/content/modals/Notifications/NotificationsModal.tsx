@@ -17,8 +17,8 @@ export const NotificationsModal: React.FC<{
     pageSize: number
     totalItems: number | undefined
   }>({
-    lastPage: 1,
-    pageSize: 1,
+    lastPage: 10,
+    pageSize: 5,
     totalItems: undefined,
   })
   const cachedNotify = notify.get(currentSession!.id) ?? {
@@ -31,6 +31,9 @@ export const NotificationsModal: React.FC<{
     startIndex,
     endIndex
   )
+
+  console.log({notify});
+  
 
   useEffect(() => {
     ;(async () => {

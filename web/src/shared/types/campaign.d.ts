@@ -89,3 +89,8 @@ interface JoinCampaignParams {
   campaignKey: number
   newPlayer: IUser
 }
+
+interface KickPlayerParams {
+  playerId: string
+  campaignId: string
+}

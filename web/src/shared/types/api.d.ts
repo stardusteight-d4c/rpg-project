@@ -57,6 +57,7 @@ interface ICampaignRoute {
   rolls(queryParams: RollsQueryParams): Promise<ListResponseDTO<IRoll>>
   list(queryParams: CampaignQueryParams): Promise<ListResponseDTO<ICampaign>>
   join(params: JoinCampaignParams): Promise<ICampaign>
+  kick(params: KickPlayerParams): Promise<void>
 }
 
 interface IPostRoute {

@@ -20,6 +20,7 @@ interface CampaignsState {
   update: (campaign: Partial<ICampaign>) => Promise<ICampaign>
   remove: (campaignId: string) => Promise<void>
   join: (params: JoinCampaignParams) => Promise<ICampaign>
+  kick: (params: KickPlayerParams) => Promise<void>
 }
 
 const CampaignsContext = createContext<CampaignsState | undefined>(undefined)
@@ -228,6 +229,12 @@ export const CampaignsProvider: React.FC<{ children: ReactNode }> = ({
       })
   }
 
+  const kick = async (params: KickPlayerParams) => {
+    return api.campaign.kick(params).catch((error) => {
+      throw new Error(error.messsage)
+    })
+  }
+
   const add = async (campaign: CampaignCreate) => {
     return await api.campaign
       .create(campaign)
@@ -279,6 +286,7 @@ export const CampaignsProvider: React.FC<{ children: ReactNode }> = ({
         getCampaignsByUser,
         getById,
         update,
+        kick,
       }}
     >
       {children}
